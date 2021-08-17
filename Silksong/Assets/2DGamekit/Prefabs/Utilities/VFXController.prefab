@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1701224112552872}
+  m_IsPrefabParent: 1
+--- !u!1 &1701224112552872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4415398567675628}
+  - component: {fileID: 114149186482330704}
+  m_Layer: 0
+  m_Name: VFXController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4415398567675628
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1701224112552872}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114149186482330704
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1701224112552872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2455439976da458e946bfb6bdd5ad7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfxConfig:
+  - prefab: {fileID: 1564849436770604, guid: 7ff0708625eb73d4080bdb1316d063f6, type: 2}
+    lifetime: 1
+    vfxOverride: []
+  - prefab: {fileID: 1113344616547960, guid: ca91f9a8283f57042830bdc02fa84302, type: 2}
+    lifetime: 1
+    vfxOverride:
+    - tile: {fileID: 11400000, guid: c0a72b2f2922a4241ba1735d8082c260, type: 2}
+      prefab: {fileID: 1113344616547960, guid: 27ab20378afc6044fa7e280ace3536a7, type: 2}
+  - prefab: {fileID: 1385443307219604, guid: 61a6972b233f54246b0d0c15eabfb857, type: 2}
+    lifetime: 2
+    vfxOverride: []
+  - prefab: {fileID: 1584078855975602, guid: 36e8cdbcd42e8104cb2a7e06368f23e9, type: 2}
+    lifetime: 1
+    vfxOverride: []
+  - prefab: {fileID: 1210792132133602, guid: c2ca09eb4f39b584997e1c60b92d6af9, type: 2}
+    lifetime: 1
+    vfxOverride: []
+  - prefab: {fileID: 1835141294734118, guid: 4e4d2ff5369121544b93398086397215, type: 2}
+    lifetime: 2
+    vfxOverride: []
+  - prefab: {fileID: 1681469103513558, guid: 960671438a9b3af448a47e937861e099, type: 2}
+    lifetime: 2
+    vfxOverride: []
+  - prefab: {fileID: 1113344616547960, guid: ca91f9a8283f57042830bdc02fa84302, type: 2}
+    lifetime: 2
+    vfxOverride:
+    - tile: {fileID: 11400000, guid: c0a72b2f2922a4241ba1735d8082c260, type: 2}
+      prefab: {fileID: 1355978247431574, guid: 7e73f509e566c5b4f84c4fe249de14d2, type: 2}
+  - prefab: {fileID: 1317358330145116, guid: 64b0b5135e518aa4fbd439bfa5a1b3ab, type: 2}
+    lifetime: 2
+    vfxOverride: []
+  - prefab: {fileID: 1618430331360934, guid: 8b019aae9fde32e41aa6181013f53be2, type: 2}
+    lifetime: 2
+    vfxOverride:
+    - tile: {fileID: 11400000, guid: b22c8b6cde1e19245b7e8c076df5e112, type: 2}
+      prefab: {fileID: 1675665522844806, guid: c5f99beb88686a342b1d3a911e99f8c1, type: 2}
