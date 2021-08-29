@@ -26,37 +26,44 @@ public class PlayerClimbController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // 判断是否在绳子上
         if (Physics2D.OverlapCircle(m_ropeCheck.position, ConfigCheckRadius, m_ropeLayer))
         {
+            // 按下上键开始攀爬
             if (Input.GetKey(KeyCode.UpArrow) ||
                 Input.GetKey(KeyCode.W))
             {
                 OnClimb();
             }
 
+            // 下键或跳跃则取消攀爬
             if (Input.GetKeyDown(KeyCode.DownArrow) ||
                 Input.GetKeyDown(KeyCode.S) ||
                 Input.GetKeyDown(KeyCode.Z))
             {
-                OnUnClimb();
+                OnUnclimb();
             }
         }
+        // 否则取消攀爬
         else
         {
-            OnUnClimb();
+            OnUnclimb();
         }
     }
 
     private void OnClimb ()
     {
+        // 攀爬时取消角色受力
         m_rb.velocity = Vector3.zero;
 
+        // 如果攀爬中，则位置匀速上移
         if (m_isClimb)
         {
             Vector2 pos = transform.position;
             pos += (ConfigClimbSpeed * Vector2.up * Time.deltaTime);
             m_rb.MovePosition(pos);
         }
+        // 切换到攀爬状态 将刚体重力置为0
         else
         {
             m_rb.gravityScale = 0;
@@ -64,8 +71,9 @@ public class PlayerClimbController : MonoBehaviour
         }
     }
 
-    private void OnUnClimb()
+    private void OnUnclimb()
     {
+        // 取消攀爬状态 恢复重力
         if (m_isClimb)
         {
             m_rb.gravityScale = ConfigGravity;
