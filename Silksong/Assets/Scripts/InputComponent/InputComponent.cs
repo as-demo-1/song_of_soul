@@ -50,14 +50,21 @@ public abstract class InputComponent : MonoBehaviour
         public bool Down { get; protected set; }
         public bool Held { get; protected set; }
         public bool Up { get; protected set; }
+        public bool IsValid { get; set; }
         public bool Enabled
         {
             get { return m_Enabled; }
         }
+        public bool BufferEnabled
+        {
+            get { return m_BufferEnabled; }
+        }
 
         [SerializeField]
         protected bool m_Enabled = true;
+        protected bool m_BufferEnabled = true;
         protected bool m_GettingInput = true;
+        protected int m_FrameCount = Constants.BufferFrameTime;
 
         //This is used to change the state of a button (Down, Up) only if at least a FixedUpdate happened between the previous Frame
         //and this one. Since movement are made in FixedUpdate, without that an input could be missed it get press/release between fixedupdate
@@ -143,6 +150,21 @@ public abstract class InputComponent : MonoBehaviour
                     m_AfterFixedUpdateHeld |= Held;
                     m_AfterFixedUpdateUp |= Up;
                 }
+            }
+
+            if (!m_BufferEnabled)
+                return;
+            if (Down || Held)
+                m_FrameCount = Constants.BufferFrameTime;
+            if (Up && !Held && !Down)
+                --m_FrameCount;
+            if(m_FrameCount > 0)
+            {
+                IsValid = true;
+            }
+            else
+            {
+                IsValid = false;
             }
         }
 
