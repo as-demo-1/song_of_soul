@@ -18,70 +18,67 @@ public class CharacterMoveAccel : MonoBehaviour
 
     public bool IsAccelerating { get; private set; }
     public bool IsDeccelerating { get; private set; }
+    public bool DoingAccelerating { get; set; }
 
-    public bool IsGrounded { get; private set; }
-    float m_AccelerationTimeLeft;
-    float m_DeccelerationTimeLeft;
+    float m_AccelerationTime;
+    //float m_DeccelerationTimeLeft;
     const float k_AccelerationTimeAmount = 100f;
 
     const float k_CharacterMaxMoveSpeed = 100f;
-    float m_CharacterMoveSpeed;
 
-    bool m_CharacterIsMovingAndInput;
-    Coroutine CharacterAccelCoroutine;
-    Coroutine CharacterDeccelCoroutine;
-
-    void AccelUpdate()
+    void AccelUpdate(bool characterIsAccelerating, float normalizedTime, bool isGrounded, ref float characterHorizontalSpeed)
     {
-        if (m_CharacterIsMovingAndInput)
+        if (!DoingAccelerating)
+            return;
+
+        CharacterAccelerating(characterIsAccelerating, isGrounded);
+
+        characterHorizontalSpeed = SetCharacterBaseHorizontalSpeed(characterHorizontalSpeed, m_AccelerationTime, k_CharacterMaxMoveSpeed);
+
+    }
+
+    protected virtual float SetCharacterBaseHorizontalSpeed(float characterHorizontalSpeed, float accelerationTime, float maxMoveSpeed)
+    {
+        if (IsAccelerating)
+            characterHorizontalSpeed = Mathf.Lerp(0, maxMoveSpeed, accelerationTime / k_AccelerationTimeAmount);
+        else if (IsDeccelerating)
+            characterHorizontalSpeed = Mathf.Lerp(maxMoveSpeed, 0, accelerationTime / k_AccelerationTimeAmount);
+        return characterHorizontalSpeed;
+    }
+
+    void CharacterAccelerating(bool isCharacterAccelerating, bool isGrounded)
+    {
+        if (isCharacterAccelerating)
         {
-            m_AccelerationTimeLeft = k_AccelerationTimeAmount - m_DeccelerationTimeLeft;
-            StopCoroutine(CharacterDeccelCoroutine);
-            CharacterAccelCoroutine = StartCoroutine(CharacterAccelerating(IsGrounded));
+            if (m_AccelerationTime > 0)
+            {
+                m_AccelerationTime -= Time.deltaTime * Time.timeScale * (isGrounded ? groundAccelerationFactor * groundAccelerationTimeReduceFactor : airAccelerationFactor * airAccelerationTimeReduceFactor);
+                IsAccelerating = true;
+            }
+            else
+            {
+                m_AccelerationTime = 0.0f;
+                IsAccelerating = false;
+            }
         }
         else
         {
-            m_DeccelerationTimeLeft = k_AccelerationTimeAmount - m_AccelerationTimeLeft;
-            StopCoroutine(CharacterAccelCoroutine);
-            CharacterDeccelCoroutine = StartCoroutine(CharacterDeccelerating(IsGrounded));
+            if (m_AccelerationTime > 0)
+            {
+                m_AccelerationTime -= Time.deltaTime * Time.timeScale * (isGrounded ? groundDeccelerationFactor * groundDeccelerationTimeReduceFactor : airDeccelerationFactor * groundDeccelerationTimeReduceFactor);
+                IsDeccelerating = true;
+            }
+            else
+            {
+                m_AccelerationTime = 0.0f;
+                IsDeccelerating = false;
+            }
         }
     }
 
-    //void SetCharacterMoveSpeed()
-    //{
-    //    if (IsAccelerating)
-    //        m_CharacterMoveSpeed = Mathf.Lerp(m_CharacterMoveSpeed, k_CharacterMaxMoveSpeed, 1 - m_AccelerationTimeLeft / k_AccelerationTimeAmount);
-    //    if (IsDeccelerating)
-    //        m_CharacterMoveSpeed = Mathf.Lerp(m_CharacterMoveSpeed, 0, 1 - m_DeccelerationTimeLeft / k_AccelerationTimeAmount);
-    //}
-
-    IEnumerator CharacterAccelerating(bool isGrounded)
+    private void Update()
     {
-        if (m_AccelerationTimeLeft > 0)
-        {
-            m_AccelerationTimeLeft -= Time.deltaTime * Time.timeScale * (isGrounded ? groundAccelerationFactor * groundAccelerationTimeReduceFactor : airAccelerationFactor * airAccelerationTimeReduceFactor);
-            IsAccelerating = true;
-        }
-        else
-        {
-            m_AccelerationTimeLeft = 0.0f;
-            IsAccelerating = false;
-        }
-        yield return null;
-    }
-
-    IEnumerator CharacterDeccelerating(bool isGrounded)
-    {
-        if (m_DeccelerationTimeLeft > 0)
-        {
-            m_DeccelerationTimeLeft -= Time.deltaTime * Time.timeScale * (isGrounded ? groundDeccelerationFactor * groundDeccelerationTimeReduceFactor : airDeccelerationFactor * groundDeccelerationTimeReduceFactor);
-            IsDeccelerating = true;
-        }
-        else
-        {
-            m_DeccelerationTimeLeft = 0.0f;
-            IsDeccelerating = false;
-        }
-        yield return null;
+        float horizontalVelocity = 0f;
+        AccelUpdate(true, .5f, true, ref horizontalVelocity);
     }
 }
