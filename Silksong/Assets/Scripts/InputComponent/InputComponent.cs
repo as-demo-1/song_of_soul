@@ -151,14 +151,18 @@ public abstract class InputComponent : MonoBehaviour
                     m_AfterFixedUpdateUp |= Up;
                 }
             }
-
+            IsValidUpdate();
+            
+        }
+        public void IsValidUpdate()
+        {
             if (!m_BufferEnabled)
                 return;
             if (Down || Held)
                 m_FrameCount = Constants.BufferFrameTime;
             if (Up && !Held && !Down)
                 --m_FrameCount;
-            if(m_FrameCount > 0)
+            if (m_FrameCount > 0)
             {
                 IsValid = true;
             }
