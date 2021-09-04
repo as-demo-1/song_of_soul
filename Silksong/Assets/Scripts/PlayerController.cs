@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //anim.SetBool("attack", true);
                     //在动画事件中触发Attack（）函数
-                    Debug.Log("player attack");
+                   // Debug.Log("player attack");
                     timeBtwAttack = attackSpeed;//reset time
                 }
             }
