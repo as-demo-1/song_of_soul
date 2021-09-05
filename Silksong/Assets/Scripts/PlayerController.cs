@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    //move
+    public float speed;
+    private Rigidbody2D rb;
+    private int filp;
 
+    //Jump
+    public float jumpForce;
+
+    //run
+    private bool isRun = false;
     public float speed;
     //sprint
     private bool isRun;
@@ -19,6 +28,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        rb = transform.gameObject.GetComponent<Rigidbody2D>();
         currSpeed = speed;
         rd = GetComponent<Rigidbody2D>();
     }
@@ -28,12 +38,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CheckIsRun();
-        
+        Jump();
     }
 
     private void FixedUpdate()
     {
-        //rd.MovePosition(rd.position + Vector2.left * speed * Time.fixedDeltaTime);
         MoveMent();
     }
     /// <summary>
@@ -41,7 +50,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void CheckIsRun()
     {
-        
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             isRun = true;
@@ -53,6 +62,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            
+        rb.AddForce(new Vector2(0f,jumpForce));
+        print("jump");
+        }
+    }
     void MoveMent()
     {
         if(Input.GetKey(KeyCode.A))
