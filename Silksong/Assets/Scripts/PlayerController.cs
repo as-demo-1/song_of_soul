@@ -44,7 +44,10 @@ public class PlayerController : MonoBehaviour
     public float startDazeTime;
     private float dazeTime;
     private bool isDazing;
-
+    //冲刺
+    private bool isRun;
+    public float runRate;
+    float currSpeed;
 
 
 
@@ -56,6 +59,8 @@ public class PlayerController : MonoBehaviour
         jumpCount = jumpValue;
         timeBtwAttack = attackSpeed;
         dazeTime = startDazeTime;
+        currSpeed = speed;
+
     }
 
 
@@ -63,6 +68,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
+
         if (!isDazing)
         {
             if (timeBtwAttack <= 0)
@@ -154,6 +160,8 @@ public class PlayerController : MonoBehaviour
             isDazing = false;
             dazeTime = startDazeTime;
         }
+        
+        CheckIsRun();
     }
 
     private void FixedUpdate()
@@ -168,7 +176,15 @@ public class PlayerController : MonoBehaviour
         if (!isDazing)
         {
             moveInput = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+            
+            if (!isRun)
+            {
+                rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+            }else{
+                rb.velocity = new Vector2(moveInput * speed * runRate, rb.velocity.y);
+            }
+            
+
         }
 
 
@@ -231,8 +247,22 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }*/
-
-
+    /// <summary>
+    /// //冲刺判断
+    /// </summary>
+    void CheckIsRun()
+    {
+        
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isRun = true;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            isRun = false;
+            speed = currSpeed;
+        }
+    }
 
 
 }
