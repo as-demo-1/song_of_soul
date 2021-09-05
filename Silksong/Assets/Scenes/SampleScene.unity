@@ -450,6 +450,36 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.66, y: 4.54}
   m_EdgeRadius: 0
+--- !u!1 &508142974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 508142975}
+  m_Layer: 0
+  m_Name: TelePortPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &508142975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508142974}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.85, y: -1.35, z: -0.9817796}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +638,7 @@ GameObject:
   - component: {fileID: 754444836}
   - component: {fileID: 754444835}
   - component: {fileID: 754444838}
+  - component: {fileID: 754444839}
   m_Layer: 0
   m_Name: bestiary_hornet
   m_TagString: Untagged
@@ -674,7 +705,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754444832}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.1, y: -0.9, z: 0}
+  m_LocalPosition: {x: 22.76, y: -6.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 597913875}
@@ -741,27 +772,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMax: 0
   speed: 10
-  jumpForce: 15
-  isGrounded: 0
-  groundCheck: {fileID: 597913875}
-  checkRadius: 0.3
-  ground:
-    serializedVersion: 2
-    m_Bits: 64
-  jumpValue: 1
-  jumpCount: 0
-  jumpTime: 0.3
-  attackSpeed: 0
-  attackPos: {fileID: 0}
-  attackRange: 0
-  EnemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  damage: 0
-  startDazeTime: 0
   runRate: 5
+  distance: {x: 0, y: 0}
+  nextDistance: {x: 0, y: 0}
+  telePosition: {fileID: 0}
 --- !u!114 &754444838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -777,6 +792,23 @@ MonoBehaviour:
   ConfigGravity: 5
   ConfigClimbSpeed: 60
   ConfigCheckRadius: 0.3
+--- !u!114 &754444839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754444832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  runRate: 0
+  distance: {x: 0, y: 0}
+  nextDistance: {x: 0, y: 0}
+  telePosition: {fileID: 508142974}
 --- !u!1 &1020209574
 GameObject:
   m_ObjectHideFlags: 0
