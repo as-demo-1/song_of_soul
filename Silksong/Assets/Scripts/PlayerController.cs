@@ -14,9 +14,7 @@ public class PlayerController : MonoBehaviour
 
     //run
     private bool isRun = false;
-    public float speed;
     //sprint
-    private bool isRun;
     public float runRate;
     float currSpeed;
     //move
@@ -71,36 +69,43 @@ public class PlayerController : MonoBehaviour
         print("jump");
         }
     }
+
+    /// <summary>
+    /// Mobile related detection and updates
+    /// </summary>
     void MoveMent()
     {
-        if(Input.GetKey(KeyCode.A))
+        //Move to the left
+        if (Input.GetKey(KeyCode.A))
         {
-            Debug.Log("左");
+            Debug.Log("left");
             nextDistance = transform.position;
-            Vector2 direction = Vector2.left * speed * Time.fixedDeltaTime;
+            Vector2 direction = Vector2.left * speed * Time.fixedDeltaTime;//The direction of movement
             MovementScript.Move(direction, ref nextDistance);
-            rd.position = nextDistance;
+            rd.position = nextDistance;//Update location
         }
 
+        //Move to the right
         if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("右");
+            Debug.Log("right");
             nextDistance = transform.position;
-            Vector2 direction = Vector2.right * speed * Time.fixedDeltaTime;
+            Vector2 direction = Vector2.right * speed * Time.fixedDeltaTime;//The direction of movement
             MovementScript.Move(direction, ref nextDistance);
-            rd.position = nextDistance;
+            rd.position = nextDistance;//Update location
         }
 
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            Debug.Log("冲刺");
+            Debug.Log("sprint");
             MovementScript.Sprint(100f, transform.position, rd);
         }
 
+        //Teleport
         if(Input.GetKey(KeyCode.X))
         {
             Debug.Log("Teleport");
-            MovementScript.Teleport(telePosition.transform.position, rd);
+            MovementScript.Teleport(telePosition.transform.position, rd);//Transfer to the specified location
         }
     }
 
