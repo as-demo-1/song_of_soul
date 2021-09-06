@@ -594,36 +594,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &597913874
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 597913875}
-  m_Layer: 0
-  m_Name: GroundCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &597913875
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 597913874}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.87, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 754444834}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &754444832
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,12 +604,12 @@ GameObject:
   m_Component:
   - component: {fileID: 754444834}
   - component: {fileID: 754444833}
-  - component: {fileID: 754444837}
-  - component: {fileID: 754444836}
   - component: {fileID: 754444835}
   - component: {fileID: 754444838}
   - component: {fileID: 754444839}
-  m_Layer: 0
+  - component: {fileID: 754444837}
+  - component: {fileID: 754444836}
+  m_Layer: 8
   m_Name: bestiary_hornet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -708,7 +678,6 @@ Transform:
   m_LocalPosition: {x: 22.76, y: -6.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 597913875}
   - {fileID: 1798197015}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -734,8 +703,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &754444836
-BoxCollider2D:
+--- !u!70 &754444836
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -747,19 +716,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.032402277, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.19, y: 1.66}
-    newSize: {x: 3.19, y: 1.66}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.5051017, y: 1.66}
-  m_EdgeRadius: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 1.66}
+  m_Direction: 0
 --- !u!114 &754444837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,14 +728,46 @@ MonoBehaviour:
   m_GameObject: {fileID: 754444832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
+  m_Script: {fileID: 11500000, guid: 28aa47a7635985f468ccaee4358a06bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  runRate: 5
-  distance: {x: 0, y: 0}
-  nextDistance: {x: 0, y: 0}
-  telePosition: {fileID: 0}
+  inputType: 0
+  Pause:
+    key: 27
+    controllerButton: 8
+    m_Enabled: 1
+  Interact:
+    key: 101
+    controllerButton: 4
+    m_Enabled: 1
+  MeleeAttack:
+    key: 107
+    controllerButton: 3
+    m_Enabled: 1
+  RangedAttack:
+    key: 111
+    controllerButton: 2
+    m_Enabled: 1
+  Sprint:
+    key: 304
+    controllerButton: 9
+    m_Enabled: 1
+  Teleport:
+    key: 120
+    controllerButton: 0
+    m_Enabled: 1
+  Jump:
+    key: 32
+    controllerButton: 1
+    m_Enabled: 1
+  Horizontal:
+    positive: 100
+    negative: 97
+    controllerAxis: 1
+  Vertical:
+    positive: 119
+    negative: 115
+    controllerAxis: 2
 --- !u!114 &754444838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,6 +783,11 @@ MonoBehaviour:
   ConfigGravity: 5
   ConfigClimbSpeed: 60
   ConfigCheckRadius: 0.3
+  m_isClimb: 0
+  m_rb: {fileID: 0}
+  m_ropeCheck: {fileID: 0}
+  m_ropeLayer:
+    m_Bits: 0
 --- !u!114 &754444839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,10 +800,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  runRate: 0
-  distance: {x: 0, y: 0}
-  nextDistance: {x: 0, y: 0}
+  speed: 20
+  jumpForce: 20
+  sprintForce: 30
+  ConfigGravity: 5
+  ConfigClimbSpeed: 30
+  ConfigCheckRadius: 0.3
   telePosition: {fileID: 508142974}
 --- !u!1 &1020209574
 GameObject:
@@ -1294,7 +1292,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1798197015}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RopeCheck
   m_TagString: Untagged
   m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
@@ -1313,7 +1311,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 754444834}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1842046452
 GameObject:
