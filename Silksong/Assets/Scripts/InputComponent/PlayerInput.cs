@@ -16,6 +16,9 @@ public class PlayerInput : InputComponent
     public InputButton Interact = new InputButton(KeyCode.E, XboxControllerButtons.Y);
     public InputButton MeleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X);
     public InputButton RangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B);
+    public InputButton Sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper);
+    //TODO:xbox button mapping
+    public InputButton Teleport = new InputButton(KeyCode.X,XboxControllerButtons.None);
     public InputButton Jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
     public InputAxis Horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis Vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);

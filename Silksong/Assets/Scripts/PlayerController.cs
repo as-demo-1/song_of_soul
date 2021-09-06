@@ -5,107 +5,150 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //move
-    public float speed;
+    public float speed = 20f;
     private Rigidbody2D rb;
-    private int filp;
-
+    private PlayerInput PInput;
     //Jump
-    public float jumpForce;
+    public float jumpForce = 20f;
+    public float sprintForce = 20f;
+    private bool m_secondJump = false;
+    //climb
+    public int ConfigGravity = 5;
+    public int ConfigClimbSpeed = 30;
+    public float ConfigCheckRadius = 0.3f;
 
-    //run
-    private bool isRun = false;
-    //sprint
-    public float runRate;
-    float currSpeed;
-    //move
-    public Vector2 distance;
-    public Vector2 nextDistance;
-    private Rigidbody2D rd;
+    private bool m_isClimb;
+
+    private Transform m_ropeCheck;
+    private LayerMask m_ropeLayer;
+
+    private CapsuleCollider2D capsuleCollider;
+    CharacterMoveAccel characterMoveAccel;
     //Teleport
     public GameObject telePosition;
-    // Start is called before the first frame update
     void Start()
     {
-        rb = transform.gameObject.GetComponent<Rigidbody2D>();
-        currSpeed = speed;
-        rd = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        PInput = GetComponent<PlayerInput>();
+        characterMoveAccel = new CharacterMoveAccel();
+        m_ropeLayer = LayerMask.GetMask("Rope");
+        m_ropeCheck = transform.Find("RopeCheck");
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        CheckIsRun();
-        Jump();
     }
 
     private void FixedUpdate()
     {
-        MoveMent();
+        HorizontalMove();
+        Jump();
+        Sprint();
+        Teleport();
+        VerticalMove();
     }
-    /// <summary>
-    /// //冲刺判断
-    /// </summary>
-    void CheckIsRun()
+
+    void VerticalMove()
     {
+        // 判断是否在绳子上
+        if (Physics2D.OverlapCircle(m_ropeCheck.position, ConfigCheckRadius, m_ropeLayer))
+        {
+            // 按下上键开始攀爬
+            if (PInput.Vertical.Value > 0)
+            {
+                OnClimb();
+            }
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            isRun = true;
+            // 下键或跳跃则取消攀爬
+            if (PInput.Vertical.Value < 0)
+            {
+                OnUnclimb();
+            }
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        // 否则取消攀爬
+        else
         {
-            isRun = false;
-            speed = currSpeed;
+            OnUnclimb();
         }
     }
-
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        bool ground = IsGround();
+        if (PInput.Jump.Down)
         {
-            
-        rb.AddForce(new Vector2(0f,jumpForce));
-        print("jump");
+            if (ground)
+            {
+                m_secondJump = false;
+                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                print("jump");
+            }else if (!m_secondJump)
+            {
+                m_secondJump = true;
+                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                print("second jump");
+            }
+
+        }
+    }
+    void HorizontalMove()
+    {
+        float desirespeed = PInput.Horizontal.Value * speed * Time.deltaTime;
+        float acce = characterMoveAccel.AccelSpeedUpdate(PInput.Horizontal.Value !=0,IsGround(),desirespeed);
+        rb.position = new Vector2(rb.position.x + acce, rb.position.y);
+    }
+    void Sprint()
+    {
+        if (PInput.Sprint.Down)
+        {
+            MovementScript.Sprint(sprintForce, transform.position, rb);
+        }
+    }
+    void Teleport()
+    {
+        if (PInput.Teleport.Down)
+        {
+            MovementScript.Teleport(telePosition.transform.position, rb);//Transfer to the specified location
         }
     }
 
-    /// <summary>
-    /// Mobile related detection and updates
-    /// </summary>
-    void MoveMent()
+    bool IsGround()
     {
-        //Move to the left
-        if (Input.GetKey(KeyCode.A))
-        {
-            Debug.Log("left");
-            nextDistance = transform.position;
-            Vector2 direction = Vector2.left * speed * Time.fixedDeltaTime;//The direction of movement
-            MovementScript.Move(direction, ref nextDistance);
-            rd.position = nextDistance;//Update location
-        }
+        Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
+        LayerMask ignoreMask = ~(1 << 8);
+        Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0,ignoreMask);
+        return collider != null;
+    }
 
-        //Move to the right
-        if (Input.GetKey(KeyCode.D))
-        {
-            Debug.Log("right");
-            nextDistance = transform.position;
-            Vector2 direction = Vector2.right * speed * Time.fixedDeltaTime;//The direction of movement
-            MovementScript.Move(direction, ref nextDistance);
-            rd.position = nextDistance;//Update location
-        }
+    private void OnClimb()
+    {
+        // 攀爬时取消角色受力
+        rb.velocity = Vector3.zero;
 
-        if(Input.GetKey(KeyCode.LeftShift))
+        // 如果攀爬中，则位置匀速上移
+        if (m_isClimb)
         {
-            Debug.Log("sprint");
-            MovementScript.Sprint(100f, transform.position, rd);
+            Vector2 pos = transform.position;
+            pos += (ConfigClimbSpeed * Vector2.up * Time.deltaTime);
+            rb.MovePosition(pos);
         }
-
-        //Teleport
-        if(Input.GetKey(KeyCode.X))
+        // 切换到攀爬状态 将刚体重力置为0
+        else
         {
-            Debug.Log("Teleport");
-            MovementScript.Teleport(telePosition.transform.position, rd);//Transfer to the specified location
+            rb.gravityScale = 0;
+            m_isClimb = true;
+        }
+    }
+
+    private void OnUnclimb()
+    {
+        // 取消攀爬状态 恢复重力
+        if (m_isClimb)
+        {
+            rb.gravityScale = ConfigGravity;
+            m_isClimb = false;
         }
     }
 
