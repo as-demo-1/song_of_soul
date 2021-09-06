@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     private float dazeTime;
     private bool isDazing;
 
-
+    CharacterMoveAccel characterMoveAccel;
 
 
     // Start is called before the first frame update
@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
         jumpCount = jumpValue;
         timeBtwAttack = attackSpeed;
         dazeTime = startDazeTime;
+        characterMoveAccel = new CharacterMoveAccel();
     }
 
 
@@ -168,7 +169,7 @@ public class PlayerController : MonoBehaviour
         if (!isDazing)
         {
             moveInput = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+            rb.velocity = new Vector2(characterMoveAccel.AccelSpeedUpdate(moveInput != 0, isGrounded, speed) * (facingRight ? 1 : -1), rb.velocity.y);
         }
 
 
