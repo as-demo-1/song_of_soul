@@ -56,22 +56,22 @@ public class PlayerController : MonoBehaviour
         // 判断是否在绳子上
         if (Physics2D.OverlapCircle(m_ropeCheck.position, ConfigCheckRadius, m_ropeLayer))
         {
-            // 按下上键开始攀爬
-            if (PInput.Vertical.Value > 0)
+            // 垂直移动时开始攀爬
+            if (PInput.Vertical.Value != 0)
             {
                 OnClimb();
             }
 
-            // 下键或跳跃则取消攀爬
-            if (PInput.Vertical.Value < 0)
+            // 跳跃取消攀爬
+            if (PInput.Jump.Down)
             {
-                OnUnclimb();
+                UnClimb();
             }
         }
         // 否则取消攀爬
         else
         {
-            OnUnclimb();
+            UnClimb();
         }
     }
     void Jump()
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
     bool IsGround()
     {
         Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
-        LayerMask ignoreMask = ~(1 << 8);
+        LayerMask ignoreMask = ~(1 << 8 | m_ropeLayer); // fixed ignore ropeLayer
         Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0,ignoreMask);
         return collider != null;
     }
@@ -127,11 +127,11 @@ public class PlayerController : MonoBehaviour
         // 攀爬时取消角色受力
         rb.velocity = Vector3.zero;
 
-        // 如果攀爬中，则位置匀速上移
+        // 如果攀爬中，则位置根据y轴方向移动
         if (m_isClimb)
         {
             Vector2 pos = transform.position;
-            pos += (ConfigClimbSpeed * Vector2.up * Time.deltaTime);
+            pos.y += (ConfigClimbSpeed * PInput.Vertical.Value * Time.deltaTime);
             rb.MovePosition(pos);
         }
         // 切换到攀爬状态 将刚体重力置为0
@@ -142,7 +142,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnUnclimb()
+    private void UnClimb()
     {
         // 取消攀爬状态 恢复重力
         if (m_isClimb)
@@ -151,5 +151,4 @@ public class PlayerController : MonoBehaviour
             m_isClimb = false;
         }
     }
-
 }
