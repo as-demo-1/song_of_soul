@@ -4,55 +4,93 @@ using UnityEngine;
 
 public class CharacterMoveAccel
 {
+    /// <summary>
+    /// Set this to dynamically modify the factor of a character ground acceleration, default value is 1.0f
+    /// </summary>
     public float GroundAccelerationFactor { get; set; } = 1.0f;
-    public float GroundDeccelerationFactor { get; set; } = 1.0f;
-    float groundAccelerationTimeReduceFactor = 1.0f;
-    float groundDeccelerationTimeReduceFactor = 1.0f;
-
+    /// <summary>
+    /// Set this to dynamically modify the factor of a character ground deceleration, default value is 1.0f
+    /// </summary>
+    public float GroundDecelerationFactor { get; set; } = 1.0f;
+    /// <summary>
+    /// Set this to dynamically modify the factor of a character air acceleration, default value is 1.0f
+    /// </summary>
     public float AirAccelerationFactor { get; set; } = 1.0f;
-    public float AirDeccelerationFactor { get; set; } = 1.0f;
+    /// <summary>
+    /// Set this to dynamically modify the factor of a character air deceleration, default value is 1.0f
+    /// </summary>
+    public float AirDecelerationFactor { get; set; } = 1.0f;
+    /// <summary>
+    /// Time remaining for character acceleration or deceleration
+    /// </summary>
+    public float AccelerationTime { get; private set; }
+
+    /// <summary>
+    /// Whether it is Accelerating
+    /// </summary>
+    public bool IsAccelerating { get; private set; }
+    /// <summary>
+    /// Whether it is Decelerating
+    /// </summary>
+    public bool IsDecelerating { get; private set; }
+    /// <summary>
+    /// Lerped Speed calculated by AccelSpeedUpdate method
+    /// </summary>
+    public float LerpedSpeed { get; private set; }
+
+    // Acceleration or deceleration initial factor, and those would be determined in edit mode or setup by constructor
+    float accelerationTimeAmount = 1f;
+    float groundAccelerationTimeReduceFactor = 1.0f;
+    float groundDecelerationTimeReduceFactor = 1.0f;
     float airAccelerationTimeReduceFactor = 1.5f;
-    float airDeccelerationTimeReduceFactor = 1.5f;
+    float airDecelerationTimeReduceFactor = 1.5f;
+
+
     //public AnimationCurve accelerationCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
     //public AnimationCurve deccelerationCurve = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 0.0f);
 
-    public bool IsAccelerating { get; private set; }
-    public bool IsDeccelerating { get; private set; }
-    public float LerpSpeed { get; private set; }
-
-    public float AccelerationTime { get; private set; } = 1.0f;
-    float accelerationTimeAmount = 1f;
 
     public CharacterMoveAccel(float accelerationTimeAmount, float groundAccelerationTimeReduceFactor, float groundDeccelerationTimeReduceFactor, float airAccelerationTimeReduceFactor, float airDeccelerationTimeReduceFactor)
     {
         this.accelerationTimeAmount = accelerationTimeAmount;
         this.groundAccelerationTimeReduceFactor = groundAccelerationTimeReduceFactor;
-        this.groundDeccelerationTimeReduceFactor = groundDeccelerationTimeReduceFactor;
+        this.groundDecelerationTimeReduceFactor = groundDeccelerationTimeReduceFactor;
         this.airAccelerationTimeReduceFactor = airAccelerationTimeReduceFactor;
-        this.airDeccelerationTimeReduceFactor = airDeccelerationTimeReduceFactor;
+        this.airDecelerationTimeReduceFactor = airDeccelerationTimeReduceFactor;
     }
     public CharacterMoveAccel() { }
 
-    public void SetAccelerationTime(float normalizedTime) => AccelerationTime = accelerationTimeAmount * normalizedTime;
+    /// <summary>
+    /// Set the t value of the lerp
+    /// </summary>
+    /// <param name="normalizedTime">T value of the lerped Speed, set to 0 for no speed and 1 for the maximum speed</param>
+    public void SetAccelerationNormalizedTime(float normalizedTime) => AccelerationTime = accelerationTimeAmount * (1 - normalizedTime);
 
-    public float AccelSpeedUpdate(bool characterIsAccelerating, bool isGrounded, float characterHorizontalSpeed)
+    /// <summary>
+    /// Call this in UpdateMethod to set speed to a linear one
+    /// </summary>
+    /// <param name="characterIsAccelerating">Set this to true if the character will accelerate,or false if it will deccelerate</param>
+    /// <param name="isGrounded">Set to true if character is grounded</param>
+    /// <param name="characterSpeed">Character moving speed in one dimension</param>
+    /// <returns></returns>
+    public float AccelSpeedUpdate(bool characterIsAccelerating, bool isGrounded, float characterSpeed)
     {
         CharacterAccelerating(characterIsAccelerating, isGrounded);
 
-        return SetCharacterBaseHorizontalSpeed(characterHorizontalSpeed, AccelerationTime);
+        return SetCharacterBaseSpeed(characterSpeed, AccelerationTime);
     }
 
-    protected virtual float SetCharacterBaseHorizontalSpeed(float characterHorizontalSpeed, float accelerationTime)
+    protected virtual float SetCharacterBaseSpeed(float characterHorizontalSpeed, float accelerationTime)
     {
-        LerpSpeed = Mathf.Lerp(characterHorizontalSpeed, 0, accelerationTime / accelerationTimeAmount); ;
-        return LerpSpeed;
+        LerpedSpeed = Mathf.Lerp(characterHorizontalSpeed, 0, accelerationTime / accelerationTimeAmount); ;
+        return LerpedSpeed;
     }
 
     void CharacterAccelerating(bool isCharacterAccelerating, bool isGrounded)
     {
         if (isCharacterAccelerating)
         {
-            IsDeccelerating = false;
+            IsDecelerating = false;
             if (AccelerationTime > 0)
             {
                 AccelerationTime -= Time.deltaTime * Time.timeScale * (isGrounded ? GroundAccelerationFactor * groundAccelerationTimeReduceFactor : AirAccelerationFactor * airAccelerationTimeReduceFactor);
@@ -69,13 +107,13 @@ public class CharacterMoveAccel
             IsAccelerating = false;
             if (accelerationTimeAmount - AccelerationTime > 0)
             {
-                AccelerationTime += Time.deltaTime * Time.timeScale * (isGrounded ? GroundDeccelerationFactor * groundDeccelerationTimeReduceFactor : AirDeccelerationFactor * airDeccelerationTimeReduceFactor);
-                IsDeccelerating = true;
+                AccelerationTime += Time.deltaTime * Time.timeScale * (isGrounded ? GroundDecelerationFactor * groundDecelerationTimeReduceFactor : AirDecelerationFactor * airDecelerationTimeReduceFactor);
+                IsDecelerating = true;
             }
             else
             {
                 AccelerationTime = accelerationTimeAmount;
-                IsDeccelerating = false;
+                IsDecelerating = false;
             }
         }
     }
