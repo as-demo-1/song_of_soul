@@ -19,9 +19,6 @@ public class PlayerController : MonoBehaviour
 
     private bool m_isClimb;
 
-    private Transform m_ropeCheck;
-    private LayerMask m_ropeLayer;
-
     private CapsuleCollider2D capsuleCollider;
     CharacterMoveAccel characterMoveAccel;
     //Teleport
@@ -32,8 +29,6 @@ public class PlayerController : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         PInput = GetComponent<PlayerInput>();
         characterMoveAccel = new CharacterMoveAccel();
-        m_ropeLayer = LayerMask.GetMask("Rope");
-        m_ropeCheck = transform.Find("RopeCheck");
     }
 
 
@@ -53,22 +48,22 @@ public class PlayerController : MonoBehaviour
 
     void VerticalMove()
     {
-        // 判断是否在绳子上
-        if (Physics2D.OverlapCircle(m_ropeCheck.position, ConfigCheckRadius, m_ropeLayer))
+        // check is on rope
+        if (IsRope())
         {
-            // 垂直移动时开始攀爬
+            // PInput.Vertical.Value onchange start climbing
             if (PInput.Vertical.Value != 0)
             {
                 OnClimb();
             }
 
-            // 跳跃取消攀爬
+            // if jump unClimb
             if (PInput.Jump.Down)
             {
                 UnClimb();
             }
         }
-        // 否则取消攀爬
+        // unClimb
         else
         {
             UnClimb();
@@ -114,27 +109,41 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    bool IsGround()
+    // 1 << 6 is ground 7 is rope 8 is player
+    bool IsBlock(LayerMask ignoreMask)
     {
         Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
-        LayerMask ignoreMask = ~(1 << 8 | m_ropeLayer); // fixed ignore ropeLayer
-        Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0,ignoreMask);
+        Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0, ignoreMask);
         return collider != null;
+    }
+
+    bool IsGround()
+    {
+        // Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
+        // LayerMask ignoreMask = ~(1 << 8 | 1 << 7); // fixed ignore ropeLayer
+        // Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0,ignoreMask);
+        // return collider != null;
+        return IsBlock(~(1 << 8 | 1 << 7));
+    }
+
+    bool IsRope()
+    {
+        return IsBlock(~(1 << 8 | 1 << 6));
     }
 
     private void OnClimb()
     {
-        // 攀爬时取消角色受力
+        // velocity is rb current force
         rb.velocity = Vector3.zero;
 
-        // 如果攀爬中，则位置根据y轴方向移动
+        // if isClimb rb.pos is PInput.Vertical.Value
         if (m_isClimb)
         {
             Vector2 pos = transform.position;
-            pos.y += (ConfigClimbSpeed * PInput.Vertical.Value * Time.deltaTime);
+            pos.y += ConfigClimbSpeed * PInput.Vertical.Value * Time.deltaTime;
             rb.MovePosition(pos);
         }
-        // 切换到攀爬状态 将刚体重力置为0
+        // togging isClimb and gravityScale is 0
         else
         {
             rb.gravityScale = 0;
@@ -144,7 +153,7 @@ public class PlayerController : MonoBehaviour
 
     private void UnClimb()
     {
-        // 取消攀爬状态 恢复重力
+        // togging isClimb and recovery gravityScale
         if (m_isClimb)
         {
             rb.gravityScale = ConfigGravity;
