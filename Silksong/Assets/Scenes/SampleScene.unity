@@ -467,8 +467,9 @@ GameObject:
   - component: {fileID: 754444837}
   - component: {fileID: 754444836}
   - component: {fileID: 754444835}
+  - component: {fileID: 754444838}
   m_Layer: 0
-  m_Name: bestiary_hornet
+  m_Name: TheKnight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,7 +515,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8bded3be236a6a642998ebdbc9b8eb89, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7bd7c8336f190be408fe884254e41d78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -574,18 +575,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.032402277, y: 0}
+  m_Offset: {x: -0.032402277, y: 0.080892086}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.19, y: 1.66}
+    oldSize: {x: 1.03125, y: 2.0625}
     newSize: {x: 3.19, y: 1.66}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5051017, y: 1.66}
+  m_Size: {x: 0.9298692, y: 1.821784}
   m_EdgeRadius: 0
 --- !u!114 &754444837
 MonoBehaviour:
@@ -619,6 +620,25 @@ MonoBehaviour:
     m_Bits: 0
   damage: 0
   startDazeTime: 0
+--- !u!95 &754444838
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754444832}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e7f49d712b47d2a4cb40d31246b93b27, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1020209574
 GameObject:
   m_ObjectHideFlags: 0
