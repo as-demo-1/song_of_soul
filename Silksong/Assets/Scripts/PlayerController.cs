@@ -4,235 +4,160 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    public int healthMax;
-    private int health;
-
-    public float speed;
-    public float jumpForce;
-
+    //move
+    public float speed = 20f;
     private Rigidbody2D rb;
-    //private Vector2 moveVelocity;
-    private float moveInput;
+    private PlayerInput PInput;
+    //Jump
+    public float jumpForce = 20f;
+    public float sprintForce = 20f;
+    private bool m_secondJump = false;
+    //climb
+    public int ConfigGravity = 5;
+    public int ConfigClimbSpeed = 30;
+    public float ConfigCheckRadius = 0.3f;
 
-    private bool facingRight;
+    private bool m_isClimb;
 
-    public bool isGrounded;
-    public Transform groundCheck;
-    public float checkRadius;
-    public LayerMask ground;
-
-    //jump function
-    public int jumpValue;
-    public int jumpCount;
-    public float jumpTime;
-    private float jumpTimeCounter;
-    private bool isJumping;
-    private bool isFalling;
-
-    //private Animator anim;
-
-    //attack function
-    private float timeBtwAttack;
-    public float attackSpeed;
-    public Transform attackPos;
-    public float attackRange;
-    public LayerMask EnemyLayer;
-    public int damage;
-
-    //受伤延迟效果
-    public float startDazeTime;
-    private float dazeTime;
-    private bool isDazing;
-
-
-
-
-    // Start is called before the first frame update
+    private CapsuleCollider2D capsuleCollider;
+    CharacterMoveAccel characterMoveAccel;
+    //Teleport
+    public GameObject telePosition;
     void Start()
     {
-        //anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        jumpCount = jumpValue;
-        timeBtwAttack = attackSpeed;
-        dazeTime = startDazeTime;
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        PInput = GetComponent<PlayerInput>();
+        characterMoveAccel = new CharacterMoveAccel();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, ground);
-        if (!isDazing)
-        {
-            if (timeBtwAttack <= 0)
-            {
-                if (Input.GetKeyDown(KeyCode.X))
-                {
-                    //anim.SetBool("attack", true);
-                    //在动画事件中触发Attack（）函数
-                    Debug.Log("player attack");
-                    timeBtwAttack = attackSpeed;//reset time
-                }
-            }
-            else
-            {
-                timeBtwAttack -= Time.deltaTime;
-            }
-            /*if (Input.GetKeyUp(KeyCode.X))
-            {
-                anim.SetBool("attack", false);
-            }*/
-
-            //jump function
-            if (Input.GetKeyDown(KeyCode.Z) && isGrounded)
-            {
-                rb.velocity = Vector2.up * jumpForce;
-                //anim.SetTrigger("takeOf");
-                isJumping = true;
-
-                jumpTimeCounter = jumpTime;
-            }
-            else if (Input.GetKeyDown(KeyCode.Z) && jumpCount > 0)
-            {
-                rb.velocity = Vector2.up * jumpForce;
-                jumpCount--;
-                //anim.SetTrigger("takeOf");
-
-                isJumping = true;
-
-                jumpTimeCounter = jumpTime;
-            }
-
-            //jump higher
-            if (Input.GetKey(KeyCode.Z) && isJumping)
-            {
-                if (jumpTimeCounter > 0)
-                {
-                    rb.velocity = Vector2.up * jumpForce;
-                    jumpTimeCounter -= Time.deltaTime;
-                }
-                else
-                {
-                    isJumping = false;
-                }
-            }
-            if (Input.GetKeyUp(KeyCode.Z))
-            {
-                isJumping = false;
-            }
-        }
-
-
-        // jump animation
-        if (isGrounded)
-        {
-            jumpCount = jumpValue;
-            //anim.SetBool("isJumping", false);
-
-            if (isFalling)
-            {
-                //anim.SetTrigger("isFalled");
-                isFalling = false;
-            }
-
-        }
-        else
-        {
-            //anim.SetBool("isJumping", true);
-            isFalling = true;
-
-        }
-
-        if (isDazing)
-        {
-            dazeTime -= Time.deltaTime;
-
-        }
-        if (dazeTime <= 0)
-        {
-            isDazing = false;
-            dazeTime = startDazeTime;
-        }
     }
 
     private void FixedUpdate()
     {
-
-        //// moving on the ground
-        //Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        //moveVelocity = moveInput.normalized * speed;
-        //rb.MovePosition(rb.position + moveVelocity * Time.fixedDeltaTime);
-
-        // moving at the platform
-        if (!isDazing)
-        {
-            moveInput = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-        }
-
-
-
-        /*if (moveInput == 0)
-        {
-            anim.SetBool("isRunning", false);
-
-        }
-        else
-        {
-            anim.SetBool("isRunning", true);
-
-        }*/
-        // flip player to right direction
-        if (facingRight == false && moveInput > 0)
-        {
-            Filp();
-        }
-        else if (facingRight == true && moveInput < 0)
-        {
-            Filp();
-        }
-
-
-
-
+        HorizontalMove();
+        Jump();
+        Sprint();
+        Teleport();
+        VerticalMove();
     }
 
-    /*public void Attack()
+    void VerticalMove()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPos.position, attackRange, EnemyLayer);
-        if (enemies != null)
+        // check is on rope
+        if (IsRope())
         {
-            for (int i = 0; i < enemies.Length; i++)
+            // PInput.Vertical.Value onchange start climbing
+            if (PInput.Vertical.Value != 0)
             {
+                OnClimb();
+            }
 
-                enemies[i].GetComponent<EnemyController>().TakeDamage(damage);
+            // if jump unClimb
+            if (PInput.Jump.Down)
+            {
+                UnClimb();
             }
         }
-    }*/
-    /*public void Hurt(int _damage)
-    {
-        anim.SetTrigger("isHurting");
-        health -= damage;
-        isDazing = true;
-        rb.velocity = Vector2.zero;
-        Debug.Log("is dazing");
-
-    }*/
-    private void Filp()
-    {
-        facingRight = !facingRight;
-        Vector2 scaler = transform.localScale;
-        scaler.x *= -1;
-        transform.localScale = scaler;
+        // unClimb
+        else
+        {
+            UnClimb();
+        }
     }
-    /*private void OnDrawGizmosSelected()
+    void Jump()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPos.position, attackRange);
-    }*/
+        bool ground = IsGround();
+        if (PInput.Jump.Down)
+        {
+            if (ground)
+            {
+                m_secondJump = false;
+                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                print("jump");
+            }else if (!m_secondJump)
+            {
+                m_secondJump = true;
+                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                print("second jump");
+            }
 
+        }
+    }
+    void HorizontalMove()
+    {
+        float desirespeed = PInput.Horizontal.Value * speed * Time.deltaTime;
+        float acce = characterMoveAccel.AccelSpeedUpdate(PInput.Horizontal.Value !=0,IsGround(),desirespeed);
+        rb.position = new Vector2(rb.position.x + acce, rb.position.y);
+    }
+    void Sprint()
+    {
+        if (PInput.Sprint.Down)
+        {
+            MovementScript.Sprint(sprintForce, transform.position, rb);
+        }
+    }
+    void Teleport()
+    {
+        if (PInput.Teleport.Down)
+        {
+            MovementScript.Teleport(telePosition.transform.position, rb);//Transfer to the specified location
+        }
+    }
 
+    // 1 << 6 is ground 7 is rope 8 is player
+    bool IsBlock(LayerMask ignoreMask)
+    {
+        Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
+        Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0, ignoreMask);
+        return collider != null;
+    }
 
+    bool IsGround()
+    {
+        // Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
+        // LayerMask ignoreMask = ~(1 << 8 | 1 << 7); // fixed ignore ropeLayer
+        // Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0,ignoreMask);
+        // return collider != null;
+        return IsBlock(~(1 << 8 | 1 << 7));
+    }
 
+    bool IsRope()
+    {
+        return IsBlock(~(1 << 8 | 1 << 6));
+    }
+
+    private void OnClimb()
+    {
+        // velocity is rb current force
+        rb.velocity = Vector3.zero;
+
+        // if isClimb rb.pos is PInput.Vertical.Value
+        if (m_isClimb)
+        {
+            Vector2 pos = transform.position;
+            pos.y += ConfigClimbSpeed * PInput.Vertical.Value * Time.deltaTime;
+            rb.MovePosition(pos);
+        }
+        // togging isClimb and gravityScale is 0
+        else
+        {
+            rb.gravityScale = 0;
+            m_isClimb = true;
+        }
+    }
+
+    private void UnClimb()
+    {
+        // togging isClimb and recovery gravityScale
+        if (m_isClimb)
+        {
+            rb.gravityScale = ConfigGravity;
+            m_isClimb = false;
+        }
+    }
 }
