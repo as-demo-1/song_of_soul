@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 作者：青瓜
 /// damager的抽象基类 
+/// damager和其trigger应作为独立的物体 有自己的layer 不再有子物体
 /// </summary>
 public static class LayerMaskExtensions//layerMask增加contains方法 判断gameObject是否在layerMask中
 {

@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 469216306893835789}
   - component: {fileID: 469216306893835788}
   - component: {fileID: 469216306893835787}
-  - component: {fileID: 469216306893835791}
   - component: {fileID: 469216306893835790}
-  m_Layer: 6
-  m_Name: sprike1
+  - component: {fileID: 359802124}
+  m_Layer: 10
+  m_Name: spike1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,25 +152,6 @@ MonoBehaviour:
   m_EnableTangents: 0
   m_GeometryCached: 0
   m_UTess2D: 0
---- !u!114 &469216306893835791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 469216306893835786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04c49877695c20044abc3ee41276ca77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ignoreInvincibility: 1
-  canDamage: 1
-  damage: 1
-  hittableLayers2:
-    serializedVersion: 2
-    m_Bits: 8388608
-  damage2: 999999
 --- !u!61 &469216306893835790
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -197,3 +178,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.213367, y: 0.7291279}
   m_EdgeRadius: 0
+--- !u!114 &359802124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469216306893835786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d22c2228193c7e4ba82b1449884730f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreInvincibility: 0
+  canDamage: 1
+  damage: 1
+  hittableLayers2:
+    serializedVersion: 2
+    m_Bits: 8388608
+  damage2: 99999
+  rebornLayer:
+    serializedVersion: 2
+    m_Bits: 131072

@@ -15,7 +15,7 @@ public class Damable : DamageableBase
 
     protected virtual void hittedEffect()//受击效果 或有必要以事件形式触发
     {
-        Debug.Log(gameObject.name + " is hitted");
+        //Debug.Log(gameObject.name + " is hitted");
     }
 
 }
