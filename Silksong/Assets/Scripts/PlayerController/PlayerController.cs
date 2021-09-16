@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,12 +24,29 @@ public class PlayerController : MonoBehaviour
     CharacterMoveAccel characterMoveAccel;
     //Teleport
     public GameObject telePosition;
+    /// <summary>
+    /// Only Demo Code for save
+    /// </summary>
+    [SerializeField] private string _guid;
+    [SerializeField] private SaveSystem _saveSystem;
+
+    public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
+
+    private void OnValidate()
+    {
+        _guid = GUID;
+    }
+    /// <summary>
+    /// Demo code Ends
+    /// </summary>
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         PInput = GetComponent<PlayerInput>();
         characterMoveAccel = new CharacterMoveAccel();
+        _saveSystem.TestSaveGuid(_guid);
     }
 
 
