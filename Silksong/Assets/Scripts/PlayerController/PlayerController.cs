@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
             // PInput.Vertical.Value onchange start climbing
             if (PInput.Vertical.Value != 0)
             {
+                Debug.Log("climb");
                 OnClimb();
             }
 
@@ -90,18 +91,19 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         bool ground = IsGround();
+        //Debug.Log(ground);
         if (PInput.Jump.Down)
         {
             if (ground)
             {
                 m_secondJump = false;
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                print("jump");
+                //print("jump");
             }else if (!m_secondJump)
             {
                 m_secondJump = true;
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                print("second jump");
+               // print("second jump");
             }
 
         }
@@ -127,11 +129,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 1 << 6 is ground 7 is rope 8 is player
+    // 1 << 6 is ground    7 is rope    8 is player
     bool IsBlock(LayerMask ignoreMask)
     {
         Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
         Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0, ignoreMask);
+
         return collider != null;
     }
 

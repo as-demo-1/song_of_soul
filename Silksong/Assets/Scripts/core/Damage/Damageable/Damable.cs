@@ -1,11 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/// <summary>
-/// 作者：青瓜
-/// 最简单的damable
-/// </summary>
-/// 
+
 public class Damable : DamageableBase
 {
     public override void takeDamage(DamagerBase damager)

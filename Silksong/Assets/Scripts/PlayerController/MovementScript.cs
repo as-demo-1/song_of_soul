@@ -33,6 +33,7 @@ public static class MovementScript
     /// <param name="rigidbody2D">To sprint the rigidbody of the object</param>
     public static void Sprint(float speed, Vector2 direction, Rigidbody2D rigidbody2D)
     {
+        Debug.Log("sprint");
         rigidbody2D.AddForce(new Vector2(direction.x  * speed * Time.deltaTime , direction.y));
     }
 }

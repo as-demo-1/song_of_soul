@@ -65,10 +65,10 @@ public class Lift : MonoBehaviour
                 if(midTargetFloor==targetFloor)//到达目的层
                 {
                     rigid.velocity = Vector2.zero;
-                    if (playerIsOnLift)
+                   /* if (playerIsOnLift)
                     {
                         playerRigid.velocity = new Vector2(playerRigid.velocity.x, 0);
-                    }
+                    }*/
                     rigid.MovePosition(new Vector3(transform.position.x,transform.position.y-distance,transform.position.z));//对齐地面 
                 }
                 else//继续移动
@@ -107,10 +107,10 @@ public class Lift : MonoBehaviour
         }
 
         rigid.velocity = new Vector2(0, moveSpeed);
-        if (playerIsOnLift)
+     /*   if (playerIsOnLift)
         {
             playerRigid.velocity = new Vector2(playerRigid.velocity.x, moveSpeed);
-        }
+        }*/
 
     }    //目前对一次攻击打到多个机关未做处理 以最后受击的机关目标
 
@@ -130,7 +130,7 @@ public class Lift : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)//也可以使用overlap来判断玩家是否在电梯上
     {
-        if(collision.gameObject==player.gameObject && player.isGrounded)
+        if(collision.gameObject==player.gameObject && collision.otherCollider is BoxCollider2D)
         {
             playerIsOnLift = true;
         }
