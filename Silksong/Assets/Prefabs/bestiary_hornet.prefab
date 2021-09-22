@@ -162,7 +162,7 @@ Transform:
   m_GameObject: {fileID: 4914526317819520104}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 22.76, y: -6.85, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 2761798389360131631}
   m_Father: {fileID: 0}
@@ -253,12 +253,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
-  jumpForce: 20
+  jumpHeight: 30
+  rb: {fileID: 4914526317819520107}
   sprintForce: 30
   m_secondJump: 0
   gravity: 5
   climbSpeed: 30
-  checkRadius: 0.3
   m_isClimb: 0
   groundLayerMask:
     serializedVersion: 2
@@ -266,6 +266,7 @@ MonoBehaviour:
   robeLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  capsuleCollider: {fileID: 4914526317819520108}
   telePosition: {fileID: 0}
   _guid: c6d908ef-3408-4ebd-a79f-4c1904a6603b
   _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}

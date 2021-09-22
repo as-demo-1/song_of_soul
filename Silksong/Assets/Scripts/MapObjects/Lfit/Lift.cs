@@ -70,7 +70,7 @@ public class Lift : MonoBehaviour
                     if (playerIsOnLift)
                     {
                         playerRigid.velocity = new Vector2(playerRigid.velocity.x, 0);
-                        Debug.Log("stop");
+                        //Debug.Log("stop");
                     }
                 }
                 else//继续移动
@@ -112,7 +112,7 @@ public class Lift : MonoBehaviour
        if (playerIsOnLift)
         {
             playerRigid.velocity = new Vector2(playerRigid.velocity.x, moveSpeed);
-            Debug.Log("with");
+            //Debug.Log("with");
         }
 
     }    //目前对一次攻击打到多个机关未做处理 以最后受击的机关目标
