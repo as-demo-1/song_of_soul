@@ -2,28 +2,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     //move
     [SerializeField] private float speed = 20f;
-    private Rigidbody2D rb;
+    public float jumpHeight;
+    
+    [SerializeField, HideInInspector]
+    Rigidbody2D rb;
     private PlayerInput PInput;
     //Jump
-    [SerializeField] private float jumpForce = 20f;
     [SerializeField] private float sprintForce = 20f;
     [SerializeField] private bool m_secondJump = false;
     //climb
     [SerializeField] private int gravity = 5;
     [SerializeField] private int climbSpeed = 30;
-    [SerializeField] private float checkRadius = 0.3f;
-    
+
     [SerializeField] private bool m_isClimb;
 
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private LayerMask robeLayerMask;
 
-    private CapsuleCollider2D capsuleCollider;
+    [SerializeField]private CapsuleCollider2D capsuleCollider;
     private CharacterMoveAccel characterMoveAccel = new CharacterMoveAccel();
     //Teleport
     [SerializeField] private GameObject telePosition;
@@ -38,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private void OnValidate()
     {
         _guid = GUID;
+        rb = GetComponent<Rigidbody2D>();
     }
     /// <summary>
     /// Demo code Ends
@@ -45,10 +47,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
         PInput = GetComponent<PlayerInput>();
-        _saveSystem.TestSaveGuid(_guid);
+        // _saveSystem.TestSaveGuid(_guid);
     }
 
 
@@ -94,15 +94,16 @@ public class PlayerController : MonoBehaviour
         bool ground = IsGround();
         if (PInput.Jump.Down)
         {
+            Debug.Log(ground.ToString());
             if (ground)
             {
                 m_secondJump = false;
-                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                print("jump");
+                rb.velocity = new Vector3(0, jumpHeight, 0);
+                Debug.Log("jump");
             }else if (!m_secondJump)
             {
                 m_secondJump = true;
-                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                rb.velocity = new Vector3(0, jumpHeight, 0);
                 print("second jump");
             }
 
