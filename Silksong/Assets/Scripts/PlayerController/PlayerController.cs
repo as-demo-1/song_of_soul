@@ -92,12 +92,14 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         bool ground = IsGround();
+        //Debug.Log(ground);
         if (PInput.Jump.Down)
         {
             Debug.Log(ground.ToString());
             if (ground)
             {
                 m_secondJump = false;
+
                 rb.velocity = new Vector3(0, jumpHeight, 0);
                 Debug.Log("jump");
             }else if (!m_secondJump)
@@ -130,11 +132,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 1 << 6 is ground 7 is rope 8 is player
+    // 1 << 6 is ground    7 is rope    8 is player
     bool IsBlock(LayerMask ignoreMask)
     {
         Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
         Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0, ignoreMask);
+
         return collider != null;
     }
 
