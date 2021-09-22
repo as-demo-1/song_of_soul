@@ -2,28 +2,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     //move
-    public float speed = 20f;
-    private Rigidbody2D rb;
+    [SerializeField] private float speed = 20f;
+    public float jumpHeight;
+    
+    [SerializeField, HideInInspector]
+    Rigidbody2D rb;
     private PlayerInput PInput;
     //Jump
-    public float jumpForce = 20f;
-    public float sprintForce = 20f;
-    private bool m_secondJump = false;
+    [SerializeField] private float sprintForce = 20f;
+    [SerializeField] private bool m_secondJump = false;
     //climb
-    public int ConfigGravity = 5;
-    public int ConfigClimbSpeed = 30;
-    public float ConfigCheckRadius = 0.3f;
+    [SerializeField] private int gravity = 5;
+    [SerializeField] private int climbSpeed = 30;
 
-    private bool m_isClimb;
+    [SerializeField] private bool m_isClimb;
 
-    private CapsuleCollider2D capsuleCollider;
-    CharacterMoveAccel characterMoveAccel;
+    [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask robeLayerMask;
+
+    [SerializeField]private CapsuleCollider2D capsuleCollider;
+    private CharacterMoveAccel characterMoveAccel = new CharacterMoveAccel();
     //Teleport
-    public GameObject telePosition;
+    [SerializeField] private GameObject telePosition;
     /// <summary>
     /// Only Demo Code for save
     /// </summary>
@@ -35,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private void OnValidate()
     {
         _guid = GUID;
+        rb = GetComponent<Rigidbody2D>();
     }
     /// <summary>
     /// Demo code Ends
@@ -42,11 +47,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
         PInput = GetComponent<PlayerInput>();
-        characterMoveAccel = new CharacterMoveAccel();
-        _saveSystem.TestSaveGuid(_guid);
+        // _saveSystem.TestSaveGuid(_guid);
     }
 
 
@@ -92,15 +94,16 @@ public class PlayerController : MonoBehaviour
         bool ground = IsGround();
         if (PInput.Jump.Down)
         {
+            Debug.Log(ground.ToString());
             if (ground)
             {
                 m_secondJump = false;
-                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                print("jump");
+                rb.velocity = new Vector3(0, jumpHeight, 0);
+                Debug.Log("jump");
             }else if (!m_secondJump)
             {
                 m_secondJump = true;
-                rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                rb.velocity = new Vector3(0, jumpHeight, 0);
                 print("second jump");
             }
 
@@ -141,12 +144,12 @@ public class PlayerController : MonoBehaviour
         // LayerMask ignoreMask = ~(1 << 8 | 1 << 7); // fixed ignore ropeLayer
         // Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0,ignoreMask);
         // return collider != null;
-        return IsBlock(~(1 << 8 | 1 << 7));
+        return IsBlock(groundLayerMask);
     }
 
     bool IsRope()
     {
-        return IsBlock(~(1 << 8 | 1 << 6));
+        return IsBlock(robeLayerMask);
     }
 
     private void OnClimb()
@@ -158,7 +161,7 @@ public class PlayerController : MonoBehaviour
         if (m_isClimb)
         {
             Vector2 pos = transform.position;
-            pos.y += ConfigClimbSpeed * PInput.Vertical.Value * Time.deltaTime;
+            pos.y += climbSpeed * PInput.Vertical.Value * Time.deltaTime;
             rb.MovePosition(pos);
         }
         // togging isClimb and gravityScale is 0
@@ -174,7 +177,7 @@ public class PlayerController : MonoBehaviour
         // togging isClimb and recovery gravityScale
         if (m_isClimb)
         {
-            rb.gravityScale = ConfigGravity;
+            rb.gravityScale = gravity;
             m_isClimb = false;
         }
     }
