@@ -53,7 +53,6 @@ public class Lift : MonoBehaviour
 
     void FixedUpdate()
     {
-        print(playerRigid.velocity);
         if(rigid.velocity.y!=0)//µçÌÝÔÚÒÆ¶¯
         {
             float distance = liftFloorTransform.position.y - midFloorHeight;
