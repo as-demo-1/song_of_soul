@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 作者：青瓜
+/// 
 /// 临时用作玩家的普通攻击及波攻击 仅做测试用
-/// </summary>
+/// </summary>作者：青瓜
 public class PlayerAttack : MonoBehaviour
 {
     public GameObject bullet;

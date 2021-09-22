@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 作者：青瓜
+/// 
 /// 在hpdamable的基础上 增加受击后无敌机制
-/// </summary>
+/// </summary>作者：青瓜
 public class InvulnerableDamable : HpDamable
 {
     public bool invulnerableAfterDamage = true;//受伤后无敌

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 作者：青瓜
+///
 /// 暂时用来测试波攻击
-/// </summary>
+/// </summary> 作者：青瓜
 public class Bullet : MonoBehaviour
 {
     // Start is called before the first frame update

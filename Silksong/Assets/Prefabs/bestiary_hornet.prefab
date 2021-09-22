@@ -145,6 +145,7 @@ GameObject:
   - component: {fileID: 4914526317819520108}
   - component: {fileID: 4914526317819520110}
   - component: {fileID: 1613465428370602299}
+  - component: {fileID: 1211206503}
   m_Layer: 14
   m_Name: bestiary_hornet
   m_TagString: Player
@@ -254,11 +255,19 @@ MonoBehaviour:
   speed: 20
   jumpForce: 20
   sprintForce: 30
-  ConfigGravity: 5
-  ConfigClimbSpeed: 30
-  ConfigCheckRadius: 0.3
+  m_secondJump: 0
+  gravity: 5
+  climbSpeed: 30
+  checkRadius: 0.3
+  m_isClimb: 0
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  robeLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
   telePosition: {fileID: 0}
-  _guid: 00000000-0000-0000-0000-000000000000
+  _guid: c6d908ef-3408-4ebd-a79f-4c1904a6603b
   _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}
 --- !u!114 &4914526317819520109
 MonoBehaviour:
@@ -358,3 +367,19 @@ MonoBehaviour:
   hitBackDistance: 2
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 3
+--- !u!114 &1211206503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4914526317819520104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764af4c0bb4e4954ca3218446e9c6158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 6497775988211138327, guid: 27f3b3ad0df5fb34ba31fd8c80c88a9d, type: 3}
+  atkCostTime: 0.5
+  isAttacking: 0
+  atkTrigger: {fileID: 2761798389360131630}

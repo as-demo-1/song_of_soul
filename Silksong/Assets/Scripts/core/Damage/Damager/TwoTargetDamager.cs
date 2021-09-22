@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 作者：青瓜
+/// 
 /// 对两个目标不同伤害的damager的基类   例如酸水,玩家的攻击
-/// </summary>
+/// </summary>作者：青瓜
 public class TwoTargetDamager : DamagerBase
 {
     public LayerMask hittableLayers2;//另一目标

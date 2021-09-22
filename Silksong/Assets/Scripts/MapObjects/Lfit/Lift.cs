@@ -53,6 +53,7 @@ public class Lift : MonoBehaviour
 
     void FixedUpdate()
     {
+        print(playerRigid.velocity);
         if(rigid.velocity.y!=0)//电梯在移动
         {
             float distance = liftFloorTransform.position.y - midFloorHeight;
@@ -64,12 +65,14 @@ public class Lift : MonoBehaviour
                 
                 if(midTargetFloor==targetFloor)//到达目的层
                 {
+                    //rigid.MovePosition(new Vector3(transform.position.x, transform.position.y - distance, transform.position.z));
+                    //严格对齐地面  如果玩家的碰撞体是椭圆可以不严格对齐 ，也能行走       
                     rigid.velocity = Vector2.zero;
-                   /* if (playerIsOnLift)
+                    if (playerIsOnLift)
                     {
                         playerRigid.velocity = new Vector2(playerRigid.velocity.x, 0);
-                    }*/
-                    rigid.MovePosition(new Vector3(transform.position.x,transform.position.y-distance,transform.position.z));//对齐地面 
+                        Debug.Log("stop");
+                    }
                 }
                 else//继续移动
                 {
@@ -107,10 +110,11 @@ public class Lift : MonoBehaviour
         }
 
         rigid.velocity = new Vector2(0, moveSpeed);
-     /*   if (playerIsOnLift)
+       if (playerIsOnLift)
         {
             playerRigid.velocity = new Vector2(playerRigid.velocity.x, moveSpeed);
-        }*/
+            Debug.Log("with");
+        }
 
     }    //目前对一次攻击打到多个机关未做处理 以最后受击的机关目标
 

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 作者：青瓜
+/// 
 /// 拥有生命值及相关方法的damable 
-/// </summary>
+/// </summary>作者：青瓜
 public class HpDamable :Damable
 {
     public int maxHp = 5;//最大生命值

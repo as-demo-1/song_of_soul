@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 作者：青瓜
+/// 
 /// damageable的抽象基类 
-/// </summary>
+/// </summary>作者：青瓜
 public abstract class DamageableBase : MonoBehaviour
 {
     public bool invulnerable;//是否无敌

@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 作者：青瓜
+/// 
 /// damager的抽象基类 
-/// damager和其trigger应作为独立的物体 有自己的layer 不再有子物体
-/// </summary>
+/// damager和其trigger应作为独立的游戏物体 layer为4个damagelayer之一
+/// </summary>作者：青瓜
 public static class LayerMaskExtensions//layerMask增加contains方法 判断gameObject是否在layerMask中
 {
     public static bool Contains(this LayerMask layers, GameObject gameObject)

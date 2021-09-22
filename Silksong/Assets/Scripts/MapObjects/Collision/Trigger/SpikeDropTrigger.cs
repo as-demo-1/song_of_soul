@@ -2,7 +2,7 @@ using UnityEngine;
 /// <summary>
 /// 掉落尖刺的触发器
 /// </summary>作者：青瓜
-public class DropSpikeTrigger : TriggerBase
+public class SpikeDropTrigger : TriggerBase
 {
     public GameObject spike;
     public float dropSpeed;

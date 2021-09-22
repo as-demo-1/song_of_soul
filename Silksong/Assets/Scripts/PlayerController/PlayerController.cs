@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
             // PInput.Vertical.Value onchange start climbing
             if (PInput.Vertical.Value != 0)
             {
-                Debug.Log("climb");
                 OnClimb();
             }
 
