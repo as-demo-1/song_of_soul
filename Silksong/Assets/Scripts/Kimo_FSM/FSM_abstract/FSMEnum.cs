@@ -8,7 +8,8 @@ public enum EnemyStates
     Enemy_Any_State,
     Enemy_Idle_State,
     Enemy_Patrol_State,
-    Enemy_Hitted_State
+    Enemy_Hitted_State,
+    Enemy_Test_State,
 }
 
 public enum EnemyTriggers
@@ -17,7 +18,7 @@ public enum EnemyTriggers
     HitWallTrigger,
     InDetectionAreaTrigger,
     AnimationPlayOverTrigger,
-    OnHittedTrigger
+    OnHittedTrigger,
 }
 
 
@@ -37,13 +38,15 @@ public enum NPCTriggers
 public enum PlayerStates
 {
     Player_Idle_State,
-    Player_Run_State
+    Player_WalkStart_State,
+    Player_WalkingLoop_State,
+    Player_WalkStop_State,
 }
 
 public enum PlayerTriggers
 {
-    W_Key_Down,
-    A_Key_Down,
-    S_Key_Down,
-    D_Key_Down
+    HorizontalInputTrigger,
+    HorizontalInputAndHaveExitTimeTrigger,
+    NonHorizontalInputTrigger,
+    MaxExitTimeTrigger,
 }

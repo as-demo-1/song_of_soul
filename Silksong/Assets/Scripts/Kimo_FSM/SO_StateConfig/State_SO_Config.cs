@@ -164,49 +164,47 @@ public class NPC_State_SO_Config_Editor : Editor
 /// </summary>
 /// 
 
-//[CustomEditor(typeof(Player_State_SO_Config))]
-//public class Player_State_SO_Config_Editor : Editor
-//{
+[CustomEditor(typeof(Player_State_SO_Config))]
+public class Player_State_SO_Config_Editor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        Player_State_SO_Config config = target as Player_State_SO_Config;
+        if (config.lastStateID != config.stateID)
+        {
+            config.lastStateID = config.stateID;
+            config.stateType = Type.GetType(config.stateID.ToString());
+            if (config.stateType != null)
+            {
+                config.stateConfig = Activator.CreateInstance(config.stateType) as PlayerFSMBaseState;
+                config.stateConfig.stateID = config.stateID;
+            }
+            else
+                Debug.LogError("找不到所对应的State，请检查枚举名称是否与类名一致。");
+        }
+        if (config.lastTriggerID != config.triggerID)
+        {
+            config.lastTriggerID = config.triggerID;
+            config.triggerType = Type.GetType(config.triggerID.ToString());
+            if (config.triggerType != null)
+            {
+                config.triggerConfig = Activator.CreateInstance(config.triggerType) as PlayerFSMBaseTrigger;
+                config.triggerConfig.triggerID = config.triggerID;
+            }
+            else
+                Debug.LogError("找不到所对应的Trigger，请检查枚举名称是否与类名一致。");
 
-//    public override void OnInspectorGUI()
-//    {
-//        base.OnInspectorGUI();
-//        Player_State_SO_Config config = target as Player_State_SO_Config;
-//        if (config.lastStateID != config.stateID)
-//        {
-//            config.lastStateID = config.stateID;
-//            config.stateType = Type.GetType(config.stateID.ToString());
-//            if (config.stateType != null)
-//            {
-//                config.stateConfig = Activator.CreateInstance(config.stateType) as PlayerFSMBaseState;
-//                config.stateConfig.stateID = config.stateID;
-//            }
-//            else
-//                Debug.LogError("找不到所对应的State，请检查枚举名称是否与类名一致。");
-
-//        }
-//        if (config.lastTriggerID != config.triggerID)
-//        {
-//            config.lastTriggerID = config.triggerID;
-//            config.triggerType = Type.GetType(config.triggerID.ToString());
-//            if (config.triggerType != null)
-//            {
-//                config.triggerConfig = Activator.CreateInstance(config.triggerType) as PlayerFSMBaseTrigger;
-//                config.triggerConfig.triggerID = config.triggerID;
-//            }
-//            else
-//                Debug.LogError("找不到所对应的Trigger，请检查枚举名称是否与类名一致。");
-
-//        }
-//        if (GUILayout.Button("Add to List"))
-//        {
-//            config.triggerList.Add(ObjectClone.CloneObject(config.triggerConfig));
-//        }
-//    }
+        }
+        if (GUILayout.Button("Add to List"))
+        {
+            config.triggerList.Add(ObjectClone.CloneObject(config.triggerConfig));
+        }
+    }
 
 
 
-//}
+}
 
 
 

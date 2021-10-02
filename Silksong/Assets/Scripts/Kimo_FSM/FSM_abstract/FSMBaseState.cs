@@ -11,6 +11,7 @@ using UnityEngine;
 public  class FSMBaseState<T1,T2>
 {
     protected FSMManager<T1,T2> fsmManager;
+    public string animName;
     [DisplayOnly]
     public  T1 stateID;
     [NonSerialized]
@@ -77,7 +78,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReach(fsm_Manager))
             {
-                Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
+                //Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
                 fsm_Manager.ChangeState(triggers[i].targetState);
             }
         }
