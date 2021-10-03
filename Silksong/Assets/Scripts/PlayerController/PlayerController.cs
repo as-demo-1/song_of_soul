@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    public bool IsGrounded  => IsGround();
+    public bool playerFacingRight = true;
+    public SpriteRenderer SpriteRenderer { get; private set; }
     //move
     [SerializeField] private float speed = 20f;
     public float jumpHeight;
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         PInput = GetComponent<PlayerInput>();
         // _saveSystem.TestSaveGuid(_guid);
+        SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
 

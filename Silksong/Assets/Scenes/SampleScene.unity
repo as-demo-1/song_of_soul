@@ -370,6 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f932d14364c304994a9c02978ba96e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
   animator: {fileID: 754444840}
   audio: {fileID: 0}
   rigidbody: {fileID: 754444835}
@@ -382,7 +383,15 @@ MonoBehaviour:
     animName: 
     stateID: 0
   defaultStateID: 0
-  stateConfigs: []
+  stateConfigs:
+  - {fileID: 11400000, guid: 5e54110215e7706499b28725866b366f, type: 2}
+  - {fileID: 11400000, guid: fd1c39c40eee5ac42bf291ef0b9df168, type: 2}
+  - {fileID: 11400000, guid: bb950bf721bdf704a8d6d5aacac35443, type: 2}
+  - {fileID: 11400000, guid: 686335c0d4296724ca4f0042c6561803, type: 2}
+  - {fileID: 11400000, guid: 7185b66c538ecfe4fb6b94d4233acf48, type: 2}
+  - {fileID: 11400000, guid: 14a3f71500bc629498d8c39c83c3a009, type: 2}
+  - {fileID: 11400000, guid: ebc4ce4fdc905874ca202c3351d7bbe8, type: 2}
+  - {fileID: 11400000, guid: 02b355d0c482d3d44b2d1ba66eb59490, type: 2}
   anyStateConfig: {fileID: 0}
 --- !u!4 &400350505
 Transform:
@@ -696,8 +705,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.048939805, y: -0.46795323}
-  m_Size: {x: 0.56404704, y: 0.30682418}
+  m_Offset: {x: 0.0489398, y: -0.4835303}
+  m_Size: {x: 0.5640471, y: 0.33797833}
   m_Direction: 1
 --- !u!1 &754444832
 GameObject:
@@ -899,6 +908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerFacingRight: 1
   speed: 20
   jumpHeight: 20
   rb: {fileID: 754444835}

@@ -9,7 +9,7 @@ using UnityEngine;
 /// <typeparam name="T2"></typeparam>
 public abstract class FSMManager<T1,T2> : MonoBehaviour
 {
-
+    public PlayerController playerController;
     public Animator animator;
     public AnimatorStateInfo currentStateInfo;
     public AudioSource audio;
@@ -49,16 +49,13 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         }
         else
         {
-            Debug.LogError("敌人状态不存在");
+            Debug.LogError("状态不存在，请检查Fsm面板配置");
         }
         currentState.EnterState(this);
         if (currentState.animName != null)
         {
             animator.Play(currentState.animName);
             currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            //Debug.LogWarning(currentStateInfo.normalizedTime);
-            currentStateInfo = default;
-            Debug.LogWarning(currentStateInfo.normalizedTime);
         }
     }
 
@@ -113,6 +110,10 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         if(GetComponent<Rigidbody2D>()!=null)
         {
             rigidbody = GetComponent<Rigidbody2D>();
+        }
+        if (!TryGetComponent(out PlayerController playerController))
+        {
+            this.playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         }
 
     }

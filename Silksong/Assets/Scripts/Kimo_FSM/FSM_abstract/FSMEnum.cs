@@ -41,6 +41,10 @@ public enum PlayerStates
     Player_WalkStart_State,
     Player_WalkingLoop_State,
     Player_WalkStop_State,
+    Player_TurnAround_State,
+    Player_JumpUp_State,
+    Player_JumpAirLoop_State,
+    Player_Land_State,
 }
 
 public enum PlayerTriggers
@@ -49,4 +53,8 @@ public enum PlayerTriggers
     HorizontalInputAndHaveExitTimeTrigger,
     NonHorizontalInputTrigger,
     MaxExitTimeTrigger,
+    TurnAroundTrigger,
+    AirSpeedNegativeTrigger,
+    AirSpeedPositiveTrigger,
+    LandTrigger,
 }

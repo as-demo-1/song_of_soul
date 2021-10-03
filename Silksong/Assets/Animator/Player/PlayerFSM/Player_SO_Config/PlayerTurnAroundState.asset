@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7827d6a837a0be24daace769d731f46f, type: 3}
-  m_Name: PlayerWalkStartState
+  m_Name: PlayerTurnAroundState
   m_EditorClassIdentifier: 
-  lastStateID: 1
+  lastStateID: 4
   lastTriggerID: 6
-  stateID: 1
+  stateID: 4
   stateConfig:
     id: 0
   triggerID: 6
@@ -24,14 +24,13 @@ MonoBehaviour:
   - id: 2
   - id: 3
   - id: 4
-  - id: 5
   references:
     version: 1
     00000000:
-      type: {class: Player_WalkStart_State, ns: , asm: Assembly-CSharp}
+      type: {class: Player_TurnAround_State, ns: , asm: Assembly-CSharp}
       data:
-        animName: WalkStart
-        stateID: 1
+        animName: TurnAround
+        stateID: 4
     00000001:
       type: {class: AirSpeedPositiveTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -40,27 +39,20 @@ MonoBehaviour:
         haveExitTime: 0
         exitTime: 0
     00000002:
-      type: {class: HorizontalInputAndHaveExitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: MaxExitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 1
-        targetState: 2
+        triggerID: 3
+        targetState: 3
         haveExitTime: 1
         exitTime: 1
     00000003:
-      type: {class: NonHorizontalInputTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        triggerID: 2
-        targetState: 3
-        haveExitTime: 0
-        exitTime: 0
-    00000004:
       type: {class: TurnAroundTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerID: 4
         targetState: 4
         haveExitTime: 0
         exitTime: 0
-    00000005:
+    00000004:
       type: {class: AirSpeedPositiveTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerID: 6

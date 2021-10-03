@@ -12,26 +12,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7827d6a837a0be24daace769d731f46f, type: 3}
   m_Name: PlayerWalkingLoopState
   m_EditorClassIdentifier: 
-  lastStateID: 0
-  lastTriggerID: 0
-  stateID: 0
+  lastStateID: 2
+  lastTriggerID: 6
+  stateID: 2
   stateConfig:
     id: 0
-  triggerID: 0
+  triggerID: 6
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
+  - id: 3
+  - id: 4
   references:
     version: 1
     00000000:
-      type: {class: Player_Idle_State, ns: , asm: Assembly-CSharp}
+      type: {class: Player_WalkingLoop_State, ns: , asm: Assembly-CSharp}
       data:
-        animName: 
-        stateID: 0
+        animName: WalkingLoop
+        stateID: 2
     00000001:
-      type: {class: D_Key_Down, ns: , asm: Assembly-CSharp}
+      type: {class: AirSpeedPositiveTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 0
-        targetState: 0
+        triggerID: 6
+        targetState: 5
+        haveExitTime: 0
+        exitTime: 0
+    00000002:
+      type: {class: NonHorizontalInputTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerID: 2
+        targetState: 3
+        haveExitTime: 0
+        exitTime: 0
+    00000003:
+      type: {class: TurnAroundTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerID: 4
+        targetState: 4
+        haveExitTime: 0
+        exitTime: 0
+    00000004:
+      type: {class: AirSpeedPositiveTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerID: 6
+        targetState: 5
         haveExitTime: 0
         exitTime: 0

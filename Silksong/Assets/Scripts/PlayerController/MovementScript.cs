@@ -36,4 +36,14 @@ public static class MovementScript
         Debug.Log("sprint");
         rigidbody2D.AddForce(new Vector2(direction.x  * speed * Time.deltaTime , direction.y));
     }
+
+    /// <summary>
+    /// Flip the x axis Character
+    /// </summary>
+    /// <param name="spriteRenderer"></param>
+    public static void Flip(SpriteRenderer spriteRenderer, ref bool playerFacingRight)
+    {
+        spriteRenderer.flipX = !spriteRenderer.flipX;
+        playerFacingRight = !playerFacingRight;
+    }
 }
