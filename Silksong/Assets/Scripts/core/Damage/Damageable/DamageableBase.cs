@@ -9,6 +9,8 @@ using UnityEngine;
 public abstract class DamageableBase : MonoBehaviour
 {
     public bool invulnerable;//是否无敌
+
+    public Vector2 damageDirection;//伤害来源的方向
     public abstract void takeDamage(DamagerBase damager);//受到伤害时触发的效果
 
     protected virtual void Awake()//在awake时检测刚体 完成设定

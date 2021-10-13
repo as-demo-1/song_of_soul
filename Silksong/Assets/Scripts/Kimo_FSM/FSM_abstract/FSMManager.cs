@@ -11,11 +11,13 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 {
 
     public Animator animator;
-    public AudioSource audio;
-    public Rigidbody2D rigidbody;
+    public AudioSource audios;
+    public Rigidbody2D rigidbody2d;
 
-    public Collider2D triggerCollider;
+   // public Collider2D triggerCollider;
     public Collision2D collision;
+
+    public DamageableBase damageable;
 
     /// /// <summary>
     /// µ±Ç°×´Ì¬
@@ -41,6 +43,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     {
         if (currentState != null)
             currentState.ExitState(this);
+
         if (statesDic.ContainsKey(state))
         {
             currentState = statesDic[state];
@@ -99,23 +102,23 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         }
         if (GetComponent<AudioSource>() != null)
         {
-            audio = GetComponent<AudioSource>();
+            audios = GetComponent<AudioSource>();
         }
         if(GetComponent<Rigidbody2D>()!=null)
         {
-            rigidbody = GetComponent<Rigidbody2D>();
+            rigidbody2d = GetComponent<Rigidbody2D>();
         }
 
     }
 
-    private void Awake()
+    protected void Awake()
     {
         statesDic.Clear();
         InitManager();
-
+        damageable = GetComponent<DamageableBase>();
     }
 
-    private void Start()
+    protected void Start()
     {
         if (statesDic.Count == 0)
             return;
@@ -124,11 +127,11 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         ChangeState(currentStateID);
         if (anyState != null)
             anyState.EnterState(this);
-        foreach (var state in statesDic.Values)
+     /*   foreach (var state in statesDic.Values)
             foreach (var value in state.triggers)
             {
                 Debug.LogWarning(this + "  " + state + "  " + value + "  " + value.GetHashCode());
-            }
+            }*/
     }
 
     private void Update()
