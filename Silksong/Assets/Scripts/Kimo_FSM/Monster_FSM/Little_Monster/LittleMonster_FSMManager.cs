@@ -6,7 +6,7 @@ public class LittleMonster_FSMManager :EnemyFSMManager
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer==LayerMask.NameToLayer("Gear"))
+        if(collision.gameObject.layer==LayerMask.NameToLayer("Wall"))
         {
             this.collision = collision;
             EventsManager.Instance.Invoke(this.gameObject, EventType.onEnemyHitWall);
@@ -15,7 +15,7 @@ public class LittleMonster_FSMManager :EnemyFSMManager
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Gear"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             this.collision = collision;
             EventsManager.Instance.Invoke(this.gameObject, EventType.onEnemyHitWall);

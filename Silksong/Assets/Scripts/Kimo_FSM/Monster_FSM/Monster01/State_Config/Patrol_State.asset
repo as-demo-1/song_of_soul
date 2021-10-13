@@ -17,10 +17,12 @@ MonoBehaviour:
   stateID: 2
   stateConfig:
     id: 0
-  triggerID: 0
+  triggerID: 1
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
+  - id: 3
   references:
     version: 1
     00000000:
@@ -28,11 +30,26 @@ MonoBehaviour:
       data:
         stateID: 2
         isBack: 1
+<<<<<<< HEAD:Silksong/Assets/Scripts/Kimo_FSM/Monster_FSM/Monster01/State_Config/Patrol_State.asset
         moveSpeed: {x: 0, y: 0, z: 0}
+=======
+        moveSpeed: {x: 4, y: 0, z: 0}
+        rayToGroundDistance: 0.7
+>>>>>>> 0a413c0530858be5e1cfb6d3219aad4c92c5d17c:Silksong/Assets/Scripts/Kimo_FSM/Little_Monster/SO_Config/Patrol_State.asset
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 0
-        targetState: 0
-        maxTime: 0
-        timer: 0
+        triggerID: 1
+        targetState: 2
+    00000002:
+      type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerID: 4
+        targetState: 3
+        isHitted: 0
+        isInvincible: 0
+    00000003:
+      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerID: 1
+        targetState: 2

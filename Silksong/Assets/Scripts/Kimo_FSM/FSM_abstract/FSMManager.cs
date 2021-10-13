@@ -127,11 +127,14 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         ChangeState(currentStateID);
         if (anyState != null)
             anyState.EnterState(this);
-     /*   foreach (var state in statesDic.Values)
-            foreach (var value in state.triggers)
-            {
-                Debug.LogWarning(this + "  " + state + "  " + value + "  " + value.GetHashCode());
-            }*/
+
+        //// Debug code
+        //foreach (var state in statesDic.Values)
+        //    foreach (var value in state.triggers)
+        //    {
+        //        Debug.LogWarning(this + "  " + state + "  " + value + "  " + value.GetHashCode());
+        //    }
+
     }
 
     private void Update()
