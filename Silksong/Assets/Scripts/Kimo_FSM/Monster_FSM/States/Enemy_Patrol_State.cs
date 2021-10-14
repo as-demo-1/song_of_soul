@@ -12,9 +12,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
 
     public override void Act_State(FSMManager<EnemyStates,EnemyTriggers> fSM_Manager)
     {
-        // fsmManager = fSM_Manager;
-         Move();
-        //  UpdateFace();
+        // Move();
         if (isBack)
         {
             DetectionPlatformBoundary();
@@ -22,11 +20,8 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     }
     public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
-        Collider2D collider = fsmManager.GetComponent<Collider2D>();
-        rayToGroundDistance = collider.bounds.size.y*0.5f+0.1f;//暂未考虑collider的offset 
-       // Debug.Log(rayToGroundDistance);
-        // fsmManager = fSM_Manager;
         fsmManager.animator.Play("Enemy_Patrol");
+        fsmManager.rigidbody2d.velocity = moveSpeed;
         UpdateFace();
         /*  if (isBack)
           {
@@ -39,16 +34,14 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         base.InitState(fSM_Manager);
         fsmManager = fSM_Manager;
         stateID = EnemyStates.Enemy_Patrol_State;
-
-        if (isBack)
-        {
-            EventsManager.Instance.AddListener(fSM_Manager.gameObject, EventType.onEnemyHitWall, HitWall);
-        }
+        Collider2D collider = fsmManager.GetComponent<Collider2D>();
+        rayToGroundDistance = collider.bounds.size.y * 0.5f + 0.1f;//暂未考虑collider的offset 
     }
     private void Turn()
     {
         //Debug.Log("turn");
         moveSpeed.x *= -1;
+        fsmManager.rigidbody2d.velocity = moveSpeed;
         UpdateFace();
     }
     private void UpdateFace()
@@ -58,22 +51,32 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         else
             fsmManager.transform.localScale = new Vector3(1, 1, 1);
     }
-    private void HitWall()
+    /* private void Move()
+      {
+          Debug.Log(fsmManager.gameObject.transform.position);
+          Debug.Log(fsmManager.gameObject.transform.position + moveSpeed * Time.deltaTime);
+          fsmManager.gameObject.transform.position +=  moveSpeed*Time.deltaTime;
+         // fsmManager.rigidbody2d.MovePosition(fsmManager.gameObject.transform.position+ moveSpeed * Time.deltaTime);
+      }*/
+    public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
-        Turn();
+        fsmManager.rigidbody2d.velocity = Vector2.zero;
     }
-   private void Move()
-    {
-        // fsmManager.gameObject.transform.position +=  moveSpeed*Time.deltaTime;
-        fsmManager.rigidbody2d.MovePosition(fsmManager.gameObject.transform.position+ moveSpeed * Time.deltaTime);
-        //Debug.Log("move");
-    }
+
     private void DetectionPlatformBoundary()
     {
-        var rayHit=Physics2D.Raycast(fsmManager.transform.position +new Vector3((moveSpeed.x>0?1:-1),0,0) * fsmManager.GetComponent<Collider2D>().bounds.size.x, Vector2.down);
-
-        if(rayHit.distance>rayToGroundDistance)
+        //身前点
+        Vector3 frontPoint = fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * (fsmManager.GetComponent<Collider2D>().bounds.size.x*0.5f);
+  
+        var rayHit=Physics2D.Raycast(frontPoint, Vector2.down);
+        if(rayHit.distance>rayToGroundDistance)//到达边缘
         {
+            Turn();
+        }
+        Vector3 upPoint = fsmManager.transform.position + new Vector3(0, 0.1f, 0);
+        if (Physics2D.OverlapArea(upPoint,frontPoint,1<<LayerMask.NameToLayer("Ground"))!=null)
+        {
+            //Debug.Log("hit wall");
             Turn();
         }
     }

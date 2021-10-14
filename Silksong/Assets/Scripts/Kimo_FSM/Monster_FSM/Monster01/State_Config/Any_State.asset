@@ -20,7 +20,8 @@ MonoBehaviour:
   triggerID: 4
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
   references:
     version: 1
     00000000:
@@ -31,6 +32,11 @@ MonoBehaviour:
       type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerID: 4
+        targetState: 0
+        isHitted: 0
+    00000002:
+      type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerID: 4
         targetState: 3
         isHitted: 0
-        isInvincible: 0

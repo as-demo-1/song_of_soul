@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
     }
 
     private void FixedUpdate()
@@ -95,18 +96,18 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(ground);
         if (PInput.Jump.Down)
         {
-            Debug.Log(ground.ToString());
+           // Debug.Log(ground.ToString());
             if (ground)
             {
                 m_secondJump = false;
 
                 rb.velocity = new Vector3(0, jumpHeight, 0);
-                Debug.Log("jump");
+               // Debug.Log("jump");
             }else if (!m_secondJump)
             {
                 m_secondJump = true;
                 rb.velocity = new Vector3(0, jumpHeight, 0);
-                print("second jump");
+               // print("second jump");
             }
 
         }

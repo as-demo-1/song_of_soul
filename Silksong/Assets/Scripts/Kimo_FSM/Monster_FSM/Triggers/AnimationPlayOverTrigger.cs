@@ -9,11 +9,12 @@ public class AnimationPlayOverTrigger :EnemyFSMBaseTrigger
     {
 
         if (fsm_Manager.animator != null)
-        {
-            info = fsm_Manager.animator.GetCurrentAnimatorStateInfo(0);
-            if (info.normalizedTime >= 0.99)
-                return true;
-        }
+         {
+             info = fsm_Manager.animator.GetCurrentAnimatorStateInfo(0);
+             //Debug.Log(info.length);
+             if (info.normalizedTime >= 0.99)
+                 return true;
+         }
         return false;
     }
 }

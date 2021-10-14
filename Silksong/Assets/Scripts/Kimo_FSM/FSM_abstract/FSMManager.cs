@@ -94,8 +94,6 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     }
     public virtual void InitManager()
     {
-        InitWithScriptableObject();
-        ////组件获取
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
@@ -104,11 +102,13 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         {
             audios = GetComponent<AudioSource>();
         }
-        if(GetComponent<Rigidbody2D>()!=null)
+        if (GetComponent<Rigidbody2D>() != null)
         {
             rigidbody2d = GetComponent<Rigidbody2D>();
         }
 
+        InitWithScriptableObject();
+        ////组件获取
     }
 
     protected void Awake()
@@ -139,11 +139,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
     private void Update()
     {
-        if (anyState != null)
-        {
-            anyState.Act_State(this);
-            anyState.TriggerState(this);
-        }
+
         if (currentState != null)
         {
             //执行状态内容
@@ -154,6 +150,12 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         else
         {
             Debug.LogError("currentState为空");
+        }
+
+        if (anyState != null)
+        {
+            anyState.Act_State(this);
+            anyState.TriggerState(this);
         }
     }
 
