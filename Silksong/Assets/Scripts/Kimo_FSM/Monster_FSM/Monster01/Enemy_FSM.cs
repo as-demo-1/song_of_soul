@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster01_FSM : EnemyFSMManager
+public class Enemy_FSM : EnemyFSMManager
 {
 
 }

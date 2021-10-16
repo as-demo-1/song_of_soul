@@ -10,7 +10,7 @@ public class OnHittedTrigger :EnemyFSMBaseTrigger
     public override void InitTrigger(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
-        targetState = EnemyStates.Enemy_Hitted_State;
+        //targetState = EnemyStates.Enemy_Hitted_State; 可能跳到其他状态
         EventsManager.Instance.AddListener(fsm_Manager.gameObject, EventType.onTakeDamage, Hitted);
     }
 
@@ -24,7 +24,6 @@ public class OnHittedTrigger :EnemyFSMBaseTrigger
     {
         if(isHitted)
         {
-           // Debug.Log(this.GetHashCode());
             isHitted = false;
             return true;
         }

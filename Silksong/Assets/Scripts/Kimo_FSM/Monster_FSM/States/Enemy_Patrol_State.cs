@@ -20,7 +20,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     }
     public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
-        fsmManager.animator.Play("Enemy_Patrol");
+        fsmManager.animator.Play("Enemy_Patrol",0);
         fsmManager.rigidbody2d.velocity = moveSpeed;
         UpdateFace();
         /*  if (isBack)

@@ -8,7 +8,9 @@ public enum EnemyStates
     Enemy_Any_State,
     Enemy_Idle_State,
     Enemy_Patrol_State,
-    Enemy_Hitted_State
+    Enemy_Hitted_State,
+    Enemy_Attack_State,
+
 }
 
 public enum EnemyTriggers

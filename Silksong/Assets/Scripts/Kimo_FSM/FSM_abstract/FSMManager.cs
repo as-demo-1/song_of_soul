@@ -41,6 +41,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
     public void ChangeState(T1 state)
     {
+        //Debug.Log(state);
         if (currentState != null)
             currentState.ExitState(this);
 
@@ -172,6 +173,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     {
         if(anyStateConfig!=null)
         {
+
             anyState = (FSMBaseState<EnemyStates, EnemyTriggers>)ObjectClone.CloneObject(anyStateConfig.stateConfig);
             anyState.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
             for (int k=0;k<anyStateConfig.triggerList.Count; k++)
