@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-10-17T15:38:45.928Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50" etag="u_MPhXljJlJ_YrT2R0x0" version="15.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-17T15:50:06.291Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50" etag="pJal-G8jPOlpst02Vqg0" version="15.5.4" type="github">
   <diagram id="UGXwwOR7XBjbqTQQeprM" name="Page-1">
     <mxGraphModel dx="1185" dy="662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -17,25 +17,51 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="7bM-O9ymrw9waFSdhQPe-11" value="SMBEvent&#xa;" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=default;gradientColor=none;" vertex="1" parent="1">
-          <mxGeometry x="582.5" y="430" width="160" height="86" as="geometry" />
+          <mxGeometry x="582.5" y="430" width="450" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="7bM-O9ymrw9waFSdhQPe-12" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-11">
-          <mxGeometry y="26" width="160" height="26" as="geometry" />
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-12" value="+ FieldToCompare : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-11">
+          <mxGeometry y="26" width="450" height="26" as="geometry" />
         </mxCell>
         <mxCell id="7bM-O9ymrw9waFSdhQPe-13" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-11">
-          <mxGeometry y="52" width="160" height="8" as="geometry" />
+          <mxGeometry y="52" width="450" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="7bM-O9ymrw9waFSdhQPe-14" value="+ Behaviour() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-11">
-          <mxGeometry y="60" width="160" height="26" as="geometry" />
-        </mxCell>
+        <object label="+ Behaviour() : void&#xa;+ IsActive(previousTimeNormalized : float, currentTimeNormalized : float) : bool&#xa;+ Next(previousTimeNormalized : float) : bool&#xa;+ CompareTo(other : SMBEvent) : int" id="7bM-O9ymrw9waFSdhQPe-14">
+          <mxCell style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-11">
+            <mxGeometry y="60" width="450" height="70" as="geometry" />
+          </mxCell>
+        </object>
         <mxCell id="7bM-O9ymrw9waFSdhQPe-15" value="«interface»&lt;br&gt;&lt;b&gt;IComparable&amp;lt;SMBEvent&amp;gt;&lt;/b&gt;" style="html=1;fillColor=default;gradientColor=none;" vertex="1" parent="1">
-          <mxGeometry x="580" y="320" width="165" height="50" as="geometry" />
+          <mxGeometry x="725" y="310" width="165" height="50" as="geometry" />
         </mxCell>
         <mxCell id="7bM-O9ymrw9waFSdhQPe-17" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="7bM-O9ymrw9waFSdhQPe-11" target="7bM-O9ymrw9waFSdhQPe-15">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="570" y="490" as="sourcePoint" />
             <mxPoint x="730" y="490" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-21" value="SMBEventTimeStamp" style="swimlane;fontStyle=3;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeWidth=1;fillColor=default;gradientColor=none;" vertex="1" parent="1">
+          <mxGeometry x="330" y="640" width="450" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-22" value="+ timeNormalized : float" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;strokeWidth=2;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-21">
+          <mxGeometry y="26" width="450" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-23" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-21">
+          <mxGeometry y="52" width="450" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-24" value="+ Next(previousTimeNormalized : float) : bool&#xa;+ IsActive(previousTimeNormalized : float, currentTimeNormalized : float) : bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-21">
+          <mxGeometry y="60" width="450" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-25" value="SMBStatusData" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;strokeWidth=1;fillColor=default;gradientColor=none;" vertex="1" parent="1">
+          <mxGeometry x="350" y="820" width="160" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-26" value="+ currentStatus : PlayerStatus " style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-25">
+          <mxGeometry y="26" width="160" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-27" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-25">
+          <mxGeometry y="52" width="160" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="7bM-O9ymrw9waFSdhQPe-28" value="+ method(type): type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="7bM-O9ymrw9waFSdhQPe-25">
+          <mxGeometry y="60" width="160" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
