@@ -7,7 +7,15 @@ public class PlayerController : MonoBehaviour
 {
     //move
     [SerializeField] private float speed = 20f;
+    private float speedRate=1;// 1为正常速度
+    public float SpeedRate
+    {
+        set { if (value > 0) speedRate = value; }//允许加速
+    }
+
     public float jumpHeight;
+
+    public bool canJump;
     
     [SerializeField, HideInInspector]
     Rigidbody2D rb;
@@ -22,7 +30,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool m_isClimb;
 
     [SerializeField] private LayerMask groundLayerMask;
-    [SerializeField] private LayerMask robeLayerMask;
+    [SerializeField] private LayerMask ropeLayerMask;
 
     [SerializeField]private CapsuleCollider2D capsuleCollider;
     private CharacterMoveAccel characterMoveAccel = new CharacterMoveAccel();
@@ -94,7 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         bool ground = IsGround();
         //Debug.Log(ground);
-        if (PInput.Jump.Down)
+        if (PInput.Jump.Down &&canJump)
         {
            // Debug.Log(ground.ToString());
             if (ground)
@@ -102,19 +110,18 @@ public class PlayerController : MonoBehaviour
                 m_secondJump = false;
 
                 rb.velocity = new Vector3(0, jumpHeight, 0);
-               // Debug.Log("jump");
+
             }else if (!m_secondJump)
             {
                 m_secondJump = true;
                 rb.velocity = new Vector3(0, jumpHeight, 0);
-               // print("second jump");
             }
 
         }
     }
     void HorizontalMove()
     {
-        float desirespeed = PInput.Horizontal.Value * speed * Time.deltaTime;
+        float desirespeed = PInput.Horizontal.Value * speed* speedRate * Time.deltaTime;
         float acce = characterMoveAccel.AccelSpeedUpdate(PInput.Horizontal.Value !=0,IsGround(),desirespeed);
         rb.position = new Vector2(rb.position.x + acce, rb.position.y);
     }
@@ -153,7 +160,7 @@ public class PlayerController : MonoBehaviour
 
     bool IsRope()
     {
-        return IsBlock(robeLayerMask);
+        return IsBlock(ropeLayerMask);
     }
 
     private void OnClimb()
