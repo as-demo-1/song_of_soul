@@ -119,7 +119,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         damageable = GetComponent<DamageableBase>();
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         if (statesDic.Count == 0)
             return;
@@ -169,6 +169,13 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
 {
     public List<Enemy_State_SO_Config> stateConfigs;
     public Enemy_State_SO_Config anyStateConfig;
+    public GameObject player;
+
+    protected override void Start()
+    {
+        base.Start();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
     public override void InitWithScriptableObject()
     {
         if(anyStateConfig!=null)

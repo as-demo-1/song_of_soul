@@ -17,7 +17,7 @@ public enum EnemyTriggers
 {
     WaitTimeTrigger,
     HitWallTrigger,
-    InDetectionAreaTrigger,
+    PlayerDistanceTrigger,
     AnimationPlayOverTrigger,
     OnHittedTrigger
 }
@@ -33,7 +33,7 @@ public enum NPCTriggers
 {
     WaitTimeTrigger,
     HitWallTrigger,
-    InDetectionAreaTrigger
+    PlayerDistanceTrigger,
 }
 
 public enum PlayerStates
