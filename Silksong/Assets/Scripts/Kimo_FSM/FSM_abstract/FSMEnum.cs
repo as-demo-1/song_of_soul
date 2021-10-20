@@ -10,6 +10,7 @@ public enum EnemyStates
     Enemy_Patrol_State,
     Enemy_Hitted_State,
     Enemy_Attack_State,
+    Enemy_Shoot_State,
 
 }
 
@@ -19,7 +20,9 @@ public enum EnemyTriggers
     HitWallTrigger,
     PlayerDistanceTrigger,
     AnimationPlayOverTrigger,
-    OnHittedTrigger
+    OnHittedTrigger,
+    LoseShootTargetTrigger,
+    ShootTrigger,
 }
 
 
