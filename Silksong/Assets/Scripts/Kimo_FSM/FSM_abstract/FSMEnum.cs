@@ -13,6 +13,7 @@ public enum EnemyStates
     Enemy_Climb_State,
     Enemy_Pursuit_State,
     Enemy_Wander_State,
+    Enemy_Shoot_State,
 
 }
 
@@ -22,7 +23,9 @@ public enum EnemyTriggers
     HitWallTrigger,
     PlayerDistanceTrigger,
     AnimationPlayOverTrigger,
-    OnHittedTrigger
+    OnHittedTrigger,
+    LoseShootTargetTrigger,
+    ShootTrigger,
 }
 
 
