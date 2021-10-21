@@ -25,6 +25,7 @@ public class OnHittedTrigger :EnemyFSMBaseTrigger
         if(isHitted)
         {
             isHitted = false;
+           // Debug.Log("hitted trigger");
             return true;
         }
         else

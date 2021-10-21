@@ -10,6 +10,9 @@ public enum EnemyStates
     Enemy_Patrol_State,
     Enemy_Hitted_State,
     Enemy_Attack_State,
+    Enemy_Climb_State,
+    Enemy_Pursuit_State,
+    Enemy_Wander_State,
 
 }
 

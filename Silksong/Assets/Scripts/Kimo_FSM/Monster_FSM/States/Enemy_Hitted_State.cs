@@ -13,12 +13,12 @@ public class Enemy_Hitted_State :EnemyFSMBaseState
     {
         base.InitState(fSMManager);
         fsmManager = fSMManager;
-        if (fsmManager.animator.HasState(0, Animator.StringToHash("Enermy_Hitted")))
+        if (fsmManager.animator.HasState(0, Animator.StringToHash("Enemy_Hitted")))
         {
             AnimationClip[] clips = fsmManager.animator.runtimeAnimatorController.animationClips;      
             foreach (AnimationClip clip in clips)
             {
-                if (clip.name.Equals("Enermy_Hitted"))
+                if (clip.name.Equals("Enemy_Hitted"))
                 {
                     hittedVelocity = HittedBackDistance/clip.length;
                     break;
@@ -42,7 +42,7 @@ public class Enemy_Hitted_State :EnemyFSMBaseState
     {
         //Debug.Log("hitted_state");
 
-            fSM_Manager.animator.Play("Enermy_Hitted",0,0);//如果受击过程中又受击 从头开始播放受击动画
+            fSM_Manager.animator.Play("Enemy_Hitted",0,0);//如果受击过程中又受击 从头开始播放受击动画
                
             Vector2 dir = new Vector2(1,0);
             if (fsmManager.damageable.damageDirection.x>0)

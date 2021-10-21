@@ -41,7 +41,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
     public void ChangeState(T1 state)
     {
-        //Debug.Log(state);
+        //Debug.Log(state.ToString()+"  "+gameObject.name);
         if (currentState != null)
             currentState.ExitState(this);
 

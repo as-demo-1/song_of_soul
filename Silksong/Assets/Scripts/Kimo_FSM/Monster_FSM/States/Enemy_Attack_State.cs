@@ -9,7 +9,7 @@ public class Enemy_Attack_State : EnemyFSMBaseState
 
     public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
-        fsmManager.animator.Play(AnimationName);
+        fsmManager.animator.Play(AnimationName,0,0);
     }
 
     public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
