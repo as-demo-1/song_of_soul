@@ -9,8 +9,8 @@ public class PlayerAnimatorStatesManager : AnimatorStatesManager
     public override Animator Animator { get; }
     public AnimatorParamsMapping PlayerAnimatorParamsMapping { get; private set; }
     public PlayerStatus CurrentPlayerStatus { get; set; }
-    public bool CanJump { get; set; } = true;
-    public bool CanMove { get; set; } = true;
+    public bool CanJump => PlayerController.Instance.CurrentAirExtraJumpCountLeft > 0 || PlayerController.Instance.IsGrounded;
+    public bool CanMove { get; set; } = true;   
     public StatusBehaviour PlayerBehaviour { get; set; }
 
     //public void Initialize(StatusBehaviour behaviour)
@@ -18,11 +18,12 @@ public class PlayerAnimatorStatesManager : AnimatorStatesManager
 
     //}
 
-    public void ParamsUpdate() => this.PlayerAnimatorParamsMapping.ParamsUpdate();
+    public void ParamsLateUpdate() => this.PlayerAnimatorParamsMapping.ParamsUpdate();
 
-    public void BehaviourUpdate()
+    public void BehaviourLateUpdate()
     {
         PlayerBehaviour.StatusActiveBehaviour(CurrentPlayerStatus);
+        Debug.Log("BehaviourUpdate");
     }
 
     public void ChangePlayerStatus(PlayerStatus newStatus)
@@ -80,6 +81,7 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
         m_Animator.SetBool(CanMoveParamHash, m_PlayerAnimatorStatesManager.CanMove);
         m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesManager.CanJump);
         m_Animator.SetInteger(CurrentStatusParamHash, (int)m_PlayerAnimatorStatesManager.CurrentPlayerStatus);
+        Debug.Log("ParamsUpdate");
     }
 }
 

@@ -17,7 +17,6 @@ MonoBehaviour:
     m_SMBEventList:
     - timeNormalized: 0
       newStatus: 10
-      statusIsActive: 1
 --- !u!1101 &-8727051839091241280
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -57,7 +56,6 @@ MonoBehaviour:
     m_SMBEventList:
     - timeNormalized: 0
       newStatus: 10
-      statusIsActive: 0
 --- !u!114 &-8178115396449500545
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -492,7 +490,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: JumpIsDown
+    m_ConditionEvent: JumpIsValid
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: CanJump
@@ -595,7 +593,6 @@ MonoBehaviour:
     m_SMBEventList:
     - timeNormalized: 0
       newStatus: 40
-      statusIsActive: 1
 --- !u!1102 &-282906263192654341
 AnimatorState:
   serializedVersion: 6
@@ -639,61 +636,61 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: VerticalInput
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: JumpIsDown
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: JumpIsValid
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: IsGrounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: HorizontalSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: VerticalSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: CurrentStatus
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: CanJump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: CanMove
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -843,7 +840,6 @@ MonoBehaviour:
     m_SMBEventList:
     - timeNormalized: 0
       newStatus: 20
-      statusIsActive: 1
 --- !u!1101 &2517102576141456939
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1167,4 +1163,3 @@ MonoBehaviour:
     m_SMBEventList:
     - timeNormalized: 0
       newStatus: 30
-      statusIsActive: 1

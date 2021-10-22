@@ -6,52 +6,33 @@ public class PlayerStatusBehaviour : StatusBehaviour
 {
     public override void StatusEnterBehaviour(PlayerStatus playerStatus)
     {
-        switch (playerStatus)
-        {
-            case PlayerStatus.None:
-                break;
-            case PlayerStatus.Idle:
-                break;
-            case PlayerStatus.Run:
-                break;
-            case PlayerStatus.Jump:
-                PlayerController.Instance.Jump();
-                break;
-            case PlayerStatus.Fall:
-                break;
-            case PlayerStatus.Attack:
-                break;
-            default:
-                break;
-        }
+
     }
     public override void StatusActiveBehaviour(PlayerStatus playerStatus)
     {
-        if (PlayerController.Instance.CheckIsGrounded())
-            PlayerController.Instance.ResetJumpCount();
         switch (playerStatus)
         {
             case PlayerStatus.None:
                 break;
             case PlayerStatus.Idle:
+                PlayerController.Instance.CheckIsGroundedAndResetAirJumpCount();
+                PlayerController.Instance.HorizontalMove();
                 break;
             case PlayerStatus.Run:
+                PlayerController.Instance.CheckIsGroundedAndResetAirJumpCount();
                 PlayerController.Instance.HorizontalMove();
-                if (PlayerInput.Instance.horizontal.Value == 1f & !PlayerController.Instance.playerFacingRight ||
-                        PlayerInput.Instance.horizontal.Value == -1f & PlayerController.Instance.playerFacingRight)
-                {
-                    MovementScript.Flip(PlayerController.Instance.SpriteRenderer, ref PlayerController.Instance.playerFacingRight);
-                    PlayerController.Instance.CharacterMoveAccel.SetAccelerationNormalizedTime(0f);
-                }
+                PlayerController.Instance.FlipPlayer(0f);
                 break;
             case PlayerStatus.Jump:
+                PlayerController.Instance.Jump();
+                PlayerController.Instance.IsGrounded = false;
                 PlayerController.Instance.HorizontalMove();
-                if (PlayerInput.Instance.horizontal.Value == 1f & !PlayerController.Instance.playerFacingRight ||
-                        PlayerInput.Instance.horizontal.Value == -1f & PlayerController.Instance.playerFacingRight)
-                    MovementScript.Flip(PlayerController.Instance.SpriteRenderer, ref PlayerController.Instance.playerFacingRight);
+                PlayerController.Instance.FlipPlayer(1f);
                 break;
             case PlayerStatus.Fall:
+                PlayerController.Instance.CheckIsGroundedAndResetAirJumpCount();
                 PlayerController.Instance.HorizontalMove();
+                PlayerController.Instance.FlipPlayer(1f);
                 break;
             case PlayerStatus.Attack:
                 break;

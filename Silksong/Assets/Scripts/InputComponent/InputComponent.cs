@@ -50,7 +50,7 @@ public abstract class InputComponent : MonoBehaviour
         public bool Down { get; protected set; }
         public bool Held { get; protected set; }
         public bool Up { get; protected set; }
-        public bool IsValid { get; set; }
+        public bool IsValid { get; protected set; }
         public bool Enabled
         {
             get { return m_Enabled; }
@@ -169,6 +169,11 @@ public abstract class InputComponent : MonoBehaviour
             {
                 IsValid = false;
             }
+        }
+        public void SetValidToFalse()
+        {
+            m_FrameCount = 0;
+            IsValid = false;
         }
 
         public void Enable()

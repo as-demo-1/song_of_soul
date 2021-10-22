@@ -41,9 +41,15 @@ public static class MovementScript
     /// Flip the x axis Character
     /// </summary>
     /// <param name="spriteRenderer"></param>
-    public static void Flip(SpriteRenderer spriteRenderer, ref bool playerFacingRight)
+    public static void Flip(SpriteRenderer spriteRenderer, ref bool playerFacingRight, params CapsuleCollider2D[] capsuleCollider2Ds)
     {
         spriteRenderer.flipX = !spriteRenderer.flipX;
         playerFacingRight = !playerFacingRight;
+        Vector2 newOffset = new Vector2();
+        foreach(CapsuleCollider2D capsuleCollider2D in capsuleCollider2Ds)
+        {
+            newOffset.Set(-capsuleCollider2D.offset.x, capsuleCollider2D.offset.y);
+            capsuleCollider2D.offset = newOffset;
+        }
     }
 }

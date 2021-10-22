@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterMoveAccel
@@ -23,7 +21,7 @@ public class CharacterMoveAccel
     /// <summary>
     /// Time remaining for character acceleration or deceleration
     /// </summary>
-    public float AccelerationTime { get; private set; }
+    public float AccelerationTimeLeft { get; private set; }
 
     /// <summary>
     /// Whether it is Accelerating
@@ -39,11 +37,11 @@ public class CharacterMoveAccel
     public float LerpedSpeed { get; private set; }
 
     // Acceleration or deceleration initial factor, and those would be determined in edit mode or setup by constructor
-    float accelerationTimeAmount = 1f;
-    float groundAccelerationTimeReduceFactor = 1.0f;
-    float groundDecelerationTimeReduceFactor = 1.0f;
-    float airAccelerationTimeReduceFactor = 1.5f;
-    float airDecelerationTimeReduceFactor = 1.5f;
+    float m_AccelerationTimeAmount = 1f;
+    float m_GroundAccelerationTimeReduceFactor = 1.0f;
+    float m_GroundDecelerationTimeReduceFactor = 1.0f;
+    float m_AirAccelerationTimeReduceFactor = 1.5f;
+    float m_AirDecelerationTimeReduceFactor = 1.5f;
 
 
     //public AnimationCurve accelerationCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
@@ -52,11 +50,12 @@ public class CharacterMoveAccel
 
     public CharacterMoveAccel(float accelerationTimeAmount, float groundAccelerationTimeReduceFactor, float groundDeccelerationTimeReduceFactor, float airAccelerationTimeReduceFactor, float airDeccelerationTimeReduceFactor)
     {
-        this.accelerationTimeAmount = accelerationTimeAmount;
-        this.groundAccelerationTimeReduceFactor = groundAccelerationTimeReduceFactor;
-        this.groundDecelerationTimeReduceFactor = groundDeccelerationTimeReduceFactor;
-        this.airAccelerationTimeReduceFactor = airAccelerationTimeReduceFactor;
-        this.airDecelerationTimeReduceFactor = airDeccelerationTimeReduceFactor;
+        this.m_AccelerationTimeAmount = accelerationTimeAmount == 0 ? Mathf.Infinity : accelerationTimeAmount;
+        this.AccelerationTimeLeft = accelerationTimeAmount;
+        this.m_GroundAccelerationTimeReduceFactor = groundAccelerationTimeReduceFactor;
+        this.m_GroundDecelerationTimeReduceFactor = groundDeccelerationTimeReduceFactor;
+        this.m_AirAccelerationTimeReduceFactor = airAccelerationTimeReduceFactor;
+        this.m_AirDecelerationTimeReduceFactor = airDeccelerationTimeReduceFactor;
     }
     public CharacterMoveAccel() { }
 
@@ -64,7 +63,7 @@ public class CharacterMoveAccel
     /// Set the t value of the lerp
     /// </summary>
     /// <param name="normalizedTime">T value of the lerped Speed, set to 0 for no speed and 1 for the maximum speed</param>
-    public void SetAccelerationNormalizedTime(float normalizedTime) => AccelerationTime = accelerationTimeAmount * (1 - normalizedTime);
+    public void SetAccelerationLeftTimeNormalized(float normalizedTime) => AccelerationTimeLeft = m_AccelerationTimeAmount == Mathf.Infinity ? 0 : m_AccelerationTimeAmount * (1 - normalizedTime);
 
     /// <summary>
     /// Call this in UpdateMethod to set speed to a linear one
@@ -77,12 +76,12 @@ public class CharacterMoveAccel
     {
         CharacterAccelerating(characterIsAccelerating, isGrounded);
 
-        return SetCharacterBaseSpeed(characterSpeed, AccelerationTime);
+        return SetCharacterBaseSpeed(characterSpeed, AccelerationTimeLeft);
     }
 
     protected virtual float SetCharacterBaseSpeed(float characterHorizontalSpeed, float accelerationTime)
     {
-        LerpedSpeed = Mathf.Lerp(characterHorizontalSpeed, 0, accelerationTime / accelerationTimeAmount); ;
+        LerpedSpeed = Mathf.Lerp(characterHorizontalSpeed, 0, accelerationTime / m_AccelerationTimeAmount); ;
         return LerpedSpeed;
     }
 
@@ -91,28 +90,29 @@ public class CharacterMoveAccel
         if (isCharacterAccelerating)
         {
             IsDecelerating = false;
-            if (AccelerationTime > 0)
+            if (AccelerationTimeLeft > 0)
             {
-                AccelerationTime -= Time.deltaTime * Time.timeScale * (isGrounded ? GroundAccelerationFactor * groundAccelerationTimeReduceFactor : AirAccelerationFactor * airAccelerationTimeReduceFactor);
+                AccelerationTimeLeft -= Time.deltaTime * Time.timeScale * (isGrounded ? GroundAccelerationFactor * m_GroundAccelerationTimeReduceFactor : AirAccelerationFactor * m_AirAccelerationTimeReduceFactor);
                 IsAccelerating = true;
             }
-            else
+            if (AccelerationTimeLeft <= 0)
             {
-                AccelerationTime = 0.0f;
+                AccelerationTimeLeft = 0.0f;
                 IsAccelerating = false;
             }
+
         }
         else
         {
             IsAccelerating = false;
-            if (accelerationTimeAmount - AccelerationTime > 0)
+            if (m_AccelerationTimeAmount - AccelerationTimeLeft > 0)
             {
-                AccelerationTime += Time.deltaTime * Time.timeScale * (isGrounded ? GroundDecelerationFactor * groundDecelerationTimeReduceFactor : AirDecelerationFactor * airDecelerationTimeReduceFactor);
+                AccelerationTimeLeft += Time.deltaTime * Time.timeScale * (isGrounded ? GroundDecelerationFactor * m_GroundDecelerationTimeReduceFactor : AirDecelerationFactor * m_AirDecelerationTimeReduceFactor);
                 IsDecelerating = true;
             }
-            else
+            if (m_AccelerationTimeAmount - AccelerationTimeLeft <= 0)
             {
-                AccelerationTime = accelerationTimeAmount;
+                AccelerationTimeLeft = m_AccelerationTimeAmount;
                 IsDecelerating = false;
             }
         }

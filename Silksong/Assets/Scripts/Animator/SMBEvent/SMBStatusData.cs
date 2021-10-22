@@ -6,11 +6,12 @@ using UnityEngine;
 public class SMBStatusData : SMBEventTimeStamp
 {
     public PlayerStatus newStatus;
-    public bool statusIsActive;
+    //public bool statusIsActive;
     public override void Behaviour()
     {
         if (newStatus != PlayerController.Instance.PlayerAnimatorStatesManager.CurrentPlayerStatus)
-            PlayerController.Instance.PlayerAnimatorStatesManager.ChangePlayerStatus(statusIsActive ? newStatus : PlayerStatus.None);
+            //PlayerController.Instance.PlayerAnimatorStatesManager.ChangePlayerStatus(statusIsActive ? newStatus : PlayerStatus.None);
+            PlayerController.Instance.PlayerAnimatorStatesManager.ChangePlayerStatus(newStatus);
     }
 }
 
