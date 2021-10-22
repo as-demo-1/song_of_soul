@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Patrol_State
+  m_Name: Idle_State
   m_EditorClassIdentifier: 
-  lastStateID: 2
+  lastStateID: 1
   lastTriggerID: 2
-  stateID: 2
+  stateID: 1
   stateConfig:
     id: 0
   triggerID: 2
@@ -26,11 +26,9 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Patrol_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 2
-        isBack: 1
-        moveSpeed: {x: 2, y: 0, z: 0}
+        stateID: 1
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -42,8 +40,8 @@ MonoBehaviour:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerID: 0
-        targetState: 1
-        maxTime: 3
+        targetState: 2
+        maxTime: 2
         timer: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}

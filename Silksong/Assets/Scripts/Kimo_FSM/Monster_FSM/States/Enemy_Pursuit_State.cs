@@ -23,15 +23,12 @@ public class Enemy_Pursuit_State : EnemyFSMBaseState
     }
     public void Force(FSMManager<EnemyStates, EnemyTriggers> fsmManager)
     {
-       /* if (!target)
-        {
-            GameObject[] a = GameObject.FindGameObjectsWithTag("Player");
-            target = a[0].transform;
-        }*/
-        Vector2 desiredVelocity = ((fsmManager as EnemyFSMManager).player.transform.position - fsmManager.transform.position).normalized * maxSpeed;
+
+        Vector2 desiredVelocity = (fsmManager as EnemyFSMManager).getTargetDir(true).normalized * maxSpeed;
+
         Vector2 steeringForce = (desiredVelocity - fsmManager.rigidbody2d.velocity);
         if (steeringForce.magnitude > maxForce) steeringForce = steeringForce.normalized * maxForce;
-        Debug.DrawLine(fsmManager.transform.position, (Vector2)fsmManager.transform.position + steeringForce, Color.green);
+      //  Debug.DrawLine(fsmManager.transform.position, (Vector2)fsmManager.transform.position + steeringForce, Color.green);
         fsmManager.rigidbody2d.AddForce(steeringForce);
     }
     public Vector2 Project4(FSMManager<EnemyStates, EnemyTriggers> fsmManager)
@@ -43,14 +40,14 @@ public class Enemy_Pursuit_State : EnemyFSMBaseState
         Vector2 pointA = pos - (toward + vetical) * fsmManager.GetComponent<Collider2D>().bounds.extents.magnitude;
         Vector2 pointB = pos + toward * MAX_SEE_AHEAD + vetical * fsmManager.GetComponent<Collider2D>().bounds.extents.magnitude;
         Collider2D wall = Physics2D.OverlapArea(pointA, pointB, 1<<LayerMask.NameToLayer("Ground"));
-        Debug.DrawLine(pointA, pointB, Color.red);
+       // Debug.DrawLine(pointA, pointB, Color.red);
         if (wall)
         {
             Vector2 ahead = pos + fsmManager.rigidbody2d.velocity.normalized * MAX_SEE_AHEAD;
             steeringForce = (ahead - (Vector2)wall.transform.position).normalized;
             steeringForce *= avoidForce;
         }
-        Debug.DrawLine(pos, pos + steeringForce);
+       // Debug.DrawLine(pos, pos + steeringForce);
         return steeringForce;
     }
 }

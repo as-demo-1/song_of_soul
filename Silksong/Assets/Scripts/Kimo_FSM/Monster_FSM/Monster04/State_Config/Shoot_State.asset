@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Shoot_State
   m_EditorClassIdentifier: 
-  lastStateID: 5
-  lastTriggerID: 5
-  stateID: 5
+  lastStateID: 8
+  lastTriggerID: 2
+  stateID: 8
   stateConfig:
     id: 0
-  triggerID: 5
+  triggerID: 2
   triggerConfig:
     id: 1
   triggerList:
@@ -27,21 +27,21 @@ MonoBehaviour:
     00000000:
       type: {class: Enemy_Shoot_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 5
-        bullet: {fileID: 1445770416123758994, guid: 7109ccb3e3b5a2b4a8bc3ebda4e3d9e9, type: 3}
+        stateID: 8
+        bullet: {fileID: 1792609399031990055, guid: 41438ab8ccd6f2745ab98a1b16be5c49, type: 3}
         shotCD: 2
-        distance: 2
-        speed: 10
-        target: {fileID: 0}
+        bulletSpeed: 5
     00000001:
-      type: {class: LoseShootTargetTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 5
-        targetState: 2
-        outRange: 20
+        triggerID: 2
+        targetState: 1
+        checkRadius: 10
+        isEnterTrigger: 0
     00000002:
-      type: {class: LoseShootTargetTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 5
-        targetState: 2
-        outRange: 20
+        triggerID: 2
+        targetState: 1
+        checkRadius: 100
+        isEnterTrigger: 0

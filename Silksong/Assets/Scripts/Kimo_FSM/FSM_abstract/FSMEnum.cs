@@ -24,8 +24,6 @@ public enum EnemyTriggers
     PlayerDistanceTrigger,
     AnimationPlayOverTrigger,
     OnHittedTrigger,
-    LoseShootTargetTrigger,
-    ShootTrigger,
 }
 
 

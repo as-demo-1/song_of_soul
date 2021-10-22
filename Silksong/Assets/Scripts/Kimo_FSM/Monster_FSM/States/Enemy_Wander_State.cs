@@ -31,6 +31,7 @@ public class Enemy_Wander_State : EnemyFSMBaseState
         {
             fsmManager.rigidbody2d.AddForce((wanderCenter - (Vector2)fsmManager.transform.position).normalized * forceToCenter);
         }
+        fsmManager.faceWithSpeed();
     }
     public void Force(FSMManager<EnemyStates, EnemyTriggers> fsmManager)
     {

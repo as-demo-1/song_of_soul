@@ -5,14 +5,15 @@ using UnityEngine;
 public class Enemy_Climb_State : EnemyFSMBaseState
 {
    // public Vector2 range;
-    public float maxSpeed = 2;
+    public float maxSpeed = 2;//当前默认怪物顺时针运动
     public float force = 10;
     ContactPoint2D[] points = new ContactPoint2D[3];
     //float g; 怪物初始重力为0 仅死亡时获得重力
     public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
-       // g = fsmManager.rigidbody2d.gravityScale;
-       // fsmManager.rigidbody2d.gravityScale = 0;
+        // g = fsmManager.rigidbody2d.gravityScale;
+        // fsmManager.rigidbody2d.gravityScale = 0;
+        fsmManager.faceRight();//顺时针
     }
 
     public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
@@ -28,7 +29,6 @@ public class Enemy_Climb_State : EnemyFSMBaseState
     }
     public override void Act_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
-        base.Act_State(fSM_Manager);
         Force(fsmManager);
     }
     

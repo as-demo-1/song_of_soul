@@ -13,7 +13,7 @@ public class PlayerDistanceTrigger :EnemyFSMBaseTrigger
     }
     public override bool IsTriggerReach(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
     {
-        Vector3 v = (fsm_Manager as EnemyFSMManager).player.transform.position - fsm_Manager.transform.position;
+        Vector3 v = (fsm_Manager as EnemyFSMManager).getTargetDir();
         if(v.sqrMagnitude<checkRadius*checkRadius)
         {
             if (isEnterTrigger)

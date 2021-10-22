@@ -13,6 +13,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     public Animator animator;
     public AudioSource audios;
     public Rigidbody2D rigidbody2d;
+    public bool FaceLeftFirstOriginal;//原图是否朝向左
 
    // public Collider2D triggerCollider;
     public Collision2D collision;
@@ -41,7 +42,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
     public void ChangeState(T1 state)
     {
-        //Debug.Log(state.ToString()+"  "+gameObject.name);
+      //  Debug.Log(state.ToString()+"  "+gameObject.name);
         if (currentState != null)
             currentState.ExitState(this);
 
@@ -160,6 +161,29 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         }
     }
 
+    public void faceLeft()//使自身朝向左
+    {
+        int x = FaceLeftFirstOriginal ? 1 : -1;
+        transform.localScale = new Vector3(x, 1, 1);
+    }
+    public void faceRight()
+    {
+        int x = FaceLeftFirstOriginal ? 1 : -1;
+        transform.localScale = new Vector3(-x, 1, 1);
+    }
+
+    /// <summary>
+    /// 根据刚体速度改变自身朝向
+    /// </summary>
+    public void faceWithSpeed()
+    {
+        if (rigidbody2d.velocity.x > 0)
+            faceRight();
+        else faceLeft();
+    }
+
+
+
 }
 
 /// <summary>
@@ -204,6 +228,29 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
             statesDic.Add(stateConfigs[i].stateID, tem);
             tem.InitState(this);
         }
+    }
+
+    /// <summary>
+    ///获得指向玩家位置的vector2(非normalized) 可选同时改变怪物朝向
+    /// </summary>
+    public Vector2 getTargetDir(bool changeFace=false)
+    {
+        Vector2 dir = player.transform.position - transform.position;
+        if(changeFace)
+        {
+            if (dir.x > 0)
+            {
+                //Debug.Log("dir right");
+                faceRight();
+            }
+
+            else
+            {
+                //Debug.Log("dir left");
+                faceLeft();
+            }
+        }
+        return dir;
     }
 }
 /// <summary>

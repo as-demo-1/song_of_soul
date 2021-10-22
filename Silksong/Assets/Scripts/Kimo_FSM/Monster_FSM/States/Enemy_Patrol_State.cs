@@ -22,7 +22,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     {
         fsmManager.animator.Play("Enemy_Patrol",0);
         fsmManager.rigidbody2d.velocity = moveSpeed;
-        UpdateFace();
+        fsmManager.faceWithSpeed();
         /*  if (isBack)
           {
               var rayHit= Physics2D.Raycast(fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * collider.bounds.size.x, Vector2.down);
@@ -36,40 +36,30 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         stateID = EnemyStates.Enemy_Patrol_State;
         Collider2D collider = fsmManager.GetComponent<Collider2D>();
         rayToGroundDistance = collider.bounds.size.y * 0.5f + 0.1f;//暂未考虑collider的offset 
+        //Debug.Log("gourndDistance "+rayToGroundDistance);
     }
-    private void Turn()
-    {
-        //Debug.Log("turn");
-        moveSpeed.x *= -1;
-        fsmManager.rigidbody2d.velocity = moveSpeed;
-        UpdateFace();
-    }
-    private void UpdateFace()
-    {
-        if(moveSpeed.x>0)
-            fsmManager.transform.localScale = new Vector3(-1, 1, 1);
-        else
-            fsmManager.transform.localScale = new Vector3(1, 1, 1);
-    }
-    /* private void Move()
-      {
-          Debug.Log(fsmManager.gameObject.transform.position);
-          Debug.Log(fsmManager.gameObject.transform.position + moveSpeed * Time.deltaTime);
-          fsmManager.gameObject.transform.position +=  moveSpeed*Time.deltaTime;
-         // fsmManager.rigidbody2d.MovePosition(fsmManager.gameObject.transform.position+ moveSpeed * Time.deltaTime);
-      }*/
+
     public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
         fsmManager.rigidbody2d.velocity = Vector2.zero;
     }
 
+    private void Turn()
+    {
+        //Debug.Log("turn");
+        moveSpeed.x *= -1;
+        fsmManager.rigidbody2d.velocity = moveSpeed;
+        fsmManager.faceWithSpeed();
+    }
     private void DetectionPlatformBoundary()
     {
         //身前点
         Vector3 frontPoint = fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * (fsmManager.GetComponent<Collider2D>().bounds.size.x*0.5f);
   
-        var rayHit=Physics2D.Raycast(frontPoint, Vector2.down);
-        if(rayHit.distance>rayToGroundDistance)//到达边缘
+        var rayHit=Physics2D.Raycast(frontPoint, Vector2.down,100,1<<LayerMask.NameToLayer("Ground"));
+       // Debug.DrawRay(frontPoint,Vector2.down);
+        //Debug.Log(rayHit.distance);
+        if (rayHit.distance>rayToGroundDistance)//到达边缘
         {
             Turn();
         }

@@ -8,10 +8,10 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
     public GameObject bullet;
     //public float range;
     public float shotCD;
-    public float distance;
-    public float speed;
+   // public float bulletExistTime;子弹存在时间在bulletCollision中设置
+    public float bulletSpeed;
     private float time = 0;
-    public Transform target;
+    private Transform shotPosition;//子弹发射的位置 发射子弹的小怪需要有这个子物体
     //public class MonoStub : MonoBehaviour { };
 
     public override void Act_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
@@ -53,6 +53,7 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
         base.InitState(fSM_Manager);
         fsmManager = fSM_Manager;
         stateID = EnemyStates.Enemy_Shoot_State;
+        shotPosition = fsmManager.transform.Find("shotPosition");
     }
     /*
         public void TimeCounter()
@@ -79,15 +80,12 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
     */
     private void Shot()
     {
-        //Debug.Log("发射");
-        GameObject target = GameObject.FindWithTag("Player");
-        Vector3 move = (target.transform.position - fsmManager.transform.position).normalized;
-        //Debug.Log(move);
-        //Collider2D target = Physics2D.OverlapCircle(transform.position, range, layer);
+       // Debug.Log("发射");
+        Vector3 move = (fsmManager as EnemyFSMManager).getTargetDir(true).normalized;
+
         GameObject shot = UnityEngine.Object.Instantiate(bullet);
-        shot.transform.position = fsmManager.transform.position;
-        shot.GetComponent<Rigidbody2D>().velocity = move * speed;
-        UnityEngine.Object.Destroy(shot, distance);
+        shot.transform.position = shotPosition.position;
+        shot.GetComponent<Rigidbody2D>().velocity = move * bulletSpeed;
     }
 
 }
