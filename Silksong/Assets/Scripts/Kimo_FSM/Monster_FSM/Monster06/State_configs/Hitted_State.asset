@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Any_State
+  m_Name: Hitted_State
   m_EditorClassIdentifier: 
-  lastStateID: 0
-  lastTriggerID: 4
-  stateID: 0
+  lastStateID: 3
+  lastTriggerID: 3
+  stateID: 3
   stateConfig:
     id: 0
-  triggerID: 4
+  triggerID: 3
   triggerConfig:
     id: 1
   triggerList:
@@ -25,18 +25,17 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Hitted_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 0
+        stateID: 3
+        HittedBackDistance: 0.5
     00000001:
-      type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 4
-        targetState: 0
-        isHitted: 0
+        triggerID: 3
+        targetState: 2
     00000002:
-      type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 4
-        targetState: 3
-        isHitted: 0
+        triggerID: 3
+        targetState: 2

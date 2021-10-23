@@ -14,6 +14,7 @@ public enum EnemyStates
     Enemy_Pursuit_State,
     Enemy_Wander_State,
     Enemy_Shoot_State,
+    Enemy_Bump_State,
 
 }
 
