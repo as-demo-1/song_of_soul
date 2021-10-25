@@ -6,7 +6,7 @@ public class Player_TurnAround_State : PlayerFSMBaseState
 {
     public override void EnterState(FSMManager<PlayerStates, PlayerTriggers> fSM_Manager)
     {
-        MovementScript.Flip(fSM_Manager.playerController.SpriteRenderer, ref fSM_Manager.playerController.playerFacingRight);
+        MovementScript.Flip(fSM_Manager.playerController.SpriteRenderer, ref fSM_Manager.playerController.playerInfo.playerFacingRight);
         Debug.Log("Player_TurnAround_State");
     }
 }

@@ -9,34 +9,25 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
     public PlayerAnimatorStatesManager PlayerAnimatorStatesManager { get; private set; }
-    public bool IsGrounded { get; set; }
-    public bool playerFacingRight = false;
+    public CharacterMoveAccel CharacterMoveAccel { get; } = new CharacterMoveAccel(1f, 5f, 8f, 8f, 10f);
+    public PlayerInfo playerInfo;
+
     public SpriteRenderer SpriteRenderer { get; private set; }
-    //move
-    [SerializeField] private float speed;
-    public float jumpHeight;
+    public Animator PlayerAnimator { get; private set; }
+    public bool IsGrounded { get; set; }
+    public int CurrentAirExtraJumpCountLeft { get; private set; }
 
     private Vector2 m_MoveVector = new Vector2();
+    private int m_LastHorizontalInputDir = 1;
 
-    [SerializeField, HideInInspector]
+    //[SerializeField, HideInInspector]
     public Rigidbody2D RB { get; private set; }
-    //Jump
-    [SerializeField] private float sprintForce;
-    [SerializeField] private int maxAirExtraJumpCount;
-    public int CurrentAirExtraJumpCountLeft { get; private set; }
-    //[SerializeField] private bool m_secondJump = false;
-    //climb
-    [SerializeField] private int gravity;
-    [SerializeField] private int climbSpeed;
-
-    [SerializeField] private bool m_isClimb;
 
     [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private LayerMask robeLayerMask;
 
     private CapsuleCollider2D m_BodyCapsuleCollider;
     [SerializeField] private CapsuleCollider2D groundCheckCapsuleCollider;
-    public CharacterMoveAccel CharacterMoveAccel { get; } = new CharacterMoveAccel(1f, 5f, 8f, 8f, 10f);
     //Teleport
     [SerializeField] private GameObject telePosition;
     /// <summary>
@@ -84,7 +75,8 @@ public class PlayerController : MonoBehaviour
         RB.sharedMaterial = new PhysicsMaterial2D() { bounciness = 0, friction = 0, name = "NoFrictionNorBounciness" };
         m_BodyCapsuleCollider = GetComponent<CapsuleCollider2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
-        PlayerAnimatorStatesManager = new PlayerAnimatorStatesManager(GetComponent<Animator>(), PlayerStatus.Idle);
+        PlayerAnimator = GetComponent<Animator>();
+        PlayerAnimatorStatesManager = new PlayerAnimatorStatesManager(this, PlayerAnimator, PlayerStatus.Idle);
     }
 
     private void LateUpdate()
@@ -153,26 +145,37 @@ public class PlayerController : MonoBehaviour
                 PlayerInput.Instance.jump.SetValidToFalse();
                 if (!IsGrounded)
                     --CurrentAirExtraJumpCountLeft;
-                m_MoveVector.Set(RB.velocity.x, jumpHeight);
+                m_MoveVector.Set(RB.velocity.x, playerInfo.jumpHeight);
                 RB.velocity = m_MoveVector;
             }
         }
     }
 
-    public void ResetJumpCount() => CurrentAirExtraJumpCountLeft = maxAirExtraJumpCount;
+    public void ResetJumpCount() => CurrentAirExtraJumpCountLeft = playerInfo.maxAirExtraJumpCount;
 
-    public void HorizontalMove()
+    public void HorizontalMove(float setAccelerationNormalizedTime)
     {
-        float desireSpeed = PlayerInput.Instance.horizontal.Value * speed;
+        CharacterMoveAccel.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
+        RecordLastInputDir();
+        float desireSpeed = m_LastHorizontalInputDir * playerInfo.speed;
         float acce = CharacterMoveAccel.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0, IsGrounded, desireSpeed);
         m_MoveVector.Set(acce, RB.velocity.y);
         RB.velocity = m_MoveVector;
+
+        void RecordLastInputDir()
+        {
+            if (PlayerInput.Instance.horizontal.Value == 1)
+                m_LastHorizontalInputDir = 1;
+            else if (PlayerInput.Instance.horizontal.Value == -1)
+                m_LastHorizontalInputDir = -1;
+        }
     }
+
     public void Sprint()
     {
         if (PlayerInput.Instance.sprint.Down)
         {
-            MovementScript.Sprint(sprintForce, transform.position, RB);
+            MovementScript.Sprint(playerInfo.sprintForce, transform.position, RB);
         }
     }
     public void Teleport()
@@ -203,9 +206,9 @@ public class PlayerController : MonoBehaviour
 
     public void CheckIsGroundedAndResetAirJumpCount()
     {
-        PlayerController.Instance.CheckIsGrounded();
-        if (PlayerController.Instance.IsGrounded)
-            PlayerController.Instance.ResetJumpCount();
+        CheckIsGrounded();
+        if (IsGrounded)
+            ResetJumpCount();
     }
 
     bool IsRope()
@@ -219,37 +222,56 @@ public class PlayerController : MonoBehaviour
         RB.velocity = Vector3.zero;
 
         // if isClimb rb.pos is PInput.Vertical.Value
-        if (m_isClimb)
+        if (playerInfo.isClimb)
         {
             Vector2 pos = transform.position;
-            pos.y += climbSpeed * PlayerInput.Instance.vertical.Value * Time.deltaTime;
+            pos.y += playerInfo.climbSpeed * PlayerInput.Instance.vertical.Value * Time.deltaTime;
             RB.MovePosition(pos);
         }
         // togging isClimb and gravityScale is 0
         else
         {
             RB.gravityScale = 0;
-            m_isClimb = true;
+            playerInfo.isClimb = true;
         }
     }
 
     private void UnClimb()
     {
         // togging isClimb and recovery gravityScale
-        if (m_isClimb)
+        if (playerInfo.isClimb)
         {
-            RB.gravityScale = gravity;
-            m_isClimb = false;
+            RB.gravityScale = playerInfo.gravity;
+            playerInfo.isClimb = false;
         }
     }
 
     public void FlipPlayer(float setAccelerationNormalizedTime)
     {
-        if (PlayerInput.Instance.horizontal.Value == 1f & !playerFacingRight ||
-                PlayerInput.Instance.horizontal.Value == -1f & playerFacingRight)
+        if (PlayerInput.Instance.horizontal.Value == 1f & !playerInfo.playerFacingRight ||
+                PlayerInput.Instance.horizontal.Value == -1f & playerInfo.playerFacingRight)
         {
-            MovementScript.Flip(SpriteRenderer, ref playerFacingRight, m_BodyCapsuleCollider, groundCheckCapsuleCollider);
+            MovementScript.Flip(SpriteRenderer, ref playerInfo.playerFacingRight, m_BodyCapsuleCollider, groundCheckCapsuleCollider);
             CharacterMoveAccel.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         }
     }
+}
+
+[System.Serializable]
+public struct PlayerInfo
+{
+    //move
+    public float speed;
+    public float jumpHeight;
+
+    //jump
+    public float sprintForce;
+    public int maxAirExtraJumpCount;
+
+    //climb
+    public int gravity;
+    public int climbSpeed;
+    public bool isClimb;
+
+    public bool playerFacingRight;
 }

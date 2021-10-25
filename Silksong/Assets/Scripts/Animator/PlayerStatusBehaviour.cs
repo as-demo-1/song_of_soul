@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerStatusBehaviour : StatusBehaviour
 {
+    PlayerController PlayerController { get; set; }
     public override void StatusEnterBehaviour(PlayerStatus playerStatus)
     {
 
@@ -15,24 +16,24 @@ public class PlayerStatusBehaviour : StatusBehaviour
             case PlayerStatus.None:
                 break;
             case PlayerStatus.Idle:
-                PlayerController.Instance.CheckIsGroundedAndResetAirJumpCount();
-                PlayerController.Instance.HorizontalMove();
+                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+                PlayerController.HorizontalMove(0.4f);
                 break;
             case PlayerStatus.Run:
-                PlayerController.Instance.CheckIsGroundedAndResetAirJumpCount();
-                PlayerController.Instance.HorizontalMove();
-                PlayerController.Instance.FlipPlayer(0f);
+                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+                PlayerController.FlipPlayer(1f);
+                PlayerController.HorizontalMove(0.4f);
                 break;
             case PlayerStatus.Jump:
-                PlayerController.Instance.Jump();
-                PlayerController.Instance.IsGrounded = false;
-                PlayerController.Instance.HorizontalMove();
-                PlayerController.Instance.FlipPlayer(1f);
+                PlayerController.Jump();
+                PlayerController.IsGrounded = false;
+                PlayerController.FlipPlayer(1f);
+                PlayerController.HorizontalMove(0.5f);
                 break;
             case PlayerStatus.Fall:
-                PlayerController.Instance.CheckIsGroundedAndResetAirJumpCount();
-                PlayerController.Instance.HorizontalMove();
-                PlayerController.Instance.FlipPlayer(1f);
+                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+                PlayerController.FlipPlayer(1f);
+                PlayerController.HorizontalMove(0.5f);
                 break;
             case PlayerStatus.Attack:
                 break;
@@ -44,6 +45,8 @@ public class PlayerStatusBehaviour : StatusBehaviour
     {
 
     }
+
+    public PlayerStatusBehaviour(PlayerController playerController) => this.PlayerController = playerController;
 }
 
 public enum PlayerStatus

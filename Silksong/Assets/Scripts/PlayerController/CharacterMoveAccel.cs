@@ -19,7 +19,11 @@ public class CharacterMoveAccel
     /// </summary>
     public float AirDecelerationFactor { get; set; } = 1.0f;
     /// <summary>
-    /// Time remaining for character acceleration or deceleration
+    /// Time start for character acceleration or deceleration
+    /// </summary>
+    public float AccelerationTimeStart { get; private set; }
+    /// <summary>
+    /// Time left for character acceleration or deceleration
     /// </summary>
     public float AccelerationTimeLeft { get; private set; }
 
@@ -63,7 +67,7 @@ public class CharacterMoveAccel
     /// Set the t value of the lerp
     /// </summary>
     /// <param name="normalizedTime">T value of the lerped Speed, set to 0 for no speed and 1 for the maximum speed</param>
-    public void SetAccelerationLeftTimeNormalized(float normalizedTime) => AccelerationTimeLeft = m_AccelerationTimeAmount == Mathf.Infinity ? 0 : m_AccelerationTimeAmount * (1 - normalizedTime);
+    public void SetAccelerationLeftTimeNormalized(float normalizedTime) => AccelerationTimeStart = m_AccelerationTimeAmount == Mathf.Infinity ? 0 : m_AccelerationTimeAmount * (1 - normalizedTime);
 
     /// <summary>
     /// Call this in UpdateMethod to set speed to a linear one
@@ -79,9 +83,9 @@ public class CharacterMoveAccel
         return SetCharacterBaseSpeed(characterSpeed, AccelerationTimeLeft);
     }
 
-    protected virtual float SetCharacterBaseSpeed(float characterHorizontalSpeed, float accelerationTime)
+    protected virtual float SetCharacterBaseSpeed(float characterSpeed, float accelerationTimeLeft)
     {
-        LerpedSpeed = Mathf.Lerp(characterHorizontalSpeed, 0, accelerationTime / m_AccelerationTimeAmount); ;
+        LerpedSpeed = Mathf.Lerp(characterSpeed, 0, accelerationTimeLeft / m_AccelerationTimeAmount);
         return LerpedSpeed;
     }
 
@@ -90,6 +94,8 @@ public class CharacterMoveAccel
         if (isCharacterAccelerating)
         {
             IsDecelerating = false;
+            if (AccelerationTimeLeft >= AccelerationTimeStart)
+                AccelerationTimeLeft = AccelerationTimeStart;
             if (AccelerationTimeLeft > 0)
             {
                 AccelerationTimeLeft -= Time.deltaTime * Time.timeScale * (isGrounded ? GroundAccelerationFactor * m_GroundAccelerationTimeReduceFactor : AirAccelerationFactor * m_AirAccelerationTimeReduceFactor);
@@ -97,20 +103,19 @@ public class CharacterMoveAccel
             }
             if (AccelerationTimeLeft <= 0)
             {
-                AccelerationTimeLeft = 0.0f;
+                AccelerationTimeLeft = 0;
                 IsAccelerating = false;
             }
-
         }
         else
         {
             IsAccelerating = false;
-            if (m_AccelerationTimeAmount - AccelerationTimeLeft > 0)
+            if (AccelerationTimeLeft < m_AccelerationTimeAmount)
             {
                 AccelerationTimeLeft += Time.deltaTime * Time.timeScale * (isGrounded ? GroundDecelerationFactor * m_GroundDecelerationTimeReduceFactor : AirDecelerationFactor * m_AirDecelerationTimeReduceFactor);
                 IsDecelerating = true;
             }
-            if (m_AccelerationTimeAmount - AccelerationTimeLeft <= 0)
+            if (AccelerationTimeLeft >= m_AccelerationTimeAmount)
             {
                 AccelerationTimeLeft = m_AccelerationTimeAmount;
                 IsDecelerating = false;
