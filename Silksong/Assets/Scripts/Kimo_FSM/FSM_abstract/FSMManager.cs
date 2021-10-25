@@ -11,11 +11,14 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 {
 
     public Animator animator;
-    public AudioSource audio;
-    public Rigidbody2D rigidbody;
+    public AudioSource audios;
+    public Rigidbody2D rigidbody2d;
+    public bool FaceLeftFirstOriginal;//原图是否朝向左
 
-    public Collider2D triggerCollider;
+   // public Collider2D triggerCollider;
     public Collision2D collision;
+
+    public DamageableBase damageable;
 
     /// /// <summary>
     /// 当前状态
@@ -39,8 +42,10 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
     public void ChangeState(T1 state)
     {
+      //  Debug.Log(state.ToString()+"  "+gameObject.name);
         if (currentState != null)
             currentState.ExitState(this);
+
         if (statesDic.ContainsKey(state))
         {
             currentState = statesDic[state];
@@ -91,31 +96,31 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     }
     public virtual void InitManager()
     {
-        InitWithScriptableObject();
-        ////组件获取
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
         }
         if (GetComponent<AudioSource>() != null)
         {
-            audio = GetComponent<AudioSource>();
+            audios = GetComponent<AudioSource>();
         }
-        if(GetComponent<Rigidbody2D>()!=null)
+        if (GetComponent<Rigidbody2D>() != null)
         {
-            rigidbody = GetComponent<Rigidbody2D>();
+            rigidbody2d = GetComponent<Rigidbody2D>();
         }
 
+        InitWithScriptableObject();
+        ////组件获取
     }
 
-    private void Awake()
+    protected void Awake()
     {
         statesDic.Clear();
         InitManager();
-
+        damageable = GetComponent<DamageableBase>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         if (statesDic.Count == 0)
             return;
@@ -124,20 +129,19 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         ChangeState(currentStateID);
         if (anyState != null)
             anyState.EnterState(this);
-        foreach (var state in statesDic.Values)
-            foreach (var value in state.triggers)
-            {
-                Debug.LogWarning(this + "  " + state + "  " + value + "  " + value.GetHashCode());
-            }
+
+        //// Debug code
+        //foreach (var state in statesDic.Values)
+        //    foreach (var value in state.triggers)
+        //    {
+        //        Debug.LogWarning(this + "  " + state + "  " + value + "  " + value.GetHashCode());
+        //    }
+
     }
 
     private void Update()
     {
-        if (anyState != null)
-        {
-            anyState.Act_State(this);
-            anyState.TriggerState(this);
-        }
+
         if (currentState != null)
         {
             //执行状态内容
@@ -149,7 +153,36 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         {
             Debug.LogError("currentState为空");
         }
+
+        if (anyState != null)
+        {
+            anyState.Act_State(this);
+            anyState.TriggerState(this);
+        }
     }
+
+    public void faceLeft()//使自身朝向左
+    {
+        int x = FaceLeftFirstOriginal ? 1 : -1;
+        transform.localScale = new Vector3(x, 1, 1);
+    }
+    public void faceRight()
+    {
+        int x = FaceLeftFirstOriginal ? 1 : -1;
+        transform.localScale = new Vector3(-x, 1, 1);
+    }
+
+    /// <summary>
+    /// 根据刚体速度改变自身朝向
+    /// </summary>
+    public void faceWithSpeed()
+    {
+        if (rigidbody2d.velocity.x > 0)
+            faceRight();
+        else faceLeft();
+    }
+
+
 
 }
 
@@ -160,10 +193,18 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
 {
     public List<Enemy_State_SO_Config> stateConfigs;
     public Enemy_State_SO_Config anyStateConfig;
+    public GameObject player;
+
+    protected override void Start()
+    {
+        base.Start();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
     public override void InitWithScriptableObject()
     {
         if(anyStateConfig!=null)
         {
+
             anyState = (FSMBaseState<EnemyStates, EnemyTriggers>)ObjectClone.CloneObject(anyStateConfig.stateConfig);
             anyState.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
             for (int k=0;k<anyStateConfig.triggerList.Count; k++)
@@ -187,6 +228,29 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
             statesDic.Add(stateConfigs[i].stateID, tem);
             tem.InitState(this);
         }
+    }
+
+    /// <summary>
+    ///获得指向玩家位置的vector2(非normalized) 可选同时改变怪物朝向
+    /// </summary>
+    public Vector2 getTargetDir(bool changeFace=false)
+    {
+        Vector2 dir = player.transform.position - transform.position;
+        if(changeFace)
+        {
+            if (dir.x > 0)
+            {
+                //Debug.Log("dir right");
+                faceRight();
+            }
+
+            else
+            {
+                //Debug.Log("dir left");
+                faceLeft();
+            }
+        }
+        return dir;
     }
 }
 /// <summary>

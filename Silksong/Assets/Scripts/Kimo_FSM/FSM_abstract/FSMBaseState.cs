@@ -77,7 +77,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReach(fsm_Manager))
             {
-                Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
+               // Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
                 fsm_Manager.ChangeState(triggers[i].targetState);
             }
         }
