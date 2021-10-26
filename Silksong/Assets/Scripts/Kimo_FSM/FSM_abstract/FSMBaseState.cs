@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// ×´Ì¬»úÖÐ¶Ô×´Ì¬µÄ³éÏó,¾ßÌåÓÃ·¨¿É²Î¿¼Enemy×´Ì¬»úµÄ¹¹½¨Ä£Ê½¡£
+/// ×´Ì¬ï¿½ï¿½ï¿½Ð¶ï¿½×´Ì¬ï¿½Ä³ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½É²Î¿ï¿½Enemy×´Ì¬ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½
 /// </summary>
-/// <typeparam name="T1">±ØÐëÊÇÃ¶¾ÙÀàÐÍ£¡£¡ÇÒÎªStateÃ¶¾Ù¡£</typeparam>
-/// <typeparam name="T2">±ØÐëÊÇÃ¶¾ÙÀàÐÍ£¡£¡ÇÒÎªTriggerÃ¶¾Ù¡£</typeparam>
+/// <typeparam name="T1">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ÎªStateÃ¶ï¿½Ù¡ï¿½</typeparam>
+/// <typeparam name="T2">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ÎªTriggerÃ¶ï¿½Ù¡ï¿½</typeparam>
 [Serializable]
 public  class FSMBaseState<T1,T2>
 {
@@ -27,7 +27,7 @@ public  class FSMBaseState<T1,T2>
     }
 
     /// <summary>
-    /// ×´Ì¬³õÊ¼»¯
+    /// ×´Ì¬ï¿½ï¿½Ê¼ï¿½ï¿½
     /// </summary>
     public virtual void InitState(FSMManager<T1,T2> fSMManager) { }
 
@@ -40,8 +40,8 @@ public  class FSMBaseState<T1,T2>
         Type type = Type.GetType(triggerID.ToString());
         if (type == null)
         {
-            Debug.LogError(triggerID + "ÎÞ·¨Ìí¼Óµ½" + stateID + "µÄtriggersÁÐ±í");
-            Debug.LogError("Î´ÕÒµ½¶ÔÓ¦µÄTrigger£¬¼ì²é¸ÃTriggerµÄÀàÃûÊÇ·ñÓëÃ¶¾ÙÃû±£³ÖÒ»ÖÂ¡£");
+            Debug.LogError(triggerID + "ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Óµï¿½" + stateID + "ï¿½ï¿½triggersï¿½Ð±ï¿½");
+            Debug.LogError("Î´ï¿½Òµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Â¡ï¿½");
         }
         else 
         {
@@ -56,21 +56,21 @@ public  class FSMBaseState<T1,T2>
 
 
     /// <summary>
-    /// ½øÈë×´Ì¬Ê±µ÷ÓÃ
+    /// ï¿½ï¿½ï¿½ï¿½×´Ì¬Ê±ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public virtual void EnterState(FSMManager<T1,T2> fSM_Manager) { }
 
     /// <summary>
-    /// ÍË³ö×´Ì¬Ê±µ÷ÓÃ
+    /// ï¿½Ë³ï¿½×´Ì¬Ê±ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public virtual void ExitState(FSMManager<T1,T2> fSM_Manager) { }
 
     /// <summary>
-    /// ×´Ì¬³ÖÐø¼°Ë¢ÐÂ
+    /// ×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½
     /// </summary>
     public virtual void Act_State(FSMManager<T1,T2> fSM_Manager) { }
     /// <summary>
-    /// ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼þµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerState(FSMManager<T1,T2> fsm_Manager)
     {
@@ -78,7 +78,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReach(fsm_Manager))
             {
-                //Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
+               // Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
                 fsm_Manager.ChangeState(triggers[i].targetState);
             }
         }

@@ -9,14 +9,20 @@ public enum EnemyStates
     Enemy_Idle_State,
     Enemy_Patrol_State,
     Enemy_Hitted_State,
-    Enemy_Test_State,
+    Enemy_Attack_State,
+    Enemy_Climb_State,
+    Enemy_Pursuit_State,
+    Enemy_Wander_State,
+    Enemy_Shoot_State,
+    Enemy_Bump_State,
+
 }
 
 public enum EnemyTriggers
 {
     WaitTimeTrigger,
     HitWallTrigger,
-    InDetectionAreaTrigger,
+    PlayerDistanceTrigger,
     AnimationPlayOverTrigger,
     OnHittedTrigger,
 }
@@ -32,7 +38,7 @@ public enum NPCTriggers
 {
     WaitTimeTrigger,
     HitWallTrigger,
-    InDetectionAreaTrigger
+    PlayerDistanceTrigger,
 }
 
 public enum PlayerStates

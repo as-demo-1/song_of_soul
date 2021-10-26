@@ -13,11 +13,6 @@ public class HpDamable :Damable
 
     public bool resetHealthOnSceneReload;
 
-    protected Vector2 damageDirection;//伤害来源的方向
-
-    public bool canHitBack;//能否被击退 目前击退机制暂时测试用 
-    public float hitBackDistance;
-
 
     public override void takeDamage(DamagerBase damager)
     {
@@ -29,24 +24,10 @@ public class HpDamable :Damable
         base.takeDamage(damager);
 
         addHp(-damager.getDamage(this));
-        damageDirection = damager.transform.position - transform.position;
 
-        if(canHitBack)
-        hitBack();
     }
 
-    protected void hitBack()
-    {
 
-        if(damageDirection.x>0)
-        {
-            transform.Translate(Vector2.left *hitBackDistance,Space.World);
-        }
-        else
-        {
-            transform.Translate(Vector2.right * hitBackDistance, Space.World);
-        }
-    }
     public void setHp(int hp)
     {
         currentHp = hp;

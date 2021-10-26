@@ -23,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C))//²¨¹¥»÷
+       /* if(Input.GetKeyDown(KeyCode.C))//²¨¹¥»÷
         {
             GameObject blt = Instantiate(bullet);
             Vector3 bltPostion = transform.position;
@@ -39,7 +39,7 @@ public class PlayerAttack : MonoBehaviour
                 blt.GetComponent<Bullet>().facingRight = 1;
             }
             blt.transform.position = bltPostion;
-        }
+        }*/
 
 
         if (Input.GetKeyDown(KeyCode.X) && isAttacking==false)//ÆÕÍ¨¹¥»÷ 

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// ×´Ì¬»ú¹ÜÀíÆ÷µÄ»ùÀà
+/// ×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
 /// </summary>
 /// <typeparam name="T1"></typeparam>
 /// <typeparam name="T2"></typeparam>
@@ -11,37 +11,41 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 {
     public PlayerController playerController;
     public Animator animator;
-    public AnimatorStateInfo currentStateInfo;
-    public AudioSource audio;
-    public Rigidbody2D rigidbody;
+    public AudioSource audios;
+    public Rigidbody2D rigidbody2d;
+    public bool FaceLeftFirstOriginal;//Ô­Í¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    public Collider2D triggerCollider;
+   // public Collider2D triggerCollider;
     public Collision2D collision;
 
+    public DamageableBase damageable;
+
     /// /// <summary>
-    /// µ±Ç°×´Ì¬
+    /// ï¿½ï¿½Ç°×´Ì¬
     /// </summary>
     public FSMBaseState<T1,T2> currentState;
     [DisplayOnly]
     public T1 currentStateID;
     /// <summary>
-    /// ÈÎÒâ×´Ì¬
+    /// ï¿½ï¿½ï¿½ï¿½×´Ì¬
     /// </summary>
     public FSMBaseState<T1,T2> anyState;
     public T1 defaultStateID;
     /// <summary>
-    /// µ±Ç°×´Ì¬»ú°üº¬µÄËùÒÔ×´Ì¬ÁÐ±í
+    /// ï¿½ï¿½Ç°×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ð±ï¿½
     /// </summary>
     public Dictionary<T1, FSMBaseState<T1,T2>> statesDic = new Dictionary<T1, FSMBaseState<T1,T2>>();
     /// <summary>
-    /// ÅäÖÃ×´Ì¬ÁÐ±í¼°Æä¶ÔÓ¦Ìõ¼þÁÐ±íµÄSOÎÄ¼þ
+    /// ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½SOï¿½Ä¼ï¿½
     /// </summary>
 
 
     public void ChangeState(T1 state)
     {
-        if (currentState != null) { }
+      //  Debug.Log(state.ToString()+"  "+gameObject.name);
+        if (currentState != null)
             currentState.ExitState(this);
+
         if (statesDic.ContainsKey(state))
         {
             currentState = statesDic[state];
@@ -49,7 +53,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         }
         else
         {
-            Debug.LogError("×´Ì¬²»´æÔÚ£¬Çë¼ì²éFsmÃæ°åÅäÖÃ");
+            Debug.LogError("×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½Fsmï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
         currentState.EnterState(this);
         if (currentState.animName != null)
@@ -66,8 +70,8 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     //    Type type = Type.GetType("Enemy"+state + "State");
     //    if (type == null)
     //    {
-    //        Debug.LogError(state + "ÎÞ·¨Ìí¼Óµ½" + "µÄstatesÁÐ±í");
-    //        Debug.LogError("¼ì²éstateIDÃ¶¾ÙÖµ¼°¶ÔÓ¦ÀàÃû£¬¶ÔÓ¦Ã¶¾ÙÃü¼ÓÉÏ¡°_State¡±£¬ÈçÃ¶¾ÙÖµÎªIdle£¬×´Ì¬ÀàÃûÎªIdle_State£¬±ãÓÚÅäÖÃ¼ÓÔØ£»");
+    //        Debug.LogError(state + "ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Óµï¿½" + "ï¿½ï¿½statesï¿½Ð±ï¿½");
+    //        Debug.LogError("ï¿½ï¿½ï¿½stateIDÃ¶ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¡ï¿½_Stateï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ÖµÎªIdleï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ÎªIdle_Stateï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½Ø£ï¿½");
     //        return null;
     //    }
     //    else
@@ -88,7 +92,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     //        statesDic.Remove(state);
     //}
     /// <summary>
-    /// ÓÃÓÚ³õÊ¼»¯×´Ì¬»úµÄ·½·¨£¬Ìí¼ÓËùÓÐ×´Ì¬£¬¼°ÆäÌõ¼þÓ³Éä±í£¬»ñÈ¡²¿·Ö×é¼þµÈ¡£AwakeÊ±Ö´ÐÐ£¬¿É²»Ê¹ÓÃ»ùÀà·½·¨ÊÖ¶¯±àÂë¼ÓÔØ
+    /// ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½AwakeÊ±Ö´ï¿½Ð£ï¿½ï¿½É²ï¿½Ê¹ï¿½Ã»ï¿½ï¿½à·½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     /// 
 
@@ -97,77 +101,172 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     }
     public virtual void InitManager()
     {
-        InitWithScriptableObject();
-        ////×é¼þ»ñÈ¡
         if (GetComponent<Animator>() != null)
         {
             animator = GetComponent<Animator>();
         }
         if (GetComponent<AudioSource>() != null)
         {
-            audio = GetComponent<AudioSource>();
+            audios = GetComponent<AudioSource>();
         }
-        if(GetComponent<Rigidbody2D>()!=null)
+        if (GetComponent<Rigidbody2D>() != null)
         {
-            rigidbody = GetComponent<Rigidbody2D>();
+            rigidbody2d = GetComponent<Rigidbody2D>();
         }
         if (!TryGetComponent(out PlayerController playerController))
         {
             this.playerController = GameObject.Find("Player").GetComponent<PlayerController>();
         }
 
+        InitWithScriptableObject();
+        ////ï¿½ï¿½ï¿½ï¿½ï¿½È¡
     }
 
-    private void Awake()
+    protected void Awake()
     {
         statesDic.Clear();
         InitManager();
-
+        damageable = GetComponent<DamageableBase>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         if (statesDic.Count == 0)
             return;
-        //Ä¬ÈÏ×´Ì¬ÉèÖÃ
+        //Ä¬ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½
         currentStateID = defaultStateID;
         ChangeState(currentStateID);
         if (anyState != null)
             anyState.EnterState(this);
-        foreach (var state in statesDic.Values)
-            foreach (var value in state.triggers)
-            {
-                Debug.LogWarning(this + "  " + state + "  " + value + "  " + value.GetHashCode());
-            }
+
+        //// Debug code
+        //foreach (var state in statesDic.Values)
+        //    foreach (var value in state.triggers)
+        //    {
+        //        Debug.LogWarning(this + "  " + state + "  " + value + "  " + value.GetHashCode());
+        //    }
+
     }
 
     private void Update()
     {
-        if (anyState != null)
-        {
-            anyState.Act_State(this);
-            anyState.TriggerState(this);
-        }
+
         if (currentState != null)
         {
-            //Ö´ÐÐ×´Ì¬ÄÚÈÝ
+            //Ö´ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½
             currentState.Act_State(this);
-            //¼ì²â×´Ì¬Ìõ¼þÁÐ±í
+            //ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
             currentState.TriggerState(this);
             currentStateInfo = animator.GetCurrentAnimatorStateInfo(0);
         }
         else
         {
-            Debug.LogError("currentStateÎª¿Õ");
+            Debug.LogError("currentStateÎªï¿½ï¿½");
+        }
+
+        if (anyState != null)
+        {
+            anyState.Act_State(this);
+            anyState.TriggerState(this);
         }
     }
+
+    public void faceLeft()//Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    {
+        int x = FaceLeftFirstOriginal ? 1 : -1;
+        transform.localScale = new Vector3(x, 1, 1);
+    }
+    public void faceRight()
+    {
+        int x = FaceLeftFirstOriginal ? 1 : -1;
+        transform.localScale = new Vector3(-x, 1, 1);
+    }
+
+    /// <summary>
+    /// ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½Ù¶È¸Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// </summary>
+    public void faceWithSpeed()
+    {
+        if (rigidbody2d.velocity.x > 0)
+            faceRight();
+        else faceLeft();
+    }
+
+
 
 }
 
 public abstract class FSMManagerInherit<T1, T2, T3, T4> : FSMManager<T1, T2>
 {
-    public List<State_SO_Config<T1, T2, T3, T4>> stateConfigs;
-    public State_SO_Config<T1, T2, T3, T4> anyStateConfig;
+    public List<Enemy_State_SO_Config> stateConfigs;
+    public Enemy_State_SO_Config anyStateConfig;
+    public GameObject player;
+
+    protected override void Start()
+    {
+        base.Start();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+    public override void InitWithScriptableObject()
+    {
+        if(anyStateConfig!=null)
+        {
+
+            anyState = (FSMBaseState<EnemyStates, EnemyTriggers>)ObjectClone.CloneObject(anyStateConfig.stateConfig);
+            anyState.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
+            for (int k=0;k<anyStateConfig.triggerList.Count; k++)
+            {
+                anyState.triggers.Add(ObjectClone.CloneObject(anyStateConfig.triggerList[k]) as FSMBaseTrigger<EnemyStates, EnemyTriggers>);
+                anyState.triggers[anyState.triggers.Count - 1].InitTrigger(this);
+                //Debug.Log(this.gameObject.name+"  "+ anyState.triggers[anyState.triggers.Count - 1]+"  "+anyState.triggers[anyState.triggers.Count - 1].GetHashCode());
+            }
+            anyState.InitState(this);
+        }
+        for (int i = 0; i < stateConfigs.Count; i++)
+        {
+            FSMBaseState<EnemyStates, EnemyTriggers> tem = ObjectClone.CloneObject(stateConfigs[i].stateConfig) as FSMBaseState<EnemyStates, EnemyTriggers>;
+            tem.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
+            for (int k=0;k< stateConfigs[i].triggerList.Count;k++)
+            {
+                tem.triggers.Add(ObjectClone.CloneObject(stateConfigs[i].triggerList[k]) as FSMBaseTrigger<EnemyStates, EnemyTriggers>);
+                tem.triggers[tem.triggers.Count-1].InitTrigger(this);
+                //Debug.Log(this.gameObject.name + "  " + tem.triggers[tem.triggers.Count - 1] + "  " + tem.triggers[tem.triggers.Count - 1].GetHashCode());
+            }
+            statesDic.Add(stateConfigs[i].stateID, tem);
+            tem.InitState(this);
+        }
+    }
+
+    /// <summary>
+    ///ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ãµï¿½vector2(ï¿½ï¿½normalized) ï¿½ï¿½Ñ¡Í¬Ê±ï¿½Ä±ï¿½ï¿½ï¿½ï³¯ï¿½ï¿½
+    /// </summary>
+    public Vector2 getTargetDir(bool changeFace=false)
+    {
+        Vector2 dir = player.transform.position - transform.position;
+        if(changeFace)
+        {
+            if (dir.x > 0)
+            {
+                //Debug.Log("dir right");
+                faceRight();
+            }
+
+            else
+            {
+                //Debug.Log("dir left");
+                faceLeft();
+            }
+        }
+        return dir;
+    }
+}
+/// <summary>
+///ï¿½ï¿½ï¿½ï¿½NPC×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SOï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½
+/// </summary>
+public class NPCFSMManager : FSMManager<NPCStates, NPCTriggers>
+{
+    public List<NPC_State_SO_Config> stateConfigs;
+    public Enemy_State_SO_Config anyStateConfig;
     public override void InitWithScriptableObject()
     {
         if (anyStateConfig != null)
@@ -199,18 +298,18 @@ public abstract class FSMManagerInherit<T1, T2, T3, T4> : FSMManager<T1, T2>
 }
 
 /// <summary>
-///¹¹½¨Enemy×´Ì¬»ú¹ÜÀíÆ÷£¬²¢ÎªÆäÌí¼ÓSOÅäÖÃ¹¦ÄÜ
+///ï¿½ï¿½ï¿½ï¿½Enemy×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SOï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½
 /// </summary>
 public class EnemyFSMManager : FSMManagerInherit<EnemyStates, EnemyTriggers, EnemyFSMBaseState, EnemyFSMBaseTrigger> { }
 /// <summary>
-///¹¹½¨NPC×´Ì¬»ú¹ÜÀíÆ÷£¬²¢ÎªÆäÌí¼ÓSOÅäÖÃ¹¦ÄÜ
+///ï¿½ï¿½ï¿½ï¿½NPC×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SOï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½
 /// </summary>
 public class NPCFSMManager : FSMManagerInherit<NPCStates, NPCTriggers, NPCFSMBaseState, NPCFSMBaseTrigger> { }
 /// <summary>
-/// ¹¹½¨Player×´Ì¬»ú¹ÜÀíÆ÷£¬Ä¬ÈÏÃ»ÓÐÌí¼ÓSOÅäÖÃ¹¦ÄÜ£¬
-/// ÈçÐèÒª£¬
-/// Ê×ÏÈÈ¡ÏûµôÏÂÃæµÄ×¢ÊÍ
-/// È»ºó´ò¿ªPlayer_State_SO_Config½Å±¾£¬È¡Ïû¹ØÓÚPlayer_State_SO_ConfigÀàµÄ×¢ÊÍ¼´¿É¡£
+/// ï¿½ï¿½ï¿½ï¿½Player×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SOï¿½ï¿½ï¿½Ã¹ï¿½ï¿½Ü£ï¿½
+/// ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½
+/// ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½
+/// È»ï¿½ï¿½ï¿½Player_State_SO_Configï¿½Å±ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Player_State_SO_Configï¿½ï¿½ï¿½×¢ï¿½Í¼ï¿½ï¿½É¡ï¿½
 /// 
 /// </summary>
 public class PlayerFSMManager : FSMManagerInherit<PlayerStates, PlayerTriggers, PlayerFSMBaseState, PlayerFSMBaseTrigger> { }

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
 
     [SerializeField] private LayerMask groundLayerMask;
-    [SerializeField] private LayerMask robeLayerMask;
+    [SerializeField] private LayerMask ropeLayerMask;
 
     private CapsuleCollider2D m_BodyCapsuleCollider;
     [SerializeField] private CapsuleCollider2D groundCheckCapsuleCollider;
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour
 
     bool IsRope()
     {
-        return IsBlock(robeLayerMask);
+        return IsBlock(ropeLayerMask);
     }
 
     private void OnClimb()
