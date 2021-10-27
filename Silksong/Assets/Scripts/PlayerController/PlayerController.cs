@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         PInput = GetComponent<PlayerInput>();
         // _saveSystem.TestSaveGuid(_guid);
+        DontDestroyOnLoad(gameObject);
     }
 
 

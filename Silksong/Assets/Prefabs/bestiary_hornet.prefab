@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2761798389360131630}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.07, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4914526317819520106}
   m_RootOrder: 0
@@ -46,10 +46,10 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.1403174, y: 0.10177016}
+  m_Offset: {x: -2, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.25730994, y: 0.5204679}
     oldSize: {x: 8.19, y: 8.19}
     newSize: {x: 8.19, y: 8.19}
     adaptiveTilingThreshold: 0.5
@@ -57,7 +57,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.2436495, y: 1.2035403}
+  m_Size: {x: 5, y: 1.2035403}
   m_EdgeRadius: 0
 --- !u!212 &2761798389360131628
 SpriteRenderer:
@@ -254,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   jumpHeight: 30
+  canJump: 1
   rb: {fileID: 4914526317819520107}
   sprintForce: 30
   m_secondJump: 0
@@ -263,12 +264,12 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  robeLayerMask:
+  ropeLayerMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   capsuleCollider: {fileID: 4914526317819520108}
   telePosition: {fileID: 0}
-  _guid: c6d908ef-3408-4ebd-a79f-4c1904a6603b
+  _guid: 37ad5f02-954b-44c0-9457-ba0ca8d8751e
   _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}
 --- !u!114 &4914526317819520109
 MonoBehaviour:
@@ -361,11 +362,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
-  maxHp: 5
-  currentHp: 5
+  damageDirection: {x: 0, y: 0}
+  maxHp: 999
+  currentHp: 999
   resetHealthOnSceneReload: 0
-  canHitBack: 1
-  hitBackDistance: 2
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 3
 --- !u!114 &1211206503
@@ -381,6 +381,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 6497775988211138327, guid: 27f3b3ad0df5fb34ba31fd8c80c88a9d, type: 3}
-  atkCostTime: 0.5
+  atkCostTime: 0.2
   isAttacking: 0
   atkTrigger: {fileID: 2761798389360131630}
