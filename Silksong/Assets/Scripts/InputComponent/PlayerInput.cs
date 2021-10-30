@@ -114,7 +114,7 @@ public class PlayerInput : InputComponent
 
         foreach (var button in buttons)
         {
-            if(button.NeedGainAndReleaseControl)
+            if (button.NeedGainAndReleaseControl)
                 StartCoroutine(button.ReleaseControl(resetValues));
         }
         //ReleaseControl(Pause, resetValues);
@@ -145,10 +145,11 @@ public class PlayerInput : InputComponent
     //{
     //    RangedAttack.Enable();
     //}
+
+    public enum PlayerInputButton
+    {
+
+    }
 }
 
-public enum PlayerInputButton
-{
-
-}
 
