@@ -3,56 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class SMBAttackData : SMBEventTimeRange
+public class SMBAttackData : SMBEventTimeStamp
 {
     public AttackData attackData;
     public override void EventActive()
     {
-        throw new System.NotImplementedException();
+        GameObject gameObject = new GameObject();
+        PlayerController.Instance.StartCoroutine(GameObjectActiveForSeconds(gameObject, attackData.activeForSeconds));
+        gameObject.transform.SetParent(PlayerController.Instance.transform, false);
+        ContactObject contactObject = gameObject.AddComponent<ContactObject>();
+        contactObject.faction = ContactObject.EContactFaction.Player;
+        contactObject.targetFactions = attackData.contactFactions;
+
+        DamagerComponent damagerComponent = gameObject.AddComponent<DamagerComponent>();
+        damagerComponent.sendDamageNum = attackData.damageNum;
+        contactObject.AddContactComponent(damagerComponent);
+
+        BoxCollider2D boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
+        boxCollider2D.isTrigger = true;
+        boxCollider2D.offset = attackData.offset;
+        boxCollider2D.size = attackData.size;
     }
 
+    IEnumerator GameObjectActiveForSeconds(GameObject gameObject, float i)
+    {
+        yield return new WaitForSeconds(i);
+        GameObject.Destroy(gameObject);
+    }
 }
 
-public abstract class SMBEventTimeRange : SMBEvent
+[System.Serializable]
+public class AttackData
 {
-    [Range(0, 1)]
-    public float startTimeNormalized;
-    [Range(0, 1)]
-    public float endTimeNormalized;
-
-    public override bool Next(float previousTimeNormalized)
-    {
-        return this.endTimeNormalized <= previousTimeNormalized;
-    }
-
-    public override bool IsActive(float previousTimeNormalized, float currentTimeNormalized)
-    {
-        return (this.startTimeNormalized > previousTimeNormalized && this.startTimeNormalized <= currentTimeNormalized) || 
-            (this.endTimeNormalized > previousTimeNormalized && this.endTimeNormalized <= currentTimeNormalized);
-    }
-
-    public override bool NotEndYet(float currentTimeNormalized)
-    {
-        return this.startTimeNormalized <= currentTimeNormalized;
-    }
-
-    public override int CompareTo(SMBEvent other)
-    {
-        if (this.FieldToCompare != other.FieldToCompare)
-            return this.FieldToCompare - other.FieldToCompare >= 0 ? 1 : -1;
-        else
-        {
-            if (other is SMBEventTimeRange)
-            {
-                return this.endTimeNormalized - (other as SMBEventTimeRange).endTimeNormalized >= 0 ? 1 : -1;
-            }
-            else
-            {
-                return this.endTimeNormalized - other.FieldToCompare >= 0 ? 1 : -1;
-            }
-        }
-    }
-    public override float FieldToCompare => startTimeNormalized;
+    public float damageNum;
+    public List<ContactObject.EContactFaction> contactFactions;
+    public Vector2 offset;
+    public Vector2 size;
+    public float activeForSeconds;
 }
-
-public class AttackData { }

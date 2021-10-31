@@ -16,4 +16,5 @@ public static class Constants
     public const float AirDeccelerationTimeReduceFactor = 1.5f;
 
     public const int BufferFrameTime = 5;
+    public const int VlunerableAfterDamageTime = 1; 
 }

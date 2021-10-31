@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
     public PlayerAnimatorStatesControl PlayerAnimatorStatesControl { get; private set; }
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
-    public PlayerInfo playerInfo;
     public bool IsGrounded { get; set; }
     public int CurrentAirExtraJumpCountLeft { get; private set; }
+    public PlayerInfo playerInfo;
 
     private Vector2 m_MoveVector = new Vector2();
     private int m_LastHorizontalInputDir;
@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
-        float desireSpeed = m_LastHorizontalInputDir;
+        float desireSpeed = m_LastHorizontalInputDir * playerInfo.speed;
         float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0, IsGrounded, desireSpeed);
         m_MoveVector.Set(acce, RB.velocity.y);
         RB.velocity = m_MoveVector;

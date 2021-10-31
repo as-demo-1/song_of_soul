@@ -10,7 +10,9 @@ public class TestSMB : PlayerSMB<MonoBehaviour>
     [SerializeField]
     private SMBEventList<SMBStateData> m_SMBStateData;
     [SerializeField]
-    private SMBEventList<SMBStatusData> m_SMBStatusData;
+    private SMBEventList<SMBStatusData> m_SMBStatusData;    
+    [SerializeField]
+    private SMBEventList<SMBAttackData> m_SMBAttackData;
 
     private List<ISMBEventList<SMBEvent>> m_SMBEventLists = new List<ISMBEventList<SMBEvent>>();
     private SMBStateInfo m_SMBStateInfo = new SMBStateInfo();
@@ -56,6 +58,7 @@ public class TestSMB : PlayerSMB<MonoBehaviour>
     {
         m_SMBEventLists.Add(m_SMBStateData);
         m_SMBEventLists.Add(m_SMBStatusData);
+        m_SMBEventLists.Add(m_SMBAttackData);
         foreach (var SMBEventList in m_SMBEventLists)
         {
             SMBEventList.Sort();

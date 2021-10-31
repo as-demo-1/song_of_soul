@@ -102,7 +102,7 @@ public class CharacterMoveControl
                 AccelerationTimeLeft = AccelerationTimeStart;
             if (AccelerationTimeLeft > 0)
             {
-                AccelerationTimeLeft -= Time.deltaTime * Time.timeScale * (isGrounded ? GroundAccelerationFactor * m_GroundAccelerationTimeReduceFactor : AirAccelerationFactor * m_AirAccelerationTimeReduceFactor);
+                AccelerationTimeLeft -= Time.deltaTime * (isGrounded ? GroundAccelerationFactor * m_GroundAccelerationTimeReduceFactor : AirAccelerationFactor * m_AirAccelerationTimeReduceFactor);
                 IsAccelerating = true;
             }
             if (AccelerationTimeLeft <= 0)
@@ -116,7 +116,7 @@ public class CharacterMoveControl
             IsAccelerating = false;
             if (AccelerationTimeLeft < m_AccelerationTimeAmount)
             {
-                AccelerationTimeLeft += Time.deltaTime * Time.timeScale * (isGrounded ? GroundDecelerationFactor * m_GroundDecelerationTimeReduceFactor : AirDecelerationFactor * m_AirDecelerationTimeReduceFactor);
+                AccelerationTimeLeft += Time.deltaTime * (isGrounded ? GroundDecelerationFactor * m_GroundDecelerationTimeReduceFactor : AirDecelerationFactor * m_AirDecelerationTimeReduceFactor);
                 IsDecelerating = true;
             }
             if (AccelerationTimeLeft >= m_AccelerationTimeAmount)

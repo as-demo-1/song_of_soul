@@ -19,6 +19,8 @@ MonoBehaviour:
       newState: 10
   m_SMBStatusData:
     m_SMBEventList: []
+  m_SMBAttackData:
+    m_SMBEventList: []
 --- !u!1101 &-8727051839091241280
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -59,6 +61,8 @@ MonoBehaviour:
     - timeNormalized: 0
       newState: 10
   m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBAttackData:
     m_SMBEventList: []
 --- !u!114 &-8178115396449500545
 MonoBehaviour:
@@ -599,6 +603,8 @@ MonoBehaviour:
       newState: 40
   m_SMBStatusData:
     m_SMBEventList: []
+  m_SMBAttackData:
+    m_SMBEventList: []
 --- !u!1102 &-282906263192654341
 AnimatorState:
   serializedVersion: 6
@@ -848,6 +854,15 @@ MonoBehaviour:
       newState: 20
   m_SMBStatusData:
     m_SMBEventList: []
+  m_SMBAttackData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      attackData:
+        damageNum: -1
+        contactFactions: 02000000
+        offset: {x: 0, y: 0}
+        size: {x: 1, y: 1}
+        activeForSeconds: 0.1
 --- !u!1101 &2517102576141456939
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1172,4 +1187,6 @@ MonoBehaviour:
     - timeNormalized: 0
       newState: 30
   m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBAttackData:
     m_SMBEventList: []
