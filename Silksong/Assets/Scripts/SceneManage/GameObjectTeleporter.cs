@@ -77,7 +77,7 @@ public class GameObjectTeleporter : MonoBehaviour
 
         if (releaseControl)
         {
-            playerInput.ReleaseControl(resetInputValues);
+            playerInput.ReleaseControls(resetInputValues);
         }
 
         /*  if (fade)
@@ -91,7 +91,7 @@ public class GameObjectTeleporter : MonoBehaviour
 
         if (releaseControl)
         {
-            playerInput.GainControl();
+            playerInput.GainControls();
         }
 
         Transitioning = false;
