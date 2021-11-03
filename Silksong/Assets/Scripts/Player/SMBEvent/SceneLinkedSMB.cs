@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Animations;
+//Created by Unity from:
+//https://assetstore.unity.com/packages/templates/tutorials/2d-game-kit-107098#description
 
 public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
     where TMonoBehaviour : MonoBehaviour

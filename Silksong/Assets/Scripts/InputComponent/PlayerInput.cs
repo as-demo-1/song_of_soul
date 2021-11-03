@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+//Created by Unity from:
+//https://assetstore.unity.com/packages/templates/tutorials/2d-game-kit-107098#description
 
 public class PlayerInput : InputComponent
 {
