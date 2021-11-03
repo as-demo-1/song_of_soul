@@ -357,12 +357,12 @@ public abstract class InputComponent : MonoBehaviour
         inputAxis.GainControl();
     }
     [Obsolete]
-    protected void ReleaseControl(InputButton inputButton, bool resetValues)
+    public void ReleaseControl(InputButton inputButton, bool resetValues)
     {
         StartCoroutine(inputButton.ReleaseControl(resetValues));
     }
     [Obsolete]
-    protected void ReleaseControl(InputAxis inputAxis, bool resetValues)
+    public void ReleaseControl(InputAxis inputAxis, bool resetValues)
     {
         inputAxis.ReleaseControl(resetValues);
     }

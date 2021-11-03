@@ -5,8 +5,11 @@ using System.Collections.Generic;
 public class PlayerAnimatorStatesControl : AnimatorStatesControl
 {
     public override Animator Animator { get; }
+    //角色在不同的state上的行为，在animator的state上的SMB上设置对应动画的state
     public override StatesBehaviour CharacterStatesBehaviour { get; set; }
+    //animator参数映射
     public override AnimatorParamsMapping CharacterAnimatorParamsMapping { get; }
+    //提供一种设定角色state之间转换的状态，比如一个状态中从什么时候开始能够攻击，在animator的state上的SMB上设置对应动画的status
     public PlayerStatusDic PlayerStatusDic { get; private set; }
 
     public PlayerController PlayerController { get; set; }
@@ -20,7 +23,7 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
         this.CharacterStatesBehaviour = new PlayerStatesBehaviour(this.PlayerController);
         this.CharacterAnimatorParamsMapping = new PlayerAnimatorParamsMapping(this);
         this.PlayerStatusDic = new PlayerStatusDic(this.PlayerController);
-        TestSMB.Initialise(this.Animator);
+        PlayerSMBEvents.Initialise(this.Animator);
     }
 
     //public void Initialize(StatusBehaviour behaviour)
@@ -28,6 +31,7 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
 
     //}
 
+    //该函数的更新在SMBEvent之后
     public void PlayerStatusLateUpdate()
     {
         PlayerStatusFlagOverrideAsDefault();

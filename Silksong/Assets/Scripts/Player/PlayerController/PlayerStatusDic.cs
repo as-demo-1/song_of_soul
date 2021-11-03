@@ -64,7 +64,7 @@ public class PlayerStatusDic
             And,
             //=
             Override,
-            //next frame before update; =
+            //next frame before update; = 
             FinalWillUpdateStateMachine,
         }
         private static MonoBehaviour PlayerController { get; set; }
@@ -73,6 +73,7 @@ public class PlayerStatusDic
     }
 }
 
+//todo£∫ Œª∆•≈‰
 public enum PlayerStatus : int
 {
     None = 0,

@@ -8,11 +8,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
+    //animator和角色状态相关
     public PlayerAnimatorStatesControl PlayerAnimatorStatesControl { get; private set; }
+    //角色水平移动加减速控制，初始设定值：（总时间总是设定为1，地面上加速，地面上减速，空中加速，空中减速），动态控制见类中属性
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
+    
     public bool IsGrounded { get; set; }
     public int CurrentAirExtraJumpCountLeft { get; private set; }
+    //基础数值，能移动数据的可以全部移至这里方便管理
     public PlayerInfo playerInfo;
 
     private Vector2 m_MoveVector = new Vector2();
@@ -86,6 +90,7 @@ public class PlayerController : MonoBehaviour
         PlayerAnimatorStatesControl.BehaviourLateUpdate();
         PlayerAnimatorStatesControl.PlayerStatusLateUpdate();
         PlayerAnimatorStatesControl.ParamsLateUpdate();
+        //player这一帧按下按键更新animator params，下一帧更新state
     }
 
     private void FixedUpdate()
@@ -120,7 +125,7 @@ public class PlayerController : MonoBehaviour
             UnClimb();
         }
     }
-    public void Jump()
+    public void CheckJump()
     {
         //bool ground = IsGround();
         //Debug.Log(ground);
@@ -156,7 +161,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetJumpCount() => CurrentAirExtraJumpCountLeft = playerInfo.maxAirExtraJumpCount;
 
-    public void HorizontalMove(float setAccelerationNormalizedTime)
+    public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
@@ -249,7 +254,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void FlipPlayer(float setAccelerationNormalizedTime)
+    public void CheckFlipPlayer(float setAccelerationNormalizedTime)
     {
         if (PlayerInput.Instance.horizontal.Value == 1f & !playerInfo.playerFacingRight ||
                 PlayerInput.Instance.horizontal.Value == -1f & playerInfo.playerFacingRight)

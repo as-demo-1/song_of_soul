@@ -34,11 +34,11 @@ public class Lift : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         floorCollider = GetComponent<BoxCollider2D>();
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        playerRigid = player.GetComponent<Rigidbody2D>();
     }
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerRigid = player.GetComponent<Rigidbody2D>();
         setFloorPosition();
         arriveDistance = speed * Time.fixedDeltaTime;
     }

@@ -9,6 +9,7 @@ public class PlayerStatesBehaviour : StatesBehaviour
     {
 
     }
+    //active为进入该state时第一帧开始，也就是没有把start从中分开
     public override void StatesActiveBehaviour(PlayerState playerStates)
     {
         switch (playerStates)
@@ -17,23 +18,23 @@ public class PlayerStatesBehaviour : StatesBehaviour
                 break;
             case PlayerState.Idle:
                 PlayerController.CheckIsGroundedAndResetAirJumpCount();
-                PlayerController.HorizontalMove(0.4f);
+                PlayerController.CheckHorizontalMove(0.4f);
                 break;
             case PlayerState.Run:
                 PlayerController.CheckIsGroundedAndResetAirJumpCount();
-                PlayerController.FlipPlayer(1f);
-                PlayerController.HorizontalMove(0.4f);
+                PlayerController.CheckFlipPlayer(1f);
+                PlayerController.CheckHorizontalMove(0.4f);
                 break;
             case PlayerState.Jump:
-                PlayerController.Jump();
+                PlayerController.CheckJump();
                 PlayerController.IsGrounded = false;
-                PlayerController.FlipPlayer(1f);
-                PlayerController.HorizontalMove(0.5f);
+                PlayerController.CheckFlipPlayer(1f);
+                PlayerController.CheckHorizontalMove(0.5f);
                 break;
             case PlayerState.Fall:
                 PlayerController.CheckIsGroundedAndResetAirJumpCount();
-                PlayerController.FlipPlayer(1f);
-                PlayerController.HorizontalMove(0.5f);
+                PlayerController.CheckFlipPlayer(1f);
+                PlayerController.CheckHorizontalMove(0.5f);
                 break;
             case PlayerState.Attack:
                 break;
@@ -49,6 +50,7 @@ public class PlayerStatesBehaviour : StatesBehaviour
     public PlayerStatesBehaviour(PlayerController playerController) => this.PlayerController = playerController;
 }
 
+//间隔一些留下相似但是不同的state方便管理，比如转身和idle，不要轻易改变现有的enum的值
 public enum PlayerState
 {
     None = 0,
