@@ -13,10 +13,10 @@ public class PlayerInput : InputComponent
 
     public bool HaveControl { get { return m_HaveControl; } }
 
-    [SerializeField]
-    private List<InputButton> playerInputButtons;
-    [SerializeField]
-    private List<InputAxis> playerInputAxes;
+    //[SerializeField]
+    //private List<InputButton> playerInputButtons;
+    //[SerializeField]
+    //private List<InputAxis> playerInputAxes;
 
     private List<Button> buttons = new List<Button>();
 
@@ -36,6 +36,7 @@ public class PlayerInput : InputComponent
 
     protected bool m_DebugMenuIsOpen = false;
 
+    //初始化buttons
     void Awake()
     {
         if (s_Instance == null)
@@ -43,8 +44,10 @@ public class PlayerInput : InputComponent
         else
             throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
 
-        buttons.AddRange(playerInputButtons);
-        buttons.AddRange(playerInputAxes);
+        //buttons.AddRange(playerInputButtons);
+        //buttons.AddRange(playerInputAxes);
+
+        //加入button
         buttons.AddRange(new List<Button>
         {
             horizontal,

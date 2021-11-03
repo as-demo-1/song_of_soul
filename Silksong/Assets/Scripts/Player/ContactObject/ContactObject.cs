@@ -36,7 +36,6 @@ public class ContactObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("OnTriggerEnter2D");
         ContactObject otherContactObject;
         if (!other.TryGetComponent<ContactObject>(out otherContactObject))
             return;
