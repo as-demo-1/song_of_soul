@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// ¸ºÔðÓÎÏ·ÎïÌåÔÚ³¡¾°ÄÚµÄ´«ËÍ µ¥Àý
+/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½ÚµÄ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 /// </summary>
 public class GameObjectTeleporter : MonoBehaviour
 {
@@ -27,8 +27,8 @@ public class GameObjectTeleporter : MonoBehaviour
 
     protected static GameObjectTeleporter instance;
 
-    protected PlayerInput playerInput;//µ±³¡¾°ÄÚÓÐÍæ¼Ò½ÇÉ«Ê± ´Ë×é¼þÒ»¶¨ÔÚÍæ¼Ò½ÇÉ«ÉÏ
-    public Vector3 playerRebornPoint;//Íæ¼Ò×îÐÂµÄÖØÉúµã
+    protected PlayerInput playerInput;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½É«Ê± ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò½ï¿½É«ï¿½ï¿½
+    public Vector3 playerRebornPoint;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public bool Transitioning;
 
     void Awake()
@@ -49,17 +49,17 @@ public class GameObjectTeleporter : MonoBehaviour
         //Instance.playerInput.transform.localScale = new Vector3(1, 0, 0);
         Teleport(Instance.playerInput.gameObject,Instance.playerRebornPoint);
     }
-    public static void playerEnterScene(SceneEntrance.EntranceTag entranceTag)//ÔÚÍæ¼Ò½øÈëÐÂ³¡¾°Ê±µ÷ÓÃ¸Ã·½·¨
+    public static void playerEnterScene(SceneEntrance.EntranceTag entranceTag)//ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ï¿½Â³ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ã¸Ã·ï¿½ï¿½ï¿½
     {
         SceneEntrance entrance = SceneEntrance.GetDestination(entranceTag);
-        if(entrance==null)//¸Ã³¡¾°Ã»ÓÐÈë¿Ú ²»ÊÇÓÐÍæ¼ÒµÄÓÎÏ·³¡¾° 
+        if(entrance==null)//ï¿½Ã³ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ 
         {
             return;
         }
         if (Instance.playerInput == null)
             Instance.playerInput = FindObjectOfType<PlayerInput>();//
 
-        //Instance.playerInput.transform.localScale = new Vector3();½ÇÉ«³¯Ïò ÔÝÎ´¿¼ÂÇ
+        //Instance.playerInput.transform.localScale = new Vector3();ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
         Instance.playerRebornPoint = entrance.transform.position;
         Teleport(Instance.playerInput.gameObject, entrance.transform.position);
     }
@@ -81,7 +81,7 @@ public class GameObjectTeleporter : MonoBehaviour
         }
 
         /*  if (fade)
-              yield return StartCoroutine(ScreenFader.FadeSceneOut());*///³¡¾°¹ý¶É¼ÓÔØÔÝ²»¿¼ÂÇ ÔÝÓÃyield return null´úÌæ·ÀÖ¹Ã»ÓÐ·µ»ØÖµ
+              yield return StartCoroutine(ScreenFader.FadeSceneOut());*///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½yield return nullï¿½ï¿½ï¿½ï¿½ï¿½Ö¹Ã»ï¿½Ð·ï¿½ï¿½ï¿½Öµ
         yield return null;
 
         transitioningGameObject.transform.position = destinationPosition;
