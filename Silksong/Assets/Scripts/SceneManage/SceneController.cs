@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 /// <summary>
-/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ ï¿½ï¿½ï¿½ï¿½
+/// ¹ÜÀí³¡¾°ÇÐ»» µ¥Àý
 /// </summary>
 public class SceneController : MonoBehaviour
 {
@@ -24,11 +24,11 @@ public class SceneController : MonoBehaviour
 
             return instance;
         }
-    }//ï¿½ï¿½ï¿½ï¿½
+    }//µ¥Àý
 
     protected static SceneController instance;
 
-    protected PlayerInput playerInput;//×ªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    protected PlayerInput playerInput;//×ª»»Ê±ÐèÆÁ±ÎÍæ¼ÒÊäÈë
     public bool m_Transitioning;
 
     void Awake()
@@ -45,7 +45,7 @@ public class SceneController : MonoBehaviour
 
 
     /// <summary>
-    /// ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// ´ÓÓÎÏ·³¡¾°³ö¿Úµ½ÁíÒ»¸ö³¡¾°
     /// </summary>
     /// <param name="transitionPoint"></param>
     public static void TransitionToScene(SceneTransitionPoint transitionPoint)
@@ -53,7 +53,7 @@ public class SceneController : MonoBehaviour
         Instance.StartCoroutine(Instance.Transition(transitionPoint.newSceneName, transitionPoint.entranceTag, transitionPoint.resetInputValuesOnTransition));
     }
 
-   /* public static void TransitionToScene(string SceneName,bool resetInputValuesOnTransition)//ï¿½Ó²Ëµï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý²ï¿½ï¿½ï¿½
+   /* public static void TransitionToScene(string SceneName,bool resetInputValuesOnTransition)//´Ó²Ëµ¥µ½ÓÎÏ·³¡¾°ÓÃ ÔÝ²»ÓÃ
     {
         Instance.StartCoroutine(Instance.Transition(SceneName, SceneEntrance.EntranceTag.A, resetInputValuesOnTransition));
     }*/
@@ -68,8 +68,8 @@ public class SceneController : MonoBehaviour
         playerInput.ReleaseControls(resetInputValues);
 
       //  yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.Loading));
-        yield return SceneManager.LoadSceneAsync(newSceneName);//ï¿½ì²½ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½
-        GameObjectTeleporter.playerEnterScene(destinationTag);//ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+        yield return SceneManager.LoadSceneAsync(newSceneName);//Òì²½¼ÓÔØ³¡¾°
+        GameObjectTeleporter.playerEnterScene(destinationTag);//Íæ¼Òµ½³¡¾°Èë¿Ú 
 
         // yield return StartCoroutine(ScreenFader.FadeSceneIn());
         if (playerInput == null)
