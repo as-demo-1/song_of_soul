@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     //角色水平移动加减速控制，初始设定值：（总时间总是设定为1，地面上加速，地面上减速，空中加速，空中减速），动态控制见类中属性
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
-    
+
     public bool IsGrounded { get; set; }
     public int CurrentAirExtraJumpCountLeft { get; private set; }
     //基础数值，能移动数据的可以全部移至这里方便管理
@@ -83,7 +83,6 @@ public class PlayerController : MonoBehaviour
         PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, PlayerState.Idle);
         WhenStartSetLastHorizontalInputDirByFacing();
     }
-
 
     private void LateUpdate()
     {
