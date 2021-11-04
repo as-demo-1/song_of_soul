@@ -2,6 +2,10 @@
 
 public class Damable : DamageableBase
 {
+    protected override void Awake()
+    {
+        base.Awake();     
+    }
     public override void takeDamage(DamagerBase damager)
     {
         //  hittedEffect();
@@ -9,9 +13,5 @@ public class Damable : DamageableBase
         EventsManager.Instance.Invoke(gameObject,EventType.onTakeDamage);
     }
 
-    /*protected virtual void hittedEffect()//受击效果 或有必要以事件形式触发
-    {
-        //Debug.Log(gameObject.name + " is hitted");
-    }*/
 
 }

@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 /// <summary>
 /// 电梯1.0
 /// </summary>作者：青瓜
 public class Lift : MonoBehaviour
 {
     public int maxFloor;//从1开始计算
-
     public LiftFloorGear[] gears;//lift为该电梯的liftFloorGear在start时绑定到该数组  按从低层到高层顺序
 
     public float currentFloor;//当前层 若为x.5层则表示在x与x+1层之间
@@ -37,8 +37,13 @@ public class Lift : MonoBehaviour
     }
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        playerRigid = player.GetComponent<Rigidbody2D>();
+        GameObject playerobj = GameObject.FindGameObjectWithTag("Player");
+        if(player!=null)
+        {
+            player = playerobj.GetComponent<PlayerController>();
+            playerRigid = player.GetComponent<Rigidbody2D>();
+        }
+
         setFloorPosition();
         arriveDistance = speed * Time.fixedDeltaTime;
     }
