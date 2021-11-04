@@ -9,30 +9,30 @@ public class Enemy_Climb_State : EnemyFSMBaseState
     public float force = 10;
     ContactPoint2D[] points = new ContactPoint2D[3];
     //float g; 怪物初始重力为0 仅死亡时获得重力
-    public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void EnterState(EnemyFSMManager fSM_Manager)
     {
         // g = fsmManager.rigidbody2d.gravityScale;
         // fsmManager.rigidbody2d.gravityScale = 0;
         fsmManager.faceRight();//顺时针
     }
 
-    public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void ExitState(EnemyFSMManager fSM_Manager)
     {
         // fsmManager.rigidbody2d.gravityScale = g;
         fsmManager.rigidbody2d.velocity = Vector2.zero;
     }
-    public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
+    public override void InitState(EnemyFSMManager fSMManager)
     {
         base.InitState(fSMManager);
         fsmManager = fSMManager;
         stateID = EnemyStates.Enemy_Climb_State;
     }
-    public override void Act_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void Act_State(EnemyFSMManager fSM_Manager)
     {
         Force(fsmManager);
     }
     
-    public  void Force(FSMManager<EnemyStates, EnemyTriggers> fsmManager)
+    public  void Force(EnemyFSMManager fsmManager)
     {
         Vector2 steeringForce = Vector2.zero;
         int n = fsmManager.GetComponent<Collider2D>().GetContacts(points);

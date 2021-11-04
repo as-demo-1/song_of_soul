@@ -9,19 +9,19 @@ public class Enemy_Pursuit_State : EnemyFSMBaseState
     public float maxSpeed = 2;
     public float maxForce = 2;
     //private GameObject target;
-    public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
+    public override void InitState(EnemyFSMManager fSMManager)
     {
         base.InitState(fSMManager);
         fsmManager = fSMManager;
         stateID = EnemyStates.Enemy_Pursuit_State;
     }
-    public override void Act_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void Act_State(EnemyFSMManager fSM_Manager)
     {
         base.Act_State(fSM_Manager);
         fsmManager.rigidbody2d.AddForce(Project4(fsmManager));
         Force(fsmManager);
     }
-    public void Force(FSMManager<EnemyStates, EnemyTriggers> fsmManager)
+    public void Force(EnemyFSMManager fsmManager)
     {
 
         Vector2 desiredVelocity = (fsmManager as EnemyFSMManager).getTargetDir(true).normalized * maxSpeed;
@@ -31,7 +31,7 @@ public class Enemy_Pursuit_State : EnemyFSMBaseState
       //  Debug.DrawLine(fsmManager.transform.position, (Vector2)fsmManager.transform.position + steeringForce, Color.green);
         fsmManager.rigidbody2d.AddForce(steeringForce);
     }
-    public Vector2 Project4(FSMManager<EnemyStates, EnemyTriggers> fsmManager)
+    public Vector2 Project4(EnemyFSMManager fsmManager)
     {
         Vector2 steeringForce = Vector2.zero;
         Vector2 toward = fsmManager.rigidbody2d.velocity.normalized;

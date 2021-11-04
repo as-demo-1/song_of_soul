@@ -10,7 +10,7 @@ using UnityEngine;
 [Serializable]
 public  class FSMBaseState<T1,T2>
 {
-    protected FSMManager<T1,T2> fsmManager;
+    //protected FSMManager<T1,T2> fsmManager;
     [DisplayOnly]
     public  T1 stateID;
     [NonSerialized]
@@ -57,7 +57,7 @@ public  class FSMBaseState<T1,T2>
     /// <summary>
     /// 进入状态时调用
     /// </summary>
-    public virtual void EnterState(FSMManager<T1,T2> fSM_Manager) { }
+    public  virtual void EnterState(FSMManager<T1,T2> fSM_Manager) { }
 
     /// <summary>
     /// 退出状态时调用
@@ -87,6 +87,36 @@ public  class FSMBaseState<T1,T2>
 
 public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers> 
 {
+    protected EnemyFSMManager fsmManager;
+    //对一些触发函数进行二次封装
+    //////////////////////////////////////////////////////////////////////////////////////////
+    public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
+    {
+        base.InitState(fSMManager);
+        InitState(fSMManager as EnemyFSMManager);
+    }
+    public virtual void InitState(EnemyFSMManager enemyFSM) { }
+    public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    {
+        base.EnterState(fSM_Manager);
+        EnterState(fSM_Manager as EnemyFSMManager);
+    }
+    public virtual void EnterState(EnemyFSMManager enemyFSM) { }
+    public override void Act_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    {
+        base.Act_State(fSM_Manager);
+        Act_State(fSM_Manager as EnemyFSMManager);
+    }
+    public virtual void Act_State(EnemyFSMManager enemyFSM) { }
+    public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    {
+        base.ExitState(fSM_Manager);
+        ExitState(fSM_Manager as EnemyFSMManager);
+    }
+    public virtual void ExitState(EnemyFSMManager enemyFSM) { }
+    /////////////////////////////////////////////////////////////////////////////////////////
+    
+
 
 }
 public class NPCFSMBaseState: FSMBaseState<NPCStates, NPCTriggers> 
