@@ -16,6 +16,7 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
 
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {
+        //Debug.Log("shoot "+fsmManager.gameObject.name);
         base.Act_State(fSM_Manager);
         time += Time.deltaTime;
         if (time >= shotCD)

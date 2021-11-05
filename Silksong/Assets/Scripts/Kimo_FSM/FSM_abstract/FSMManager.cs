@@ -39,10 +39,9 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     /// 配置状态列表及其对应条件列表的SO文件
     /// </summary>
 
-
     public void ChangeState(T1 state)
     {
-      //  Debug.Log(state.ToString()+"  "+gameObject.name);
+      // Debug.Log(state.ToString()+"  "+gameObject.name);
         if (currentState != null)
             currentState.ExitState(this);
 
@@ -240,6 +239,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     /// </summary>
     public Vector2 getTargetDir(bool changeFace=false)
     {
+        if (player == null) return new Vector2(int.MaxValue,int.MaxValue);
         Vector2 dir = player.transform.position - transform.position;
         if(changeFace)
         {
