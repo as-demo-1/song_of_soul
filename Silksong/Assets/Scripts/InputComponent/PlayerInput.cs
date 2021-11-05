@@ -26,12 +26,12 @@ public class PlayerInput : InputComponent
     //public InputButton interact = new InputButton(KeyCode.E, XboxControllerButtons.Y);
     //public InputButton meleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X);
     //public InputButton rangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B);
-    public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper);
+    public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper, true);
     ////TODO:xbox button mapping
-    public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None);
-    public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
-    public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
-    public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
+    public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None, true);
+    public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, true);
+    public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, true);
+    public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, true);
     [HideInInspector]
 
     protected bool m_HaveControl = true;
@@ -74,11 +74,11 @@ public class PlayerInput : InputComponent
         s_Instance = null;
     }
 
-    protected override void GetInputs(bool fixedUpdateHappened)
+    protected override void GetInputs()
     {
         foreach (var button in buttons)
         {
-            button.Get(fixedUpdateHappened, inputType);
+            button.Get(inputType);
         }
 
         //Pause.Get(fixedUpdateHappened, inputType);
@@ -101,7 +101,7 @@ public class PlayerInput : InputComponent
 
         foreach (var button in buttons)
         {
-            if (button.NeedGainAndReleaseControl)
+            if (button.NeedToGainAndReleaseControl)
                 button.GainControl();
         }
         //GainControl(Pause);
@@ -119,7 +119,7 @@ public class PlayerInput : InputComponent
 
         foreach (var button in buttons)
         {
-            if (button.NeedGainAndReleaseControl)
+            if (button.NeedToGainAndReleaseControl)
                 StartCoroutine(button.ReleaseControl(resetValues));
         }
         //ReleaseControl(Pause, resetValues);
