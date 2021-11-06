@@ -39,10 +39,9 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     /// 配置状态列表及其对应条件列表的SO文件
     /// </summary>
 
-
     public void ChangeState(T1 state)
     {
-      //  Debug.Log(state.ToString()+"  "+gameObject.name);
+      // Debug.Log(state.ToString()+"  "+gameObject.name);
         if (currentState != null)
             currentState.ExitState(this);
 
@@ -161,30 +160,12 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         }
     }
 
-    public void faceLeft()//使自身朝向左
-    {
-        int x = FaceLeftFirstOriginal ? 1 : -1;
-        transform.localScale = new Vector3(x, 1, 1);
-    }
-    public void faceRight()
-    {
-        int x = FaceLeftFirstOriginal ? 1 : -1;
-        transform.localScale = new Vector3(-x, 1, 1);
-    }
-
-    /// <summary>
-    /// 根据刚体速度改变自身朝向
-    /// </summary>
-    public void faceWithSpeed()
-    {
-        if (rigidbody2d.velocity.x > 0)
-            faceRight();
-        else faceLeft();
-    }
-
+   
 
 
 }
+
+
 
 /// <summary>
 ///构建Enemy状态机管理器，并为其添加SO配置功能
@@ -200,6 +181,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         base.Start();
         player = GameObject.FindGameObjectWithTag("Player");
     }
+    //可SO配置
     public override void InitWithScriptableObject()
     {
         if(anyStateConfig!=null)
@@ -230,11 +212,34 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         }
     }
 
+
+    public void faceLeft()//使自身朝向左
+    {
+        int x = FaceLeftFirstOriginal ? 1 : -1;
+        transform.localScale = new Vector3(x, 1, 1);
+    }
+    public void faceRight()
+    {
+        int x = FaceLeftFirstOriginal ? 1 : -1;
+        transform.localScale = new Vector3(-x, 1, 1);
+    }
+
+    /// <summary>
+    /// 根据刚体速度改变自身朝向
+    /// </summary>
+    public void faceWithSpeed()
+    {
+        if (rigidbody2d.velocity.x > 0)
+            faceRight();
+        else faceLeft();
+    }
+
     /// <summary>
     ///获得指向玩家位置的vector2(非normalized) 可选同时改变怪物朝向
     /// </summary>
     public Vector2 getTargetDir(bool changeFace=false)
     {
+        if (player == null) return new Vector2(int.MaxValue,int.MaxValue);
         Vector2 dir = player.transform.position - transform.position;
         if(changeFace)
         {

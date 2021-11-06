@@ -14,8 +14,9 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
     private Transform shotPosition;//子弹发射的位置 发射子弹的小怪需要有这个子物体
     //public class MonoStub : MonoBehaviour { };
 
-    public override void Act_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void Act_State(EnemyFSMManager fSM_Manager)
     {
+        //Debug.Log("shoot "+fsmManager.gameObject.name);
         base.Act_State(fSM_Manager);
         time += Time.deltaTime;
         if (time >= shotCD)
@@ -26,58 +27,26 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
     }
 
 
-    public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void EnterState(EnemyFSMManager fSM_Manager)
     {
         base.EnterState(fSM_Manager);
-        //if (shotCD > 0)
-        //{
-        //TimeCounter();
-        //}
-        //else Debug.Log("shot cd can not <=0");
+
     }
-    public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void ExitState(EnemyFSMManager fSM_Manager)
     {
         base.ExitState(fSM_Manager);
-        //Debug.Log("结束");
-        //GameObject Emitter = GameObject.Find("Emitter");
-        //if (Emitter != null)
-        //{
-        //     UnityEngine.Object.Destroy(Emitter);
-        //}
 
     }
 
 
-    public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void InitState(EnemyFSMManager fSM_Manager)
     {
         base.InitState(fSM_Manager);
-        fsmManager = fSM_Manager;
+        fsmManager = fSM_Manager ;
         stateID = EnemyStates.Enemy_Shoot_State;
         shotPosition = fsmManager.transform.Find("shotPosition");
     }
-    /*
-        public void TimeCounter()
-        {
-            GameObject Emitter = GameObject.Find("Emitter");
-            if (Emitter == null)
-            {
-                Emitter = new GameObject();
-                Emitter.name = "Emitter";
-                Emitter.AddComponent<MonoStub>().StartCoroutine(ShotAcidLoop());
-            }
-            //Debug.Log("开始协程");
-        }
 
-        private IEnumerator ShotAcidLoop()
-        {
-            while (true)
-            {
-                //Debug.Log("准备发射");
-                yield return new WaitForSeconds(shotCD);//以shotcd为间隔不断发射
-                ShotAcid();
-            }
-        }
-    */
     private void Shot()
     {
        // Debug.Log("发射");

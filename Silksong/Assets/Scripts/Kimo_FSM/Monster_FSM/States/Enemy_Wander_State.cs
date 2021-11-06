@@ -11,19 +11,19 @@ public class Enemy_Wander_State : EnemyFSMBaseState
     public float wanderJitter = 1;//越大就越不随机移动
     public float maxSpeed;
     private Vector2 targetPos = Vector2.right;
-    public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
+    public override void InitState(EnemyFSMManager fSMManager)
     {
         base.InitState(fSMManager);
         fsmManager = fSMManager;
         //wanderCenter = fsmManager.transform.position;
         stateID = EnemyStates.Enemy_Wander_State;
     }
-    public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void EnterState(EnemyFSMManager fSM_Manager)
     {
         base.EnterState(fSM_Manager);
         wanderCenter = fsmManager.transform.position;
     }
-    public override void Act_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void Act_State(EnemyFSMManager fSM_Manager)
     {
         base.Act_State(fSM_Manager);
         Force(fsmManager);
@@ -33,7 +33,7 @@ public class Enemy_Wander_State : EnemyFSMBaseState
         }
         fsmManager.faceWithSpeed();
     }
-    public void Force(FSMManager<EnemyStates, EnemyTriggers> fsmManager)
+    public void Force(EnemyFSMManager fsmManager)
     {
         targetPos.x += Random.Range(-1, 2);
         targetPos.y += Random.Range(-1, 2);

@@ -9,7 +9,7 @@ public class Enemy_Hitted_State :EnemyFSMBaseState
    // private Vector3 currPos;
     public float HittedBackDistance;
     private float hittedVelocity;//被击退时的速度
-    public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
+    public override void InitState(EnemyFSMManager fSMManager)
     {
         base.InitState(fSMManager);
         fsmManager = fSMManager;
@@ -38,7 +38,7 @@ public class Enemy_Hitted_State :EnemyFSMBaseState
       //  currPos = fsmManager.transform.position;
 
     }*/
-    public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void EnterState(EnemyFSMManager fSM_Manager)
     {
         //Debug.Log("hitted_state");
 
@@ -54,13 +54,13 @@ public class Enemy_Hitted_State :EnemyFSMBaseState
             //Debug.Log(fsmManager.rigidbody2d.velocity);
         
     }
-    public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void ExitState(EnemyFSMManager fSM_Manager)
     {
         base.ExitState(fSM_Manager);
         fsmManager.rigidbody2d.velocity = Vector2.zero;
     }
 
-   /* public override void Act_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+   /* public override void Act_State(EnemyFSMManager fSM_Manager)
     {
 
         // base.Act_State(fSM_Manager);  

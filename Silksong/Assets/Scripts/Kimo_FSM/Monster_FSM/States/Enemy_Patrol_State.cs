@@ -10,7 +10,8 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     public Vector3 moveSpeed;
     private float rayToGroundDistance;
 
-    public override void Act_State(FSMManager<EnemyStates,EnemyTriggers> fSM_Manager)
+    
+    public override void Act_State(EnemyFSMManager fSM_Manager)
     {
         // Move();
         if (isBack)
@@ -18,18 +19,19 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
             DetectionPlatformBoundary();
         }
     }
-    public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+ 
+    public override void EnterState(EnemyFSMManager fSM_Manager)
     {
-        fsmManager.animator.Play("Enemy_Patrol",0);
+        fSM_Manager.animator.Play("Enemy_Patrol",0);
         fsmManager.rigidbody2d.velocity = moveSpeed;
-        fsmManager.faceWithSpeed();
+        fSM_Manager.faceWithSpeed();
         /*  if (isBack)
           {
               var rayHit= Physics2D.Raycast(fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * collider.bounds.size.x, Vector2.down);
               rayToGroundDistance = rayHit.distance+0.1f;
           }*/
     }
-    public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void InitState(EnemyFSMManager fSM_Manager)
     {
         base.InitState(fSM_Manager);
         fsmManager = fSM_Manager;
@@ -39,7 +41,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         //Debug.Log("gourndDistance "+rayToGroundDistance);
     }
 
-    public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    public override void ExitState(EnemyFSMManager fSM_Manager)
     {
         fsmManager.rigidbody2d.velocity = Vector2.zero;
     }
