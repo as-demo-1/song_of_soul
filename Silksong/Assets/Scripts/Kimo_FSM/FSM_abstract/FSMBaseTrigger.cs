@@ -32,18 +32,33 @@ public  class FSMBaseTrigger<T1,T2>
     public virtual bool IsTriggerReach(FSMManager<T1,T2> fsm_Manager) { return false; }
 
 }
+
 public class EnemyFSMBaseTrigger : FSMBaseTrigger<EnemyStates, EnemyTriggers> 
 {
     public EnemyFSMBaseTrigger(EnemyStates targetState):base(targetState){ }
-    public EnemyFSMBaseTrigger(){ }
+    public EnemyFSMBaseTrigger() { }
+
+    public override bool IsTriggerReach(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    {
+       return  IsTriggerReach(fsm_Manager as EnemyFSMManager);
+
+    }
+    public virtual bool IsTriggerReach(EnemyFSMManager fsm_Manager){ return false; }
+    public override void InitTrigger(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
+    {
+        base.InitTrigger(fSMManager);
+        InitTrigger(fSMManager as EnemyFSMManager);
+    }
+    public virtual void InitTrigger(EnemyFSMManager fsm_Manager) { ; }
 }
+
 public class NPCFSMBaseTrigger : FSMBaseTrigger<NPCStates, NPCTriggers>
 {
     public NPCFSMBaseTrigger(NPCStates targetState) : base(targetState) { }
     public NPCFSMBaseTrigger() { }
 }
-public class PlayerFSMBaseTrigger : FSMBaseTrigger<PlayerStates, PlayerTriggers>
-{
-    public PlayerFSMBaseTrigger(PlayerStates targetState) : base(targetState) { }
-    public PlayerFSMBaseTrigger() { }
-}
+//public class PlayerFSMBaseTrigger : FSMBaseTrigger<PlayerStates, PlayerTriggers>
+//{
+//    public PlayerFSMBaseTrigger(PlayerStates targetState) : base(targetState) { }
+//    public PlayerFSMBaseTrigger() { }
+//}

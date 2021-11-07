@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimationPlayOverTrigger :EnemyFSMBaseTrigger
 {
     AnimatorStateInfo info;
-    public override bool IsTriggerReach(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
     {
 
         if (fsm_Manager.animator != null)

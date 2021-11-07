@@ -13,7 +13,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     public Animator animator;
     public AudioSource audios;
     public Rigidbody2D rigidbody2d;
-    public bool FaceLeftFirstOriginal;//原图是否朝向左
+    
 
    // public Collider2D triggerCollider;
     public Collision2D collision;
@@ -35,9 +35,6 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     /// 当前状态机包含的所以状态列表
     /// </summary>
     public Dictionary<T1, FSMBaseState<T1,T2>> statesDic = new Dictionary<T1, FSMBaseState<T1,T2>>();
-    /// <summary>
-    /// 配置状态列表及其对应条件列表的SO文件
-    /// </summary>
 
 
     public void ChangeState(T1 state)
@@ -108,7 +105,10 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         {
             rigidbody2d = GetComponent<Rigidbody2D>();
         }
-
+        if(GetComponent<DamageableBase>())
+        {
+            damageable = GetComponent<DamageableBase>();
+        }
         InitWithScriptableObject();
         ////组件获取
     }
@@ -117,7 +117,6 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     {
         statesDic.Clear();
         InitManager();
-        damageable = GetComponent<DamageableBase>();
     }
 
     protected virtual void Start()
@@ -176,7 +175,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public List<Enemy_State_SO_Config> stateConfigs;
     public Enemy_State_SO_Config anyStateConfig;
     public GameObject player;
-
+    public bool FaceLeftFirstOriginal;//原图是否朝向左
     protected override void Start()
     {
         base.Start();

@@ -7,7 +7,7 @@ public class OnHittedTrigger :EnemyFSMBaseTrigger
     [DisplayOnly]
     public bool isHitted=false;
 
-    public override void InitTrigger(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override void InitTrigger(EnemyFSMManager fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
         //targetState = EnemyStates.Enemy_Hitted_State; 可能跳到其他状态
@@ -20,7 +20,7 @@ public class OnHittedTrigger :EnemyFSMBaseTrigger
        // Debug.Log(this.GetHashCode());
 
     }
-    public override bool IsTriggerReach(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
     {
         if(isHitted)
         {

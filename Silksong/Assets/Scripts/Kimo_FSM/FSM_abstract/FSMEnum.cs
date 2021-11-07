@@ -6,6 +6,7 @@ using UnityEngine;
 public enum EnemyStates
 {
     Enemy_Any_State,
+    EnemySubFSMManager,
     Enemy_Idle_State,
     Enemy_Patrol_State,
     Enemy_Hitted_State,

@@ -6,7 +6,7 @@ public class HitWallTrigger :EnemyFSMBaseTrigger
 {
     private bool isHitWall;
     private bool isSigned=false;
-    public override void InitTrigger(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override void InitTrigger(EnemyFSMManager fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
         triggerID = EnemyTriggers.HitWallTrigger;
@@ -14,7 +14,7 @@ public class HitWallTrigger :EnemyFSMBaseTrigger
         isSigned = false;
         
     }
-    public override bool IsTriggerReach(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
     {
         if(!isSigned)
         {

@@ -63,8 +63,6 @@ public class State_SO_Config<T1, T2, T3, T4> : ScriptableObject
 
 
 
-
-
 /// <summary>
 /// 辅助工具，用于Enemy_SO ,Inspirte面板的刷新
 /// </summary>
@@ -107,9 +105,6 @@ public class Enemy_State_SO_Config_Editor : Editor
             config.triggerList.Add( ObjectClone.CloneObject(config.triggerConfig));
         }
     }
-
-
-
 }
 
 /// <summary>

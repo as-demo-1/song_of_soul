@@ -6,12 +6,12 @@ public class PlayerDistanceTrigger :EnemyFSMBaseTrigger
 {
     public float checkRadius;
     public bool isEnterTrigger;
-    public override void InitTrigger(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override void InitTrigger(EnemyFSMManager fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
         triggerID = EnemyTriggers.PlayerDistanceTrigger;
     }
-    public override bool IsTriggerReach(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
     {
         Vector3 v = (fsm_Manager as EnemyFSMManager).getTargetDir();
         if(v.sqrMagnitude<checkRadius*checkRadius)

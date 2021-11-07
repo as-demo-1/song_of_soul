@@ -16,7 +16,7 @@ public class WaitTimeTrigger : EnemyFSMBaseTrigger
     {
         maxTime = time;
     }
-    public override bool IsTriggerReach(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
     { 
         timer += Time.deltaTime;
         if(timer>maxTime)
@@ -27,7 +27,7 @@ public class WaitTimeTrigger : EnemyFSMBaseTrigger
         return false;
     }
 
-    public override void InitTrigger(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override void InitTrigger(EnemyFSMManager fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
         timer = 0;
