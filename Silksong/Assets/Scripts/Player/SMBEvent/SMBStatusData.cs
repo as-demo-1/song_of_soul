@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class SMBStatusData : SMBEventTimeStamp
 {
-    public PlayerStatus playerStatus;
+    public EPlayerStatus playerStatus;
     public bool statusIsActive;  
     public PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag wayOfChangingFlag;
     public override void EventActive()

@@ -80,16 +80,19 @@ public class PlayerController : MonoBehaviour
         m_BodyCapsuleCollider = GetComponent<CapsuleCollider2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
         PlayerAnimator = GetComponent<Animator>();
-        PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, PlayerState.Idle);
+        PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         WhenStartSetLastHorizontalInputDirByFacing();
+    }
+
+    private void Update()
+    {
+        PlayerAnimatorStatesControl.PlayerStatusUpdate();
+        PlayerAnimatorStatesControl.ParamsUpdate();
     }
 
     private void LateUpdate()
     {
         PlayerAnimatorStatesControl.BehaviourLateUpdate();
-        PlayerAnimatorStatesControl.PlayerStatusLateUpdate();
-        PlayerAnimatorStatesControl.ParamsLateUpdate();
-        //player这一帧按下按键更新animator params，下一帧更新state
     }
 
     private void FixedUpdate()

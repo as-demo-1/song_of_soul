@@ -10,14 +10,14 @@ public class Glue : Trigger2DBase
     {
         playerController.PlayerHorizontalMoveControl.SpeedRate = downSpeedRate;
         playerController.PlayerHorizontalMoveControl.GroundAccelerationFactor = downSpeedRate;
-        playerController.PlayerAnimatorStatesControl.PlayerStatusDic.SetPlayerStatusFlag(PlayerStatus.CanMove, false);
+        playerController.PlayerAnimatorStatesControl.PlayerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanMove, false);
     }
 
     protected override void exitEvent()
     {
         playerController.PlayerHorizontalMoveControl.SpeedRate = 1;
         playerController.PlayerHorizontalMoveControl.GroundAccelerationFactor = 1;
-        playerController.PlayerAnimatorStatesControl.PlayerStatusDic.SetPlayerStatusFlag(PlayerStatus.CanMove, true);
+        playerController.PlayerAnimatorStatesControl.PlayerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanMove, true);
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)
