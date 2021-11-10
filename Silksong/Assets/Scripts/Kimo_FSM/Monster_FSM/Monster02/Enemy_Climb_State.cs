@@ -25,7 +25,7 @@ public class Enemy_Climb_State : EnemyFSMBaseState
     {
         base.InitState(fSMManager);
         fsmManager = fSMManager;
-        stateID = EnemyStates.Enemy_Climb_State;
+        stateType = EnemyStates.Enemy_Climb_State;
     }
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {

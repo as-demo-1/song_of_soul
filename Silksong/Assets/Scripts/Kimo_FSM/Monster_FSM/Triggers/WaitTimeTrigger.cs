@@ -12,10 +12,7 @@ public class WaitTimeTrigger : EnemyFSMBaseTrigger
     {
         maxTime = 0;
     }
-    public WaitTimeTrigger(float time,EnemyStates targetState=EnemyStates.Enemy_Idle_State):base(targetState)
-    {
-        maxTime = time;
-    }
+
     public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
     { 
         timer += Time.deltaTime;

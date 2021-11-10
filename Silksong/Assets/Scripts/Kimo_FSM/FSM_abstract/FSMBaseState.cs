@@ -12,7 +12,7 @@ public  class FSMBaseState<T1,T2>
 {
     //protected FSMManager<T1,T2> fsmManager;
     [DisplayOnly]
-    public  T1 stateID;
+    public  T1 stateType;
     [NonSerialized]
     public List<FSMBaseTrigger<T1,T2>> triggers = new List<FSMBaseTrigger<T1,T2>>();
 
@@ -32,22 +32,22 @@ public  class FSMBaseState<T1,T2>
 
 
 
-    public void AddTriggers(T2 triggerID,T1 targetState) 
-    {
-        //Debug.Log(triggerID);
+    //public void AddTriggers(T2 triggerType,T1 targetState) 
+    //{
+    //    //Debug.Log(triggerType);
 
-        Type type = Type.GetType(triggerID.ToString());
-        if (type == null)
-        {
-            Debug.LogError(triggerID + "无法添加到" + stateID + "的triggers列表");
-            Debug.LogError("未找到对应的Trigger，检查该Trigger的类名是否与枚举名保持一致。");
-        }
-        else 
-        {
-            triggers.Add(Activator.CreateInstance(type) as FSMBaseTrigger<T1,T2>);
-            triggers[triggers.Count - 1].targetState = targetState;
-        }
-    }
+    //    Type type = Type.GetType(triggerType.ToString());
+    //    if (type == null)
+    //    {
+    //        Debug.LogError(triggerType + "无法添加到" + stateType + "的triggers列表");
+    //        Debug.LogError("未找到对应的Trigger，检查该Trigger的类名是否与枚举名保持一致。");
+    //    }
+    //    else 
+    //    {
+    //        triggers.Add(Activator.CreateInstance(type) as FSMBaseTrigger<T1,T2>);
+    //        triggers[triggers.Count - 1].targetState = targetState;
+    //    }
+    //}
     public void AddTriggers(FSMBaseTrigger<T1,T2> trigger)
     {
         triggers.Add(trigger);
@@ -82,8 +82,6 @@ public  class FSMBaseState<T1,T2>
             }
         }
     }
-
-    
 }
 
 
@@ -123,15 +121,12 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
         {
             if (triggers[i].IsTriggerReach(fsm_Manager.fsmManager))
             {
-                // Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
+                Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].targetState +" "+ triggers[i].GetHashCode());
                 fsm_Manager.ChangeState(triggers[i].targetState);
             }
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 }
 public class NPCFSMBaseState: FSMBaseState<NPCStates, NPCTriggers> 
 {

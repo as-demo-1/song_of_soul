@@ -52,7 +52,7 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
     {
         base.InitState(fSM_Manager);
         fsmManager = fSM_Manager ;
-        stateID = EnemyStates.Enemy_Shoot_State;
+        stateType = EnemyStates.Enemy_Shoot_State;
         shotPosition = fsmManager.transform.Find("shotPosition");
     }
     /*

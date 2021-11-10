@@ -10,48 +10,52 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Wander_State
+  m_Name: Boss00_Part1_Idle
   m_EditorClassIdentifier: 
-  lastStateID: 7
+  lastStateID: 1
   lastTriggerID: 2
-  stateID: 7
+  StateName: Boss00_Part1_Idle
+  StateType: 1
   stateConfig:
     id: 0
-  triggerID: 2
+  TriggerType: 2
   triggerConfig:
     id: 1
   triggerList:
   - id: 2
   - id: 3
+  - id: 4
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Wander_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 7
-        wanderRange: 2
-        forceToCenter: 2
-        wanderRadiu: 1
-        wanderJitter: 1
-        maxSpeed: 2
+        stateType: 1
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 2
-        targetState: 6
-        checkRadius: 5
-        isEnterTrigger: 1
+        triggerType: 2
+        targetState: Boss00_Part1_FarAway
+        checkRadius: 30
+        isEnterTrigger: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 0
-        targetState: 1
-        maxTime: 2
+        triggerType: 0
+        targetState: Boss00_Part1_Dash
+        maxTime: 10
         timer: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 2
-        targetState: 6
-        checkRadius: 5
+        triggerType: 2
+        targetState: Boss00_Part1_Chase
+        checkRadius: 30
         isEnterTrigger: 1
+    00000004:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss00_Part1_FarAway
+        checkRadius: 30
+        isEnterTrigger: 0

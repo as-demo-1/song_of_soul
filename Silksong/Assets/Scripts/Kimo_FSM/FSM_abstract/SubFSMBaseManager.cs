@@ -8,16 +8,16 @@ public class EnemySubFSMManager:EnemyFSMBaseState
     /// </summary>
     public EnemyFSMBaseState currentState;
     [DisplayOnly]
-    public EnemyStates currentStateID;
+    public string currentStateName;
     /// <summary>
     /// 任意状态
     /// </summary>
     public EnemyFSMBaseState anyState;
-    public EnemyStates defaultStateID;
+    public string defaultStateName;
     /// <summary>
     /// 当前状态机包含的所以状态列表
     /// </summary>
-    public Dictionary<EnemyStates, EnemyFSMBaseState> statesDic = new Dictionary<EnemyStates, EnemyFSMBaseState>();
+    public Dictionary<string, EnemyFSMBaseState> statesDic = new Dictionary<string, EnemyFSMBaseState>();
 
 
     public List<Enemy_State_SO_Config> stateConfigs;
@@ -53,7 +53,7 @@ public class EnemySubFSMManager:EnemyFSMBaseState
                 tem.triggers[tem.triggers.Count - 1].InitTrigger(this.fsmManager);
                 //Debug.Log(this.gameObject.name + "  " + tem.triggers[tem.triggers.Count - 1] + "  " + tem.triggers[tem.triggers.Count - 1].GetHashCode());
             }
-            statesDic.Add(stateConfigs[i].stateID, tem);
+            statesDic.Add(stateConfigs[i].name, tem);
             tem.InitState(this.fsmManager);
         }
     }
@@ -69,7 +69,7 @@ public class EnemySubFSMManager:EnemyFSMBaseState
         InitWithScriptableObject();
     }
 
-    public void ChangeState(EnemyStates state)
+    public void ChangeState(string state)
     {
         //  Debug.Log(state.ToString()+"  "+gameObject.name);
         if (currentState != null)
@@ -78,7 +78,7 @@ public class EnemySubFSMManager:EnemyFSMBaseState
         if (statesDic.ContainsKey(state))
         {
             currentState = statesDic[state];
-            currentStateID = state;
+            currentStateName = state;
         }
         else
         {
@@ -96,8 +96,8 @@ public class EnemySubFSMManager:EnemyFSMBaseState
         if (statesDic.Count == 0)
             return;
         //默认状态设置
-        currentStateID = defaultStateID;
-        ChangeState(currentStateID);
+        currentStateName = defaultStateName;
+        ChangeState(currentStateName);
         if (anyState != null)
             anyState.EnterState(fSM_Manager);
 
@@ -149,12 +149,12 @@ public class EnemySubFSMManager:EnemyFSMBaseState
 //    /// </summary>
 //    public FSMBaseState<T1, T2> currentState;
 //    [DisplayOnly]
-//    public T1 currentStateID;
+//    public T1 currentStateName;
 //    /// <summary>
 //    /// 任意状态
 //    /// </summary>
 //    public FSMBaseState<T1, T2> anyState;
-//    public T1 defaultStateID;
+//    public T1 defaultStateName;
 //    /// <summary>
 //    /// 当前状态机包含的所以状态列表
 //    /// </summary>
@@ -185,7 +185,7 @@ public class EnemySubFSMManager:EnemyFSMBaseState
 //        if (statesDic.ContainsKey(state))
 //        {
 //            currentState = statesDic[state];
-//            currentStateID = state;
+//            currentStateName = state;
 //        }
 //        else
 //        {
@@ -203,8 +203,8 @@ public class EnemySubFSMManager:EnemyFSMBaseState
 //        if (statesDic.Count == 0)
 //            return;
 //        //默认状态设置
-//        currentStateID = defaultStateID;
-//        ChangeState(currentStateID);
+//        currentStateName = defaultStateName;
+//        ChangeState(currentStateName);
 //        if (anyState != null)
 //            anyState.EnterState(fSM_Manager);
 

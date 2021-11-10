@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Boss00_Entrance_State
+  m_Name: Monster01_Any_State
   m_EditorClassIdentifier: 
-  lastStateID: 1
-  lastTriggerID: 0
-  StateName: Boss00_Entrance_State
-  StateType: 1
+  lastStateID: 0
+  lastTriggerID: 4
+  StateName: Monster01_Any_State
+  StateType: 0
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 4
   triggerConfig:
     id: 1
   triggerList:
@@ -26,20 +26,18 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 1
+        stateType: 0
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: Boss00_Part1_State
-        maxTime: 3
-        timer: 0
+        triggerType: 4
+        targetState: Monster01_Hitted_State
+        isHitted: 0
     00000002:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: Boss00_Part1_State
-        maxTime: 3
-        timer: 0
+        triggerType: 4
+        targetState: Monster01_Hitted_State
+        isHitted: 0

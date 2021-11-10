@@ -12,14 +12,10 @@ using System.Runtime.Serialization;
 public  class FSMBaseTrigger<T1,T2>
 {
     [DisplayOnly]
-    public T2 triggerID;
-    public T1 targetState;
+    public T2 triggerType;
+    public string targetState;
     public FSMBaseTrigger()
     {
-    }
-    public FSMBaseTrigger(T1 targetState)
-    {
-        this.targetState = targetState;
     }
 
 
@@ -35,7 +31,6 @@ public  class FSMBaseTrigger<T1,T2>
 
 public class EnemyFSMBaseTrigger : FSMBaseTrigger<EnemyStates, EnemyTriggers> 
 {
-    public EnemyFSMBaseTrigger(EnemyStates targetState):base(targetState){ }
     public EnemyFSMBaseTrigger() { }
 
     public override bool IsTriggerReach(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
@@ -54,7 +49,6 @@ public class EnemyFSMBaseTrigger : FSMBaseTrigger<EnemyStates, EnemyTriggers>
 
 public class NPCFSMBaseTrigger : FSMBaseTrigger<NPCStates, NPCTriggers>
 {
-    public NPCFSMBaseTrigger(NPCStates targetState) : base(targetState) { }
     public NPCFSMBaseTrigger() { }
 }
 //public class PlayerFSMBaseTrigger : FSMBaseTrigger<PlayerStates, PlayerTriggers>

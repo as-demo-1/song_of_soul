@@ -10,27 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Patrol_State
+  m_Name: Boss00_Part2_State
   m_EditorClassIdentifier: 
-  lastStateID: 2
-  lastTriggerID: 1
-  stateID: 2
+  lastStateID: 10
+  lastTriggerID: 0
+  StateName: Boss00_Part2_State
+  StateType: 10
   stateConfig:
     id: 0
-  triggerID: 1
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList: []
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Patrol_State, ns: , asm: Assembly-CSharp}
+      type: {class: EnemySubFSMManager, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 2
-        isBack: 1
-        moveSpeed: {x: 3, y: 0, z: 0}
+        stateType: 10
+        currentStateName: 
+        defaultStateName: 
+        stateConfigs: []
+        anyStateConfig: {fileID: 0}
+        player: {fileID: 0}
+        FaceLeftFirstOriginal: 0
     00000001:
-      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 1
+        triggerType: 0
         targetState: 0
+        maxTime: 0
+        timer: 0

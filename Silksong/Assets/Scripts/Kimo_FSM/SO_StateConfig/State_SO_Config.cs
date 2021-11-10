@@ -20,13 +20,14 @@ public class State_SO_Config<T1, T2, T3, T4> : ScriptableObject
     [HideInInspector]
     [SerializeReference]
     public T2 lastTriggerID;
+    public string StateName;
     [Header("----------------------State Config Area------------------------")]
-    public T1 stateID;
+    public T1 StateType;
     [SerializeReference]
     public T3 stateConfig;
     [Header("----------------------Trigger Config Area----------------------")]
     [Space(20)]
-    public T2 triggerID;
+    public T2 TriggerType;
     [SerializeReference]
     public T4 triggerConfig;
     [Header("-----------------------Triggers List Area----------------------")]
@@ -43,22 +44,24 @@ public class State_SO_Config<T1, T2, T3, T4> : ScriptableObject
     {
         if (stateConfig == null && triggerConfig == null)
         {
-            lastStateID = stateID;
-            stateType = Type.GetType(stateID.ToString());
+            
+            lastStateID = StateType;
+            stateType = Type.GetType(StateType.ToString());
             if (stateType != null)
                 stateConfig = (T3)Activator.CreateInstance(stateType);
             else
                 Debug.LogError("找不到所对应的State，请检查枚举名称是否与类名一致。");
 
 
-            lastTriggerID = triggerID;
-            triggerType = Type.GetType(triggerID.ToString());
+            lastTriggerID = TriggerType;
+            triggerType = Type.GetType(TriggerType.ToString());
             if (triggerType != null)
                 triggerConfig = (T4)Activator.CreateInstance(triggerType);
             else
                 Debug.LogError("找不到所对应的Trigger，请检查枚举名称是否与类名一致。");
         }
     }
+    
 }
 
 
@@ -74,27 +77,28 @@ public class Enemy_State_SO_Config_Editor : Editor
     {
         base.OnInspectorGUI();
         Enemy_State_SO_Config config = target as Enemy_State_SO_Config;
-        if (config.lastStateID != config.stateID)
+        config.StateName = config.name;
+        if (config.lastStateID != config.StateType)
         {
-            config.lastStateID = config.stateID;
-            config.stateType = Type.GetType(config.stateID.ToString());
+            config.lastStateID = config.StateType;
+            config.stateType = Type.GetType(config.StateType.ToString());
             if (config.stateType != null)
             {
                 config.stateConfig = Activator.CreateInstance(config.stateType) as EnemyFSMBaseState;
-                config.stateConfig.stateID = config.stateID;
+                config.stateConfig.stateType = config.StateType;
             }
             else
                 Debug.LogError("找不到所对应的State，请检查枚举名称是否与类名一致。");
 
         }
-        if (config.lastTriggerID != config.triggerID)
+        if (config.lastTriggerID != config.TriggerType)
         {
-            config.lastTriggerID = config.triggerID;
-            config.triggerType = Type.GetType(config.triggerID.ToString());
+            config.lastTriggerID = config.TriggerType;
+            config.triggerType = Type.GetType(config.TriggerType.ToString());
             if (config.triggerType != null)
             {
                 config.triggerConfig = Activator.CreateInstance(config.triggerType) as EnemyFSMBaseTrigger;
-                config.triggerConfig.triggerID = config.triggerID;
+                config.triggerConfig.triggerType = config.TriggerType;
             }
             else
                 Debug.LogError("找不到所对应的Trigger，请检查枚举名称是否与类名一致。");
@@ -118,27 +122,27 @@ public class NPC_State_SO_Config_Editor : Editor
     {
         base.OnInspectorGUI();
         NPC_State_SO_Config config = target as NPC_State_SO_Config;
-        if (config.lastStateID != config.stateID)
+        if (config.lastStateID != config.StateType)
         {
-            config.lastStateID = config.stateID;
-            config.stateType = Type.GetType(config.stateID.ToString());
+            config.lastStateID = config.StateType;
+            config.stateType = Type.GetType(config.StateType.ToString());
             if (config.stateType != null)
             {
                 config.stateConfig = Activator.CreateInstance(config.stateType) as NPCFSMBaseState;
-                config.stateConfig.stateID = config.stateID;
+                config.stateConfig.stateType = config.StateType;
             }
             else
                 Debug.LogError("找不到所对应的State，请检查枚举名称是否与类名一致。");
 
         }
-        if (config.lastTriggerID != config.triggerID)
+        if (config.lastTriggerID != config.TriggerType)
         {
-            config.lastTriggerID = config.triggerID;
-            config.triggerType = Type.GetType(config.triggerID.ToString());
+            config.lastTriggerID = config.TriggerType;
+            config.triggerType = Type.GetType(config.TriggerType.ToString());
             if (config.triggerType != null)
             {
                 config.triggerConfig = Activator.CreateInstance(config.triggerType) as NPCFSMBaseTrigger;
-                config.triggerConfig.triggerID = config.triggerID;
+                config.triggerConfig.triggerType = config.TriggerType;
             }
             else
                 Debug.LogError("找不到所对应的Trigger，请检查枚举名称是否与类名一致。");
@@ -167,27 +171,27 @@ public class NPC_State_SO_Config_Editor : Editor
 //    {
 //        base.OnInspectorGUI();
 //        Player_State_SO_Config config = target as Player_State_SO_Config;
-//        if (config.lastStateID != config.stateID)
+//        if (config.lastStateID != config.StateType)
 //        {
-//            config.lastStateID = config.stateID;
-//            config.stateType = Type.GetType(config.stateID.ToString());
+//            config.lastStateID = config.StateType;
+//            config.stateType = Type.GetType(config.StateType.ToString());
 //            if (config.stateType != null)
 //            {
 //                config.stateConfig = Activator.CreateInstance(config.stateType) as PlayerFSMBaseState;
-//                config.stateConfig.stateID = config.stateID;
+//                config.stateConfig.StateType = config.StateType;
 //            }
 //            else
 //                Debug.LogError("找不到所对应的State，请检查枚举名称是否与类名一致。");
 
 //        }
-//        if (config.lastTriggerID != config.triggerID)
+//        if (config.lastTriggerID != config.TriggerType)
 //        {
-//            config.lastTriggerID = config.triggerID;
-//            config.triggerType = Type.GetType(config.triggerID.ToString());
+//            config.lastTriggerID = config.TriggerType;
+//            config.triggerType = Type.GetType(config.TriggerType.ToString());
 //            if (config.triggerType != null)
 //            {
 //                config.triggerConfig = Activator.CreateInstance(config.triggerType) as PlayerFSMBaseTrigger;
-//                config.triggerConfig.triggerID = config.triggerID;
+//                config.triggerConfig.TriggerType = config.TriggerType;
 //            }
 //            else
 //                Debug.LogError("找不到所对应的Trigger，请检查枚举名称是否与类名一致。");

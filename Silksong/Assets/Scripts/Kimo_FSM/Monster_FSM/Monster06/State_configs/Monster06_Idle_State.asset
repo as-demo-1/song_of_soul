@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Idle_State
+  m_Name: Monster06_Idle_State
   m_EditorClassIdentifier: 
   lastStateID: 1
   lastTriggerID: 2
-  stateID: 1
+  StateName: Monster06_Idle_State
+  StateType: 1
   stateConfig:
     id: 0
-  triggerID: 2
+  TriggerType: 2
   triggerConfig:
     id: 1
   triggerList:
@@ -28,25 +29,25 @@ MonoBehaviour:
     00000000:
       type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 1
+        stateType: 1
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 2
-        targetState: 9
+        triggerType: 2
+        targetState: Monster06_Bump_State
         checkRadius: 6
         isEnterTrigger: 1
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 0
-        targetState: 2
+        triggerType: 0
+        targetState: Monster06_Patrol_State
         maxTime: 2
         timer: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 2
-        targetState: 9
+        triggerType: 2
+        targetState: Monster06_Bump_State
         checkRadius: 6
         isEnterTrigger: 1

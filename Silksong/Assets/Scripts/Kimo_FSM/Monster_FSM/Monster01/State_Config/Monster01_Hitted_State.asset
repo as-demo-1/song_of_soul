@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Hitted_State
+  m_Name: Monster01_Hitted_State
   m_EditorClassIdentifier: 
   lastStateID: 3
   lastTriggerID: 3
-  stateID: 3
+  StateName: Monster01_Hitted_State
+  StateType: 3
   stateConfig:
     id: 0
-  triggerID: 3
+  TriggerType: 3
   triggerConfig:
     id: 1
   triggerList:
@@ -27,15 +28,15 @@ MonoBehaviour:
     00000000:
       type: {class: Enemy_Hitted_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 3
-        HittedBackDistance: 0.5
+        stateType: 3
+        HittedBackDistance: 3
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 3
-        targetState: 2
+        triggerType: 3
+        targetState: Monster01_Partol_State
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 3
-        targetState: 2
+        triggerType: 3
+        targetState: Monster01_Partol_State

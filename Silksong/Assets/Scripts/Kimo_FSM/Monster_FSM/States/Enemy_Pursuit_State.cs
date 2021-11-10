@@ -13,7 +13,7 @@ public class Enemy_Pursuit_State : EnemyFSMBaseState
     {
         base.InitState(fSMManager);
         fsmManager = fSMManager;
-        stateID = EnemyStates.Enemy_Pursuit_State;
+        stateType = EnemyStates.Enemy_Pursuit_State;
     }
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {

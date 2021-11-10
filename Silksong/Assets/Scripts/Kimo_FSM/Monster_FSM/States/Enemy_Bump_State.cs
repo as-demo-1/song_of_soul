@@ -10,7 +10,7 @@ public class Enemy_Bump_State : EnemyFSMBaseState//Í»½ø³å×²
     {
         base.InitState(fSMManager);
         fsmManager = fSMManager;
-        stateID = EnemyStates.Enemy_Bump_State;
+        stateType = EnemyStates.Enemy_Bump_State;
     }
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {

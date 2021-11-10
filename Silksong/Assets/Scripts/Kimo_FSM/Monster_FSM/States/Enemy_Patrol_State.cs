@@ -35,7 +35,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     {
         base.InitState(fSM_Manager);
         fsmManager = fSM_Manager;
-        stateID = EnemyStates.Enemy_Patrol_State;
+        stateType = EnemyStates.Enemy_Patrol_State;
         Collider2D collider = fsmManager.GetComponent<Collider2D>();
         rayToGroundDistance = collider.bounds.size.y * 0.5f + 0.1f;//ÔÝÎ´¿¼ÂÇcolliderµÄoffset 
         //Debug.Log("gourndDistance "+rayToGroundDistance);

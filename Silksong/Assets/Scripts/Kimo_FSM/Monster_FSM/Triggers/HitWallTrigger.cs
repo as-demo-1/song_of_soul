@@ -9,7 +9,7 @@ public class HitWallTrigger :EnemyFSMBaseTrigger
     public override void InitTrigger(EnemyFSMManager fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
-        triggerID = EnemyTriggers.HitWallTrigger;
+        triggerType = EnemyTriggers.HitWallTrigger;
         isHitWall = false;
         isSigned = false;
         

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Monster04_Shoot_State
+  m_EditorClassIdentifier: 
+  lastStateID: 8
+  lastTriggerID: 2
+  StateName: Monster04_Shoot_State
+  StateType: 8
+  stateConfig:
+    id: 0
+  TriggerType: 2
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Shoot_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 8
+        bullet: {fileID: 1445770416123758994, guid: ed49d99ec070e6248b4fee66ed965bad, type: 3}
+        shotCD: 3
+        bulletSpeed: 10
+    00000001:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Monster04_Idle_State
+        checkRadius: 100
+        isEnterTrigger: 0
+    00000002:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Monster04_Idle_State
+        checkRadius: 100
+        isEnterTrigger: 0

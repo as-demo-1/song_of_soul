@@ -16,7 +16,7 @@ public class Enemy_Wander_State : EnemyFSMBaseState
         base.InitState(fSMManager);
         fsmManager = fSMManager;
         //wanderCenter = fsmManager.transform.position;
-        stateID = EnemyStates.Enemy_Wander_State;
+        stateType = EnemyStates.Enemy_Wander_State;
     }
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {

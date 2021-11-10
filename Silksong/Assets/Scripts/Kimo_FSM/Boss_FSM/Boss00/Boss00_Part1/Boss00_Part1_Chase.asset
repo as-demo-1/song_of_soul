@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Pursuit_State
+  m_Name: Boss00_Part1_Chase
   m_EditorClassIdentifier: 
   lastStateID: 6
   lastTriggerID: 2
-  stateID: 6
+  StateName: Boss00_Part1_Chase
+  StateType: 6
   stateConfig:
     id: 0
-  triggerID: 2
+  TriggerType: 2
   triggerConfig:
     id: 1
   triggerList:
@@ -27,7 +28,7 @@ MonoBehaviour:
     00000000:
       type: {class: Enemy_Pursuit_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 6
+        stateType: 6
         avoidForce: 2
         MAX_SEE_AHEAD: 2
         maxSpeed: 2
@@ -35,14 +36,14 @@ MonoBehaviour:
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 2
-        targetState: 1
-        checkRadius: 80
-        isEnterTrigger: 0
+        triggerType: 2
+        targetState: Boss00_Part1_Attack
+        checkRadius: 1
+        isEnterTrigger: 1
     00000002:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 2
-        targetState: 1
-        checkRadius: 80
-        isEnterTrigger: 0
+        triggerType: 2
+        targetState: Boss00_Part1_Attack
+        checkRadius: 1
+        isEnterTrigger: 1

@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Climb_State
+  m_Name: Monster02_Climb_State
   m_EditorClassIdentifier: 
   lastStateID: 5
   lastTriggerID: 0
-  stateID: 5
+  StateName: Monster02_Climb_State
+  StateType: 5
   stateConfig:
     id: 0
-  triggerID: 0
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList: []
@@ -26,13 +27,13 @@ MonoBehaviour:
     00000000:
       type: {class: Enemy_Climb_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 5
+        stateType: 5
         maxSpeed: 2
-        force: 20
+        force: 10
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 0
+        triggerType: 0
         targetState: 0
         maxTime: 0
         timer: 0

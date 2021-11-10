@@ -9,7 +9,7 @@ public class PlayerDistanceTrigger :EnemyFSMBaseTrigger
     public override void InitTrigger(EnemyFSMManager fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
-        triggerID = EnemyTriggers.PlayerDistanceTrigger;
+        triggerType = EnemyTriggers.PlayerDistanceTrigger;
     }
     public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
     {

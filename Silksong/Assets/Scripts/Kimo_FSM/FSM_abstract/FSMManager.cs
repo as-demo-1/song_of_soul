@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 状态机管理器的基类
 /// </summary>
-/// <typeparam name="T1"></typeparam>
+/// <typeparam name="T1"></typeparam>  
 /// <typeparam name="T2"></typeparam>
 public abstract class FSMManager<T1,T2> : MonoBehaviour
 {
@@ -13,11 +13,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     public Animator animator;
     public AudioSource audios;
     public Rigidbody2D rigidbody2d;
-    
-
-   // public Collider2D triggerCollider;
     public Collision2D collision;
-
     public DamageableBase damageable;
 
     /// /// <summary>
@@ -25,19 +21,19 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     /// </summary>
     public FSMBaseState<T1,T2> currentState;
     [DisplayOnly]
-    public T1 currentStateID;
+    public string currentStateName;
     /// <summary>
     /// 任意状态
     /// </summary>
     public FSMBaseState<T1,T2> anyState;
-    public T1 defaultStateID;
+    public string defaultStateName;
     /// <summary>
     /// 当前状态机包含的所以状态列表
     /// </summary>
-    public Dictionary<T1, FSMBaseState<T1,T2>> statesDic = new Dictionary<T1, FSMBaseState<T1,T2>>();
+    public Dictionary<string, FSMBaseState<T1,T2>> statesDic = new Dictionary<string, FSMBaseState<T1,T2>>();
 
 
-    public void ChangeState(T1 state)
+    public void ChangeState(string state)
     {
       //  Debug.Log(state.ToString()+"  "+gameObject.name);
         if (currentState != null)
@@ -46,7 +42,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         if (statesDic.ContainsKey(state))
         {
             currentState = statesDic[state];
-            currentStateID = state;
+            currentStateName = state;
         }
         else
         {
@@ -55,34 +51,33 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         currentState.EnterState(this);
     }
 
-    public FSMBaseState<T1,T2> AddState(T1 state)
-    {
-        //Debug.Log(triggerID);
-
-        Type type = Type.GetType("Enemy"+state + "State");
-        if (type == null)
-        {
-            Debug.LogError(state + "无法添加到" + "的states列表");
-            Debug.LogError("检查stateID枚举值及对应类名，对应枚举命加上“_State”，如枚举值为Idle，状态类名为Idle_State，便于配置加载；");
-            return null;
-        }
-        else
-        {
-            FSMBaseState<T1,T2> temp = Activator.CreateInstance(type) as FSMBaseState<T1,T2>;
-            statesDic.Add(state,temp);
-            return temp;
-        }
-    }
-    public FSMBaseState<T1,T2> AddState(T1 state,FSMBaseState<T1,T2> stateClass)
-    {
-        statesDic.Add(state, stateClass);
-        return stateClass;
-    }
-    public void RemoveState(T1 state)
-    {
-        if (statesDic.ContainsKey(state))
-            statesDic.Remove(state);
-    }
+    //public FSMBaseState<T1,T2> AddState(T1 state)
+    //{
+    //    //Debug.Log(triggerType);
+    //    Type type = Type.GetType("Enemy"+state + "State");
+    //    if (type == null)
+    //    {
+    //        Debug.LogError(state + "无法添加到" + "的states列表");
+    //        Debug.LogError("检查stateType枚举值及对应类名，对应枚举命加上“_State”，如枚举值为Idle，状态类名为Idle_State，便于配置加载；");
+    //        return null;
+    //    }
+    //    else
+    //    {
+    //        FSMBaseState<T1,T2> temp = Activator.CreateInstance(type) as FSMBaseState<T1,T2>;
+    //        statesDic.Add(state,temp);
+    //        return temp;
+    //    }
+    //}
+    //public FSMBaseState<T1,T2> AddState(T1 state,FSMBaseState<T1,T2> stateClass)
+    //{
+    //    statesDic.Add(state, stateClass);
+    //    return stateClass;
+    //}
+    //public void RemoveState(T1 state)
+    //{
+    //    if (statesDic.ContainsKey(state))
+    //        statesDic.Remove(state);
+    //}
     /// <summary>
     /// 用于初始化状态机的方法，添加所有状态，及其条件映射表，获取部分组件等。Awake时执行，可不使用基类方法手动编码加载
     /// </summary>
@@ -124,8 +119,8 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         if (statesDic.Count == 0)
             return;
         //默认状态设置
-        currentStateID = defaultStateID;
-        ChangeState(currentStateID);
+        currentStateName = defaultStateName;
+        ChangeState(currentStateName);
         if (anyState != null)
             anyState.EnterState(this);
 
@@ -159,10 +154,6 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
             anyState.TriggerState(this);
         }
     }
-
-   
-
-
 }
 
 
@@ -207,7 +198,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
                 tem.triggers[tem.triggers.Count-1].InitTrigger(this);
                 //Debug.Log(this.gameObject.name + "  " + tem.triggers[tem.triggers.Count - 1] + "  " + tem.triggers[tem.triggers.Count - 1].GetHashCode());
             }
-            statesDic.Add(stateConfigs[i].stateID, tem);
+            statesDic.Add(stateConfigs[i].StateName, tem);
             tem.InitState(this);
         }
     }
@@ -288,7 +279,7 @@ public class NPCFSMManager : FSMManager<NPCStates, NPCTriggers>
                 tem.triggers[tem.triggers.Count - 1].InitTrigger(this);
                 //Debug.Log(this.gameObject.name + "  " + tem.triggers[tem.triggers.Count - 1] + "  " + tem.triggers[tem.triggers.Count - 1].GetHashCode());
             }
-            statesDic.Add(stateConfigs[i].stateID, tem);
+            statesDic.Add(stateConfigs[i].name, tem);
             tem.InitState(this);
         }
     }
@@ -328,7 +319,7 @@ public class PlayerFSMManager : FSMManager<PlayerStates, PlayerTriggers>
     //            tem.triggers[tem.triggers.Count - 1].InitTrigger(this);
     //            //Debug.Log(this.gameObject.name + "  " + tem.triggers[tem.triggers.Count - 1] + "  " + tem.triggers[tem.triggers.Count - 1].GetHashCode());
     //        }
-    //        statesDic.Add(stateConfigs[i].stateID, tem);
+    //        statesDic.Add(stateConfigs[i].stateType, tem);
     //        tem.InitState(this);
     //    }
     //}
