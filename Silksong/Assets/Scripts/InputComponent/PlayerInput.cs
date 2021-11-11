@@ -30,6 +30,7 @@ public class PlayerInput : InputComponent
     ////TODO:xbox button mapping
     public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None, true);
     public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, true);
+    public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X, true);
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, true);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, true);
     [HideInInspector]
@@ -55,6 +56,7 @@ public class PlayerInput : InputComponent
             horizontal,
             vertical,
             jump,
+            normalAttack,
         });
     }
 

@@ -5,44 +5,62 @@ using UnityEngine;
 public class PlayerStatesBehaviour : StatesBehaviour
 {
     PlayerController PlayerController { get; set; }
-    public override void StatesEnterBehaviour(PlayerState playerStates)
-    {
-
-    }
-    //active为进入该state时第一帧开始，也就是没有把start从中分开
-    public override void StatesActiveBehaviour(PlayerState playerStates)
+    public override void StatesEnterBehaviour(EPlayerState playerStates)
     {
         switch (playerStates)
         {
-            case PlayerState.None:
+            case EPlayerState.None:
                 break;
-            case PlayerState.Idle:
-                PlayerController.CheckIsGroundedAndResetAirJumpCount();
-                PlayerController.CheckHorizontalMove(0.4f);
+            case EPlayerState.Idle:
                 break;
-            case PlayerState.Run:
-                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+            case EPlayerState.Run:
+                break;
+            case EPlayerState.Jump:
+                break;
+            case EPlayerState.Fall:
+                break;
+            case EPlayerState.NormalAttack:
                 PlayerController.CheckFlipPlayer(1f);
-                PlayerController.CheckHorizontalMove(0.4f);
-                break;
-            case PlayerState.Jump:
-                PlayerController.CheckJump();
-                PlayerController.IsGrounded = false;
-                PlayerController.CheckFlipPlayer(1f);
-                PlayerController.CheckHorizontalMove(0.5f);
-                break;
-            case PlayerState.Fall:
-                PlayerController.CheckIsGroundedAndResetAirJumpCount();
-                PlayerController.CheckFlipPlayer(1f);
-                PlayerController.CheckHorizontalMove(0.5f);
-                break;
-            case PlayerState.Attack:
                 break;
             default:
                 break;
         }
     }
-    public override void StatesExitBehaviour(PlayerState playerStates)
+    //active为进入该state时第一帧开始，也就是没有把start从中分开
+    public override void StatesActiveBehaviour(EPlayerState playerStates)
+    {
+        switch (playerStates)
+        {
+            case EPlayerState.None:
+                break;
+            case EPlayerState.Idle:
+                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+                PlayerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.Run:
+                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+                PlayerController.CheckFlipPlayer(1f);
+                PlayerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.Jump:
+                PlayerController.CheckJump();
+                PlayerController.IsGrounded = false;
+                PlayerController.CheckFlipPlayer(1f);
+                PlayerController.CheckHorizontalMove(0.5f);
+                break;
+            case EPlayerState.Fall:
+                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+                PlayerController.CheckFlipPlayer(1f);
+                PlayerController.CheckHorizontalMove(0.5f);
+                break;
+            case EPlayerState.NormalAttack:
+                PlayerController.CheckHorizontalMove(0.5f);
+                break;
+            default:
+                break;
+        }
+    }
+    public override void StatesExitBehaviour(EPlayerState playerStates)
     {
 
     }
@@ -51,19 +69,19 @@ public class PlayerStatesBehaviour : StatesBehaviour
 }
 
 //间隔一些留下相似但是不同的state方便管理，比如转身和idle，不要轻易改变现有的enum的值
-public enum PlayerState
+public enum EPlayerState
 {
     None = 0,
     Idle = 10,
     Run = 20,
     Jump = 30,
     Fall = 40,
-    Attack = 100,
+    NormalAttack = 100,
 }
 
 public abstract class StatesBehaviour
 {
-    public abstract void StatesEnterBehaviour(PlayerState playerStates);
-    public abstract void StatesActiveBehaviour(PlayerState playerStates);
-    public abstract void StatesExitBehaviour(PlayerState playerStates);
+    public abstract void StatesEnterBehaviour(EPlayerState playerStates);
+    public abstract void StatesActiveBehaviour(EPlayerState playerStates);
+    public abstract void StatesExitBehaviour(EPlayerState playerStates);
 }
