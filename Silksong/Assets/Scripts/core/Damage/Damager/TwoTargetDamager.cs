@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// 
-/// 对两个目标不同伤害的damager的基类   例如酸水,玩家的攻击
+/// 对两类目标不同伤害的damager的基类   例如酸水,玩家的攻击
 /// </summary>作者：青瓜
 public class TwoTargetDamager : DamagerBase
 {
@@ -26,7 +26,7 @@ public class TwoTargetDamager : DamagerBase
 
     protected override void makeDamage(DamageableBase Damageable)
     {
-
+        makeDamageEvent.Invoke(this, Damageable);
     }
 
 }

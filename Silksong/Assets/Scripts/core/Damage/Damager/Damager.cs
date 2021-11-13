@@ -12,7 +12,7 @@ public class Damager : DamagerBase
 
     protected override void makeDamage(DamageableBase Damageable)
     {
-        
+        makeDamageEvent.Invoke(this, Damageable);
     }
 
 
