@@ -138,17 +138,17 @@ public class Lift : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)//也可以使用overlap来判断玩家是否在电梯上
     {
-        if(collision.gameObject==player.gameObject && collision.otherCollider is BoxCollider2D)
+       /* if(collision.gameObject==player.gameObject && collision.otherCollider is BoxCollider2D)
         {
             playerIsOnLift = true;
-        }
+        }*/
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
 
-        if (collision.gameObject == player.gameObject)
+       /* if (collision.gameObject == player.gameObject)
         {
             playerIsOnLift = false;
-        }
+        }*/
     }
 }

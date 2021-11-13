@@ -13,7 +13,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     public Animator animator;
     public AudioSource audios;
     public Rigidbody2D rigidbody2d;
-    public bool FaceLeftFirstOriginal;//原图是否朝向左
+    public bool FaceLeftOriginal;//原图是否朝向左
 
    // public Collider2D triggerCollider;
     public Collision2D collision;
@@ -107,6 +107,10 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         {
             rigidbody2d = GetComponent<Rigidbody2D>();
         }
+        if (GetComponent<DamageableBase>() != null)
+        {
+            damageable = GetComponent<DamageableBase>();
+        }
 
         InitWithScriptableObject();
         ////组件获取
@@ -116,7 +120,6 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     {
         statesDic.Clear();
         InitManager();
-        damageable = GetComponent<DamageableBase>();
     }
 
     protected virtual void Start()
@@ -215,12 +218,12 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
 
     public void faceLeft()//使自身朝向左
     {
-        int x = FaceLeftFirstOriginal ? 1 : -1;
+        int x = FaceLeftOriginal ? 1 : -1;
         transform.localScale = new Vector3(x, 1, 1);
     }
     public void faceRight()
     {
-        int x = FaceLeftFirstOriginal ? 1 : -1;
+        int x = FaceLeftOriginal ? 1 : -1;
         transform.localScale = new Vector3(-x, 1, 1);
     }
 

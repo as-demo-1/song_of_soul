@@ -11,6 +11,7 @@ public class AnimationPlayOverTrigger :EnemyFSMBaseTrigger
         if (fsm_Manager.animator != null)
          {
              info = fsm_Manager.animator.GetCurrentAnimatorStateInfo(0);
+            
              //Debug.Log(info.length);
              if (info.normalizedTime >= 0.99)
                  return true;

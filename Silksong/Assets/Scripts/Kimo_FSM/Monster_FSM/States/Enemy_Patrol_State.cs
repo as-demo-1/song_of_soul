@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
 /// 敌人Patrol状态，包含撞墙回头，平台边缘回头两个功能
-/// </summary>适用于地面怪物
+/// </summary>适用于地面怪物 
 public class Enemy_Patrol_State : EnemyFSMBaseState
 {
     public bool isBack;
@@ -13,7 +13,9 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {
-        // Move();
+        if (fsmManager.rigidbody2d.velocity.y < -0.1) //如果被击出平台 正常下落
+            return;
+
         if (isBack)
         {
             DetectionPlatformBoundary();
@@ -55,6 +57,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     }
     private void DetectionPlatformBoundary()
     {
+
         //身前点
         Vector3 frontPoint = fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * (fsmManager.GetComponent<Collider2D>().bounds.size.x*0.5f);
   

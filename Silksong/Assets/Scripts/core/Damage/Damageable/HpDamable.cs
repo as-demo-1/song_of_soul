@@ -22,7 +22,6 @@ public class HpDamable :Damable
         }
 
         base.takeDamage(damager);
-
         addHp(-damager.getDamage(this));
 
     }
