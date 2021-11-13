@@ -8,9 +8,9 @@ public class Damable : DamageableBase
     }
     public override void takeDamage(DamagerBase damager)
     {
-        //  hittedEffect();
         damageDirection = damager.transform.position - transform.position;
-        EventsManager.Instance.Invoke(gameObject,EventType.onTakeDamage);
+        //EventsManager.Instance.Invoke(gameObject,EventType.onTakeDamage);
+        takeDamageEvent.Invoke(damager,this);
     }
 
 

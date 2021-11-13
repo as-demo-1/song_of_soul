@@ -12,7 +12,6 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
     public float bulletSpeed;
     private float time = 0;
     private Transform shotPosition;//子弹发射的位置 发射子弹的小怪需要有这个子物体
-    //public class MonoStub : MonoBehaviour { };
 
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {

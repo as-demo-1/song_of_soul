@@ -12,7 +12,7 @@ public class RebornDamager:TwoTargetDamager
     {
     }
 
-    protected  override void makeDamage(DamageableBase damageable)//
+    protected  override void makeDamage(DamageableBase damageable)
     {
         base.makeDamage(damageable);
         if(rebornLayer.Contains(damageable.gameObject))
