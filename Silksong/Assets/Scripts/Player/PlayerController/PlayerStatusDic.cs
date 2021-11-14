@@ -18,7 +18,7 @@ public class PlayerStatusDic
         };
     }
 
-    public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.AndBuffFlag)
+    public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.Override)
     {
         m_StatusDic[playerStatus].SetFlag(newFlag, calcuteFlagType);
     }
