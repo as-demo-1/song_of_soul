@@ -40,9 +40,9 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
         {
             if (CurrentPlayerState == EPlayerState.Idle)
             {
-                PlayerStatusDic[EPlayerStatus.CanMove].SetFlag(true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.Override);
-                PlayerStatusDic[EPlayerStatus.CanJump].SetFlag(true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.Override);
-                PlayerStatusDic[EPlayerStatus.CanNormalAttack].SetFlag(true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.Override);
+                PlayerStatusDic[EPlayerStatus.CanMove].SetFlag(true);
+                PlayerStatusDic[EPlayerStatus.CanJump].SetFlag(true);
+                PlayerStatusDic[EPlayerStatus.CanNormalAttack].SetFlag(true);
             }
         }
     }
