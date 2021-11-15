@@ -18,7 +18,7 @@ public class PlayerStatusDic
         };
     }
 
-    public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.And)
+    public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.Override)
     {
         m_StatusDic[playerStatus].SetFlag(newFlag, calcuteFlagType);
     }
@@ -33,40 +33,48 @@ public class PlayerStatusDic
 
     public class PlayerStatusFlag
     {
-        public bool Flag { get; private set; }
-        public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType = WayOfChangingFlag.And)
+        public bool BuffFlags { get; private set; } = true;
+        private bool m_Flag = true;
+        public bool Flag 
+        {
+            get
+            {
+                return m_Flag & BuffFlags;
+            }
+            private set
+            {
+                m_Flag = value;
+            }
+        }
+        public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType = WayOfChangingFlag.Override)
         {
             switch (setFlagType)
             {
-                case WayOfChangingFlag.And:
-                    Flag &= newFlag;
-                    break;
                 case WayOfChangingFlag.Override:
                     Flag = newFlag;
                     break;
-                //case WayOfChangingFlag.FinalWillUpdateStateMachine:
-                //    PlayerController.StartCoroutine(WaitForNextFrameBeforeUpdate(newFlag));
-                //    break;
+                case WayOfChangingFlag.AndBuffFlag:
+                    BuffFlags &= newFlag;
+                    break;
+                case WayOfChangingFlag.OverrideBuffFlags:
+                    BuffFlags = newFlag;
+                    break;
                 default:
                     break;
             }
-
         }
 
-        IEnumerator WaitForNextFrameBeforeUpdate(bool newFlag)
-        {
-            yield return null;
-            this.Flag = newFlag;
-        }
+        //IEnumerator WaitForNextFrameBeforeUpdate(bool newFlag)
+        //{
+        //    yield return null;
+        //    this.Flag = newFlag;
+        //}
 
         public enum WayOfChangingFlag
         {
-            //&=
-            And,
-            //=
             Override,
-            ////next frame before update; = 
-            //FinalWillUpdateStateMachine,
+            AndBuffFlag,
+            OverrideBuffFlags,
         }
         private static MonoBehaviour PlayerController { get; set; }
         public static void GetPlayerController(MonoBehaviour monoBehaviour) => PlayerController = monoBehaviour;
