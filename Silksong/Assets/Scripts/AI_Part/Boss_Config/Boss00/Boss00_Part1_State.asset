@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Boss00_Part1_State
+  m_EditorClassIdentifier: 
+  lastStateID: 10
+  lastTriggerID: 0
+  StateName: Boss00_Part1_State
+  StateType: 10
+  stateConfig:
+    id: 0
+  TriggerType: 0
+  triggerConfig:
+    id: 1
+  triggerList: []
+  references:
+    version: 1
+    00000000:
+      type: {class: EnemySubFSMManager, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 10
+        currentStateName: 
+        defaultStateName: Boss00_Part1_Idle
+        stateConfigs:
+        - {fileID: 11400000, guid: 468b21163f783ba469f40f268675616c, type: 2}
+        - {fileID: 11400000, guid: 8930685fd23a09745a3bff1245df21d3, type: 2}
+        - {fileID: 11400000, guid: 89b3016209dc77e4c920dd3743ad38a2, type: 2}
+        - {fileID: 11400000, guid: 652a2c23f75f26e4690354217c42efc0, type: 2}
+        - {fileID: 11400000, guid: 0e9358544573ce74ba90a7c33a3fe3db, type: 2}
+        - {fileID: 11400000, guid: 3ab424c608c91ee4d89f71be0f7b6ace, type: 2}
+        anyStateConfig: {fileID: 11400000, guid: 396ec3de737d3784196b8afd41bc7eeb, type: 2}
+        player: {fileID: 0}
+        FaceLeftFirstOriginal: 0
+    00000001:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: 0
+        maxTime: 0
+        timer: 0
