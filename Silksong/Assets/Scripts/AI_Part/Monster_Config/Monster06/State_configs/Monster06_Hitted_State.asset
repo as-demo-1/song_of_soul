@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Monster06_Hitted_State
+  m_EditorClassIdentifier: 
+  lastStateID: 3
+  lastTriggerID: 3
+  StateName: Monster06_Hitted_State
+  StateType: 3
+  stateConfig:
+    id: 0
+  TriggerType: 3
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Hitted_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 3
+        HittedBackDistance: 2
+    00000001:
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 3
+        targetState: Monster06_Patrol_State
+    00000002:
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 3
+        targetState: Monster06_Patrol_State
