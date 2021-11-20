@@ -74,15 +74,15 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 432623041
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 05d08a1da6184a5438d3afb7c6034fc1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 56714b0e18795f74cb3ce17b8f41b858, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.13, y: 1.41}
+  m_Size: {x: 1.8333334, y: 1.8333334}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -102,6 +102,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   maxHp: 2000
   currentHp: 2000
   resetHealthOnSceneReload: 0
@@ -118,18 +122,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.4}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.8828125, y: 1.1015625}
-    newSize: {x: 1.13, y: 1.41}
+    oldSize: {x: 3.3333333, y: 3.3333333}
+    newSize: {x: 1.8333334, y: 1.8333334}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.13, y: 1.41}
+  m_Size: {x: 1.5, y: 2}
   m_EdgeRadius: 0
 --- !u!50 &4784448708260076414
 Rigidbody2D:
@@ -198,7 +202,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ebb316d789ea76f46a3d41371ce8d2d8, type: 2}
   anyStateConfig: {fileID: 11400000, guid: d81b27961ae4e254dbd44d2164054210, type: 2}
   player: {fileID: 0}
-  FaceLeftFirstOriginal: 1
+  FaceLeftFirstOriginal: 0
 --- !u!1 &4784448708440573212
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,3 +276,6 @@ MonoBehaviour:
   ignoreInvincibility: 0
   canDamage: 1
   damage: 1
+  makeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []

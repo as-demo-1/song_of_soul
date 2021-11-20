@@ -48,6 +48,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16384
   canWork: 1
+  isOneTime: 1
   spike: {fileID: 3186333210965789234}
   dropSpeed: 7
 --- !u!61 &3186333209450976649
@@ -63,7 +64,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00000023841858, y: 5.0892735}
+  m_Offset: {x: 0.00000023841858, y: -5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -149,6 +150,9 @@ MonoBehaviour:
   ignoreInvincibility: 0
   canDamage: 1
   damage: 1
+  makeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   hittableLayers2:
     serializedVersion: 2
     m_Bits: 32768
@@ -230,12 +234,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9070a0f7bb8945b4fa5f8a7e2565bf26, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5c7808d6fc179254597ff76098caac2e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.57, y: 1.35}
+  m_Size: {x: 1, y: 1.6833333}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -258,8 +262,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.57, y: 1.35}
-    newSize: {x: 0.57, y: 1.35}
+    oldSize: {x: 1, y: 1.6833333}
+    newSize: {x: 1, y: 1.6833333}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -280,11 +284,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
+  damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   maxHp: 1
   currentHp: 1
   resetHealthOnSceneReload: 0
-  canHitBack: 0
-  hitBackDistance: 0
 --- !u!50 &3186333210965789237
 Rigidbody2D:
   serializedVersion: 4
@@ -322,4 +329,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   canWork: 1
+  isOneTime: 1
   damager: {fileID: 3186333209807990362}

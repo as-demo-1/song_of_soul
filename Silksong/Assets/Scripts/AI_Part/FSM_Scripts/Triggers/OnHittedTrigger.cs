@@ -10,13 +10,13 @@ public class OnHittedTrigger :EnemyFSMBaseTrigger
     public override void InitTrigger(EnemyFSMManager fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
-        //targetState = EnemyStates.Enemy_Hitted_State; 可能跳到其他状态
-        EventsManager.Instance.AddListener(fsm_Manager.gameObject, EventType.onTakeDamage, Hitted);
+        //EventsManager.Instance.AddListener(fsm_Manager.gameObject, EventType.onTakeDamage, Hitted);
+        fsm_Manager.damageable.takeDamageEvent.AddListener(Hitted);
     }
 
-    private void Hitted()
+    private void Hitted(DamagerBase damager,DamageableBase damageable)
     {
-            isHitted = true;
+      isHitted = true;
        // Debug.Log(this.GetHashCode());
 
     }

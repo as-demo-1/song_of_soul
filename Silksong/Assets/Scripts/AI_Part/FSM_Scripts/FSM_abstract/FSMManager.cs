@@ -223,8 +223,8 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public void faceWithSpeed()
     {
         if (rigidbody2d.velocity.x < 0)
-            faceRight();
-        else faceLeft();
+            faceLeft();
+        else faceRight();
     }
 
     /// <summary>
