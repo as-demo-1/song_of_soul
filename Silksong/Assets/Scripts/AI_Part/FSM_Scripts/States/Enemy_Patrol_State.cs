@@ -39,8 +39,9 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         fsmManager = fSM_Manager;
         stateType = EnemyStates.Enemy_Patrol_State;
         Collider2D collider = fsmManager.GetComponent<Collider2D>();
-        rayToGroundDistance = collider.bounds.size.y * 0.5f + 0.1f-collider.bounds.center.y;//ÔÝÎ´¿¼ÂÇcolliderµÄoffset 
-        Debug.Log("gourndDistance "+rayToGroundDistance);
+        rayToGroundDistance = collider.bounds.extents.y - collider.offset.y+0.1f;
+       // Debug.Log(collider.offset);
+        //Debug.Log("gourndDistance "+rayToGroundDistance);
     }
 
     public override void ExitState(EnemyFSMManager fSM_Manager)
@@ -63,7 +64,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
   
         var rayHit=Physics2D.Raycast(frontPoint, Vector2.down,100,1<<LayerMask.NameToLayer("Ground"));
        // Debug.DrawRay(frontPoint,Vector2.down);
-        Debug.Log(rayHit.distance);
+        //Debug.Log(rayHit.distance);
         if (rayHit.distance>rayToGroundDistance)//µ½´ï±ßÔµ
         {
             Turn();
