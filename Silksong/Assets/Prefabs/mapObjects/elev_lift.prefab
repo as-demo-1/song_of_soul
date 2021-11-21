@@ -82,7 +82,7 @@ SpriteRenderer:
   m_Size: {x: 0.67, y: 1.93}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &4536791678316699890
@@ -124,6 +124,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
+  damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   floor: 3
   lift: {fileID: 4536791679195580262}
   floorCollider: {fileID: 4536791679896044352}
@@ -240,7 +245,7 @@ SpriteRenderer:
   m_Size: {x: 0.67, y: 1.93}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4536791679010044447
@@ -256,6 +261,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
+  damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   goUp: 1
   lift: {fileID: 4536791679195580262}
 --- !u!50 &4536791679010044440
@@ -385,7 +395,7 @@ SpriteRenderer:
   m_Size: {x: 2.85, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &4536791679064343173
@@ -492,8 +502,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 177898739
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 164619d08c450b447b745c807beffd7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -503,7 +513,7 @@ SpriteRenderer:
   m_Size: {x: 5.32, y: 10.22}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &4536791679195580266
@@ -678,7 +688,7 @@ SpriteRenderer:
   m_Size: {x: 2.85, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &4536791679683648637
@@ -789,7 +799,7 @@ SpriteRenderer:
   m_Size: {x: 0.67, y: 1.93}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &4536791679848566177
@@ -831,6 +841,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
+  damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   floor: 2
   lift: {fileID: 4536791679195580262}
   floorCollider: {fileID: 4536791679683648637}
@@ -915,7 +930,7 @@ SpriteRenderer:
   m_Size: {x: 2.85, y: 0.48}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &4536791679896044352
@@ -1026,7 +1041,7 @@ SpriteRenderer:
   m_Size: {x: 0.67, y: 1.93}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &4536791679903278792
@@ -1068,6 +1083,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
+  damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   floor: 1
   lift: {fileID: 4536791679195580262}
   floorCollider: {fileID: 4536791679064343173}
@@ -1154,7 +1174,7 @@ SpriteRenderer:
   m_Size: {x: 0.67, y: 1.93}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4536791679982557803
@@ -1170,6 +1190,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invulnerable: 0
+  damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   goUp: 0
   lift: {fileID: 4536791679195580262}
 --- !u!50 &4536791679982557802
