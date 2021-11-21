@@ -68,6 +68,8 @@ public  class FSMBaseState<T1,T2>
     /// 状态持续及刷新
     /// </summary>
     public virtual void Act_State(FSMManager<T1,T2> fSM_Manager) { }
+
+    public virtual void FixAct_State(FSMManager<T1, T2> fSM_Manager) { }
     /// <summary>
     /// 遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
     /// </summary>
@@ -117,6 +119,13 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
         Act_State(fSM_Manager as EnemyFSMManager);
     }
     public virtual void Act_State(EnemyFSMManager enemyFSM) { }
+
+    public override void FixAct_State(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
+    {
+        base.FixAct_State(fSM_Manager);
+        FixAct_State(fSM_Manager as EnemyFSMManager);
+    }
+    public virtual void FixAct_State(EnemyFSMManager enemyFSM) { }
     public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
         base.ExitState(fSM_Manager);

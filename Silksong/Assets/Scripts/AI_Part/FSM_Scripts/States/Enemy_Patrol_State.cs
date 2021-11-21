@@ -14,6 +14,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {
         // Move();
+        fsmManager.faceWithSpeed();
         if (isBack)
         {
             DetectionPlatformBoundary();
@@ -51,7 +52,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         //Debug.Log("turn");
         moveSpeed.x *= -1;
         fsmManager.rigidbody2d.velocity = moveSpeed;
-        fsmManager.faceWithSpeed();
+       
     }
     private void DetectionPlatformBoundary()
     {
@@ -60,7 +61,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
   
         var rayHit=Physics2D.Raycast(frontPoint, Vector2.down,100,1<<LayerMask.NameToLayer("Ground"));
        // Debug.DrawRay(frontPoint,Vector2.down);
-        Debug.Log(rayHit.distance);
+        //Debug.Log(rayHit.distance);
         if (rayHit.distance>rayToGroundDistance)//µ½´ï±ßÔµ
         {
             Turn();
