@@ -32,10 +32,9 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     /// </summary>
     public Dictionary<string, FSMBaseState<T1,T2>> statesDic = new Dictionary<string, FSMBaseState<T1,T2>>();
 
-
     public void ChangeState(string state)
     {
-      //  Debug.Log(state.ToString()+"  "+gameObject.name);
+      // Debug.Log(state.ToString()+"  "+gameObject.name);
         if (currentState != null)
             currentState.ExitState(this);
 
@@ -239,6 +238,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     /// </summary>
     public Vector2 getTargetDir(bool changeFace=false)
     {
+        if (player == null) return new Vector2(int.MaxValue,int.MaxValue);
         Vector2 dir = player.transform.position - transform.position;
         if(changeFace)
         {

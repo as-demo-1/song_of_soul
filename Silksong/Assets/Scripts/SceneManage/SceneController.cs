@@ -65,7 +65,7 @@ public class SceneController : MonoBehaviour
 
         if(playerInput == null)
             playerInput = FindObjectOfType<PlayerInput>();
-        playerInput.ReleaseControl(resetInputValues);
+        playerInput.ReleaseControls(resetInputValues);
 
       //  yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.Loading));
         yield return SceneManager.LoadSceneAsync(newSceneName);//“Ï≤Ωº”‘ÿ≥°æ∞
@@ -74,7 +74,7 @@ public class SceneController : MonoBehaviour
         // yield return StartCoroutine(ScreenFader.FadeSceneIn());
         if (playerInput == null)
             playerInput = FindObjectOfType<PlayerInput>();
-        playerInput.GainControl();
+        playerInput.GainControls();
 
         m_Transitioning = false;
     }
