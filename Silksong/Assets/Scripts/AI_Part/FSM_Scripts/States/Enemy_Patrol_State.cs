@@ -13,9 +13,14 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {
+<<<<<<< HEAD
         if (fsmManager.rigidbody2d.velocity.y < -0.1) //如果被击出平台 正常下落
             return;
 
+=======
+        // Move();
+        fsmManager.faceWithSpeed();
+>>>>>>> feature_Boss_AI
         if (isBack)
         {
             DetectionPlatformBoundary();
@@ -54,7 +59,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         //Debug.Log("turn");
         moveSpeed.x *= -1;
         fsmManager.rigidbody2d.velocity = moveSpeed;
-        fsmManager.faceWithSpeed();
+       
     }
     private void DetectionPlatformBoundary()
     {

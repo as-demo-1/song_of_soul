@@ -131,7 +131,13 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         //    }
 
     }
-
+    private void  FixedUpdate()
+    {
+        if(currentState!=null)
+        {
+            currentState.FixAct_State(this);
+        }
+    }
     private void Update()
     {
 

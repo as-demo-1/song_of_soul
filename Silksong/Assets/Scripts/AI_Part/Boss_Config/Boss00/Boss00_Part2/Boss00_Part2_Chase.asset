@@ -12,26 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Boss00_Part2_Chase
   m_EditorClassIdentifier: 
-  lastStateID: 0
-  lastTriggerID: 0
-  StateName: 
-  StateType: 0
+  lastStateID: 11
+  lastTriggerID: 2
+  StateName: Boss00_Part2_Chase
+  StateType: 11
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 2
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Chase_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 0
+        stateType: 11
+        defaultAnimationName: Boss00_Chase
+        chaseSpeed: 20
+        isFaceWithSpeed: 0
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: 
-        maxTime: 0
-        timer: 0
+        triggerType: 2
+        targetState: Boss00_Part2_Attack
+        checkNearRadius: 0
+        checkFarRadius: 30
+    00000002:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss00_Part2_Attack
+        checkNearRadius: 0
+        checkFarRadius: 30

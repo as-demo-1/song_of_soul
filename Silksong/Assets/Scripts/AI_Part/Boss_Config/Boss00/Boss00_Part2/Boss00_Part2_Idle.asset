@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Boss00_Part2_Idle
   m_EditorClassIdentifier: 
-  lastStateID: 0
+  lastStateID: 1
   lastTriggerID: 0
-  StateName: 
-  StateType: 0
+  StateName: Boss00_Part2_Idle
+  StateType: 1
   stateConfig:
     id: 0
   TriggerType: 0
@@ -25,9 +25,10 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 0
+        stateType: 1
+        defaultAnimationName: 
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
