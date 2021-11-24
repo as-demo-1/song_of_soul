@@ -8,7 +8,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
 {
     public bool isBack;
     public Vector3 moveSpeed;
-    public float rayToGroundDistance;
+    private float rayToGroundDistance;
 
     
     public override void Act_State(EnemyFSMManager fSM_Manager)
@@ -51,7 +51,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
 
     private void Turn()
     {
-        //Debug.Log("turn");
+       // Debug.Log("turn");
         moveSpeed.x *= -1;
         fsmManager.rigidbody2d.velocity = moveSpeed;
         fsmManager.faceWithSpeed();
