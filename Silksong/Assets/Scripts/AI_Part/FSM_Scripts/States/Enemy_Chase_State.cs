@@ -23,7 +23,8 @@ public class Enemy_Chase_State :EnemyFSMBaseState
             v = new Vector3(1, 0, 0);
         else
             v = new Vector3(-1, 0, 0);
-        fSM_Manager.transform.Translate(v * chaseSpeed * Time.deltaTime);
+        // fSM_Manager.transform.Translate(v * chaseSpeed * Time.deltaTime);
+        fSM_Manager.rigidbody2d.velocity = v*chaseSpeed;
 
         if (isFaceWithSpeed)
             fSM_Manager.faceWithSpeed();
