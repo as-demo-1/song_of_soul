@@ -250,6 +250,20 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         }
         return dir;
     }
+
+    public bool nearPlatformBoundary()
+    {
+        Collider2D collider = GetComponent<Collider2D>();
+        float rayToGroundDistance = collider.bounds.extents.y - collider.offset.y + 0.1f;
+        Vector3 frontPoint = transform.position + new Vector3((rigidbody2d.velocity.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
+        var rayHit = Physics2D.Raycast(frontPoint, Vector2.down, 100, 1 << LayerMask.NameToLayer("Ground"));
+        if (rayHit.distance > rayToGroundDistance)//µ½´ï±ßÔµ
+        {
+            return true;
+        }
+        return false;
+
+    }
 }
 
 

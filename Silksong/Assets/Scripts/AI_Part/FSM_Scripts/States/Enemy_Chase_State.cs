@@ -18,7 +18,8 @@ public class Enemy_Chase_State :EnemyFSMBaseState
     }
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {
-        v = fSM_Manager.getTargetDir(true);
+        v = fSM_Manager.getTargetDir();
+        Debug.Log(v.x);
         if (v.x > 0)
             v = new Vector3(1, 0, 0);
         else
@@ -30,5 +31,10 @@ public class Enemy_Chase_State :EnemyFSMBaseState
             fSM_Manager.faceWithSpeed();
     }
 
+    public override void ExitState(EnemyFSMManager enemyFSM)
+    {
+        base.ExitState(enemyFSM);
+        enemyFSM.rigidbody2d.velocity = Vector2.zero;
+    }
 
 }
