@@ -8,7 +8,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
 {
     public bool isBack;
     public Vector3 moveSpeed;
-    public float rayToGroundDistance;
+    public bool isFaceWithSpeed;
 
     
     public override void Act_State(EnemyFSMManager fSM_Manager)
@@ -26,6 +26,8 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     {
         base.EnterState(fSM_Manager);
         fsmManager.rigidbody2d.velocity = moveSpeed;
+
+        if(isFaceWithSpeed)
         fSM_Manager.faceWithSpeed();
         /*  if (isBack)
           {
@@ -38,10 +40,6 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         base.InitState(fSM_Manager);
         fsmManager = fSM_Manager;
         stateType = EnemyStates.Enemy_Patrol_State;
-        Collider2D collider = fsmManager.GetComponent<Collider2D>();
-        rayToGroundDistance = collider.bounds.extents.y - collider.offset.y+0.1f;
-       // Debug.Log(collider.offset);
-        //Debug.Log("gourndDistance "+rayToGroundDistance);
     }
 
     public override void ExitState(EnemyFSMManager fSM_Manager)
@@ -51,28 +49,24 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
 
     private void Turn()
     {
-        //Debug.Log("turn");
+       // Debug.Log("turn");
         moveSpeed.x *= -1;
         fsmManager.rigidbody2d.velocity = moveSpeed;
+
+        if(isFaceWithSpeed)
         fsmManager.faceWithSpeed();
     }
     private void DetectionPlatformBoundary()
     {
+        if(fsmManager.nearPlatformBoundary())
+             Turn();
 
-        //身前点
-        Vector3 frontPoint = fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * (fsmManager.GetComponent<Collider2D>().bounds.size.x*0.5f);
-  
-        var rayHit=Physics2D.Raycast(frontPoint, Vector2.down,100,1<<LayerMask.NameToLayer("Ground"));
-       // Debug.DrawRay(frontPoint,Vector2.down);
-        //Debug.Log(rayHit.distance);
-        if (rayHit.distance>rayToGroundDistance)//到达边缘
-        {
-            Turn();
-        }
+        Vector3 frontPoint = fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * (fsmManager.GetComponent<Collider2D>().bounds.size.x * 0.5f);
         Vector3 upPoint = fsmManager.transform.position + new Vector3(0, 0.1f, 0);
         if (Physics2D.OverlapArea(upPoint,frontPoint,1<<LayerMask.NameToLayer("Ground"))!=null)
         {
             //Debug.Log("hit wall");
+            //if(!isChaseNotPatrol)
             Turn();
         }
     }

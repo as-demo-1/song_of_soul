@@ -31,6 +31,8 @@ public enum EnemyTriggers
     AnimationPlayOverTrigger=3,
     OnHittedTrigger=4,
     SelfHPTrigger=5,
+    NearPlatformBorderTrigger=6,
+
 }
 
 
