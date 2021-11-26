@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 /// <summary>
 /// 电梯1.0
 /// </summary>作者：青瓜
 public class Lift : MonoBehaviour
 {
     public int maxFloor;//从1开始计算
-
     public LiftFloorGear[] gears;//lift为该电梯的liftFloorGear在start时绑定到该数组  按从低层到高层顺序
 
     public float currentFloor;//当前层 若为x.5层则表示在x与x+1层之间
@@ -34,11 +34,16 @@ public class Lift : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         floorCollider = GetComponent<BoxCollider2D>();
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        playerRigid = player.GetComponent<Rigidbody2D>();
     }
     void Start()
     {
+        GameObject playerobj = GameObject.FindGameObjectWithTag("Player");
+        if(player!=null)
+        {
+            player = playerobj.GetComponent<PlayerController>();
+            playerRigid = player.GetComponent<Rigidbody2D>();
+        }
+
         setFloorPosition();
         arriveDistance = speed * Time.fixedDeltaTime;
     }
@@ -133,17 +138,17 @@ public class Lift : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)//也可以使用overlap来判断玩家是否在电梯上
     {
-        if(collision.gameObject==player.gameObject && collision.otherCollider is BoxCollider2D)
+       /* if(collision.gameObject==player.gameObject && collision.otherCollider is BoxCollider2D)
         {
             playerIsOnLift = true;
-        }
+        }*/
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
 
-        if (collision.gameObject == player.gameObject)
+       /* if (collision.gameObject == player.gameObject)
         {
             playerIsOnLift = false;
-        }
+        }*/
     }
 }

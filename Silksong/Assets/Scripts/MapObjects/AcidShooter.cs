@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 发射酸水
+/// 发射酸水(火球)
 /// </summary>作者：青瓜
 public class AcidShooter : MonoBehaviour
 {
@@ -20,7 +20,10 @@ public class AcidShooter : MonoBehaviour
         Velocity = Time * g;
 
         if (shotCD > 0)
+        {
             StartCoroutine(shotAcidLoop());
+        }
+           
         else Debug.Log("shot cd can not <=0");
     }
 
@@ -33,11 +36,17 @@ public class AcidShooter : MonoBehaviour
         }
     }
 
+    private IEnumerator rotateAcid(Transform acid)
+    {
+        yield return new WaitForSeconds(Time);
+        acid.rotation = Quaternion.Euler( new Vector3(0, 0, 0));
+    }
     private void shotAcid()
     {
         GameObject acid = Instantiate(flyAcid);
         acid.transform.position = transform.position;
         acid.GetComponent<Rigidbody2D>().velocity = new Vector2(0, Velocity);
         Destroy(acid, Time * 2);
+        StartCoroutine(rotateAcid(acid.transform));
     }
 }

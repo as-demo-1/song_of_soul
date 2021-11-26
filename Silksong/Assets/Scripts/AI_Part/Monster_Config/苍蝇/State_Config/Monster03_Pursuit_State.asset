@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Monster03_Pursuit_State
+  m_EditorClassIdentifier: 
+  lastStateID: 6
+  lastTriggerID: 2
+  StateName: Monster03_Pursuit_State
+  StateType: 6
+  stateConfig:
+    id: 0
+  TriggerType: 2
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Pursuit_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 6
+        avoidForce: 2
+        MAX_SEE_AHEAD: 2
+        maxSpeed: 2
+        maxForce: 2
+    00000001:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Monster03_Idle_State
+        checkRadius: 80
+        isEnterTrigger: 0
+    00000002:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Monster03_Idle_State
+        checkRadius: 80
+        isEnterTrigger: 0

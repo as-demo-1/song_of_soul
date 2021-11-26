@@ -7,20 +7,17 @@ using UnityEngine;
 /// </summary>×÷Õß£ºÇà¹Ï
 public class RebornDamager:TwoTargetDamager
 {
-    //private SceneManger sceneManger;
     public LayerMask rebornLayer;
     void Start()
     {
-        //sceneManger = GameObject.Find("Enviroment").GetComponent<SceneManger>();
     }
 
-    protected  override void makeDamage(DamageableBase damageable)//
+    protected  override void makeDamage(DamageableBase damageable)
     {
-        // base.makeDamge(Damageable);
-      /*  if(rebornLayer.Contains(damageable.gameObject))
+        base.makeDamage(damageable);
+        if(rebornLayer.Contains(damageable.gameObject) && (damageable as HpDamable).currentHp>0 )
         {
-            sceneManger.rebornPlayer();
-        }*/
-
+            GameObjectTeleporter.playerReborn();
+        }
     }
 }

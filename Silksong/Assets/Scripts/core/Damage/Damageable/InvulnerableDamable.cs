@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/// <summary>
+using UnityEngine.Events;
 /// 
 /// 在hpdamable的基础上 增加受击后无敌机制
 /// </summary>作者：青瓜
@@ -10,6 +10,7 @@ public class InvulnerableDamable : HpDamable
     public bool invulnerableAfterDamage = true;//受伤后无敌
     public float invulnerabilityDuration = 3f;//无敌时间
     protected float inulnerabilityTimer;
+
     public override void takeDamage(DamagerBase damager)
     {
         base.takeDamage(damager);

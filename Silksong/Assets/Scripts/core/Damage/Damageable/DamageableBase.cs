@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
+using UnityEngine.Events;
 /// <summary>
 /// 
 /// damageable的抽象基类 
@@ -9,7 +10,19 @@ using UnityEngine;
 public abstract class DamageableBase : MonoBehaviour
 {
     public bool invulnerable;//是否无敌
-    public abstract void takeDamage(DamagerBase damager);//受到伤害时触发的效果
+
+    [HideInInspector]
+    public Vector2 damageDirection;//伤害来源的方向
+
+    public bool playerAttackCanGainSoul;//玩家攻击时能得到魂
+
+    public abstract void takeDamage(DamagerBase damager);//受到伤害时调用
+
+    [Serializable]
+    public class DamageEvent : UnityEvent<DamagerBase, DamageableBase>
+    { }
+
+    public DamageEvent takeDamageEvent;
 
     protected virtual void Awake()//在awake时检测刚体 完成设定
     {

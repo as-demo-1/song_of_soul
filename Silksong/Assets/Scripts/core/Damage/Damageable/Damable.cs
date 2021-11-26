@@ -2,14 +2,16 @@
 
 public class Damable : DamageableBase
 {
+    protected override void Awake()
+    {
+        base.Awake();     
+    }
     public override void takeDamage(DamagerBase damager)
     {
-        hittedEffect();//或者是event.invoke()
+        damageDirection = damager.transform.position - transform.position;
+        //EventsManager.Instance.Invoke(gameObject,EventType.onTakeDamage);
+        takeDamageEvent.Invoke(damager,this);
     }
 
-    protected virtual void hittedEffect()//受击效果 或有必要以事件形式触发
-    {
-        //Debug.Log(gameObject.name + " is hitted");
-    }
 
 }
