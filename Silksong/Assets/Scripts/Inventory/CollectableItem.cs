@@ -4,18 +4,18 @@ namespace Inventory
 {
     public class CollectableItem : MonoBehaviour
     {
-        [SerializeField] private ItemSO _currentItem = default;
+        [SerializeField] private ItemSO _currentItemSO = default;
         [SerializeField] private GameObject _itemGO = default;
 
         public ItemSO GetItem()
         {
 
-            return _currentItem;
+            return _currentItemSO;
 
         }
         public void SetItem(ItemSO item)
         {
-            _currentItem = item;
+            _currentItemSO = item;
 
         }
     }

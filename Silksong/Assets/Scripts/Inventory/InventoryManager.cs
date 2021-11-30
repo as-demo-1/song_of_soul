@@ -29,6 +29,7 @@ public class InventoryManager : MonoBehaviour
 
 	public void LoadSave()
 	{
+		_currentInventory.Items.Clear();
 		_saveSystem.LoadSaveDataFromDisk();
 		foreach (var serializedItemStack in _saveSystem.saveData._itemStacks)
 		{

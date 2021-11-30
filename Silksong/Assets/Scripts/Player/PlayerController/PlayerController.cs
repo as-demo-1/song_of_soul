@@ -94,8 +94,7 @@ public class PlayerController : MonoBehaviour
         Instance = null;
     }
 
-    
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("CollectableItem"))
         {
@@ -104,7 +103,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
     }
