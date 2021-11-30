@@ -7,6 +7,9 @@ using UnityEngine;
 //https://assetstore.unity.com/packages/templates/tutorials/2d-game-kit-107098#description
 public abstract class InputComponent : MonoBehaviour
 {
+    // todo:test
+    public Queue<Action> actions = new Queue<Action>();
+
     public enum InputType
     {
         MouseAndKeyboard,
@@ -332,6 +335,12 @@ public abstract class InputComponent : MonoBehaviour
 
     void Update()
     {
+        // todo:test
+        if (actions.Count != 0)
+        {
+            actions.Dequeue()();
+        }
+
         GetInputs(m_FixedUpdateHappened || Mathf.Approximately(Time.timeScale, 0));
 
         m_FixedUpdateHappened = false;

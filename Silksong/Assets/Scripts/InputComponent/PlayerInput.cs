@@ -14,6 +14,7 @@ public class PlayerInput : InputComponent
 
 
     public bool HaveControl { get { return m_HaveControl; } }
+    public bool IsFrozen { get; set; }
 
     //[SerializeField]
     //private List<InputButton> playerInputButtons;
@@ -30,6 +31,7 @@ public class PlayerInput : InputComponent
     ////TODO:xbox button mapping
     public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None);
     public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
+    public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None);
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     [HideInInspector]
@@ -38,7 +40,7 @@ public class PlayerInput : InputComponent
 
     protected bool m_DebugMenuIsOpen = false;
 
-    //³õÊ¼»¯buttons
+    //ï¿½ï¿½Ê¼ï¿½ï¿½buttons
     void Awake()
     {
         if (s_Instance == null)
@@ -49,12 +51,13 @@ public class PlayerInput : InputComponent
         //buttons.AddRange(playerInputButtons);
         //buttons.AddRange(playerInputAxes);
 
-        //¼ÓÈëbutton
+        //ï¿½ï¿½ï¿½ï¿½button
         buttons.AddRange(new List<Button>
         {
             horizontal,
             vertical,
             jump,
+            interact,
         });
     }
 
@@ -76,6 +79,10 @@ public class PlayerInput : InputComponent
 
     protected override void GetInputs(bool fixedUpdateHappened)
     {
+        if (IsFrozen)
+        {
+            return;
+        }
         foreach (var button in buttons)
         {
             button.Get(fixedUpdateHappened, inputType);

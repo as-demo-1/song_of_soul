@@ -8,15 +8,15 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
-    //animatorºÍ½ÇÉ«×´Ì¬Ïà¹Ø
+    //animatorï¿½Í½ï¿½É«×´Ì¬ï¿½ï¿½ï¿½
     public PlayerAnimatorStatesControl PlayerAnimatorStatesControl { get; private set; }
-    //½ÇÉ«Ë®Æ½ÒÆ¶¯¼Ó¼õËÙ¿ØÖÆ£¬³õÊ¼Éè¶¨Öµ£º£¨×ÜÊ±¼ä×ÜÊÇÉè¶¨Îª1£¬µØÃæÉÏ¼ÓËÙ£¬µØÃæÉÏ¼õËÙ£¬¿ÕÖÐ¼ÓËÙ£¬¿ÕÖÐ¼õËÙ£©£¬¶¯Ì¬¿ØÖÆ¼ûÀàÖÐÊôÐÔ
+    //ï¿½ï¿½É«Ë®Æ½ï¿½Æ¶ï¿½ï¿½Ó¼ï¿½ï¿½Ù¿ï¿½ï¿½Æ£ï¿½ï¿½ï¿½Ê¼ï¿½è¶¨Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨Îª1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
     
     public bool IsGrounded { get; set; }
     public int CurrentAirExtraJumpCountLeft { get; private set; }
-    //»ù´¡ÊýÖµ£¬ÄÜÒÆ¶¯Êý¾ÝµÄ¿ÉÒÔÈ«²¿ÒÆÖÁÕâÀï·½±ã¹ÜÀí
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ÝµÄ¿ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï·½ï¿½ï¿½ï¿½ï¿½ï¿½
     public PlayerInfo playerInfo;
 
     private Vector2 m_MoveVector = new Vector2();
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         PlayerAnimatorStatesControl.BehaviourLateUpdate();
         PlayerAnimatorStatesControl.PlayerStatusLateUpdate();
         PlayerAnimatorStatesControl.ParamsLateUpdate();
-        //playerÕâÒ»Ö¡°´ÏÂ°´¼ü¸üÐÂanimator params£¬ÏÂÒ»Ö¡¸üÐÂstate
+        //playerï¿½ï¿½Ò»Ö¡ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½animator paramsï¿½ï¿½ï¿½ï¿½Ò»Ö¡ï¿½ï¿½ï¿½ï¿½state
     }
 
     private void FixedUpdate()
@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour
         //Sprint();
         //Teleport();
         //VerticalMove();
+        Interact();
     }
 
     public void VerticalMove()
@@ -191,6 +192,14 @@ public class PlayerController : MonoBehaviour
         if (PlayerInput.Instance.teleport.Down)
         {
             MovementScript.Teleport(telePosition.transform.position, RB);//Transfer to the specified location
+        }
+    }
+
+    public void Interact()
+    {
+        if (PlayerInput.Instance.interact.Down)
+        {
+            InteractManager.Interact();
         }
     }
 
