@@ -29,4 +29,8 @@ public static class Constants
 
     #endregion
 
+    public const float monsterBeatBackTime = 0.15f;
+
+
+
 }
