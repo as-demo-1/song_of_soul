@@ -15,18 +15,9 @@ public class PlayerInput : InputComponent
 
     public bool HaveControl { get { return m_HaveControl; } }
 
-    //[SerializeField]
-    //private List<InputButton> playerInputButtons;
-    //[SerializeField]
-    //private List<InputAxis> playerInputAxes;
-
     private List<Button> buttons = new List<Button>();
-
-    //public InputButton pause = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu);
-    //public InputButton interact = new InputButton(KeyCode.E, XboxControllerButtons.Y);
-    //public InputButton meleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X);
-    //public InputButton rangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B);
     public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper, true);
+    public InputButton Pick = new InputButton(KeyCode.F, XboxControllerButtons.Y, true);
     ////TODO:xbox button mapping
     public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None, true);
     public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, true);
@@ -47,9 +38,6 @@ public class PlayerInput : InputComponent
         else
             throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
 
-        //buttons.AddRange(playerInputButtons);
-        //buttons.AddRange(playerInputAxes);
-
         //º”»Îbutton
         buttons.AddRange(new List<Button>
         {
@@ -57,6 +45,9 @@ public class PlayerInput : InputComponent
             vertical,
             jump,
             normalAttack,
+            sprint,
+            teleport,
+            Pick
         });
     }
 
@@ -82,15 +73,6 @@ public class PlayerInput : InputComponent
         {
             button.Get(inputType);
         }
-
-        //Pause.Get(fixedUpdateHappened, inputType);
-        //Interact.Get(fixedUpdateHappened, inputType);
-        //MeleeAttack.Get(fixedUpdateHappened, inputType);
-        //RangedAttack.Get(fixedUpdateHappened, inputType);
-        //Jump.Get(fixedUpdateHappened, inputType);
-        //Horizontal.Get(inputType);
-        //Vertical.Get(inputType);
-
         if (Input.GetKeyDown(KeyCode.F12))
         {
             m_DebugMenuIsOpen = !m_DebugMenuIsOpen;
@@ -106,13 +88,6 @@ public class PlayerInput : InputComponent
             if (button.NeedToGainAndReleaseControl)
                 button.GainControl();
         }
-        //GainControl(Pause);
-        //GainControl(Interact);
-        //GainControl(MeleeAttack);
-        //GainControl(RangedAttack);
-        //GainControl(Jump);
-        //GainControl(Horizontal);
-        //GainControl(Vertical);
     }
 
     public override void ReleaseControls(bool resetValues = true)
@@ -124,39 +99,8 @@ public class PlayerInput : InputComponent
             if (button.NeedToGainAndReleaseControl)
                 StartCoroutine(button.ReleaseControl(resetValues));
         }
-        //ReleaseControl(Pause, resetValues);
-        //ReleaseControl(Interact, resetValues);
-        //ReleaseControl(MeleeAttack, resetValues);
-        //ReleaseControl(RangedAttack, resetValues);
-        //ReleaseControl(Jump, resetValues);
-        //ReleaseControl(Horizontal, resetValues);
-        //ReleaseControl(Vertical, resetValues);
     }
 
-    //public void DisableMeleeAttacking()
-    //{
-    //    MeleeAttack.Disable();
-    //}
-
-    //public void EnableMeleeAttacking()
-    //{
-    //    MeleeAttack.Enable();
-    //}
-
-    //public void DisableRangedAttacking()
-    //{
-    //    RangedAttack.Disable();
-    //}
-
-    //public void EnableRangedAttacking()
-    //{
-    //    RangedAttack.Enable();
-    //}
-
-    public enum PlayerInputButton
-    {
-
-    }
 }
 
 

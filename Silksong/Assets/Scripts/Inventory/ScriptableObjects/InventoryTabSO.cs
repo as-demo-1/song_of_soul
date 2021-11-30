@@ -2,10 +2,7 @@
 
 public enum InventoryTabType
 {
-    Customization,
-    CookingItem,
-    Recipe
-
+    Default
 }
 [CreateAssetMenu(fileName = "InventoryTabType", menuName = "Inventory/Inventory Tab Type")]
 public class InventoryTabSO : ScriptableObject

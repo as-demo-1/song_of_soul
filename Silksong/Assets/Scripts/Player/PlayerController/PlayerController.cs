@@ -1,7 +1,27 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Inventory;
 using UnityEngine;
+
+[System.Serializable]
+public struct PlayerInfo
+{
+    //move
+    public float speed;
+    public float jumpHeight;
+
+    //jump
+    public float sprintForce;
+    public int maxAirExtraJumpCount;
+
+    //climb
+    public int gravity;
+    public int climbSpeed;
+    public bool isClimb;
+
+    public bool playerFacingRight;
+}
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
@@ -39,7 +59,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     [SerializeField] private string _guid;
     [SerializeField] private SaveSystem _saveSystem;
-
+    [SerializeField] private InventoryManager _backpack;
+    public GameObject _itemToAdd = null;
     public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
 
     private void OnValidate()
@@ -57,6 +78,7 @@ public class PlayerController : MonoBehaviour
         else
             throw new UnityException("There cannot be more than one PlayerController script.  The instances are " + Instance.name + " and " + name + ".");
         DontDestroyOnLoad(this.gameObject);
+        _backpack.LoadSave();
     }
 
     private void OnEnable()
@@ -71,6 +93,34 @@ public class PlayerController : MonoBehaviour
     {
         Instance = null;
     }
+
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("CollectableItem"))
+        {
+            Debug.Log("Colide with Item");
+            _itemToAdd = other.gameObject;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        _itemToAdd = null;
+    }
+
+    public void CheckAddItem()
+    {
+        if (PlayerInput.Instance.Pick.IsValid)
+        {
+            if (_itemToAdd)
+            {
+                _backpack.AddItem(_itemToAdd.GetComponent<CollectableItem>().GetItem());
+                _itemToAdd.SetActive(false);
+            }
+        }
+    }
+    
 
     void Start()
     {
@@ -93,15 +143,6 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate()
     {
         PlayerAnimatorStatesControl.BehaviourLateUpdate();
-    }
-
-    private void FixedUpdate()
-    {
-        //HorizontalMove();
-        //Jump();
-        //Sprint();
-        //Teleport();
-        //VerticalMove();
     }
 
     public void VerticalMove()
@@ -129,25 +170,6 @@ public class PlayerController : MonoBehaviour
     }
     public void CheckJump()
     {
-        //bool ground = IsGround();
-        //Debug.Log(ground);
-        //if (PlayerInput.Instance.jump.Down)
-        //{
-        //    Debug.Log(ground.ToString());
-        //    if (ground)
-        //    {
-        //        m_secondJump = false;
-
-        //        rb.velocity = new Vector3(RB.velocity.x, jumpHeight, 0);
-        //        Debug.Log("jump");
-        //    }else if (!m_secondJump)
-        //    {
-        //        m_secondJump = true;
-        //        rb.velocity = new Vector3(RB.velocity.x, jumpHeight, 0);
-        //        print("second jump");
-        //    }
-
-        //}
         if (CurrentAirExtraJumpCountLeft > 0 || IsGrounded)
         {
             if (PlayerInput.Instance.jump.IsValid)
@@ -269,21 +291,4 @@ public class PlayerController : MonoBehaviour
     public void WhenStartSetLastHorizontalInputDirByFacing() => m_LastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
 }
 
-[System.Serializable]
-public struct PlayerInfo
-{
-    //move
-    public float speed;
-    public float jumpHeight;
 
-    //jump
-    public float sprintForce;
-    public int maxAirExtraJumpCount;
-
-    //climb
-    public int gravity;
-    public int climbSpeed;
-    public bool isClimb;
-
-    public bool playerFacingRight;
-}

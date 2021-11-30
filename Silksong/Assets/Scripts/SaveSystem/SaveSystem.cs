@@ -39,10 +39,10 @@ public class SaveSystem : ScriptableObject
 			saveData._itemStacks.Add(new SerializedItemStack(itemStack.Item.Guid, itemStack.Amount));
 		}
 		saveData._storeStacks.Clear();
-		foreach (var storeStack in _StoreInventory.Items)
-		{
-			saveData._storeStacks.Add(new SerializedItemStack(storeStack.Item.Guid, storeStack.Amount));
-		}
+		// foreach (var storeStack in _StoreInventory.Items)
+		// {
+		// 	saveData._storeStacks.Add(new SerializedItemStack(storeStack.Item.Guid, storeStack.Amount));
+		// }
 		if (FileManager.MoveFile(saveFilename, backupSaveFilename))
 		{
 			if (FileManager.WriteToFile(saveFilename, saveData.ToJson()))
