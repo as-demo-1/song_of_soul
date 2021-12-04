@@ -4,9 +4,9 @@ using UnityEngine;
 using Cinemachine;
 
 [RequireComponent(typeof(HpDamable))]
-public class DieCameraShake : CinemachineImpulseSource
+public class DieCameraShake : CinemachineImpulseSource, IDamageEvent
 {
-  public void dieCameraShake(DamagerBase damager,DamageableBase damageable)
+  public void damageEvent(DamagerBase damager,DamageableBase damageable)
     {
         // GenerateImpulse(GetComponent<DamageableBase>().damageDirection.normalized);
         //GenerateImpulse(Vector2.zero);
@@ -18,6 +18,6 @@ public class DieCameraShake : CinemachineImpulseSource
 
     private void Awake()
     {
-        GetComponent<HpDamable>().onDieEvent.AddListener(dieCameraShake);
+        GetComponent<HpDamable>().onDieEvent.AddListener(damageEvent);
     }
 }

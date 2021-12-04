@@ -4,13 +4,13 @@ using UnityEngine;
 using Cinemachine;
 
 [RequireComponent(typeof(DamageableBase))]
-public class HurtCameraShake : CinemachineImpulseSource
+public class HurtCameraShake : CinemachineImpulseSource, IDamageEvent
 {
     private void Awake()
     {
-        GetComponent<DamageableBase>().takeDamageEvent.AddListener(hurtCameraShake);
+        GetComponent<DamageableBase>().takeDamageEvent.AddListener(damageEvent);
     }
-    public void hurtCameraShake(DamagerBase damager, DamageableBase damageable)
+    public void damageEvent(DamagerBase damager, DamageableBase damageable)
     {
 
         // GenerateImpulse(GetComponent<DamageableBase>().damageDirection.normalized);

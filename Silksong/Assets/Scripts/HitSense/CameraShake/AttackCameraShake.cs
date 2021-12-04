@@ -4,14 +4,14 @@ using UnityEngine;
 using Cinemachine;
 
 [RequireComponent(typeof(DamagerBase))]
-public class AttackCameraShake : CinemachineImpulseSource
+public class AttackCameraShake : CinemachineImpulseSource,IDamageEvent
 {
     public LayerMask targetLayer;
     private void Awake()
     {
-        GetComponent<DamagerBase>().makeDamageEvent.AddListener(attackCameraShake);
+        GetComponent<DamagerBase>().makeDamageEvent.AddListener(damageEvent);
     }
-public void attackCameraShake(DamagerBase damager, DamageableBase damageable)
+public void damageEvent(DamagerBase damager, DamageableBase damageable)
     {
         if (targetLayer.Contains(damageable.gameObject)) 
         {
