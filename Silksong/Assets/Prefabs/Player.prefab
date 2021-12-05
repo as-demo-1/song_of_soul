@@ -73,6 +73,7 @@ MonoBehaviour:
   ignoreInvincibility: 0
   canDamage: 1
   damage: 1
+  beatBackVector: {x: 0.5, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
       m_Calls:
@@ -103,6 +104,8 @@ GameObject:
   - component: {fileID: 1439625706}
   - component: {fileID: 1439625708}
   - component: {fileID: 1439625707}
+  - component: {fileID: 382070771}
+  - component: {fileID: 382070772}
   m_Layer: 20
   m_Name: normalAttack01
   m_TagString: Untagged
@@ -165,6 +168,7 @@ MonoBehaviour:
   ignoreInvincibility: 0
   canDamage: 1
   damage: 1
+  beatBackVector: {x: 0.25, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
       m_Calls:
@@ -184,6 +188,68 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   damage2: 10
+--- !u!114 &382070771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439625705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+--- !u!114 &382070772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439625705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9758a46ce5d59469767080cae67c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeScale: 0
+  frameCounts: 5
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!1 &2013861694
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +323,7 @@ MonoBehaviour:
   ignoreInvincibility: 0
   canDamage: 1
   damage: 1
+  beatBackVector: {x: 0.25, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
       m_Calls:
@@ -294,6 +361,7 @@ GameObject:
   - component: {fileID: 484977951162521059}
   - component: {fileID: 484977951751258056}
   - component: {fileID: 1342962417}
+  - component: {fileID: 1363771895}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -358,7 +426,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 432623041
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: ae37a1d40c24c7a41a7aec595e538dd7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -550,8 +618,53 @@ MonoBehaviour:
   maxHp: 50
   currentHp: 50
   resetHealthOnSceneReload: 0
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 1
+--- !u!114 &1363771895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d815763216a43eb45ba0ffc13020a8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
