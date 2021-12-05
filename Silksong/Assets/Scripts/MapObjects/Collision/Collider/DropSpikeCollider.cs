@@ -7,9 +7,15 @@ using UnityEngine;
 public class DropSpikeCollider :Collider2DBase
 {
     public GameObject damager;
-    protected override void enterEvent()
+    public float gScale;
+    protected override void enterEvent()//Åöµ½ground layer
     {
         damager.SetActive(false);
     }
 
+    public void drop()//¿ªÊ¼µôÂä
+    {
+        GetComponent<Rigidbody2D>().gravityScale = gScale;
+        damager.SetActive(true);
+    }
 }
