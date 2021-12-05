@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance
@@ -27,8 +28,10 @@ public class GameManager : MonoBehaviour
 
 
     public GameObject player;
+
     void Awake()
     {
+
         if (Instance != this)
         {
             Destroy(gameObject);
@@ -37,7 +40,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         creatPlayer();
-        GameObjectTeleporter.playerEnterScene(SceneEntrance.EntranceTag.A);
+        GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
     }
 
     /// <summary>
