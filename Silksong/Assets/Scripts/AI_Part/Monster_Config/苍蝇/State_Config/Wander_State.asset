@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Monster03_Idle_State
+  m_Name: Wander_State
   m_EditorClassIdentifier: 
-  lastStateID: 1
+  lastStateID: 7
   lastTriggerID: 2
-  StateName: Monster03_Idle_State
-  StateType: 1
+  StateName: Monster03_Wander_State
+  StateType: 7
   stateConfig:
     id: 0
   TriggerType: 2
@@ -27,9 +27,14 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Wander_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 1
+        stateType: 7
+        wanderRange: 3
+        forceToCenter: 2
+        wanderRadiu: 1
+        wanderJitter: 1
+        maxSpeed: 3
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -41,8 +46,8 @@ MonoBehaviour:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Monster03_Wander_State
-        maxTime: 1.5
+        targetState: Monster03_Idle_State
+        maxTime: 2
         timer: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}

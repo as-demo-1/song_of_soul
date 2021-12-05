@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Monster03_Pursuit_State
+  m_Name: Idle_State
   m_EditorClassIdentifier: 
-  lastStateID: 6
+  lastStateID: 1
   lastTriggerID: 2
-  StateName: Monster03_Pursuit_State
-  StateType: 6
+  StateName: Idle_State
+  StateType: 1
   stateConfig:
     id: 0
   TriggerType: 2
@@ -26,24 +26,23 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Pursuit_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 6
-        avoidForce: 2
-        MAX_SEE_AHEAD: 2
-        maxSpeed: 2
-        maxForce: 2
+        stateType: 1
+        defaultAnimationName: idle
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
-        targetState: Monster03_Idle_State
-        checkRadius: 80
-        isEnterTrigger: 0
+        targetState: Pursuit_State
+        checkNearRadius: 0
+        checkFarRadius: 0
+        horizontalOnly: 0
     00000002:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
-        targetState: Monster03_Idle_State
-        checkRadius: 80
-        isEnterTrigger: 0
+        targetState: Pursuit_State
+        checkNearRadius: 0
+        checkFarRadius: 7
+        horizontalOnly: 0

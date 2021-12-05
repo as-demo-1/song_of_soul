@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Monster01_Hitted_State
+  m_Name: Climb_State
   m_EditorClassIdentifier: 
-  lastStateID: 3
-  lastTriggerID: 3
-  StateName: Monster01_Hitted_State
-  StateType: 3
+  lastStateID: 5
+  lastTriggerID: 4
+  StateName: Climb_State
+  StateType: 5
   stateConfig:
     id: 0
-  TriggerType: 3
+  TriggerType: 4
   triggerConfig:
     id: 1
   triggerList:
@@ -26,17 +26,21 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Hitted_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Climb_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 3
-        HittedBackDistance: 3
+        stateType: 5
+        defaultAnimationName: move
+        maxSpeed: 0.5
+        force: 5
     00000001:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
-        targetState: Monster01_Partol_State
+        triggerType: 4
+        targetState: 
+        isHitted: 0
     00000002:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: OnHittedTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
-        targetState: Monster01_Partol_State
+        triggerType: 4
+        targetState: Attack_State
+        isHitted: 0

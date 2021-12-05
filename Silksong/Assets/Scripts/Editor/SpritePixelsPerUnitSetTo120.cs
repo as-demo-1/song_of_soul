@@ -7,7 +7,11 @@ public class SpritePixelsPerUnitSetTo120 : AssetPostprocessor
 {
     void OnPreprocessTexture()
     {
+        //Debug.Log("pre");
         TextureImporter textureImporter = (TextureImporter)assetImporter;
         textureImporter.spritePixelsPerUnit = 120;
+
     }
+
+
 }

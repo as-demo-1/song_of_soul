@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Monster01_Partol_State
+  m_Name: Move_State
   m_EditorClassIdentifier: 
   lastStateID: 2
   lastTriggerID: 0
-  StateName: Monster01_Partol_State
+  StateName: Move_State
   StateType: 2
   stateConfig:
     id: 0
@@ -28,10 +28,10 @@ MonoBehaviour:
       type: {class: Enemy_Patrol_State, ns: , asm: Assembly-CSharp}
       data:
         stateType: 2
-        defaultAnimationName: Monster01_Patrol
+        defaultAnimationName: Move
         isBack: 1
-        moveSpeed: {x: 2, y: 0, z: 0}
-        rayToGroundDistance: 20
+        moveSpeed: {x: 0.5, y: 0, z: 0}
+        isFaceWithSpeed: 1
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
