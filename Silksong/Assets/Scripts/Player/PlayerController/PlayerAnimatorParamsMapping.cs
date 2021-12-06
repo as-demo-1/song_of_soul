@@ -14,11 +14,13 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
     public int VerticalInputParamHash { get; } = Animator.StringToHash("VerticalInput");
     public int JumpIsDownParamHash { get; } = Animator.StringToHash("JumpIsDown");
     public int JumpIsValidParamHash { get; } = Animator.StringToHash("JumpIsValid");
+    public int NormalAttackIsValidParamHash { get; } = Animator.StringToHash("NormalAttackIsValid");
     public int IsGroundedParamHash { get; } = Animator.StringToHash("IsGrounded");
     public int HorizontalSpeedParamHash { get; } = Animator.StringToHash("HorizontalSpeed");
     public int VerticalSpeedParamHash { get; } = Animator.StringToHash("VerticalSpeed");
     public int CanMoveParamHash { get; } = Animator.StringToHash("CanMove");
     public int CanJumpParamHash { get; } = Animator.StringToHash("CanJump");
+    public int CanNormalAttackParamHash { get; } = Animator.StringToHash("CanNormalAttack");
 
     public int CurrentStatusParamHash { get; } = Animator.StringToHash("CurrentStatus");
 
@@ -28,11 +30,13 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
         m_Animator.SetInteger(VerticalInputParamHash, (int)PlayerInput.Instance.vertical.Value);
         m_Animator.SetBool(JumpIsDownParamHash, PlayerInput.Instance.jump.Down);
         m_Animator.SetBool(JumpIsValidParamHash, PlayerInput.Instance.jump.IsValid);
+        m_Animator.SetBool(NormalAttackIsValidParamHash, PlayerInput.Instance.normalAttack.IsValid);
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.IsGrounded);
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.RB.velocity.x);
         m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.RB.velocity.y);
-        m_Animator.SetBool(CanMoveParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[PlayerStatus.CanMove]);
-        m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[PlayerStatus.CanJump]);
+        m_Animator.SetBool(CanMoveParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanMove]);
+        m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanJump]);
+        m_Animator.SetBool(CanNormalAttackParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanNormalAttack]);
         m_Animator.SetInteger(CurrentStatusParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
     }
 }

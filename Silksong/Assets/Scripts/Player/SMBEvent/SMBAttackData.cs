@@ -6,39 +6,32 @@ using UnityEngine;
 public class SMBAttackData : SMBEventTimeStamp
 {
     //todo
-    public AttackData attackData;
+    public float startTime;
+    public float activeTime;
+    public string damagerName;
+    private GameObject damager;
     public override void EventActive()
     {
-        GameObject gameObject = new GameObject();
-        PlayerController.Instance.StartCoroutine(GameObjectActiveForSeconds(gameObject, attackData.activeForSeconds));
-        //gameObject.transform.SetParent(PlayerController.Instance.transform, false);
-        ContactObject contactObject = gameObject.AddComponent<ContactObject>();
-        contactObject.faction = ContactObject.EContactFaction.Player;
-        contactObject.targetFactions = attackData.contactFactions;
+        //Debug.Log("event " + this.GetType());    
+        if(damager==null)
+        {
+            damager = PlayerController.Instance.transform.Find(damagerName).gameObject;
+            if (damager == null) 
+                Debug.LogError("no this damagerName");
+        }
+        damager.transform.localScale = new Vector3(PlayerController.Instance.playerInfo.playerFacingRight ? 1 : -1, 1, 1);//damagerƒ¨»œ≥ØœÚ”“
 
-        DamagerComponent damagerComponent = gameObject.AddComponent<DamagerComponent>();
-        damagerComponent.sendDamageNum = attackData.damageNum;
-        contactObject.AddContactComponent(damagerComponent);
-
-        BoxCollider2D boxCollider2D = gameObject.AddComponent<BoxCollider2D>();
-        boxCollider2D.isTrigger = true;
-        boxCollider2D.offset = attackData.offset + (Vector2)PlayerController.Instance.transform.position;
-        boxCollider2D.size = attackData.size;
+        PlayerController.Instance.StartCoroutine(GameObjectActiveForSeconds(damager, startTime,activeTime));
+      
     }
 
-    IEnumerator GameObjectActiveForSeconds(GameObject gameObject, float i)
+    IEnumerator GameObjectActiveForSeconds(GameObject gameObject, float startTime, float activeTime)
     {
-        yield return new WaitForSeconds(i);
-        GameObject.Destroy(gameObject);
+        yield return new WaitForSeconds(startTime);
+        gameObject.SetActive(true);
+        yield return new WaitForSeconds(activeTime);
+        gameObject.SetActive(false);
     }
 }
 
-[System.Serializable]
-public class AttackData
-{
-    public float damageNum;
-    public List<ContactObject.EContactFaction> contactFactions;
-    public Vector2 offset;
-    public Vector2 size;
-    public float activeForSeconds;
-}
+

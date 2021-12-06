@@ -215,7 +215,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &21768553
@@ -324,7 +324,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &281214293
@@ -421,7 +421,7 @@ SpriteRenderer:
   m_Size: {x: 0.66, y: 4.54}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &488639445
@@ -711,7 +711,7 @@ SpriteRenderer:
   m_Size: {x: 3.19, y: 1.66}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &754444834
@@ -780,39 +780,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputType: 0
-  Pause:
-    key: 27
-    controllerButton: 8
-    m_Enabled: 1
-  Interact:
-    key: 101
-    controllerButton: 4
-    m_Enabled: 1
-  MeleeAttack:
-    key: 107
-    controllerButton: 3
-    m_Enabled: 1
-  RangedAttack:
-    key: 111
-    controllerButton: 2
-    m_Enabled: 1
-  Sprint:
+  sprint:
+    NeedToGainAndReleaseControl: 1
     key: 304
     controllerButton: 9
     m_Enabled: 1
-  Teleport:
+  teleport:
+    NeedToGainAndReleaseControl: 1
     key: 120
     controllerButton: 0
     m_Enabled: 1
-  Jump:
+  jump:
+    NeedToGainAndReleaseControl: 1
     key: 32
     controllerButton: 1
     m_Enabled: 1
-  Horizontal:
+  normalAttack:
+    NeedToGainAndReleaseControl: 1
+    key: 106
+    controllerButton: 3
+    m_Enabled: 1
+  horizontal:
+    NeedToGainAndReleaseControl: 1
     positive: 100
     negative: 97
     controllerAxis: 1
-  Vertical:
+  vertical:
+    NeedToGainAndReleaseControl: 1
     positive: 119
     negative: 115
     controllerAxis: 2
@@ -841,21 +835,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  jumpHeight: 20
-  rb: {fileID: 754444835}
-  sprintForce: 30
-  m_secondJump: 0
-  gravity: 5
-  climbSpeed: 30
-  m_isClimb: 0
+  playerInfo:
+    speed: 0
+    jumpHeight: 0
+    sprintForce: 0
+    maxAirExtraJumpCount: 0
+    gravity: 0
+    climbSpeed: 0
+    isClimb: 0
+    playerFacingRight: 0
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  robeLayerMask:
+  ropeLayerMask:
     serializedVersion: 2
-    m_Bits: 128
-  capsuleCollider: {fileID: 582744616}
+    m_Bits: 0
+  groundCheckCapsuleCollider: {fileID: 0}
   telePosition: {fileID: 508142974}
   _guid: abea4a61-0e04-4486-8c24-996f6be3f551
   _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}
@@ -1003,7 +998,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1020209577
@@ -1112,7 +1107,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1048419089
@@ -1221,7 +1216,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1213256650
@@ -1391,7 +1386,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1270300813
@@ -1587,7 +1582,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1842046455
@@ -1696,7 +1691,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1941888755
@@ -1805,7 +1800,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1975463313
@@ -1914,7 +1909,7 @@ SpriteRenderer:
   m_Size: {x: 2.68, y: 1.94}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &2065667488

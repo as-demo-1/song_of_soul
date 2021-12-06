@@ -5,11 +5,12 @@ using UnityEngine;
 [System.Serializable]
 public class SMBStateData : SMBEventTimeStamp
 {
-    public PlayerState newState;
+    public EPlayerState newState;
     public override void EventActive()
     {
-        if (newState != PlayerController.Instance.PlayerAnimatorStatesControl.CurrentPlayerState)
+      //  Debug.Log("event " + this.GetType());
+        PlayerController.Instance.PlayerAnimatorStatesControl.ChangePlayerState(newState);
+        //if (newState != PlayerController.Instance.PlayerAnimatorStatesControl.CurrentPlayerState)
             //PlayerController.Instance.PlayerAnimatorStatesManager.ChangePlayerStatus(statusIsActive ? newStatus : PlayerStatus.None);
-            PlayerController.Instance.PlayerAnimatorStatesControl.ChangePlayerState(newState);
     }
 }

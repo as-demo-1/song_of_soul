@@ -5,67 +5,76 @@ using UnityEngine;
 
 public class PlayerStatusDic
 {
-    Dictionary<PlayerStatus, PlayerStatusFlag> m_StatusDic;
+    Dictionary<EPlayerStatus, PlayerStatusFlag> m_StatusDic;
 
     public PlayerStatusDic(MonoBehaviour playerController)
     {
         PlayerStatusFlag.GetPlayerController(playerController);
-        m_StatusDic = new Dictionary<PlayerStatus, PlayerStatusFlag>
+        m_StatusDic = new Dictionary<EPlayerStatus, PlayerStatusFlag>
         {
-            {PlayerStatus.CanMove, new PlayerStatusFlag() },
-            {PlayerStatus.CanJump, new PlayerStatusFlag() },
+            {EPlayerStatus.CanMove, new PlayerStatusFlag() },
+            {EPlayerStatus.CanJump, new PlayerStatusFlag() },
+            {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag() },
         };
     }
 
-    public void SetPlayerStatusFlag(PlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.And)
+    public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.Override)
     {
         m_StatusDic[playerStatus].SetFlag(newFlag, calcuteFlagType);
     }
 
-    public PlayerStatusFlag this[PlayerStatus playerStatus]
+    public PlayerStatusFlag this[EPlayerStatus playerStatus]
     {
         get { return m_StatusDic[playerStatus]; }
     }
 
-    public static explicit operator Dictionary<PlayerStatus, PlayerStatusFlag>(PlayerStatusDic dic) => dic.m_StatusDic;
+    public static explicit operator Dictionary<EPlayerStatus, PlayerStatusFlag>(PlayerStatusDic dic) => dic.m_StatusDic;
 
 
     public class PlayerStatusFlag
     {
-        public bool Flag { get; private set; }
-        public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType = WayOfChangingFlag.And)
+        public bool BuffFlags { get; private set; } = true;
+        private bool m_Flag = true;
+        public bool Flag 
+        {
+            get
+            {
+                return m_Flag & BuffFlags;
+            }
+            private set
+            {
+                m_Flag = value;
+            }
+        }
+        public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType = WayOfChangingFlag.Override)
         {
             switch (setFlagType)
             {
-                case WayOfChangingFlag.And:
-                    Flag &= newFlag;
-                    break;
                 case WayOfChangingFlag.Override:
                     Flag = newFlag;
                     break;
-                case WayOfChangingFlag.FinalWillUpdateStateMachine:
-                    PlayerController.StartCoroutine(WaitForNextFrameBeforeUpdate(newFlag));
+                case WayOfChangingFlag.AndBuffFlag:
+                    BuffFlags &= newFlag;
+                    break;
+                case WayOfChangingFlag.OverrideBuffFlags:
+                    BuffFlags = newFlag;
                     break;
                 default:
                     break;
             }
-
         }
 
-        IEnumerator WaitForNextFrameBeforeUpdate(bool newFlag)
-        {
-            yield return null;
-            this.Flag = newFlag;
-        }
+        //IEnumerator WaitForNextFrameBeforeUpdate(bool newFlag)
+        //{
+        //    yield return null;
+        //    this.Flag = newFlag;
+        //}
 
         public enum WayOfChangingFlag
         {
-            //&=
-            And,
-            //=
             Override,
-            //next frame before update; = 
-            FinalWillUpdateStateMachine,
+            AndBuffFlag,
+            OverrideBuffFlags,
         }
         private static MonoBehaviour PlayerController { get; set; }
         public static void GetPlayerController(MonoBehaviour monoBehaviour) => PlayerController = monoBehaviour;
@@ -74,9 +83,10 @@ public class PlayerStatusDic
 }
 
 //todo£∫ Œª∆•≈‰
-public enum PlayerStatus : int
+public enum EPlayerStatus : int
 {
     None = 0,
     CanMove = 1,
     CanJump = 2,
+    CanNormalAttack = 4,
 }

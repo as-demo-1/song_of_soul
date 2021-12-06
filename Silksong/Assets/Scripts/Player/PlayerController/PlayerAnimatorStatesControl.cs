@@ -13,9 +13,9 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
     public PlayerStatusDic PlayerStatusDic { get; private set; }
 
     public PlayerController PlayerController { get; set; }
-    public PlayerState CurrentPlayerState { get; set; }
+    public EPlayerState CurrentPlayerState { get; set; }
 
-    public PlayerAnimatorStatesControl(PlayerController playerController, Animator animator, PlayerState currentPlayerState)
+    public PlayerAnimatorStatesControl(PlayerController playerController, Animator animator, EPlayerState currentPlayerState)
     {
         this.Animator = animator;
         this.PlayerController = playerController;
@@ -31,18 +31,18 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
 
     //}
 
-    //该函数的更新在SMBEvent之后
-    public void PlayerStatusLateUpdate()
+    public void PlayerStatusUpdate()
     {
-        PlayerStatusFlagOverrideAsDefault();
-        PlayerStatusDic[PlayerStatus.CanJump].SetFlag(PlayerController.CurrentAirExtraJumpCountLeft > 0 || PlayerController.IsGrounded);
-        PlayerStatusDic[PlayerStatus.CanMove].SetFlag(true);
+        IdleStatePlayerStatusFlagOverrideAsTrue();
+        PlayerStatusDic[EPlayerStatus.CanJump].SetFlag(PlayerController.CurrentAirExtraJumpCountLeft > 0 || PlayerController.IsGrounded);
 
-        void PlayerStatusFlagOverrideAsDefault()
+        void IdleStatePlayerStatusFlagOverrideAsTrue()
         {
-            foreach (var item in (Dictionary<PlayerStatus, PlayerStatusDic.PlayerStatusFlag>)PlayerStatusDic)
+            if (CurrentPlayerState == EPlayerState.Idle)
             {
-                item.Value.SetFlag(true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.Override);
+                PlayerStatusDic[EPlayerStatus.CanMove].SetFlag(true);
+                PlayerStatusDic[EPlayerStatus.CanJump].SetFlag(true);
+                PlayerStatusDic[EPlayerStatus.CanNormalAttack].SetFlag(true);
             }
         }
     }
@@ -52,7 +52,7 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
         CharacterStatesBehaviour.StatesActiveBehaviour(CurrentPlayerState);
     }
 
-    public void ChangePlayerState(PlayerState newState)
+    public void ChangePlayerState(EPlayerState newState)
     {
         CharacterStatesBehaviour.StatesExitBehaviour(CurrentPlayerState);
         CurrentPlayerState = newState;
@@ -67,5 +67,5 @@ public abstract class AnimatorStatesControl
     public abstract StatesBehaviour CharacterStatesBehaviour { get; set; }
     public abstract AnimatorParamsMapping CharacterAnimatorParamsMapping { get; }
 
-    public void ParamsLateUpdate() => this.CharacterAnimatorParamsMapping.ParamsUpdate();
+    public void ParamsUpdate() => this.CharacterAnimatorParamsMapping.ParamsUpdate();
 }

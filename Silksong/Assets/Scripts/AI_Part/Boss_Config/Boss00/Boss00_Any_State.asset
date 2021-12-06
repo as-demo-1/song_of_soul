@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Boss00_Any_State
+  m_EditorClassIdentifier: 
+  lastStateID: 0
+  lastTriggerID: 0
+  stateID: 0
+  stateConfig:
+    id: 0
+  triggerID: 0
+  triggerConfig:
+    id: 1
+  triggerList: []
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateID: 0
+    00000001:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerID: 0
+        targetState: 0
+        maxTime: 0
+        timer: 0

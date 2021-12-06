@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     //��ɫˮƽ�ƶ��Ӽ��ٿ��ƣ���ʼ�趨ֵ������ʱ�������趨Ϊ1�������ϼ��٣������ϼ��٣����м��٣����м��٣�����̬���Ƽ���������
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
-    
+
     public bool IsGrounded { get; set; }
     public int CurrentAirExtraJumpCountLeft { get; private set; }
     //������ֵ�����ƶ����ݵĿ���ȫ���������﷽�����
@@ -80,17 +80,19 @@ public class PlayerController : MonoBehaviour
         m_BodyCapsuleCollider = GetComponent<CapsuleCollider2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
         PlayerAnimator = GetComponent<Animator>();
-        PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, PlayerState.Idle);
+        PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         WhenStartSetLastHorizontalInputDirByFacing();
     }
 
+    private void Update()
+    {
+        PlayerAnimatorStatesControl.PlayerStatusUpdate();
+        PlayerAnimatorStatesControl.ParamsUpdate();
+    }
 
     private void LateUpdate()
     {
         PlayerAnimatorStatesControl.BehaviourLateUpdate();
-        PlayerAnimatorStatesControl.PlayerStatusLateUpdate();
-        PlayerAnimatorStatesControl.ParamsLateUpdate();
-        //player��һ֡���°�������animator params����һ֡����state
     }
 
     private void FixedUpdate()

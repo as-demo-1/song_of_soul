@@ -12,10 +12,10 @@ public class RebornDamager:TwoTargetDamager
     {
     }
 
-    protected  override void makeDamage(DamageableBase damageable)//
+    protected  override void makeDamage(DamageableBase damageable)
     {
         base.makeDamage(damageable);
-        if(rebornLayer.Contains(damageable.gameObject))
+        if(rebornLayer.Contains(damageable.gameObject) && (damageable as HpDamable).currentHp>0 )
         {
             GameObjectTeleporter.playerReborn();
         }
