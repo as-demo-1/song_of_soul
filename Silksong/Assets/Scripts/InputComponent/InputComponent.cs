@@ -7,6 +7,9 @@ using UnityEngine;
 //https://assetstore.unity.com/packages/templates/tutorials/2d-game-kit-107098#description
 public abstract class InputComponent : MonoBehaviour
 {
+    // todo:test
+    public Queue<Action> actions = new Queue<Action>();
+
     public enum InputType
     {
         MouseAndKeyboard,
@@ -68,6 +71,12 @@ public abstract class InputComponent : MonoBehaviour
         protected bool m_GettingInput = true;
         protected int m_FrameCount;
 
+        //This is used to change the state of a button (Down, Up) only if at least a FixedUpdate happened between the previous Frame
+        //and this one. Since movement are made in FixedUpdate, without that an input could be missed it get press/release between fixedupdate
+        bool m_AfterFixedUpdateDown;
+        bool m_AfterFixedUpdateHeld;
+        bool m_AfterFixedUpdateUp;
+
         protected static readonly Dictionary<int, string> k_ButtonsToName = new Dictionary<int, string>
             {
                 {(int)XboxControllerButtons.A, "A"},
@@ -82,13 +91,13 @@ public abstract class InputComponent : MonoBehaviour
                 {(int)XboxControllerButtons.RightBumper, "Right Bumper"},
             };
 
-        public InputButton(KeyCode key, XboxControllerButtons controllerButton, bool needGainAndReleaseControl) : base(needGainAndReleaseControl)
+        public InputButton(KeyCode key, XboxControllerButtons controllerButton)
         {
             this.key = key;
             this.controllerButton = controllerButton;
         }
 
-        public override void Get(InputType inputType)
+        public override void Get(bool fixedUpdateHappened, InputType inputType)
         {
             if (!m_Enabled)
             {
@@ -103,19 +112,54 @@ public abstract class InputComponent : MonoBehaviour
 
             if (inputType == InputType.Controller)
             {
-                Down = Input.GetButtonDown(k_ButtonsToName[(int)controllerButton]);
-                Held = Input.GetButton(k_ButtonsToName[(int)controllerButton]);
-                Up = Input.GetButtonUp(k_ButtonsToName[(int)controllerButton]);
+                if (fixedUpdateHappened)
+                {
+                    Down = Input.GetButtonDown(k_ButtonsToName[(int)controllerButton]);
+                    Held = Input.GetButton(k_ButtonsToName[(int)controllerButton]);
+                    Up = Input.GetButtonUp(k_ButtonsToName[(int)controllerButton]);
+
+                    m_AfterFixedUpdateDown = Down;
+                    m_AfterFixedUpdateHeld = Held;
+                    m_AfterFixedUpdateUp = Up;
+                }
+                else
+                {
+                    Down = Input.GetButtonDown(k_ButtonsToName[(int)controllerButton]) || m_AfterFixedUpdateDown;
+                    Held = Input.GetButton(k_ButtonsToName[(int)controllerButton]) || m_AfterFixedUpdateHeld;
+                    Up = Input.GetButtonUp(k_ButtonsToName[(int)controllerButton]) || m_AfterFixedUpdateUp;
+
+                    m_AfterFixedUpdateDown |= Down;
+                    m_AfterFixedUpdateHeld |= Held;
+                    m_AfterFixedUpdateUp |= Up;
+                }
             }
             else if (inputType == InputType.MouseAndKeyboard)
             {
-                Down = Input.GetKeyDown(key);
-                Held = Input.GetKey(key);
-                Up = Input.GetKeyUp(key);
+                if (fixedUpdateHappened)
+                {
+                    Down = Input.GetKeyDown(key);
+                    Held = Input.GetKey(key);
+                    Up = Input.GetKeyUp(key);
+
+                    m_AfterFixedUpdateDown = Down;
+                    m_AfterFixedUpdateHeld = Held;
+                    m_AfterFixedUpdateUp = Up;
+                }
+                else
+                {
+                    Down = Input.GetKeyDown(key) || m_AfterFixedUpdateDown;
+                    Held = Input.GetKey(key) || m_AfterFixedUpdateHeld;
+                    Up = Input.GetKeyUp(key) || m_AfterFixedUpdateUp;
+
+                    m_AfterFixedUpdateDown |= Down;
+                    m_AfterFixedUpdateHeld |= Held;
+                    m_AfterFixedUpdateUp |= Up;
+                }
             }
             IsValidUpdate(Down);
+
         }
-        void IsValidUpdate(bool conditions)
+        public void IsValidUpdate(bool conditions)
         {
             if (!m_BufferEnabled)
                 return;
@@ -133,8 +177,8 @@ public abstract class InputComponent : MonoBehaviour
         }
         public void SetValidToFalse()
         {
-            IsValid = false;
             m_FrameCount = 0;
+            IsValid = false;
         }
 
         public void Enable()
@@ -163,6 +207,10 @@ public abstract class InputComponent : MonoBehaviour
                 Up = true;
             Down = false;
             Held = false;
+
+            m_AfterFixedUpdateDown = false;
+            m_AfterFixedUpdateHeld = false;
+            m_AfterFixedUpdateUp = false;
 
             yield return null;
 
@@ -197,14 +245,14 @@ public abstract class InputComponent : MonoBehaviour
                 {(int)XboxControllerAxes.RightTrigger, "Right Trigger"},
             };
 
-        public InputAxis(KeyCode positive, KeyCode negative, XboxControllerAxes controllerAxis, bool needToGainAndReleaseControl) : base(needToGainAndReleaseControl)
+        public InputAxis(KeyCode positive, KeyCode negative, XboxControllerAxes controllerAxis)
         {
             this.positive = positive;
             this.negative = negative;
             this.controllerAxis = controllerAxis;
         }
 
-        public override void Get(InputType inputType)
+        public override void Get(bool fixedUpdateHappened, InputType inputType)
         {
             if (!m_Enabled)
             {
@@ -270,27 +318,40 @@ public abstract class InputComponent : MonoBehaviour
     public class Button : IButton
     {
         //public PlayerInputButton buttonName;
-        public bool NeedToGainAndReleaseControl;
+        public bool NeedGainAndReleaseControl;
         public virtual void GainControl() { }
 
-        public virtual void Get(InputType inputType) { }
+        public virtual void Get(bool fixedUpdateHappened, InputType inputType) { }
 
-        public virtual IEnumerator ReleaseControl(bool resetValues)
+        public virtual IEnumerator ReleaseControl(bool resetValues) 
         {
             yield break;
         }
-
-        public Button(bool needToGainAndReleaseControl) => this.NeedToGainAndReleaseControl = needToGainAndReleaseControl;
     }
 
     public InputType inputType = InputType.MouseAndKeyboard;
 
+    bool m_FixedUpdateHappened;
+
     void Update()
     {
-        GetInputs();
+        // todo:test
+        if (actions.Count != 0)
+        {
+            actions.Dequeue()();
+        }
+
+        GetInputs(m_FixedUpdateHappened || Mathf.Approximately(Time.timeScale, 0));
+
+        m_FixedUpdateHappened = false;
     }
 
-    protected abstract void GetInputs();
+    void FixedUpdate()
+    {
+        m_FixedUpdateHappened = true;
+    }
+
+    protected abstract void GetInputs(bool fixedUpdateHappened);
 
     public abstract void GainControls();
 
@@ -319,7 +380,7 @@ public abstract class InputComponent : MonoBehaviour
 
     public interface IButton
     {
-        public void Get(InputType inputType);
+        public void Get(bool fixedUpdateHappened, InputType inputType);
         public void GainControl();
         public IEnumerator ReleaseControl(bool resetValues);
     }

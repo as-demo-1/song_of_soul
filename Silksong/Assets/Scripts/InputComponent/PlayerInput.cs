@@ -14,23 +14,25 @@ public class PlayerInput : InputComponent
 
 
     public bool HaveControl { get { return m_HaveControl; } }
+    public bool IsFrozen { get; set; }
 
     private List<Button> buttons = new List<Button>();
-    public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper, true);
-    public InputButton Pick = new InputButton(KeyCode.F, XboxControllerButtons.Y, true);
+    public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper);
+    public InputButton Pick = new InputButton(KeyCode.F, XboxControllerButtons.Y);
     ////TODO:xbox button mapping
-    public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None, true);
-    public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, true);
-    public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X, true);
-    public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, true);
-    public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, true);
+    public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None);
+    public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
+    public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None);
+    public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
+    public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
+    public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
     [HideInInspector]
 
     protected bool m_HaveControl = true;
 
     protected bool m_DebugMenuIsOpen = false;
 
-    //³õÊ¼»¯buttons
+    //ï¿½ï¿½Ê¼ï¿½ï¿½buttons
     void Awake()
     {
         if (s_Instance == null)
@@ -38,12 +40,13 @@ public class PlayerInput : InputComponent
         else
             throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
 
-        //¼ÓÈëbutton
+        //ï¿½ï¿½ï¿½ï¿½button
         buttons.AddRange(new List<Button>
         {
             horizontal,
             vertical,
             jump,
+            interact,
             normalAttack,
             sprint,
             teleport,
@@ -67,11 +70,15 @@ public class PlayerInput : InputComponent
         s_Instance = null;
     }
 
-    protected override void GetInputs()
+    protected override void GetInputs(bool fixedUpdateHappened)
     {
+        if (IsFrozen)
+        {
+            return;
+        }
         foreach (var button in buttons)
         {
-            button.Get(inputType);
+            button.Get(fixedUpdateHappened, inputType);
         }
         if (Input.GetKeyDown(KeyCode.F12))
         {
@@ -85,7 +92,7 @@ public class PlayerInput : InputComponent
 
         foreach (var button in buttons)
         {
-            if (button.NeedToGainAndReleaseControl)
+            if (button.NeedGainAndReleaseControl)
                 button.GainControl();
         }
     }
@@ -96,7 +103,7 @@ public class PlayerInput : InputComponent
 
         foreach (var button in buttons)
         {
-            if (button.NeedToGainAndReleaseControl)
+            if (button.NeedGainAndReleaseControl)
                 StartCoroutine(button.ReleaseControl(resetValues));
         }
     }
