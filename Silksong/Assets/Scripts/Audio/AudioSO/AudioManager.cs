@@ -94,14 +94,16 @@ public class AudioManager : MonoBehaviour
 	/// </summary>
 	public void PlayAudioCue(AudioCueSO audioCue, AudioConfigurationSO settings, Vector3 position = default)
 	{
+		Debug.Log("playAudioCue");
 		AudioClip[] clipsToPlay = audioCue.GetClips();
 		int nOfClips = clipsToPlay.Length;
-
+		Debug.Log(nOfClips);
 		for (int i = 0; i < nOfClips; i++)
 		{
 			SoundEmitter soundEmitter = _pool.Request();
 			if (soundEmitter != null)
 			{
+				Debug.Log("playAudioClip");
 				soundEmitter.PlayAudioClip(clipsToPlay[i], settings, audioCue.looping, position);
 				if (!audioCue.looping)
 					soundEmitter.OnSoundFinishedPlaying += OnSoundEmitterFinishedPlaying;
