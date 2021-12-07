@@ -29,7 +29,7 @@ public class SoundEmitter : MonoBehaviour
 		_audioSource.transform.position = position;
 		_audioSource.loop = hasToLoop;
 		_audioSource.Play();
-
+		Debug.Log("realPlay");
 		if (!hasToLoop)
 		{
 			StartCoroutine(FinishedPlaying(clip.length));
