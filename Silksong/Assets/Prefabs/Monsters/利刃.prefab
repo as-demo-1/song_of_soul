@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 5231329138824269600}
   - component: {fileID: 5231329138824269615}
   - component: {fileID: 1734072351}
-  - component: {fileID: 1547183142946497334}
+  - component: {fileID: 1584882049}
   m_Layer: 15
   m_Name: "\u5229\u5203"
   m_TagString: Untagged
@@ -186,12 +186,14 @@ MonoBehaviour:
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
+  takeDamageAudio: {fileID: 1584882049}
   maxHp: 30
   currentHp: 30
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
+  dieAudio: {fileID: 0}
 --- !u!61 &4784448708260076415
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -331,7 +333,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
---- !u!114 &1547183142946497334
+--- !u!114 &1584882049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -343,10 +345,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12b917c021d240b4da1828535b634ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioCue: {fileID: 0}
+  _audioCue: {fileID: 11400000, guid: 001d588bd043222428108e935e9dd6a9, type: 2}
   _playOnStart: 0
   _audioCueEventChannel: {fileID: 11400000, guid: 0821cfc0d1753004eb111b4f696e379b, type: 2}
-  _audioConfiguration: {fileID: 11400000, guid: 8d4217c8fabf9824490196f34baf326a, type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 6b42c99763682d64ba019b447d78be04, type: 2}
 --- !u!1 &4784448708440573212
 GameObject:
   m_ObjectHideFlags: 0

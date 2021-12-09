@@ -26,8 +26,10 @@ public class GameManager : MonoBehaviour
 
     protected static GameManager instance;
 
-
-    public GameObject player;
+    [SerializeField]
+    private GameObject player;
+    [SerializeField]
+    private GameObject audioManager;
 
     void Awake()
     {
@@ -39,6 +41,8 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
+        GameInitialize();
+
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
     }
@@ -49,5 +53,12 @@ public class GameManager : MonoBehaviour
     public void creatPlayer()
     {
         Instantiate(player);
+    }
+
+    public void GameInitialize()
+    {
+        /*  GameObject audioManager = new GameObject("AudioManager");
+          audioManager.AddComponent<AudioManager>();*/
+        Instantiate(audioManager);
     }
 }

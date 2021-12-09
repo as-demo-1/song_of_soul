@@ -11,6 +11,12 @@ public class Damable : DamageableBase
         damageDirection = damager.transform.position - transform.position;
         //EventsManager.Instance.Invoke(gameObject,EventType.onTakeDamage);
         takeDamageEvent.Invoke(damager,this);
+
+        if(takeDamageAudio)
+        {
+            takeDamageAudio.PlayAudioCue();
+        }
+
     }
 
 

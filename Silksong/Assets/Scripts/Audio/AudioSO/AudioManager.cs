@@ -33,7 +33,8 @@ public class AudioManager : MonoBehaviour
 	private void Awake()
 	{
 		//TODO: Get the initial volume levels from the settings
-
+		//Debug.Log("audio manager awake");
+		DontDestroyOnLoad(gameObject);//dont destroy soundEmitters as children
 		_SFXEventChannel.OnAudioCueRequested += PlayAudioCue;
 		_musicEventChannel.OnAudioCueRequested += PlayAudioCue; //TODO: Treat music requests differently?
 
@@ -94,16 +95,16 @@ public class AudioManager : MonoBehaviour
 	/// </summary>
 	public void PlayAudioCue(AudioCueSO audioCue, AudioConfigurationSO settings, Vector3 position = default)
 	{
-		Debug.Log("playAudioCue");
+		//Debug.Log("playAudioCue");
 		AudioClip[] clipsToPlay = audioCue.GetClips();
 		int nOfClips = clipsToPlay.Length;
-		Debug.Log(nOfClips);
+		//Debug.Log(nOfClips);
 		for (int i = 0; i < nOfClips; i++)
 		{
 			SoundEmitter soundEmitter = _pool.Request();
 			if (soundEmitter != null)
 			{
-				Debug.Log("playAudioClip");
+				//Debug.Log("playAudioClip");
 				soundEmitter.PlayAudioClip(clipsToPlay[i], settings, audioCue.looping, position);
 				if (!audioCue.looping)
 					soundEmitter.OnSoundFinishedPlaying += OnSoundEmitterFinishedPlaying;

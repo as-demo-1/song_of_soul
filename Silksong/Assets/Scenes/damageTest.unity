@@ -349,6 +349,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9065977284077669877, guid: 2c943f675ed134846b3d48a25cd35f5b, type: 3}
   m_PrefabInstance: {fileID: 9065977284302844287}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &361332754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 361332755}
+  m_Layer: 0
+  m_Name: AudioCues
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &361332755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361332754}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 777347834}
+  m_Father: {fileID: 910546575}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &382070769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -489,6 +520,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u5229\u5203"
       objectReference: {fileID: 0}
+    - target: {fileID: 4784448708260076408, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
+      propertyPath: takeDamageAudio
+      value: 
+      objectReference: {fileID: 777347835}
     - target: {fileID: 4784448708260076410, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -535,6 +570,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
+--- !u!1 &777347833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 777347834}
+  - component: {fileID: 777347835}
+  m_Layer: 0
+  m_Name: MonsterHitted
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &777347834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777347833}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 361332755}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &777347835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 777347833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b917c021d240b4da1828535b634ae6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioCue: {fileID: 11400000, guid: 001d588bd043222428108e935e9dd6a9, type: 2}
+  _playOnStart: 0
+  _audioCueEventChannel: {fileID: 11400000, guid: 0821cfc0d1753004eb111b4f696e379b, type: 2}
+  _audioConfiguration: {fileID: 11400000, guid: 6b42c99763682d64ba019b447d78be04, type: 2}
 --- !u!1 &843845322
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,8 +716,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+      propertyPath: takeDamageAudio
+      value: 
+      objectReference: {fileID: 777347835}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+--- !u!1 &910546574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 910546575}
+  - component: {fileID: 910546576}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &910546575
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910546574}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -13.73, y: 4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 361332755}
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &910546576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910546574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a695d33992a1548b2aaaa0fe8db6c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _factory: {fileID: 11400000, guid: 2195901cd7c0d194296e3813c03a8e5a, type: 2}
+  _pool: {fileID: 11400000, guid: 0fab184c20f212a4c9dcdaa123356920, type: 2}
+  _initialSize: 10
+  _SFXEventChannel: {fileID: 11400000, guid: 0821cfc0d1753004eb111b4f696e379b, type: 2}
+  _musicEventChannel: {fileID: 11400000, guid: 3833f9ed27328be418291afa9a7584c0, type: 2}
+  audioMixer: {fileID: 24100000, guid: d424387f690e3c84b81aad02c24492c9, type: 2}
+  _masterVolume: 1
+  _musicVolume: 1
+  _sfxVolume: 1
 --- !u!1 &984653107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1907,6 +2046,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 28401933956532154, guid: cf71af9b0bcf45b4480483a03156bdb0, type: 3}
+      propertyPath: m_IgnoreTimeScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 28401934523797377, guid: cf71af9b0bcf45b4480483a03156bdb0, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
       value: -60
@@ -2008,6 +2151,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4518769045790887233, guid: b12f818a9941d8943921353c66b01d99, type: 3}
+      propertyPath: takeDamageAudio
+      value: 
+      objectReference: {fileID: 777347835}
     - target: {fileID: 4518769045790887235, guid: b12f818a9941d8943921353c66b01d99, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -2055,10 +2202,6 @@ PrefabInstance:
     - target: {fileID: 4518769045790887236, guid: b12f818a9941d8943921353c66b01d99, type: 3}
       propertyPath: m_Name
       value: "\u82CD\u8747"
-      objectReference: {fileID: 0}
-    - target: {fileID: 4518769045790887236, guid: b12f818a9941d8943921353c66b01d99, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b12f818a9941d8943921353c66b01d99, type: 3}
@@ -2155,6 +2298,10 @@ PrefabInstance:
     - target: {fileID: 5651918376523722626, guid: b3ceec117d12dab4fa8e37f9bcb03edb, type: 3}
       propertyPath: m_Name
       value: Baodian (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5651918376523722626, guid: b3ceec117d12dab4fa8e37f9bcb03edb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5651918376523722627, guid: b3ceec117d12dab4fa8e37f9bcb03edb, type: 3}
       propertyPath: m_RootOrder
@@ -2638,6 +2785,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6992661258279219815, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
+      propertyPath: takeDamageAudio
+      value: 
+      objectReference: {fileID: 777347835}
     - target: {fileID: 6992661258279219819, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_Name
       value: "\u78B3\u7403"
