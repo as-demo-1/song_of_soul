@@ -99,6 +99,13 @@ public class Enemy_State_SO_Config_Editor : Editor
             {
                 config.triggerConfig = Activator.CreateInstance(config.triggerType) as EnemyFSMBaseTrigger;
                 config.triggerConfig.triggerType = config.TriggerType;
+                if(config.TriggerType==EnemyTriggers.RandomTrigger)
+                {
+                    var tem = config.triggerConfig as RandomTrigger;
+                    Type t = Type.GetType(tem.insideTriggerType.ToString());
+                    tem.insideTrigger = Activator.CreateInstance(t) as EnemyFSMBaseTrigger;
+                    tem.insideTrigger.triggerType = tem.insideTriggerType;
+                }
             }
             else
                 Debug.LogError("找不到所对应的Trigger，请检查枚举名称是否与类名一致。");

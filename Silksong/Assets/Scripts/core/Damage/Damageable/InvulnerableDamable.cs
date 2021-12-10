@@ -31,7 +31,7 @@ public class InvulnerableDamable : HpDamable
 
     void Update()
     {
-        if (invulnerable)
+        if (invulnerable&&invulnerableAfterDamage)
         {
             inulnerabilityTimer -= Time.deltaTime;
 

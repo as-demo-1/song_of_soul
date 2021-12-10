@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 /// <summary>
 /// 状态机中对状态的抽象,具体用法可参考Enemy状态机的构建模式。
 /// </summary>
@@ -91,6 +93,7 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
 {
     protected EnemyFSMManager fsmManager;
     public string defaultAnimationName;
+    public UnityEvent animationEvents;
     //对一些触发函数进行二次封装
     //////////////////////////////////////////////////////////////////////////////////////////
     public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
@@ -108,6 +111,7 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
        
     }
     public virtual void EnterState(EnemyFSMManager enemyFSM) {
+        enemyFSM.hasInvokedAnimationEvent = false;
         if (enemyFSM.animator != null && defaultAnimationName != string.Empty)
         {   
             enemyFSM.animator.Play(defaultAnimationName, 0);
@@ -143,6 +147,12 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
                 fsm_Manager.ChangeState(triggers[i].targetState);
             }
         }
+    }
+
+    public  virtual void invokeAnimationEvent()
+    {
+        animationEvents.Invoke();
+       
     }
     /////////////////////////////////////////////////////////////////////////////////////////
     ///

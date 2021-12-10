@@ -19,7 +19,8 @@ public enum EnemyStates
     Enemy_Shoot_State=8,
     Enemy_Bump_State=9,
     Enemy_Chase_State=11,
-    Enemy_Smash_Down_State=12
+    Enemy_Smash_Down_State=12,
+    Boss_Shoot_State=13
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
@@ -32,6 +33,7 @@ public enum EnemyTriggers
     AnimationPlayOverTrigger=3,
     OnHittedTrigger=4,
     SelfHPTrigger=5,
+    RandomTrigger = 6,
 }
 
 

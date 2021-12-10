@@ -47,6 +47,7 @@ public class Enemy_Smash_Down_State : EnemyFSMBaseState
             }
             else
             {
+                fsmManager.rigidbody2d.gravityScale = 20f;
                 if (smashDownAnimation != string.Empty)
                     fsmManager.animator.Play(smashDownAnimation);
             }
