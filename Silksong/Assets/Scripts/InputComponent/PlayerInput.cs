@@ -14,7 +14,7 @@ public class PlayerInput : InputComponent
 
 
     public bool HaveControl { get { return m_HaveControl; } }
-    public bool IsFrozen { get; set; }
+    private bool m_isFrozen;
 
     //[SerializeField]
     //private List<InputButton> playerInputButtons;
@@ -32,8 +32,10 @@ public class PlayerInput : InputComponent
     public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None, true);
     public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, true);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X, true);
+    public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None, true);
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, true);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, true);
+
     [HideInInspector]
 
     protected bool m_HaveControl = true;
@@ -78,9 +80,14 @@ public class PlayerInput : InputComponent
         s_Instance = null;
     }
 
+    public void ToggleFrozen(bool isFrozen)
+    {
+        m_isFrozen = isFrozen;
+    }
+
     protected override void GetInputs()
     {
-        if (IsFrozen)
+        if (m_isFrozen)
         {
             return;
         }

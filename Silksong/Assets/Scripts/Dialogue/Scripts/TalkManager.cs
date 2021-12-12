@@ -6,9 +6,9 @@ using System.Xml;
 
 public class TalkManager : MonoBehaviour
 {
-    public Dictionary<int, string> TalkContent = new Dictionary<int, string>();//int是对话id，string是对话内容
-    public Dictionary<int, int> TalkNo = new Dictionary<int, int>(); //key是当前对话ID，value是NextID
-    public Dictionary<int, string> TalkNPC = new Dictionary<int, string>();//int是对话ID，string是说话的NPC名字
+    public Dictionary<int, string> TalkContent = new Dictionary<int, string>();//int锟角对伙拷id锟斤拷string锟角对伙拷锟斤拷锟斤拷
+    public Dictionary<int, int> TalkNo = new Dictionary<int, int>(); //key锟角碉拷前锟皆伙拷ID锟斤拷value锟斤拷NextID
+    public Dictionary<int, string> TalkNPC = new Dictionary<int, string>();//int锟角对伙拷ID锟斤拷string锟斤拷说锟斤拷锟斤拷NPC锟斤拷锟斤拷
 
     XmlDocument xmlDocument = new XmlDocument();
 
@@ -23,13 +23,13 @@ public class TalkManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string data = Resources.Load("Content").ToString();
+        string data = Resources.Load("XML/DialogueContent").ToString();
         xmlDocument.LoadXml(data);
         XmlNodeList xmlNodeList = xmlDocument.SelectSingleNode("dialogues").ChildNodes;
 
-        foreach (XmlNode xmlNode in xmlNodeList)//遍历<dialogues>下的所有节点<dialogue>压入List
+        foreach (XmlNode xmlNode in xmlNodeList)//锟斤拷锟斤拷<dialogues>锟铰碉拷锟斤拷锟叫节碉拷<dialogue>压锟斤拷List
         {
-            XmlElement xmlElement = (XmlElement)xmlNode;//对于任何一个元素，其实就是每一个<dialogue>  
+            XmlElement xmlElement = (XmlElement)xmlNode;//锟斤拷锟斤拷锟轿猴拷一锟斤拷元锟截ｏ拷锟斤拷实锟斤拷锟斤拷每一锟斤拷<dialogue>  
             TalkContent.Add(int.Parse(xmlElement.ChildNodes.Item(0).InnerText), xmlElement.ChildNodes.Item(1).InnerText);
             TalkNo.Add(int.Parse(xmlElement.ChildNodes.Item(0).InnerText), int.Parse(xmlElement.ChildNodes.Item(2).InnerText));
             TalkNPC.Add(int.Parse(xmlElement.ChildNodes.Item(0).InnerText), xmlElement.ChildNodes.Item(3).InnerText);

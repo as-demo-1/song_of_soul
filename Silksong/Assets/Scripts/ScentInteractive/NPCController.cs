@@ -11,6 +11,7 @@ public class NPCController : MonoBehaviour
     private GameObject m_container;
     private Text m_text;
     private Vector3 m_dialogPos;
+    private InteractiveItemConfig m_info;
 
     public GameObject Tip;
 
@@ -60,6 +61,7 @@ public class NPCController : MonoBehaviour
                 DialogInteract.Instance.IsOnTrigger = isEnter;
                 DialogInteract.Instance.TriggerItemType = itemType;
                 DialogInteract.Instance.DialogPos = m_dialogPos;
+                DialogInteract.Instance.TalkComponent = GetComponent<TalkAct>();
                 break;
             // 普通事件
             case InteractiveItemType.NONE:
@@ -73,10 +75,17 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    private void ToggleContent(string content, bool isEnter)
+    private void ToggleContent(bool isEnter)
     {
         // todo:
         // --最好有动画
+        m_dialog.SetActive(isEnter);
+    }
+
+    private void ToggleContent(string content, bool isEnter)
+    {
+        // 如果需要切换文字的话
+
         m_dialog.SetActive(isEnter);
         m_text.text = content;
     }
@@ -85,15 +94,11 @@ public class NPCController : MonoBehaviour
     {
         if (collision.name == "Player")
         {
-            int itemID = ItemID;
-
-            InteractiveItemConfig info
-                = InteractiveItemConfigManager.Instance.config[itemID];
-            InteractiveItemType itemType = info.getItemType();
-            string content = info.getContent();
-
-            CheckTriggerState(itemType, true);
-            ToggleContent(content, true);
+            // todo:loading功能实现后之后awake
+            m_info = InteractiveItemConfigManager.Instance.ItemConfig[ItemID];
+            m_text.text = m_info.Content;
+            CheckTriggerState(m_info.ItemType, true);
+            ToggleContent(true);
         }
     }
 
@@ -101,13 +106,8 @@ public class NPCController : MonoBehaviour
     {
         if (collision.name == "Player")
         {
-            int itemID = ItemID;
-
-            InteractiveItemConfig info
-                = InteractiveItemConfigManager.Instance.config[itemID];
-            InteractiveItemType itemType = info.getItemType();
-            CheckTriggerState(itemType, false);
-            ToggleContent("", false);
+            CheckTriggerState(m_info.ItemType, false);
+            ToggleContent(false);
             m_container.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
     }

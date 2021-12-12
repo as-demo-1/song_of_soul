@@ -5,6 +5,7 @@ using UnityEngine;
 public class DialogInteract : InteractTriggerBase<DialogInteract>
 {
     public Vector3 DialogPos;
+    public TalkAct TalkComponent;
     public int Step = 30;
 
     private GameObject m_player;
@@ -32,14 +33,21 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
         // todo:
         // 2.调用对话系统的方法
         Debug.Log("调用对话系统方法");
+
+        TalkComponent.TalkAction();
+
+        UIAddListener("Talk/TalkPanel/Next", () => {
+            TalkComponent.TalkAction();
+        });
     }
 
     private void move()
     {
         int times = Step;
 
+        // todo:
+        // 控制角色移动并播放动画
         Queue<System.Action> actions = PlayerInput.Instance.actions;
-        Animator anim = m_player.GetComponent<Animator>();
         SpriteRenderer sprite = m_player.GetComponent<SpriteRenderer>();
         while (--times >= 0)
         {
@@ -61,9 +69,7 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
                     PlayerController.Instance.playerInfo.playerFacingRight = true;
 
                     Vector3 tmpPos = m_player.transform.position;
-
-                    anim.SetInteger("HorizontalInput", 1);
-                    anim.SetFloat("HorizontalSpeed", (DialogPos.x - tmpPos.x) / Step);
+                    PlayerController.Instance.PlayerAnimatorStatesControl.ChangePlayerState(EPlayerState.Run);
 
                     tmpPos.x += (DialogPos.x - tmpPos.x) / Step;
                     m_player.transform.position = tmpPos;

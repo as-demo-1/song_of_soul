@@ -1,16 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Xml;
+using UnityEditor;
 
 public class InteractiveItemConfigManager
 {
-    public Dictionary<int, InteractiveItemConfig> config = new Dictionary<int, InteractiveItemConfig>()
+    XmlDocument xmlDocument = new XmlDocument();
+
+    private Dictionary<int, InteractiveItemConfig> _itemConfig = new Dictionary<int, InteractiveItemConfig>();
+
+    public void Load()
     {
-        { 1001, new InteractiveItemConfig(1001, "椅子", InteractiveItemType.NONE, "休息")},
-        { 1002, new InteractiveItemConfig(1002, "信", InteractiveItemType.DIALOG, "聆听")},
-        { 1003, new InteractiveItemConfig(1003, "锁住的门", InteractiveItemType.JUDGE, "查看")},
-        { 1004, new InteractiveItemConfig(1004, "遗迹1", InteractiveItemType.FULLWINDOW, "查看")},
-    };
+        string data = Resources.Load("XML/InteractItem").ToString();
+        xmlDocument.LoadXml(data);
+        XmlNodeList xmlNodeList = xmlDocument.SelectSingleNode("items").ChildNodes;
+
+        foreach (XmlNode xmlNode in xmlNodeList)
+        {
+            XmlElement xmlElement = (XmlElement)xmlNode;
+            
+            int id = int.Parse(xmlElement.SelectSingleNode("ID").InnerText);
+            string name = xmlElement.SelectSingleNode("name").InnerText;
+            InteractiveItemType type = (InteractiveItemType)int.Parse(xmlElement.SelectSingleNode("type").InnerText);
+            string content = xmlElement.SelectSingleNode("content").InnerText;
+            _itemConfig[id] = new InteractiveItemConfig(id, name, type, content);
+        }
+    }
 
     private static InteractiveItemConfigManager s_instance;
     public static InteractiveItemConfigManager Instance
@@ -22,6 +38,11 @@ public class InteractiveItemConfigManager
 
             return s_instance;
         }
+    }
+
+    public Dictionary<int, InteractiveItemConfig> ItemConfig
+    {
+        get { return _itemConfig; }
     }
 }
 
@@ -35,36 +56,16 @@ public enum InteractiveItemType
 
 public class InteractiveItemConfig
 {
-    private int m_ID;
-    private string m_name;
-    private InteractiveItemType m_itemType;
-    private string m_content;
+    public int ID { get; private set; }
+    public string Name { get; private set; }
+    public InteractiveItemType ItemType { get; private set; }
+    public string Content { get; private set; }
 
-    public InteractiveItemConfig(int ID, string name, InteractiveItemType itemType, string content)
+    public InteractiveItemConfig(int id, string name, InteractiveItemType itemType, string content)
     {
-        m_ID = ID;
-        m_name = name;
-        m_itemType = itemType;
-        m_content = content;
-    }
-
-    public int getID()
-    {
-        return m_ID;
-    }
-
-    public string getName()
-    {
-        return m_name;
-    }
-
-    public InteractiveItemType getItemType()
-    {
-        return m_itemType;
-    }
-
-    public string getContent()
-    {
-        return m_content;
+        ID = id;
+        Name = name;
+        ItemType = itemType;
+        Content = content;
     }
 }

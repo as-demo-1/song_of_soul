@@ -6,14 +6,8 @@ using UnityEngine.UI;
 
 public class NormaInteract : InteractTriggerBase<NormaInteract>
 {
-    private Transform m_UI_trans;
-
     protected override void InteractEvent()
     {
-        if (m_UI_trans == null)
-        {
-            m_UI_trans = GameObject.Find("UI").transform;
-        }
         normaInteractEvent();
     }
 
@@ -25,6 +19,7 @@ public class NormaInteract : InteractTriggerBase<NormaInteract>
         {
             case InteractiveItemType.NONE:
                 Debug.Log("无界面");
+                ContinueEvent();
                 break;
             case InteractiveItemType.JUDGE:
                 Debug.Log("判断框");
@@ -32,16 +27,21 @@ public class NormaInteract : InteractTriggerBase<NormaInteract>
                 UIAddListener("Judge/Image/LButton", () => {
                     Toggle("Judge", false);
                     Debug.Log("yes");
+                    ContinueEvent();
                 });
                 UIAddListener("Judge/Image/RButton", () => {
                     Toggle("Judge", false);
                     Debug.Log("no");
+                    ContinueEvent();
                 });
                 break;
             case InteractiveItemType.FULLWINDOW:
                 Debug.Log("全屏文本框");
                 Toggle("FullWindowText", true);
-                UIAddListener("FullWindowText/Image/Close", () => Toggle("FullWindowText", false));
+                UIAddListener("FullWindowText/Image/Close", () => {
+                    Toggle("FullWindowText", false);
+                    ContinueEvent();
+                });
 
                 GameObject txtWarp = m_UI_trans.Find("FullWindowText/Image/Text").gameObject;
                 if (txtWarp == null)
@@ -63,24 +63,6 @@ public class NormaInteract : InteractTriggerBase<NormaInteract>
                 break;
             default:
                 break;
-        }
-    }
-
-    private void Toggle(string path, bool isActive)
-    {
-        m_UI_trans.Find(path).gameObject.SetActive(isActive);
-    }
-
-    private void UIAddListener(string path, UnityAction action)
-    {
-        GameObject go = m_UI_trans.Find(path).gameObject;
-
-        if (go != null)
-        {
-            Button btn = go.GetComponent<Button>();
-
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(action);
         }
     }
 }
