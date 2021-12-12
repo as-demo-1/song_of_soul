@@ -167,10 +167,12 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public Enemy_State_SO_Config anyStateConfig;
     public GameObject player;
     public bool FaceLeftFirstOriginal;//原图是否朝向左
+    public float beatBackRatio = 0;//0表示不被击退
     protected override void Start()
     {
         base.Start();
         player = GameObject.FindGameObjectWithTag("Player");
+        this.damageable.takeDamageEvent.AddListener(beBeatBack);
     }
     //可SO配置
     public override void InitWithScriptableObject()
@@ -250,7 +252,51 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         }
         return dir;
     }
+
+    public bool nearPlatformBoundary()
+    {
+        Collider2D collider = GetComponent<Collider2D>();
+        float rayToGroundDistance = collider.bounds.extents.y - collider.offset.y + 0.1f;
+        Vector3 frontPoint = transform.position + new Vector3((rigidbody2d.velocity.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
+        var rayHit = Physics2D.Raycast(frontPoint, Vector2.down, 100, 1 << LayerMask.NameToLayer("Ground"));
+        if (rayHit.distance > rayToGroundDistance)//到达边缘
+        {
+            return true;
+        }
+        return false;
+
+    }
+
+    public void beBeatBack(DamagerBase damager,DamageableBase damageable)
+    {
+        Vector2 beatDistancePerSecond = damager.beatBackVector * beatBackRatio / Constants.monsterBeatBackTime;
+
+        if (beatDistancePerSecond == Vector2.zero) return;
+
+        if (this.damageable.damageDirection.x > 0)
+        {
+            beatDistancePerSecond *= -1;
+        }
+
+        StartCoroutine(beatBack(beatDistancePerSecond));
+
+    }
+
+    private IEnumerator beatBack(Vector2 beatDistancePerSecond)
+    {
+        float timer=0;
+        while(timer<Constants.monsterBeatBackTime)
+        {
+            timer += Time.deltaTime;
+            transform.Translate(beatDistancePerSecond * Time.deltaTime);
+            yield return null;
+        }
+
+    }
+
 }
+
+
 
 
 

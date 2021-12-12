@@ -165,6 +165,7 @@ public class PlayerController : MonoBehaviour
 
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
+        
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
         float desireSpeed = m_LastHorizontalInputDir * playerInfo.speed;
