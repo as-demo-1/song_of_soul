@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_itemToAdd)
             {
-                _backpack.AddItem(_itemToAdd.GetComponent<CollectableItem>().GetItem());
+                _backpack.AddItem(_itemToAdd.GetComponent<SceneItem>().GetItem());
                 _itemToAdd.SetActive(false);
             }
         }
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
         m_BodyCapsuleCollider = GetComponent<CapsuleCollider2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
         PlayerAnimator = GetComponent<Animator>();
-        PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, PlayerState.Idle);
+        PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         WhenStartSetLastHorizontalInputDirByFacing();
     }
 
@@ -142,8 +142,6 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate()
     {
         PlayerAnimatorStatesControl.BehaviourLateUpdate();
-        PlayerAnimatorStatesControl.PlayerStatusLateUpdate();
-        PlayerAnimatorStatesControl.ParamsLateUpdate();
         //player��һ֡���°�������animator params����һ֡����state
     }
 

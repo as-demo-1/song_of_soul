@@ -2,7 +2,7 @@
 
 namespace Inventory
 {
-    public class CollectableItem : MonoBehaviour
+    public class SceneItem : MonoBehaviour
     {
         [SerializeField] private ItemSO _currentItemSO = default;
         [SerializeField] private GameObject _itemGO = default;

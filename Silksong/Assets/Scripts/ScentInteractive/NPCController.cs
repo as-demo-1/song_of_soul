@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class NPCController : MonoBehaviour
 {
+    //if it is an item, it can use ItemSO GUID for ItemID
     public int ItemID;
+    public ItemSO m_Item;
     private GameObject m_dialog;
     private GameObject m_container;
     private Text m_text;
@@ -87,13 +89,13 @@ public class NPCController : MonoBehaviour
         {
             int itemID = ItemID;
 
-            InteractiveItemConfig info
-                = InteractiveItemConfigManager.Instance.config[itemID];
-            InteractiveItemType itemType = info.getItemType();
-            string content = info.getContent();
+           // InteractiveItemConfig info
+           //    = InteractiveItemConfigManager.Instance.config[itemID];
+           // InteractiveItemType itemType = info.getItemType();
+           // string content = info.getContent();
 
-            CheckTriggerState(itemType, true);
-            ToggleContent(content, true);
+            CheckTriggerState(m_Item.m_itemType, true);
+            ToggleContent(m_Item.Description, true);
         }
     }
 
@@ -103,11 +105,11 @@ public class NPCController : MonoBehaviour
         {
             int itemID = ItemID;
 
-            InteractiveItemConfig info
-                = InteractiveItemConfigManager.Instance.config[itemID];
-            InteractiveItemType itemType = info.getItemType();
-            CheckTriggerState(itemType, false);
-            ToggleContent("", false);
+            //InteractiveItemConfig info
+            //    = InteractiveItemConfigManager.Instance.config[itemID];
+            //InteractiveItemType itemType = info.getItemType();
+            CheckTriggerState(m_Item.m_itemType, false);
+            ToggleContent(m_Item.Description, false);
             m_container.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
     }
