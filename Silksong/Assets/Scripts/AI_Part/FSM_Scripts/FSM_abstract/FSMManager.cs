@@ -34,9 +34,13 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
     public void ChangeState(string state)
     {
-      // Debug.Log(state.ToString()+"  "+gameObject.name);
+
         if (currentState != null)
+        {
             currentState.ExitState(this);
+           // Debug.Log(state + "  " + gameObject.name);
+        }
+
 
         if (statesDic.ContainsKey(state))
         {
@@ -219,6 +223,18 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         transform.localScale = new Vector3(x * -Mathf.Abs(tem.x), tem.y, tem.z);
     }
 
+    public void turnFace()
+    {
+        //Debug.Log("turn face");
+        Vector3 tem = transform.localScale;
+        transform.localScale = new Vector3(-tem.x, tem.y, tem.z);
+    }
+
+    public bool currentFacingLeft()
+    {
+        return FaceLeftFirstOriginal ? transform.localScale.x > 0 : transform.localScale.x < 0;
+    }
+
     /// <summary>
     /// 根据刚体速度改变自身朝向
     /// </summary>
@@ -256,15 +272,32 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public bool nearPlatformBoundary()
     {
         Collider2D collider = GetComponent<Collider2D>();
-        float rayToGroundDistance = collider.bounds.extents.y - collider.offset.y + 0.1f;
+        float rayToGroundDistance = collider.bounds.extents.y - collider.offset.y;
+        rayToGroundDistance += 0.1f;
+
         Vector3 frontPoint = transform.position + new Vector3((rigidbody2d.velocity.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
-        var rayHit = Physics2D.Raycast(frontPoint, Vector2.down, 100, 1 << LayerMask.NameToLayer("Ground"));
+        var rayHit = Physics2D.Raycast(frontPoint, Vector2.down,100, 1 << LayerMask.NameToLayer("Ground"));
+      /*  Debug.DrawRay(frontPoint,Vector3.down);
+        Debug.Log(rayHit.distance);*/
         if (rayHit.distance > rayToGroundDistance)//到达边缘
         {
             return true;
         }
         return false;
 
+    }
+
+    public bool hitWall()
+    {
+
+        Vector3 frontPoint = transform.position + new Vector3((rigidbody2d.velocity.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
+        Vector3 upPoint = transform.position + new Vector3(0, 0.1f, 0);
+       // Debug.DrawLine(frontPoint,upPoint);
+        if (Physics2D.OverlapArea(upPoint, frontPoint, 1 << LayerMask.NameToLayer("Ground")) != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void beBeatBack(DamagerBase damager,DamageableBase damageable)

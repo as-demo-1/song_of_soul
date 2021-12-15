@@ -6,29 +6,32 @@ using UnityEngine;
 /// </summary>适用于地面怪物 
 public class Enemy_Patrol_State : EnemyFSMBaseState
 {
-    public bool isBack;
+    //public bool isBack;
     public Vector3 moveSpeed;
-    public bool isFaceWithSpeed;
+    public bool noTurnState;//如有，在turn state中转身
 
-    
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {
         if (fsmManager.rigidbody2d.velocity.y < -0.1) //如果被击出平台 正常下落
             return;
 
-        if (isBack)
+       /* if (isBack)
         {
             DetectionPlatformBoundary();
-        }
+        }*/
     }
  
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {
         base.EnterState(fSM_Manager);
+        if(fsmManager.currentFacingLeft()? moveSpeed.x>0 : moveSpeed.x<0)//使速度与面朝方向一致
+        {
+            moveSpeed *= -1;
+        }
         fsmManager.rigidbody2d.velocity = moveSpeed;
+        //Debug.Log(moveSpeed);
 
-        if(isFaceWithSpeed)
-        fSM_Manager.faceWithSpeed();
+       //fSM_Manager.faceWithSpeed();
         /*  if (isBack)
           {
               var rayHit= Physics2D.Raycast(fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * collider.bounds.size.x, Vector2.down);
@@ -45,15 +48,15 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     public override void ExitState(EnemyFSMManager fSM_Manager)
     {
         fsmManager.rigidbody2d.velocity = Vector2.zero;
+        //Debug.Log("patrol exit");
     }
 
-    private void Turn()
+   /* private void Turn()
     {
        // Debug.Log("turn");
         moveSpeed.x *= -1;
         fsmManager.rigidbody2d.velocity = moveSpeed;
 
-        if(isFaceWithSpeed)
         fsmManager.faceWithSpeed();
     }
     private void DetectionPlatformBoundary()
@@ -65,11 +68,9 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         Vector3 upPoint = fsmManager.transform.position + new Vector3(0, 0.1f, 0);
         if (Physics2D.OverlapArea(upPoint,frontPoint,1<<LayerMask.NameToLayer("Ground"))!=null)
         {
-            //Debug.Log("hit wall");
-            //if(!isChaseNotPatrol)
             Turn();
         }
-    }
+    }*/
 
 
 

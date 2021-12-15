@@ -18,17 +18,17 @@ public class Enemy_Chase_State :EnemyFSMBaseState
     }
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {
-        v = fSM_Manager.getTargetDir();
+        v = fSM_Manager.getTargetDir(isFaceWithSpeed);
         //Debug.Log(v.x);
         if (v.x > 0)
             v = new Vector3(1, 0, 0);
         else
             v = new Vector3(-1, 0, 0);
         // fSM_Manager.transform.Translate(v * chaseSpeed * Time.deltaTime);
-        fSM_Manager.rigidbody2d.velocity = v*chaseSpeed;
+        fSM_Manager.rigidbody2d.velocity = v * chaseSpeed;
 
-        if (isFaceWithSpeed)
-            fSM_Manager.faceWithSpeed();
+        /*   if (isFaceWithSpeed)
+               fSM_Manager.faceWithSpeed();*/
     }
 
     public override void ExitState(EnemyFSMManager enemyFSM)

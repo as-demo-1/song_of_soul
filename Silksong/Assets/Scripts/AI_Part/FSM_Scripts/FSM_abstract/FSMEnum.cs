@@ -19,6 +19,9 @@ public enum EnemyStates
     Enemy_Shoot_State=8,
     Enemy_Bump_State=9,
     Enemy_Chase_State=11,
+    Enemy_Turn_State=12,
+    Enemy_Meet_State=13,
+
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
@@ -32,6 +35,7 @@ public enum EnemyTriggers
     OnHittedTrigger=4,
     SelfHPTrigger=5,
     NearPlatformBorderTrigger=6,
+    TargetTurnTrigger=7,
 
 }
 
