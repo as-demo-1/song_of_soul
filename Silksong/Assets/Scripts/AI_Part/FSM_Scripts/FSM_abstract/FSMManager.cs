@@ -135,8 +135,14 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         //    }
 
     }
-
-    private void Update()
+    private void  FixedUpdate()
+    {
+        if(currentState!=null)
+        {
+            currentState.FixAct_State(this);
+        }
+    }
+    protected virtual void Update()
     {
 
         if (currentState != null)
@@ -172,12 +178,23 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public GameObject player;
     public bool FaceLeftFirstOriginal;//原图是否朝向左
     public float beatBackRatio = 0;//0表示不被击退
+    [DisplayOnly]
+    public bool hasInvokedAnimationEvent=false, isInvokingAnimationEvent=false;
     protected override void Start()
     {
         base.Start();
         player = GameObject.FindGameObjectWithTag("Player");
         this.damageable.takeDamageEvent.AddListener(beBeatBack);
     }
+
+    protected override void Update()
+    {
+        if (isInvokingAnimationEvent && !hasInvokedAnimationEvent)
+            invokeCurrentStateAnimationEvent();
+        base.Update();
+    }
+        
+    
     //可SO配置
     public override void InitWithScriptableObject()
     {
@@ -327,6 +344,14 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
 
     }
 
+    public void invokeCurrentStateAnimationEvent()
+    {
+        Debug.Log("Shoot Invoke");
+        EnemyFSMBaseState tem = currentState as EnemyFSMBaseState;
+        tem.invokeAnimationEvent();
+        hasInvokedAnimationEvent = true;
+        
+    }
 }
 
 

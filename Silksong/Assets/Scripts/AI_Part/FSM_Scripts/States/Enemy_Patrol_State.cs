@@ -58,6 +58,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         fsmManager.rigidbody2d.velocity = moveSpeed;
 
         fsmManager.faceWithSpeed();
+
     }
     private void DetectionPlatformBoundary()
     {

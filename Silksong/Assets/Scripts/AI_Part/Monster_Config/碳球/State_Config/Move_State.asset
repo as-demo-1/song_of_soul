@@ -18,10 +18,11 @@ MonoBehaviour:
   StateType: 2
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 2
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
   references:
     version: 1
     00000000:
@@ -33,9 +34,16 @@ MonoBehaviour:
         moveSpeed: {x: 0.5, y: 0, z: 0}
         isFaceWithSpeed: 1
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: 
-        maxTime: 0
-        timer: 0
+        triggerType: 2
+        targetState: Monster01_Attack_State
+        checkNearRadius: 0
+        checkFarRadius: 10
+    00000002:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Monster01_Attack_State
+        checkNearRadius: 0
+        checkFarRadius: 2
