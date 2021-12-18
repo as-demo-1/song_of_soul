@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>作者：次元
 public class GateSwitch : MonoBehaviour
 {
-    public bool switchOpen;
+    private bool switchOpen;
     public Gate gate;
 
     // Start is called before the first frame update

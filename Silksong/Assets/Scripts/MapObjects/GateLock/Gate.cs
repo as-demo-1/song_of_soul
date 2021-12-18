@@ -6,11 +6,11 @@ using UnityEngine;
 /// </summary>作者：次元
 public class Gate : MonoBehaviour
 {
-    bool gateOpenning;
+    bool gateOpen;
     // Start is called before the first frame update
     void Start()
     {
-        if (gateOpenning)
+        if (gateOpen)
         {
             GateOpen();
             //TODO: 设置门动画的进入状态
@@ -26,7 +26,7 @@ public class Gate : MonoBehaviour
     public void GateOpen()
     {
         GetComponent<Collider2D>().enabled = false;
-        gateOpenning = true;
+        gateOpen = true;
 
         //TODO: 播放机关门打开（缓缓落下或上升）的动画
         //临时方案
