@@ -13,6 +13,7 @@ public class Enemy_Climb_State : EnemyFSMBaseState
     {
         // g = fsmManager.rigidbody2d.gravityScale;
         // fsmManager.rigidbody2d.gravityScale = 0;
+        base.EnterState(fSM_Manager);
         fsmManager.faceRight();//À≥ ±’Î
     }
 
@@ -40,7 +41,7 @@ public class Enemy_Climb_State : EnemyFSMBaseState
         {
             //Debug.Log(n);
             Vector2 toward = ((Vector2)fsmManager.transform.position - points[n - 1].point).normalized;
-            //Debug.Log(toward.ToString("F4"));
+           // Debug.Log(toward.ToString("F4"));
             steeringForce += -toward * force;
           //  fsmManager.transform.right = toward;
             fsmManager.rigidbody2d.velocity = new Vector2(toward.y, -toward.x) * maxSpeed;

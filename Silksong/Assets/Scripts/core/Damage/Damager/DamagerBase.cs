@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
-/// <summary>
-/// 
-/// damager的抽象基类 
-/// </summary>作者：青瓜
+
 public static class LayerMaskExtensions//layerMask增加contains方法 判断gameObject是否在layerMask中
 {
     public static bool Contains(this LayerMask layers, GameObject gameObject)
@@ -15,12 +12,17 @@ public static class LayerMaskExtensions//layerMask增加contains方法 判断gameObjec
     }
 }
 
+/// <summary>
+/// 
+/// damager的抽象基类 
+/// </summary>作者：青瓜
 
 public abstract class DamagerBase : MonoBehaviour
 {
     public bool ignoreInvincibility = false;//无视无敌
     public bool canDamage = true;
     public int damage;//伤害数值
+    public Vector2 beatBackVector = Vector2.zero;
 
     [Serializable]
     public class DamableEvent : UnityEvent<DamagerBase, DamageableBase>
