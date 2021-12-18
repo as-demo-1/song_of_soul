@@ -325,7 +325,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
 
         if (this.damageable.damageDirection.x > 0)
         {
-            beatDistancePerSecond *= -1;
+            beatDistancePerSecond=new Vector2(-beatDistancePerSecond.x,beatDistancePerSecond.y);
         }
 
         StartCoroutine(beatBack(beatDistancePerSecond));
@@ -335,11 +335,13 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     private IEnumerator beatBack(Vector2 beatDistancePerSecond)
     {
         float timer=0;
+        Vector2 beatDistancePerFixedTime = beatDistancePerSecond * Time.fixedDeltaTime;
         while(timer<Constants.monsterBeatBackTime)
         {
-            timer += Time.deltaTime;
-            transform.Translate(beatDistancePerSecond * Time.deltaTime);
-            yield return null;
+            timer += Time.fixedDeltaTime;
+            // transform.Translate(beatDistancePerSecond * Time.fixedDeltaTime);
+            rigidbody2d.MovePosition((Vector2)(transform.position)+(beatDistancePerFixedTime));
+            yield return new WaitForFixedUpdate();
         }
 
     }
