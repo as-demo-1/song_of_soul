@@ -16,12 +16,10 @@ public class TwoTargetDamager : DamagerBase
     {
         if (hittableLayers2.Contains(target.gameObject))
         {
-            Debug.Log("Hit Enemy");
             return damage2;
         }
         else
         {
-            Debug.Log("Hit other");
             return damage;
         }
     }

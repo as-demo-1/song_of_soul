@@ -32,8 +32,9 @@ public class GateSwitch : MonoBehaviour
         {
             gate.GateOpen();
             //TODO: 播放机关拉杆的动画
+            GetComponent<Animator>().SetTrigger("SwitchTrigger");
             //临时方案
-            GetComponent<SpriteRenderer>().flipX = true;
+            //GetComponent<SpriteRenderer>().flipX = true;
         }
         GetComponent<Collider2D>().enabled = false;
         switchOpen = true;      

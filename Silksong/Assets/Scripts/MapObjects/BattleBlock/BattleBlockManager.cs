@@ -16,7 +16,10 @@ public class BattleBlockManager : MonoBehaviour
     private bool accessible;// 是否可以通过
     private bool onBattle;// 正在战斗中
 
-    private int battleRound; // 正在进行的波次
+    private int battleRound; // 正在进行的波次，从1开始计数。
+    private int roundMax; // 波次总数
+    private bool roundClear; // 当前波次通过
+    private List<GameObject> currentMonsters = new List<GameObject>();
 
     private float breathTime;
     public float BreathTime;// 每波中间的间隔时间
@@ -32,21 +35,51 @@ public class BattleBlockManager : MonoBehaviour
     [SerializeField]
     private List<MonsterInfo> monsterInfos = new List<MonsterInfo>();
 
-    
 
     // Start is called before the first frame update
     void Start()
     {
-        foreach (GameObject gate in gates)
-        {
-            gate.SetActive(false);
-        }
+        ChangeBlock(false);
+        SetUpRound();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (roundClear)
+        {
+            if (breathTime > 0)// 间隔计时
+            {
+                breathTime -= Time.deltaTime;
+            }
+            else
+            {
+                if (battleRound < roundMax)
+                {
+                    battleRound++;
+                    GenerateMonsters(battleRound);
+                }
+                else
+                {
+                    accessible = true;
+                    ChangeBlock(false);
+                }
+            }
+        }
+    }
+    private void LateUpdate()
+    {
+        if (onBattle)
+        {
+            foreach (var mst in currentMonsters)
+            {
+                if (mst != null)
+                {
+                    break;                   
+                }
+                roundClear = true;
+            }
+        }
     }
 
     public void TriggerBattle()
@@ -54,25 +87,44 @@ public class BattleBlockManager : MonoBehaviour
         if (!onBattle && !accessible)
         {
             Debug.Log("战斗开始！锁死大门！");
-            foreach (GameObject gate in gates)
-            {
-                gate.SetActive(true);
-            }
+            ChangeBlock(true);
             onBattle = true;
+            breathTime = BreathTime;
             battleRound = 1;
             GenerateMonsters(battleRound);  
         }
-        
     }
 
     private void GenerateMonsters(int _round)
     {
+        currentMonsters.Clear();
         foreach (var monster in monsterInfos)
         {
             if (_round.Equals(monster.round))
             {
                 GameObject mst = Instantiate(monster.monsterObject);
                 mst.transform.position = new Vector2(monster.PositionX, monster.PositionY);
+                currentMonsters.Add(mst);
+            }
+        }
+    }
+
+    private void ChangeBlock(bool _option)
+    {
+        foreach (GameObject gate in gates)
+        {
+            gate.SetActive(_option);
+        }
+    }
+
+    private void SetUpRound()
+    {
+        roundMax = 1;
+        foreach (var item in monsterInfos)
+        {
+            if (item.round > roundMax)
+            {
+                roundMax = item.round;
             }
         }
     }
