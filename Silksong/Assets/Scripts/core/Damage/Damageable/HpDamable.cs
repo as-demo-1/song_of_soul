@@ -21,6 +21,8 @@ public class HpDamable :Damable
 
     public dieEvent onDieEvent;
 
+    public AudioCue dieAudio;
+
 
     public override void takeDamage(DamagerBase damager)
     {
@@ -64,6 +66,11 @@ public class HpDamable :Damable
         onDieEvent.Invoke(damager,this);
         //Destroy(gameObject);//Œ¥ÕÍ…∆
         Debug.Log(gameObject.name+" die");
+        if (dieAudio)
+        {
+            dieAudio.PlayAudioCue();
+        }
+
     }
 
 

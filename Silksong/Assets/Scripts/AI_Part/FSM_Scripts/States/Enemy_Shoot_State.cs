@@ -49,7 +49,7 @@ public class Enemy_Shoot_State : EnemyFSMBaseState
     private void Shot()
     {
        // Debug.Log("·¢Éä");
-        Vector3 move = (fsmManager as EnemyFSMManager).getTargetDir(true).normalized;
+        Vector3 move = (fsmManager as EnemyFSMManager).getTargetDir().normalized;
 
         GameObject shot = UnityEngine.Object.Instantiate(bullet);
         shot.transform.position = shotPosition.position;

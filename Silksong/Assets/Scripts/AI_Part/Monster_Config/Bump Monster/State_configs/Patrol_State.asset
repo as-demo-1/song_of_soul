@@ -33,6 +33,9 @@ MonoBehaviour:
       data:
         stateType: 2
         defaultAnimationName: move
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
         moveSpeed: {x: 3, y: 0, z: 0}
         noTurnState: 0
     00000001:
@@ -40,6 +43,8 @@ MonoBehaviour:
       data:
         triggerType: 6
         targetState: 
+        checkDir: 0
+        returnFalseWhenBorder: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -54,7 +59,8 @@ MonoBehaviour:
         targetState: Meet_State
         checkNearRadius: 0
         checkFarRadius: 10
-        horizontalOnly: 1
+        addYBlockCheck: 1
+        returnTrueWhenYBlock: 0
     00000004:
       type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -65,3 +71,5 @@ MonoBehaviour:
       data:
         triggerType: 6
         targetState: Turn_State
+        checkDir: 0
+        returnFalseWhenBorder: 0

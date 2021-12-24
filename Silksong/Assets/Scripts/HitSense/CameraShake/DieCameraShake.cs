@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 
 [RequireComponent(typeof(HpDamable))]
-public class DieCameraShake : CinemachineImpulseSource, IDamageEvent
+public class DieCameraShake : CinemachineImpulseSource
 {
   public void damageEvent(DamagerBase damager,DamageableBase damageable)
     {

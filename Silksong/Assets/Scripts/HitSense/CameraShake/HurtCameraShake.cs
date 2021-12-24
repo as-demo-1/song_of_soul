@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 
 [RequireComponent(typeof(DamageableBase))]
-public class HurtCameraShake : CinemachineImpulseSource, IDamageEvent
+public class HurtCameraShake : CinemachineImpulseSource
 {
     private void Awake()
     {

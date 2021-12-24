@@ -81,9 +81,9 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReach(fsm_Manager))
             {
-                //Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
-                //Debug.Log(triggers[i].targetState+" "+triggers[i].triggerType);
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
             }
         }
     }
@@ -147,6 +147,7 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
             {
                 Debug.Log(triggers[i]+"     "+ triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
             }
         }
     }

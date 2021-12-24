@@ -12,9 +12,10 @@ public class AudioCueEventChannelSO : ScriptableObject
 
 	public void RaiseEvent(AudioCueSO audioCue, AudioConfigurationSO audioConfiguration, Vector3 positionInSpace)
 	{
-		Debug.Log("raiseEvent");
+	
 		if (OnAudioCueRequested != null)
 		{
+			//Debug.Log("audio raiseEvent");
 			OnAudioCueRequested.Invoke(audioCue, audioConfiguration, positionInSpace);
 		}
 		else

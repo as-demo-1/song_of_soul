@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Move_State
   m_EditorClassIdentifier: 
   lastStateID: 2
-  lastTriggerID: 0
+  lastTriggerID: 2
   StateName: Move_State
   StateType: 2
   stateConfig:
@@ -21,8 +21,7 @@ MonoBehaviour:
   TriggerType: 2
   triggerConfig:
     id: 1
-  triggerList:
-  - id: 2
+  triggerList: []
   references:
     version: 1
     00000000:
@@ -30,20 +29,17 @@ MonoBehaviour:
       data:
         stateType: 2
         defaultAnimationName: Move
-        isBack: 1
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
         moveSpeed: {x: 0.5, y: 0, z: 0}
-        isFaceWithSpeed: 1
+        noTurnState: 1
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
-        targetState: Monster01_Attack_State
+        targetState: 
         checkNearRadius: 0
-        checkFarRadius: 10
-    00000002:
-      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        triggerType: 2
-        targetState: Monster01_Attack_State
-        checkNearRadius: 0
-        checkFarRadius: 2
+        checkFarRadius: 0
+        addYBlockCheck: 0
+        returnTrueWhenYBlock: 0

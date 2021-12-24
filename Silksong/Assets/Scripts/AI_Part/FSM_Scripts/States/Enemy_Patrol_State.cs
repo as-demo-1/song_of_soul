@@ -15,10 +15,10 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         if (fsmManager.rigidbody2d.velocity.y < -0.1) //如果被击出平台 正常下落
             return;
 
-       /* if (isBack)
+       if (noTurnState)
         {
             DetectionPlatformBoundary();
-        }*/
+        }
     }
  
     public override void EnterState(EnemyFSMManager fSM_Manager)
@@ -29,14 +29,6 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
             moveSpeed *= -1;
         }
         fsmManager.rigidbody2d.velocity = moveSpeed;
-        //Debug.Log(moveSpeed);
-
-       //fSM_Manager.faceWithSpeed();
-        /*  if (isBack)
-          {
-              var rayHit= Physics2D.Raycast(fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * collider.bounds.size.x, Vector2.down);
-              rayToGroundDistance = rayHit.distance+0.1f;
-          }*/
     }
     public override void InitState(EnemyFSMManager fSM_Manager)
     {
@@ -51,7 +43,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
         //Debug.Log("patrol exit");
     }
 
-   /* private void Turn()
+    private void Turn()
     {
        // Debug.Log("turn");
         moveSpeed.x *= -1;
@@ -62,16 +54,10 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     }
     private void DetectionPlatformBoundary()
     {
-        if(fsmManager.nearPlatformBoundary())
+        if(fsmManager.nearPlatformBoundary(fsmManager.rigidbody2d.velocity) || fsmManager.hitWall())
              Turn();
 
-        Vector3 frontPoint = fsmManager.transform.position + new Vector3((moveSpeed.x > 0 ? 1 : -1), 0, 0) * (fsmManager.GetComponent<Collider2D>().bounds.size.x * 0.5f);
-        Vector3 upPoint = fsmManager.transform.position + new Vector3(0, 0.1f, 0);
-        if (Physics2D.OverlapArea(upPoint,frontPoint,1<<LayerMask.NameToLayer("Ground"))!=null)
-        {
-            Turn();
-        }
-    }*/
+    }
 
 
 

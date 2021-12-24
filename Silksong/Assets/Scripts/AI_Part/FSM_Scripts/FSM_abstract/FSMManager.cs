@@ -19,13 +19,13 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     /// /// <summary>
     /// 当前状态
     /// </summary>
-    public FSMBaseState<T1,T2> currentState;
+    protected FSMBaseState<T1,T2> currentState;
     [DisplayOnly]
     public string currentStateName;
     /// <summary>
     /// 任意状态
     /// </summary>
-    public FSMBaseState<T1,T2> anyState;
+    protected FSMBaseState<T1, T2> anyState;
     public string defaultStateName;
     /// <summary>
     /// 当前状态机包含的所以状态列表
@@ -37,8 +37,9 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
         if (currentState != null)
         {
+            //if (currentStateName == state) return;
             currentState.ExitState(this);
-           // Debug.Log(state + "  " + gameObject.name);
+            //Debug.Log(state + "  " + gameObject.name);
         }
 
 
@@ -122,7 +123,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         if (statesDic.Count == 0)
             return;
         //默认状态设置
-        currentStateName = defaultStateName;
+       currentStateName = defaultStateName;
         ChangeState(currentStateName);
         if (anyState != null)
             anyState.EnterState(this);
@@ -159,6 +160,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
         if (anyState != null)
         {
+           // Debug.Log(anyState.triggers.Count);
             anyState.Act_State(this);
             anyState.TriggerState(this);
         }
@@ -200,7 +202,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     {
         if(anyStateConfig!=null)
         {
-
+            Debug.Log("set anyStateConfig");
             anyState = (FSMBaseState<EnemyStates, EnemyTriggers>)ObjectClone.CloneObject(anyStateConfig.stateConfig);
             anyState.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
             for (int k=0;k<anyStateConfig.triggerList.Count; k++)
@@ -286,17 +288,17 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         return dir;
     }
 
-    public bool nearPlatformBoundary()
+    public bool nearPlatformBoundary(Vector2 checkDir)
     {
         Collider2D collider = GetComponent<Collider2D>();
         float rayToGroundDistance = collider.bounds.extents.y - collider.offset.y;
-        rayToGroundDistance += 0.1f;
+        rayToGroundDistance += 0.5f;
 
-        Vector3 frontPoint = transform.position + new Vector3((rigidbody2d.velocity.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
+        Vector3 frontPoint = transform.position + new Vector3((checkDir.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
         var rayHit = Physics2D.Raycast(frontPoint, Vector2.down,100, 1 << LayerMask.NameToLayer("Ground"));
-      /*  Debug.DrawRay(frontPoint,Vector3.down);
+      /* Debug.DrawRay(frontPoint,Vector3.down);
         Debug.Log(rayHit.distance);*/
-        if (rayHit.distance > rayToGroundDistance)//到达边缘
+        if (rayHit.distance > rayToGroundDistance || rayHit.distance==0)//到达边缘
         {
             return true;
         }

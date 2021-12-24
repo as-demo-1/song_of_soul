@@ -4,7 +4,7 @@ using UnityEngine;
 using Cinemachine;
 
 [RequireComponent(typeof(DamagerBase))]
-public class AttackCameraShake : CinemachineImpulseSource,IDamageEvent
+public class AttackCameraShake : CinemachineImpulseSource
 {
     public LayerMask targetLayer;
     private void Awake()

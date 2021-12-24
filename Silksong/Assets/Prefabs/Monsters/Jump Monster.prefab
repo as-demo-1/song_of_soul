@@ -106,12 +106,14 @@ MonoBehaviour:
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
+  takeDamageAudio: {fileID: 0}
   maxHp: 2000
   currentHp: 2000
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
+  dieAudio: {fileID: 0}
 --- !u!61 &8540629282759375301
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -175,11 +177,7 @@ MonoBehaviour:
   audios: {fileID: 0}
   rigidbody2d: {fileID: 0}
   damageable: {fileID: 0}
-  currentState:
-    stateType: 0
   currentStateName: 
-  anyState:
-    stateType: 0
   defaultStateName: Idle_State
   stateConfigs:
   - {fileID: 11400000, guid: 5cf36ef3ff6d0a94aa50559a3e8edbaa, type: 2}
