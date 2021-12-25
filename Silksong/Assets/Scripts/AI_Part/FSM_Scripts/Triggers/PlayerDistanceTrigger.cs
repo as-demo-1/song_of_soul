@@ -16,7 +16,8 @@ public class PlayerDistanceTrigger : EnemyFSMBaseTrigger
         Vector3 v = (fsm_Manager as EnemyFSMManager).getTargetDir();
         if(addYBlockCheck)
         {
-            var rayHit = Physics2D.Raycast(fsm_Manager.transform.position, new Vector2(0, v.y), v.y, 1 << LayerMask.NameToLayer("Ground"));
+            var rayHit = Physics2D.Raycast(fsm_Manager.player.transform.position, new Vector2(0, -1), v.y, 1 << LayerMask.NameToLayer("Ground"));
+            //Debug.DrawRay(fsm_Manager.player.transform.position,new Vector2(0,-v.y));
             if (rayHit.distance > 0)
                 return returnTrueWhenYBlock;
         }
