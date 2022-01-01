@@ -50,7 +50,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         }
         else
         {
-            Debug.LogError("敌人状态不存在");
+            Debug.LogError("敌人状态不存在 "+state);
         }
         currentState.EnterState(this);
     }
@@ -182,11 +182,12 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public float beatBackRatio = 0;//0表示不被击退
     [DisplayOnly]
     public bool hasInvokedAnimationEvent=false, isInvokingAnimationEvent=false;
+
     protected override void Start()
     {
         base.Start();
-        player = GameObject.FindGameObjectWithTag("Player");
         this.damageable.takeDamageEvent.AddListener(beBeatBack);
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     protected override void Update()
@@ -202,7 +203,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     {
         if(anyStateConfig!=null)
         {
-            Debug.Log("set anyStateConfig");
+            //Debug.Log("set anyStateConfig");
             anyState = (FSMBaseState<EnemyStates, EnemyTriggers>)ObjectClone.CloneObject(anyStateConfig.stateConfig);
             anyState.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
             for (int k=0;k<anyStateConfig.triggerList.Count; k++)

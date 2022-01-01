@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(DamagerBase))]
 public class damageTimeScaleEvent : damageEventSetter
 {
     public float timeScale;

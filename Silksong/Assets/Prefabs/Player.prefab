@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 225317965}
   - component: {fileID: 225317967}
   - component: {fileID: 225317966}
+  - component: {fileID: 1070999867074059910}
+  - component: {fileID: 8990337930585326302}
   m_Layer: 20
   m_Name: normalAttack03
   m_TagString: Untagged
@@ -93,6 +95,41 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   damage2: 15
+--- !u!114 &1070999867074059910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225317964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9758a46ce5d59469767080cae67c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  timeScale: 0
+  frameCounts: 8
+--- !u!114 &8990337930585326302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225317964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  shakeForce: 1
 --- !u!1 &1439625705
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,8 +141,8 @@ GameObject:
   - component: {fileID: 1439625706}
   - component: {fileID: 1439625708}
   - component: {fileID: 1439625707}
-  - component: {fileID: 382070771}
   - component: {fileID: 382070772}
+  - component: {fileID: 726703202540393355}
   m_Layer: 20
   m_Name: normalAttack01
   m_TagString: Untagged
@@ -188,51 +225,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   damage2: 10
---- !u!114 &382070771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1439625705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ImpulseDefinition:
-    m_ImpulseChannel: 1
-    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_DecayShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 0.2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 100
-    m_DirectionMode: 0
-    m_DissipationMode: 2
-    m_DissipationDistance: 1000
-    m_PropagationSpeed: 343
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 32768
 --- !u!114 &382070772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +243,23 @@ MonoBehaviour:
     m_Bits: 32768
   timeScale: 0
   frameCounts: 5
+--- !u!114 &726703202540393355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439625705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  shakeForce: 0.5
 --- !u!1 &2013861694
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,6 +271,8 @@ GameObject:
   - component: {fileID: 2013861695}
   - component: {fileID: 2013861697}
   - component: {fileID: 2013861696}
+  - component: {fileID: 422644798683982066}
+  - component: {fileID: 7859442036644120042}
   m_Layer: 20
   m_Name: normalAttack02
   m_TagString: Untagged
@@ -344,6 +355,41 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   damage2: 10
+--- !u!114 &422644798683982066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013861694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9758a46ce5d59469767080cae67c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  timeScale: 0
+  frameCounts: 4
+--- !u!114 &7859442036644120042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013861694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  shakeForce: 0.4
 --- !u!1 &484977951162521061
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +408,8 @@ GameObject:
   - component: {fileID: 484977951162521059}
   - component: {fileID: 484977951751258056}
   - component: {fileID: 1342962417}
-  - component: {fileID: 1363771895}
+  - component: {fileID: 1048344337554074644}
+  - component: {fileID: 4061423512895920214}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -509,7 +556,7 @@ MonoBehaviour:
     m_Bits: 128
   groundCheckCapsuleCollider: {fileID: 484977951192663533}
   telePosition: {fileID: 0}
-  _guid: 3ed94fd5-602f-43bd-98d1-dff9da2a4bfa
+  _guid: 00000000-0000-0000-0000-000000000000
   _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}
 --- !u!114 &484977951162521056
 MonoBehaviour:
@@ -627,7 +674,7 @@ MonoBehaviour:
   dieAudio: {fileID: 0}
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 1
---- !u!114 &1363771895
+--- !u!114 &1048344337554074644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -636,39 +683,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 484977951162521061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d815763216a43eb45ba0ffc13020a8f0, type: 3}
+  m_Script: {fileID: 11500000, guid: fe9758a46ce5d59469767080cae67c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ImpulseDefinition:
-    m_ImpulseChannel: 1
-    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_DecayShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 0.2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 100
-    m_DirectionMode: 0
-    m_DissipationMode: 2
-    m_DissipationDistance: 1000
-    m_PropagationSpeed: 343
+  damageTiming: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 12582912
+  timeScale: 0
+  frameCounts: 10
+--- !u!114 &4061423512895920214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 12582912
+  shakeForce: 1.5
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0

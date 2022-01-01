@@ -13,17 +13,16 @@ MonoBehaviour:
   m_Name: Shoot_State
   m_EditorClassIdentifier: 
   lastStateID: 8
-  lastTriggerID: 7
+  lastTriggerID: 3
   StateName: Shoot_State
   StateType: 8
   stateConfig:
     id: 0
-  TriggerType: 7
+  TriggerType: 3
   triggerConfig:
     id: 1
   triggerList:
   - id: 2
-  - id: 3
   references:
     version: 1
     00000000:
@@ -34,27 +33,16 @@ MonoBehaviour:
         animationEvents:
           m_PersistentCalls:
             m_Calls: []
-        bullet: {fileID: 1445770416123758994, guid: ed49d99ec070e6248b4fee66ed965bad, type: 3}
-        shotCD: 2
-        bulletSpeed: 10
+        shootType: normal
     00000001:
-      type: {class: TargetTurnTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 7
-        targetState: 
-        returnFalseWhenTurn: 0
+        triggerType: 3
+        targetState: IdlelShoot_State
+        checkAnimationName: 
     00000002:
-      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 2
-        targetState: Idle_State
-        checkNearRadius: 10
-        checkFarRadius: 10000
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
-    00000003:
-      type: {class: TargetTurnTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        triggerType: 7
-        targetState: TurnShoot_State
-        returnFalseWhenTurn: 0
+        triggerType: 3
+        targetState: IdleShoot_State
+        checkAnimationName: 

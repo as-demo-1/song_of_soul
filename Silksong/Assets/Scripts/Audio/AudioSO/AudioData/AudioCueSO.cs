@@ -10,7 +10,7 @@ public class AudioCueSO : ScriptableObject
 	public bool looping = false;
 	[SerializeField] private AudioClipsGroup[] _audioClipGroups = default;
 
-	public AudioClip[] GetClips()//every group return a clip by rule
+	public AudioClip[] GetClips()//every group return a clip by order
 	{
 		int numberOfClips = _audioClipGroups.Length;
 		AudioClip[] resultingClips = new AudioClip[numberOfClips];
@@ -78,10 +78,11 @@ public class AudioClipsGroup
 		return audioClips[_nextClipToPlay];
 	}
 
-	public enum SequenceMode
-	{
-		Random,
-		RandomNoImmediateRepeat,
-		Sequential,
-	}
+
+}
+public enum SequenceMode
+{
+	Random,
+	RandomNoImmediateRepeat,
+	Sequential,
 }

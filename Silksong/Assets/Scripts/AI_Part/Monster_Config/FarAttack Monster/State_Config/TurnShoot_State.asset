@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: TurnShoot_State
   m_EditorClassIdentifier: 
   lastStateID: 12
-  lastTriggerID: 3
+  lastTriggerID: 7
   StateName: TurnShoot_State
   StateType: 12
   stateConfig:
     id: 0
-  TriggerType: 3
+  TriggerType: 7
   triggerConfig:
     id: 1
   triggerList:
   - id: 2
+  - id: 3
   references:
     version: 1
     00000000:
@@ -34,14 +35,20 @@ MonoBehaviour:
           m_PersistentCalls:
             m_Calls: []
     00000001:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: TargetTurnTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
+        triggerType: 7
         targetState: 
-        checkAnimationName: 
+        returnFalseWhenTurn: 0
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
         targetState: Shoot_State
         checkAnimationName: 
+    00000003:
+      type: {class: TargetTurnTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 7
+        targetState: Shoot_State
+        returnFalseWhenTurn: 1

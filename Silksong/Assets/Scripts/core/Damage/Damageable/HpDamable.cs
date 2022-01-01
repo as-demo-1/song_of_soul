@@ -21,7 +21,7 @@ public class HpDamable :Damable
 
     public dieEvent onDieEvent;
 
-    public AudioCue dieAudio;
+    public AudioCue dieAudio;//在audiomanager中有绑定怪物hpdamable默认《受击》音效的效果
 
 
     public override void takeDamage(DamagerBase damager)
