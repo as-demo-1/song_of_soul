@@ -9,7 +9,6 @@ public class DamageCameraShakeEvent : damageEventSetter
     [SerializeField] private float shakeForce;
     public override void damageEvent(DamagerBase damager, DamageableBase damageable)
     {
-        base.damageEvent(damager,damageable);
         CameraShakeManager.Instance.cameraShake(shakeForce);
     }
 }

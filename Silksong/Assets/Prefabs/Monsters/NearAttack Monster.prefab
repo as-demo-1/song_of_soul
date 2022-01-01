@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 4784448708260076415}
   - component: {fileID: 4784448708260076414}
   - component: {fileID: 5231329138824269615}
+  - component: {fileID: 1265711552}
   m_Layer: 15
   m_Name: NearAttack Monster
   m_TagString: Untagged
@@ -133,7 +134,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   takeDamageAudio: {fileID: 0}
-  takeDamageSfxSO: {fileID: 11400000, guid: d25acefb1695ac041a2a319bc1756a09, type: 2}
+  takeDamageSfxSO: {fileID: 0}
   maxHp: 30
   currentHp: 30
   resetHealthOnSceneReload: 0
@@ -220,6 +221,23 @@ MonoBehaviour:
   beatBackRatio: 0.5
   hasInvokedAnimationEvent: 0
   isInvokingAnimationEvent: 0
+--- !u!114 &1265711552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4784448708260076404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f304abe06fda784bb0fde4c3ff6647b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
+  sfxSO: {fileID: 11400000, guid: d25acefb1695ac041a2a319bc1756a09, type: 2}
 --- !u!1 &4784448708440573212
 GameObject:
   m_ObjectHideFlags: 0

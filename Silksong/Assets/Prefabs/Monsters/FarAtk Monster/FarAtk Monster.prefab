@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5477057758045860301}
+  - component: {fileID: 645694479}
   m_Layer: 15
   m_Name: shotPosition
   m_TagString: Untagged
@@ -24,12 +25,34 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5477057758045860300}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.32, y: 0, z: 0}
+  m_LocalPosition: {x: 1.4, y: 1.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5477057758251293526}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &645694479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5477057758045860300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0d210a605c58443a4180a966219287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootModes:
+  - shootModeName: normal
+    bullet: {fileID: 3364640303672543083, guid: 754ce68ecfe9b7442b3370ffbd128721, type: 3}
+    bulletNum: 0
+    shootMethod: 0
+    shotDir: 1
+    target: {fileID: 0}
+    createPos: 0
+    bulletSpeed: 7
+    shootOffsetAngle: 0
 --- !u!1 &5477057758251293359
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,15 +66,15 @@ GameObject:
   - component: {fileID: 5477057758251293524}
   - component: {fileID: 5477057758251293523}
   - component: {fileID: 5477057758251293522}
-  - component: {fileID: 5477057758251293521}
   - component: {fileID: 5477057758251293520}
+  - component: {fileID: 1048657740}
   m_Layer: 15
   m_Name: FarAtk Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5477057758251293526
 Transform:
   m_ObjectHideFlags: 0
@@ -61,7 +84,7 @@ Transform:
   m_GameObject: {fileID: 5477057758251293359}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.06, y: 2.52, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 5477057759048893266}
   - {fileID: 5477057758045860301}
@@ -108,15 +131,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 05d08a1da6184a5438d3afb7c6034fc1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b71beccb8dcb92a43800fa533e492716, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.13, y: 1.41}
+  m_Size: {x: 4.3333335, y: 4.625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5477057758251293524
@@ -138,6 +161,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   takeDamageAudio: {fileID: 0}
+  takeDamageSfxSO: {fileID: 0}
   maxHp: 2000
   currentHp: 2000
   resetHealthOnSceneReload: 0
@@ -183,19 +207,43 @@ MonoBehaviour:
   rigidbody2d: {fileID: 0}
   damageable: {fileID: 0}
   currentStateName: 
-  defaultStateName: Monster04_Idle_State
+  defaultStateName: Idle_State
   stateConfigs:
   - {fileID: 11400000, guid: d9c967459e9f4f94aa4014b162a13e1b, type: 2}
   - {fileID: 11400000, guid: ce8dfe174ba45b04a87d71c74d2d3063, type: 2}
   - {fileID: 11400000, guid: 64651e2f612a3b641aa36e9d19e004b8, type: 2}
-  anyStateConfig: {fileID: 0}
+  - {fileID: 11400000, guid: 7f31fe7d00a28794f919c7c0d43097d9, type: 2}
+  - {fileID: 11400000, guid: c50f7ab90f68d9341986026c60c86304, type: 2}
+  - {fileID: 11400000, guid: 5633834909a8f8943937f62a3f8eff72, type: 2}
+  - {fileID: 11400000, guid: d0b1bc2833fbbdc4a9c466ca39882c33, type: 2}
+  - {fileID: 11400000, guid: cba80c4c5443d664fbb0f4cda4aa06ec, type: 2}
+  anyStateConfig: {fileID: 11400000, guid: 88e75c29467bc414bbd679300940208e, type: 2}
   player: {fileID: 0}
-  FaceLeftFirstOriginal: 1
-  beatBackRatio: 0
+  FaceLeftFirstOriginal: 0
+  beatBackRatio: 1
   hasInvokedAnimationEvent: 0
   isInvokingAnimationEvent: 0
---- !u!58 &5477057758251293521
-CircleCollider2D:
+--- !u!95 &5477057758251293520
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5477057758251293359}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1657e3800db1c8e4baec99cf5ef746e6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &1048657740
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -207,28 +255,19 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.5, y: -0.25}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.3333335, y: 4.625}
+    newSize: {x: 4.3333335, y: 4.625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.55078125
---- !u!95 &5477057758251293520
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5477057758251293359}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_Size: {x: 2.5, y: 3.5}
+  m_EdgeRadius: 0
 --- !u!1 &5477057759048893265
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +313,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.09944916}
+  m_Offset: {x: -0.5, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -285,7 +324,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.1988983}
+  m_Size: {x: 2, y: 3}
   m_EdgeRadius: 0
 --- !u!114 &5477057759048893267
 MonoBehaviour:

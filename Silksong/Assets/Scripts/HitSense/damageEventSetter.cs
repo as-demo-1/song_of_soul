@@ -6,9 +6,9 @@ using UnityEngine;
 
 public abstract class damageEventSetter : MonoBehaviour
 {
-   [SerializeField] private DamageTiming damageTiming;
-   [SerializeField] private LayerMask targetLayer;
-    public virtual void damageEvent(DamagerBase damager, DamageableBase damageable)
+   [SerializeField] protected DamageTiming damageTiming;
+   [SerializeField] protected LayerMask targetLayer;
+    public virtual void tryDamageEvent(DamagerBase damager, DamageableBase damageable)
     {
         GameObject targetObj;
         if(damageTiming==DamageTiming.onMakeDamage)
@@ -19,8 +19,14 @@ public abstract class damageEventSetter : MonoBehaviour
         {
             targetObj = damager.gameObject;
         }
-        if (!targetLayer.Contains(targetObj)) return;
+
+        if (targetLayer.Contains(targetObj))
+        {
+            damageEvent(damager, damageable);
+        }
     }
+
+    public abstract void damageEvent(DamagerBase damager, DamageableBase damageable);
 
     protected void Awake()
     {
@@ -31,7 +37,7 @@ public abstract class damageEventSetter : MonoBehaviour
                     DamagerBase damager = GetComponent<DamagerBase>();
                     if(damager)
                     {
-                        damager.makeDamageEvent.AddListener(damageEvent);
+                        damager.makeDamageEvent.AddListener(tryDamageEvent);
                     }
                     break;
                 }
@@ -40,7 +46,7 @@ public abstract class damageEventSetter : MonoBehaviour
                     DamageableBase damable = GetComponent<DamageableBase>();
                     if (damable)
                     {
-                        damable.takeDamageEvent.AddListener(damageEvent);
+                        damable.takeDamageEvent.AddListener(tryDamageEvent);
                     }
                     break;
                 }
@@ -49,7 +55,7 @@ public abstract class damageEventSetter : MonoBehaviour
                     HpDamable damable = GetComponent<HpDamable>();
                     if (damable)
                     {
-                        damable.onDieEvent.AddListener(damageEvent);
+                        damable.onDieEvent.AddListener(tryDamageEvent);
                     }
                     break;
                 }

@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class damageTimeScaleEvent : damageEventSetter
 {
-    public float timeScale;
-    public int frameCounts;
+   [SerializeField] private float timeScale;
+   [SerializeField] private int frameCounts;
 
     public override void damageEvent(DamagerBase damager, DamageableBase damageable)
     {
-        base.damageEvent(damager,damageable);
         TimeScaleManager.Instance.changeTimeScaleForFrames(frameCounts, timeScale);
-
     }
 
 }
