@@ -42,6 +42,6 @@ public class Trigger2DSoulWall : Trigger2DBase
 
     protected override void exitEvent()
     {
-        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        
     }
 }
