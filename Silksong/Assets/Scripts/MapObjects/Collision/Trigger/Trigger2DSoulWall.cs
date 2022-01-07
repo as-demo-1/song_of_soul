@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ÎªÁË»êÁéÇ½ÖØÐ´µÄTrigger2D»ùÀà
-/// </summary>×÷Õß£º¼å±ý¹·×Ó
+/// Îªï¿½Ë»ï¿½ï¿½ï¿½Ç½ï¿½ï¿½Ð´ï¿½ï¿½Trigger2Dï¿½ï¿½ï¿½ï¿½
+/// </summary>ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class Trigger2DSoulWall : Trigger2DBase
 {
     protected Collider2D coll;
