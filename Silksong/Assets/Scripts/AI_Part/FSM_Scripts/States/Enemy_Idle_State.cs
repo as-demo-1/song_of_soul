@@ -16,6 +16,7 @@ public class Enemy_Idle_State : EnemyFSMBaseState
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {
         base.EnterState(fSM_Manager);
+        fSM_Manager.getTargetDir(true);
         fSM_Manager.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         fsmManager = fSM_Manager;
         if (isflying)

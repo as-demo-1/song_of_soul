@@ -10,7 +10,6 @@ public class Enemy_Smash_Down_State : EnemyFSMBaseState
     public AnimationCurve jumpCurve;
 
     private Vector3 beginPos, endPos;
-    private float hightest;
     private AnimatorStateInfo stateInfo;
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
@@ -18,31 +17,33 @@ public class Enemy_Smash_Down_State : EnemyFSMBaseState
         fsmManager = enemyFSM;
         beginPos = enemyFSM.transform.position;
         endPos = new Vector2(enemyFSM.player.transform.position.x, beginPos.y);
-        hightest = beginPos.y + jumpHight;
         if (jumpAnimation != string.Empty)
             enemyFSM.animator.Play(jumpAnimation);
     }
 
     public override void Act_State(EnemyFSMManager enemyFSM)
     {
+        //TODO:谜之闪回原位置的bug？
         base.Act_State(enemyFSM);
         fsmManager = enemyFSM;
         stateInfo = enemyFSM.animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName(jumpAnimation))
         {
             float t_tem = stateInfo.normalizedTime;
-            if (t_tem < 0.99)
+            if (t_tem < 0.95)
             {
-               endPos = fsmManager.player.transform.position;
+                endPos = fsmManager.player.transform.position;
                 if (isMoveWithCurve)
                 {
-                    Vector3 tem = new Vector2(Mathf.Lerp(beginPos.x, endPos.x, t_tem), Mathf.Lerp(beginPos.y, hightest, jumpCurve.Evaluate(t_tem)));
-                    fsmManager.transform.Translate(tem - fsmManager.transform.position);
+                    Vector3 tem = new Vector2(Mathf.Lerp(beginPos.x, endPos.x, t_tem), Mathf.Lerp(beginPos.y, beginPos.y+jumpHight, jumpCurve.Evaluate(t_tem)));
+                    fsmManager.rigidbody2d.MovePosition(tem);
+                    //fsmManager.transform.Translate(tem - fsmManager.transform.position);
                 }
                 else 
                 {
-                    Vector3 tem = new Vector2(Mathf.Lerp(beginPos.x, endPos.x, t_tem), Mathf.Lerp(beginPos.y, hightest, t_tem));
-                    fsmManager.transform.Translate(tem - fsmManager.transform.position);
+                    Vector3 tem = new Vector2(Mathf.Lerp(beginPos.x, endPos.x, t_tem), Mathf.Lerp(beginPos.y, beginPos.y + jumpHight, t_tem));
+                    fsmManager.rigidbody2d.MovePosition(tem);
+                    //fsmManager.transform.Translate(tem - fsmManager.transform.position);
                 }
             }
             else

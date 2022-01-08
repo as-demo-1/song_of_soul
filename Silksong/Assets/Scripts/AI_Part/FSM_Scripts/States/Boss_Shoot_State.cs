@@ -11,6 +11,7 @@ public class Boss_Shoot_State :Enemy_Idle_State
     public override void InitState(EnemyFSMManager fSM_Manager)
     {
         base.InitState(fSM_Manager);
+        fSM_Manager.getTargetDir(true);
         ShotPoint = fSM_Manager.gameObject.transform.GetChild(1).gameObject.GetComponent<ShootSystem>();
         animationEvents.AddListener(() => { ShotPoint.Shoot(shootSequence[index]); });
     }
