@@ -408,8 +408,10 @@ GameObject:
   - component: {fileID: 484977951162521059}
   - component: {fileID: 484977951751258056}
   - component: {fileID: 1342962417}
+
   - component: {fileID: 1048344337554074644}
   - component: {fileID: 4061423512895920214}
+
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -556,8 +558,11 @@ MonoBehaviour:
     m_Bits: 128
   groundCheckCapsuleCollider: {fileID: 484977951192663533}
   telePosition: {fileID: 0}
+
   _guid: 00000000-0000-0000-0000-000000000000
+
   _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}
+  _backpack: {fileID: 6711407177510214487}
 --- !u!114 &484977951162521056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,6 +580,11 @@ MonoBehaviour:
     NeedToGainAndReleaseControl: 1
     key: 304
     controllerButton: 9
+    m_Enabled: 1
+  Pick:
+    NeedToGainAndReleaseControl: 1
+    key: 102
+    controllerButton: 4
     m_Enabled: 1
   teleport:
     NeedToGainAndReleaseControl: 1
@@ -610,12 +620,12 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 484977951162521061}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9a5bb25f0bd3aa145b3cafa10554f682, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.1}
-  m_Size: {x: 0.7, y: 1.5}
+  m_Size: {x: 0.7, y: 1.4}
   m_Direction: 0
 --- !u!114 &484977951162521059
 MonoBehaviour:
@@ -674,7 +684,9 @@ MonoBehaviour:
   dieAudio: {fileID: 0}
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 1
+
 --- !u!114 &1048344337554074644
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -683,6 +695,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 484977951162521061}
   m_Enabled: 1
   m_EditorHideFlags: 0
+
   m_Script: {fileID: 11500000, guid: fe9758a46ce5d59469767080cae67c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -709,6 +722,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 12582912
   shakeForce: 1.5
+
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,8 +767,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.6}
-  m_Size: {x: 0.5565509, y: 0.4745856}
+  m_Offset: {x: 0, y: -0.36}
+  m_Size: {x: 0.2, y: 0.3}
   m_Direction: 1
 --- !u!1 &2668821159627278877
 GameObject:
