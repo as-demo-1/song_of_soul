@@ -3,8 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Created by Unity from:
+//https://assetstore.unity.com/packages/templates/tutorials/2d-game-kit-107098#description
 public abstract class InputComponent : MonoBehaviour
 {
+    // todo:test
+    public Queue<Action> actions = new Queue<Action>();
+
     public enum InputType
     {
         MouseAndKeyboard,
@@ -43,14 +48,14 @@ public abstract class InputComponent : MonoBehaviour
 
 
     [Serializable]
-    public class InputButton
+    public class InputButton : Button
     {
         public KeyCode key;
         public XboxControllerButtons controllerButton;
         public bool Down { get; protected set; }
         public bool Held { get; protected set; }
         public bool Up { get; protected set; }
-        public bool IsValid { get; set; }
+        public bool IsValid { get; protected set; }
         public bool Enabled
         {
             get { return m_Enabled; }
@@ -64,7 +69,7 @@ public abstract class InputComponent : MonoBehaviour
         protected bool m_Enabled = true;
         protected bool m_BufferEnabled = true;
         protected bool m_GettingInput = true;
-        protected int m_FrameCount = Constants.BufferFrameTime;
+        protected int m_FrameCount;
 
         //This is used to change the state of a button (Down, Up) only if at least a FixedUpdate happened between the previous Frame
         //and this one. Since movement are made in FixedUpdate, without that an input could be missed it get press/release between fixedupdate
@@ -92,7 +97,7 @@ public abstract class InputComponent : MonoBehaviour
             this.controllerButton = controllerButton;
         }
 
-        public void Get(bool fixedUpdateHappened, InputType inputType)
+        public override void Get(bool fixedUpdateHappened, InputType inputType)
         {
             if (!m_Enabled)
             {
@@ -152,7 +157,7 @@ public abstract class InputComponent : MonoBehaviour
                 }
             }
             IsValidUpdate(Down);
-            
+
         }
         public void IsValidUpdate(bool conditions)
         {
@@ -170,6 +175,11 @@ public abstract class InputComponent : MonoBehaviour
                 IsValid = false;
             }
         }
+        public void SetValidToFalse()
+        {
+            m_FrameCount = 0;
+            IsValid = false;
+        }
 
         public void Enable()
         {
@@ -181,12 +191,12 @@ public abstract class InputComponent : MonoBehaviour
             m_Enabled = false;
         }
 
-        public void GainControl()
+        public override void GainControl()
         {
             m_GettingInput = true;
         }
 
-        public IEnumerator ReleaseControl(bool resetValues)
+        public override IEnumerator ReleaseControl(bool resetValues)
         {
             m_GettingInput = false;
 
@@ -209,7 +219,7 @@ public abstract class InputComponent : MonoBehaviour
     }
 
     [Serializable]
-    public class InputAxis
+    public class InputAxis : Button
     {
         public KeyCode positive;
         public KeyCode negative;
@@ -242,7 +252,7 @@ public abstract class InputComponent : MonoBehaviour
             this.controllerAxis = controllerAxis;
         }
 
-        public void Get(InputType inputType)
+        public override void Get(bool fixedUpdateHappened, InputType inputType)
         {
             if (!m_Enabled)
             {
@@ -288,12 +298,12 @@ public abstract class InputComponent : MonoBehaviour
             m_Enabled = false;
         }
 
-        public void GainControl()
+        public override void GainControl()
         {
             m_GettingInput = true;
         }
 
-        public void ReleaseControl(bool resetValues)
+        public override IEnumerator ReleaseControl(bool resetValues)
         {
             m_GettingInput = false;
             if (resetValues)
@@ -301,6 +311,21 @@ public abstract class InputComponent : MonoBehaviour
                 Value = 0f;
                 ReceivingInput = false;
             }
+            yield break;
+        }
+    }
+
+    public class Button : IButton
+    {
+        //public PlayerInputButton buttonName;
+        public bool NeedGainAndReleaseControl;
+        public virtual void GainControl() { }
+
+        public virtual void Get(bool fixedUpdateHappened, InputType inputType) { }
+
+        public virtual IEnumerator ReleaseControl(bool resetValues) 
+        {
+            yield break;
         }
     }
 
@@ -310,6 +335,12 @@ public abstract class InputComponent : MonoBehaviour
 
     void Update()
     {
+        // todo:test
+        if (actions.Count != 0)
+        {
+            actions.Dequeue()();
+        }
+
         GetInputs(m_FixedUpdateHappened || Mathf.Approximately(Time.timeScale, 0));
 
         m_FixedUpdateHappened = false;
@@ -322,28 +353,36 @@ public abstract class InputComponent : MonoBehaviour
 
     protected abstract void GetInputs(bool fixedUpdateHappened);
 
-    public abstract void GainControl();
+    public abstract void GainControls();
 
-    public abstract void ReleaseControl(bool resetValues = true);
+    public abstract void ReleaseControls(bool resetValues = true);
 
+    [Obsolete]
     protected void GainControl(InputButton inputButton)
     {
         inputButton.GainControl();
     }
-
+    [Obsolete]
     protected void GainControl(InputAxis inputAxis)
     {
         inputAxis.GainControl();
     }
-
-    protected void ReleaseControl(InputButton inputButton, bool resetValues)
+    [Obsolete]
+    public void ReleaseControl(InputButton inputButton, bool resetValues)
     {
         StartCoroutine(inputButton.ReleaseControl(resetValues));
     }
-
-    protected void ReleaseControl(InputAxis inputAxis, bool resetValues)
+    [Obsolete]
+    public void ReleaseControl(InputAxis inputAxis, bool resetValues)
     {
         inputAxis.ReleaseControl(resetValues);
+    }
+
+    public interface IButton
+    {
+        public void Get(bool fixedUpdateHappened, InputType inputType);
+        public void GainControl();
+        public IEnumerator ReleaseControl(bool resetValues);
     }
 }
 

@@ -16,4 +16,21 @@ public static class Constants
     public const float AirDeccelerationTimeReduceFactor = 1.5f;
 
     public const int BufferFrameTime = 5;
+    public const int VlunerableAfterDamageTime = 1;
+
+    #region 玩家有关属性
+    public const int playerInitialMaxHp=5;
+    public const int playerInitialMaxSoul = 100;
+    public const int playerInitialMoney =0;
+
+    public const int playerAttackGainSoul = 10;
+    public const int playerHealCostSoul = 33;
+
+
+    #endregion
+
+    public const float monsterBeatBackTime = 0.15f;
+
+
+
 }
