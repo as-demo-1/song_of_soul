@@ -23,7 +23,7 @@ public enum EnemyStates
 
     Enemy_Chase_State=11,
     Enemy_Smash_Down_State=12,
-    Boss_Shoot_State=13
+    Boss_Shoot_State=13,
     Enemy_Turn_State = 14,
     Enemy_Meet_State = 15,
     Enemy_Circle_State = 16
