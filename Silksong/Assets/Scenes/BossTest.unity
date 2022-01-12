@@ -269,7 +269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 484977951162521063, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.76
+      value: 14.8
       objectReference: {fileID: 0}
     - target: {fileID: 484977951162521063, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
       propertyPath: m_LocalPosition.y
@@ -388,7 +388,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -6022,7 +6022,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591745943}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.76, y: 2.47, z: -10}
+  m_LocalPosition: {x: 14.8, y: 2.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1793879298}
@@ -6201,7 +6201,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845112755}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.76, y: 2.47, z: -10}
+  m_LocalPosition: {x: 14.8, y: 2.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6249,6 +6249,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
       propertyPath: shootModes.Array.data[0].target
       value: 
       objectReference: {fileID: 152013756}
@@ -6256,6 +6260,46 @@ PrefabInstance:
       propertyPath: shootModes.Array.data[1].target
       value: 
       objectReference: {fileID: 152013756}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].bullet
+      value: 
+      objectReference: {fileID: 1792609399031990055, guid: 41438ab8ccd6f2745ab98a1b16be5c49, type: 3}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].target
+      value: 
+      objectReference: {fileID: 152013756}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].shotDir
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].bulletNum
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].bulletSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].shootMethod
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[0].shootModeName
+      value: normalShoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].shootModeName
+      value: AlwaysShoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].bulletDelayTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 650596311, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: shootModes.Array.data[2].shootOffsetAngle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7455931157228853723, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
       propertyPath: canDamage
       value: 0
@@ -6270,7 +6314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7455931157576861603, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.3
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 7455931157576861603, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6312,5 +6356,9 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 152013756}
+    - target: {fileID: 7891543500922852342, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}
+      propertyPath: defaultStateName
+      value: Boss00_Part1_State
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ebafd277a537ba4383124f58501f1d4, type: 3}

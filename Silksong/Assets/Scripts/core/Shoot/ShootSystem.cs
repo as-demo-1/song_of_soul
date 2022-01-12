@@ -45,6 +45,7 @@ public class ShootSystem : MonoBehaviour
         public ShootDir shotDir;
         public GameObject target;
         public CreatePos createPos;
+        public float bulletDelayTime;
         public float bulletSpeed;
         public float shootOffsetAngle;
     }
@@ -64,13 +65,13 @@ public class ShootSystem : MonoBehaviour
     {
         foreach(var value in shootModes)
         {
-            if(value.shootModeName==shootMode)
+            if(value.shootModeName.Equals(shootMode))
             {
                 Fire(value);
                 return;
             }
         }
-        Debug.LogError(transform.gameObject.name + " Shoot_mode_list could not find shoot mode");
+        Debug.LogError("Shoot_mode_list could not find shoot mode:"+ shootMode);
     }
    
     private void Fire(shootParam Param)
@@ -99,7 +100,7 @@ public class ShootSystem : MonoBehaviour
 
     private void CreateBullet(GameObject bullet, Vector2 CreatePos,Vector2 ShootVector)
     {
-        GameObject tem = Instantiate<GameObject>(bullet, CreatePos, Quaternion.identity, this.transform);
+        GameObject tem = Instantiate<GameObject>(bullet, CreatePos, Quaternion.identity);
         tem.GetComponent<Rigidbody2D>().velocity = ShootVector;
     }
     private void ShootOnce(shootParam Param)
@@ -137,7 +138,7 @@ public class ShootSystem : MonoBehaviour
         for (int i = 0; i < Param.bulletNum; i++)
         {
             ShootOnce(Param);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(Param.bulletDelayTime+0.2f);
         }
     }
 

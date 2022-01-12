@@ -50,38 +50,6 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         currentState.EnterState(this);
     }
 
-    //public FSMBaseState<T1,T2> AddState(T1 state)
-    //{
-    //    //Debug.Log(triggerType);
-    //    Type type = Type.GetType("Enemy"+state + "State");
-    //    if (type == null)
-    //    {
-    //        Debug.LogError(state + "无法添加到" + "的states列表");
-    //        Debug.LogError("检查stateType枚举值及对应类名，对应枚举命加上“_State”，如枚举值为Idle，状态类名为Idle_State，便于配置加载；");
-    //        return null;
-    //    }
-    //    else
-    //    {
-    //        FSMBaseState<T1,T2> temp = Activator.CreateInstance(type) as FSMBaseState<T1,T2>;
-    //        statesDic.Add(state,temp);
-    //        return temp;
-    //    }
-    //}
-    //public FSMBaseState<T1,T2> AddState(T1 state,FSMBaseState<T1,T2> stateClass)
-    //{
-    //    statesDic.Add(state, stateClass);
-    //    return stateClass;
-    //}
-    //public void RemoveState(T1 state)
-    //{
-    //    if (statesDic.ContainsKey(state))
-    //        statesDic.Remove(state);
-    //}
-    /// <summary>
-    /// 用于初始化状态机的方法，添加所有状态，及其条件映射表，获取部分组件等。Awake时执行，可不使用基类方法手动编码加载
-    /// </summary>
-    /// 
-
     public virtual void InitWithScriptableObject()
     {
     }

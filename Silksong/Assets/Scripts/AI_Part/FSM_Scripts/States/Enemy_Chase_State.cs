@@ -7,6 +7,8 @@ public class Enemy_Chase_State :EnemyFSMBaseState
     public float chaseSpeed;
     public bool isFaceWithSpeed;
     public bool isFlying = false;
+    public bool lock_x_move = false;
+    public bool lock_y_move = false;
     private Vector3 v;
     public override void InitState(EnemyFSMManager enemyFSM)
     {
@@ -32,6 +34,10 @@ public class Enemy_Chase_State :EnemyFSMBaseState
             else
                 v = new Vector3(-1, 0, 0);
         }
+        if (lock_x_move)
+            v.x = 0;
+        if (lock_y_move)
+            v.y = 0;
         fSM_Manager.transform.Translate(v * chaseSpeed * Time.deltaTime);
         if (isFaceWithSpeed)
             fSM_Manager.faceWithSpeed();

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Boss00_Part1_Shoot
   m_EditorClassIdentifier: 
-  lastStateID: 8
+  lastStateID: 13
   lastTriggerID: 0
   StateName: Boss00_Part1_Shoot
-  StateType: 8
+  StateType: 13
   stateConfig:
     id: 0
   TriggerType: 0
@@ -26,13 +26,18 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Shoot_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_Shoot_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 8
+        stateType: 13
         defaultAnimationName: Boss00_Idle
-        bullet: {fileID: 1792609399031990055, guid: 41438ab8ccd6f2745ab98a1b16be5c49, type: 3}
-        shotCD: 0.5
-        bulletSpeed: 30
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        isflying: 0
+        flyingMinHight: 0
+        shootSequence:
+        - normalShoot
+        index: 0
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
