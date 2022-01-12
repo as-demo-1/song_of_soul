@@ -4,15 +4,12 @@ using UnityEngine;
 /// </summary>×÷Õß£ºÇà¹Ï
 public class SpikeDropTrigger : Trigger2DBase
 {
-    public GameObject spike;
-    public float dropSpeed;
+    public DropSpikeCollider spike;
     protected override void enterEvent()
     {
-        Rigidbody2D rigidbody = spike.GetComponent<Rigidbody2D>();
-        if(rigidbody)
+        if(spike)
         {
-            //Debug.Log("drop");
-            rigidbody.velocity = new Vector2(0, -dropSpeed);
+            spike.drop();
         }
     }
 }

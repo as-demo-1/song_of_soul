@@ -8,6 +8,7 @@ public class Enemy_Pursuit_State : EnemyFSMBaseState
     public float MAX_SEE_AHEAD = 2.0f;//视野范围
     public float maxSpeed = 2;
     public float maxForce = 2;
+    public bool noTurnState;//如有，在turn state中转身
     //private GameObject target;
     public override void InitState(EnemyFSMManager fSMManager)
     {
@@ -24,11 +25,11 @@ public class Enemy_Pursuit_State : EnemyFSMBaseState
     public void Force(EnemyFSMManager fsmManager)
     {
 
-        Vector2 desiredVelocity = (fsmManager as EnemyFSMManager).getTargetDir(true).normalized * maxSpeed;
-
+        Vector2 desiredVelocity = fsmManager.getTargetDir(noTurnState).normalized * maxSpeed;
+        desiredVelocity.y += 0.5f;//避免离地面太近出现一些运动问题，临时代码，可删去
         Vector2 steeringForce = (desiredVelocity - fsmManager.rigidbody2d.velocity);
         if (steeringForce.magnitude > maxForce) steeringForce = steeringForce.normalized * maxForce;
-      //  Debug.DrawLine(fsmManager.transform.position, (Vector2)fsmManager.transform.position + steeringForce, Color.green);
+       // Debug.DrawLine(fsmManager.transform.position, (Vector2)fsmManager.transform.position + steeringForce, Color.green);
         fsmManager.rigidbody2d.AddForce(steeringForce);
     }
     public Vector2 Project4(EnemyFSMManager fsmManager)
@@ -47,7 +48,7 @@ public class Enemy_Pursuit_State : EnemyFSMBaseState
             steeringForce = (ahead - (Vector2)wall.transform.position).normalized;
             steeringForce *= avoidForce;
         }
-       // Debug.DrawLine(pos, pos + steeringForce);
+     //   Debug.DrawLine(pos, pos + steeringForce);
         return steeringForce;
     }
 }

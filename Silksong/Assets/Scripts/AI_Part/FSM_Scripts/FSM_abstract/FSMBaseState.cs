@@ -48,8 +48,9 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReach(fsm_Manager))
             {
-               // Debug.Log(fsmManager+"  "+triggers[i]+" "+ triggers[i].GetHashCode());
+               // Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
             }
         }
     }
@@ -100,10 +101,11 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
     public virtual void FixAct_State(EnemyFSMManager enemyFSM) { }
     public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
+
         base.ExitState(fSM_Manager);
         ExitState(fSM_Manager as EnemyFSMManager);
     }
-    public virtual void ExitState(EnemyFSMManager enemyFSM) { }
+    public virtual void ExitState(EnemyFSMManager enemyFSM) {  }
 
     public virtual void TriggerState(EnemySubFSMManager fsm_Manager)
     {
@@ -113,6 +115,7 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
             {
                 Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
             }
         }
     }
