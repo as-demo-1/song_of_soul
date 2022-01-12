@@ -69,7 +69,7 @@ public class SceneController : MonoBehaviour
 
       //  yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.Loading));
         yield return SceneManager.LoadSceneAsync(newSceneName);//异步加载场景
-        GameObjectTeleporter.playerEnterScene(destinationTag);//玩家到场景入口 
+        GameObjectTeleporter.Instance.playerEnterScene(destinationTag);//玩家到场景入口 
 
         // yield return StartCoroutine(ScreenFader.FadeSceneIn());
         if (playerInput == null)

@@ -30,15 +30,20 @@ public class AudioManager : MonoBehaviour
 	[Range(0f, 1f)]
 	[SerializeField] private float _sfxVolume = 1f;
 
+	[SerializeField]
+	private AudioCue monstersDefaultHittedAudio;
+
 	private void Awake()
 	{
 		//TODO: Get the initial volume levels from the settings
-
+		//Debug.Log("audio manager awake");
+		DontDestroyOnLoad(gameObject);//dont destroy soundEmitters as children
 		_SFXEventChannel.OnAudioCueRequested += PlayAudioCue;
 		_musicEventChannel.OnAudioCueRequested += PlayAudioCue; //TODO: Treat music requests differently?
 
 		_pool.Prewarm(_initialSize);
 		_pool.SetParent(this.transform);
+
 	}
 
 	/// <summary>
@@ -94,14 +99,16 @@ public class AudioManager : MonoBehaviour
 	/// </summary>
 	public void PlayAudioCue(AudioCueSO audioCue, AudioConfigurationSO settings, Vector3 position = default)
 	{
+		//Debug.Log("playAudioCue");
 		AudioClip[] clipsToPlay = audioCue.GetClips();
 		int nOfClips = clipsToPlay.Length;
-
+		//Debug.Log(nOfClips);
 		for (int i = 0; i < nOfClips; i++)
 		{
 			SoundEmitter soundEmitter = _pool.Request();
 			if (soundEmitter != null)
 			{
+				//Debug.Log("playAudioClip");
 				soundEmitter.PlayAudioClip(clipsToPlay[i], settings, audioCue.looping, position);
 				if (!audioCue.looping)
 					soundEmitter.OnSoundFinishedPlaying += OnSoundEmitterFinishedPlaying;
@@ -119,4 +126,21 @@ public class AudioManager : MonoBehaviour
 	}
 
 	//TODO: Add methods to play and cross-fade music, or to play individual sounds?
+
+
+	//[ContextMenu("setMonstersDefaultHittedAudio")]
+	public void setMonstersDefaultHittedAudio()
+	{
+		foreach(var monster in FindObjectsOfType<HpDamable>())
+		{
+			//Debug.Log(monster.gameObject.layer);
+			if (monster.gameObject.layer==LayerMask.NameToLayer("Enemy") && monster.takeDamageAudio==null)
+			{
+				monster.takeDamageAudio = monstersDefaultHittedAudio;
+		
+			}
+		}
+	}
+
+
 }

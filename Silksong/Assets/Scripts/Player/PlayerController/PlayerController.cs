@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
         else
             throw new UnityException("There cannot be more than one PlayerController script.  The instances are " + Instance.name + " and " + name + ".");
         DontDestroyOnLoad(this.gameObject);
+        if(_backpack)
         _backpack.LoadSave();
     }
 
