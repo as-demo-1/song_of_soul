@@ -21,6 +21,8 @@ public class HpDamable :Damable
 
     public dieEvent onDieEvent;
 
+    public AudioCue dieAudio;//在audiomanager中有绑定怪物hpdamable默认《受击》音效的效果
+
 
     public override void takeDamage(DamagerBase damager)
     {
@@ -64,6 +66,11 @@ public class HpDamable :Damable
         onDieEvent.Invoke(damager,this);
         //Destroy(gameObject);//未完善
         Debug.Log(gameObject.name+" die");
+        if (dieAudio)
+        {
+            dieAudio.PlayAudioCue();
+        }
+
     }
 
 

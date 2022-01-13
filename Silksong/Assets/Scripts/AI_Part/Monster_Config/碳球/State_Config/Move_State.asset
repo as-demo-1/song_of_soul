@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Move_State
   m_EditorClassIdentifier: 
   lastStateID: 2
-  lastTriggerID: 0
+  lastTriggerID: 2
   StateName: Move_State
   StateType: 2
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 2
   triggerConfig:
     id: 1
   triggerList: []
@@ -29,13 +29,17 @@ MonoBehaviour:
       data:
         stateType: 2
         defaultAnimationName: Move
-        isBack: 1
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
         moveSpeed: {x: 0.5, y: 0, z: 0}
-        isFaceWithSpeed: 1
+        noTurnState: 1
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
+        triggerType: 2
         targetState: 
-        maxTime: 0
-        timer: 0
+        checkNearRadius: 0
+        checkFarRadius: 0
+        addYBlockCheck: 0
+        returnTrueWhenYBlock: 0

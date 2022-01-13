@@ -19,13 +19,13 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     /// /// <summary>
     /// 当前状态
     /// </summary>
-    public FSMBaseState<T1,T2> currentState;
+    protected FSMBaseState<T1,T2> currentState;
     [DisplayOnly]
     public string currentStateName;
     /// <summary>
     /// 任意状态
     /// </summary>
-    public FSMBaseState<T1,T2> anyState;
+    protected FSMBaseState<T1, T2> anyState;
     public string defaultStateName;
     /// <summary>
     /// 当前状态机包含的所以状态列表
@@ -34,9 +34,14 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
     public void ChangeState(string state)
     {
-      // Debug.Log(state.ToString()+"  "+gameObject.name);
+
         if (currentState != null)
+        {
+            //if (currentStateName == state) return;
             currentState.ExitState(this);
+            //Debug.Log(state + "  " + gameObject.name);
+        }
+
 
         if (statesDic.ContainsKey(state))
         {
@@ -45,7 +50,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         }
         else
         {
-            Debug.LogError("敌人状态不存在");
+            Debug.LogError("敌人状态不存在 "+state);
         }
         currentState.EnterState(this);
     }
@@ -118,7 +123,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         if (statesDic.Count == 0)
             return;
         //默认状态设置
-        currentStateName = defaultStateName;
+       currentStateName = defaultStateName;
         ChangeState(currentStateName);
         if (anyState != null)
             anyState.EnterState(this);
@@ -131,8 +136,14 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         //    }
 
     }
-
-    private void Update()
+    private void  FixedUpdate()
+    {
+        if(currentState!=null)
+        {
+            currentState.FixAct_State(this);
+        }
+    }
+    protected virtual void Update()
     {
 
         if (currentState != null)
@@ -149,6 +160,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
         if (anyState != null)
         {
+           // Debug.Log(anyState.triggers.Count);
             anyState.Act_State(this);
             anyState.TriggerState(this);
         }
@@ -168,18 +180,30 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public GameObject player;
     public bool FaceLeftFirstOriginal;//原图是否朝向左
     public float beatBackRatio = 0;//0表示不被击退
+    [DisplayOnly]
+    public bool hasInvokedAnimationEvent=false, isInvokingAnimationEvent=false;
+
     protected override void Start()
     {
         base.Start();
-        player = GameObject.FindGameObjectWithTag("Player");
         this.damageable.takeDamageEvent.AddListener(beBeatBack);
+        player = GameObject.FindGameObjectWithTag("Player");
     }
+
+    protected override void Update()
+    {
+        if (isInvokingAnimationEvent && !hasInvokedAnimationEvent)
+            invokeCurrentStateAnimationEvent();
+        base.Update();
+    }
+        
+    
     //可SO配置
     public override void InitWithScriptableObject()
     {
         if(anyStateConfig!=null)
         {
-
+            //Debug.Log("set anyStateConfig");
             anyState = (FSMBaseState<EnemyStates, EnemyTriggers>)ObjectClone.CloneObject(anyStateConfig.stateConfig);
             anyState.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
             for (int k=0;k<anyStateConfig.triggerList.Count; k++)
@@ -219,6 +243,18 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         transform.localScale = new Vector3(x * -Mathf.Abs(tem.x), tem.y, tem.z);
     }
 
+    public void turnFace()
+    {
+        //Debug.Log("turn face");
+        Vector3 tem = transform.localScale;
+        transform.localScale = new Vector3(-tem.x, tem.y, tem.z);
+    }
+
+    public bool currentFacingLeft()
+    {
+        return FaceLeftFirstOriginal ? transform.localScale.x > 0 : transform.localScale.x < 0;
+    }
+
     /// <summary>
     /// 根据刚体速度改变自身朝向
     /// </summary>
@@ -253,18 +289,35 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         return dir;
     }
 
-    public bool nearPlatformBoundary()
+    public bool nearPlatformBoundary(Vector2 checkDir)
     {
         Collider2D collider = GetComponent<Collider2D>();
-        float rayToGroundDistance = collider.bounds.extents.y - collider.offset.y + 0.1f;
-        Vector3 frontPoint = transform.position + new Vector3((rigidbody2d.velocity.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
-        var rayHit = Physics2D.Raycast(frontPoint, Vector2.down, 100, 1 << LayerMask.NameToLayer("Ground"));
-        if (rayHit.distance > rayToGroundDistance)//到达边缘
+        float rayToGroundDistance = collider.bounds.extents.y - collider.offset.y;
+        rayToGroundDistance += 0.5f;
+
+        Vector3 frontPoint = transform.position + new Vector3((checkDir.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
+        var rayHit = Physics2D.Raycast(frontPoint, Vector2.down,100, 1 << LayerMask.NameToLayer("Ground"));
+      /* Debug.DrawRay(frontPoint,Vector3.down);
+        Debug.Log(rayHit.distance);*/
+        if (rayHit.distance > rayToGroundDistance || rayHit.distance==0)//到达边缘
         {
             return true;
         }
         return false;
 
+    }
+
+    public bool hitWall()
+    {
+
+        Vector3 frontPoint = transform.position + new Vector3((rigidbody2d.velocity.x > 0 ? 1 : -1), 0, 0) * (GetComponent<Collider2D>().bounds.size.x * 0.5f);
+        Vector3 upPoint = transform.position + new Vector3(0, 0.1f, 0);
+       // Debug.DrawLine(frontPoint,upPoint);
+        if (Physics2D.OverlapArea(upPoint, frontPoint, 1 << LayerMask.NameToLayer("Ground")) != null)
+        {
+            return true;
+        }
+        return false;
     }
 
     public void beBeatBack(DamagerBase damager,DamageableBase damageable)
@@ -275,7 +328,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
 
         if (this.damageable.damageDirection.x > 0)
         {
-            beatDistancePerSecond *= -1;
+            beatDistancePerSecond=new Vector2(-beatDistancePerSecond.x,beatDistancePerSecond.y);
         }
 
         StartCoroutine(beatBack(beatDistancePerSecond));
@@ -285,15 +338,25 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     private IEnumerator beatBack(Vector2 beatDistancePerSecond)
     {
         float timer=0;
+        Vector2 beatDistancePerFixedTime = beatDistancePerSecond * Time.fixedDeltaTime;
         while(timer<Constants.monsterBeatBackTime)
         {
-            timer += Time.deltaTime;
-            transform.Translate(beatDistancePerSecond * Time.deltaTime);
-            yield return null;
+            timer += Time.fixedDeltaTime;
+            // transform.Translate(beatDistancePerSecond * Time.fixedDeltaTime);
+            rigidbody2d.MovePosition((Vector2)(transform.position)+(beatDistancePerFixedTime));
+            yield return new WaitForFixedUpdate();
         }
 
     }
 
+    public void invokeCurrentStateAnimationEvent()
+    {
+        Debug.Log("Shoot Invoke");
+        EnemyFSMBaseState tem = currentState as EnemyFSMBaseState;
+        tem.invokeAnimationEvent();
+        hasInvokedAnimationEvent = true;
+        
+    }
 }
 
 

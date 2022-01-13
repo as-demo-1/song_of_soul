@@ -13,6 +13,8 @@ public class Save
 
     // The variables need to be public, else we would have to write trivial getter/setter functions.
     public List<string> _finishedObjectGuid = new List<string>();
+    public List<SerializedItemStack> _itemStacks = new List<SerializedItemStack>();
+    public List<SerializedItemStack> _storeStacks = new List<SerializedItemStack>();
     public string _teststring = "Plastic Love";
     public string ToJson()
     {
