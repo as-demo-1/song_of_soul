@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class PlayerSMBEvents : PlayerSMB<MonoBehaviour>
+public class PlayerSMBEvents : PlayerSMB
 {
     [SerializeField]
     [Range(0f, 1f)]
@@ -16,25 +16,36 @@ public class PlayerSMBEvents : PlayerSMB<MonoBehaviour>
 
     private List<ISMBEventList<SMBEvent>> m_SMBEventLists = new List<ISMBEventList<SMBEvent>>();
     private SMBStateInfo m_SMBStateInfo = new SMBStateInfo();
-    protected override void InternalInitialise(Animator animator, MonoBehaviour monoBehaviour)
-    {
-        base.InternalInitialise(animator, monoBehaviour);
-        //Initialise();
-    }
 
-    public static void Initialise(Animator animator)
-    {
-        PlayerSMBEvents[] PlayerSMBEvents = animator.GetBehaviours<PlayerSMBEvents>();
+    /* public static void Initialise(Animator animator)
+     {
+         PlayerSMBEvents[] PlayerSMBEvents = animator.GetBehaviours<PlayerSMBEvents>();
 
-        for (int i = 0; i < PlayerSMBEvents.Length; i++)
+         for (int i = 0; i < PlayerSMBEvents.Length; i++)
+         {
+             PlayerSMBEvents[i].Initialise();
+         }
+     }*/
+
+    public override void OnStart(Animator animator)
+    {
+        m_SMBEventLists.Add(m_SMBStateData);
+        m_SMBEventLists.Add(m_SMBStatusData);
+        m_SMBEventLists.Add(m_SMBAttackData);
+        foreach (var SMBEventList in m_SMBEventLists)
         {
-            PlayerSMBEvents[i].Initialise();
+            SMBEventList.Sort();
         }
     }
+   /* private void Initialise()
+    {
+       
+    }*/
 
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
         base.OnSLStateEnter(animator, stateInfo, layerIndex, controller);
+
         UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
         foreach (var SMBEventList in m_SMBEventLists)
         {
@@ -46,6 +57,7 @@ public class PlayerSMBEvents : PlayerSMB<MonoBehaviour>
     protected override void OnSLStateActive(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
         base.OnSLStateActive(animator, stateInfo, layerIndex, controller);
+
         UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
         foreach (var SMBEventList in m_SMBEventLists)
         {
@@ -54,16 +66,7 @@ public class PlayerSMBEvents : PlayerSMB<MonoBehaviour>
         UpdateSMBStateInfoLoopCount(m_SMBStateInfo);
     }
 
-    private void Initialise()
-    {
-        m_SMBEventLists.Add(m_SMBStateData);
-        m_SMBEventLists.Add(m_SMBStatusData);
-        m_SMBEventLists.Add(m_SMBAttackData);
-        foreach (var SMBEventList in m_SMBEventLists)
-        {
-            SMBEventList.Sort();
-        }
-    }
+  
 
     private void UpdateSMBStateInfoNormalizedTime(AnimatorStateInfo stateInfo, SMBStateInfo smbStateInfo) 
         => smbStateInfo.UpdateNormalizedTimeInfo(stateInfo);

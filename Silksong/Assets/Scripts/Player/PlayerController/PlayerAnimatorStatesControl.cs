@@ -23,7 +23,7 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
         this.CharacterStatesBehaviour = new PlayerStatesBehaviour(this.PlayerController);
         this.CharacterAnimatorParamsMapping = new PlayerAnimatorParamsMapping(this);
         this.PlayerStatusDic = new PlayerStatusDic(this.PlayerController);
-        PlayerSMBEvents.Initialise(this.Animator);
+        PlayerSMBEvents.Initialise(this.Animator,PlayerController);
     }
 
     //public void Initialize(StatusBehaviour behaviour)
@@ -47,6 +47,8 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
         }
     }
 
+    public void ParamsUpdate() => this.CharacterAnimatorParamsMapping.ParamsUpdate();
+
     public void BehaviourLateUpdate()
     {
         CharacterStatesBehaviour.StatesActiveBehaviour(CurrentPlayerState);
@@ -59,6 +61,7 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
         CharacterStatesBehaviour.StatesEnterBehaviour(newState);
     }
 
+
 }
 
 public abstract class AnimatorStatesControl
@@ -67,5 +70,4 @@ public abstract class AnimatorStatesControl
     public abstract StatesBehaviour CharacterStatesBehaviour { get; set; }
     public abstract AnimatorParamsMapping CharacterAnimatorParamsMapping { get; }
 
-    public void ParamsUpdate() => this.CharacterAnimatorParamsMapping.ParamsUpdate();
 }

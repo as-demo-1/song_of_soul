@@ -28,15 +28,15 @@ public struct PlayerInfo
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
-    //animator�ͽ�ɫ״̬���
+
     public PlayerAnimatorStatesControl PlayerAnimatorStatesControl { get; private set; }
-    //��ɫˮƽ�ƶ��Ӽ��ٿ��ƣ���ʼ�趨ֵ������ʱ�������趨Ϊ1�������ϼ��٣������ϼ��٣����м��٣����м��٣�����̬���Ƽ���������
+
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
     
     public bool IsGrounded { get; set; }
     public int CurrentAirExtraJumpCountLeft { get; private set; }
-    //������ֵ�����ƶ����ݵĿ���ȫ���������﷽�����
+
     public PlayerInfo playerInfo;
 
     private Vector2 m_MoveVector = new Vector2();
@@ -143,7 +143,6 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate()
     {
         PlayerAnimatorStatesControl.BehaviourLateUpdate();
-        //player��һ֡���°�������animator params����һ֡����state
     }
 
     private void FixedUpdate()

@@ -6,12 +6,13 @@ using UnityEngine.Animations;
 public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
     where TMonoBehaviour : MonoBehaviour
 {
-    protected TMonoBehaviour m_MonoBehaviour;
+    protected TMonoBehaviour m_MonoBehaviour;//保持联系的mono
+
 
     //Fist frame of NoTransitionUpdate happened
-    bool m_FirstFrameHappened;
+  // bool m_FirstFrameHappened;
     //Last frame of NoTransitionUpdate happened
-    bool m_LastFrameHappened;
+    //bool m_LastFrameHappened;
 
     public static void Initialise(Animator animator, TMonoBehaviour monoBehaviour)
     {
@@ -31,7 +32,8 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
 
     public sealed override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        m_FirstFrameHappened = false;
+       // Debug.Log("e2");
+       // m_FirstFrameHappened = false;
         OnSLStateEnter(animator, stateInfo, layerIndex);
         OnSLStateEnter(animator, stateInfo, layerIndex, controller);
         OnSLStateActive(animator, stateInfo, layerIndex, controller);
@@ -39,10 +41,13 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
 
     public sealed override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
+        /* if (animator.IsInTransition(layerIndex))
+             Debug.Log("IsInTransition");*/
+
         if (!animator.gameObject.activeSelf)
             return;
         OnSLStateActive(animator, stateInfo, layerIndex, controller);
-        if (animator.IsInTransition(layerIndex) && animator.GetNextAnimatorStateInfo(layerIndex).fullPathHash == stateInfo.fullPathHash)
+      /*  if (animator.IsInTransition(layerIndex) && animator.GetNextAnimatorStateInfo(layerIndex).fullPathHash == stateInfo.fullPathHash)
         {
             OnSLTransitionToStateUpdate(animator, stateInfo, layerIndex);
             OnSLTransitionToStateUpdate(animator, stateInfo, layerIndex, controller);
@@ -74,12 +79,12 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
         {
             OnSLTransitionFromStateUpdate(animator, stateInfo, layerIndex);
             OnSLTransitionFromStateUpdate(animator, stateInfo, layerIndex, controller);
-        }
+        }*/
     }
 
     public sealed override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        m_LastFrameHappened = false;
+       // m_LastFrameHappened = false;
 
         OnSLStateExit(animator, stateInfo, layerIndex);
         OnSLStateExit(animator, stateInfo, layerIndex, controller);
@@ -93,7 +98,7 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
     /// <summary>
     /// Called before Updates when execution of the state first starts (on transition to the state).
     /// </summary>
-    public virtual void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
+    public virtual void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { Debug.Log("sle1"); }
 
     /// <summary>
     /// Called after OnSLStateEnter every frame during transition to the state.
@@ -128,7 +133,7 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
     /// <summary>
     /// Called before Updates when execution of the state first starts (on transition to the state).
     /// </summary>
-    public virtual void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { }
+    public virtual void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller) { /*Debug.Log("sle2");*/ }
 
     /// <summary>
     /// Called after OnSLStateEnter every frame during transition to the state.
@@ -171,7 +176,8 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
 //c.f. Documentation for more in depth explainations.
 public abstract class SealedSMB : StateMachineBehaviour
 {
-    public sealed override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
+    //在SceneLinkedSMB,将不调用下列三个方法,其重载仍然调用，重载详见 StateMachineBehaviour
+    public sealed override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { /*Debug.Log("e1");*/ }
 
     public sealed override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
 

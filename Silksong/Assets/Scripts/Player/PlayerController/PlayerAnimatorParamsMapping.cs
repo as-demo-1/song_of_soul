@@ -22,7 +22,7 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
     public int CanJumpParamHash { get; } = Animator.StringToHash("CanJump");
     public int CanNormalAttackParamHash { get; } = Animator.StringToHash("CanNormalAttack");
 
-    public int CurrentStatusParamHash { get; } = Animator.StringToHash("CurrentStatus");
+    public int CurrentStatesParamHash { get; } = Animator.StringToHash("CurrentStates");
 
     public override void ParamsUpdate()
     {
@@ -37,7 +37,7 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
         m_Animator.SetBool(CanMoveParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanMove]);
         m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanJump]);
         m_Animator.SetBool(CanNormalAttackParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanNormalAttack]);
-        m_Animator.SetInteger(CurrentStatusParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
+        m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
     }
 }
 
