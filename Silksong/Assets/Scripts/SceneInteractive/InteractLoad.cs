@@ -9,7 +9,7 @@ public class InteractLoad : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        foreach (InteractiveSO interactiveItem in InteractiveContainer.InteractiveItem)
+        foreach (InteractiveSO interactiveItem in InteractiveContainer.InteractiveItemList)
         {
             GameObject go = Instantiate(ItemPrefab, transform);
             go.transform.position = interactiveItem.Coord;
