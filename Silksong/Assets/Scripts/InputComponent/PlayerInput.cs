@@ -16,26 +16,16 @@ public class PlayerInput : InputComponent
     public bool HaveControl { get { return m_HaveControl; } }
     private bool m_isFrozen;
 
-    //[SerializeField]
-    //private List<InputButton> playerInputButtons;
-    //[SerializeField]
-    //private List<InputAxis> playerInputAxes;
-
     private List<Button> buttons = new List<Button>();
-
-    //public InputButton pause = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu);
-    //public InputButton interact = new InputButton(KeyCode.E, XboxControllerButtons.Y);
-    //public InputButton meleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X);
-    //public InputButton rangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B);
-    public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper, true);
+    public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper);
+    public InputButton Pick = new InputButton(KeyCode.F, XboxControllerButtons.Y);
     ////TODO:xbox button mapping
-    public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None, true);
-    public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, true);
-    public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X, true);
-    public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None, true);
-    public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, true);
-    public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, true);
-
+    public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None);
+    public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
+    public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None);
+    public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
+    public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
+    public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
     [HideInInspector]
 
     protected bool m_HaveControl = true;
@@ -50,9 +40,6 @@ public class PlayerInput : InputComponent
         else
             throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
 
-        //buttons.AddRange(playerInputButtons);
-        //buttons.AddRange(playerInputAxes);
-
         //����button
         buttons.AddRange(new List<Button>
         {
@@ -61,6 +48,9 @@ public class PlayerInput : InputComponent
             jump,
             interact,
             normalAttack,
+            sprint,
+            teleport,
+            Pick
         });
     }
 
@@ -85,7 +75,7 @@ public class PlayerInput : InputComponent
         m_isFrozen = isFrozen;
     }
 
-    protected override void GetInputs()
+    protected override void GetInputs(bool fixedUpdateHappened)
     {
         if (m_isFrozen)
         {
@@ -93,17 +83,8 @@ public class PlayerInput : InputComponent
         }
         foreach (var button in buttons)
         {
-            button.Get(inputType);
+            button.Get(fixedUpdateHappened, inputType);
         }
-
-        //Pause.Get(fixedUpdateHappened, inputType);
-        //Interact.Get(fixedUpdateHappened, inputType);
-        //MeleeAttack.Get(fixedUpdateHappened, inputType);
-        //RangedAttack.Get(fixedUpdateHappened, inputType);
-        //Jump.Get(fixedUpdateHappened, inputType);
-        //Horizontal.Get(inputType);
-        //Vertical.Get(inputType);
-
         if (Input.GetKeyDown(KeyCode.F12))
         {
             m_DebugMenuIsOpen = !m_DebugMenuIsOpen;
@@ -116,16 +97,9 @@ public class PlayerInput : InputComponent
 
         foreach (var button in buttons)
         {
-            if (button.NeedToGainAndReleaseControl)
+            if (button.NeedGainAndReleaseControl)
                 button.GainControl();
         }
-        //GainControl(Pause);
-        //GainControl(Interact);
-        //GainControl(MeleeAttack);
-        //GainControl(RangedAttack);
-        //GainControl(Jump);
-        //GainControl(Horizontal);
-        //GainControl(Vertical);
     }
 
     public override void ReleaseControls(bool resetValues = true)
@@ -134,42 +108,11 @@ public class PlayerInput : InputComponent
 
         foreach (var button in buttons)
         {
-            if (button.NeedToGainAndReleaseControl)
+            if (button.NeedGainAndReleaseControl)
                 StartCoroutine(button.ReleaseControl(resetValues));
         }
-        //ReleaseControl(Pause, resetValues);
-        //ReleaseControl(Interact, resetValues);
-        //ReleaseControl(MeleeAttack, resetValues);
-        //ReleaseControl(RangedAttack, resetValues);
-        //ReleaseControl(Jump, resetValues);
-        //ReleaseControl(Horizontal, resetValues);
-        //ReleaseControl(Vertical, resetValues);
     }
 
-    //public void DisableMeleeAttacking()
-    //{
-    //    MeleeAttack.Disable();
-    //}
-
-    //public void EnableMeleeAttacking()
-    //{
-    //    MeleeAttack.Enable();
-    //}
-
-    //public void DisableRangedAttacking()
-    //{
-    //    RangedAttack.Disable();
-    //}
-
-    //public void EnableRangedAttacking()
-    //{
-    //    RangedAttack.Enable();
-    //}
-
-    public enum PlayerInputButton
-    {
-
-    }
 }
 
 

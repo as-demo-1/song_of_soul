@@ -8,6 +8,7 @@ public class SoundEmitterFactorySO : FactorySO<SoundEmitter>
 
 	public override SoundEmitter Create()
 	{
+		//Debug.Log("creat soundemitter");
 		return Instantiate(prefab);
 	}
 }

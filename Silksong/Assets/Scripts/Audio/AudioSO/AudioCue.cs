@@ -24,6 +24,8 @@ public class AudioCue : MonoBehaviour
 
 	public void PlayAudioCue()
 	{
+		//Debug.Log("play");
 		_audioCueEventChannel.RaiseEvent(_audioCue, _audioConfiguration, transform.position);
+
 	}
 }

@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &974113150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 974113151}
+  - component: {fileID: 650596311}
+  m_Layer: 15
+  m_Name: shotPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &974113151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974113150}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.47, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7455931157576861603}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &650596311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974113150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d0d210a605c58443a4180a966219287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootModes:
+  - shootModeName: normalShoot
+    bullet: {fileID: 1792609399031990055, guid: 41438ab8ccd6f2745ab98a1b16be5c49, type: 3}
+    bulletNum: 10
+    shootMethod: 2
+    shotDir: 1
+    target: {fileID: 0}
+    createPos: 0
+    bulletSpeed: 10
+    shootOffsetAngle: 1
+  - shootModeName: Shot
+    bullet: {fileID: 1792609399031990055, guid: 41438ab8ccd6f2745ab98a1b16be5c49, type: 3}
+    bulletNum: 10
+    shootMethod: 1
+    shotDir: 1
+    target: {fileID: 0}
+    createPos: 0
+    bulletSpeed: 10
+    shootOffsetAngle: 2
 --- !u!1 &7455931157228853701
 GameObject:
   m_ObjectHideFlags: 0
@@ -45,7 +107,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.09944916}
+  m_Offset: {x: 0.09616417, y: -0.208435}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +118,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.1988983}
+  m_Size: {x: 1.5513402, y: 1.41687}
   m_EdgeRadius: 0
 --- !u!114 &7455931157228853723
 MonoBehaviour:
@@ -73,6 +135,9 @@ MonoBehaviour:
   ignoreInvincibility: 0
   canDamage: 1
   damage: 1
+  makeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7455931157576861613
 GameObject:
   m_ObjectHideFlags: 0
@@ -88,6 +153,7 @@ GameObject:
   - component: {fileID: 7455931157576861607}
   - component: {fileID: 7891543500922852345}
   - component: {fileID: 7891543500922852342}
+  - component: {fileID: 2059763982}
   m_Layer: 15
   m_Name: Boss00
   m_TagString: Untagged
@@ -104,9 +170,10 @@ Transform:
   m_GameObject: {fileID: 7455931157576861613}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.7309, y: 0.5051, z: 0}
-  m_LocalScale: {x: 4.6042, y: 4.6042, z: 4.6042}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 7455931157228853722}
+  - {fileID: 974113151}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -150,7 +217,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 05d08a1da6184a5438d3afb7c6034fc1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: be301f38953943f44abccfd9249f3f21, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -175,6 +242,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
   maxHp: 2000
   currentHp: 2000
   resetHealthOnSceneReload: 0
@@ -191,18 +262,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.16535783, y: -0.012153387}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.8828125, y: 1.1015625}
+    oldSize: {x: 3.875, y: 2.625}
     newSize: {x: 1.13, y: 1.41}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.13, y: 1.41}
+  m_Size: {x: 4.172583, y: 2.426453}
   m_EdgeRadius: 0
 --- !u!50 &7455931157576861607
 Rigidbody2D:
@@ -235,7 +306,7 @@ Animator:
   m_GameObject: {fileID: 7455931157576861613}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c62fdfb49a167bc43b4829a61049d3d1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3b09f2d445c59cf418594b5f7ef91beb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -265,10 +336,37 @@ MonoBehaviour:
   currentStateName: 
   anyState:
     stateType: 0
-  defaultStateName: Boss00_Entrance_State
+  defaultStateName: Boss00_Part2_State
   stateConfigs:
   - {fileID: 11400000, guid: dab00504fc4a6a643a93d5f9fbc240ad, type: 2}
   - {fileID: 11400000, guid: 8339bf95dd9c9b342a77e760cecef578, type: 2}
+  - {fileID: 11400000, guid: b7ef87215155ecb47ba02894c06fca86, type: 2}
+  - {fileID: 11400000, guid: 7ff85ba59bcb2574eb398d38d10e6b1c, type: 2}
   anyStateConfig: {fileID: 11400000, guid: d14be75b0b1cb874d9e129923229e474, type: 2}
   player: {fileID: 0}
-  FaceLeftFirstOriginal: 1
+  FaceLeftFirstOriginal: 0
+  hasInvokedAnimationEvent: 0
+  isInvokingAnimationEvent: 0
+--- !u!114 &2059763982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455931157576861613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c8164b200df0cf49b24fc187930d3b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerable: 0
+  damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 1
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  maxHp: 5
+  currentHp: 0
+  resetHealthOnSceneReload: 0
+  invulnerableAfterDamage: 1
+  invulnerabilityDuration: 3

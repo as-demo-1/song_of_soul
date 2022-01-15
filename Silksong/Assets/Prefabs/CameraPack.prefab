@@ -60,7 +60,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -261,10 +261,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -21.73592, y: 19.611383}
-      - {x: -21.729332, y: -4.9312105}
-      - {x: 21.74258, y: -4.99213}
-      - {x: 21.645443, y: 19.660637}
+    - - {x: -6, y: 8.7}
+      - {x: -6, y: -1.7}
+      - {x: 24.5, y: -1.7}
+      - {x: 24.5, y: 8.7}
 --- !u!1 &28401935108184346
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 28401935108184344}
   - component: {fileID: 28401935108184347}
   - component: {fileID: 28401935108184345}
+  - component: {fileID: 1186245977}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -291,7 +292,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 28401935108184346}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.42, y: -1.47, z: -10}
+  m_LocalPosition: {x: 22.76, y: -3.64, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 28401934507045293}
@@ -350,6 +351,21 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 28401934523797377}
   m_ConfineScreenEdges: 1
   m_Damping: 0
+--- !u!114 &1186245977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28401935108184346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: -1
+  m_Gain: 1
+  m_Use2DDistance: 1
 --- !u!1 &28401935809535105
 GameObject:
   m_ObjectHideFlags: 0

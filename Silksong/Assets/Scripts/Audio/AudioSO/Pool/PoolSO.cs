@@ -47,6 +47,7 @@ namespace UOP1.Pool
 		/// <returns>The requested <typeparamref name="T"/>.</returns>
 		public virtual T Request()
 		{
+			//Debug.Log(Available.Count);
 			return Available.Count > 0 ? Available.Pop() : Create();
 		}
 
@@ -87,7 +88,9 @@ namespace UOP1.Pool
 
 		public virtual void OnDisable()
 		{
+			//Debug.Log("pool disable");
 			Available.Clear();
+			HasBeenPrewarmed = false;//自加
 		}
 	}
 }
