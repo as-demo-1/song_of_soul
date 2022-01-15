@@ -29,4 +29,9 @@ public class InteractiveSO : ScriptableObject
     public Sprite Icon => _icon;
     public Vector3 Coord => _coord;
     public bool IsFaceRight => _is_face_right;
+
+    public void SetCoord (Vector3 coord)
+    {
+        _coord = coord;
+    }
 }

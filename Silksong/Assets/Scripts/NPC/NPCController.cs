@@ -19,6 +19,12 @@ public class NPCController : MonoBehaviour
         m_container = FindUI("Tip/Container");
         m_text = FindUI("Tip/Container/Text").GetComponent<Text>();
     }
+#if UNITY_EDITOR
+    void Update()
+    {
+        InteractiveItem.SetCoord(transform.position);
+    }
+#endif
 
     private GameObject FindUI(string path)
     {
