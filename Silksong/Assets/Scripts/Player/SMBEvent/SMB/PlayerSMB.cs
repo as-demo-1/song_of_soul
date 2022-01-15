@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class PlayerSMB: SceneLinkedSMB<PlayerController>
+public class PlayerSMB : SceneLinkedSMB<PlayerController>
 {
   /*  public AnimatorStateInfo PreviousStateInfo { get; private set; }
     public AnimatorStateInfo CurrentStateInfo { get; private set; }

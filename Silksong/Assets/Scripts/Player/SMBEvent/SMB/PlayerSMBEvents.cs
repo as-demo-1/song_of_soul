@@ -4,9 +4,9 @@ using UnityEngine.Animations;
 
 public class PlayerSMBEvents : PlayerSMB
 {
-    [SerializeField]
+    /*[SerializeField]
     [Range(0f, 1f)]
-    private float m_Threshold = 0.1f;
+    private float m_Threshold = 0.1f;*/
     [SerializeField]
     private SMBEventList<SMBStateData> m_SMBStateData;
     [SerializeField]
@@ -14,7 +14,7 @@ public class PlayerSMBEvents : PlayerSMB
     [SerializeField]
     private SMBEventList<SMBAttackData> m_SMBAttackData;
 
-    private List<ISMBEventList<SMBEvent>> m_SMBEventLists = new List<ISMBEventList<SMBEvent>>();
+    private List<ISMBEventList> m_SMBEventLists = new List<ISMBEventList>();
     private SMBStateInfo m_SMBStateInfo = new SMBStateInfo();
 
     /* public static void Initialise(Animator animator)
@@ -27,7 +27,7 @@ public class PlayerSMBEvents : PlayerSMB
          }
      }*/
 
-    public override void OnStart(Animator animator)
+    public override void OnStart(Animator animator)//将在mono.start时调用
     {
         m_SMBEventLists.Add(m_SMBStateData);
         m_SMBEventLists.Add(m_SMBStatusData);
@@ -44,18 +44,19 @@ public class PlayerSMBEvents : PlayerSMB
 
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
+        Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name+ "  player state enter");
         base.OnSLStateEnter(animator, stateInfo, layerIndex, controller);
-
-        UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
+       // UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
         foreach (var SMBEventList in m_SMBEventLists)
         {
             CheckTransition(m_SMBStateInfo, SMBEventList);
         }
-        UpdateSMBStateInfoLoopCount(m_SMBStateInfo);
+      //  UpdateSMBStateInfoLoopCount(m_SMBStateInfo);
     }
 
     protected override void OnSLStateActive(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
+       // Debug.Log("OnSLStateActive");  
         base.OnSLStateActive(animator, stateInfo, layerIndex, controller);
 
         UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
@@ -74,48 +75,59 @@ public class PlayerSMBEvents : PlayerSMB
     private void UpdateSMBStateInfoLoopCount(SMBStateInfo smbStateInfo) 
         => smbStateInfo.LoopCount = smbStateInfo.NormalizedTimeLoopCount;
 
-    private void UpdateEvents(SMBStateInfo smbStateInfo, ISMBEventList<SMBEvent> smbEvents)
+    private void UpdateEvents(SMBStateInfo smbStateInfo, ISMBEventList smbEvents)
     {
         if (smbEvents.Count == 0)
             return;
-        if (smbStateInfo.NormalizedTimeLoopCount > smbStateInfo.LoopCount)
+
+        if (smbStateInfo.NormalizedTimeLoopCount > smbStateInfo.LoopCount)//动画至少已经循环一遍
         {
-            smbEvents.InvokeEvents(smbStateInfo.PreviousNormalizedTime, 1.0f, smbEvents.Index);
+            /*Debug.Log(smbStateInfo.NormalizedTimeLoopCount);
+            Debug.Log(smbStateInfo.LoopCount);*/
+            // smbEvents.InvokeEvents(smbStateInfo.PreviousNormalizedTime, 1.0f, smbEvents.Index);
+            smbEvents.InvokeEvents(1.0f, smbEvents.Index);
             for (int i = 0; i < smbStateInfo.NormalizedTimeLoopCount - smbStateInfo.LoopCount - 1; i++)
             {
-                smbEvents.InvokeEvents(Mathf.NegativeInfinity, 1.0f, 0);
+                Debug.Log("here");
+                //smbEvents.InvokeEvents(Mathf.NegativeInfinity, 1.0f, 0);
+                smbEvents.InvokeEvents(1.0f, 0);
             }
             smbEvents.SetIndex(0);
-            int newIndex = smbEvents.InvokeEvents(Mathf.NegativeInfinity, smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
+            // int newIndex = smbEvents.InvokeEvents(Mathf.NegativeInfinity, smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
+            int newIndex = smbEvents.InvokeEvents(smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
             smbEvents.SetIndex(newIndex);
         }
         else
         {
-            int newIndex = smbEvents.InvokeEvents(smbStateInfo.PreviousNormalizedTime, smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
-            smbEvents.SetIndex(newIndex);
+            // int newIndex = smbEvents.InvokeEvents(smbStateInfo.PreviousNormalizedTime, smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
+             int newIndex = smbEvents.InvokeEvents(smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
+             smbEvents.SetIndex(newIndex);
         }
     }
 
-    private void CheckTransition(SMBStateInfo smbStateInfo, ISMBEventList<SMBEvent> smbEvents)
+    private void CheckTransition(SMBStateInfo smbStateInfo, ISMBEventList smbEvents)
     {
         if (smbEvents.Count == 0)
             return;
         smbEvents.SetIndex(0);
-        if (!smbEvents.IgnorePreviousEventsWhenEntered)
+      /*  if (!smbEvents.IgnorePreviousEventsWhenEntered)
         {
+            Debug.Log("here2");
             for (int i = 0; i < smbStateInfo.NormalizedTimeLoopCount - smbStateInfo.LoopCount; i++)
             {
-                smbEvents.InvokeEvents(Mathf.NegativeInfinity, 1.0f, 0);
+                //smbEvents.InvokeEvents(Mathf.NegativeInfinity, 1.0f, 0);
+                smbEvents.InvokeEvents(1.0f, 0);
             }
-        }
-        if (smbStateInfo.CurrentNormalizedTime <= m_Threshold)
+        }*/
+       /* if (smbStateInfo.CurrentNormalizedTime <= m_Threshold)
         {
+            Debug.Log("thershold");
             smbStateInfo.CurrentNormalizedTime = Mathf.NegativeInfinity;
         }
         else
         {
-            smbStateInfo.CurrentNormalizedTime = smbStateInfo.CurrentNormalizedTime;
-        }
+           // smbStateInfo.CurrentNormalizedTime = smbStateInfo.CurrentNormalizedTime;
+        }*/
     }
 }
 
@@ -126,8 +138,8 @@ public class SMBStateInfo
     public AnimatorStateInfo stateInfo;
 
     public float StateLength => stateInfo.length;
-    public float StateNormalizedTime => stateInfo.normalizedTime;
-    public float PreviousNormalizedTime { get; set; }
+   // public float StateNormalizedTime => stateInfo.normalizedTime;
+   // public float PreviousNormalizedTime { get; set; }
     public float CurrentNormalizedTime { get; set; }
     public int LoopCount { get; set; }
     public int NormalizedTimeLoopCount { get; set; }
@@ -135,8 +147,9 @@ public class SMBStateInfo
     public void UpdateNormalizedTimeInfo(AnimatorStateInfo stateInfo)
     {
         this.stateInfo = stateInfo;
-        this.PreviousNormalizedTime = this.CurrentNormalizedTime;
+       // this.PreviousNormalizedTime = this.CurrentNormalizedTime;
         this.CurrentNormalizedTime = stateInfo.normalizedTime % 1.0f;
-        this.NormalizedTimeLoopCount = Mathf.FloorToInt(stateInfo.normalizedTime / 1f);
+        this.NormalizedTimeLoopCount = Mathf.FloorToInt(stateInfo.normalizedTime);
+       // Debug.Log(stateInfo.normalizedTime);
     }
 }

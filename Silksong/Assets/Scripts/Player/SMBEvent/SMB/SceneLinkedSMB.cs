@@ -6,7 +6,7 @@ using UnityEngine.Animations;
 public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
     where TMonoBehaviour : MonoBehaviour
 {
-    protected TMonoBehaviour m_MonoBehaviour;//保持联系的mono
+    public TMonoBehaviour m_MonoBehaviour;//保持联系的mono
 
 
     //Fist frame of NoTransitionUpdate happened
@@ -98,7 +98,7 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
     /// <summary>
     /// Called before Updates when execution of the state first starts (on transition to the state).
     /// </summary>
-    public virtual void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { Debug.Log("sle1"); }
+    public virtual void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {/* Debug.Log("sle1");*/ }
 
     /// <summary>
     /// Called after OnSLStateEnter every frame during transition to the state.
