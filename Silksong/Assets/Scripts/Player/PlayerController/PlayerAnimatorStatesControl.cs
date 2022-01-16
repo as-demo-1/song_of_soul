@@ -23,7 +23,7 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
         this.CharacterStatesBehaviour = new PlayerStatesBehaviour(this.PlayerController);
         this.CharacterAnimatorParamsMapping = new PlayerAnimatorParamsMapping(this);
         this.PlayerStatusDic = new PlayerStatusDic(this.PlayerController);
-        PlayerSMBEvents.Initialise(this.Animator);
+        PlayerSMBEvents.Initialise(this.Animator,PlayerController);
     }
 
     //public void Initialize(StatusBehaviour behaviour)
@@ -31,21 +31,8 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
 
     //}
 
-    public void PlayerStatusUpdate()
-    {
-        IdleStatePlayerStatusFlagOverrideAsTrue();
-        PlayerStatusDic[EPlayerStatus.CanJump].SetFlag(PlayerController.CurrentAirExtraJumpCountLeft > 0 || PlayerController.IsGrounded);
 
-        void IdleStatePlayerStatusFlagOverrideAsTrue()
-        {
-            if (CurrentPlayerState == EPlayerState.Idle)
-            {
-                PlayerStatusDic[EPlayerStatus.CanMove].SetFlag(true);
-                PlayerStatusDic[EPlayerStatus.CanJump].SetFlag(true);
-                PlayerStatusDic[EPlayerStatus.CanNormalAttack].SetFlag(true);
-            }
-        }
-    }
+    public void ParamsUpdate() => this.CharacterAnimatorParamsMapping.ParamsUpdate();
 
     public void BehaviourLateUpdate()
     {
@@ -59,6 +46,7 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
         CharacterStatesBehaviour.StatesEnterBehaviour(newState);
     }
 
+
 }
 
 public abstract class AnimatorStatesControl
@@ -67,5 +55,4 @@ public abstract class AnimatorStatesControl
     public abstract StatesBehaviour CharacterStatesBehaviour { get; set; }
     public abstract AnimatorParamsMapping CharacterAnimatorParamsMapping { get; }
 
-    public void ParamsUpdate() => this.CharacterAnimatorParamsMapping.ParamsUpdate();
 }

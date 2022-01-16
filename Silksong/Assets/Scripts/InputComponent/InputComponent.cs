@@ -145,7 +145,7 @@ public abstract class InputComponent : MonoBehaviour
                     m_AfterFixedUpdateHeld = Held;
                     m_AfterFixedUpdateUp = Up;
                 }
-                else
+                else//update键入后，在下一个fixedupdate发生前认为一直有键入 目的是为了在update顺序随机情况下不丢失输入
                 {
                     Down = Input.GetKeyDown(key) || m_AfterFixedUpdateDown;
                     Held = Input.GetKey(key) || m_AfterFixedUpdateHeld;
@@ -175,7 +175,7 @@ public abstract class InputComponent : MonoBehaviour
                 IsValid = false;
             }
         }
-        public void SetValidToFalse()
+        public void SetValidToFalse()//无用，down仍然有效，valid将不断激活
         {
             m_FrameCount = 0;
             IsValid = false;

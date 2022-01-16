@@ -28,18 +28,19 @@ public struct PlayerInfo
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
-    //animatorï¿½Í½ï¿½É«×´Ì¬ï¿½ï¿½ï¿½
+
     public PlayerAnimatorStatesControl PlayerAnimatorStatesControl { get; private set; }
-    //ï¿½ï¿½É«Ë®Æ½ï¿½Æ¶ï¿½ï¿½Ó¼ï¿½ï¿½Ù¿ï¿½ï¿½Æ£ï¿½ï¿½ï¿½Ê¼ï¿½è¶¨Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨Îª1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½Ð¼ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
     
     public bool IsGrounded { get; set; }
     public int CurrentAirExtraJumpCountLeft { get; private set; }
-    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ÝµÄ¿ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï·½ï¿½ï¿½ï¿½ï¿½ï¿½
+
     public PlayerInfo playerInfo;
 
     private Vector2 m_MoveVector = new Vector2();
+
     private int m_LastHorizontalInputDir;
 
     public SpriteRenderer SpriteRenderer { get; private set; }
@@ -48,7 +49,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
 
     [SerializeField] private LayerMask groundLayerMask;
-    [SerializeField] private LayerMask ropeLayerMask;
+    //[SerializeField] private LayerMask ropeLayerMask; ×¢ÊÍÀíÓÉ£º¿ÉÄÜ²»ÔÙÐèÒªÅÊÅÀ¹¦ÄÜ
 
     private CapsuleCollider2D m_BodyCapsuleCollider;
     [SerializeField] private CapsuleCollider2D groundCheckCapsuleCollider;
@@ -136,14 +137,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        PlayerAnimatorStatesControl.PlayerStatusUpdate();
+        CheckIsGroundedAndResetAirJumpCount();
         PlayerAnimatorStatesControl.ParamsUpdate();
     }
 
     private void LateUpdate()
     {
         PlayerAnimatorStatesControl.BehaviourLateUpdate();
-        //playerï¿½ï¿½Ò»Ö¡ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½animator paramsï¿½ï¿½ï¿½ï¿½Ò»Ö¡ï¿½ï¿½ï¿½ï¿½state
     }
 
     private void FixedUpdate()
@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
         Interact();
     }
 
-    public void VerticalMove()
+   /* public void VerticalMove()
     {
         // check is on rope
         if (IsRope())
@@ -178,20 +178,15 @@ public class PlayerController : MonoBehaviour
         {
             UnClimb();
         }
-    }
+    }*/
     public void CheckJump()
     {
-        if (CurrentAirExtraJumpCountLeft > 0 || IsGrounded)
-        {
-            if (PlayerInput.Instance.jump.IsValid)
-            {
-                PlayerInput.Instance.jump.SetValidToFalse();
-                if (!IsGrounded)
-                    --CurrentAirExtraJumpCountLeft;
-                m_MoveVector.Set(RB.velocity.x, playerInfo.jumpHeight);
-                RB.velocity = m_MoveVector;
-            }
-        }
+        PlayerInput.Instance.jump.SetValidToFalse();
+        if (!IsGrounded)
+            --CurrentAirExtraJumpCountLeft;
+        m_MoveVector.Set(RB.velocity.x, playerInfo.jumpHeight);
+        RB.velocity = m_MoveVector;
+
     }
 
     public void ResetJumpCount() => CurrentAirExtraJumpCountLeft = playerInfo.maxAirExtraJumpCount;
@@ -237,7 +232,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 1 << 6 is ground    7 is rope    8 is player
     bool IsBlock(LayerMask ignoreMask)
     {
         Vector2 point = (Vector2)groundCheckCapsuleCollider.transform.position + groundCheckCapsuleCollider.offset;
@@ -248,10 +242,6 @@ public class PlayerController : MonoBehaviour
 
     public void CheckIsGrounded()
     {
-        // Vector2 point = (Vector2)capsuleCollider.transform.position + capsuleCollider.offset;
-        // LayerMask ignoreMask = ~(1 << 8 | 1 << 7); // fixed ignore ropeLayer
-        // Collider2D collider = Physics2D.OverlapCapsule(point, capsuleCollider.size, capsuleCollider.direction, 0,ignoreMask);
-        // return collider != null;
         IsGrounded = IsBlock(groundLayerMask);
     }
 
@@ -262,12 +252,12 @@ public class PlayerController : MonoBehaviour
             ResetJumpCount();
     }
 
-    bool IsRope()
+    /*bool IsRope()
     {
         return IsBlock(ropeLayerMask);
-    }
+    }*/
 
-    private void OnClimb()
+   /* private void OnClimb()×¢ÊÍÀíÓÉ£º¿ÉÄÜ²»ÔÙÐèÒªÅÊÅÀ¹¦ÄÜ
     {
         // velocity is rb current force
         RB.velocity = Vector3.zero;
@@ -285,9 +275,9 @@ public class PlayerController : MonoBehaviour
             RB.gravityScale = 0;
             playerInfo.isClimb = true;
         }
-    }
+    }*/
 
-    private void UnClimb()
+   /* private void UnClimb()
     {
         // togging isClimb and recovery gravityScale
         if (playerInfo.isClimb)
@@ -295,7 +285,7 @@ public class PlayerController : MonoBehaviour
             RB.gravityScale = playerInfo.gravity;
             playerInfo.isClimb = false;
         }
-    }
+    }*/
 
     public void CheckFlipPlayer(float setAccelerationNormalizedTime)
     {

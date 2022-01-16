@@ -15,7 +15,7 @@ public static class Constants
     public const float AirAccelerationTimeReduceFactor = 1.5f;
     public const float AirDeccelerationTimeReduceFactor = 1.5f;
 
-    public const int BufferFrameTime = 5;
+    public const int BufferFrameTime = 5;//输入缓存帧
     public const int VlunerableAfterDamageTime = 1;
 
     #region 玩家有关属性

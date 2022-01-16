@@ -9,7 +9,7 @@ public class PlayerStatusDic
 
     public PlayerStatusDic(MonoBehaviour playerController)
     {
-        PlayerStatusFlag.GetPlayerController(playerController);
+        //PlayerStatusFlag.GetPlayerController(playerController);
         m_StatusDic = new Dictionary<EPlayerStatus, PlayerStatusFlag>
         {
             {EPlayerStatus.CanMove, new PlayerStatusFlag() },
@@ -23,12 +23,17 @@ public class PlayerStatusDic
         m_StatusDic[playerStatus].SetFlag(newFlag, calcuteFlagType);
     }
 
-    public PlayerStatusFlag this[EPlayerStatus playerStatus]
+    public bool getPlayerStatus(EPlayerStatus playerStatus)
     {
-        get { return m_StatusDic[playerStatus]; }
+        return m_StatusDic[playerStatus];
     }
 
-    public static explicit operator Dictionary<EPlayerStatus, PlayerStatusFlag>(PlayerStatusDic dic) => dic.m_StatusDic;
+   /* public PlayerStatusFlag this[EPlayerStatus playerStatus]注释理由：封装私有字典，只允许通过set和getPlayerStatus方法接触
+    {
+        get { return m_StatusDic[playerStatus]; }
+    }*/
+
+   // public static explicit operator Dictionary<EPlayerStatus, PlayerStatusFlag>(PlayerStatusDic dic) => dic.m_StatusDic;
 
 
     public class PlayerStatusFlag
@@ -76,8 +81,8 @@ public class PlayerStatusDic
             AndBuffFlag,
             OverrideBuffFlags,
         }
-        private static MonoBehaviour PlayerController { get; set; }
-        public static void GetPlayerController(MonoBehaviour monoBehaviour) => PlayerController = monoBehaviour;
+       /* private static MonoBehaviour PlayerController { get; set; }
+        public static void GetPlayerController(MonoBehaviour monoBehaviour) => PlayerController = monoBehaviour;*/
         public static implicit operator bool(PlayerStatusFlag playerStatus) => playerStatus.Flag;
     }
 }
