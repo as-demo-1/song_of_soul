@@ -9,13 +9,14 @@ public class PlayerStatesBehaviour : StatesBehaviour
     {
         switch (playerStates)
         {
-            case EPlayerState.None:
-                break;
+         /* case EPlayerState.None:
+                break*/
             case EPlayerState.Idle:
                 break;
             case EPlayerState.Run:
                 break;
             case EPlayerState.Jump:
+                PlayerController.CheckJump();
                 break;
             case EPlayerState.Fall:
                 break;
@@ -31,27 +32,26 @@ public class PlayerStatesBehaviour : StatesBehaviour
     {
         switch (playerStates)
         {
-            case EPlayerState.None:
-                break;
+           /* case EPlayerState.None:
+                break;*/
             case EPlayerState.Idle:
-                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+                //PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 PlayerController.CheckAddItem();
                 PlayerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Run:
-                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+               // PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 PlayerController.CheckAddItem();
                 PlayerController.CheckFlipPlayer(1f);
                 PlayerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Jump:
-                PlayerController.CheckJump();
-                PlayerController.IsGrounded = false;
+               // PlayerController.IsGrounded = false;
                 PlayerController.CheckFlipPlayer(1f);
                 PlayerController.CheckHorizontalMove(0.5f);
                 break;
             case EPlayerState.Fall:
-                PlayerController.CheckIsGroundedAndResetAirJumpCount();
+                //PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 PlayerController.CheckFlipPlayer(1f);
                 PlayerController.CheckHorizontalMove(0.5f);
                 break;

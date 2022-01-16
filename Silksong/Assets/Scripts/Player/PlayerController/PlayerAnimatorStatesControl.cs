@@ -31,21 +31,6 @@ public class PlayerAnimatorStatesControl : AnimatorStatesControl
 
     //}
 
-    public void PlayerStatusUpdate()
-    {
-        IdleStatePlayerStatusFlagOverrideAsTrue();
-        PlayerStatusDic[EPlayerStatus.CanJump].SetFlag(PlayerController.CurrentAirExtraJumpCountLeft > 0 || PlayerController.IsGrounded);
-
-        void IdleStatePlayerStatusFlagOverrideAsTrue()
-        {
-            if (CurrentPlayerState == EPlayerState.Idle)
-            {
-                PlayerStatusDic[EPlayerStatus.CanMove].SetFlag(true);
-                PlayerStatusDic[EPlayerStatus.CanJump].SetFlag(true);
-                PlayerStatusDic[EPlayerStatus.CanNormalAttack].SetFlag(true);
-            }
-        }
-    }
 
     public void ParamsUpdate() => this.CharacterAnimatorParamsMapping.ParamsUpdate();
 

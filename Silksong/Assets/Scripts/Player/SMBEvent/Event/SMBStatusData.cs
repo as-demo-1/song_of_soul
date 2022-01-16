@@ -11,6 +11,7 @@ public class SMBStatusData : SMBEventTimeStamp
     public override void EventActive()
     {
        // Debug.Log("event " + this.GetType());
+       if(playerStatus!=0)
         PlayerController.Instance.PlayerAnimatorStatesControl.PlayerStatusDic.SetPlayerStatusFlag(playerStatus, statusIsActive, wayOfChangingFlag);
     }
 }

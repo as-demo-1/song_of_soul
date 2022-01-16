@@ -9,6 +9,7 @@ public class SMBStateData : SMBEventTimeStamp
     public override void EventActive()
     {
       //  Debug.Log("event " + this.GetType());
+      if(newState!=0)
         PlayerController.Instance.PlayerAnimatorStatesControl.ChangePlayerState(newState);
         //if (newState != PlayerController.Instance.PlayerAnimatorStatesControl.CurrentPlayerState)
             //PlayerController.Instance.PlayerAnimatorStatesManager.ChangePlayerStatus(statusIsActive ? newStatus : PlayerStatus.None);

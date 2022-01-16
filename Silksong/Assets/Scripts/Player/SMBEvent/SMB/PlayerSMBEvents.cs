@@ -44,7 +44,12 @@ public class PlayerSMBEvents : PlayerSMB
 
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name+ "  player state enter");
+        /*if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name=="JumpUp")
+        {
+            Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
+            Debug.Log(Time.frameCount);
+        }*/
+
         base.OnSLStateEnter(animator, stateInfo, layerIndex, controller);
        // UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
         foreach (var SMBEventList in m_SMBEventLists)
