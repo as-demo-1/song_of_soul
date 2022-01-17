@@ -408,10 +408,9 @@ GameObject:
   - component: {fileID: 484977951162521059}
   - component: {fileID: 484977951751258056}
   - component: {fileID: 1342962417}
-
   - component: {fileID: 1048344337554074644}
   - component: {fileID: 4061423512895920214}
-
+  - component: {fileID: 6976303930959717750}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -558,11 +557,10 @@ MonoBehaviour:
     m_Bits: 128
   groundCheckCapsuleCollider: {fileID: 484977951192663533}
   telePosition: {fileID: 0}
-
   _guid: 00000000-0000-0000-0000-000000000000
-
-  _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}
-  _backpack: {fileID: 6711407177510214487}
+  _saveSystem: {fileID: 0}
+  _backpack: {fileID: 0}
+  _itemToAdd: {fileID: 0}
 --- !u!114 &484977951162521056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -577,40 +575,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputType: 0
   sprint:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     key: 304
     controllerButton: 9
     m_Enabled: 1
   Pick:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     key: 102
     controllerButton: 4
     m_Enabled: 1
   teleport:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     key: 120
     controllerButton: 0
     m_Enabled: 1
   jump:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     key: 32
     controllerButton: 1
     m_Enabled: 1
-  normalAttack:
-    NeedToGainAndReleaseControl: 1
-    key: 106
-    controllerButton: 3
+  interact:
+    NeedGainAndReleaseControl: 0
+    key: 119
+    controllerButton: 0
     m_Enabled: 1
   horizontal:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     positive: 100
     negative: 97
     controllerAxis: 1
   vertical:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     positive: 119
     negative: 115
     controllerAxis: 2
+  normalAttack:
+    NeedGainAndReleaseControl: 0
+    key: 106
+    controllerButton: 3
+    m_Enabled: 1
 --- !u!70 &484977951162521057
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -675,6 +678,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   takeDamageAudio: {fileID: 3942139613390052856}
+  takeDamageSfxSO: {fileID: 0}
   maxHp: 50
   currentHp: 50
   resetHealthOnSceneReload: 0
@@ -684,9 +688,7 @@ MonoBehaviour:
   dieAudio: {fileID: 0}
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 1
-
 --- !u!114 &1048344337554074644
-
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -695,16 +697,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 484977951162521061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-
   m_Script: {fileID: 11500000, guid: fe9758a46ce5d59469767080cae67c85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damageTiming: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 12582912
+    m_Bits: 0
   timeScale: 0
-  frameCounts: 10
+  frameCounts: 0
 --- !u!114 &4061423512895920214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,7 +723,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 12582912
   shakeForce: 1.5
-
+--- !u!114 &6976303930959717750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7033a16af153575409f8ed5063d4649c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSoulJump: 0
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
