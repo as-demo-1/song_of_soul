@@ -16,7 +16,7 @@ public class PlayerStatesBehaviour : StatesBehaviour
             case EPlayerState.Run:
                 break;
             case EPlayerState.Jump:
-                PlayerController.CheckJump();
+                PlayerController.JumpStart();
                 break;
             case EPlayerState.Fall:
                 break;
@@ -70,15 +70,15 @@ public class PlayerStatesBehaviour : StatesBehaviour
     public PlayerStatesBehaviour(PlayerController playerController) => this.PlayerController = playerController;
 }
 
-//间隔一些留下相似但是不同的state方便管理，比如转身和idle，不要轻易改变现有的enum的值
+//按<位>置状态，允许多个状态同时存在 不要轻易修改其值 修改后smb的枚举将丢失
 public enum EPlayerState
 {
     None = 0,
-    Idle = 10,
-    Run = 20,
-    Jump = 30,
-    Fall = 40,
-    NormalAttack = 100,
+    Idle = 1,
+    Run = 2,
+    Jump = 4,
+    Fall = 8,
+    NormalAttack = 16,
 }
 
 public abstract class StatesBehaviour

@@ -4,15 +4,13 @@ using UnityEngine.Animations;
 
 public class PlayerSMBEvents : PlayerSMB
 {
-    /*[SerializeField]
-    [Range(0f, 1f)]
-    private float m_Threshold = 0.1f;*/
+
     [SerializeField]
     private SMBEventList<SMBStateData> m_SMBStateData;
+
     [SerializeField]
-    private SMBEventList<SMBStatusData> m_SMBStatusData;    
-    [SerializeField]
-    private SMBEventList<SMBAttackData> m_SMBAttackData;
+    private SMBEventList<SMBStatusData> m_SMBStatusData;   
+   
 
     private List<ISMBEventList> m_SMBEventLists = new List<ISMBEventList>();
     private SMBStateInfo m_SMBStateInfo = new SMBStateInfo();
@@ -31,7 +29,6 @@ public class PlayerSMBEvents : PlayerSMB
     {
         m_SMBEventLists.Add(m_SMBStateData);
         m_SMBEventLists.Add(m_SMBStatusData);
-        m_SMBEventLists.Add(m_SMBAttackData);
         foreach (var SMBEventList in m_SMBEventLists)
         {
             SMBEventList.Sort();
@@ -61,7 +58,7 @@ public class PlayerSMBEvents : PlayerSMB
 
     protected override void OnSLStateActive(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-       // Debug.Log("OnSLStateActive");  
+        // Debug.Log("OnSLStateActive");  
         base.OnSLStateActive(animator, stateInfo, layerIndex, controller);
 
         UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);

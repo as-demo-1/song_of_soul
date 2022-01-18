@@ -8,19 +8,26 @@ using UnityEngine;
 public struct PlayerInfo
 {
     //move
-    public float speed;
-    public float jumpHeight;
+    public float moveSpeed;
+    public float jumpMaxHeight;
+    public float jumpMinHeight;
+    public float jumpUpSpeed { get; private set; }
 
     //jump
-    public float sprintForce;
+    public float sprintSpeed;
     public int maxAirExtraJumpCount;
 
     //climb
-    public int gravity;
-    public int climbSpeed;
-    public bool isClimb;
+    public int gravityScale;
+   /* public int climbSpeed;
+    public bool isClimb;*/
 
     public bool playerFacingRight;
+
+    public void init()
+    {
+        jumpUpSpeed = Mathf.Sqrt(-2*gravityScale*Physics2D.gravity.y*jumpMaxHeight);
+    }
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -43,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
     private int m_LastHorizontalInputDir;
 
-    public SpriteRenderer SpriteRenderer { get; private set; }
+    //public SpriteRenderer SpriteRenderer { get; private set; }
     public Animator PlayerAnimator { get; private set; }
     //[SerializeField, HideInInspector]
     public Rigidbody2D RB { get; private set; }
@@ -125,11 +132,15 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        playerInfo.init();
+
         // _saveSystem.TestSaveGuid(_guid);
         RB = GetComponent<Rigidbody2D>();
+        RB.gravityScale = playerInfo.gravityScale;
         //RB.sharedMaterial = new PhysicsMaterial2D() { bounciness = 0, friction = 0, name = "NoFrictionNorBounciness" };
+
         m_BodyCapsuleCollider = GetComponent<CapsuleCollider2D>();
-        SpriteRenderer = GetComponent<SpriteRenderer>();
+       // SpriteRenderer = GetComponent<SpriteRenderer>();
         PlayerAnimator = GetComponent<Animator>();
         PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         WhenStartSetLastHorizontalInputDirByFacing();
@@ -179,14 +190,19 @@ public class PlayerController : MonoBehaviour
             UnClimb();
         }
     }*/
-    public void CheckJump()
+    public void JumpStart()
     {
-        PlayerInput.Instance.jump.SetValidToFalse();
+      //  PlayerInput.Instance.jump.SetValidToFalse();
         if (!IsGrounded)
             --CurrentAirExtraJumpCountLeft;
-        m_MoveVector.Set(RB.velocity.x, playerInfo.jumpHeight);
+        m_MoveVector.Set(RB.velocity.x, playerInfo.jumpUpSpeed);
         RB.velocity = m_MoveVector;
 
+    }
+
+    public void JumpCheck()
+    {
+        
     }
 
     public void ResetJumpCount() => CurrentAirExtraJumpCountLeft = playerInfo.maxAirExtraJumpCount;
@@ -195,7 +211,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
-        float desireSpeed = m_LastHorizontalInputDir * playerInfo.speed;
+        float desireSpeed = m_LastHorizontalInputDir * playerInfo.moveSpeed;
         float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0, IsGrounded, desireSpeed);
         m_MoveVector.Set(acce, RB.velocity.y);
         RB.velocity = m_MoveVector;
@@ -213,7 +229,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerInput.Instance.sprint.Down)
         {
-            MovementScript.Sprint(playerInfo.sprintForce, transform.position, RB);
+            MovementScript.Sprint(playerInfo.sprintSpeed, transform.position, RB);
         }
     }
     public void Teleport()
@@ -292,7 +308,7 @@ public class PlayerController : MonoBehaviour
         if (PlayerInput.Instance.horizontal.Value == 1f & !playerInfo.playerFacingRight ||
                 PlayerInput.Instance.horizontal.Value == -1f & playerInfo.playerFacingRight)
         {
-            MovementScript.Flip(SpriteRenderer, ref playerInfo.playerFacingRight, m_BodyCapsuleCollider, groundCheckCapsuleCollider);
+            MovementScript.Flip(transform, ref playerInfo.playerFacingRight);
             PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         }
     }

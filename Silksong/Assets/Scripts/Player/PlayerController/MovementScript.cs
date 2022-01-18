@@ -41,15 +41,19 @@ public static class MovementScript
     /// Flip the x axis Character
     /// </summary>
     /// <param name="spriteRenderer"></param>
-    public static void Flip(SpriteRenderer spriteRenderer, ref bool playerFacingRight, params CapsuleCollider2D[] capsuleCollider2Ds)
+    public static void Flip( Transform transform, ref bool playerFacingRight)
     {
-        spriteRenderer.flipX = !spriteRenderer.flipX;
         playerFacingRight = !playerFacingRight;
+
+        /*spriteRenderer.flipX = !spriteRenderer.flipX;
+
         Vector2 newOffset = new Vector2();
         foreach(CapsuleCollider2D capsuleCollider2D in capsuleCollider2Ds)
         {
             newOffset.Set(-capsuleCollider2D.offset.x, capsuleCollider2D.offset.y);
             capsuleCollider2D.offset = newOffset;
-        }
+        }*/
+        Vector3 t =transform.localScale;
+        transform.localScale = new Vector3(-t.x, t.y, t.z);
     }
 }
