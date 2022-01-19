@@ -155,13 +155,15 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList: []
   m_SMBStatusData:
-    m_SMBEventList: []
-  m_SMBAttackData:
     m_SMBEventList:
     - timeNormalized: 0
-      startTime: 0.1
-      activeTime: 0.1
-      damagerName: normalAttack03
+      playerStatus: 2
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.45
+      playerStatus: 2
+      statusIsActive: 1
+      wayOfChangingFlag: 0
 --- !u!1101 &-7531057800556324977
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -448,11 +450,17 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 30
+      newState: 4
   m_SMBStatusData:
-    m_SMBEventList: []
-  m_SMBAttackData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      playerStatus: 2
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.1
+      playerStatus: 2
+      statusIsActive: 1
+      wayOfChangingFlag: 0
 --- !u!1102 &-3509756637006874699
 AnimatorState:
   serializedVersion: 6
@@ -558,10 +566,8 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 40
+      newState: 8
   m_SMBStatusData:
-    m_SMBEventList: []
-  m_SMBAttackData:
     m_SMBEventList: []
 --- !u!114 &-2496319268684918498
 MonoBehaviour:
@@ -648,7 +654,7 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 100
+      newState: 16
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -660,23 +666,13 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
-      playerStatus: 1
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
       playerStatus: 2
       statusIsActive: 0
       wayOfChangingFlag: 0
-    - timeNormalized: 0.92
+    - timeNormalized: 0.494
       playerStatus: 2
       statusIsActive: 1
       wayOfChangingFlag: 0
-  m_SMBAttackData:
-    m_SMBEventList:
-    - timeNormalized: 0
-      startTime: 0.1
-      activeTime: 0.1
-      damagerName: normalAttack01
 --- !u!114 &-1434632803042621173
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -773,7 +769,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: JumpUp
-  m_Speed: 1.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5343900215019957511}
@@ -981,7 +977,7 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 10
+      newState: 1
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -996,8 +992,6 @@ MonoBehaviour:
       playerStatus: 4
       statusIsActive: 1
       wayOfChangingFlag: 0
-  m_SMBAttackData:
-    m_SMBEventList: []
 --- !u!114 &348917670620703221
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1027,11 +1021,14 @@ AnimatorStateTransition:
     m_ConditionEvent: HorizontalInput
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: CanMove
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
     m_ConditionEvent: IsGrounded
     m_EventTreshold: 0
+  - m_ConditionMode: 7
+    m_ConditionEvent: CurrentStates
+    m_EventTreshold: 4
+  - m_ConditionMode: 7
+    m_ConditionEvent: CurrentStates
+    m_EventTreshold: 16
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6260256416996476103}
   m_Solo: 0
@@ -1070,12 +1067,6 @@ MonoBehaviour:
       playerStatus: 4
       statusIsActive: 1
       wayOfChangingFlag: 0
-  m_SMBAttackData:
-    m_SMBEventList:
-    - timeNormalized: 0
-      startTime: 0.1
-      activeTime: 0.1
-      damagerName: normalAttack02
 --- !u!1101 &745992277492387010
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1263,7 +1254,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
-    m_EventTreshold: 100
+    m_EventTreshold: 16
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -67431807070660471}
   m_Solo: 0
@@ -1335,10 +1326,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SMBStateData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 1
   m_SMBStatusData:
-    m_SMBEventList: []
-  m_SMBAttackData:
     m_SMBEventList: []
 --- !u!1101 &4033645814422075217
 AnimatorStateTransition:
@@ -1400,13 +1391,13 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: VerticalSpeed
-    m_EventTreshold: 0
+    m_EventTreshold: 0.01
   - m_ConditionMode: 2
     m_ConditionEvent: IsGrounded
     m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
-    m_EventTreshold: 100
+    m_EventTreshold: 16
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1045871781774062944}
   m_Solo: 0
@@ -1576,7 +1567,7 @@ AnimatorStateMachine:
     m_Position: {x: 680, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1045871781774062944}
-    m_Position: {x: 810, y: 60, z: 0}
+    m_Position: {x: 800, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2537825165225357710}
     m_Position: {x: 670, y: 140, z: 0}
@@ -1677,8 +1668,6 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 20
+      newState: 2
   m_SMBStatusData:
-    m_SMBEventList: []
-  m_SMBAttackData:
     m_SMBEventList: []

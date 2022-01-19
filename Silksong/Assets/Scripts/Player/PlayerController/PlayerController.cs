@@ -18,7 +18,7 @@ public struct PlayerInfo
     public int maxAirExtraJumpCount;
 
     //climb
-    public int gravityScale;
+    public int normalGravityScale;
    /* public int climbSpeed;
     public bool isClimb;*/
 
@@ -26,7 +26,7 @@ public struct PlayerInfo
 
     public void init()
     {
-        jumpUpSpeed = Mathf.Sqrt(-2*gravityScale*Physics2D.gravity.y*jumpMaxHeight);
+        jumpUpSpeed = Mathf.Sqrt(-2*normalGravityScale*Physics2D.gravity.y*jumpMaxHeight);
     }
 }
 
@@ -42,11 +42,11 @@ public class PlayerController : MonoBehaviour
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
     
     public bool IsGrounded { get; set; }
-    public int CurrentAirExtraJumpCountLeft { get; private set; }
+    public int CurrentAirExtraJumpCountLeft { get; set; }
 
     public PlayerInfo playerInfo;
 
-    private Vector2 m_MoveVector = new Vector2();
+    //private Vector2 m_MoveVector = new Vector2();
 
     private int m_LastHorizontalInputDir;
 
@@ -58,8 +58,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayerMask;
     //[SerializeField] private LayerMask ropeLayerMask; 注释理由：可能不再需要攀爬功能
 
-    private CapsuleCollider2D m_BodyCapsuleCollider;
-    [SerializeField] private CapsuleCollider2D groundCheckCapsuleCollider;
+    //private CapsuleCollider2D m_BodyCapsuleCollider;
+    [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
     [SerializeField] private GameObject telePosition;
     /// <summary>
@@ -129,17 +129,16 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-
     void Start()
     {
         playerInfo.init();
 
         // _saveSystem.TestSaveGuid(_guid);
         RB = GetComponent<Rigidbody2D>();
-        RB.gravityScale = playerInfo.gravityScale;
+        RB.gravityScale = playerInfo.normalGravityScale;
         //RB.sharedMaterial = new PhysicsMaterial2D() { bounciness = 0, friction = 0, name = "NoFrictionNorBounciness" };
 
-        m_BodyCapsuleCollider = GetComponent<CapsuleCollider2D>();
+        //m_BodyCapsuleCollider = GetComponent<CapsuleCollider2D>();
        // SpriteRenderer = GetComponent<SpriteRenderer>();
         PlayerAnimator = GetComponent<Animator>();
         PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
@@ -149,6 +148,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckIsGroundedAndResetAirJumpCount();
+
         PlayerAnimatorStatesControl.ParamsUpdate();
     }
 
@@ -159,11 +159,6 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //HorizontalMove();
-        //Jump();
-        //Sprint();
-        //Teleport();
-        //VerticalMove();
         Interact();
     }
 
@@ -190,20 +185,7 @@ public class PlayerController : MonoBehaviour
             UnClimb();
         }
     }*/
-    public void JumpStart()
-    {
-      //  PlayerInput.Instance.jump.SetValidToFalse();
-        if (!IsGrounded)
-            --CurrentAirExtraJumpCountLeft;
-        m_MoveVector.Set(RB.velocity.x, playerInfo.jumpUpSpeed);
-        RB.velocity = m_MoveVector;
 
-    }
-
-    public void JumpCheck()
-    {
-        
-    }
 
     public void ResetJumpCount() => CurrentAirExtraJumpCountLeft = playerInfo.maxAirExtraJumpCount;
 
@@ -213,8 +195,8 @@ public class PlayerController : MonoBehaviour
         RecordLastInputDir();
         float desireSpeed = m_LastHorizontalInputDir * playerInfo.moveSpeed;
         float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0, IsGrounded, desireSpeed);
-        m_MoveVector.Set(acce, RB.velocity.y);
-        RB.velocity = m_MoveVector;
+      //  m_MoveVector.Set(acce, RB.velocity.y);
+        RB.velocity = new Vector2(acce, RB.velocity.y);
 
         void RecordLastInputDir()
         {
@@ -248,17 +230,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    bool IsBlock(LayerMask ignoreMask)
+    bool IsTouchLayer(LayerMask layer,Collider2D collider)
     {
-        Vector2 point = (Vector2)groundCheckCapsuleCollider.transform.position + groundCheckCapsuleCollider.offset;
-        Collider2D collider = Physics2D.OverlapCapsule(point, groundCheckCapsuleCollider.size, groundCheckCapsuleCollider.direction, 0, ignoreMask);
-
-        return collider != null;
+        /*ector2 point = (Vector2)groundCheckCapsuleCollider.transform.position + groundCheckCapsuleCollider.offset;
+        Collider2D collider = Physics2D.OverlapCapsule(point, groundCheckCapsuleCollider.size, groundCheckCapsuleCollider.direction, 0, ignoreMask);*/
+        return collider.IsTouchingLayers(layer);
+       // return collider != null;
     }
 
     public void CheckIsGrounded()
     {
-        IsGrounded = IsBlock(groundLayerMask);
+        IsGrounded = IsTouchLayer(groundLayerMask,groundCheckCollider);
     }
 
     public void CheckIsGroundedAndResetAirJumpCount()
