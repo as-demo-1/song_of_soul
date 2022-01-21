@@ -16,9 +16,11 @@ public class PlayerStatesBehaviour : StatesBehaviour
 {
     PlayerController playerController { get; set; }
     PlayerJump playerJump;
+    PlayerFall playerFall;
     public void init()
     {
         playerJump = new PlayerJump(playerController);
+        playerFall = new PlayerFall(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -75,6 +77,7 @@ public class PlayerStatesBehaviour : StatesBehaviour
                 //PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.5f);
+                playerFall.checkMaxFallSpeed();
                 break;
             case EPlayerState.NormalAttack:
                 playerController.CheckHorizontalMove(0.5f);
@@ -90,8 +93,6 @@ public class PlayerStatesBehaviour : StatesBehaviour
 
 
 }
-
-
 
 
 public abstract class StatesBehaviour
@@ -113,8 +114,8 @@ public class PlayerJump
     public void JumpStart()
     {
        // PlayerInput.Instance.jump.SetValidToFalse();
-        if (!playerController.IsGrounded)
-            --playerController.CurrentAirExtraJumpCountLeft;
+       if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
+         --playerController.CurrentJumpCountLeft;
 
         playerController.RB.velocity = new Vector2(playerController.RB.velocity.x, playerController.playerInfo.jumpUpSpeed);
         jumpStartHeight = playerController.transform.position.y;
@@ -151,4 +152,22 @@ public class PlayerJump
 
     }
 
+}
+
+public class PlayerFall
+{
+    private PlayerController playerController;
+
+    public PlayerFall(PlayerController playerController)
+    {
+        this.playerController = playerController;
+    }
+
+    public void checkMaxFallSpeed()
+    {
+        if(playerController.RB.velocity.y<-playerController.playerInfo.maxFallSpeed)
+        {
+            playerController.RB.velocity =new Vector2(playerController.RB.velocity.x, -playerController.playerInfo.maxFallSpeed);
+        }
+    }
 }

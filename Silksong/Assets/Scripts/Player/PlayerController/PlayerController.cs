@@ -11,11 +11,12 @@ public struct PlayerInfo
     public float moveSpeed;
     public float jumpMaxHeight;
     public float jumpMinHeight;
+    public float maxFallSpeed;
     public float jumpUpSpeed { get; private set; }
 
     //jump
     public float sprintSpeed;
-    public int maxAirExtraJumpCount;
+    public int maxJumpCount;
 
     //climb
     public int normalGravityScale;
@@ -40,9 +41,9 @@ public class PlayerController : MonoBehaviour
 
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
+
     
-    public bool IsGrounded { get; set; }
-    public int CurrentAirExtraJumpCountLeft { get; set; }
+    public int CurrentJumpCountLeft { get; set; }
 
     public PlayerInfo playerInfo;
 
@@ -52,11 +53,12 @@ public class PlayerController : MonoBehaviour
 
     //public SpriteRenderer SpriteRenderer { get; private set; }
     public Animator PlayerAnimator { get; private set; }
-    //[SerializeField, HideInInspector]
     public Rigidbody2D RB { get; private set; }
 
     [SerializeField] private LayerMask groundLayerMask;
     //[SerializeField] private LayerMask ropeLayerMask; 注释理由：可能不再需要攀爬功能
+
+    private PlayerGroundedCheck playerGroundedCheck;
 
     //private CapsuleCollider2D m_BodyCapsuleCollider;
     [SerializeField] private Collider2D groundCheckCollider;
@@ -142,12 +144,13 @@ public class PlayerController : MonoBehaviour
        // SpriteRenderer = GetComponent<SpriteRenderer>();
         PlayerAnimator = GetComponent<Animator>();
         PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
+        playerGroundedCheck = new PlayerGroundedCheck(this);
         WhenStartSetLastHorizontalInputDirByFacing();
     }
 
     private void Update()
     {
-        CheckIsGroundedAndResetAirJumpCount();
+        CheckIsGrounded();
 
         PlayerAnimatorStatesControl.ParamsUpdate();
     }
@@ -187,14 +190,14 @@ public class PlayerController : MonoBehaviour
     }*/
 
 
-    public void ResetJumpCount() => CurrentAirExtraJumpCountLeft = playerInfo.maxAirExtraJumpCount;
+    public void ResetJumpCount() => CurrentJumpCountLeft = playerInfo.maxJumpCount;
 
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
         float desireSpeed = m_LastHorizontalInputDir * playerInfo.moveSpeed;
-        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0, IsGrounded, desireSpeed);
+        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0,playerGroundedCheck.IsGrounded, desireSpeed);
       //  m_MoveVector.Set(acce, RB.velocity.y);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
@@ -230,25 +233,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    bool IsTouchLayer(LayerMask layer,Collider2D collider)
+   /* bool IsTouchLayer(LayerMask layer,Collider2D collider)
     {
-        /*ector2 point = (Vector2)groundCheckCapsuleCollider.transform.position + groundCheckCapsuleCollider.offset;
-        Collider2D collider = Physics2D.OverlapCapsule(point, groundCheckCapsuleCollider.size, groundCheckCapsuleCollider.direction, 0, ignoreMask);*/
+        ector2 point = (Vector2)groundCheckCapsuleCollider.transform.position + groundCheckCapsuleCollider.offset;
+        Collider2D collider = Physics2D.OverlapCapsule(point, groundCheckCapsuleCollider.size, groundCheckCapsuleCollider.direction, 0, ignoreMask);
         return collider.IsTouchingLayers(layer);
        // return collider != null;
-    }
+    }*/
 
     public void CheckIsGrounded()
     {
-        IsGrounded = IsTouchLayer(groundLayerMask,groundCheckCollider);
+        playerGroundedCheck.IsGrounded = groundCheckCollider.IsTouchingLayers(groundLayerMask) && (Mathf.Abs(RB.velocity.y)<0.01f);
     }
 
-    public void CheckIsGroundedAndResetAirJumpCount()
+    public bool isGroundedBuffer()
+    {
+        return playerGroundedCheck.IsGroundedBuffer;
+    }
+
+  /*  public void CheckIsGroundedAndResetAirJumpCount()
     {
         CheckIsGrounded();
         if (IsGrounded)
             ResetJumpCount();
-    }
+    }*/
 
     /*bool IsRope()
     {
@@ -297,5 +305,62 @@ public class PlayerController : MonoBehaviour
 
     public void WhenStartSetLastHorizontalInputDirByFacing() => m_LastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
 }
+
+public class PlayerGroundedCheck
+{
+    private bool isGrounded;
+    private PlayerController playerController;
+    private int bufferTimer;
+    private bool isGroundedBuffer;
+
+    public PlayerGroundedCheck(PlayerController playerController)
+    {
+        this.playerController = playerController;
+    }
+    public bool IsGrounded
+    {
+        get
+        {
+            return isGrounded;
+        }
+        set//每次update都会调用
+        {
+            if (value)//设为真
+            {
+                playerController.ResetJumpCount();
+                bufferTimer = 10;
+            }
+
+            if (bufferTimer>0)
+            {
+                bufferTimer--;
+                IsGroundedBuffer = true;
+            }
+            else
+            {
+                IsGroundedBuffer = false;
+            }
+
+
+            isGrounded = value;
+        }
+    }
+
+    public bool IsGroundedBuffer
+    {
+        get {return isGroundedBuffer; }
+        set
+        {      
+            if (isGroundedBuffer &&!value)//从真设为假
+            {
+                playerController.CurrentJumpCountLeft--;
+            }
+            isGroundedBuffer = value;
+        }
+    
+    }
+
+}
+
 
 

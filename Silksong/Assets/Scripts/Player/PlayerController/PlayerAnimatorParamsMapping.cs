@@ -15,7 +15,7 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
     //public int JumpIsDownParamHash { get; } = Animator.StringToHash("JumpIsDown");
     public int JumpIsValidParamHash { get; } = Animator.StringToHash("JumpIsValid");
 
-    public int JumpAirLeftCountParamHash { get; } = Animator.StringToHash("JumpAirLeftCount");
+    public int JumpLeftCountParamHash { get; } = Animator.StringToHash("JumpLeftCount");
     public int NormalAttackIsValidParamHash { get; } = Animator.StringToHash("NormalAttackIsValid");
     public int IsGroundedParamHash { get; } = Animator.StringToHash("IsGrounded");
     public int HorizontalSpeedParamHash { get; } = Animator.StringToHash("HorizontalSpeed");
@@ -33,11 +33,11 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
 
        // m_Animator.SetBool(JumpIsDownParamHash, PlayerInput.Instance.jump.Down);
         m_Animator.SetBool(JumpIsValidParamHash, PlayerInput.Instance.jump.IsValid);
-        m_Animator.SetInteger(JumpAirLeftCountParamHash, m_PlayerAnimatorStatesControl.PlayerController.CurrentAirExtraJumpCountLeft);
+        m_Animator.SetInteger(JumpLeftCountParamHash, m_PlayerAnimatorStatesControl.PlayerController.CurrentJumpCountLeft);
 
         m_Animator.SetBool(NormalAttackIsValidParamHash, PlayerInput.Instance.normalAttack.IsValid);
 
-        m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.IsGrounded);
+        m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
 
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.RB.velocity.x);
         m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.RB.velocity.y);

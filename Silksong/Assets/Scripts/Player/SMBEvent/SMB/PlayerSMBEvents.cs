@@ -87,17 +87,18 @@ public class PlayerSMBEvents : PlayerSMB
             /*Debug.Log(smbStateInfo.NormalizedTimeLoopCount);
             Debug.Log(smbStateInfo.LoopCount);*/
             // smbEvents.InvokeEvents(smbStateInfo.PreviousNormalizedTime, 1.0f, smbEvents.Index);
-            smbEvents.InvokeEvents(1.0f, smbEvents.Index);
-            for (int i = 0; i < smbStateInfo.NormalizedTimeLoopCount - smbStateInfo.LoopCount - 1; i++)
-            {
-                Debug.Log("here");
-                //smbEvents.InvokeEvents(Mathf.NegativeInfinity, 1.0f, 0);
-                smbEvents.InvokeEvents(1.0f, 0);
-            }
-            smbEvents.SetIndex(0);
-            // int newIndex = smbEvents.InvokeEvents(Mathf.NegativeInfinity, smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
-            int newIndex = smbEvents.InvokeEvents(smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
+           int newIndex= smbEvents.InvokeEvents(1.0f, smbEvents.Index);
             smbEvents.SetIndex(newIndex);
+            /* for (int i = 0; i < smbStateInfo.NormalizedTimeLoopCount - smbStateInfo.LoopCount - 1; i++)注释后，动画循环后将不重置事件
+             {
+                 Debug.Log("here");
+                 //smbEvents.InvokeEvents(Mathf.NegativeInfinity, 1.0f, 0);
+                 smbEvents.InvokeEvents(1.0f, 0);
+             }
+             smbEvents.SetIndex(0);
+             // int newIndex = smbEvents.InvokeEvents(Mathf.NegativeInfinity, smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
+             int newIndex = smbEvents.InvokeEvents(smbStateInfo.CurrentNormalizedTime, smbEvents.Index);*/
+            //smbEvents.SetIndex(newIndex);
         }
         else
         {
