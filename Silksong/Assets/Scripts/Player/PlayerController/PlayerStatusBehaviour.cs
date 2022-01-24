@@ -36,11 +36,13 @@ public class PlayerStatesBehaviour : StatesBehaviour
             case EPlayerState.Idle:
                 PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 PlayerController.CheckAddItem();
+                PlayerController.CheckSavePoint();
                 PlayerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Run:
                 PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 PlayerController.CheckAddItem();
+                PlayerController.CheckSavePoint();
                 PlayerController.CheckFlipPlayer(1f);
                 PlayerController.CheckHorizontalMove(0.4f);
                 break;
