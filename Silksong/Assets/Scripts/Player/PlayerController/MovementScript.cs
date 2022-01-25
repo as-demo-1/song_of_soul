@@ -6,7 +6,7 @@ public static class MovementScript
 {
     //Put your static method here for reuse
 
-    /// <summary>
+   /* /// <summary>
     /// A function that moves a specified distance
     /// </summary>
     /// <param name="movement">Move distance of Vector2</param>
@@ -14,17 +14,19 @@ public static class MovementScript
     public static void Move(Vector2 movement, ref Vector2 nextMovement)
     {
         nextMovement += movement;
-    }
+    }*/
 
     /// <summary>
     /// Teleport to the specified location
     /// </summary>
     /// <param name="position">The location to teleport</param>
     /// <param name="rigidbody2D">The rigidbody of the object being teleported</param>
-    public static void Teleport(Vector2 position,  Rigidbody2D rigidbody2D)
+  /*  public static void Teleport(Vector2 position,  Rigidbody2D rigidbody2D)
     { 
         rigidbody2D.MovePosition(position);
-    }
+    }*/
+
+
     /// <summary>
     /// The sprint function
     /// </summary>

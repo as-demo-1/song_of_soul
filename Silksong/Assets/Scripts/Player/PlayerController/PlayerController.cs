@@ -196,8 +196,9 @@ public class PlayerController : MonoBehaviour
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
+
         float desireSpeed = m_LastHorizontalInputDir * playerInfo.moveSpeed;
-        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0,playerGroundedCheck.IsGrounded, desireSpeed);
+        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
       //  m_MoveVector.Set(acce, RB.velocity.y);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
@@ -210,20 +211,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Sprint()
+   /* public void Sprint()
     {
         if (PlayerInput.Instance.sprint.Down)
         {
             MovementScript.Sprint(playerInfo.sprintSpeed, transform.position, RB);
         }
-    }
-    public void Teleport()
+    }*/
+
+    
+  /*  public void Teleport()
     {
         if (PlayerInput.Instance.teleport.Down)
         {
             MovementScript.Teleport(telePosition.transform.position, RB);//Transfer to the specified location
         }
-    }
+    }*/
 
     public void Interact()
     {

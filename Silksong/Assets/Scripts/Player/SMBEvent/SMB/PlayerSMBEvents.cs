@@ -41,11 +41,11 @@ public class PlayerSMBEvents : PlayerSMB
 
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        //if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name=="JumpUp")
+        /*if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name== "NormalAttack_01")
         {
-            //Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
-           // Debug.Log(Time.frameCount);
-        }
+            Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
+            Debug.Log(Time.frameCount);
+        }*/
 
         base.OnSLStateEnter(animator, stateInfo, layerIndex, controller);
        // UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
@@ -58,7 +58,11 @@ public class PlayerSMBEvents : PlayerSMB
 
     protected override void OnSLStateActive(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        // Debug.Log("OnSLStateActive");  
+       /* if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "NormalAttack_01")
+        {
+            Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip update");
+            Debug.Log(Time.frameCount);
+        }*/
         base.OnSLStateActive(animator, stateInfo, layerIndex, controller);
 
         UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
