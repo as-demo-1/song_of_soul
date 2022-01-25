@@ -13,13 +13,14 @@ public struct PlayerInfo
     public float jumpMinHeight;
     public float maxFallSpeed;
     public float jumpUpSpeed { get; private set; }
+    //public bool fixedUpSpeedJump; 暂时改为匀速上升
 
     //jump
     public float sprintSpeed;
     public int maxJumpCount;
 
     //climb
-    public int normalGravityScale;
+    public float normalGravityScale;
    /* public int climbSpeed;
     public bool isClimb;*/
 
@@ -27,7 +28,13 @@ public struct PlayerInfo
 
     public void init()
     {
-        jumpUpSpeed = Mathf.Sqrt(-2*normalGravityScale*Physics2D.gravity.y*jumpMaxHeight);
+        //if (!fixedUpSpeedJump)
+           // jumpUpSpeed = Mathf.Sqrt(-2 * normalGravityScale * Physics2D.gravity.y * jumpMaxHeight);
+       // else
+            jumpUpSpeed = jumpMaxHeight * 2.5f;
+
+        //Debug.Log(jumpUpSpeed);
+
     }
 }
 

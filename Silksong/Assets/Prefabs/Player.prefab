@@ -399,10 +399,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 484977951162521063}
+  - component: {fileID: 484977951162521058}
   - component: {fileID: 484977951162521060}
   - component: {fileID: 484977951162521069}
   - component: {fileID: 484977951162521062}
-  - component: {fileID: 484977951162521058}
   - component: {fileID: 484977951162521056}
   - component: {fileID: 484977951162521059}
   - component: {fileID: 484977951751258056}
@@ -436,6 +436,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &484977951162521058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInfo:
+    moveSpeed: 5
+    jumpMaxHeight: 5.1
+    jumpMinHeight: 0
+    maxFallSpeed: 20
+    sprintSpeed: 10
+    maxJumpCount: 1
+    normalGravityScale: 5
+    playerFacingRight: 1
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckCollider: {fileID: 619636124}
+  telePosition: {fileID: 0}
+  _guid: e9a9d9d2-56ca-4a9d-a190-c8e87ddbf6be
+  _saveSystem: {fileID: 0}
+  _backpack: {fileID: 0}
+  _itemToAdd: {fileID: 0}
 --- !u!212 &484977951162521060
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -527,36 +557,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &484977951162521058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484977951162521061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerInfo:
-    moveSpeed: 7
-    jumpMaxHeight: 5.4
-    jumpMinHeight: 0
-    maxFallSpeed: 15
-    sprintSpeed: 10
-    maxJumpCount: 1
-    normalGravityScale: 2
-    playerFacingRight: 1
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  groundCheckCollider: {fileID: 619636124}
-  telePosition: {fileID: 0}
-  _guid: e9a9d9d2-56ca-4a9d-a190-c8e87ddbf6be
-  _saveSystem: {fileID: 0}
-  _backpack: {fileID: 0}
-  _itemToAdd: {fileID: 0}
 --- !u!114 &484977951162521056
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -113,7 +113,10 @@ public class PlayerJump
     }
     public void JumpStart()
     {
-       // PlayerInput.Instance.jump.SetValidToFalse();
+        // PlayerInput.Instance.jump.SetValidToFalse();
+        //if (playerController.playerInfo.fixedUpSpeedJump)
+            playerController.RB.gravityScale = 0;
+
        if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
          --playerController.CurrentJumpCountLeft;
 
@@ -126,25 +129,48 @@ public class PlayerJump
 
     public IEnumerator JumpCheck()
     {
-        bool hasSlowDown=false;
+        bool hasQuickSlowDown=false;
+        bool hasNormalSlowDown = false;
+
+        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * 0.3f;
         while(true)
         {
-            yield return null;
+            yield return null;//每次update后循环一次
             if(playerController.PlayerAnimatorStatesControl.CurrentPlayerState!=EPlayerState.Jump)
             {
                 playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
                 break;
             }
+
             float jumpHeight = playerController.transform.position.y - jumpStartHeight; 
-            if(jumpHeight>playerController.playerInfo.jumpMinHeight-0.5f)
+
+            if(jumpHeight>playerController.playerInfo.jumpMinHeight-0.5f)//达到最小高度后才能停下
             {
-                if((jumpHeight>playerController.playerInfo.jumpMaxHeight-0.5f || PlayerInput.Instance.jump.Held==false) && !hasSlowDown)//进入减速下落阶段
+               /* if((jumpHeight>playerController.playerInfo.jumpMaxHeight-0.5f || PlayerInput.Instance.jump.Held==false) && !hasSlowDown)//进入减速下落阶段
                 {
-                    hasSlowDown = true;
+                    hasSlowDown = true;ffd
                     float jumpSlowDownTime = 0.1f;//随手定的
                     float acce = playerController.RB.velocity.y / jumpSlowDownTime;
                     float gScale = -acce / Physics2D.gravity.y;
                    // Debug.Log(gScale);
+                    playerController.RB.gravityScale = gScale;
+                }*/
+                if (PlayerInput.Instance.jump.Held == false && hasQuickSlowDown == false)//急刹
+                {
+                    hasQuickSlowDown = true;
+                    float jumpSlowDownTime = 0.05f;//随手定的
+                    float acce = playerController.RB.velocity.y / jumpSlowDownTime;
+                    float gScale = -acce / Physics2D.gravity.y;
+                    // Debug.Log(gScale);
+                    playerController.RB.gravityScale = gScale;
+                }
+                if(jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance && !hasNormalSlowDown && !hasQuickSlowDown)//缓停
+                {
+                    hasNormalSlowDown = true;
+                    float jumpSlowDownTime = 0.3f;//随手定的
+                    float acce = playerController.RB.velocity.y / jumpSlowDownTime;
+                    float gScale = -acce / Physics2D.gravity.y;
+                    // Debug.Log(gScale);
                     playerController.RB.gravityScale = gScale;
                 }
             }
