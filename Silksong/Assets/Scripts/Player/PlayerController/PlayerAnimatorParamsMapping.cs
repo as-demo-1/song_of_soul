@@ -25,7 +25,8 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
     public int CanNormalAttackParamHash { get; } = Animator.StringToHash("CanNormalAttack");
 
     public int CurrentStatesParamHash { get; } = Animator.StringToHash("CurrentStates");
-
+    public int CanSprintParamHash { get; } = Animator.StringToHash("CanSprint");
+    public int SprintIsValidParamHash { get; } = Animator.StringToHash("SprintIsValid");
     public override void ParamsUpdate()
     {
         m_Animator.SetInteger(HorizontalInputParamHash, (int)PlayerInput.Instance.horizontal.Value);
@@ -34,6 +35,8 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
        // m_Animator.SetBool(JumpIsDownParamHash, PlayerInput.Instance.jump.Down);
         m_Animator.SetBool(JumpIsValidParamHash, PlayerInput.Instance.jump.IsValid);
         m_Animator.SetInteger(JumpLeftCountParamHash, m_PlayerAnimatorStatesControl.PlayerController.CurrentJumpCountLeft);
+
+        m_Animator.SetBool(SprintIsValidParamHash, PlayerInput.Instance.sprint.IsValid);
 
         m_Animator.SetBool(NormalAttackIsValidParamHash, PlayerInput.Instance.normalAttack.IsValid);
 
@@ -45,6 +48,7 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
         m_Animator.SetBool(CanMoveParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanMove));
         m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanJump));
         m_Animator.SetBool(CanNormalAttackParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanNormalAttack));
+        m_Animator.SetBool(CanSprintParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanSprint));
 
         m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
     }

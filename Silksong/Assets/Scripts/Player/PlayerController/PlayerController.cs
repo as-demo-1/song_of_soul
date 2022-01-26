@@ -13,7 +13,6 @@ public struct PlayerInfo
     public float jumpMinHeight;
     public float maxFallSpeed;
     public float jumpUpSpeed { get; private set; }
-    //public bool fixedUpSpeedJump; 暂时改为匀速上升
 
     //jump
     public float sprintSpeed;
@@ -28,9 +27,7 @@ public struct PlayerInfo
 
     public void init()
     {
-        //if (!fixedUpSpeedJump)
-           // jumpUpSpeed = Mathf.Sqrt(-2 * normalGravityScale * Physics2D.gravity.y * jumpMaxHeight);
-       // else
+
             jumpUpSpeed = jumpMaxHeight * 2.5f;
 
         //Debug.Log(jumpUpSpeed);
@@ -39,7 +36,7 @@ public struct PlayerInfo
 }
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Animator))]
+//[RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
@@ -54,12 +51,9 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInfo playerInfo;
 
-    //private Vector2 m_MoveVector = new Vector2();
+    public int lastHorizontalInputDir;
 
-    private int m_LastHorizontalInputDir;
-
-    //public SpriteRenderer SpriteRenderer { get; private set; }
-    public Animator PlayerAnimator { get; private set; }
+    public Animator PlayerAnimator;// { get; private set; }
     public Rigidbody2D RB { get; private set; }
 
     [SerializeField] private LayerMask groundLayerMask;
@@ -70,7 +64,8 @@ public class PlayerController : MonoBehaviour
     //private CapsuleCollider2D m_BodyCapsuleCollider;
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
-    [SerializeField] private GameObject telePosition;
+   // [SerializeField] private GameObject telePosition;
+
     /// <summary>
     /// Only Demo Code for save
     /// </summary>
@@ -145,11 +140,7 @@ public class PlayerController : MonoBehaviour
         // _saveSystem.TestSaveGuid(_guid);
         RB = GetComponent<Rigidbody2D>();
         RB.gravityScale = playerInfo.normalGravityScale;
-        //RB.sharedMaterial = new PhysicsMaterial2D() { bounciness = 0, friction = 0, name = "NoFrictionNorBounciness" };
 
-        //m_BodyCapsuleCollider = GetComponent<CapsuleCollider2D>();
-       // SpriteRenderer = GetComponent<SpriteRenderer>();
-        PlayerAnimator = GetComponent<Animator>();
         PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         playerGroundedCheck = new PlayerGroundedCheck(this);
         WhenStartSetLastHorizontalInputDirByFacing();
@@ -204,17 +195,16 @@ public class PlayerController : MonoBehaviour
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
 
-        float desireSpeed = m_LastHorizontalInputDir * playerInfo.moveSpeed;
+        float desireSpeed = lastHorizontalInputDir * playerInfo.moveSpeed;
         float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
-      //  m_MoveVector.Set(acce, RB.velocity.y);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
         void RecordLastInputDir()
         {
             if (PlayerInput.Instance.horizontal.Value == 1)
-                m_LastHorizontalInputDir = 1;
+                lastHorizontalInputDir = 1;
             else if (PlayerInput.Instance.horizontal.Value == -1)
-                m_LastHorizontalInputDir = -1;
+                lastHorizontalInputDir = -1;
         }
     }
 
@@ -253,7 +243,7 @@ public class PlayerController : MonoBehaviour
 
     public void CheckIsGrounded()
     {
-        playerGroundedCheck.IsGrounded = groundCheckCollider.IsTouchingLayers(groundLayerMask) && (Mathf.Abs(RB.velocity.y)<0.01f);
+        playerGroundedCheck.IsGrounded = groundCheckCollider.IsTouchingLayers(groundLayerMask);
     }
 
     public bool isGroundedBuffer()
@@ -313,7 +303,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void WhenStartSetLastHorizontalInputDirByFacing() => m_LastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
+    public void WhenStartSetLastHorizontalInputDirByFacing() => lastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
 }
 
 public class PlayerGroundedCheck

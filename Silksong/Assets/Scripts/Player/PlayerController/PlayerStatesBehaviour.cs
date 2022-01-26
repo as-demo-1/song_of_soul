@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//计划按<位>置状态，但仍未实现多个状态同时存在 不要轻易修改其值 修改后smb的枚举将丢失
+// 不要轻易修改其值 修改后smb的枚举将丢失
 public enum EPlayerState
 {
     None = 0,
@@ -11,6 +11,8 @@ public enum EPlayerState
     Jump = 4,
     Fall = 8,
     NormalAttack = 16,
+    Sprint=32,
+
 }
 public class PlayerStatesBehaviour : StatesBehaviour
 {
@@ -45,6 +47,11 @@ public class PlayerStatesBehaviour : StatesBehaviour
                 break;
             case EPlayerState.NormalAttack:
                 playerController.CheckFlipPlayer(1f);
+                break;
+            case EPlayerState.Sprint:
+                playerController.RB.gravityScale = 0;
+                int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
+                playerController.RB.velocity = new Vector2(playerController.playerInfo.sprintSpeed * x, 0);
                 break;
             default:
                 break;
@@ -82,13 +89,41 @@ public class PlayerStatesBehaviour : StatesBehaviour
             case EPlayerState.NormalAttack:
                 playerController.CheckHorizontalMove(0.5f);
                 break;
+            case EPlayerState.Sprint:
+
+                break;
             default:
                 break;
         }
     }
     public override void StatesExitBehaviour(EPlayerState playerStates)
     {
+        switch (playerStates)
+        {
 
+            case EPlayerState.Idle:
+
+                break;
+            case EPlayerState.Run:
+
+                break;
+            case EPlayerState.Jump:
+
+                break;
+            case EPlayerState.Fall:
+
+                break;
+            case EPlayerState.NormalAttack:
+
+                break;
+            case EPlayerState.Sprint:
+                playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
+                playerController.RB.velocity = Vector2.zero;
+                    
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -113,9 +148,8 @@ public class PlayerJump
     }
     public void JumpStart()
     {
-        // PlayerInput.Instance.jump.SetValidToFalse();
-        //if (playerController.playerInfo.fixedUpSpeedJump)
-            playerController.RB.gravityScale = 0;
+
+       playerController.RB.gravityScale = 0;
 
        if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
          --playerController.CurrentJumpCountLeft;
@@ -123,11 +157,11 @@ public class PlayerJump
         playerController.RB.velocity = new Vector2(playerController.RB.velocity.x, playerController.playerInfo.jumpUpSpeed);
         jumpStartHeight = playerController.transform.position.y;
 
-        playerController.StopCoroutine(JumpCheck());
-        playerController.StartCoroutine(JumpCheck());
+        playerController.StopCoroutine(JumpUpCheck());
+        playerController.StartCoroutine(JumpUpCheck());
     }
 
-    public IEnumerator JumpCheck()
+    public IEnumerator JumpUpCheck()
     {
         bool hasQuickSlowDown=false;
         bool hasNormalSlowDown = false;
@@ -136,9 +170,12 @@ public class PlayerJump
         while(true)
         {
             yield return null;//每次update后循环一次
-            if(playerController.PlayerAnimatorStatesControl.CurrentPlayerState!=EPlayerState.Jump)
+            //EPlayerState state = playerController.PlayerAnimatorStatesControl.CurrentPlayerState;
+            if (playerController.RB.velocity.y<0.01f)//跳跃上升过程结束
             {
+                if(playerController.PlayerAnimatorStatesControl.CurrentPlayerState!=EPlayerState.Sprint)
                 playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
+
                 break;
             }
 
@@ -146,16 +183,8 @@ public class PlayerJump
 
             if(jumpHeight>playerController.playerInfo.jumpMinHeight-0.5f)//达到最小高度后才能停下
             {
-               /* if((jumpHeight>playerController.playerInfo.jumpMaxHeight-0.5f || PlayerInput.Instance.jump.Held==false) && !hasSlowDown)//进入减速下落阶段
-                {
-                    hasSlowDown = true;ffd
-                    float jumpSlowDownTime = 0.1f;//随手定的
-                    float acce = playerController.RB.velocity.y / jumpSlowDownTime;
-                    float gScale = -acce / Physics2D.gravity.y;
-                   // Debug.Log(gScale);
-                    playerController.RB.gravityScale = gScale;
-                }*/
-                if (PlayerInput.Instance.jump.Held == false && hasQuickSlowDown == false)//急刹
+
+                if ( hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false )//急刹
                 {
                     hasQuickSlowDown = true;
                     float jumpSlowDownTime = 0.05f;//随手定的
@@ -164,7 +193,7 @@ public class PlayerJump
                     // Debug.Log(gScale);
                     playerController.RB.gravityScale = gScale;
                 }
-                if(jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance && !hasNormalSlowDown && !hasQuickSlowDown)//缓停
+                if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance )//缓停
                 {
                     hasNormalSlowDown = true;
                     float jumpSlowDownTime = 0.3f;//随手定的
