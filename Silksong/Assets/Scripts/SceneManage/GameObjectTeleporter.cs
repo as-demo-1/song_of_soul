@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 /// <summary>
 /// 负责游戏物体在场景内的传送 单例
 /// </summary>
@@ -32,6 +33,7 @@ public class GameObjectTeleporter : MonoBehaviour
     public Vector3 playerRebornPoint;//玩家最新的重生点
     public bool Transitioning;
 
+    public CinemachineVirtualCamera virtualCamera;
     void Awake()
     {
         if (Instance != this)
@@ -50,19 +52,26 @@ public class GameObjectTeleporter : MonoBehaviour
         //Instance.playerInput.transform.localScale = new Vector3(1, 0, 0);
         Teleport(Instance.playerInput.gameObject,Instance.playerRebornPoint);
     }
-    public static void playerEnterScene(SceneEntrance.EntranceTag entranceTag)//在玩家进入新场景时调用该方法
+    public  void playerEnterScene(SceneEntrance.EntranceTag entranceTag)//在玩家进入新场景时调用该方法
     {
         SceneEntrance entrance = SceneEntrance.GetDestination(entranceTag);
         if(entrance==null)//该场景没有入口 不是有玩家的游戏场景 
         {
             return;
         }
-        if (Instance.playerInput == null)
-            Instance.playerInput = FindObjectOfType<PlayerInput>();//
+        if (playerInput == null)
+            playerInput = FindObjectOfType<PlayerInput>();//
 
-        //Instance.playerInput.transform.localScale = new Vector3();角色朝向 暂未考虑
-        Instance.playerRebornPoint = entrance.transform.position;
-        Teleport(Instance.playerInput.gameObject, entrance.transform.position);
+        //playerInput.transform.localScale = new Vector3();角色朝向 暂未考虑
+        playerRebornPoint = entrance.transform.position;
+
+        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        if(virtualCamera)
+        virtualCamera.Follow = playerInput.transform;
+
+        GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
+
+        Teleport(playerInput.gameObject, entrance.transform.position);
     }
     public static void Teleport(GameObject transitioningGameObject, Vector3 destinationPosition)
     {
@@ -83,9 +92,10 @@ public class GameObjectTeleporter : MonoBehaviour
 
         /*  if (fade)
               yield return StartCoroutine(ScreenFader.FadeSceneOut());*///场景过渡加载暂不考虑 暂用yield return null代替防止没有返回值
+        transitioningGameObject.transform.position = destinationPosition;
         yield return null;
 
-        transitioningGameObject.transform.position = destinationPosition;
+   
 
        /* if (fade)
             yield return StartCoroutine(ScreenFader.FadeSceneIn());*/

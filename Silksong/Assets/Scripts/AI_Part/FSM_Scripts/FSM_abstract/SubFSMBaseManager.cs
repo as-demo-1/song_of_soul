@@ -135,6 +135,11 @@ public class EnemySubFSMManager:EnemyFSMBaseState
         base.ExitState(fSM_Manager);
     }
 
+    public override void invokeAnimationEvent()
+    {
+        base.invokeAnimationEvent();
+        currentState.invokeAnimationEvent();
+    }
 }
 
 ////////////////////////////Abort///////////////////////////////////

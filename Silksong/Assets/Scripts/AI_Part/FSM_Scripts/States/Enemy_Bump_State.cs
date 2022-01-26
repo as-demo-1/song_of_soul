@@ -26,7 +26,7 @@ public class Enemy_Bump_State : EnemyFSMBaseState//Í»½ø³å×²
     {
         if(name!=string.Empty&&fsmManager.animator!=null)
         {
-            fsmManager.animator.Play(name);
+            fsmManager.animator.Play(name,0);
         }
     }
     public override void EnterState(EnemyFSMManager fSM_Manager)
