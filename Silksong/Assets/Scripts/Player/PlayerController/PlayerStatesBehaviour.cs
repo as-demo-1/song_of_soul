@@ -14,15 +14,17 @@ public enum EPlayerState
     Sprint=32,
 
 }
-public class PlayerStatesBehaviour : StatesBehaviour
+public class PlayerStatesBehaviour 
 {
-    PlayerController playerController { get; set; }
-    PlayerJump playerJump;
-    PlayerFall playerFall;
+   public PlayerController playerController { get; set; }
+   public PlayerJump playerJump;
+   public PlayerFall playerFall;
+   public PlayerSprint playerSprint;
     public void init()
     {
         playerJump = new PlayerJump(playerController);
         playerFall = new PlayerFall(playerController);
+        playerSprint = new PlayerSprint(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -30,7 +32,7 @@ public class PlayerStatesBehaviour : StatesBehaviour
         this.playerController = playerController;
         init();
     }
-    public override void StatesEnterBehaviour(EPlayerState playerStates)
+    public void StatesEnterBehaviour(EPlayerState playerStates)
     {
         switch (playerStates)
         {
@@ -49,16 +51,14 @@ public class PlayerStatesBehaviour : StatesBehaviour
                 playerController.CheckFlipPlayer(1f);
                 break;
             case EPlayerState.Sprint:
-                playerController.RB.gravityScale = 0;
-                int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
-                playerController.RB.velocity = new Vector2(playerController.playerInfo.sprintSpeed * x, 0);
+                playerSprint.SprintStart();
                 break;
             default:
                 break;
         }
     }
     //active为进入该state时第一帧开始，也就是没有把start从中分开
-    public override void StatesActiveBehaviour(EPlayerState playerStates)
+    public  void StatesActiveBehaviour(EPlayerState playerStates)
     {
         switch (playerStates)
         {
@@ -96,7 +96,7 @@ public class PlayerStatesBehaviour : StatesBehaviour
                 break;
         }
     }
-    public override void StatesExitBehaviour(EPlayerState playerStates)
+    public  void StatesExitBehaviour(EPlayerState playerStates)
     {
         switch (playerStates)
         {
@@ -117,9 +117,7 @@ public class PlayerStatesBehaviour : StatesBehaviour
 
                 break;
             case EPlayerState.Sprint:
-                playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
-                playerController.RB.velocity = Vector2.zero;
-                    
+                playerSprint.SprintEnd();                  
                 break;
             default:
                 break;
@@ -130,29 +128,48 @@ public class PlayerStatesBehaviour : StatesBehaviour
 }
 
 
-public abstract class StatesBehaviour
+/*public abstract class StatesBehaviour
 {
     public abstract void StatesEnterBehaviour(EPlayerState playerStates);
     public abstract void StatesActiveBehaviour(EPlayerState playerStates);
     public abstract void StatesExitBehaviour(EPlayerState playerStates);
-}
+}*/
 
-public class PlayerJump
+public abstract class PlayerAction
 {
-    private PlayerController playerController;
-
-    private float jumpStartHeight;
-    public PlayerJump(PlayerController playerController)
+    protected PlayerController playerController;
+    public PlayerAction(PlayerController playerController)
     {
         this.playerController = playerController;
     }
+}
+
+public class PlayerJump:PlayerAction
+{
+    public PlayerJump(PlayerController playerController) : base(playerController) { }
+
+    private float jumpStartHeight;
+
+    private int currentJumpCountLeft;
+    public int CurrentJumpCountLeft
+    {
+        get { return currentJumpCountLeft; }
+        set
+        {
+            currentJumpCountLeft = value;
+            playerController. PlayerAnimator.SetInteger(playerController.animatorParamsMapping.JumpLeftCountParamHash, currentJumpCountLeft);
+        }
+    }
+
+    public void resetJumpCount() => CurrentJumpCountLeft = playerController.playerInfo.maxJumpCount;
+
     public void JumpStart()
     {
 
        playerController.RB.gravityScale = 0;
 
        if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
-         --playerController.CurrentJumpCountLeft;
+         --CurrentJumpCountLeft;
 
         playerController.RB.velocity = new Vector2(playerController.RB.velocity.x, playerController.playerInfo.jumpUpSpeed);
         jumpStartHeight = playerController.transform.position.y;
@@ -187,7 +204,7 @@ public class PlayerJump
                 if ( hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false )//急刹
                 {
                     hasQuickSlowDown = true;
-                    float jumpSlowDownTime = 0.05f;//随手定的
+                    float jumpSlowDownTime = Constants.JumpUpStopTime;
                     float acce = playerController.RB.velocity.y / jumpSlowDownTime;
                     float gScale = -acce / Physics2D.gravity.y;
                     // Debug.Log(gScale);
@@ -196,7 +213,7 @@ public class PlayerJump
                 if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance )//缓停
                 {
                     hasNormalSlowDown = true;
-                    float jumpSlowDownTime = 0.3f;//随手定的
+                    float jumpSlowDownTime = Constants.JumpUpSlowDownTime;
                     float acce = playerController.RB.velocity.y / jumpSlowDownTime;
                     float gScale = -acce / Physics2D.gravity.y;
                     // Debug.Log(gScale);
@@ -209,14 +226,10 @@ public class PlayerJump
 
 }
 
-public class PlayerFall
+public class PlayerFall:PlayerAction
 {
-    private PlayerController playerController;
 
-    public PlayerFall(PlayerController playerController)
-    {
-        this.playerController = playerController;
-    }
+    public PlayerFall(PlayerController playerController) : base(playerController) { }
 
     public void checkMaxFallSpeed()
     {
@@ -225,4 +238,60 @@ public class PlayerFall
             playerController.RB.velocity =new Vector2(playerController.RB.velocity.x, -playerController.playerInfo.maxFallSpeed);
         }
     }
+}
+
+public class PlayerSprint : PlayerAction
+{
+    public PlayerSprint(PlayerController playerController):base(playerController){}
+
+    private bool sprintReady;
+    public bool SprintReady
+    {
+        get { return sprintReady; }
+        set
+        {
+            sprintReady = value;
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.SprintReadyParamHash,sprintReady);
+        }
+    }
+
+    private int airSprintLeftCount;
+    public int AirSprintLeftCount
+    {
+        get { return airSprintLeftCount; }
+        set
+        {
+            airSprintLeftCount = value;
+            playerController.PlayerAnimator.SetInteger(playerController.animatorParamsMapping.AirSprintLeftCountParamHash,airSprintLeftCount);
+        }
+    }
+
+    public void resetAirSprintLeftCount()
+    {
+        AirSprintLeftCount = playerController.playerInfo.maxAirSprintCount;
+    }
+    public void SprintStart()
+    {
+        playerController.RB.gravityScale = 0;
+        int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
+        playerController.RB.velocity = new Vector2(playerController.playerInfo.sprintSpeed * x, 0);
+
+        if (playerController.isGroundedBuffer() == false)
+            AirSprintLeftCount--;
+    }
+
+    public void SprintEnd()
+    {
+        playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
+        playerController.RB.velocity = Vector2.zero;
+        playerController.StartCoroutine(sprintCdCount());
+    }
+
+    public IEnumerator  sprintCdCount()
+    {
+        SprintReady = false;
+        yield return new WaitForSeconds(Constants.SprintCd);
+        SprintReady = true;
+    }
+
 }

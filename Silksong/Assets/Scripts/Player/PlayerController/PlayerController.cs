@@ -15,7 +15,9 @@ public struct PlayerInfo
     public float jumpUpSpeed { get; private set; }
 
     //jump
-    public float sprintSpeed;
+    public float sprintDistance;
+    public float sprintSpeed { get; private set; }
+    public int maxAirSprintCount;
     public int maxJumpCount;
 
     //climb
@@ -28,8 +30,8 @@ public struct PlayerInfo
     public void init()
     {
 
-            jumpUpSpeed = jumpMaxHeight * 2.5f;
-
+        jumpUpSpeed = jumpMaxHeight * 2.5f;
+        sprintSpeed = sprintDistance / Constants.SprintTime;
         //Debug.Log(jumpUpSpeed);
 
     }
@@ -40,14 +42,13 @@ public struct PlayerInfo
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
-
     public PlayerAnimatorStatesControl PlayerAnimatorStatesControl { get; private set; }
 
+    public PlayerAnimatorParamsMapping animatorParamsMapping;
+
+    public PlayerStatesBehaviour PlayerStatesBehaviour;
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
-
-    
-    public int CurrentJumpCountLeft { get; set; }
 
     public PlayerInfo playerInfo;
 
@@ -61,7 +62,6 @@ public class PlayerController : MonoBehaviour
 
     private PlayerGroundedCheck playerGroundedCheck;
 
-    //private CapsuleCollider2D m_BodyCapsuleCollider;
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
    // [SerializeField] private GameObject telePosition;
@@ -143,6 +143,8 @@ public class PlayerController : MonoBehaviour
 
         PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         playerGroundedCheck = new PlayerGroundedCheck(this);
+        animatorParamsMapping = PlayerAnimatorStatesControl.CharacterAnimatorParamsMapping;
+        PlayerStatesBehaviour = PlayerAnimatorStatesControl.CharacterStatesBehaviour;
         WhenStartSetLastHorizontalInputDirByFacing();
     }
 
@@ -187,9 +189,6 @@ public class PlayerController : MonoBehaviour
         }
     }*/
 
-
-    public void ResetJumpCount() => CurrentJumpCountLeft = playerInfo.maxJumpCount;
-
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
@@ -208,14 +207,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   /* public void Sprint()
-    {
-        if (PlayerInput.Instance.sprint.Down)
-        {
-            MovementScript.Sprint(playerInfo.sprintSpeed, transform.position, RB);
-        }
-    }*/
-
     
   /*  public void Teleport()
     {
@@ -232,14 +223,6 @@ public class PlayerController : MonoBehaviour
             InteractManager.Interact();
         }
     }
-
-   /* bool IsTouchLayer(LayerMask layer,Collider2D collider)
-    {
-        ector2 point = (Vector2)groundCheckCapsuleCollider.transform.position + groundCheckCapsuleCollider.offset;
-        Collider2D collider = Physics2D.OverlapCapsule(point, groundCheckCapsuleCollider.size, groundCheckCapsuleCollider.direction, 0, ignoreMask);
-        return collider.IsTouchingLayers(layer);
-       // return collider != null;
-    }*/
 
     public void CheckIsGrounded()
     {
@@ -327,8 +310,9 @@ public class PlayerGroundedCheck
         {
             if (value)//设为真
             {
-                playerController.ResetJumpCount();
-                bufferTimer = 10;
+                playerController.PlayerStatesBehaviour.playerJump.resetJumpCount();
+                playerController.PlayerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
+                bufferTimer = Constants.IsGroundedBufferFrame;
             }
 
             if (bufferTimer>0)
@@ -341,7 +325,6 @@ public class PlayerGroundedCheck
                 IsGroundedBuffer = false;
             }
 
-
             isGrounded = value;
         }
     }
@@ -353,7 +336,7 @@ public class PlayerGroundedCheck
         {      
             if (isGroundedBuffer &&!value)//从真设为假
             {
-                playerController.CurrentJumpCountLeft--;
+                playerController.PlayerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
             }
             isGroundedBuffer = value;
         }
