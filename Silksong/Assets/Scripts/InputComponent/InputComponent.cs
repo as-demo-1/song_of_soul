@@ -165,6 +165,7 @@ public abstract class InputComponent : MonoBehaviour
                 return;
             if (conditions)
                 m_FrameCount = Constants.BufferFrameTime;
+
             if (m_FrameCount > 0)
             {
                 IsValid = true;
