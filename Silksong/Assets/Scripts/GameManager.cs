@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance
@@ -25,10 +26,15 @@ public class GameManager : MonoBehaviour
 
     protected static GameManager instance;
 
+    [SerializeField]
+    private GameObject player;
 
-    public GameObject player;
+    public AudioManager audioManager;
+
+
     void Awake()
     {
+
         if (Instance != this)
         {
             Destroy(gameObject);
@@ -36,8 +42,11 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
+        GameInitialize();
+
         creatPlayer();
-        GameObjectTeleporter.playerEnterScene(SceneEntrance.EntranceTag.A);
+        GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
+        Application.targetFrameRate = 120;
     }
 
     /// <summary>
@@ -45,6 +54,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void creatPlayer()
     {
-        Instantiate(player);
+        Instantiate(player.gameObject);
+    }
+
+    public void GameInitialize()
+    {
+        audioManager = Instantiate(audioManager);
     }
 }

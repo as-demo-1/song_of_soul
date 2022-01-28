@@ -29,6 +29,7 @@ public  class FSMBaseTrigger<T1,T2>
 
 }
 
+[Serializable]
 public class EnemyFSMBaseTrigger : FSMBaseTrigger<EnemyStates, EnemyTriggers> 
 {
     public EnemyFSMBaseTrigger() { }

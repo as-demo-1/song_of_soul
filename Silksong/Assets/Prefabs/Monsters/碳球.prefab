@@ -92,14 +92,13 @@ GameObject:
   - component: {fileID: 6992661258279219809}
   - component: {fileID: 7779476596845454911}
   - component: {fileID: 7779476596845454896}
-  - component: {fileID: 2553306370710352128}
   m_Layer: 15
   m_Name: "\u78B3\u7403"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6992661258279219813
 Transform:
   m_ObjectHideFlags: 0
@@ -184,12 +183,15 @@ MonoBehaviour:
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
+  takeDamageAudio: {fileID: 0}
+  takeDamageSfxSO: {fileID: 0}
   maxHp: 30
   currentHp: 30
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
+  dieAudio: {fileID: 0}
 --- !u!61 &6992661258279219808
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -203,7 +205,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.4}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -272,11 +274,7 @@ MonoBehaviour:
   audios: {fileID: 0}
   rigidbody2d: {fileID: 0}
   damageable: {fileID: 0}
-  currentState:
-    stateType: 0
   currentStateName: 
-  anyState:
-    stateType: 0
   defaultStateName: Move_State
   stateConfigs:
   - {fileID: 11400000, guid: f6841215cff335849990a2784320971f, type: 2}
@@ -284,45 +282,5 @@ MonoBehaviour:
   player: {fileID: 0}
   FaceLeftFirstOriginal: 0
   beatBackRatio: 1.5
---- !u!114 &2553306370710352128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6992661258279219819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86c7a879a928d9344a82e42498e58aa8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ImpulseDefinition:
-    m_ImpulseChannel: 1
-    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_DecayShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 0.2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 100
-    m_DirectionMode: 0
-    m_DissipationMode: 2
-    m_DissipationDistance: 1000
-    m_PropagationSpeed: 343
+  hasInvokedAnimationEvent: 0
+  isInvokingAnimationEvent: 0

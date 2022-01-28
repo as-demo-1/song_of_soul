@@ -28,12 +28,18 @@ MonoBehaviour:
       type: {class: EnemySubFSMManager, ns: , asm: Assembly-CSharp}
       data:
         stateType: 10
+        defaultAnimationName: 
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
         currentStateName: 
-        defaultStateName: 
-        stateConfigs: []
+        defaultStateName: Boss00_Part2_Idle
+        stateConfigs:
+        - {fileID: 11400000, guid: 98c9b96acd69ba742be636137d0a1a97, type: 2}
+        - {fileID: 11400000, guid: cfbb26c5cca73124cbaec698b9b4a494, type: 2}
+        - {fileID: 11400000, guid: c2d8b4f2c95332c409a4ac145eaa2be5, type: 2}
+        - {fileID: 11400000, guid: f976e6785cf2c1346a3fe5ce97551496, type: 2}
         anyStateConfig: {fileID: 0}
-        player: {fileID: 0}
-        FaceLeftFirstOriginal: 0
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:

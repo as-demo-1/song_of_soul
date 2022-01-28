@@ -2,18 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
+public class PlayerAnimatorParamsMapping 
 {
+    protected Animator m_Animator;
     PlayerAnimatorStatesControl m_PlayerAnimatorStatesControl;
-    public PlayerAnimatorParamsMapping(PlayerAnimatorStatesControl playerAnimatorStatesControl) : base(playerAnimatorStatesControl)
+    public PlayerAnimatorParamsMapping(PlayerAnimatorStatesControl playerAnimatorStatesControl) 
     {
         this.m_PlayerAnimatorStatesControl = playerAnimatorStatesControl;
+        this.m_Animator = playerAnimatorStatesControl.Animator;
     }
 
     public int HorizontalInputParamHash { get; } = Animator.StringToHash("HorizontalInput");
     public int VerticalInputParamHash { get; } = Animator.StringToHash("VerticalInput");
-    public int JumpIsDownParamHash { get; } = Animator.StringToHash("JumpIsDown");
     public int JumpIsValidParamHash { get; } = Animator.StringToHash("JumpIsValid");
+
+    public int JumpLeftCountParamHash { get; } = Animator.StringToHash("JumpLeftCount");
     public int NormalAttackIsValidParamHash { get; } = Animator.StringToHash("NormalAttackIsValid");
     public int IsGroundedParamHash { get; } = Animator.StringToHash("IsGrounded");
     public int HorizontalSpeedParamHash { get; } = Animator.StringToHash("HorizontalSpeed");
@@ -22,26 +25,39 @@ public class PlayerAnimatorParamsMapping : AnimatorParamsMapping
     public int CanJumpParamHash { get; } = Animator.StringToHash("CanJump");
     public int CanNormalAttackParamHash { get; } = Animator.StringToHash("CanNormalAttack");
 
-    public int CurrentStatusParamHash { get; } = Animator.StringToHash("CurrentStatus");
+    public int CurrentStatesParamHash { get; } = Animator.StringToHash("CurrentStates");
+    public int CanSprintParamHash { get; } = Animator.StringToHash("CanSprint");
+    public int SprintIsValidParamHash { get; } = Animator.StringToHash("SprintIsValid");
+    public int AirSprintLeftCountParamHash { get; } = Animator.StringToHash("AirSprintLeftCount");
+    public int SprintReadyParamHash { get; } = Animator.StringToHash("SprintReady");
 
-    public override void ParamsUpdate()
+
+    public void ParamsUpdate()
     {
         m_Animator.SetInteger(HorizontalInputParamHash, (int)PlayerInput.Instance.horizontal.Value);
         m_Animator.SetInteger(VerticalInputParamHash, (int)PlayerInput.Instance.vertical.Value);
-        m_Animator.SetBool(JumpIsDownParamHash, PlayerInput.Instance.jump.Down);
+
         m_Animator.SetBool(JumpIsValidParamHash, PlayerInput.Instance.jump.IsValid);
+
+        m_Animator.SetBool(SprintIsValidParamHash, PlayerInput.Instance.sprint.IsValid);
+
         m_Animator.SetBool(NormalAttackIsValidParamHash, PlayerInput.Instance.normalAttack.IsValid);
-        m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.IsGrounded);
+
+        m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
+
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.RB.velocity.x);
         m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.RB.velocity.y);
-        m_Animator.SetBool(CanMoveParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanMove]);
-        m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanJump]);
-        m_Animator.SetBool(CanNormalAttackParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic[EPlayerStatus.CanNormalAttack]);
-        m_Animator.SetInteger(CurrentStatusParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
+
+        m_Animator.SetBool(CanMoveParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanMove));
+        m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanJump));
+        m_Animator.SetBool(CanNormalAttackParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanNormalAttack));
+        m_Animator.SetBool(CanSprintParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanSprint));
+
+        m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
     }
 }
 
-public abstract class AnimatorParamsMapping
+/*public abstract class AnimatorParamsMapping
 {
     protected Animator m_Animator;
     public AnimatorParamsMapping(AnimatorStatesControl animatorStatesManager)
@@ -49,4 +65,4 @@ public abstract class AnimatorParamsMapping
         this.m_Animator = animatorStatesManager.Animator;
     }
     public abstract void ParamsUpdate();
-}
+}*/
