@@ -183,7 +183,7 @@ public class PlayerJump:PlayerAction
         bool hasQuickSlowDown=false;
         bool hasNormalSlowDown = false;
 
-        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * 0.3f;
+        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
         while(true)
         {
             yield return null;//每次update后循环一次

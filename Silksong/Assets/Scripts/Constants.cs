@@ -21,8 +21,8 @@ public static class Constants
     public const int VlunerableAfterDamageTime = 1;//
     public const float JumpUpSlowDownTime=0.3f;//
     public const float JumpUpStopTime = 0.05f;//
-    public const float SprintCd=0.5f;
-    public const float SprintTime = 0.6f;//此值由实际冲刺动画的时长决定
+    public const float SprintCd=0.3f;//从冲刺结束后算起
+    public const float SprintTime = 0.438f;//此值应与实际冲刺动画的时长相同
 
 
     #region 玩家有关属性
