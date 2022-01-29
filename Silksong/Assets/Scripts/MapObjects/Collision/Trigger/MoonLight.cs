@@ -2,36 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoonLight : Trigger2DBase
+public class MoonLight :MonoBehaviour
 {
     public float g;
-    private PlayerController playerController;
 
-    protected override void exitEvent()
-    {
-        if(playerController.gravityLock==false)
+    private PlayerController playerController;
+    private void OnTriggerExit2D(Collider2D collision)
+    {    
+        if (collision.gameObject.CompareTag("Player"))
         {
-            playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
-        }
+            if (playerController.gravityLock == false)
+            {
+                playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
+            }
+            playerController = null;
+        }            
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
 
-        if (canWork && targetLayer.Contains(collision.gameObject))
+        if (playerController && playerController.gravityLock==false)
         {
-            if (playerController.gravityLock == false)
-            {
-                playerController.RB.gravityScale = g;
-            }
+            playerController.RB.gravityScale = g;
         }
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (canWork && targetLayer.Contains(collision.gameObject))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            // enterEvent();
             playerController = collision.GetComponent<PlayerController>();
         }
     }
