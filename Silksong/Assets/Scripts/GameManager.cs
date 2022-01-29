@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
 
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
+        Application.targetFrameRate = 120;
     }
 
     /// <summary>

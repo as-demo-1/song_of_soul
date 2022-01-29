@@ -4,15 +4,13 @@ using UnityEngine.Animations;
 
 public class PlayerSMBEvents : PlayerSMB
 {
-    /*[SerializeField]
-    [Range(0f, 1f)]
-    private float m_Threshold = 0.1f;*/
+
     [SerializeField]
     private SMBEventList<SMBStateData> m_SMBStateData;
+
     [SerializeField]
-    private SMBEventList<SMBStatusData> m_SMBStatusData;    
-    [SerializeField]
-    private SMBEventList<SMBAttackData> m_SMBAttackData;
+    private SMBEventList<SMBStatusData> m_SMBStatusData;   
+   
 
     private List<ISMBEventList> m_SMBEventLists = new List<ISMBEventList>();
     private SMBStateInfo m_SMBStateInfo = new SMBStateInfo();
@@ -31,7 +29,6 @@ public class PlayerSMBEvents : PlayerSMB
     {
         m_SMBEventLists.Add(m_SMBStateData);
         m_SMBEventLists.Add(m_SMBStatusData);
-        m_SMBEventLists.Add(m_SMBAttackData);
         foreach (var SMBEventList in m_SMBEventLists)
         {
             SMBEventList.Sort();
@@ -44,11 +41,11 @@ public class PlayerSMBEvents : PlayerSMB
 
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        /*if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name=="JumpUp")
+        //if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name== "NormalAttack_01")
         {
-            Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
-            Debug.Log(Time.frameCount);
-        }*/
+            //Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
+            //Debug.Log(Time.frameCount);
+        }
 
         base.OnSLStateEnter(animator, stateInfo, layerIndex, controller);
        // UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
@@ -61,7 +58,11 @@ public class PlayerSMBEvents : PlayerSMB
 
     protected override void OnSLStateActive(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-       // Debug.Log("OnSLStateActive");  
+       /* if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "NormalAttack_01")
+        {
+            Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip update");
+            Debug.Log(Time.frameCount);
+        }*/
         base.OnSLStateActive(animator, stateInfo, layerIndex, controller);
 
         UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
@@ -90,17 +91,18 @@ public class PlayerSMBEvents : PlayerSMB
             /*Debug.Log(smbStateInfo.NormalizedTimeLoopCount);
             Debug.Log(smbStateInfo.LoopCount);*/
             // smbEvents.InvokeEvents(smbStateInfo.PreviousNormalizedTime, 1.0f, smbEvents.Index);
-            smbEvents.InvokeEvents(1.0f, smbEvents.Index);
-            for (int i = 0; i < smbStateInfo.NormalizedTimeLoopCount - smbStateInfo.LoopCount - 1; i++)
-            {
-                Debug.Log("here");
-                //smbEvents.InvokeEvents(Mathf.NegativeInfinity, 1.0f, 0);
-                smbEvents.InvokeEvents(1.0f, 0);
-            }
-            smbEvents.SetIndex(0);
-            // int newIndex = smbEvents.InvokeEvents(Mathf.NegativeInfinity, smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
-            int newIndex = smbEvents.InvokeEvents(smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
+           int newIndex= smbEvents.InvokeEvents(1.0f, smbEvents.Index);
             smbEvents.SetIndex(newIndex);
+            /* for (int i = 0; i < smbStateInfo.NormalizedTimeLoopCount - smbStateInfo.LoopCount - 1; i++)注释后，动画循环后将不重置事件
+             {
+                 Debug.Log("here");
+                 //smbEvents.InvokeEvents(Mathf.NegativeInfinity, 1.0f, 0);
+                 smbEvents.InvokeEvents(1.0f, 0);
+             }
+             smbEvents.SetIndex(0);
+             // int newIndex = smbEvents.InvokeEvents(Mathf.NegativeInfinity, smbStateInfo.CurrentNormalizedTime, smbEvents.Index);
+             int newIndex = smbEvents.InvokeEvents(smbStateInfo.CurrentNormalizedTime, smbEvents.Index);*/
+            //smbEvents.SetIndex(newIndex);
         }
         else
         {
