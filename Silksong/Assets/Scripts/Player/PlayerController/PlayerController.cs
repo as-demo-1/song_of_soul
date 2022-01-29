@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SaveSystem _saveSystem;
     [SerializeField] private InventoryManager _backpack;
     public GameObject _itemToAdd = null;
+    public GameObject _savePoint = null;
     public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
 
     private void OnValidate()
@@ -116,11 +117,17 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Colide with Item");
             _itemToAdd = other.gameObject;
         }
+        if (other.gameObject.CompareTag("SavePoint"))
+        {
+            Debug.Log("Colide with SavePoint");
+            _savePoint = other.gameObject;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
+        _savePoint = null;
     }
 
     public void CheckAddItem()
@@ -131,6 +138,16 @@ public class PlayerController : MonoBehaviour
             {
                 _backpack.AddItem(_itemToAdd.GetComponent<SceneItem>().GetItem());
                 _itemToAdd.SetActive(false);
+            }
+        }
+    }
+    public void CheckSavePoint()
+    {
+        if (PlayerInput.Instance.Pick.IsValid)
+        {
+            if (_savePoint)
+            {
+                _saveSystem.SaveDataToDisk();
             }
         }
     }
