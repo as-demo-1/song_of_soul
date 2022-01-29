@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
 
     private PlayerGroundedCheck playerGroundedCheck;
 
+    public bool gravityLock;//为ture时，不允许gravityScale改变
+
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
    // [SerializeField] private GameObject telePosition;

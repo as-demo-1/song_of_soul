@@ -278,6 +278,8 @@ public class PlayerSprint : PlayerAction
 
         if (playerController.isGroundedBuffer() == false)
             AirSprintLeftCount--;
+
+        playerController.gravityLock = true;
     }
 
     public void SprintEnd()
@@ -285,6 +287,8 @@ public class PlayerSprint : PlayerAction
         playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
         playerController.RB.velocity = Vector2.zero;
         playerController.StartCoroutine(sprintCdCount());
+
+        playerController.gravityLock = false;
     }
 
     public IEnumerator  sprintCdCount()
