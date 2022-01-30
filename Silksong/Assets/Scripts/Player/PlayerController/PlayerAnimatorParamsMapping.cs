@@ -45,8 +45,8 @@ public class PlayerAnimatorParamsMapping
 
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
 
-        m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.RB.velocity.x);
-        m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.RB.velocity.y);
+        m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().x);
+        m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().y);
 
         m_Animator.SetBool(CanMoveParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanMove));
         m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanJump));

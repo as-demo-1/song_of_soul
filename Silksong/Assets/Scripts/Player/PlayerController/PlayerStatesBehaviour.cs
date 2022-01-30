@@ -166,12 +166,12 @@ public class PlayerJump:PlayerAction
     public void JumpStart()
     {
 
-       playerController.RB.gravityScale = 0;
+        playerController.setRigidGravityScale(0);
 
        if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
          --CurrentJumpCountLeft;
 
-        playerController.RB.velocity = new Vector2(playerController.RB.velocity.x, playerController.playerInfo.jumpUpSpeed);
+        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.jumpUpSpeed));
         jumpStartHeight = playerController.transform.position.y;
 
         playerController.StopCoroutine(JumpUpCheck());
@@ -183,16 +183,14 @@ public class PlayerJump:PlayerAction
         bool hasQuickSlowDown=false;
         bool hasNormalSlowDown = false;
 
-        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * 0.3f;
+        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
         while(true)
         {
             yield return null;//每次update后循环一次
             //EPlayerState state = playerController.PlayerAnimatorStatesControl.CurrentPlayerState;
-            if (playerController.RB.velocity.y<0.01f)//跳跃上升过程结束
+            if (playerController.getRigidVelocity().y<0.01f)//跳跃上升过程结束
             {
-                if(playerController.PlayerAnimatorStatesControl.CurrentPlayerState!=EPlayerState.Sprint)
-                playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
-
+                playerController.setRigidGravityScaleToNormal();
                 break;
             }
 
@@ -205,19 +203,19 @@ public class PlayerJump:PlayerAction
                 {
                     hasQuickSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpStopTime;
-                    float acce = playerController.RB.velocity.y / jumpSlowDownTime;
+                    float acce = playerController.getRigidVelocity().y / jumpSlowDownTime;
                     float gScale = -acce / Physics2D.gravity.y;
                     // Debug.Log(gScale);
-                    playerController.RB.gravityScale = gScale;
+                    playerController.setRigidGravityScale(gScale);
                 }
                 if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance )//缓停
                 {
                     hasNormalSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpSlowDownTime;
-                    float acce = playerController.RB.velocity.y / jumpSlowDownTime;
+                    float acce = playerController.getRigidVelocity().y / jumpSlowDownTime;
                     float gScale = -acce / Physics2D.gravity.y;
                     // Debug.Log(gScale);
-                    playerController.RB.gravityScale = gScale;
+                    playerController.setRigidGravityScale(gScale);
                 }
             }
         }
@@ -233,9 +231,9 @@ public class PlayerFall:PlayerAction
 
     public void checkMaxFallSpeed()
     {
-        if(playerController.RB.velocity.y<-playerController.playerInfo.maxFallSpeed)
+        if(playerController.getRigidVelocity().y<-playerController.playerInfo.maxFallSpeed)
         {
-            playerController.RB.velocity =new Vector2(playerController.RB.velocity.x, -playerController.playerInfo.maxFallSpeed);
+            playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, -playerController.playerInfo.maxFallSpeed));
         }
     }
 }
@@ -272,19 +270,24 @@ public class PlayerSprint : PlayerAction
     }
     public void SprintStart()
     {
-        playerController.RB.gravityScale = 0;
+        playerController.setRigidGravityScale(0);
         int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
-        playerController.RB.velocity = new Vector2(playerController.playerInfo.sprintSpeed * x, 0);
+        playerController.setRigidVelocity( new Vector2(playerController.playerInfo.sprintSpeed * x, 0));
 
         if (playerController.isGroundedBuffer() == false)
             AirSprintLeftCount--;
+
+        playerController.gravityLock = true;
     }
 
     public void SprintEnd()
     {
-        playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
-        playerController.RB.velocity = Vector2.zero;
+        playerController.gravityLock = false;
+
+        playerController.setRigidGravityScaleToNormal();
+        playerController.setRigidVelocity(Vector2.zero);
         playerController.StartCoroutine(sprintCdCount());
+
     }
 
     public IEnumerator  sprintCdCount()
