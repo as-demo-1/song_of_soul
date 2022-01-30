@@ -52,16 +52,18 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInfo playerInfo;
 
-    public int lastHorizontalInputDir;
+    private int lastHorizontalInputDir;
 
-    public Animator PlayerAnimator;// { get; private set; }
-    public Rigidbody2D RB { get; private set; }
+    public Animator PlayerAnimator;
+
+    private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
     [SerializeField] private LayerMask groundLayerMask;
     //[SerializeField] private LayerMask ropeLayerMask; 注释理由：可能不再需要攀爬功能
 
     private PlayerGroundedCheck playerGroundedCheck;
 
+    [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
 
     [SerializeField] private Collider2D groundCheckCollider;
@@ -167,30 +169,6 @@ public class PlayerController : MonoBehaviour
         Interact();
     }
 
-   /* public void VerticalMove()
-    {
-        // check is on rope
-        if (IsRope())
-        {
-            // PInput.Vertical.Value onchange start climbing
-            if (PlayerInput.Instance.vertical.Value != 0)
-            {
-                OnClimb();
-            }
-
-            // if jump unClimb
-            if (PlayerInput.Instance.jump.Down)
-            {
-                UnClimb();
-            }
-        }
-        // unClimb
-        else
-        {
-            UnClimb();
-        }
-    }*/
-
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
@@ -208,15 +186,6 @@ public class PlayerController : MonoBehaviour
                 lastHorizontalInputDir = -1;
         }
     }
-
-    
-  /*  public void Teleport()
-    {
-        if (PlayerInput.Instance.teleport.Down)
-        {
-            MovementScript.Teleport(telePosition.transform.position, RB);//Transfer to the specified location
-        }
-    }*/
 
     public void Interact()
     {
@@ -236,48 +205,6 @@ public class PlayerController : MonoBehaviour
         return playerGroundedCheck.IsGroundedBuffer;
     }
 
-  /*  public void CheckIsGroundedAndResetAirJumpCount()
-    {
-        CheckIsGrounded();
-        if (IsGrounded)
-            ResetJumpCount();
-    }*/
-
-    /*bool IsRope()
-    {
-        return IsBlock(ropeLayerMask);
-    }*/
-
-   /* private void OnClimb()注释理由：可能不再需要攀爬功能
-    {
-        // velocity is rb current force
-        RB.velocity = Vector3.zero;
-
-        // if isClimb rb.pos is PInput.Vertical.Value
-        if (playerInfo.isClimb)
-        {
-            Vector2 pos = transform.position;
-            pos.y += playerInfo.climbSpeed * PlayerInput.Instance.vertical.Value * Time.deltaTime;
-            RB.MovePosition(pos);
-        }
-        // togging isClimb and gravityScale is 0
-        else
-        {
-            RB.gravityScale = 0;
-            playerInfo.isClimb = true;
-        }
-    }*/
-
-   /* private void UnClimb()
-    {
-        // togging isClimb and recovery gravityScale
-        if (playerInfo.isClimb)
-        {
-            RB.gravityScale = playerInfo.gravity;
-            playerInfo.isClimb = false;
-        }
-    }*/
-
     public void CheckFlipPlayer(float setAccelerationNormalizedTime)
     {
         if (PlayerInput.Instance.horizontal.Value == 1f & !playerInfo.playerFacingRight ||
@@ -288,6 +215,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void setRigidVelocity(Vector2 newVelocity)
+    {
+        RB.velocity = newVelocity;
+    }
+
+    public Vector2 getRigidVelocity()
+    {
+        return RB.velocity;
+    }
+
+    public void setRigidGravityScale(float newScale)
+    {
+        if(gravityLock==false)
+        RB.gravityScale = newScale;
+    }
+
+    public void setRigidGravityScaleToNormal()
+    {
+        setRigidGravityScale(playerInfo.normalGravityScale);
+    }
     public void WhenStartSetLastHorizontalInputDirByFacing() => lastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
 }
 
