@@ -30,6 +30,9 @@ public class PlayerAnimatorParamsMapping
     public int SprintIsValidParamHash { get; } = Animator.StringToHash("SprintIsValid");
     public int AirSprintLeftCountParamHash { get; } = Animator.StringToHash("AirSprintLeftCount");
     public int SprintReadyParamHash { get; } = Animator.StringToHash("SprintReady");
+    public int CanBreakMoonParamHash { get; } = Animator.StringToHash("CanBreakMoon");
+
+    public int BreakMoonIsValidParamHash { get; } = Animator.StringToHash("BreakMoonIsValid");
 
 
     public void ParamsUpdate()
@@ -43,6 +46,8 @@ public class PlayerAnimatorParamsMapping
 
         m_Animator.SetBool(NormalAttackIsValidParamHash, PlayerInput.Instance.normalAttack.IsValid);
 
+        m_Animator.SetBool(BreakMoonIsValidParamHash, PlayerInput.Instance.breakMoon.IsValid);
+
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
 
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().x);
@@ -52,6 +57,8 @@ public class PlayerAnimatorParamsMapping
         m_Animator.SetBool(CanJumpParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanJump));
         m_Animator.SetBool(CanNormalAttackParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanNormalAttack));
         m_Animator.SetBool(CanSprintParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanSprint));
+        m_Animator.SetBool(CanBreakMoonParamHash, m_PlayerAnimatorStatesControl.PlayerStatusDic.getPlayerStatus(EPlayerStatus.CanBreakMoon)
+            &&  m_PlayerAnimatorStatesControl.CharacterStatesBehaviour.playerBreakMoon.currentTarget!=null);
 
         m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
     }

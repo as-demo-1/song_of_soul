@@ -156,7 +156,7 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 32
+      newState: 60
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -171,13 +171,17 @@ MonoBehaviour:
       playerStatus: 8
       statusIsActive: 0
       wayOfChangingFlag: 0
-    - timeNormalized: 0.209
+    - timeNormalized: 0.491
       playerStatus: 2
       statusIsActive: 1
       wayOfChangingFlag: 0
-    - timeNormalized: 0.395
+    - timeNormalized: 0.472
       playerStatus: 4
       statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 16
+      statusIsActive: 0
       wayOfChangingFlag: 0
 --- !u!114 &-7827195666565151924
 MonoBehaviour:
@@ -194,11 +198,23 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 2
+      newState: 20
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
       playerStatus: 8
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 16
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 4
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 2
       statusIsActive: 1
       wayOfChangingFlag: 0
 --- !u!1101 &-7531057800556324977
@@ -342,6 +358,40 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-6221585929784533490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SMBStateData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 70
+  m_SMBStatusData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      playerStatus: 2
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 4
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 8
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 16
+      statusIsActive: 1
+      wayOfChangingFlag: 0
 --- !u!1101 &-6024339547793316557
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -544,6 +594,34 @@ MonoBehaviour:
     m_SMBEventList: []
   m_SMBStatusData2:
     m_SMBEventList: []
+--- !u!1101 &-4397166677662432347
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 7
+    m_ConditionEvent: HorizontalInput
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsGrounded
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2559521184380175098}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-4343577333389155679
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -632,13 +710,13 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
-    m_EventTreshold: 4
+    m_EventTreshold: 30
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
-    m_EventTreshold: 16
+    m_EventTreshold: 50
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
-    m_EventTreshold: 32
+    m_EventTreshold: 60
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2559521184380175098}
   m_Solo: 0
@@ -668,7 +746,7 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 4
+      newState: 30
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -681,6 +759,14 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0.1
       playerStatus: 4
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.1
+      playerStatus: 8
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.1
+      playerStatus: 16
       statusIsActive: 1
       wayOfChangingFlag: 0
 --- !u!1101 &-3132825316739764764
@@ -720,7 +806,7 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 16
+      newState: 50
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -737,6 +823,14 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0.589
       playerStatus: 4
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 8
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 16
       statusIsActive: 1
       wayOfChangingFlag: 0
 --- !u!1101 &-2950867561127761525
@@ -793,7 +887,7 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 8
+      newState: 40
   m_SMBStatusData:
     m_SMBEventList: []
 --- !u!114 &-2496319268684918498
@@ -894,6 +988,33 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &-1533677592409818956
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BreakMoon
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours:
+  - {fileID: -6221585929784533490}
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: f8001d8710b03a5499bce04aabcf54f8, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!114 &-1434632803042621173
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1084,97 +1205,109 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: IsGrounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: CanJump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: CanMove
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: CanNormalAttack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: CanSprint
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
+  - m_Name: CanBreakMoon
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   - m_Name: HorizontalSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: HorizontalInput
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: VerticalSpeed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: VerticalInput
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: JumpIsValid
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: JumpLeftCount
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: NormalAttackIsValid
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: SprintIsValid
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: AirSprintLeftCount
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: SprintReady
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
+  - m_Name: BreakMoonIsValid
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1286,7 +1419,7 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 1
+      newState: 10
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -1303,6 +1436,10 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 8
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 16
       statusIsActive: 1
       wayOfChangingFlag: 0
 --- !u!114 &348917670620703221
@@ -1349,6 +1486,28 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &1781073245213222695
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 880180642144292202}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &1935062195925015371
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1586,7 +1745,7 @@ MonoBehaviour:
   m_SMBStateData:
     m_SMBEventList:
     - timeNormalized: 0
-      newState: 1
+      newState: 10
   m_SMBStatusData:
     m_SMBEventList: []
 --- !u!1101 &4855944608845973763
@@ -1599,16 +1758,16 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 4
     m_ConditionEvent: VerticalSpeed
-    m_EventTreshold: 0.01
+    m_EventTreshold: -0.01
   - m_ConditionMode: 2
     m_ConditionEvent: IsGrounded
     m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
-    m_EventTreshold: 16
+    m_EventTreshold: 50
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
-    m_EventTreshold: 32
+    m_EventTreshold: 60
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1045871781774062944}
   m_Solo: 0
@@ -1620,6 +1779,34 @@ AnimatorStateTransition:
   m_ExitTime: 1
   m_HasExitTime: 0
   m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 0
+--- !u!1101 &5486041639450485563
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: CanBreakMoon
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: BreakMoonIsValid
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -1533677592409818956}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
@@ -1769,36 +1956,40 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 880180642144292202}
-    m_Position: {x: 450, y: 270, z: 0}
+    m_Position: {x: 440, y: 240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -282906263192654341}
     m_Position: {x: 670, y: -20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1045871781774062944}
-    m_Position: {x: 800, y: 60, z: 0}
+    m_Position: {x: 770, y: 40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2537825165225357710}
-    m_Position: {x: 670, y: 140, z: 0}
+    m_Position: {x: 660, y: 150, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2559521184380175098}
-    m_Position: {x: 450, y: 160, z: 0}
+    m_Position: {x: 440, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5452763654425502649}
-    m_Position: {x: 180, y: 150, z: 0}
+    m_Position: {x: 170, y: 160, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1533677592409818956}
+    m_Position: {x: 140, y: 30, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 6234931053466445875}
-    m_Position: {x: 90, y: 260, z: 0}
+    m_Position: {x: 230, y: 340, z: 0}
   m_AnyStateTransitions:
   - {fileID: 4855944608845973763}
   - {fileID: -2249529467917012809}
   - {fileID: -3559359697593148269}
   - {fileID: 9053138252455051739}
   - {fileID: -6024339547793316557}
+  - {fileID: 5486041639450485563}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 470, y: 70, z: 0}
+  m_AnyStatePosition: {x: 470, y: 40, z: 0}
   m_EntryPosition: {x: 470, y: 360, z: 0}
   m_ExitPosition: {x: 470, y: 420, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -1900,7 +2091,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
-    m_EventTreshold: 16
+    m_EventTreshold: 50
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 77240976764668773}
   m_Solo: 0

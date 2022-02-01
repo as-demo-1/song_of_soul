@@ -20,6 +20,8 @@ public struct PlayerInfo
     public int maxAirSprintCount;
     public int maxJumpCount;
 
+    public float breakMoonAvgSpeed;
+    public AnimationCurve breakMoonPositionCurve;
     //climb
     public float normalGravityScale;
    /* public int climbSpeed;
@@ -210,7 +212,7 @@ public class PlayerController : MonoBehaviour
         if (PlayerInput.Instance.horizontal.Value == 1f & !playerInfo.playerFacingRight ||
                 PlayerInput.Instance.horizontal.Value == -1f & playerInfo.playerFacingRight)
         {
-            MovementScript.Flip(transform, ref playerInfo.playerFacingRight);
+            Flip();
             PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         }
     }
@@ -235,7 +237,20 @@ public class PlayerController : MonoBehaviour
     {
         setRigidGravityScale(playerInfo.normalGravityScale);
     }
+
+    public void rigidMovePosition(Vector2 target)
+    {
+        RB.MovePosition(target);
+    }
     public void WhenStartSetLastHorizontalInputDirByFacing() => lastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
+
+    public void Flip()
+    {
+        playerInfo.playerFacingRight = !playerInfo.playerFacingRight;
+        Vector3 t = transform.localScale;
+        transform.localScale = new Vector3(-t.x, t.y, t.z);
+        PlayerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+    }
 }
 
 public class PlayerGroundedCheck

@@ -24,6 +24,9 @@ public static class Constants
     public const float SprintCd=0.3f;//从冲刺结束后算起
     public const float SprintTime = 0.438f;//此值应与实际冲刺动画的时长相同
 
+    public const float BreakMoonPointCd = 3f;
+    public const float BreakMoonAfterDistance=2f;//碎月缓冲距离
+
 
     #region 玩家有关属性
     public const int playerInitialMaxHp=5;
