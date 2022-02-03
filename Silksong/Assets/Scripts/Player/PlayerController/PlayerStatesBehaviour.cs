@@ -6,12 +6,13 @@ using UnityEngine;
 public enum EPlayerState
 {
     None = 0,
-    Idle = 1,
-    Run = 2,
-    Jump = 4,
-    Fall = 8,
-    NormalAttack = 16,
-    Sprint=32,
+    Idle = 10,
+    Run = 20,
+    Jump = 30,
+    Fall = 40,
+    NormalAttack = 50,
+    Sprint=60,
+    BreakMoon=70,
 
 }
 public class PlayerStatesBehaviour 
@@ -20,11 +21,13 @@ public class PlayerStatesBehaviour
    public PlayerJump playerJump;
    public PlayerFall playerFall;
    public PlayerSprint playerSprint;
+    public PlayerBreakMoon playerBreakMoon;
     public void init()
     {
         playerJump = new PlayerJump(playerController);
         playerFall = new PlayerFall(playerController);
         playerSprint = new PlayerSprint(playerController);
+        playerBreakMoon = new PlayerBreakMoon(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -52,6 +55,10 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Sprint:
                 playerSprint.SprintStart();
+                break;
+            case EPlayerState.BreakMoon:
+                playerBreakMoon.breakMoonStart();
+
                 break;
             default:
                 break;
@@ -92,6 +99,10 @@ public class PlayerStatesBehaviour
             case EPlayerState.Sprint:
 
                 break;
+            case EPlayerState.BreakMoon:
+                playerBreakMoon.breakingMoon();
+
+                break;
             default:
                 break;
         }
@@ -118,6 +129,10 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Sprint:
                 playerSprint.SprintEnd();                  
+                break;
+            case EPlayerState.BreakMoon:
+                playerBreakMoon.endBreakMoon();
+
                 break;
             default:
                 break;
@@ -166,12 +181,12 @@ public class PlayerJump:PlayerAction
     public void JumpStart()
     {
 
-       playerController.RB.gravityScale = 0;
+        playerController.setRigidGravityScale(0);
 
        if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
          --CurrentJumpCountLeft;
 
-        playerController.RB.velocity = new Vector2(playerController.RB.velocity.x, playerController.playerInfo.jumpUpSpeed);
+        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.jumpUpSpeed));
         jumpStartHeight = playerController.transform.position.y;
 
         playerController.StopCoroutine(JumpUpCheck());
@@ -188,11 +203,9 @@ public class PlayerJump:PlayerAction
         {
             yield return null;//每次update后循环一次
             //EPlayerState state = playerController.PlayerAnimatorStatesControl.CurrentPlayerState;
-            if (playerController.RB.velocity.y<0.01f)//跳跃上升过程结束
+            if (playerController.getRigidVelocity().y<0.01f)//跳跃上升过程结束
             {
-                if(playerController.PlayerAnimatorStatesControl.CurrentPlayerState!=EPlayerState.Sprint)
-                playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
-
+                playerController.setRigidGravityScaleToNormal();
                 break;
             }
 
@@ -205,19 +218,19 @@ public class PlayerJump:PlayerAction
                 {
                     hasQuickSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpStopTime;
-                    float acce = playerController.RB.velocity.y / jumpSlowDownTime;
+                    float acce = playerController.getRigidVelocity().y / jumpSlowDownTime;
                     float gScale = -acce / Physics2D.gravity.y;
                     // Debug.Log(gScale);
-                    playerController.RB.gravityScale = gScale;
+                    playerController.setRigidGravityScale(gScale);
                 }
                 if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance )//缓停
                 {
                     hasNormalSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpSlowDownTime;
-                    float acce = playerController.RB.velocity.y / jumpSlowDownTime;
+                    float acce = playerController.getRigidVelocity().y / jumpSlowDownTime;
                     float gScale = -acce / Physics2D.gravity.y;
                     // Debug.Log(gScale);
-                    playerController.RB.gravityScale = gScale;
+                    playerController.setRigidGravityScale(gScale);
                 }
             }
         }
@@ -233,9 +246,9 @@ public class PlayerFall:PlayerAction
 
     public void checkMaxFallSpeed()
     {
-        if(playerController.RB.velocity.y<-playerController.playerInfo.maxFallSpeed)
+        if(playerController.getRigidVelocity().y<-playerController.playerInfo.maxFallSpeed)
         {
-            playerController.RB.velocity =new Vector2(playerController.RB.velocity.x, -playerController.playerInfo.maxFallSpeed);
+            playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, -playerController.playerInfo.maxFallSpeed));
         }
     }
 }
@@ -272,9 +285,9 @@ public class PlayerSprint : PlayerAction
     }
     public void SprintStart()
     {
-        playerController.RB.gravityScale = 0;
+        playerController.setRigidGravityScale(0);
         int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
-        playerController.RB.velocity = new Vector2(playerController.playerInfo.sprintSpeed * x, 0);
+        playerController.setRigidVelocity( new Vector2(playerController.playerInfo.sprintSpeed * x, 0));
 
         if (playerController.isGroundedBuffer() == false)
             AirSprintLeftCount--;
@@ -284,11 +297,12 @@ public class PlayerSprint : PlayerAction
 
     public void SprintEnd()
     {
-        playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
-        playerController.RB.velocity = Vector2.zero;
+        playerController.gravityLock = false;
+
+        playerController.setRigidGravityScaleToNormal();
+        playerController.setRigidVelocity(Vector2.zero);
         playerController.StartCoroutine(sprintCdCount());
 
-        playerController.gravityLock = false;
     }
 
     public IEnumerator  sprintCdCount()
@@ -296,6 +310,123 @@ public class PlayerSprint : PlayerAction
         SprintReady = false;
         yield return new WaitForSeconds(Constants.SprintCd);
         SprintReady = true;
+    }
+
+}
+
+public class PlayerBreakMoon:PlayerAction
+{
+    public PlayerBreakMoon(PlayerController playerController) : base(playerController) { }
+
+    public BreakMoonPoint currentTarget;
+    public List<BreakMoonPoint> availableTargets=new List<BreakMoonPoint>();
+
+    private float timer;
+    private float totalTime;
+    private Vector2 totalDistance;
+    private Vector2 startPosition;
+    private Vector2 toMoonDistance;
+    private bool hasBreakTheMoon;
+
+
+
+    public void findCurrentTarget()
+    {
+       
+        if (availableTargets.Count < 1)
+        {
+            currentTarget = null;
+            return;
+        }
+
+        BreakMoonPoint temp;
+        temp = availableTargets[0];
+        for(int i=1;i<availableTargets.Count;i++)
+        {
+            BreakMoonPoint t = availableTargets[i];
+            if (sameSide(t) ==sameSide(temp))
+            {
+                if (Vector2.Distance(t.transform.position, playerController.transform.position)
+                    < Vector2.Distance(temp.transform.position, playerController.transform.position))
+                {
+                    temp = t;
+                }
+            }
+            else if(sameSide(t))
+            {
+                temp = t;
+            }
+        }
+        if(currentTarget)
+        currentTarget.unPicked();
+
+        currentTarget = temp;
+        currentTarget.bePicked();
+
+    }
+    private bool sameSide(BreakMoonPoint b)//是否在玩家面朝的一侧
+    {
+        float x = b.transform.position.x - playerController.transform.position.x;
+        bool result = playerController.playerInfo.playerFacingRight ? x > 0 : x < 0;
+        return result;
+    }
+
+    public void breakMoonStart()
+    {
+        //Debug.Log("breakMoonStart");
+        startPosition = playerController.transform.position;
+        Vector2 target = currentTarget.transform.position;
+        toMoonDistance=target- startPosition;
+        Vector2 afterDistance = toMoonDistance.normalized* Constants.BreakMoonAfterDistance;
+        totalDistance = afterDistance + toMoonDistance;
+       /* Debug.Log(afterDistance);
+        Debug.Log(toMoonDistance);
+        Debug.Log(totalDistance);*/
+        totalTime= totalDistance.magnitude/playerController.playerInfo.breakMoonAvgSpeed;
+       // Debug.Log(totalTime);
+
+        timer = 0;
+        PlayerInput.Instance.ReleaseControls();
+        playerController.setRigidGravityScale(0);
+        playerController.gravityLock = true;
+        playerController.setRigidVelocity(Vector2.zero);
+        hasBreakTheMoon = false;
+
+        if(sameSide(currentTarget)==false)
+        {
+            playerController.Flip();
+        }
+    }
+
+    public void breakingMoon()
+    {
+        if(timer<totalTime)
+        {
+            timer += Time.deltaTime;
+            float rate= playerController.playerInfo.breakMoonPositionCurve.Evaluate(timer / totalTime);
+            //Debug.Log(rate);
+            Vector2 s = totalDistance * rate;
+            playerController.rigidMovePosition(startPosition + s);
+
+            if (!hasBreakTheMoon && s.magnitude>=toMoonDistance.magnitude )//击碎月球
+            {
+                //Debug.Log("break");
+                hasBreakTheMoon = true;
+                PlayerInput.Instance.GainControls();
+                currentTarget.atBreakMoonPoint();
+            }
+        }
+        else
+        {
+            playerController.gravityLock = false;
+            playerController.setRigidGravityScaleToNormal();
+        }
+
+    }
+    public void endBreakMoon()
+    {
+        playerController.gravityLock = false;
+        playerController.setRigidGravityScaleToNormal();
     }
 
 }

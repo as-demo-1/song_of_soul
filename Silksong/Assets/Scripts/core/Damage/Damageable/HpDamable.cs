@@ -19,7 +19,13 @@ public class HpDamable :Damable
     public class dieEvent : UnityEvent<DamagerBase, DamageableBase>
     { }
 
+    //[Serializable]
+    public class setHpEvent : UnityEvent<HpDamable>
+    { }
+
     public dieEvent onDieEvent;
+
+    public setHpEvent onHpChange=new setHpEvent();
 
     public AudioCue dieAudio;//在audiomanager中有绑定怪物hpdamable默认《受击》音效的效果
 
@@ -45,20 +51,16 @@ public class HpDamable :Damable
 
     protected virtual void checkHp(DamagerBase damager)
     {
-        if (currentHp > maxHp)
-        {
-            currentHp = maxHp;
-        }
-        if (currentHp <= 0)
+        currentHp = Mathf.Clamp(currentHp,0,maxHp);
+        onHpChange.Invoke(this);
+        if (currentHp == 0)
         {
             die(damager);
         }
     }
     protected void addHp(int number,DamagerBase damager)//如受到伤害 number<0
     {
-        currentHp += number;
-        checkHp(damager);
-
+        setHp(currentHp + number,damager);
     }
 
     protected virtual void die(DamagerBase damager)

@@ -11,10 +11,7 @@ public class MoonLight :MonoBehaviour
     {    
         if (collision.gameObject.CompareTag("Player"))
         {
-            if (playerController.gravityLock == false)
-            {
-                playerController.RB.gravityScale = playerController.playerInfo.normalGravityScale;
-            }
+            playerController.setRigidGravityScaleToNormal();
             playerController = null;
         }            
     }
@@ -22,9 +19,9 @@ public class MoonLight :MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
 
-        if (playerController && playerController.gravityLock==false)
+        if (playerController)
         {
-            playerController.RB.gravityScale = g;
+            playerController.setRigidGravityScale(g);
         }
     }
 

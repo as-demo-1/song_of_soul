@@ -23,6 +23,7 @@ public class PlayerInput : InputComponent
     public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None);
     public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
     public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None);
+    public InputButton breakMoon = new InputButton(KeyCode.Q, XboxControllerButtons.None);
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
@@ -32,7 +33,6 @@ public class PlayerInput : InputComponent
 
     protected bool m_DebugMenuIsOpen = false;
 
-    //ï¿½ï¿½Ê¼ï¿½ï¿½buttons
     void Awake()
     {
         if (s_Instance == null)
@@ -40,7 +40,6 @@ public class PlayerInput : InputComponent
         else
             throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
 
-        //ï¿½ï¿½ï¿½ï¿½button
         buttons.AddRange(new List<Button>
         {
             horizontal,
@@ -50,7 +49,9 @@ public class PlayerInput : InputComponent
             normalAttack,
             sprint,
             teleport,
-            Pick
+            Pick,
+            breakMoon,
+
         });
     }
 
@@ -72,7 +73,7 @@ public class PlayerInput : InputComponent
 
     protected override void GetInputs(bool fixedUpdateHappened)
     {
-        if (IsFrozen)
+        if (IsFrozen)//Ó¦Ê¹ÓÃReleaseControls
         {
             return;
         }
@@ -88,23 +89,23 @@ public class PlayerInput : InputComponent
 
     public override void GainControls()
     {
+       // Debug.Log("gainCtrl");
         m_HaveControl = true;
 
         foreach (var button in buttons)
         {
-            if (button.NeedGainAndReleaseControl)
-                button.GainControl();
+            button.Enable();
         }
     }
 
     public override void ReleaseControls(bool resetValues = true)
     {
+      //  Debug.Log("releaseCtrl");
         m_HaveControl = false;
 
         foreach (var button in buttons)
         {
-            if (button.NeedGainAndReleaseControl)
-                StartCoroutine(button.ReleaseControl(resetValues));
+            button.Disable();
         }
     }
 
