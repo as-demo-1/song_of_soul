@@ -16,7 +16,7 @@ public class PlayerStatusDic
             {EPlayerStatus.CanJump, new PlayerStatusFlag() },
             {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag() },
             {EPlayerStatus.CanSprint, new PlayerStatusFlag()},
-
+            {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag()},
         };
     }
 
@@ -89,5 +89,6 @@ public enum EPlayerStatus : int
     CanJump = 2,
     CanNormalAttack = 4,
     CanSprint=8,
+    CanBreakMoon=16,
 
 }
