@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     public AudioManager audioManager;
 
+    public GameObject gamingUI;
+
 
     void Awake()
     {
@@ -44,9 +46,16 @@ public class GameManager : MonoBehaviour
 
         GameInitialize();
 
+        //以下代码代表玩家从菜单进入游戏场景的初始化，临时使用
+
+        gamingUI = Instantiate(gamingUI);
+        DontDestroyOnLoad(gamingUI);
+
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
-        Application.targetFrameRate = 120;
+
+
+
     }
 
     /// <summary>
@@ -54,11 +63,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void creatPlayer()
     {
-        Instantiate(player.gameObject);
+        player= Instantiate(player.gameObject);     
     }
 
     public void GameInitialize()
     {
+        Application.targetFrameRate = 120;
         audioManager = Instantiate(audioManager);
     }
 }
