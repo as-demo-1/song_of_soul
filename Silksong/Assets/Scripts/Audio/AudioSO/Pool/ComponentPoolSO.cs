@@ -28,9 +28,9 @@ namespace UOP1.Pool
 		/// Parents the pool root transform to <paramref name="t"/>.
 		/// </summary>
 		/// <param name="t">The Transform to which this pool should become a child.</param>
-		/// <remarks>NOTE: Setting the parent to an object marked DontDestroyOnLoad will effectively make this pool DontDestroyOnLoad.<br/>
+		/// <remarks>NOTE: Setting the parent to an object    marked DontDestroyOnLoad     will effectively make this pool DontDestroyOnLoad.<br/>
 		/// This can only be circumvented by manually destroying the object or its parent or by setting the parent to an object not marked DontDestroyOnLoad.</remarks>
-		public void SetParent(Transform t)
+		public void SetParent(Transform t)//
 		{
 			_parent = t;
 			PoolRoot.SetParent(_parent);

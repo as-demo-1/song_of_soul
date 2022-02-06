@@ -31,15 +31,15 @@ public class InvulnerableDamable : HpDamable
 
     void Update()
     {
-        if (invulnerable)
+        if (invulnerable&&invulnerableAfterDamage)
         {
             inulnerabilityTimer -= Time.deltaTime;
 
             if (inulnerabilityTimer <= 0f)
             {
                 invulnerable = false;
-                GetComponent<CapsuleCollider2D>().enabled = false;//重新激活一次collider 避免在无敌时进入trigger内 导致无敌过后ontriggerEnter不触发
-                GetComponent<CapsuleCollider2D>().enabled = true;
+                GetComponent<Collider2D>().enabled = false;//重新激活一次collider 避免在无敌时进入trigger内 导致无敌过后ontriggerEnter不触发
+                GetComponent<Collider2D>().enabled = true;
             }
         }
     }

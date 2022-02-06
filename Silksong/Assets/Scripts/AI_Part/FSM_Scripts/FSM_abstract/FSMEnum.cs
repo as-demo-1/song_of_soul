@@ -8,6 +8,7 @@ using UnityEngine;
 public enum EnemyStates
 {
     EnemySubFSMManager = 10,
+
     Enemy_Any_State =0,
     Enemy_Idle_State=1,
     Enemy_Patrol_State=2,
@@ -18,7 +19,12 @@ public enum EnemyStates
     Enemy_Wander_State=7,
     Enemy_Shoot_State=8,
     Enemy_Bump_State=9,
+
     Enemy_Chase_State=11,
+    Enemy_Turn_State=12,
+    Enemy_Meet_State=13,
+    Enemy_Smash_Down_State=14,
+    Boss_Shoot_State=15
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
@@ -32,6 +38,8 @@ public enum EnemyTriggers
     OnHittedTrigger=4,
     SelfHPTrigger=5,
     NearPlatformBorderTrigger=6,
+    TargetTurnTrigger=7,
+    RandomTrigger = 8,
 
 }
 

@@ -12,26 +12,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Boss00_Part2_Attack
   m_EditorClassIdentifier: 
-  lastStateID: 0
-  lastTriggerID: 0
-  StateName: 
-  StateType: 0
+  lastStateID: 12
+  lastTriggerID: 3
+  StateName: Boss00_Part2_Attack
+  StateType: 12
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 3
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Smash_Down_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 0
+        stateType: 12
+        defaultAnimationName: 
+        jumpHight: 10
+        jumpAnimation: Boss00_Jump
+        smashDownAnimation: Boss00_Smash_Down
+        isMoveWithCurve: 1
+        jumpCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: -0.008964811
+            outSlope: -0.008964811
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.7124999
+          - serializedVersion: 3
+            time: 0.9689759
+            value: 0.9902822
+            inSlope: 0.013626562
+            outSlope: 0.013626562
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.46875003
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: 
-        maxTime: 0
-        timer: 0
+        triggerType: 3
+        targetState: Boss00_Part2_Idle
+        checkAnimationName: Boss00_Smash_Down
+    00000002:
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 3
+        targetState: Boss00_Part2_Idle
+        checkAnimationName: Boss00_Smash_Down

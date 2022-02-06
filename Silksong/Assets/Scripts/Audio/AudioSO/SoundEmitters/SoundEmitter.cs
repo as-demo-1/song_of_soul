@@ -11,6 +11,7 @@ public class SoundEmitter : MonoBehaviour
 
 	private void Awake()
 	{
+		//Debug.Log("soundEmitter Awake");
 		_audioSource = this.GetComponent<AudioSource>();
 		_audioSource.playOnAwake = false;
 	}
@@ -29,7 +30,7 @@ public class SoundEmitter : MonoBehaviour
 		_audioSource.transform.position = position;
 		_audioSource.loop = hasToLoop;
 		_audioSource.Play();
-
+		//Debug.Log("realPlay");
 		if (!hasToLoop)
 		{
 			StartCoroutine(FinishedPlaying(clip.length));

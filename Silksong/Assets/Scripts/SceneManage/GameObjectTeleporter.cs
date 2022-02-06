@@ -69,6 +69,8 @@ public class GameObjectTeleporter : MonoBehaviour
         if(virtualCamera)
         virtualCamera.Follow = playerInput.transform;
 
+        GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
+
         Teleport(playerInput.gameObject, entrance.transform.position);
     }
     public static void Teleport(GameObject transitioningGameObject, Vector3 destinationPosition)
@@ -90,9 +92,10 @@ public class GameObjectTeleporter : MonoBehaviour
 
         /*  if (fade)
               yield return StartCoroutine(ScreenFader.FadeSceneOut());*///场景过渡加载暂不考虑 暂用yield return null代替防止没有返回值
+        transitioningGameObject.transform.position = destinationPosition;
         yield return null;
 
-        transitioningGameObject.transform.position = destinationPosition;
+   
 
        /* if (fade)
             yield return StartCoroutine(ScreenFader.FadeSceneIn());*/

@@ -26,8 +26,11 @@ public class GameManager : MonoBehaviour
 
     protected static GameManager instance;
 
+    [SerializeField]
+    private GameObject player;
 
-    public GameObject player;
+    public AudioManager audioManager;
+
 
     void Awake()
     {
@@ -39,8 +42,11 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
+        GameInitialize();
+
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
+        Application.targetFrameRate = 120;
     }
 
     /// <summary>
@@ -48,6 +54,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void creatPlayer()
     {
-        Instantiate(player);
+        Instantiate(player.gameObject);
+    }
+
+    public void GameInitialize()
+    {
+        audioManager = Instantiate(audioManager);
     }
 }

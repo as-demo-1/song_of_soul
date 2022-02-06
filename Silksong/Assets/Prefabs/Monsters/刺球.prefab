@@ -98,7 +98,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2262412264338392920
 Transform:
   m_ObjectHideFlags: 0
@@ -183,12 +183,15 @@ MonoBehaviour:
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
+  takeDamageAudio: {fileID: 0}
+  takeDamageSfxSO: {fileID: 0}
   maxHp: 2000
   currentHp: 2000
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
+  dieAudio: {fileID: 0}
 --- !u!50 &2262412264338392924
 Rigidbody2D:
   serializedVersion: 4
@@ -226,11 +229,7 @@ MonoBehaviour:
   audios: {fileID: 0}
   rigidbody2d: {fileID: 0}
   damageable: {fileID: 0}
-  currentState:
-    stateType: 0
   currentStateName: 
-  anyState:
-    stateType: 0
   defaultStateName: Climb_State
   stateConfigs:
   - {fileID: 11400000, guid: 48dbe3fdfd4e70845a64a876eaeb1299, type: 2}
@@ -239,6 +238,8 @@ MonoBehaviour:
   player: {fileID: 0}
   FaceLeftFirstOriginal: 0
   beatBackRatio: 0
+  hasInvokedAnimationEvent: 0
+  isInvokingAnimationEvent: 0
 --- !u!95 &2262412264338392919
 Animator:
   serializedVersion: 3
