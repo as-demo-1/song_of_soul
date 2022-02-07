@@ -8,6 +8,8 @@ public class PlayerCharacter : MonoBehaviour
     public int maxSoul;
     public int soul;
     public int money;
+    private HpDamable playerDamable;
+    private PlayerHpUI hpUI;
     /// <summary>
     /// 结算buff 获得最终的攻击加魂数量
     /// </summary>
@@ -16,9 +18,20 @@ public class PlayerCharacter : MonoBehaviour
     {
         return Constants.playerAttackGainSoul;
     }
+    private void Awake()
+    {
+        playerDamable = GetComponent<HpDamable>();
+        hpUI = GameObject.FindGameObjectWithTag("GamingUI").GetComponentInChildren<PlayerHpUI>();
+    }
+    public void playerInit()
+    {
+        playerDamable.maxHp = maxHp;
+        hpUI.setRepresentedDamable(playerDamable);
+        playerDamable.setHp(maxHp);
+    }
     void Start()
     {
-        
+        playerInit();
     }
 
     public void AttackGainSoul(DamagerBase damager,DamageableBase damageable)
@@ -29,28 +42,34 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
+    protected void addSoul(int number)
+    {
+        setSoul(soul + number);
+    }
     public void setSoul(int number)
     {
         soul = number;
         checkSoul();
     }
-
     protected virtual void checkSoul()
     {
-        if (soul>maxSoul)
-        {
-            soul= maxSoul;
-        }
-        if (soul <= 0)
-        {
-            soul = 0;
-        }
+        soul = Mathf.Clamp(soul, 0, maxSoul);
     }
-    protected void addSoul(int number)//如受到伤害 number<0
+   // -----------------------------------------------------------------------------
+    protected void addMaxHp(int number)
     {
-        soul += number;
-        checkSoul();
-
+        setMaxHp(maxHp + number);
     }
+
+    public void setMaxHp(int number)
+    {
+        maxHp = number;
+        playerDamable.maxHp = number;
+        hpUI.setRepresentedDamable(playerDamable);
+        hpUI.ChangeHitPointUI(playerDamable);
+    }
+
+
+
 
 }

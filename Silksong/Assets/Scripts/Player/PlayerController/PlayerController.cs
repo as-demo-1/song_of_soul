@@ -20,6 +20,8 @@ public struct PlayerInfo
     public int maxAirSprintCount;
     public int maxJumpCount;
 
+    public float breakMoonAvgSpeed;
+    public AnimationCurve breakMoonPositionCurve;
     //climb
     public float normalGravityScale;
    /* public int climbSpeed;
@@ -52,9 +54,11 @@ public class PlayerController : MonoBehaviour
 
     public PlayerInfo playerInfo;
 
-    public int lastHorizontalInputDir;
+    private int lastHorizontalInputDir;
 
-    private int m_LastHorizontalInputDir;
+    public Animator PlayerAnimator;
+
+    private Rigidbody2D RB;//ï¿½â²¿ï¿½ï¿½ï¿½Ê¸ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ó¦Í¨ï¿½ï¿½setRigidGravityScaleï¿½È·ï¿½×°ï¿½ï¿½Ä·ï¿½ï¿½ï¿½
 
     public SpriteRenderer SpriteRenderer { get; private set; }
     public Animator PlayerAnimator { get; private set; }
@@ -62,10 +66,13 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
     public Transform m_Transform { get; set; }
     [SerializeField] private LayerMask groundLayerMask;
-    //[SerializeField] private LayerMask ropeLayerMask; ×¢ÊÍÀíÓÉ£º¿ÉÄÜ²»ÔÙÐèÒªÅÊÅÀ¹¦ÄÜ
+    //[SerializeField] private LayerMask ropeLayerMask; ×¢ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     private PlayerGroundedCheck playerGroundedCheck;
-    private CapsuleCollider2D m_BodyCapsuleCollider;
+
+    [DisplayOnly]
+    public bool gravityLock;//ÎªtureÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gravityScaleï¿½Ä±ï¿½
+
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
     [SerializeField] private GameObject telePosition;
@@ -185,30 +192,6 @@ public class PlayerController : MonoBehaviour
         Interact();
     }
 
-   /* public void VerticalMove()
-    {
-        // check is on rope
-        if (IsRope())
-        {
-            // PInput.Vertical.Value onchange start climbing
-            if (PlayerInput.Instance.vertical.Value != 0)
-            {
-                OnClimb();
-            }
-
-            // if jump unClimb
-            if (PlayerInput.Instance.jump.Down)
-            {
-                UnClimb();
-            }
-        }
-        // unClimb
-        else
-        {
-            UnClimb();
-        }
-    }*/
-
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
@@ -226,15 +209,6 @@ public class PlayerController : MonoBehaviour
                 lastHorizontalInputDir = -1;
         }
     }
-
-    
-  /*  public void Teleport()
-    {
-        if (PlayerInput.Instance.teleport.Down)
-        {
-            MovementScript.Teleport(telePosition.transform.position, RB);//Transfer to the specified location
-        }
-    }*/
 
     public void Interact()
     {
@@ -254,105 +228,50 @@ public class PlayerController : MonoBehaviour
         return playerGroundedCheck.IsGroundedBuffer;
     }
 
-  /*  public void CheckIsGroundedAndResetAirJumpCount()
-    {
-        CheckIsGrounded();
-        if (IsGrounded)
-            ResetJumpCount();
-    }*/
-
-    /*bool IsRope()
-    {
-        return IsBlock(ropeLayerMask);
-    }*/
-
-    /* private void OnClimb()×¢ÊÍÀíÓÉ£º¿ÉÄÜ²»ÔÙÐèÒªÅÊÅÀ¹¦ÄÜ
-     {
-         // velocity is rb current force
-         RB.velocity = Vector3.zero;
-
-         // if isClimb rb.pos is PInput.Vertical.Value
-         if (playerInfo.isClimb)
-         {
-             Vector2 pos = transform.position;
-             pos.y += playerInfo.climbSpeed * PlayerInput.Instance.vertical.Value * Time.deltaTime;
-             RB.MovePosition(pos);
-         }
-         // togging isClimb and gravityScale is 0
-         else
-         {
-             RB.gravityScale = 0;
-             playerInfo.isClimb = true;
-         }
-     }*/
-
-    /* private void UnClimb()
-     {
-         // togging isClimb and recovery gravityScale
-         if (playerInfo.isClimb)
-         {
-             RB.gravityScale = playerInfo.gravity;
-             playerInfo.isClimb = false;
-         }
-     }*/
-    public void SwimUnderWater()
-    {
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
-        {
-            m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
-            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.speed;
-        }
-        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
-        {
-            m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
-            RB.velocity = new Vector3(1, 1).normalized * playerInfo.speed;
-        }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
-        {
-            m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
-            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.speed;
-        }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
-        {
-            m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
-            RB.velocity = new Vector2(1, -1).normalized * playerInfo.speed;
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
-                RB.velocity = new Vector2(0, 1) * playerInfo.speed;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
-                RB.velocity = new Vector2(0, -1) * playerInfo.speed;
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
-                RB.velocity = new Vector2(-1, 0) * playerInfo.speed;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
-                RB.velocity = new Vector2(1, 0) * playerInfo.speed;
-            }
-        }
-    }
-
     public void CheckFlipPlayer(float setAccelerationNormalizedTime)
     {
         if (PlayerInput.Instance.horizontal.Value == 1f & !playerInfo.playerFacingRight ||
                 PlayerInput.Instance.horizontal.Value == -1f & playerInfo.playerFacingRight)
         {
-            MovementScript.Flip(transform, ref playerInfo.playerFacingRight);
+            Flip();
             PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         }
     }
 
+    public void setRigidVelocity(Vector2 newVelocity)
+    {
+        RB.velocity = newVelocity;
+    }
+
+    public Vector2 getRigidVelocity()
+    {
+        return RB.velocity;
+    }
+
+    public void setRigidGravityScale(float newScale)
+    {
+        if(gravityLock==false)
+        RB.gravityScale = newScale;
+    }
+
+    public void setRigidGravityScaleToNormal()
+    {
+        setRigidGravityScale(playerInfo.normalGravityScale);
+    }
+
+    public void rigidMovePosition(Vector2 target)
+    {
+        RB.MovePosition(target);
+    }
     public void WhenStartSetLastHorizontalInputDirByFacing() => lastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
+
+    public void Flip()
+    {
+        playerInfo.playerFacingRight = !playerInfo.playerFacingRight;
+        Vector3 t = transform.localScale;
+        transform.localScale = new Vector3(-t.x, t.y, t.z);
+        PlayerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+    }
 }
 
 public class PlayerGroundedCheck
@@ -372,9 +291,9 @@ public class PlayerGroundedCheck
         {
             return isGrounded;
         }
-        set//Ã¿´Îupdate¶¼»áµ÷ÓÃ
+        set//Ã¿ï¿½ï¿½updateï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
-            if (value)//ÉèÎªÕæ
+            if (value)//ï¿½ï¿½Îªï¿½ï¿½
             {
                 playerController.PlayerStatesBehaviour.playerJump.resetJumpCount();
                 playerController.PlayerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
@@ -400,7 +319,7 @@ public class PlayerGroundedCheck
         get {return isGroundedBuffer; }
         set
         {      
-            if (isGroundedBuffer &&!value)//´ÓÕæÉèÎª¼Ù
+            if (isGroundedBuffer &&!value)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½
             {
                 playerController.PlayerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
             }
