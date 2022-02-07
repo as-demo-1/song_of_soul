@@ -61,9 +61,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D RB;//�ⲿ���ʸ���ʱ��Ӧͨ��setRigidGravityScale�ȷ�װ��ķ���
 
     public SpriteRenderer SpriteRenderer { get; private set; }
-    public Animator PlayerAnimator { get; private set; }
     //[SerializeField, HideInInspector]
-    public Rigidbody2D RB { get; private set; }
     public Transform m_Transform { get; set; }
     [SerializeField] private LayerMask groundLayerMask;
     //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
@@ -72,6 +70,7 @@ public class PlayerController : MonoBehaviour
 
     [DisplayOnly]
     public bool gravityLock;//Ϊtureʱ��������gravityScale�ı�
+    private bool IsUnderWater;
 
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
@@ -130,12 +129,22 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Colide with SavePoint");
             _savePoint = other.gameObject;
         }
+        if(other.gameObject.CompareTag("UnderWater"))
+        {
+            IsUnderWater = true;
+            RB.gravityScale = 0;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
         _savePoint = null;
+        if (other.gameObject.CompareTag("UnderWater"))
+        {
+            IsUnderWater = false;
+            RB.gravityScale = playerInfo.normalGravityScale;
+        }
     }
 
     public void CheckAddItem()
@@ -167,7 +176,7 @@ public class PlayerController : MonoBehaviour
         // _saveSystem.TestSaveGuid(_guid);
         RB = GetComponent<Rigidbody2D>();
         RB.gravityScale = playerInfo.normalGravityScale;
-
+        m_Transform = GetComponent<Transform>();
         PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         playerGroundedCheck = new PlayerGroundedCheck(this);
         animatorParamsMapping = PlayerAnimatorStatesControl.CharacterAnimatorParamsMapping;
@@ -180,6 +189,10 @@ public class PlayerController : MonoBehaviour
         CheckIsGrounded();
 
         PlayerAnimatorStatesControl.ParamsUpdate();
+        if(IsUnderWater)
+        {
+            SwimUnderWater();
+        }
     }
 
     private void LateUpdate()
@@ -271,6 +284,53 @@ public class PlayerController : MonoBehaviour
         Vector3 t = transform.localScale;
         transform.localScale = new Vector3(-t.x, t.y, t.z);
         PlayerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+    }
+
+    public void SwimUnderWater()
+    {
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
+            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
+            RB.velocity = new Vector3(1, 1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
+            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
+            RB.velocity = new Vector2(1, -1).normalized * playerInfo.moveSpeed;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
+                RB.velocity = new Vector2(0, 1) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
+                RB.velocity = new Vector2(0, -1) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
+                RB.velocity = new Vector2(-1, 0) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
+                RB.velocity = new Vector2(1, 0) * playerInfo.moveSpeed;
+            }
+        }
     }
 }
 
