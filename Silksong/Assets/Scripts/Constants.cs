@@ -15,8 +15,15 @@ public static class Constants
     public const float AirAccelerationTimeReduceFactor = 1.5f;
     public const float AirDeccelerationTimeReduceFactor = 1.5f;
 
+
     public const int BufferFrameTime = 5;//输入缓存帧
-    public const int VlunerableAfterDamageTime = 1;
+    public const int IsGroundedBufferFrame = 10;
+    public const int VlunerableAfterDamageTime = 1;//
+    public const float JumpUpSlowDownTime=0.3f;//
+    public const float JumpUpStopTime = 0.05f;//
+    public const float SprintCd=0.5f;
+    public const float SprintTime = 0.6f;//此值由实际冲刺动画的时长决定
+
 
     #region 玩家有关属性
     public const int playerInitialMaxHp=5;

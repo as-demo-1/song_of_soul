@@ -15,6 +15,8 @@ public class PlayerStatusDic
             {EPlayerStatus.CanMove, new PlayerStatusFlag() },
             {EPlayerStatus.CanJump, new PlayerStatusFlag() },
             {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag() },
+            {EPlayerStatus.CanSprint, new PlayerStatusFlag()},
+
         };
     }
 
@@ -27,14 +29,6 @@ public class PlayerStatusDic
     {
         return m_StatusDic[playerStatus];
     }
-
-   /* public PlayerStatusFlag this[EPlayerStatus playerStatus]注释理由：封装私有字典，只允许通过set和getPlayerStatus方法接触
-    {
-        get { return m_StatusDic[playerStatus]; }
-    }*/
-
-   // public static explicit operator Dictionary<EPlayerStatus, PlayerStatusFlag>(PlayerStatusDic dic) => dic.m_StatusDic;
-
 
     public class PlayerStatusFlag
     {
@@ -94,4 +88,6 @@ public enum EPlayerStatus : int
     CanMove = 1,
     CanJump = 2,
     CanNormalAttack = 4,
+    CanSprint=8,
+
 }
