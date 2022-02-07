@@ -132,7 +132,11 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("UnderWater"))
         {
             IsUnderWater = true;
-            RB.gravityScale = 0;
+            //入水时慢慢将速度减为0    
+            float smooth = 100f;
+            //float exitWaterTime = Time.time;
+            //RB.velocity = Vector2.Lerp(RB.velocity, new Vector2(RB.velocity.x, 0), (Time.time - exitWaterTime) * smooth);
+            RB.gravityScale = playerInfo.normalGravityScale / 5;
         }
     }
 
@@ -144,6 +148,7 @@ public class PlayerController : MonoBehaviour
         {
             IsUnderWater = false;
             RB.gravityScale = playerInfo.normalGravityScale;
+            RB.velocity += new Vector2(0, 5);       //添加一个出水速度
         }
     }
 
