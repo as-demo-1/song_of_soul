@@ -210,7 +210,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerInput.Instance.interact.Down)
         {
-            InteractManager.Interact();
+            InteractManager.Instance.Interact();
         }
     }
 
