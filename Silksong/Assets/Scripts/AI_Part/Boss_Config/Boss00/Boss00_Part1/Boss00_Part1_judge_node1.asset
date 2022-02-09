@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Boss00_Part2_judge_node1
+  m_Name: Boss00_Part1_judge_node1
   m_EditorClassIdentifier: 
   lastStateID: 0
   lastTriggerID: 2
-  StateName: Boss00_Part2_judge_node1
+  StateName: Boss00_Part1_judge_node1
   StateType: 0
   stateConfig:
     id: 0
@@ -35,26 +35,26 @@ MonoBehaviour:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
-        targetState: Boss00_Part2_Attack
+        targetState: Boss00_Part1_Chase
         checkNearRadius: 0
-        checkFarRadius: 30
+        checkFarRadius: 20
         addYBlockCheck: 0
         returnTrueWhenYBlock: 0
     00000002:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
-        targetState: Boss00_Part2_FlyAway
-        checkNearRadius: 20
-        checkFarRadius: 200
-        addYBlockCheck: 1
+        targetState: Boss00_Part1_FarAway
+        checkNearRadius: 15
+        checkFarRadius: 2000
+        addYBlockCheck: 0
         returnTrueWhenYBlock: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
-        targetState: Boss00_Part2_Attack
+        targetState: Boss00_Part1_Chase
         checkNearRadius: 0
-        checkFarRadius: 20
-        addYBlockCheck: 1
+        checkFarRadius: 15
+        addYBlockCheck: 0
         returnTrueWhenYBlock: 0

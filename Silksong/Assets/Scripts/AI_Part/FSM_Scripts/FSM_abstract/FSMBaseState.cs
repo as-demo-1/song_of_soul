@@ -62,7 +62,8 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
     [NonSerialized]
     public  EnemyFSMManager fsmManager;
     public string defaultAnimationName;
-    public UnityEvent animationEvents;
+    [NonSerialized]
+    public UnityEvent animationEvents=new UnityEvent();
     //对一些触发函数进行二次封装
     //////////////////////////////////////////////////////////////////////////////////////////
     public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)

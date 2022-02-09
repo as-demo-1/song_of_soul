@@ -22,15 +22,9 @@ public class ShootSystem : MonoBehaviour
         Square = 1,
         Triangle = 2
     }
-    public enum CreatePos
-    {
-        thisPos = 0,
-        PlayerPos = 1,
-        RandomPos = 2
-    }
     public enum ShootDir
     {
-        fromShootPos = 0,
+        fromThisPos = 0,
         toTarget = 1,
         Random = 2
     }
@@ -41,10 +35,9 @@ public class ShootSystem : MonoBehaviour
         public GameObject bullet;
         public int bulletNum;
         public ShootMethod shootMethod;
-        
         public ShootDir shotDir;
         public GameObject target;
-        public CreatePos createPos;
+        public Transform createPos;
         public float bulletDelayTime;
         public float bulletSpeed;
         public float shootOffsetAngle;
@@ -53,9 +46,7 @@ public class ShootSystem : MonoBehaviour
 
 
     public List<shootParam> shootModes;
-    private bool isShoot;
     private Vector2 mainDir;
-    private Vector2 createPosition;
     void Start()
     {
         
@@ -78,7 +69,8 @@ public class ShootSystem : MonoBehaviour
     {
         if (Param.bullet == null)
             return;
-
+        if (Param.target == null)
+            Param.target = GameObject.FindGameObjectWithTag("Player");
         
 
         switch (Param.shootMethod)
@@ -103,30 +95,16 @@ public class ShootSystem : MonoBehaviour
         GameObject tem = Instantiate<GameObject>(bullet, CreatePos, Quaternion.identity);
         tem.GetComponent<Rigidbody2D>().velocity = ShootVector;
     }
-    private void ShootOnce(shootParam Param)
+    private void ShootOnce(shootParam Param) 
     {
-        switch (Param.createPos)
+        switch (Param.shotDir)
         {
-            case CreatePos.PlayerPos: createPosition = Param.target.transform.position; break;
-            case CreatePos.RandomPos: createPosition = UnityEngine.Random.insideUnitCircle * UnityEngine.Random.Range(1, 10) + (Vector2)transform.position; break;
-            case CreatePos.thisPos: createPosition = transform.position; break;
+            case ShootDir.toTarget: mainDir = (Param.target.transform.position - Param.createPos.position).normalized; break;
+            case ShootDir.fromThisPos: mainDir = (Param.createPos.position - transform.position).normalized; break;
+            case ShootDir.Random: mainDir = UnityEngine.Random.insideUnitCircle; break;
         }
-
-        if (Param.createPos != CreatePos.PlayerPos)
-        {
-            switch (Param.shotDir)
-            {
-                case ShootDir.toTarget: mainDir = ((Vector2)Param.target.transform.position - createPosition).normalized; break;
-                case ShootDir.fromShootPos: mainDir = (createPosition - (Vector2)transform.position).normalized; break;
-                case ShootDir.Random: mainDir = UnityEngine.Random.insideUnitCircle; break;
-            }
-        }
-        else
-            mainDir = UnityEngine.Random.insideUnitCircle;
-
         mainDir = AddOffset(mainDir, Param.shootOffsetAngle);
-
-        CreateBullet(Param.bullet, createPosition, mainDir * Param.bulletSpeed);
+        CreateBullet(Param.bullet, Param.createPos.position, mainDir * Param.bulletSpeed);
     }
     private void ShootTogether(shootParam Param)
     {

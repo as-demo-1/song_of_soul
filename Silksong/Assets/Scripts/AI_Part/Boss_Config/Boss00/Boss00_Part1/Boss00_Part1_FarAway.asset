@@ -33,6 +33,9 @@ MonoBehaviour:
         defaultAnimationName: Boss00_FarAway
         chaseSpeed: -10
         isFaceWithSpeed: 0
+        isFlying: 0
+        lock_x_move: 0
+        lock_y_move: 0
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -40,17 +43,23 @@ MonoBehaviour:
         targetState: Boss00_Part1_Chase
         checkNearRadius: 0
         checkFarRadius: 0
+        addYBlockCheck: 0
+        returnTrueWhenYBlock: 0
     00000002:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
         targetState: Boss00_Part1_Shoot
-        checkNearRadius: 40
+        checkNearRadius: 25
         checkFarRadius: 10000
+        addYBlockCheck: 0
+        returnTrueWhenYBlock: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
         targetState: Boss00_Part1_Chase
         checkNearRadius: 0
-        checkFarRadius: 30
+        checkFarRadius: 10
+        addYBlockCheck: 0
+        returnTrueWhenYBlock: 0

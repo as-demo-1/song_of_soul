@@ -1,6 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+/// <summary>
+/// 这个是先上飞再下砸的行为
+/// 没有控制运动时间的参数，因为是根据动画的时间来算的，要减小运动时间，请调大动画播放速度。
+/// </summary>
 public class Enemy_Smash_Down_State : EnemyFSMBaseState
 {
     public float jumpHight;
@@ -23,7 +28,6 @@ public class Enemy_Smash_Down_State : EnemyFSMBaseState
 
     public override void Act_State(EnemyFSMManager enemyFSM)
     {
-        //TODO:谜之闪回原位置的bug？
         base.Act_State(enemyFSM);
         fsmManager = enemyFSM;
         stateInfo = enemyFSM.animator.GetCurrentAnimatorStateInfo(0);

@@ -26,6 +26,7 @@ public class Enemy_Idle_State : EnemyFSMBaseState
         {
             fsmManager.rigidbody2d.gravityScale = 0;
             RaycastHit2D tem = Physics2D.Raycast(fSM_Manager.transform.position, Vector2.down,300,LayerMask.GetMask("Ground"));
+            Debug.Log(tem.distance);
             if (tem.distance < flyingMinHight)
             {
                 Vector3 t = fsmManager.transform.position + new Vector3(0, flyingMinHight - tem.distance, 0);

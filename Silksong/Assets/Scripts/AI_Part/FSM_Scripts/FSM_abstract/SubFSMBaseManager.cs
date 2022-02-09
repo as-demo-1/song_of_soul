@@ -133,6 +133,8 @@ public class EnemySubFSMManager:EnemyFSMBaseState
     public override void ExitState(EnemyFSMManager fSM_Manager)
     {
         base.ExitState(fSM_Manager);
+        if(currentState!=null)
+            currentState.ExitState(fSM_Manager);
     }
 
     public override void invokeAnimationEvent()

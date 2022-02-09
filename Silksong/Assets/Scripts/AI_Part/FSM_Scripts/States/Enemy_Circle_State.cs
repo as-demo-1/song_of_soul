@@ -9,13 +9,13 @@ public class Enemy_Circle_State :Enemy_Idle_State
     [Tooltip("0为绕自身当前位置，1为绕玩家")]
     public int centreOfCircle=0;
     public bool lock_x=false,lock_y=false;
-
+    public bool isFaceToPlayer = true;
     private Vector2 centre =new Vector2(99999,99999);
     private float timer;
     public override void Act_State(EnemyFSMManager enemyFSM)
     {
         base.Act_State(enemyFSM);
-        enemyFSM.getTargetDir(true);
+        enemyFSM.getTargetDir(isFaceToPlayer);
         if (DOTween.IsTweening(enemyFSM.rigidbody2d))
             return;
         GetCentre(enemyFSM);

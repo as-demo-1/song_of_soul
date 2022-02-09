@@ -30,16 +30,14 @@ MonoBehaviour:
       data:
         stateType: 14
         defaultAnimationName: Boss00_Chase
-        animationEvents:
-          m_PersistentCalls:
-            m_Calls: []
         isflying: 0
         flyingMinHight: 0
-        angleSpeed: 4
-        radio: 5
+        angleSpeed: 12
+        radio: 2
         centreOfCircle: 1
         lock_x: 0
         lock_y: 1
+        isFaceToPlayer: 0
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -52,5 +50,5 @@ MonoBehaviour:
       data:
         triggerType: 0
         targetState: Boss00_Part1_Idle
-        maxTime: 5
+        maxTime: 2
         timer: 0
