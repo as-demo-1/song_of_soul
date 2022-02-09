@@ -18,43 +18,10 @@ public  class FSMBaseState<T1,T2>
     [NonSerialized]
     public List<FSMBaseTrigger<T1,T2>> triggers = new List<FSMBaseTrigger<T1,T2>>();
 
-    public void ClearTriggers()
-    {
-        triggers.Clear();
-    }
-    public FSMBaseState()
-    {
-        //InitState();
-    }
-
     /// <summary>
     /// 状态初始化
     /// </summary>
     public virtual void InitState(FSMManager<T1,T2> fSMManager) { }
-
-
-
-    //public void AddTriggers(T2 triggerType,T1 targetState) 
-    //{
-    //    //Debug.Log(triggerType);
-
-    //    Type type = Type.GetType(triggerType.ToString());
-    //    if (type == null)
-    //    {
-    //        Debug.LogError(triggerType + "无法添加到" + stateType + "的triggers列表");
-    //        Debug.LogError("未找到对应的Trigger，检查该Trigger的类名是否与枚举名保持一致。");
-    //    }
-    //    else 
-    //    {
-    //        triggers.Add(Activator.CreateInstance(type) as FSMBaseTrigger<T1,T2>);
-    //        triggers[triggers.Count - 1].targetState = targetState;
-    //    }
-    //}
-    public void AddTriggers(FSMBaseTrigger<T1,T2> trigger)
-    {
-        triggers.Add(trigger);
-    }
-
 
     /// <summary>
     /// 进入状态时调用
@@ -92,9 +59,11 @@ public  class FSMBaseState<T1,T2>
 
 public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers> 
 {
-    protected EnemyFSMManager fsmManager;
+    [NonSerialized]
+    public  EnemyFSMManager fsmManager;
     public string defaultAnimationName;
-    public UnityEvent animationEvents;
+    [NonSerialized]
+    public UnityEvent animationEvents=new UnityEvent();
     //对一些触发函数进行二次封装
     //////////////////////////////////////////////////////////////////////////////////////////
     public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
@@ -145,7 +114,7 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
         {
             if (triggers[i].IsTriggerReach(fsm_Manager.fsmManager))
             {
-                Debug.Log(triggers[i]+"     "+ triggers[i].targetState);
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }

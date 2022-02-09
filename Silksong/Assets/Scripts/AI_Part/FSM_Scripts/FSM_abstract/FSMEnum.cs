@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public enum EnemyStates
 {
+    StateCombinationNode=99,
     EnemySubFSMManager = 10,
 
     Enemy_Any_State =0,
@@ -21,10 +22,11 @@ public enum EnemyStates
     Enemy_Bump_State=9,
 
     Enemy_Chase_State=11,
-    Enemy_Turn_State=12,
-    Enemy_Meet_State=13,
-    Enemy_Smash_Down_State=14,
-    Boss_Shoot_State=15
+    Enemy_Smash_Down_State=12,
+    Boss_Shoot_State=13,
+    Enemy_Turn_State = 14,
+    Enemy_Meet_State = 15,
+    Enemy_Circle_State = 16
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。

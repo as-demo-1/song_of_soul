@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Boss00_Part1_Shoot
+  m_Name: Boss00_Part2_Random_Shoot
   m_EditorClassIdentifier: 
-  lastStateID: 13
+  lastStateID: 99
   lastTriggerID: 3
-  StateName: Boss00_Part1_Shoot
-  StateType: 13
+  StateName: Boss00_Part2_Random_Shoot
+  StateType: 99
   stateConfig:
     id: 0
   TriggerType: 3
@@ -26,27 +26,27 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Boss_Shoot_State, ns: , asm: Assembly-CSharp}
+      type: {class: StateCombinationNode, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 13
-        defaultAnimationName: Boss00_Shoot1
+        stateType: 99
+        defaultAnimationName: 
         animationEvents:
           m_PersistentCalls:
             m_Calls: []
-        isflying: 0
-        flyingMinHight: 0
-        shootSequence:
-        - normalShoot
-        index: 0
+        executeWay: 2
+        stateConfigs:
+        - {fileID: 11400000, guid: 5f9e8d09bfad5b046b98c0654e3dbf1e, type: 2}
+        - {fileID: 11400000, guid: 9bdfb4c566496074faec01b3f34977af, type: 2}
+        - {fileID: 11400000, guid: f976e6785cf2c1346a3fe5ce97551496, type: 2}
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: Boss00_Part1_Idle
+        targetState: 
         checkAnimationName: 
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: Boss00_Part1_Idle
+        targetState: Boss00_Part2_Idle
         checkAnimationName: 

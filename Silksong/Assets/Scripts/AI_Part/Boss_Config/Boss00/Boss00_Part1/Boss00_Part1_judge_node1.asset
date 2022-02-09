@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Boss00_Part1_FarAway
+  m_Name: Boss00_Part1_judge_node1
   m_EditorClassIdentifier: 
-  lastStateID: 11
+  lastStateID: 0
   lastTriggerID: 2
-  StateName: Boss00_Part1_FarAway
-  StateType: 11
+  StateName: Boss00_Part1_judge_node1
+  StateType: 0
   stateConfig:
     id: 0
   TriggerType: 2
@@ -27,31 +27,26 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Chase_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 11
-        defaultAnimationName: Boss00_FarAway
-        chaseSpeed: -10
-        isFaceWithSpeed: 0
-        isFlying: 0
-        lock_x_move: 0
-        lock_y_move: 0
+        stateType: 0
+        defaultAnimationName: 
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
         targetState: Boss00_Part1_Chase
         checkNearRadius: 0
-        checkFarRadius: 0
+        checkFarRadius: 20
         addYBlockCheck: 0
         returnTrueWhenYBlock: 0
     00000002:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
-        targetState: Boss00_Part1_Shoot
-        checkNearRadius: 25
-        checkFarRadius: 10000
+        targetState: Boss00_Part1_FarAway
+        checkNearRadius: 15
+        checkFarRadius: 2000
         addYBlockCheck: 0
         returnTrueWhenYBlock: 0
     00000003:
@@ -60,6 +55,6 @@ MonoBehaviour:
         triggerType: 2
         targetState: Boss00_Part1_Chase
         checkNearRadius: 0
-        checkFarRadius: 10
+        checkFarRadius: 15
         addYBlockCheck: 0
         returnTrueWhenYBlock: 0
