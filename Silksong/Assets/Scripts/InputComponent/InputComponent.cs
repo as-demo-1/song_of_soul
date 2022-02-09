@@ -101,9 +101,9 @@ public abstract class InputComponent : MonoBehaviour
         {
             if (!m_Enabled)
             {
-                Down = false;
-                Held = false;
-                Up = false;
+               /* Down = false;
+                Held = false;移到disable中
+                Up = false;*/
                 return;
             }
 
@@ -145,7 +145,7 @@ public abstract class InputComponent : MonoBehaviour
                     m_AfterFixedUpdateHeld = Held;
                     m_AfterFixedUpdateUp = Up;
                 }
-                else
+                else//update键入后，在下一个fixedupdate发生前认为一直有键入 目的是为了在update顺序随机情况下不丢失输入
                 {
                     Down = Input.GetKeyDown(key) || m_AfterFixedUpdateDown;
                     Held = Input.GetKey(key) || m_AfterFixedUpdateHeld;
@@ -165,6 +165,7 @@ public abstract class InputComponent : MonoBehaviour
                 return;
             if (conditions)
                 m_FrameCount = Constants.BufferFrameTime;
+
             if (m_FrameCount > 0)
             {
                 IsValid = true;
@@ -175,20 +176,26 @@ public abstract class InputComponent : MonoBehaviour
                 IsValid = false;
             }
         }
-        public void SetValidToFalse()
+        public void SetValidToFalse()//无用，down仍然有效，valid将不断激活
         {
             m_FrameCount = 0;
             IsValid = false;
         }
 
-        public void Enable()
+        public override void Enable()
         {
             m_Enabled = true;
+            
         }
 
-        public void Disable()
+        public override void Disable()
         {
             m_Enabled = false;
+            Down = false;
+            Held = false;
+            Up = false;
+            m_FrameCount = 0;
+            IsValid = false;
         }
 
         public override void GainControl()
@@ -256,7 +263,7 @@ public abstract class InputComponent : MonoBehaviour
         {
             if (!m_Enabled)
             {
-                Value = 0f;
+               // Value = 0f;
                 return;
             }
 
@@ -288,14 +295,15 @@ public abstract class InputComponent : MonoBehaviour
             ReceivingInput = positiveHeld || negativeHeld;
         }
 
-        public void Enable()
+        public override void Enable()
         {
             m_Enabled = true;
         }
 
-        public void Disable()
+        public override void Disable()
         {
             m_Enabled = false;
+            Value = 0f;
         }
 
         public override void GainControl()
@@ -327,6 +335,16 @@ public abstract class InputComponent : MonoBehaviour
         {
             yield break;
         }
+
+        public virtual void Enable()
+        {
+        }
+
+        public virtual void Disable()
+        {
+        }
+
+
     }
 
     public InputType inputType = InputType.MouseAndKeyboard;
@@ -357,7 +375,7 @@ public abstract class InputComponent : MonoBehaviour
 
     public abstract void ReleaseControls(bool resetValues = true);
 
-    [Obsolete]
+   /* [Obsolete]
     protected void GainControl(InputButton inputButton)
     {
         inputButton.GainControl();
@@ -376,7 +394,7 @@ public abstract class InputComponent : MonoBehaviour
     public void ReleaseControl(InputAxis inputAxis, bool resetValues)
     {
         inputAxis.ReleaseControl(resetValues);
-    }
+    }*/
 
     public interface IButton
     {
