@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class DialogInteract : InteractTriggerBase<DialogInteract>
 {
-    public Vector3 DialogPos;
     public int Step = 30;
-    public int NPCID;
 
     private GameObject m_player;
 
@@ -16,7 +14,7 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
         // 1.播放行走动画并移动 在走到相应坐标时停止
         Debug.Log("对话框");
 
-        m_player = GameObject.Find("Player");
+        m_player = GameObject.FindGameObjectWithTag("Player");
 
         if (m_player != null)
         {
@@ -34,10 +32,10 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
         // 2.调用对话系统的方法
         Debug.Log("调用对话系统方法");
 
-        TalkController.Instance.StartTalk(NPCID);
+        TalkController.Instance.StartTalk(InteractManager.Instance.InteractiveItemID);
 
         UIAddListener("Talk/TalkPanel/Next", () => {
-            TalkController.Instance.NextTalk(NPCID);
+            TalkController.Instance.StartTalk(InteractManager.Instance.InteractiveItemID);
         });
     }
 
@@ -55,7 +53,7 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
             {
                 actions.Enqueue(() => {
                     Vector3 tmpPos = m_player.transform.position;
-                    float tmpStep = (DialogPos.x - tmpPos.x) / Step;
+                    float tmpStep = (InteractManager.Instance.InteractiveItemPos.x - tmpPos.x) / Step;
                     tmpPos.x += tmpStep;
                     m_player.transform.position = tmpPos;
                     sprite.flipX = tmpStep > 0;
@@ -67,7 +65,7 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
             {
                 actions.Enqueue(() => {
                     Vector3 tmpPos = m_player.transform.position;
-                    float tmpStep = (DialogPos.x - tmpPos.x) / Step;
+                    float tmpStep = (InteractManager.Instance.InteractiveItemPos.x - tmpPos.x) / Step;
                     sprite.flipX = tmpStep <= 0;
                     PlayerController.Instance.playerInfo.playerFacingRight = tmpStep > 0;
 

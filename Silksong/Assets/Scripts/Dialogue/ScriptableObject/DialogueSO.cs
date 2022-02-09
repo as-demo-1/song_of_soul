@@ -5,17 +5,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Dialogue", menuName = "Dialogue/Dialogue")]
 public class DialogueSO : ScriptableObject
 {
-    [Tooltip("The id of the dialogue")]
-    [SerializeField] private int _id = default;
-    [Tooltip("The name of the NPC")]
-    [SerializeField] private string _NPCName = default;
-    [Tooltip("The next id of the dialogue")]
-    [SerializeField] private int _nextID = default;
-    [Tooltip("The detail of the dialogue")]
-    [SerializeField] private string _detail = default;
+    [Tooltip("The start id of the dialogue")]
+    [SerializeField] private int _startid = default;
+    [Tooltip("The end id of the dialogue")]
+    [SerializeField] private int _endid = default;
+    [Tooltip("The content of the dialogue")]
+    [SerializeField] private List<string> _content = default;
+
+    [Tooltip("控制这段对话的条件")]
+    [SerializeField] private List<string> _StatusList = default;
+
     
-    public int ID => _id;
-    public string NPCName => _NPCName;
-    public int NextID => _nextID;
-    public string Detail => _detail;
+    public int StartID => _startid;
+    public int EndID => _endid;
+    public List<string> Content => _content;
+    public List<string> StatusList => _StatusList;
 }

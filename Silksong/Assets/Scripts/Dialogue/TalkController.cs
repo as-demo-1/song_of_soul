@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TalkController
+public class TalkController : MonoBehaviour
 {
     private Transform _UI_trans;
 
     private GameObject TalkPanel;
     private Text NPCText;
     private Text NPCName;
+    private int _id = 0; 
+    private static int num = 1; //作为对话到第几段对话的指示器
+    private static int i = 0;
+
+    //public DialogueSectionSO DialogueSection;
+
+    
+
 
     private static TalkController _instance;
     public static TalkController Instance
@@ -26,7 +34,7 @@ public class TalkController
         }
     }
 
-    private static int _id = default;   //如果id为0，说明这是对话的第一句，用来判定是进行的是剧情对话还是闲聊
+    //private static int _id = default;   //如果id为0，说明这是对话的第一句，用来判定是进行的是剧情对话还是闲聊
     private int _count = default;
 
     private void loadUI()
@@ -78,79 +86,113 @@ public class TalkController
     public void StartTalk(int NPCID)
     {
         TalkPanel.SetActive(true);
-        for (int num = 0; num < TalkManager.Instance.TalkStatus[NPCID].TalkFlags.Count; num++) //如果之后有多个条件达成才能触发的对话，在这里添加判定条件再起一个if判断
+        //Debug.Log(NPCID);
+        if (num >= TalkManager.Instance.NPCAllContent[NPCID].Count) //已经过完剧情对话了，播放闲聊对话
         {
-            if (!TalkManager.Instance.TalkStatus[NPCID].ConditionNos.ContainsKey(TalkManager.Instance.TalkStatus[NPCID].TalkFlags[num]))
+            if(i < TalkManager.Instance.NPCAllContent[NPCID][0].Count)
             {
-                if (TalkManager.Instance.TalkStatus[NPCID].TalkFlags[num] != -1) // 如果TalkFlags有不为-1的值，说明还有剧情对话没过完  
-                {
-                    TalkManager.Instance.TalkStatus[NPCID].TalkFlags[num] = -1;
-                    _id = TalkManager.Instance.TalkStatus[NPCID].StartTalkNo[num];
-                    NPCText.text = TalkManager.Instance.TalkContent[_id];
-                    NPCName.text = TalkManager.Instance.TalkNPC[_id];
-                    break;
-                }
-                _id = TalkManager.Instance.TalkStatus[NPCID].StartTalkNo[0];
-                NPCText.text = TalkManager.Instance.TalkContent[_id];
-                NPCName.text = TalkManager.Instance.TalkNPC[_id];
+
+                NPCText.text = TalkManager.Instance.NPCAllContent[NPCID][0][i];
+                NPCName.text = TalkManager.Instance.Name[NPCID];
+                i += 1;
             }
             else
             {
-                // todo:在触发对话前先改变条件状态
-                ChangeCondition.Instance.JudgeCondition(NPCID);
-                for (int j = 0; j < TalkManager.Instance.TalkStatus[NPCID].ConditionNos[num].Count; j++)
+                i = 0;
+                TalkPanel.SetActive(false);
+                DialogInteract.Instance.ContinueEvent();
+
+            }
+            _id = 0;
+        }
+        else
+        {
+            if (!TalkManager.Instance.NPCAllCondition[NPCID].ContainsKey(num)) //如果TalkCondition里不包含这段对话的键，说明这段对话可以无条件触发
+            {
+                if (i < TalkManager.Instance.NPCAllContent[NPCID][num].Count)
                 {
-                    if (TalkManager.Instance.TalkStatus[NPCID].Condition[j] != 1) //只要有一个条件不为1，说明这一条剧情对话还不能触发
+                    Debug.Log(i);
+                    NPCText.text = TalkManager.Instance.NPCAllContent[NPCID][num][i];
+                    NPCName.text = TalkManager.Instance.Name[NPCID];
+                    i += 1;
+                    //Debug.Log(i);
+                }
+                else
+                {
+                    i = 0;
+                    num += 1;
+                    TalkPanel.SetActive(false);
+                    DialogInteract.Instance.ContinueEvent();
+                }
+            }
+            else
+            {
+                //检验条件
+                ConditionStatus();
+                foreach (int key in TalkManager.Instance.NPCAllCondition[NPCID].Keys)
+                {
+                    if (!TalkManager.Instance.TalkStatusJudge[TalkManager.Instance.NPCAllCondition[NPCID][key]]) //如果有一个条件未满足
                     {
-                        _id = TalkManager.Instance.TalkStatus[NPCID].StartTalkNo[0];
-                        NPCText.text = TalkManager.Instance.TalkContent[_id];
-                        NPCName.text = TalkManager.Instance.TalkNPC[_id];
+                        Debug.Log(TalkManager.Instance.TalkStatusJudge[TalkManager.Instance.NPCAllCondition[NPCID][key]]);
+                        _id = 0;
                         break;
+                    }
+                    _id = 1;
+                }
+                if (_id == 0)
+                {
+                    if (i < TalkManager.Instance.NPCAllContent[NPCID][0].Count)
+                    {
+                        Debug.Log("进行闲聊对话");
+                        NPCText.text = TalkManager.Instance.NPCAllContent[NPCID][0][i];
+                        NPCName.text = TalkManager.Instance.Name[NPCID];
+                        i += 1;
                     }
                     else
                     {
-                        _count += 1;
+                        i = 0;
+                        TalkPanel.SetActive(false);
+                        DialogInteract.Instance.ContinueEvent();
                     }
                 }
-                if (_count == TalkManager.Instance.TalkStatus[NPCID].ConditionNos[num].Count)
+                if (_id == 1)
                 {
-                    TalkManager.Instance.TalkStatus[NPCID].TalkFlags[num] = -1;
-                    _id = TalkManager.Instance.TalkStatus[NPCID].StartTalkNo[num];
-                    NPCText.text = TalkManager.Instance.TalkContent[_id];
-                    NPCName.text = TalkManager.Instance.TalkNPC[_id];
+                    if (i < TalkManager.Instance.NPCAllContent[NPCID][num].Count)
+                    {
+
+                        NPCText.text = TalkManager.Instance.NPCAllContent[NPCID][num][i];
+                        NPCName.text = TalkManager.Instance.Name[NPCID];
+                        i += 1;
+                    }
+                    else
+                    {
+                        num += 1;
+                        i = 0;
+                        TalkPanel.SetActive(false);
+                        DialogInteract.Instance.ContinueEvent();
+                    }
                 }
-                _count = 0;
+                _id = 0;
+            }
+        }
+    }
+    
+
+    public void ConditionStatus()
+    {
+        foreach (DialogueSectionSO DialogueItem in TalkManager.Instance.DialogueContainer.DialogueSectionList)
+        {
+            for (int x = 0; x < DialogueItem.DialogueList.ToArray().Length; x++)
+            {
+                if (DialogueItem.DialogueList[x].StatusList.ToArray().Length != 0) //如果这段对话有条件控制，把控制这段话的条件的Name装入TalkStatus字典
+                {
+                    for (int j = 0; j < DialogueItem.DialogueStatusList.ToArray().Length; j++)
+                    {
+                        TalkManager.Instance.TalkStatusJudge[DialogueItem.DialogueStatusList[j].ConditionName] = DialogueItem.DialogueStatusList[j].Judge;
+                    }
+                }
             }
         }
     }
 
-    public void NextTalk(int NPCID)
-    {
-        //_id = StartTalkNo[0];
-        if (TalkManager.Instance.TalkNo[_id] != -1)//如果Next_id不为-1
-        {
-            _id = TalkManager.Instance.TalkNo[_id];//_id等于Next_id
-            NPCText.text = TalkManager.Instance.TalkContent[_id];//更新文本
-            NPCName.text = TalkManager.Instance.TalkNPC[_id]; //更新说话人
-        }
-        else
-        {
-            TalkPanel.SetActive(false);
-            _id = 0;
-            DialogInteract.Instance.ContinueEvent();
-        }
-    }
-
-    public void TalkAction(int NPCID)
-    {
-
-        if (_id == 0)
-        {
-            StartTalk(NPCID);
-        }
-        else
-        {
-            NextTalk(NPCID);
-        }
-    }
 }

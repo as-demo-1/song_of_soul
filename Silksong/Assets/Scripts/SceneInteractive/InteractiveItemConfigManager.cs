@@ -24,5 +24,5 @@ public enum EInteractiveItemType
     NONE = -1,
     DIALOG,
     JUDGE,
-    FULLWINDOW
+    FULLTEXT
 }

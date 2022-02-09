@@ -19,9 +19,9 @@ public class ChangeCondition
     }
 
     // todo: 判断当前前状态进行改变
-    public void JudgeCondition(int NPCID)
+   /* public void JudgeCondition(int ConditionID)
     {
-        DialogueStatusSO status = TalkManager.Instance.TalkStatus[NPCID];
+        DialogueStatusSO status = TalkManager.Instance.DialogueStatus[ConditionID];
 
         if (status.IfDialogueList[0].ConditionID == 1)
         {
@@ -39,5 +39,5 @@ public class ChangeCondition
                 status.Condition[0] = 1;
             }
         }
-    }
+    }*/
 }

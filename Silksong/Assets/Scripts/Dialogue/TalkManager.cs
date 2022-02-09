@@ -4,51 +4,38 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Xml;
 
-public class TalkManager
+public class TalkManager : MonoBehaviour
 {
-    public Dictionary<int, string> TalkContent = new Dictionary<int, string>();//int是对话id，string是对话内容
-    public Dictionary<int, int> TalkNo = new Dictionary<int, int>(); //key是当前对话ID，value是NextID
-    public Dictionary<int, string> TalkNPC = new Dictionary<int, string>();//int是对话ID，string是说话的NPC名字
+    public DialogContainerSO DialogueContainer;
 
-    public Dictionary<int, DialogueStatusSO> TalkStatus = new Dictionary<int, DialogueStatusSO>();
+    //所有条件都储存在这个字典中
+    public Dictionary<string, bool> TalkStatusJudge = new Dictionary<string,bool>();//前面是条件名称，后面判断是否达成
+
+    
+    public Dictionary<int, List<string>> TalkContentDic = new Dictionary<int, List<string>>(); //每一个List<string>都是一段对话
+    public Dictionary<int, string> TalkStatus = new Dictionary<int, string>(); //前面是第几段对话，后面用于检索条件列表是否达成，表示第int段对话由string(s)条件控制
+
+    public Dictionary<int, Dictionary<int, List<string>>> NPCAllContent = new Dictionary<int, Dictionary<int, List<string>>>();
+    public Dictionary<int, Dictionary<int, string>> NPCAllCondition = new Dictionary<int, Dictionary<int, string>>();
+    public Dictionary<int, string> Name = new Dictionary<int, string>();
 
     private bool _isInit;
     public bool IsInit => _isInit;
 
     private static TalkManager _instance;
-    public static TalkManager Instance
+
+    // Start is called before the first frame update
+    void Awake()
     {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new TalkManager();
-            }
-
-            if (!_instance.IsInit)
-            {
-                _instance.Init();
-            }
-
-            return _instance;
-        }
+        _instance = this;
+        Init();
     }
+
+    public static TalkManager Instance => _instance;
 
     public void Init()
     {
         if (_isInit) return;
-
-        foreach (DialogueSO dialogueItem in TalkSOManager.Instance.DialogueContainer.DialogueList)
-        {
-            TalkContent[dialogueItem.ID] = dialogueItem.Detail;
-            TalkNo[dialogueItem.ID] = dialogueItem.NextID;
-            TalkNPC[dialogueItem.ID] = dialogueItem.NPCName;
-        }
-
-        foreach (DialogueStatusSO dialogueStatus in TalkSOManager.Instance.DialogueContainer.DialogueStatusList)
-        {
-            TalkStatus[dialogueStatus.NPCID] = dialogueStatus;
-        }
 
         _isInit = true;
     }
@@ -59,3 +46,4 @@ public static class TalkConditionState
     public static int money;
     public static bool isLock;
 }
+

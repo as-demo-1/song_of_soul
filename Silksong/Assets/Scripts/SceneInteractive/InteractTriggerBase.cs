@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public abstract class InteractTriggerBase<T> where T: class, new()
 {
-    public bool IsOnTrigger;
     public EInteractiveItemType TriggerItemType;
     protected bool m_isOnInteract = false;
     protected static Transform m_UI_trans;
@@ -30,7 +29,7 @@ public abstract class InteractTriggerBase<T> where T: class, new()
 
     public void Interact()
     {
-        if (m_isOnInteract || !IsOnTrigger)
+        if (m_isOnInteract)
             return;
 
         StopEvent();

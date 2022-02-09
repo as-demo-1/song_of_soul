@@ -18,6 +18,8 @@ public class InteractiveSO : ScriptableObject
     [SerializeField] private Vector3 _coord = default;
     [Tooltip("The face of the item")]
     [SerializeField] private bool _is_face_right = default;
+    /*[Tooltip("The DialogueSection")]
+    [SerializeField] private DialogueSectionSO _dialogueSection = default;*/
 
     public int ID => _id;
     public string Name => _name;
@@ -26,6 +28,7 @@ public class InteractiveSO : ScriptableObject
     public Sprite Icon => _icon;
     public Vector3 Coord => _coord;
     public bool IsFaceRight => _is_face_right;
+    public DialogueSectionSO DialogueSection;
 
     public void SetCoord (Vector3 coord)
     {

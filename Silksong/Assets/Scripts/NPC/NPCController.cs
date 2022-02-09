@@ -33,24 +33,16 @@ public class NPCController : MonoBehaviour
 
     private void CheckTriggerState(EInteractiveItemType itemType, bool isEnter)
     {
-        switch (itemType)
+        InteractManager.Instance.SetItemType(itemType);
+        InteractManager.Instance.SetIsOnTrigger(isEnter);
+        if (itemType == EInteractiveItemType.NONE)
         {
-            // 对话框事件
-            case EInteractiveItemType.DIALOG:
-                DialogInteract.Instance.IsOnTrigger = isEnter;
-                DialogInteract.Instance.TriggerItemType = itemType;
-                DialogInteract.Instance.DialogPos = GetCoord((InteractiveItem as NPCSO).TalkCoord);
-                DialogInteract.Instance.NPCID = InteractiveItem.ID;
-                break;
-            // 普通事件
-            case EInteractiveItemType.NONE:
-            case EInteractiveItemType.FULLWINDOW:
-            case EInteractiveItemType.JUDGE:
-                NormaInteract.Instance.IsOnTrigger = isEnter;
-                NormaInteract.Instance.TriggerItemType = itemType;
-                break;
-            default:
-                break;
+            InteractManager.Instance.SetFuncInteractItemType((InteractiveItem as FuncInteractiveSO).FuncInteractItemType);
+        }
+        else if (itemType == EInteractiveItemType.DIALOG)
+        {
+            InteractManager.Instance.SetInteractiveItemPos(GetCoord((InteractiveItem as NPCSO).TalkCoord));
+            InteractManager.Instance.SetInteractiveItemID(InteractiveItem.ID);
         }
     }
 
