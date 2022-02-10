@@ -7,6 +7,7 @@ public class InteractLoad : MonoBehaviour
 {
     public InteractiveContainerSO InteractiveContainer;
     public GameObject ItemPrefab;
+    public SaveSystem SaveSystem;
 
     // Use this for initialization
     void Start()
@@ -18,17 +19,30 @@ public class InteractLoad : MonoBehaviour
 
             SpriteRenderer npcSprite = go.GetComponent<SpriteRenderer>();
             NPCController npcController = go.AddComponent<NPCController>();
+            InteractiveObjectTrigger interactiveObjectTrigger = go.AddComponent<InteractiveObjectTrigger>();
             //TalkController npcTalkController = go.AddComponent<TalkController>();
 
             npcSprite.sprite = interactiveItem.Icon;
             npcSprite.flipX = !interactiveItem.IsFaceRight;
-            npcController.InteractiveItem = interactiveItem;
+            npcController.InteractiveItem = interactiveObjectTrigger.InteractiveItem
+                = interactiveItem;
 
             // 当可交互类型为npc的时候
             if (interactiveItem.ItemType == EInteractiveItemType.DIALOG)
             {
-                initDialog(interactiveItem.ID);
+                initDialog(interactiveItem.InteractiveID);
             }
+
+            if (interactiveItem.ItemType == EInteractiveItemType.NONE)
+            {
+                // 该物体为存档点
+                if ((interactiveItem as FuncInteractiveSO)
+                    .FuncInteractItemType == EFuncInteractItemType.SAVE)
+                {
+                    npcController.SaveSystem = SaveSystem;
+                }
+            }
+
             //Debug.Log(npcTalkController.DialogueSection);
             //TalkManager.Instance.NPCAllCondition[interactiveItem.ID] = TalkManager.Instance.TalkStatus;
         }

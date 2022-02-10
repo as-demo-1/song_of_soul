@@ -100,7 +100,7 @@ public class TalkController : MonoBehaviour
             {
                 i = 0;
                 TalkPanel.SetActive(false);
-                DialogInteract.Instance.ContinueEvent();
+                InteractManager.Instance.ContinueEvent();
 
             }
             _id = 0;
@@ -122,7 +122,7 @@ public class TalkController : MonoBehaviour
                     i = 0;
                     num += 1;
                     TalkPanel.SetActive(false);
-                    DialogInteract.Instance.ContinueEvent();
+                    InteractManager.Instance.ContinueEvent();
                 }
             }
             else
@@ -152,7 +152,7 @@ public class TalkController : MonoBehaviour
                     {
                         i = 0;
                         TalkPanel.SetActive(false);
-                        DialogInteract.Instance.ContinueEvent();
+                        InteractManager.Instance.ContinueEvent();
                     }
                 }
                 if (_id == 1)
@@ -169,7 +169,7 @@ public class TalkController : MonoBehaviour
                         num += 1;
                         i = 0;
                         TalkPanel.SetActive(false);
-                        DialogInteract.Instance.ContinueEvent();
+                        InteractManager.Instance.ContinueEvent();
                     }
                 }
                 _id = 0;

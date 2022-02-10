@@ -7,20 +7,29 @@ using UnityEngine.UI;
 
 public class NormalInteract : InteractTriggerBase<NormalInteract>
 {
-    private Dictionary<EFuncInteractItemType, Action> _actions
+    private Dictionary<EFuncInteractItemType, Action> _actions { get; }
         = new Dictionary<EFuncInteractItemType, Action>()
     {
         { EFuncInteractItemType.SAVE, () => {
-            Debug.Log("已存档");
+            // todo: save
+            InteractManager.Instance.NPCController.SaveSystem.SaveDataToDisk();
         }},
     };
 
     protected override void InteractEvent()
     {
-        Debug.Log("无界面");
-        _actions[InteractManager.Instance.FuncInteractItemType]();
+        if (_actions.ContainsKey(FuncInteractItemType))
+            _actions[FuncInteractItemType]();
+        else
+            Debug.LogError(FuncInteractItemType + " not add actions dictionary");
+
         ContinueEvent();
     }
+
+    private EFuncInteractItemType FuncInteractItemType =>
+        (InteractManager.Instance.InteractiveItem as FuncInteractiveSO)
+            .FuncInteractItemType;
+
 }
 
 public enum EFuncInteractItemType

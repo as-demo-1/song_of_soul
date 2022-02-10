@@ -8,6 +8,8 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
 
     private GameObject m_player;
 
+    private Vector3 _tmpTalkCoord;
+
     protected override void InteractEvent()
     {
         // todo:
@@ -32,10 +34,10 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
         // 2.调用对话系统的方法
         Debug.Log("调用对话系统方法");
 
-        TalkController.Instance.StartTalk(InteractManager.Instance.InteractiveItemID);
+        TalkController.Instance.StartTalk(InteractManager.Instance.InteractiveItem.InteractiveID);
 
         UIAddListener("Talk/TalkPanel/Next", () => {
-            TalkController.Instance.StartTalk(InteractManager.Instance.InteractiveItemID);
+            TalkController.Instance.StartTalk(InteractManager.Instance.InteractiveItem.InteractiveID);
         });
     }
 
@@ -47,17 +49,20 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
         // 控制角色移动并播放动画
         Queue<System.Action> actions = PlayerInput.Instance.actions;
         SpriteRenderer sprite = m_player.GetComponent<SpriteRenderer>();
+        _tmpTalkCoord = InteractManager.Instance.NPCController.GetTalkCoord();
         while (--times >= 0)
         {
             if (times == 0)
             {
                 actions.Enqueue(() => {
                     Vector3 tmpPos = m_player.transform.position;
-                    float tmpStep = (InteractManager.Instance.InteractiveItemPos.x - tmpPos.x) / Step;
+                    float tmpStep = (_tmpTalkCoord.x - tmpPos.x) / Step;
                     tmpPos.x += tmpStep;
                     m_player.transform.position = tmpPos;
+
                     sprite.flipX = tmpStep > 0;
                     PlayerController.Instance.playerInfo.playerFacingRight = tmpStep <= 0;
+
                     showDialog();
                 });
             }
@@ -65,7 +70,7 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
             {
                 actions.Enqueue(() => {
                     Vector3 tmpPos = m_player.transform.position;
-                    float tmpStep = (InteractManager.Instance.InteractiveItemPos.x - tmpPos.x) / Step;
+                    float tmpStep = (_tmpTalkCoord.x - tmpPos.x) / Step;
                     sprite.flipX = tmpStep <= 0;
                     PlayerController.Instance.playerInfo.playerFacingRight = tmpStep > 0;
 

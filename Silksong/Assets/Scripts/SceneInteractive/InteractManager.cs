@@ -5,50 +5,95 @@ using UnityEngine;
 
 public class InteractManager
 {
-    private EInteractiveItemType _itemType;
-    private bool _isOnTrigger;
-
-    private EFuncInteractItemType _funcInteractItemType;
-    private Vector3 _interactiveItemPos;
-    private int _interactiveItemID;
-
-    public EInteractiveItemType ItemType
-    {
-        get => _itemType;
-        set { _itemType = value; }
-    }
-
-    public bool IsOnTrigger
-    {
-        get => _isOnTrigger;
-        set { _isOnTrigger = value; }
-    }
-
-    public Vector3 InteractiveItemPos
-    {
-        get => _interactiveItemPos;
-        set { _interactiveItemPos = value; }
-    }
-
-    public int InteractiveItemID
-    {
-        get => _interactiveItemID;
-        set { _interactiveItemID = value; }
-    }
-    public EFuncInteractItemType FuncInteractItemType
-    {
-        get => _funcInteractItemType;
-        set { _funcInteractItemType = value; }
-    }
-
-    private Dictionary<EInteractiveItemType, Action> _interactiveAction
-            = new Dictionary<EInteractiveItemType, Action>()
+    private Dictionary<EInteractiveItemType, Action> _interactiveActions { get; }
+        = new Dictionary<EInteractiveItemType, Action>()
     {
         { EInteractiveItemType.NONE,        NormalInteract.Instance.Interact    },
         { EInteractiveItemType.DIALOG,      DialogInteract.Instance.Interact    },
         { EInteractiveItemType.JUDGE,       JudgeInteract.Instance.Interact     },
         { EInteractiveItemType.FULLTEXT,    FullTextInteract.Instance.Interact  },
     };
+
+    // 当前正在交互的npc对象
+    private GameObject _interactObject;
+    private NPCController _npcController;
+    private InteractiveObjectTrigger _interactiveObjectTrigger;
+
+    private Dictionary<int, GameObject> _tmpObjects
+        = new Dictionary<int, GameObject>()
+    {
+        { 0, null }, // exit
+        { 1, null }, // enter
+    };
+
+    private bool _isOnInteract;
+
+    public bool IsOnTrigger => !!InteractObject;
+
+    public bool IsOnInteract
+    {
+        get => _isOnInteract;
+        set { _isOnInteract = value; }
+    }
+
+
+    public InteractiveSO InteractiveItem
+    {
+        get
+        {
+            if (InteractiveObjectTrigger)
+            {
+                return InteractiveObjectTrigger.InteractiveItem;
+            }
+            else
+                return null;
+        }
+    }
+
+    public NPCController NPCController
+    {
+        get => _npcController;
+        private set { _npcController = value; }
+    }
+
+    public InteractiveObjectTrigger InteractiveObjectTrigger
+    {
+        get => _interactiveObjectTrigger;
+        private set { _interactiveObjectTrigger = value; }
+    }
+
+    public GameObject InteractObject
+    {
+        get => _interactObject;
+        set
+        {
+            if (!IsOnInteract)
+            {
+                _interactObject = value;
+                if (value)
+                {
+                    InteractiveObjectTrigger = value.GetComponent<InteractiveObjectTrigger>();
+                    NPCController = value.GetComponent<NPCController>();
+                }
+                else
+                {
+                    InteractiveObjectTrigger = null;
+                    NPCController = null;
+                }
+            }
+            else
+            {
+                if (value)
+                {
+                    _tmpObjects[1] = value;
+                }
+                else
+                {
+                    _tmpObjects[0] = _interactObject;
+                }
+            }
+        }
+    }
 
     private static InteractManager s_instance;
     public static InteractManager Instance
@@ -57,15 +102,48 @@ public class InteractManager
         {
             if (s_instance == null)
                 s_instance = new InteractManager();
-
             return s_instance;
         }
     }
 
+    public void StopEvent()
+    {
+        //todo:停止键鼠监测事件 停止正在进行的动作 动画
+        Debug.Log("StopEvent");
+        IsOnInteract = true;
+        PlayerInput.Instance.ToggleFrozen(true);
+    }
+
+    public void ContinueEvent()
+    {
+        //todo:继续键鼠监测事件 继续原来的事件
+        Debug.Log("ContinueEvent");
+        IsOnInteract = false;
+        PlayerInput.Instance.ToggleFrozen(false);
+
+        if (_tmpObjects[0])
+        {
+            InteractObject = null;
+            _tmpObjects[0] = null;
+        }
+
+        if (_tmpObjects[1])
+        {
+            InteractObject = _tmpObjects[1];
+            _tmpObjects[1] = null;
+        }
+    }
 
     public void Interact()
     {
-        if (_isOnTrigger)
-            _interactiveAction[_itemType]();
+        if (IsOnTrigger && !IsOnInteract)
+            if (_interactiveActions.ContainsKey(InteractiveItem.ItemType))
+            {
+                StopEvent();
+                _interactiveActions[InteractiveItem.ItemType]();
+            }
+            else
+                Debug.LogError(InteractiveItem.ItemType + " not add actions dictionary");
     }
 }
+

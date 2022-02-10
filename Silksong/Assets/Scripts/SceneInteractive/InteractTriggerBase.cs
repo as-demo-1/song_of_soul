@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public abstract class InteractTriggerBase<T> where T: class, new()
 {
-    public EInteractiveItemType TriggerItemType;
-    protected bool m_isOnInteract = false;
     protected static Transform m_UI_trans;
 
     private static T s_instance;
@@ -16,8 +14,9 @@ public abstract class InteractTriggerBase<T> where T: class, new()
         get
         {
             if (s_instance == null)
+            {
                 s_instance = new T();
-
+            }
             if (m_UI_trans == null)
             {
                 m_UI_trans = GameObject.Find("UI").transform;
@@ -29,27 +28,20 @@ public abstract class InteractTriggerBase<T> where T: class, new()
 
     public void Interact()
     {
-        if (m_isOnInteract)
-            return;
-
-        StopEvent();
         InteractEvent();
     }
+
     protected abstract void InteractEvent();
-    protected virtual void StopEvent() {
-        //todo:停止键鼠监测事件 停止正在进行的动作 动画
-        Debug.Log("StopEvent");
-        PlayerInput.Instance.ToggleFrozen(true);
-        m_isOnInteract = true;
-    }
-    public virtual void ContinueEvent()
+
+    protected virtual void StopEvent()
     {
-        //todo:继续键鼠监测事件 继续原来的事件
-        Debug.Log("ContinueEvent");
-        PlayerInput.Instance.ToggleFrozen(false);
-        m_isOnInteract = false;
+        InteractManager.Instance.StopEvent();
     }
 
+    protected virtual void ContinueEvent()
+    {
+        InteractManager.Instance.ContinueEvent();
+    }
 
     protected void UIAddListener(string path, UnityAction action)
     {
