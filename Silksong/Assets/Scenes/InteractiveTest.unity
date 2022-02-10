@@ -694,7 +694,7 @@ SpriteRenderer:
   m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &754444834
@@ -763,40 +763,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputType: 0
   sprint:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     key: 304
     controllerButton: 9
     m_Enabled: 1
+  Pick:
+    NeedGainAndReleaseControl: 0
+    key: 102
+    controllerButton: 4
+    m_Enabled: 1
   teleport:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     key: 120
     controllerButton: 0
     m_Enabled: 1
   jump:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     key: 32
     controllerButton: 1
     m_Enabled: 1
-  normalAttack:
-    NeedToGainAndReleaseControl: 1
-    key: 106
-    controllerButton: 3
-    m_Enabled: 1
   interact:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     key: 119
     controllerButton: 0
     m_Enabled: 1
+  breakMoon:
+    NeedGainAndReleaseControl: 0
+    key: 113
+    controllerButton: 0
+    m_Enabled: 1
   horizontal:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     positive: 100
     negative: 97
     controllerAxis: 1
   vertical:
-    NeedToGainAndReleaseControl: 1
+    NeedGainAndReleaseControl: 0
     positive: 119
     negative: 115
     controllerAxis: 2
+  normalAttack:
+    NeedGainAndReleaseControl: 0
+    key: 106
+    controllerButton: 3
+    m_Enabled: 1
 --- !u!114 &754444838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,24 +833,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInfo:
-    speed: 10
-    jumpHeight: 20
-    sprintForce: 30
-    maxAirExtraJumpCount: 1
-    gravity: 5
-    climbSpeed: 30
-    isClimb: 0
+    moveSpeed: 0
+    jumpMaxHeight: 0
+    jumpMinHeight: 0
+    maxFallSpeed: 0
+    sprintDistance: 0
+    maxAirSprintCount: 0
+    maxJumpCount: 0
+    breakMoonAvgSpeed: 0
+    breakMoonPositionCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    normalGravityScale: 0
     playerFacingRight: 1
+  PlayerAnimator: {fileID: 0}
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  ropeLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  groundCheckCapsuleCollider: {fileID: 582744616}
-  telePosition: {fileID: 0}
+  gravityLock: 0
+  groundCheckCollider: {fileID: 0}
   _guid: abea4a61-0e04-4486-8c24-996f6be3f551
   _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}
+  _backpack: {fileID: 0}
+  _itemToAdd: {fileID: 0}
+  _savePoint: {fileID: 0}
 --- !u!95 &754444840
 Animator:
   serializedVersion: 3
@@ -872,8 +891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50eb17b57b48c4540b519aa3f46dbd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 3
-  m_CurrentHp: 0
 --- !u!114 &754444842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,10 +903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d989976834a634b99c998e98f03b00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: 1
-  targetFactions: 
-  contactComponentBases:
-  - {fileID: 754444841}
 --- !u!1 &1020209574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,7 +2052,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1995478433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a973b6ea94a6644e284c1b5b0c76de4b, type: 3}
+  m_Script: {fileID: 11500000, guid: f7c16b1d23c51904bae4be4488ce98e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DialogueContainer: {fileID: 11400000, guid: 29f4de800a4f349408ab0e8d4f1239d1, type: 2}

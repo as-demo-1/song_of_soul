@@ -9,13 +9,37 @@ public class InteractManager
     private bool _isOnTrigger;
 
     private EFuncInteractItemType _funcInteractItemType;
-
     private Vector3 _interactiveItemPos;
     private int _interactiveItemID;
 
-    public Vector3 InteractiveItemPos => _interactiveItemPos;
-    public int InteractiveItemID => _interactiveItemID;
-    public EFuncInteractItemType FuncInteractItemType => _funcInteractItemType;
+    public EInteractiveItemType ItemType
+    {
+        get => _itemType;
+        set { _itemType = value; }
+    }
+
+    public bool IsOnTrigger
+    {
+        get => _isOnTrigger;
+        set { _isOnTrigger = value; }
+    }
+
+    public Vector3 InteractiveItemPos
+    {
+        get => _interactiveItemPos;
+        set { _interactiveItemPos = value; }
+    }
+
+    public int InteractiveItemID
+    {
+        get => _interactiveItemID;
+        set { _interactiveItemID = value; }
+    }
+    public EFuncInteractItemType FuncInteractItemType
+    {
+        get => _funcInteractItemType;
+        set { _funcInteractItemType = value; }
+    }
 
     private Dictionary<EInteractiveItemType, Action> _interactiveAction
             = new Dictionary<EInteractiveItemType, Action>()
@@ -37,32 +61,6 @@ public class InteractManager
             return s_instance;
         }
     }
-
-    public void SetItemType(EInteractiveItemType itemType)
-    {
-        _itemType = itemType;
-    }
-
-    public void SetIsOnTrigger(bool isOnTrigger)
-    {
-        _isOnTrigger = isOnTrigger;
-    }
-
-    public void SetInteractiveItemPos(Vector3 interactiveItemPos)
-    {
-        _interactiveItemPos = interactiveItemPos;
-    }
-
-    public void SetInteractiveItemID(int interactiveItemID)
-    {
-        _interactiveItemID = interactiveItemID;
-    }
-
-    public void SetFuncInteractItemType(EFuncInteractItemType funcInteractItemType)
-    {
-        _funcInteractItemType = funcInteractItemType;
-    }
-
 
 
     public void Interact()

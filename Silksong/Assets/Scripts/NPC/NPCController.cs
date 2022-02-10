@@ -33,16 +33,16 @@ public class NPCController : MonoBehaviour
 
     private void CheckTriggerState(EInteractiveItemType itemType, bool isEnter)
     {
-        InteractManager.Instance.SetItemType(itemType);
-        InteractManager.Instance.SetIsOnTrigger(isEnter);
+        InteractManager.Instance.ItemType = itemType;
+        InteractManager.Instance.IsOnTrigger = isEnter;
         if (itemType == EInteractiveItemType.NONE)
         {
-            InteractManager.Instance.SetFuncInteractItemType((InteractiveItem as FuncInteractiveSO).FuncInteractItemType);
+            InteractManager.Instance.FuncInteractItemType = (InteractiveItem as FuncInteractiveSO).FuncInteractItemType;
         }
         else if (itemType == EInteractiveItemType.DIALOG)
         {
-            InteractManager.Instance.SetInteractiveItemPos(GetCoord((InteractiveItem as NPCSO).TalkCoord));
-            InteractManager.Instance.SetInteractiveItemID(InteractiveItem.ID);
+            InteractManager.Instance.InteractiveItemPos = GetCoord((InteractiveItem as NPCSO).TalkCoord);
+            InteractManager.Instance.InteractiveItemID = InteractiveItem.ID;
         }
     }
 
