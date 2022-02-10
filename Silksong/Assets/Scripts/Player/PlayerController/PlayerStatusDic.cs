@@ -7,22 +7,28 @@ public class PlayerStatusDic
 {
     Dictionary<EPlayerStatus, PlayerStatusFlag> m_StatusDic;
 
-    public PlayerStatusDic(MonoBehaviour playerController)
+    private PlayerController playerController;
+
+
+    public PlayerStatusDic(PlayerController playerController,PlayerAnimatorParamsMapping animatorParamsMapping)
     {
-        //PlayerStatusFlag.GetPlayerController(playerController);
+        this.playerController = playerController;
         m_StatusDic = new Dictionary<EPlayerStatus, PlayerStatusFlag>
         {
-            {EPlayerStatus.CanMove, new PlayerStatusFlag() },
-            {EPlayerStatus.CanJump, new PlayerStatusFlag() },
-            {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag() },
-            {EPlayerStatus.CanSprint, new PlayerStatusFlag()},
-            {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag()},
+           // {EPlayerStatus.CanMove, new PlayerStatusFlag() },
+            {EPlayerStatus.CanJump, new PlayerStatusFlag(animatorParamsMapping.CanJumpParamHash) },
+            {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag(animatorParamsMapping.CanNormalAttackParamHash) },
+            {EPlayerStatus.CanSprint, new PlayerStatusFlag(animatorParamsMapping.CanSprintParamHash)},
+            {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag(animatorParamsMapping.CanBreakMoonParamHash)},
+            {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
+
         };
     }
 
     public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.Override)
     {
-        m_StatusDic[playerStatus].SetFlag(newFlag, calcuteFlagType);
+        PlayerStatusFlag flag = m_StatusDic[playerStatus];
+        flag.SetFlag(newFlag, calcuteFlagType);
     }
 
     public bool getPlayerStatus(EPlayerStatus playerStatus)
@@ -32,28 +38,34 @@ public class PlayerStatusDic
 
     public class PlayerStatusFlag
     {
-        public bool BuffFlags { get; private set; } = true;
-        private bool m_Flag = true;
-        public bool Flag 
+        protected int animatorParam;
+        protected bool BuffFlags = true;
+        protected bool StatuFlag = true;
+        private bool flag;
+        public virtual bool Flag 
         {
             get
             {
-                return m_Flag & BuffFlags;
+                return flag;
             }
-            private set
+            set
             {
-                m_Flag = value;
+                flag = value;
+                PlayerController.Instance.PlayerAnimator.SetBool(animatorParam,flag);
             }
         }
+
+        public PlayerStatusFlag(int param)
+        {
+            animatorParam = param;
+        }
+
         public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType = WayOfChangingFlag.Override)
         {
             switch (setFlagType)
             {
                 case WayOfChangingFlag.Override:
-                    Flag = newFlag;
-                    break;
-                case WayOfChangingFlag.AndBuffFlag:
-                    BuffFlags &= newFlag;
+                    StatuFlag = newFlag;
                     break;
                 case WayOfChangingFlag.OverrideBuffFlags:
                     BuffFlags = newFlag;
@@ -61,24 +73,46 @@ public class PlayerStatusDic
                 default:
                     break;
             }
-        }
 
-        //IEnumerator WaitForNextFrameBeforeUpdate(bool newFlag)
-        //{
-        //    yield return null;
-        //    this.Flag = newFlag;
-        //}
+            calcuteFlag();
+        }
+        protected virtual void calcuteFlag()
+        {
+            Flag = BuffFlags & StatuFlag;
+        }          
 
         public enum WayOfChangingFlag
         {
             Override,
-            AndBuffFlag,
+          //  AndBuffFlag,
             OverrideBuffFlags,
         }
-       /* private static MonoBehaviour PlayerController { get; set; }
-        public static void GetPlayerController(MonoBehaviour monoBehaviour) => PlayerController = monoBehaviour;*/
+
         public static implicit operator bool(PlayerStatusFlag playerStatus) => playerStatus.Flag;
     }
+
+    public class PlayerStatusFlagWithMana:PlayerStatusFlag
+    {
+        protected int manaCost;
+        protected bool manaIsEnough=true;
+        public PlayerStatusFlagWithMana(int param,int manaCost,PlayerCharacter playerCharacter) :base(param)
+        {
+           this.manaCost = manaCost;
+           playerCharacter.onManaChangeEvent.AddListener(calcuteMana);
+        }
+
+        protected override void calcuteFlag()
+        {
+            Flag = BuffFlags & StatuFlag & manaIsEnough;
+        }
+
+        protected void calcuteMana(PlayerCharacter playerCharacter)
+        {
+            manaIsEnough = playerCharacter.Mana >= manaCost;
+            calcuteFlag();
+        }
+    }
+
 }
 
 //todo£∫ Œª∆•≈‰
@@ -90,5 +124,7 @@ public enum EPlayerStatus : int
     CanNormalAttack = 4,
     CanSprint=8,
     CanBreakMoon=16,
+    CanHeal=32,
+
 
 }

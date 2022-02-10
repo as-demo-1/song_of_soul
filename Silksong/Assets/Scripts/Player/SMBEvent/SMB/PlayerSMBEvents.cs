@@ -43,7 +43,7 @@ public class PlayerSMBEvents : PlayerSMB
     {
         //if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name== "NormalAttack_01")
         {
-           //Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
+          //Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
             //Debug.Log(Time.frameCount);
         }
 

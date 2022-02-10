@@ -27,6 +27,8 @@ public static class Constants
     public const float BreakMoonPointCd = 3f;
     public const float BreakMoonAfterDistance=2f;//碎月缓冲距离
 
+    public const float PlayerBaseHealTime = 2f;
+
 
     #region 玩家有关属性
     public const int playerInitialMaxHp=5;
@@ -34,7 +36,8 @@ public static class Constants
     public const int playerInitialMoney =0;
 
     public const int playerAttackGainSoul = 10;
-    public const int playerHealCostSoul = 33;
+    public const int playerHealCostMana = 33;
+    public const int playerHealBaseValue = 1;
 
 
     #endregion

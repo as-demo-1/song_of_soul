@@ -12,6 +12,6 @@ public class SMBStatusData : SMBEventTimeStamp
     {
        // Debug.Log("event " + this.GetType());
        if(playerStatus!=0)
-        PlayerController.Instance.PlayerAnimatorStatesControl.PlayerStatusDic.SetPlayerStatusFlag(playerStatus, statusIsActive, wayOfChangingFlag);
+        PlayerController.Instance.playerAnimatorStatesControl.PlayerStatusDic.SetPlayerStatusFlag(playerStatus, statusIsActive, wayOfChangingFlag);
     }
 }
