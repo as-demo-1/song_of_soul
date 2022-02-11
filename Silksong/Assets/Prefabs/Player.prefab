@@ -1,5 +1,135 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &132305938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 132305939}
+  - component: {fileID: 132305943}
+  - component: {fileID: 132305942}
+  - component: {fileID: 132305941}
+  - component: {fileID: 132305940}
+  m_Layer: 20
+  m_Name: upAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &132305939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 448765875}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &132305943
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.5}
+  m_EdgeRadius: 0
+--- !u!114 &132305942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04c49877695c20044abc3ee41276ca77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreInvincibility: 0
+  canDamage: 1
+  damage: 1
+  beatBackVector: {x: 0.25, y: 0}
+  makeDamageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 484977951751258056}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: AttackGainMana
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  hittableLayers2:
+    serializedVersion: 2
+    m_Bits: 32768
+  damage2: 10
+--- !u!114 &132305941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9758a46ce5d59469767080cae67c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  timeScale: 0
+  frameCounts: 4
+--- !u!114 &132305940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  shakeForce: 0.4
 --- !u!1 &225317964
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +211,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 484977951751258056}
         m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainSoul
+        m_MethodName: AttackGainMana
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -162,6 +292,7 @@ Transform:
   - {fileID: 1439625706}
   - {fileID: 2013861695}
   - {fileID: 225317965}
+  - {fileID: 132305939}
   m_Father: {fileID: 484977951162521063}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -316,7 +447,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 484977951751258056}
         m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainSoul
+        m_MethodName: AttackGainMana
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -446,7 +577,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 484977951751258056}
         m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainSoul
+        m_MethodName: AttackGainMana
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -504,11 +635,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 484977951162521063}
+  - component: {fileID: 484977951162521056}
+  - component: {fileID: 484977951751258056}
   - component: {fileID: 484977951162521058}
   - component: {fileID: 484977951162521062}
-  - component: {fileID: 484977951162521056}
   - component: {fileID: 484977951162521059}
-  - component: {fileID: 484977951751258056}
   - component: {fileID: 1342962417}
   - component: {fileID: 1048344337554074644}
   - component: {fileID: 4061423512895920214}
@@ -537,6 +668,89 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &484977951162521056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28aa47a7635985f468ccaee4358a06bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputType: 0
+  sprint:
+    NotNeedGainAndReleaseControl: 0
+    key: 304
+    controllerButton: 9
+    m_Enabled: 1
+  Pick:
+    NotNeedGainAndReleaseControl: 0
+    key: 102
+    controllerButton: 4
+    m_Enabled: 1
+  teleport:
+    NotNeedGainAndReleaseControl: 0
+    key: 120
+    controllerButton: 0
+    m_Enabled: 1
+  jump:
+    NotNeedGainAndReleaseControl: 0
+    key: 107
+    controllerButton: 1
+    m_Enabled: 1
+  interact:
+    NotNeedGainAndReleaseControl: 0
+    key: 119
+    controllerButton: 0
+    m_Enabled: 1
+  breakMoon:
+    NotNeedGainAndReleaseControl: 0
+    key: 113
+    controllerButton: 0
+    m_Enabled: 1
+  heal:
+    NotNeedGainAndReleaseControl: 0
+    key: 99
+    controllerButton: 0
+    m_Enabled: 1
+  horizontal:
+    NotNeedGainAndReleaseControl: 0
+    positive: 100
+    negative: 97
+    controllerAxis: 1
+  vertical:
+    NotNeedGainAndReleaseControl: 0
+    positive: 119
+    negative: 115
+    controllerAxis: 2
+  normalAttack:
+    NotNeedGainAndReleaseControl: 0
+    key: 106
+    controllerButton: 3
+    m_Enabled: 1
+--- !u!114 &484977951751258056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9912943845aa4db488c102a390b6aca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 10
+  maxMana: 100
+  mana: 0
+  money: 0
+  playerDamable: {fileID: 0}
+  onManaChangeEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &484977951162521058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,6 +763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacter: {fileID: 0}
   playerInfo:
     moveSpeed: 5
     jumpMaxHeight: 4.05
@@ -616,64 +831,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &484977951162521056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484977951162521061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28aa47a7635985f468ccaee4358a06bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputType: 0
-  sprint:
-    NeedGainAndReleaseControl: 0
-    key: 304
-    controllerButton: 9
-    m_Enabled: 1
-  Pick:
-    NeedGainAndReleaseControl: 0
-    key: 102
-    controllerButton: 4
-    m_Enabled: 1
-  teleport:
-    NeedGainAndReleaseControl: 0
-    key: 120
-    controllerButton: 0
-    m_Enabled: 1
-  jump:
-    NeedGainAndReleaseControl: 0
-    key: 32
-    controllerButton: 1
-    m_Enabled: 1
-  interact:
-    NeedGainAndReleaseControl: 0
-    key: 119
-    controllerButton: 0
-    m_Enabled: 1
-  breakMoon:
-    NeedGainAndReleaseControl: 0
-    key: 113
-    controllerButton: 0
-    m_Enabled: 1
-  horizontal:
-    NeedGainAndReleaseControl: 0
-    positive: 100
-    negative: 97
-    controllerAxis: 1
-  vertical:
-    NeedGainAndReleaseControl: 0
-    positive: 119
-    negative: 115
-    controllerAxis: 2
-  normalAttack:
-    NeedGainAndReleaseControl: 0
-    key: 106
-    controllerButton: 3
-    m_Enabled: 1
 --- !u!114 &484977951162521059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,22 +844,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedGuid: 
---- !u!114 &484977951751258056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484977951162521061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9912943845aa4db488c102a390b6aca1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 5
-  maxSoul: 100
-  soul: 0
-  money: 0
 --- !u!114 &1342962417
 MonoBehaviour:
   m_ObjectHideFlags: 0

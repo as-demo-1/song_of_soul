@@ -1,73 +1,122 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
+using UnityEngine.UI;
 public class PlayerCharacter : MonoBehaviour
 {
-    public int maxHp;
-    public int maxSoul;
-    public int soul;
-    public int money;
-    private HpDamable playerDamable;
-    private PlayerHpUI hpUI;
-    /// <summary>
-    /// 结算buff 获得最终的攻击加魂数量
-    /// </summary>
-    /// <returns></returns>
-    public int getAttackGainSoulNumber()
+    [SerializeField]
+    private int maxHp;
+    public int MaxHp
     {
-        return Constants.playerAttackGainSoul;
-    }
-    private void Awake()
-    {
-        playerDamable = GetComponent<HpDamable>();
-        hpUI = GameObject.FindGameObjectWithTag("GamingUI").GetComponentInChildren<PlayerHpUI>();
-    }
-    public void playerInit()
-    {
-        playerDamable.maxHp = maxHp;
-        hpUI.setRepresentedDamable(playerDamable);
-        playerDamable.setHp(maxHp);
-    }
-    void Start()
-    {
-        playerInit();
-    }
-
-    public void AttackGainSoul(DamagerBase damager,DamageableBase damageable)
-    {
-        if(damageable.playerAttackCanGainSoul)
+        get { return maxHp; }
+        set
         {
-            addSoul(getAttackGainSoulNumber());
+            maxHp = value;
+            playerDamable.MaxHp = maxHp;
+            hpUI.setRepresentedDamable(playerDamable);
+            hpUI.ChangeHitPointUI(playerDamable);
         }
     }
 
-    protected void addSoul(int number)
+
+    [SerializeField]
+    private int maxMana;
+    public int MaxMana
     {
-        setSoul(soul + number);
+        get { return maxMana; }
+        set
+        {
+            maxMana = value;
+        }
     }
-    public void setSoul(int number)
+
+
+    [SerializeField]
+    private int mana;
+    public int Mana
     {
-        soul = number;
-        checkSoul();
+        get { return mana; }
+        set
+        {
+            mana = Mathf.Clamp(value, 0, maxMana);
+            onManaChangeEvent.Invoke(this);
+        }
     }
-    protected virtual void checkSoul()
+
+
+    [SerializeField]
+    private int money;
+    public int Money
     {
-        soul = Mathf.Clamp(soul, 0, maxSoul);
+        get { return money; }
+        set
+        {
+            money = value;
+        }
+    }
+
+    public HpDamable playerDamable;
+    private PlayerHpUI hpUI;
+    private Image ManaBall;
+
+    
+    public UnityEvent<PlayerCharacter> onManaChangeEvent;
+    //private PlayerController playerController;
+
+
+  
+    private void Awake()
+    {
+        playerDamable = GetComponent<HpDamable>();
+
+        //playerController = GetComponent<PlayerController>();
+    }
+    public void playerInit()
+    { 
+
+        playerDamable.MaxHp = maxHp;
+        hpUI.setRepresentedDamable(playerDamable);
+        playerDamable.setCurrentHp(maxHp);
+        Mana = 40;
+    }
+    void Start()
+    {
+        GameObject gamingUI = GameObject.FindGameObjectWithTag("GamingUI");
+        hpUI = gamingUI.GetComponentInChildren<PlayerHpUI>();
+        ManaBall = gamingUI.transform.Find("ManaBall").GetComponent<Image>();
+        onManaChangeEvent.AddListener(changeManaBall);
+
+        playerInit();
+    }
+
+    public int getAttackGainManaNumber()
+    {
+        return Constants.playerAttackGainSoul;
+    }
+
+    public void AttackGainMana(DamagerBase damager,DamageableBase damageable)
+    {
+        if(damageable.playerAttackCanGainSoul)
+        {
+            addMana(getAttackGainManaNumber());
+        }
+    }
+    public void addMana(int number)
+    {
+        Mana+=number;
+    }
+
+    private void changeManaBall(PlayerCharacter playerCharacter)
+    {
+        ManaBall.fillAmount = (float)playerCharacter.Mana / playerCharacter.MaxMana;
     }
    // -----------------------------------------------------------------------------
     protected void addMaxHp(int number)
     {
-        setMaxHp(maxHp + number);
+        MaxHp += number;
     }
 
-    public void setMaxHp(int number)
-    {
-        maxHp = number;
-        playerDamable.maxHp = number;
-        hpUI.setRepresentedDamable(playerDamable);
-        hpUI.ChangeHitPointUI(playerDamable);
-    }
 
 
 
