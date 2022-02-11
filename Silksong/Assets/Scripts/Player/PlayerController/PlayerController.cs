@@ -24,8 +24,6 @@ public struct PlayerInfo
     public AnimationCurve breakMoonPositionCurve;
     //climb
     public float normalGravityScale;
-   /* public int climbSpeed;
-    public bool isClimb;*/
 
     public bool playerFacingRight;
 
@@ -44,11 +42,15 @@ public struct PlayerInfo
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
-    public PlayerAnimatorStatesControl PlayerAnimatorStatesControl { get; private set; }
+    public PlayerAnimatorStatesControl playerAnimatorStatesControl { get; private set; }
 
     public PlayerAnimatorParamsMapping animatorParamsMapping;
 
-    public PlayerStatesBehaviour PlayerStatesBehaviour;
+    public PlayerStatesBehaviour playerStatesBehaviour;
+
+    public PlayerStatusDic playerStatusDic;
+
+    public PlayerCharacter playerCharacter;
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
 
@@ -61,7 +63,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D RB;//�ⲿ���ʸ���ʱ��Ӧͨ��setRigidGravityScale�ȷ�װ��ķ���
 
     [SerializeField] private LayerMask groundLayerMask;
-    //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
+
 
     private PlayerGroundedCheck playerGroundedCheck;
 
@@ -97,8 +99,11 @@ public class PlayerController : MonoBehaviour
         else
             throw new UnityException("There cannot be more than one PlayerController script.  The instances are " + Instance.name + " and " + name + ".");
         DontDestroyOnLoad(this.gameObject);
-        if (_backpack)
-            _backpack.LoadSave();
+
+        if(_backpack)
+        _backpack.LoadSave();
+
+        init();
     }
 
     private void OnEnable()
@@ -156,31 +161,40 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    public void init()
+    {
+        RB = GetComponent<Rigidbody2D>();
+        playerCharacter = GetComponent<PlayerCharacter>();
+        playerGroundedCheck = new PlayerGroundedCheck(this);
+
+        playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
+        animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
+        playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
+        playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
+
+    }
     void Start()
     {
         playerInfo.init();
-
         // _saveSystem.TestSaveGuid(_guid);
-        RB = GetComponent<Rigidbody2D>();
         RB.gravityScale = playerInfo.normalGravityScale;
-
-        PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
-        playerGroundedCheck = new PlayerGroundedCheck(this);
-        animatorParamsMapping = PlayerAnimatorStatesControl.CharacterAnimatorParamsMapping;
-        PlayerStatesBehaviour = PlayerAnimatorStatesControl.CharacterStatesBehaviour;
         WhenStartSetLastHorizontalInputDirByFacing();
+
+        HpDamable damable = GetComponent<HpDamable>();
+        damable.takeDamageEvent.AddListener(getHurt);
+        damable.onDieEvent.AddListener(die);
     }
 
     private void Update()
     {
         CheckIsGrounded();
 
-        PlayerAnimatorStatesControl.ParamsUpdate();
+        playerAnimatorStatesControl.ParamsUpdate();
     }
 
     private void LateUpdate()
     {
-        PlayerAnimatorStatesControl.BehaviourLateUpdate();
+        playerAnimatorStatesControl.BehaviourLateUpdate();
     }
 
     private void FixedUpdate()
@@ -266,7 +280,17 @@ public class PlayerController : MonoBehaviour
         playerInfo.playerFacingRight = !playerInfo.playerFacingRight;
         Vector3 t = transform.localScale;
         transform.localScale = new Vector3(-t.x, t.y, t.z);
-        PlayerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+        playerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+    }
+
+    public void getHurt(DamagerBase damager,DamageableBase damable)
+    {
+        PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
+    }
+
+    public void die(DamagerBase damager, DamageableBase damable)
+    {
+        PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas,true);
     }
 }
 
@@ -291,8 +315,8 @@ public class PlayerGroundedCheck
         {
             if (value)//��Ϊ��
             {
-                playerController.PlayerStatesBehaviour.playerJump.resetJumpCount();
-                playerController.PlayerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
+                playerController.playerStatesBehaviour.playerJump.resetJumpCount();
+                playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
                 bufferTimer = Constants.IsGroundedBufferFrame;
             }
 
@@ -317,7 +341,7 @@ public class PlayerGroundedCheck
         {      
             if (isGroundedBuffer &&!value)//������Ϊ��
             {
-                playerController.PlayerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
+                playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
             }
             isGroundedBuffer = value;
         }

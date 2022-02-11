@@ -11,7 +11,7 @@ public class PlayerHpUI : MonoBehaviour
 
     protected readonly int m_HashActivePara = Animator.StringToHash("Active");
    // protected readonly int m_HashInactiveState = Animator.StringToHash("Inactive");
-    protected const float heartIcon_XWidth = 80f;
+    protected const float heartIcon_XWidth = 60f;
 
     public void setRepresentedDamable(HpDamable hpDamable)//设置血量上限
     {
@@ -27,9 +27,9 @@ public class PlayerHpUI : MonoBehaviour
 
 
 
-        m_HealthIconAnimators = new Animator[representedDamable.maxHp];
+        m_HealthIconAnimators = new Animator[representedDamable.MaxHp];
 
-        for (int i = 0; i < representedDamable.maxHp; i++)
+        for (int i = 0; i < representedDamable.MaxHp; i++)
         {
             GameObject healthIcon = Instantiate(healthIconPrefab);
             healthIcon.transform.SetParent(transform,false);
@@ -50,7 +50,7 @@ public class PlayerHpUI : MonoBehaviour
 
         for (int i = 0; i < m_HealthIconAnimators.Length; i++)
         {
-            m_HealthIconAnimators[i].SetBool(m_HashActivePara, damageable.currentHp >= i + 1);
+            m_HealthIconAnimators[i].SetBool(m_HashActivePara, damageable.CurrentHp >= i + 1);
         }
     }
 
