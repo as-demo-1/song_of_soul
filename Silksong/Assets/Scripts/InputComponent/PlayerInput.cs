@@ -17,13 +17,15 @@ public class PlayerInput : InputComponent
     public bool IsFrozen { get; set; }
 
     private List<Button> buttons = new List<Button>();
+
     public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper);
     public InputButton Pick = new InputButton(KeyCode.F, XboxControllerButtons.Y);
     ////TODO:xbox button mapping
     public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None);
-    public InputButton jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
+    public InputButton jump = new InputButton(KeyCode.K, XboxControllerButtons.A);
     public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None);
     public InputButton breakMoon = new InputButton(KeyCode.Q, XboxControllerButtons.None);
+    public InputButton heal = new InputButton(KeyCode.C, XboxControllerButtons.None);
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
@@ -51,6 +53,7 @@ public class PlayerInput : InputComponent
             teleport,
             Pick,
             breakMoon,
+            heal,
 
         });
     }
