@@ -25,7 +25,7 @@ public class BreakMoonPoint:MonoBehaviour
     {
         if (ready && targetLayer.Contains(collision.gameObject))
         {
-            playerBreakMoon = collision.GetComponent<PlayerController>().PlayerStatesBehaviour.playerBreakMoon;
+            playerBreakMoon = collision.GetComponent<PlayerController>().playerStatesBehaviour.playerBreakMoon;
             playerBreakMoon.availableTargets.Add(this);
             playerBreakMoon.findCurrentTarget();
         }
@@ -50,6 +50,8 @@ public class BreakMoonPoint:MonoBehaviour
     private void broken()
     {
         //spriteRenderer.enabled = false;
+      /*  playerBreakMoon.availableTargets.Remove(this);
+        playerBreakMoon.findCurrentTarget();*/
         collider2d.enabled = false;
         unPicked();
         spriteRenderer.color = new Color(255, 0, 0);
