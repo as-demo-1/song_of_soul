@@ -199,8 +199,8 @@ public class PlayerController : MonoBehaviour
         m_Transform = GetComponent<Transform>();
         playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         playerGroundedCheck = new PlayerGroundedCheck(this);
-        animatorParamsMapping = PlayerAnimatorStatesControl.CharacterAnimatorParamsMapping;
-        PlayerStatesBehaviour = PlayerAnimatorStatesControl.CharacterStatesBehaviour;
+        animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
+        playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         WhenStartSetLastHorizontalInputDirByFacing();
 
         HpDamable damable = GetComponent<HpDamable>();
