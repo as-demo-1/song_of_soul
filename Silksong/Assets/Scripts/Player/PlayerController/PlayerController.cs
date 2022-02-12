@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 
     public Animator PlayerAnimator;
 
-    private Rigidbody2D RB;//�ⲿ���ʸ���ʱ��Ӧͨ��setRigidGravityScale�ȷ�װ��ķ���
+    private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
     public SpriteRenderer SpriteRenderer { get; private set; }
     //[SerializeField, HideInInspector]
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
     private PlayerGroundedCheck playerGroundedCheck;
 
     [DisplayOnly]
-    public bool gravityLock;//Ϊtureʱ��������gravityScale�ı�
+    public bool gravityLock;//为ture时，不允许gravityScale改变
     private bool IsUnderWater;
 
     [SerializeField] private Collider2D groundCheckCollider;
@@ -386,9 +386,9 @@ public class PlayerGroundedCheck
         {
             return isGrounded;
         }
-        set//ÿ��update�������
+        set//每次update都会调用
         {
-            if (value)//��Ϊ��
+            if (value)//设为真
             {
                 playerController.playerStatesBehaviour.playerJump.resetJumpCount();
                 playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
@@ -414,7 +414,7 @@ public class PlayerGroundedCheck
         get {return isGroundedBuffer; }
         set
         {      
-            if (isGroundedBuffer &&!value)//������Ϊ��
+            if (isGroundedBuffer &&!value)//从真设为假
             {
                 playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
             }
