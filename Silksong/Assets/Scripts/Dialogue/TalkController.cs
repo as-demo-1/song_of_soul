@@ -11,12 +11,20 @@ public class TalkController : MonoBehaviour
     private Text NPCText;
     private Text NPCName;
     private int _id = 0; 
+<<<<<<< Updated upstream
     private static int num = 1; //作为对话到第几段对话的指示器
+=======
+    private static int num = 0; //作为对话到第几段对话的指示器
+>>>>>>> Stashed changes
     private static int i = 0;
 
     //public DialogueSectionSO DialogueSection;
 
+<<<<<<< Updated upstream
     
+=======
+
+>>>>>>> Stashed changes
 
 
     private static TalkController _instance;
@@ -86,6 +94,7 @@ public class TalkController : MonoBehaviour
     public void StartTalk(int NPCID)
     {
         TalkPanel.SetActive(true);
+<<<<<<< Updated upstream
         //Debug.Log(NPCID);
         if (num >= TalkManager.Instance.NPCAllContent[NPCID].Count) //已经过完剧情对话了，播放闲聊对话
         {
@@ -93,6 +102,29 @@ public class TalkController : MonoBehaviour
             {
 
                 NPCText.text = TalkManager.Instance.NPCAllContent[NPCID][0][i];
+=======
+
+        /*foreach (int key in TalkManager.Instance.NPCAllGossip[NPCID].Keys)
+        {
+            Debug.Log(key);
+        }
+        
+        foreach (int keys in TalkManager.Instance.gossipRand[NPCID])
+        {
+            Debug.Log(keys);
+        }*/
+
+
+        //已经过完剧情对话了，播放闲聊对话
+        if (!TalkManager.Instance.NPCAllContent.ContainsKey(NPCID) || num >= TalkManager.Instance.NPCAllContent[NPCID].Count) 
+        {
+            int n = Random.Range(0, TalkManager.Instance.NPCAllGossip[NPCID].Count);
+
+
+            if (i < TalkManager.Instance.NPCAllGossip[NPCID][TalkManager.Instance.gossipRand[NPCID][n]].Count)
+            {
+                NPCText.text = TalkManager.Instance.NPCAllGossip[NPCID][TalkManager.Instance.gossipRand[NPCID][n]][i];
+>>>>>>> Stashed changes
                 NPCName.text = TalkManager.Instance.Name[NPCID];
                 i += 1;
             }
@@ -109,9 +141,19 @@ public class TalkController : MonoBehaviour
         {
             if (!TalkManager.Instance.NPCAllCondition[NPCID].ContainsKey(num)) //如果TalkCondition里不包含这段对话的键，说明这段对话可以无条件触发
             {
+<<<<<<< Updated upstream
                 if (i < TalkManager.Instance.NPCAllContent[NPCID][num].Count)
                 {
                     Debug.Log(i);
+=======
+                //Debug.Log(TalkManager.Instance.NPCAllContent[NPCID].Count); //1
+                foreach (int key in TalkManager.Instance.NPCAllContent[NPCID].Keys)
+                {
+                    Debug.Log(key);
+                }
+                if (i < TalkManager.Instance.NPCAllContent[NPCID][num].Count)
+                {
+>>>>>>> Stashed changes
                     NPCText.text = TalkManager.Instance.NPCAllContent[NPCID][num][i];
                     NPCName.text = TalkManager.Instance.Name[NPCID];
                     i += 1;
@@ -133,7 +175,10 @@ public class TalkController : MonoBehaviour
                 {
                     if (!TalkManager.Instance.TalkStatusJudge[TalkManager.Instance.NPCAllCondition[NPCID][key]]) //如果有一个条件未满足
                     {
+<<<<<<< Updated upstream
                         Debug.Log(TalkManager.Instance.TalkStatusJudge[TalkManager.Instance.NPCAllCondition[NPCID][key]]);
+=======
+>>>>>>> Stashed changes
                         _id = 0;
                         break;
                     }
@@ -141,10 +186,18 @@ public class TalkController : MonoBehaviour
                 }
                 if (_id == 0)
                 {
+<<<<<<< Updated upstream
                     if (i < TalkManager.Instance.NPCAllContent[NPCID][0].Count)
                     {
                         Debug.Log("进行闲聊对话");
                         NPCText.text = TalkManager.Instance.NPCAllContent[NPCID][0][i];
+=======
+                    //条件不满足，进入闲聊
+                    int n = Random.Range(0, TalkManager.Instance.NPCAllGossip[NPCID].Count);
+                    if (i < TalkManager.Instance.NPCAllGossip[NPCID][TalkManager.Instance.gossipRand[NPCID][n]].Count)
+                    {
+                        NPCText.text = TalkManager.Instance.NPCAllGossip[NPCID][TalkManager.Instance.gossipRand[NPCID][n]][i];
+>>>>>>> Stashed changes
                         NPCName.text = TalkManager.Instance.Name[NPCID];
                         i += 1;
                     }

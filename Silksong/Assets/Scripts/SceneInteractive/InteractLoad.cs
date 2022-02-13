@@ -9,11 +9,18 @@ public class InteractLoad : MonoBehaviour
     public GameObject ItemPrefab;
     //public DialogContainerSO DialogContainer;
 
+<<<<<<< Updated upstream
 
 
     // Use this for initialization
     void Start()
     {
+=======
+    // Use this for initialization
+    void Start()
+    {
+        
+>>>>>>> Stashed changes
         foreach (InteractiveSO interactiveItem in InteractiveContainer.InteractiveItemList)
         {
             GameObject go = Instantiate(ItemPrefab, transform);
@@ -26,20 +33,44 @@ public class InteractLoad : MonoBehaviour
 
             foreach (DialogueSectionSO DialogueItem in TalkSOManager.Instance.DialogueContainer.DialogueSectionList)
             {
+<<<<<<< Updated upstream
+=======
+                int i = 0;//每添加一次闲聊对话这个i+1
+>>>>>>> Stashed changes
                 if (DialogueItem.NPCID == interactiveItem.ID)
                 {
                     TalkManager.Instance.NPCAllContent[interactiveItem.ID] = new Dictionary<int, List<string>>();
                     TalkManager.Instance.Name[interactiveItem.ID] = DialogueItem.NPCName;
                     TalkManager.Instance.NPCAllCondition[interactiveItem.ID] = new Dictionary<int, string>();
+<<<<<<< Updated upstream
 
                     for (int num = 0; num < DialogueItem.DialogueList.ToArray().Length; num++) //存储对话内容
+=======
+                    TalkManager.Instance.NPCAllGossip[interactiveItem.ID] = new Dictionary<int, List<string>>();
+                    TalkManager.Instance.gossipRand[interactiveItem.ID] = new List<int>();
+
+                    for (int num = 0; num < DialogueItem.DialogueList.Count; num++) //存储对话内容
+>>>>>>> Stashed changes
                     {
                         List<string> TalkContent = new List<string>();
                         for (int j = 0; j < DialogueItem.DialogueList[num].Content.ToArray().Length; j++)
                         {
                             TalkContent.Add(DialogueItem.DialogueList[num].Content[j]);
                         }
+<<<<<<< Updated upstream
                         TalkManager.Instance.NPCAllContent[interactiveItem.ID][num] = TalkContent;
+=======
+                        if (DialogueItem.DialogueList[num].Type.Equals("plot"))
+                        {
+                            TalkManager.Instance.NPCAllContent[interactiveItem.ID][num-i] = TalkContent;
+                        }
+                        else
+                        {
+                            TalkManager.Instance.NPCAllGossip[interactiveItem.ID][i] = TalkContent;
+                            TalkManager.Instance.gossipRand[interactiveItem.ID].Add(i);
+                            i += 1;
+                        }
+>>>>>>> Stashed changes
                     }
 
                     //储存条件列表，同时把条件的Name和是否达成装入TalkManager的TalkStatusJudge，这里装，改变条件在别的地方改变
@@ -58,9 +89,15 @@ public class InteractLoad : MonoBehaviour
                             }
                         }
                     }
+<<<<<<< Updated upstream
 
                     //把条件的Name和是否达成装入TalkManager的TalkStatusJudge，这里装，改变条件在别的地方改变
                 }
+=======
+                    //把条件的Name和是否达成装入TalkManager的TalkStatusJudge，这里装，改变条件在别的地方改变
+                }
+                
+>>>>>>> Stashed changes
             }
             npcSprite.sprite = interactiveItem.Icon;
             npcSprite.flipX = !interactiveItem.IsFaceRight;
