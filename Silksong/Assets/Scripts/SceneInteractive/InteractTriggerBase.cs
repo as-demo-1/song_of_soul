@@ -1,0 +1,63 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
+
+public abstract class InteractTriggerBase<T> where T: class, new()
+{
+    protected static Transform m_UI_trans;
+
+    private static T s_instance;
+    public static T Instance
+    {
+        get
+        {
+            if (s_instance == null)
+            {
+                s_instance = new T();
+            }
+            if (m_UI_trans == null)
+            {
+                m_UI_trans = GameObject.Find("UI").transform;
+            }
+
+            return s_instance;
+        }
+    }
+
+    public void Interact()
+    {
+        InteractEvent();
+    }
+
+    protected abstract void InteractEvent();
+
+    protected virtual void StopEvent()
+    {
+        InteractManager.Instance.StopEvent();
+    }
+
+    protected virtual void ContinueEvent()
+    {
+        InteractManager.Instance.ContinueEvent();
+    }
+
+    protected void UIAddListener(string path, UnityAction action)
+    {
+        GameObject go = m_UI_trans.Find(path).gameObject;
+
+        if (go != null)
+        {
+            Button btn = go.GetComponent<Button>();
+
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(action);
+        }
+    }
+
+    protected void Toggle(string path, bool isActive)
+    {
+        m_UI_trans.Find(path).gameObject.SetActive(isActive);
+    }
+}

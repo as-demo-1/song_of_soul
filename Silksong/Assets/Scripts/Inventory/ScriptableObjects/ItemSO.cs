@@ -16,7 +16,7 @@ public class ItemSO : SerializableScriptableObject
     
     [Tooltip("The type of interaction")]
     [SerializeField]
-    private InteractiveItemType _interitemType = default;
+    private EInteractiveItemType _interitemType = default;
 
     [Tooltip("The type of item")]
     [SerializeField]
@@ -31,7 +31,7 @@ public class ItemSO : SerializableScriptableObject
     private int _price = default;
 
     public string Name => _name;
-    public InteractiveItemType m_itemType => _interitemType;
+    public EInteractiveItemType m_itemType => _interitemType;
     public Sprite PreviewImage => _previewImage;
     public string Description => _description;
     public int price =>_price;

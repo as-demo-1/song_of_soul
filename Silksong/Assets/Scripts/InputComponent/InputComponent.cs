@@ -338,7 +338,7 @@ public abstract class InputComponent : MonoBehaviour
 
         public virtual void Get(bool fixedUpdateHappened, InputType inputType) { }
 
-        public virtual IEnumerator ReleaseControl(bool resetValues) 
+        public virtual IEnumerator ReleaseControl(bool resetValues)
         {
             yield break;
         }

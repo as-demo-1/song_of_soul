@@ -14,7 +14,7 @@ public class PlayerInput : InputComponent
 
 
     public bool HaveControl { get { return m_HaveControl; } }
-    public bool IsFrozen { get; set; }
+    private bool m_isFrozen;
 
     private List<Button> buttons = new List<Button>();
 
@@ -74,9 +74,14 @@ public class PlayerInput : InputComponent
         s_Instance = null;
     }
 
+    public void ToggleFrozen(bool isFrozen)
+    {
+        m_isFrozen = isFrozen;
+    }
+
     protected override void GetInputs(bool fixedUpdateHappened)
     {
-        if (IsFrozen)//应使用ReleaseControls
+        if (m_isFrozen)//应使锟斤拷ReleaseControls
         {
             return;
         }
