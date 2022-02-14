@@ -74,7 +74,7 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
                     sprite.flipX = tmpStep <= 0;
                     PlayerController.Instance.playerInfo.playerFacingRight = tmpStep > 0;
 
-                    PlayerController.Instance.PlayerAnimatorStatesControl.ChangePlayerState(EPlayerState.Run);
+                    PlayerController.Instance.playerAnimatorStatesControl.ChangePlayerState(EPlayerState.Run);
 
                     tmpPos.x += tmpStep;
                     m_player.transform.position = tmpPos;
