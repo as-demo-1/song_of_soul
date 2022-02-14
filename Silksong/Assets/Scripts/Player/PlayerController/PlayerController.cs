@@ -60,20 +60,29 @@ public class PlayerController : MonoBehaviour
 
     public Animator PlayerAnimator;
 
-    private Rigidbody2D RB;//�ⲿ���ʸ���ʱ��Ӧͨ��setRigidGravityScale�ȷ�װ��ķ���
 
+    private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
+
+
+    public SpriteRenderer SpriteRenderer { get; private set; }
+    //[SerializeField, HideInInspector]
+    public Transform m_Transform { get; set; }
     [SerializeField] private LayerMask groundLayerMask;
+    //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
+
 
 
     private PlayerGroundedCheck playerGroundedCheck;
 
     [DisplayOnly]
-    public bool gravityLock;//Ϊtureʱ��������gravityScale�ı�
+
+    public bool gravityLock;//为ture时，不允许gravityScale改变
+    private bool IsUnderWater;
+
 
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
-   // [SerializeField] private GameObject telePosition;
-
+    [SerializeField] private GameObject telePosition;
     /// <summary>
     /// Only Demo Code for save
     /// </summary>
@@ -101,7 +110,7 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         if(_backpack)
-        _backpack.LoadSave();
+            _backpack.LoadSave();
 
         init();
     }
@@ -131,12 +140,27 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Colide with SavePoint");
             _savePoint = other.gameObject;
         }
+        if(other.gameObject.CompareTag("UnderWater"))
+        {
+            IsUnderWater = true;
+            //入水时慢慢将速度减为0    
+            float smooth = 100f;
+            //float exitWaterTime = Time.time;
+            //RB.velocity = Vector2.Lerp(RB.velocity, new Vector2(RB.velocity.x, 0), (Time.time - exitWaterTime) * smooth);
+            RB.gravityScale = playerInfo.normalGravityScale / 5;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
         _savePoint = null;
+        if (other.gameObject.CompareTag("UnderWater"))
+        {
+            IsUnderWater = false;
+            RB.gravityScale = playerInfo.normalGravityScale;
+            RB.velocity += new Vector2(0, 5);       //添加一个出水速度
+        }
     }
 
     public void CheckAddItem()
@@ -178,6 +202,11 @@ public class PlayerController : MonoBehaviour
         playerInfo.init();
         // _saveSystem.TestSaveGuid(_guid);
         RB.gravityScale = playerInfo.normalGravityScale;
+        m_Transform = GetComponent<Transform>();
+        playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
+        playerGroundedCheck = new PlayerGroundedCheck(this);
+        animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
+        playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         WhenStartSetLastHorizontalInputDirByFacing();
 
         HpDamable damable = GetComponent<HpDamable>();
@@ -190,6 +219,11 @@ public class PlayerController : MonoBehaviour
         CheckIsGrounded();
 
         playerAnimatorStatesControl.ParamsUpdate();
+        if(IsUnderWater)
+        {
+            SwimUnderWater();
+        }
+        
     }
 
     private void LateUpdate()
@@ -292,6 +326,53 @@ public class PlayerController : MonoBehaviour
     {
         PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas,true);
     }
+
+    public void SwimUnderWater()
+    {
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
+            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
+            RB.velocity = new Vector3(1, 1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
+            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
+            RB.velocity = new Vector2(1, -1).normalized * playerInfo.moveSpeed;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
+                RB.velocity = new Vector2(0, 1) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
+                RB.velocity = new Vector2(0, -1) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
+                RB.velocity = new Vector2(-1, 0) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
+                RB.velocity = new Vector2(1, 0) * playerInfo.moveSpeed;
+            }
+        }
+    }
 }
 
 public class PlayerGroundedCheck
@@ -311,9 +392,11 @@ public class PlayerGroundedCheck
         {
             return isGrounded;
         }
-        set//ÿ��update�������
+
+        set//每次update都会调用
         {
-            if (value)//��Ϊ��
+            if (value)//设为真
+
             {
                 playerController.playerStatesBehaviour.playerJump.resetJumpCount();
                 playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
@@ -339,7 +422,8 @@ public class PlayerGroundedCheck
         get {return isGroundedBuffer; }
         set
         {      
-            if (isGroundedBuffer &&!value)//������Ϊ��
+
+            if (isGroundedBuffer &&!value)//从真设为假
             {
                 playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
             }
