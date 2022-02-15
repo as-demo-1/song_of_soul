@@ -31,12 +31,7 @@ public class InventoryManager : MonoBehaviour
 	{
 		_currentInventory.Items.Clear();
 		_saveSystem.LoadSaveDataFromDisk();
-		foreach (var serializedItemStack in _saveSystem.saveData._itemStacks)
-		{
-			string path = AssetDatabase.GUIDToAssetPath(serializedItemStack.itemGuid);
-			ItemSO tmp = AssetDatabase.LoadAssetAtPath(path,typeof(ItemSO)) as ItemSO;
-			_currentInventory.Add(tmp,serializedItemStack.amount);
-		}
+		
 	}
 	
 }
