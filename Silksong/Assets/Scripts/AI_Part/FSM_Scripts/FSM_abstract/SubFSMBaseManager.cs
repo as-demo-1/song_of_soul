@@ -137,6 +137,109 @@ public class EnemySubFSMManager:EnemyFSMBaseState
             currentState.ExitState(fSM_Manager);
     }
 
+    #region collider event
+    public override void OnCollisionEnter2D(EnemyFSMManager enemyFSM, Collision2D collision)
+    {
+        base.OnCollisionEnter2D(enemyFSM, collision);
+        if(currentState!=null)
+        {
+            currentState.OnCollisionEnter2D(enemyFSM, collision);
+            currentState.TriggerStateOnCollisionEnter(enemyFSM, collision);
+        }
+        else { Debug.LogError("current State is null.."); }
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnCollisionEnter2D(enemyFSM, collision);
+            anyState.TriggerStateOnCollisionEnter(enemyFSM, collision);
+        }
+    }
+
+    public override void OnCollisionExit2D(EnemyFSMManager enemyFSM, Collision2D collision)
+    {
+        base.OnCollisionExit2D(enemyFSM, collision);
+        if (currentState != null)
+        {
+            currentState.OnCollisionExit2D(enemyFSM, collision);
+            currentState.TriggerStateOnCollisionExit(enemyFSM, collision);
+        }
+        else { Debug.LogError("current State is null.."); }
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnCollisionExit2D(enemyFSM, collision);
+            anyState.TriggerStateOnCollisionExit(enemyFSM, collision);
+        }
+    }
+
+    public override void OnCollisionStay2D(EnemyFSMManager enemyFSM, Collision2D collision)
+    {
+        base.OnCollisionStay2D(enemyFSM, collision);
+        if (currentState != null)
+        {
+            currentState.OnCollisionStay2D(enemyFSM, collision);
+            currentState.TriggerStateOnCollisionStay(enemyFSM, collision);
+        }
+        else { Debug.LogError("current State is null.."); }
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnCollisionStay2D(enemyFSM, collision);
+            anyState.TriggerStateOnCollisionStay(enemyFSM, collision);
+        }
+    }
+
+    public override void OnTriggerEnter2D(EnemyFSMManager enemyFSM, Collider2D collision)
+    {
+        base.OnTriggerEnter2D(enemyFSM, collision);
+        if (currentState != null)
+        {
+            currentState.OnTriggerEnter2D(enemyFSM, collision);
+            currentState.TriggerStateOnTriggerEnter(enemyFSM, collision);
+        }
+        else { Debug.LogError("current State is null.."); }
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnTriggerEnter2D(enemyFSM, collision);
+            anyState.TriggerStateOnTriggerEnter(enemyFSM, collision);
+        }
+    }
+
+    public override void OnTriggerExit2D(EnemyFSMManager enemyFSM, Collider2D collision)
+    {
+        base.OnTriggerExit2D(enemyFSM, collision);
+        if (currentState != null)
+        {
+            currentState.OnTriggerExit2D(enemyFSM, collision);
+            currentState.TriggerStateOnTriggerExit(enemyFSM, collision);
+        }
+        else { Debug.LogError("current State is null.."); }
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnTriggerExit2D(enemyFSM, collision);
+            anyState.TriggerStateOnTriggerExit(enemyFSM, collision);
+        }
+    }
+
+    public override void OnTriggerStay2D(EnemyFSMManager enemyFSM, Collider2D collision)
+    {
+        base.OnTriggerStay2D(enemyFSM, collision);
+        if (currentState != null)
+        {
+            currentState.OnTriggerStay2D(enemyFSM, collision);
+            currentState.TriggerStateOnTriggerStay(enemyFSM, collision);
+        }
+        else { Debug.LogError("current State is null.."); }
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnTriggerStay2D(enemyFSM, collision);
+            anyState.TriggerStateOnTriggerStay(enemyFSM, collision);
+        }
+    }
+    #endregion
     public override void invokeAnimationEvent()
     {
         base.invokeAnimationEvent();

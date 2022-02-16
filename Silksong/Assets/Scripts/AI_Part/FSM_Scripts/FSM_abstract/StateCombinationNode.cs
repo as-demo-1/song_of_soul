@@ -94,13 +94,13 @@ public class StateCombinationNode :EnemyFSMBaseState
     }
 
 
-    public override void TriggerState(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
+    public override void TriggerStateInUpdate(FSMManager<EnemyStates, EnemyTriggers> fsm_Manager)
     {
         if(executeWay !=StateExecuteWay.Sequence)
-            base.TriggerState(fsm_Manager);
+            base.TriggerStateInUpdate(fsm_Manager);
         else
         {
-            if( triggers[currSequenceIndex].IsTriggerReach(fsm_Manager))
+            if( triggers[currSequenceIndex].IsTriggerReachInUpdate(fsm_Manager))
             {
                 if (currSequenceIndex < triggers.Count - 1)
                 {
@@ -127,7 +127,7 @@ public class StateCombinationNode :EnemyFSMBaseState
             base.TriggerState(fsm_Manager);
         else
         {
-            if (triggers[currSequenceIndex].IsTriggerReach(fsm_Manager.fsmManager))
+            if (triggers[currSequenceIndex].IsTriggerReachInUpdate(fsm_Manager.fsmManager))
             {
                 if (currSequenceIndex < triggers.Count - 1)
                 {

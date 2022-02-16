@@ -14,9 +14,9 @@ public class SelfHPTrigger :EnemyFSMBaseTrigger
         hpDamable = fsm_Manager.damageable as HpDamable;
     }
 
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     {
-        base.IsTriggerReach(fsm_Manager);
+        base.IsTriggerReachInUpdate(fsm_Manager);
         hpDamable = fsm_Manager.damageable as HpDamable;
         int tem = hpDamable.currentHp * 100 / hpDamable.maxHp;
 

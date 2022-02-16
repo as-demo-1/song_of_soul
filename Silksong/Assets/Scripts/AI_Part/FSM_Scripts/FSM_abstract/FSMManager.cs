@@ -60,22 +60,22 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     }
     public virtual void InitManager()
     {
-        if (GetComponent<Animator>() != null)
+        if (GetComponent<Animator>())
         {
             animator = GetComponent<Animator>();
         }
-        if (GetComponent<AudioSource>() != null)
+        if (GetComponent<AudioSource>())
         {
             audios = GetComponent<AudioSource>();
         }
-        if (GetComponent<Rigidbody2D>() != null)
+        if (GetComponent<Rigidbody2D>())
         {
             rigidbody2d = GetComponent<Rigidbody2D>();
         }
         if(GetComponent<DamageableBase>())
         {
             damageable = GetComponent<DamageableBase>();
-        }  
+        }
         InitWithScriptableObject();
         ////组件获取
     }
@@ -106,11 +106,119 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     }
     private void  FixedUpdate()
     {
-        if(currentState!=null)
+        if (currentState != null)
         {
             currentState.FixAct_State(this);
+            currentState.TriggerStateInFixUpdate(this);
+        }
+        else
+            Debug.LogWarning("current State not exist");
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.FixAct_State(this);
+            anyState.TriggerStateInFixUpdate(this);
+        }
+
+    }
+#region ColiderEnents
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (currentState != null)
+        {
+            currentState.OnTriggerEnter2D(this, collision);
+            currentState.TriggerStateOnTriggerEnter(this, collision);
+        }
+        else
+            Debug.LogWarning("current State not exist");
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnTriggerEnter2D(this, collision);
+            anyState.TriggerStateOnTriggerEnter(this, collision);
         }
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (currentState != null)
+        {
+            currentState.OnTriggerStay2D(this, collision);
+            currentState.TriggerStateOnTriggerStay(this, collision);
+        }
+        else
+            Debug.LogWarning("current State not exist");
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnTriggerStay2D(this, collision);
+            anyState.TriggerStateOnTriggerStay(this, collision);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (currentState != null)
+        {
+            currentState.OnTriggerExit2D(this, collision);
+            currentState.TriggerStateOnTriggerExit(this, collision);
+        }
+        else
+            Debug.LogWarning("current State not exist");
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnTriggerExit2D(this, collision);
+            anyState.TriggerStateOnTriggerExit(this, collision);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (currentState != null)
+        {
+            currentState.OnCollisionEnter2D(this, collision);
+            currentState.TriggerStateOnCollisionEnter(this, collision);
+        }
+        else
+            Debug.LogWarning("current State not exist");
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnCollisionEnter2D(this, collision);
+            anyState.TriggerStateOnCollisionEnter(this, collision);
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (currentState != null)
+        {
+            currentState.OnCollisionStay2D(this, collision);
+            currentState.TriggerStateOnCollisionStay(this, collision);
+        }
+        else
+            Debug.LogWarning("current State not exist");
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnCollisionStay2D(this, collision);
+            anyState.TriggerStateOnCollisionStay(this, collision);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (currentState != null)
+        {
+            currentState.OnCollisionExit2D(this, collision);
+            currentState.TriggerStateOnCollisionExit(this, collision);
+        }
+        else
+            Debug.LogWarning("current State not exist");
+        if (anyState != null)
+        {
+            // Debug.Log(anyState.triggers.Count);
+            anyState.OnCollisionExit2D(this, collision);
+            anyState.TriggerStateOnCollisionExit(this, collision);
+        }
+    }
+#endregion
     protected virtual void Update()
     {
 
@@ -119,7 +227,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
             //执行状态内容
             currentState.Act_State(this);
             //检测状态条件列表
-            currentState.TriggerState(this);
+            currentState.TriggerStateInUpdate(this);
         }
         else
         {
@@ -130,12 +238,10 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         {
            // Debug.Log(anyState.triggers.Count);
             anyState.Act_State(this);
-            anyState.TriggerState(this);
+            anyState.TriggerStateInUpdate(this);
         }
     }
 }
-
-
 
 
 /// <summary>
@@ -154,7 +260,6 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     protected override void Start()
     {
         base.Start();
-        this.damageable.takeDamageEvent.AddListener(beBeatBack);
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -172,7 +277,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         if(anyStateConfig!=null)
         {
             //Debug.Log("set anyStateConfig");
-            anyState = (FSMBaseState<EnemyStates, EnemyTriggers>)ObjectClone.CloneObject(anyStateConfig.stateConfig);
+            anyState = ObjectClone.CloneObject(anyStateConfig.stateConfig) as FSMBaseState<EnemyStates, EnemyTriggers>;
             anyState.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
             for (int k=0;k<anyStateConfig.triggerList.Count; k++)
             {
@@ -288,34 +393,6 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         return false;
     }
 
-    public void beBeatBack(DamagerBase damager,DamageableBase damageable)
-    {
-        Vector2 beatDistancePerSecond = damager.beatBackVector * beatBackRatio / Constants.monsterBeatBackTime;
-
-        if (beatDistancePerSecond == Vector2.zero) return;
-
-        if (this.damageable.damageDirection.x > 0)
-        {
-            beatDistancePerSecond=new Vector2(-beatDistancePerSecond.x,beatDistancePerSecond.y);
-        }
-
-        StartCoroutine(beatBack(beatDistancePerSecond));
-
-    }
-
-    private IEnumerator beatBack(Vector2 beatDistancePerSecond)
-    {
-        float timer=0;
-        Vector2 beatDistancePerFixedTime = beatDistancePerSecond * Time.fixedDeltaTime;
-        while(timer<Constants.monsterBeatBackTime)
-        {
-            timer += Time.fixedDeltaTime;
-            // transform.Translate(beatDistancePerSecond * Time.fixedDeltaTime);
-            rigidbody2d.MovePosition((Vector2)(transform.position)+(beatDistancePerFixedTime));
-            yield return new WaitForFixedUpdate();
-        }
-
-    }
 
     public void invokeCurrentStateAnimationEvent()
     {
@@ -326,9 +403,6 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         
     }
 }
-
-
-
 
 
 
