@@ -4,20 +4,36 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    //确定碰撞获取
     private BoxCollider2D boxCollider2D;
-    private Rigidbody2D rigidbody2D;
+    //确定吸引范围
     private CircleCollider2D circleCollider2D;
+    private Rigidbody2D rigidbody2D;
 
-    private float speed = 2f;//吸取时飞行速度
+    private float speed = 20f;//吸取时飞行速度
     private bool isAttracted = false;//是否被目标吸引
     private Vector3 targetPosition;//目标位置
-    private float jumpForce = 500f;
+    private GameObject targetGameObject;//目标对象
+    private float jumpForce = 300f;
 
     [SerializeField] private LayerMask playerLayerMask;
     [SerializeField] private LayerMask groundLayerMask;
 
-    [SerializeField] private int bounceCount;//弹跳次数
-    [SerializeField] private Vector2 colliderSize;//吸取的碰撞盒大小
+    public int bounceCount;//弹跳次数 unity编辑可见
+
+    [SerializeField] private int m_BounceCount;
+    [SerializeField] private float colliderRadius;//吸取的碰撞盒大小
+
+
+    float launchTime = 1.0f;
+
+    private int m_MoneyNum = 0;       //代表的钱币数量
+
+
+    void OnEnable()
+    {
+        targetGameObject = GameObject.FindWithTag("Player");
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -25,64 +41,98 @@ public class Coin : MonoBehaviour
         boxCollider2D = GetComponent<BoxCollider2D>();
         circleCollider2D = GetComponent<CircleCollider2D>();
         rigidbody2D = GetComponent<Rigidbody2D>();
-        boxCollider2D.size = colliderSize;
+        circleCollider2D.radius = colliderRadius;
+        m_BounceCount = bounceCount;
     }
+
+
     private void FixedUpdate()
     {
+        LaunchCoin();
+        Bounce();
         attract();
     }
+
+    //吸引用球状碰撞体
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (boxCollider2D.IsTouchingLayers(playerLayerMask))//待定
+        if (circleCollider2D.IsTouchingLayers(playerLayerMask))//待定
         {
-            targetPosition = collision.transform.position;
             isAttracted = true;
             rigidbody2D.gravityScale = 0;
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (boxCollider2D.IsTouchingLayers(playerLayerMask))
-        {
-            targetPosition = collision.transform.position;
-        }
-
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (boxCollider2D.IsTouchingLayers(playerLayerMask))
-        {
-            isAttracted = false;
-            rigidbody2D.gravityScale = 1;
-        }
-    }
+  
+    ///获得用方形碰撞体
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (circleCollider2D.IsTouchingLayers(playerLayerMask))
+        if (boxCollider2D.IsTouchingLayers(playerLayerMask))
         {
-            Destroy(gameObject);
+            RecycleCoin();
+            //TODO:玩家增加金钱,应该在数据类中派发事件
+            EventManager.Instance.Dispatch<int>(EventType.onMoneyChange,m_MoneyNum);
+
         }
     }
+
+    //发射金币
+    void LaunchCoin() 
+    {
+
+    }
+
+    /// <summary>
+    /// 金币弹跳
+    /// </summary>
     private void Bounce()
     {
-        if (IsGround() && !isAttracted && bounceCount > 0)
+        if (IsGround() && !isAttracted && m_BounceCount >= 0)
         {
             rigidbody2D.AddForce(Vector2.up * jumpForce);
-            bounceCount -= 1;
+            m_BounceCount -= 1;
         }
     }
     private bool IsGround()
     {
-        Vector2 point = (Vector2)circleCollider2D.transform.position + circleCollider2D.offset;
-        Collider2D collider = Physics2D.OverlapCircle(point, circleCollider2D.radius, groundLayerMask);
-        return collider != null;
+        return boxCollider2D.IsTouchingLayers(groundLayerMask);
     }
+
+    /// <summary>
+    /// 金币被吸引
+    /// </summary>
     private void attract()
     {
         if (isAttracted)
         {
+            GetTargetPos();
             transform.Translate((-transform.position + targetPosition) * Time.fixedDeltaTime * speed, Space.World);
         }
     }
+
+    private void GetTargetPos() 
+    {
+        targetPosition = targetGameObject.transform.position;
+    }
+
+    /// <summary>
+    /// 回收金币预制
+    /// </summary>
+    private void RecycleCoin() 
+    {
+        isAttracted = false;
+        m_BounceCount = bounceCount;
+        rigidbody2D.gravityScale = 3;
+        CoinGenerator.Instance.RecycleCoinsPrefabs(this.gameObject);
+    }
+
+    /// <summary>
+    /// 设置金币的钱数
+    /// </summary>
+    /// <param name="moneyNum"></param>
+    public void SetCoinMoneyNum(int moneyNum) 
+    {
+        m_MoneyNum = moneyNum;
+    }
+
 }
