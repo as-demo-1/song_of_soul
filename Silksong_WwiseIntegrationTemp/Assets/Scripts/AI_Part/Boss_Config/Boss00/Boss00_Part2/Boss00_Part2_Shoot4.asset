@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Boss00_Part2_Shoot4
+  m_EditorClassIdentifier: 
+  lastStateID: 13
+  lastTriggerID: 3
+  StateName: Boss00_Part2_Shoot1
+  StateType: 13
+  stateConfig:
+    id: 0
+  TriggerType: 3
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  references:
+    version: 1
+    00000000:
+      type: {class: Boss_Shoot_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 13
+        defaultAnimationName: Boss00_attack4
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        isflying: 1
+        flyingMinHight: 5
+        shootSequence:
+        - normalShoot
+        - Shot
+        index: 0
+    00000001:
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 3
+        targetState: Boss00_Part1_Idle
+        checkAnimationName: 
+    00000002:
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 3
+        targetState: Boss00_Part2_Idle
+        checkAnimationName: 

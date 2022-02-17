@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Boss00_Part1_Idle
+  m_EditorClassIdentifier: 
+  lastStateID: 1
+  lastTriggerID: 2
+  StateName: Boss00_Part1_Idle
+  StateType: 1
+  stateConfig:
+    id: 0
+  TriggerType: 2
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  - id: 3
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 1
+        defaultAnimationName: Boss00_Idle
+    00000001:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss00_Part1_FarAway
+        checkNearRadius: 0
+        checkFarRadius: 0
+    00000002:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss00_Part1_Chase
+        checkNearRadius: 0
+        checkFarRadius: 30
+    00000003:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss00_Part1_FarAway
+        checkNearRadius: 30
+        checkFarRadius: 100000
