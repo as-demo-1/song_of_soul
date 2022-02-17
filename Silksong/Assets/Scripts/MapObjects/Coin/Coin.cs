@@ -26,8 +26,10 @@ public class Coin : MonoBehaviour
 
 
     float launchTime = 1.0f;
+    bool launch = false;
 
     private int m_MoneyNum = 0;       //代表的钱币数量
+    
 
 
     void OnEnable()
@@ -79,7 +81,13 @@ public class Coin : MonoBehaviour
     //发射金币
     void LaunchCoin() 
     {
-
+        if (!launch) {
+            float _randomx = Random.Range(-1.0f,1.0f);
+            float _randomy = Random.Range(1.0f, 1.5f);
+            Vector2 dir = new Vector2(_randomx, _randomy);
+            rigidbody2D.AddForce(dir * jumpForce);
+            launch = true;
+        }
     }
 
     /// <summary>
@@ -89,6 +97,10 @@ public class Coin : MonoBehaviour
     {
         if (IsGround() && !isAttracted && m_BounceCount >= 0)
         {
+            if (rigidbody2D.velocity.x != 0)    //消除发射时带来的惯性
+            {
+                rigidbody2D.velocity = Vector2.zero;
+            }
             rigidbody2D.AddForce(Vector2.up * jumpForce);
             m_BounceCount -= 1;
         }
@@ -123,6 +135,7 @@ public class Coin : MonoBehaviour
         isAttracted = false;
         m_BounceCount = bounceCount;
         rigidbody2D.gravityScale = 3;
+        launch = false;
         CoinGenerator.Instance.RecycleCoinsPrefabs(this.gameObject);
     }
 
