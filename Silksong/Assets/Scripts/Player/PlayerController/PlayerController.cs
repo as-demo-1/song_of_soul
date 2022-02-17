@@ -24,8 +24,6 @@ public struct PlayerInfo
     public AnimationCurve breakMoonPositionCurve;
     //climb
     public float normalGravityScale;
-   /* public int climbSpeed;
-    public bool isClimb;*/
 
     public bool playerFacingRight;
 
@@ -44,11 +42,15 @@ public struct PlayerInfo
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }
-    public PlayerAnimatorStatesControl PlayerAnimatorStatesControl { get; private set; }
+    public PlayerAnimatorStatesControl playerAnimatorStatesControl { get; private set; }
 
     public PlayerAnimatorParamsMapping animatorParamsMapping;
 
-    public PlayerStatesBehaviour PlayerStatesBehaviour;
+    public PlayerStatesBehaviour playerStatesBehaviour;
+
+    public PlayerStatusDic playerStatusDic;
+
+    public PlayerCharacter playerCharacter;
     public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
 
@@ -58,20 +60,29 @@ public class PlayerController : MonoBehaviour
 
     public Animator PlayerAnimator;
 
-    private Rigidbody2D RB;//Íâ²¿·ÃÎÊ¸ÕÌåÊ±£¬Ó¦Í¨¹ısetRigidGravityScaleµÈ·â×°ºóµÄ·½·¨
 
+    private Rigidbody2D RB;//å¤–éƒ¨è®¿é—®åˆšä½“æ—¶ï¼Œåº”é€šè¿‡setRigidGravityScaleç­‰å°è£…åçš„æ–¹æ³•
+
+
+    public SpriteRenderer SpriteRenderer { get; private set; }
+    //[SerializeField, HideInInspector]
+    public Transform m_Transform { get; set; }
     [SerializeField] private LayerMask groundLayerMask;
-    //[SerializeField] private LayerMask ropeLayerMask; ×¢ÊÍÀíÓÉ£º¿ÉÄÜ²»ÔÙĞèÒªÅÊÅÀ¹¦ÄÜ
+    //[SerializeField] private LayerMask ropeLayerMask; ×¢ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
+
 
     private PlayerGroundedCheck playerGroundedCheck;
 
     [DisplayOnly]
-    public bool gravityLock;//ÎªtureÊ±£¬²»ÔÊĞígravityScale¸Ä±ä
+
+    public bool gravityLock;//ä¸ºtureæ—¶ï¼Œä¸å…è®¸gravityScaleæ”¹å˜
+    private bool IsUnderWater;
+
 
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
-   // [SerializeField] private GameObject telePosition;
-
+    [SerializeField] private GameObject telePosition;
     /// <summary>
     /// Only Demo Code for save
     /// </summary>
@@ -97,8 +108,11 @@ public class PlayerController : MonoBehaviour
         else
             throw new UnityException("There cannot be more than one PlayerController script.  The instances are " + Instance.name + " and " + name + ".");
         DontDestroyOnLoad(this.gameObject);
+
         if(_backpack)
-        _backpack.LoadSave();
+            _backpack.LoadSave();
+
+        init();
     }
 
     private void OnEnable()
@@ -126,12 +140,27 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Colide with SavePoint");
             _savePoint = other.gameObject;
         }
+        if(other.gameObject.CompareTag("UnderWater"))
+        {
+            IsUnderWater = true;
+            //å…¥æ°´æ—¶æ…¢æ…¢å°†é€Ÿåº¦å‡ä¸º0    
+            float smooth = 100f;
+            //float exitWaterTime = Time.time;
+            //RB.velocity = Vector2.Lerp(RB.velocity, new Vector2(RB.velocity.x, 0), (Time.time - exitWaterTime) * smooth);
+            RB.gravityScale = playerInfo.normalGravityScale / 5;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
         _savePoint = null;
+        if (other.gameObject.CompareTag("UnderWater"))
+        {
+            IsUnderWater = false;
+            RB.gravityScale = playerInfo.normalGravityScale;
+            RB.velocity += new Vector2(0, 5);       //æ·»åŠ ä¸€ä¸ªå‡ºæ°´é€Ÿåº¦
+        }
     }
 
     public void CheckAddItem()
@@ -156,31 +185,50 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    public void init()
+    {
+        RB = GetComponent<Rigidbody2D>();
+        playerCharacter = GetComponent<PlayerCharacter>();
+        playerGroundedCheck = new PlayerGroundedCheck(this);
+
+        playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
+        animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
+        playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
+        playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
+
+    }
     void Start()
     {
         playerInfo.init();
-
         // _saveSystem.TestSaveGuid(_guid);
-        RB = GetComponent<Rigidbody2D>();
         RB.gravityScale = playerInfo.normalGravityScale;
-
-        PlayerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
+        m_Transform = GetComponent<Transform>();
+        playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         playerGroundedCheck = new PlayerGroundedCheck(this);
-        animatorParamsMapping = PlayerAnimatorStatesControl.CharacterAnimatorParamsMapping;
-        PlayerStatesBehaviour = PlayerAnimatorStatesControl.CharacterStatesBehaviour;
+        animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
+        playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         WhenStartSetLastHorizontalInputDirByFacing();
+
+        HpDamable damable = GetComponent<HpDamable>();
+        damable.takeDamageEvent.AddListener(getHurt);
+        damable.onDieEvent.AddListener(die);
     }
 
     private void Update()
     {
         CheckIsGrounded();
 
-        PlayerAnimatorStatesControl.ParamsUpdate();
+        playerAnimatorStatesControl.ParamsUpdate();
+        if(IsUnderWater)
+        {
+            SwimUnderWater();
+        }
+        
     }
 
     private void LateUpdate()
     {
-        PlayerAnimatorStatesControl.BehaviourLateUpdate();
+        playerAnimatorStatesControl.BehaviourLateUpdate();
     }
 
     private void FixedUpdate()
@@ -210,7 +258,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerInput.Instance.interact.Down)
         {
-            InteractManager.Interact();
+            InteractManager.Instance.Interact();
         }
     }
 
@@ -266,7 +314,64 @@ public class PlayerController : MonoBehaviour
         playerInfo.playerFacingRight = !playerInfo.playerFacingRight;
         Vector3 t = transform.localScale;
         transform.localScale = new Vector3(-t.x, t.y, t.z);
-        PlayerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+        playerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+    }
+
+    public void getHurt(DamagerBase damager,DamageableBase damable)
+    {
+        PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
+    }
+
+    public void die(DamagerBase damager, DamageableBase damable)
+    {
+        PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas,true);
+    }
+
+    public void SwimUnderWater()
+    {
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
+            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
+            RB.velocity = new Vector3(1, 1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
+            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.moveSpeed;
+        }
+        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        {
+            m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
+            RB.velocity = new Vector2(1, -1).normalized * playerInfo.moveSpeed;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
+                RB.velocity = new Vector2(0, 1) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
+                RB.velocity = new Vector2(0, -1) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
+                RB.velocity = new Vector2(-1, 0) * playerInfo.moveSpeed;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
+                RB.velocity = new Vector2(1, 0) * playerInfo.moveSpeed;
+            }
+        }
     }
 }
 
@@ -287,12 +392,14 @@ public class PlayerGroundedCheck
         {
             return isGrounded;
         }
-        set//Ã¿´Îupdate¶¼»áµ÷ÓÃ
+
+        set//æ¯æ¬¡updateéƒ½ä¼šè°ƒç”¨
         {
-            if (value)//ÉèÎªÕæ
+            if (value)//è®¾ä¸ºçœŸ
+
             {
-                playerController.PlayerStatesBehaviour.playerJump.resetJumpCount();
-                playerController.PlayerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
+                playerController.playerStatesBehaviour.playerJump.resetJumpCount();
+                playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
                 bufferTimer = Constants.IsGroundedBufferFrame;
             }
 
@@ -315,9 +422,10 @@ public class PlayerGroundedCheck
         get {return isGroundedBuffer; }
         set
         {      
-            if (isGroundedBuffer &&!value)//´ÓÕæÉèÎª¼Ù
+
+            if (isGroundedBuffer &&!value)//ä»çœŸè®¾ä¸ºå‡
             {
-                playerController.PlayerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
+                playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
             }
             isGroundedBuffer = value;
         }

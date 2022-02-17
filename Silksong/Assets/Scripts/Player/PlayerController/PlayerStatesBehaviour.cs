@@ -13,21 +13,25 @@ public enum EPlayerState
     NormalAttack = 50,
     Sprint=60,
     BreakMoon=70,
+    Heal=90,
+    Hurt=100,
 
 }
 public class PlayerStatesBehaviour 
 {
-   public PlayerController playerController { get; set; }
-   public PlayerJump playerJump;
-   public PlayerFall playerFall;
-   public PlayerSprint playerSprint;
+    public PlayerController playerController { get; set; }
+    public PlayerJump playerJump;
+    public PlayerFall playerFall;
+    public PlayerSprint playerSprint;
     public PlayerBreakMoon playerBreakMoon;
+    public PlayerHeal playerHeal;
     public void init()
     {
         playerJump = new PlayerJump(playerController);
         playerFall = new PlayerFall(playerController);
         playerSprint = new PlayerSprint(playerController);
         playerBreakMoon = new PlayerBreakMoon(playerController);
+        playerHeal = new PlayerHeal(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -58,7 +62,12 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.BreakMoon:
                 playerBreakMoon.breakMoonStart();
-
+                break;
+            case EPlayerState.Hurt:
+                PlayerInput.Instance.ReleaseControls();
+                break;
+            case EPlayerState.Heal:
+                playerHeal.healStart();
                 break;
             default:
                 break;
@@ -103,6 +112,12 @@ public class PlayerStatesBehaviour
                 playerBreakMoon.breakingMoon();
 
                 break;
+            case EPlayerState.Hurt:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.Heal:
+                playerHeal.healProcess();
+                break;
             default:
                 break;
         }
@@ -132,6 +147,12 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.BreakMoon:
                 playerBreakMoon.endBreakMoon();
+
+                break;
+            case EPlayerState.Hurt:
+                PlayerInput.Instance.GainControls();
+                break;
+            case EPlayerState.Heal:
 
                 break;
             default:
@@ -336,6 +357,7 @@ public class PlayerBreakMoon:PlayerAction
         if (availableTargets.Count < 1)
         {
             currentTarget = null;
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.HasBreakMoonPointParamHash,false);
             return;
         }
 
@@ -361,6 +383,7 @@ public class PlayerBreakMoon:PlayerAction
         currentTarget.unPicked();
 
         currentTarget = temp;
+        playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.HasBreakMoonPointParamHash, true);
         currentTarget.bePicked();
 
     }
@@ -373,7 +396,7 @@ public class PlayerBreakMoon:PlayerAction
 
     public void breakMoonStart()
     {
-        //Debug.Log("breakMoonStart");
+       // Debug.Log("breakMoonStart");
         startPosition = playerController.transform.position;
         Vector2 target = currentTarget.transform.position;
         toMoonDistance=target- startPosition;
@@ -418,6 +441,7 @@ public class PlayerBreakMoon:PlayerAction
         }
         else
         {
+           // Debug.Log("start fall");
             playerController.gravityLock = false;
             playerController.setRigidGravityScaleToNormal();
         }
@@ -425,8 +449,37 @@ public class PlayerBreakMoon:PlayerAction
     }
     public void endBreakMoon()
     {
+      //  Debug.Log("end braeakMoon");
         playerController.gravityLock = false;
         playerController.setRigidGravityScaleToNormal();
     }
 
 }
+
+public class PlayerHeal:PlayerAction
+{
+    public PlayerHeal(PlayerController playerController) : base(playerController) { }
+    private float healTotalTime;
+    private float healTimer;
+    private float healStartMana;
+    public void healStart()
+    {
+        healTotalTime = Constants.PlayerBaseHealTime;
+        healTimer = 0;
+        healStartMana = playerController.playerCharacter.Mana;
+    }
+    public void healProcess()
+    {
+        healTimer += Time.deltaTime;
+        float rate = healTimer / healTotalTime;
+        playerController.playerCharacter.Mana = (int)Mathf.Lerp(healStartMana,(healStartMana - Constants.playerHealCostMana), rate);
+        if(rate>=1)
+        {
+            playerController.playerCharacter.playerDamable.addHp(Constants.playerHealBaseValue,null);
+            playerController.PlayerAnimator.Play("Idle");
+        }
+    }
+
+
+}
+

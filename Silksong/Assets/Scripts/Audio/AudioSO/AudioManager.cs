@@ -43,6 +43,7 @@ public class AudioManager : MonoBehaviour
 
 		_pool.Prewarm(_initialSize);
 		_pool.SetParent(this.transform);
+		setMonstersDefaultHittedAudio();
 
 	}
 
