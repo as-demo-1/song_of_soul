@@ -101,9 +101,6 @@ public abstract class InputComponent : MonoBehaviour
         {
             if (!m_Enabled)
             {
-               /* Down = false;
-                Held = false;移到disable中
-                Up = false;*/
                 return;
             }
 
@@ -164,7 +161,10 @@ public abstract class InputComponent : MonoBehaviour
             if (!m_BufferEnabled)
                 return;
             if (conditions)
+            {
                 m_FrameCount = Constants.BufferFrameTime;
+            }
+
 
             if (m_FrameCount > 0)
             {
@@ -182,18 +182,23 @@ public abstract class InputComponent : MonoBehaviour
             IsValid = false;
         }
 
-        public override void Enable()
+        public override void Enable()//
         {
-            m_Enabled = true;
-            
+            m_Enabled = true;       
         }
 
-        public override void Disable()
+        public override void Disable()//冻结控制使用此函数
         {
+            if (NotNeedGainAndReleaseControl) return;
+
             m_Enabled = false;
             Down = false;
             Held = false;
             Up = false;
+            m_AfterFixedUpdateDown = false;
+            m_AfterFixedUpdateHeld = false;
+            m_AfterFixedUpdateUp = false;
+
             m_FrameCount = 0;
             IsValid = false;
         }
@@ -302,6 +307,8 @@ public abstract class InputComponent : MonoBehaviour
 
         public override void Disable()
         {
+            if (NotNeedGainAndReleaseControl) return;
+
             m_Enabled = false;
             Value = 0f;
         }
@@ -326,12 +333,12 @@ public abstract class InputComponent : MonoBehaviour
     public class Button : IButton
     {
         //public PlayerInputButton buttonName;
-        public bool NeedGainAndReleaseControl;
+        public bool NotNeedGainAndReleaseControl;
         public virtual void GainControl() { }
 
         public virtual void Get(bool fixedUpdateHappened, InputType inputType) { }
 
-        public virtual IEnumerator ReleaseControl(bool resetValues) 
+        public virtual IEnumerator ReleaseControl(bool resetValues)
         {
             yield break;
         }
