@@ -71,7 +71,9 @@ public class ShootSystem : MonoBehaviour
             return;
         if (Param.target == null)
             Param.target = GameObject.FindGameObjectWithTag("Player");
-        
+
+        if (Param.createPos == null)
+            Param.createPos = this.transform;
 
         switch (Param.shootMethod)
         {
