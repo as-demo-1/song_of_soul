@@ -10,15 +10,6 @@ public class TalkManager
     public Dictionary<string, bool> TalkStatusJudge = new Dictionary<string,bool>();//前面是条件名称，后面判断是否达成
 
     
-<<<<<<< Updated upstream
-    public Dictionary<int, List<string>> TalkContentDic = new Dictionary<int, List<string>>(); //每一个List<string>都是一段对话
-    public Dictionary<int, string> TalkStatus = new Dictionary<int, string>(); //前面是第几段对话，后面用于检索条件列表是否达成，表示第int段对话由string(s)条件控制
-
-    public Dictionary<int, Dictionary<int, List<string>>> NPCAllContent = new Dictionary<int, Dictionary<int, List<string>>>();
-    public Dictionary<int, Dictionary<int, string>> NPCAllCondition = new Dictionary<int, Dictionary<int, string>>();
-    public Dictionary<int, string> Name = new Dictionary<int, string>();
-
-=======
     /*public Dictionary<int, List<string>> TalkContentDic = new Dictionary<int, List<string>>(); //每一个List<string>都是一段剧情对话
     public Dictionary<int, List<string>> GossipTalk = new Dictionary<int, List<string>>();//前面是NPCID，后面是这个角色的闲聊对话*/
     public Dictionary<int, string> TalkStatus = new Dictionary<int, string>(); //前面是第几段对话，后面用于检索条件列表是否达成，表示第int段对话由string(s)条件控制
@@ -31,7 +22,6 @@ public class TalkManager
     public Dictionary<int, List<int>> gossipRand = new Dictionary<int, List<int>>();//前面是NPCID，后面是这个NPC的所有闲聊的序号
     public List<int> gossipRandList = new List<int>();//储存NPC的所有闲聊的序号
 
->>>>>>> Stashed changes
     private bool _isInit;
     public bool IsInit => _isInit;
 
