@@ -200,18 +200,22 @@ public class TalkController : MonoBehaviour
 
     public void ConditionStatus()
     {
-        foreach (DialogueSectionSO DialogueItem in TalkSOManager.Instance.DialogueSectionList)
+        foreach (DialogueSO DialogueItem in TalkSOManager.Instance.DialogueList)
         {
-            for (int x = 0; x < DialogueItem.DialogueList.ToArray().Length; x++)
+            if (DialogueItem.StatusList.Count != 0)
             {
-                if (DialogueItem.DialogueList[x].StatusList.ToArray().Length != 0) //如果这段对话有条件控制，把控制这段话的条件的Name装入TalkStatus字典
+                foreach (string conditionname in DialogueItem.StatusList)
                 {
-                    for (int j = 0; j < DialogueItem.DialogueStatusList.ToArray().Length; j++)
+                    foreach (DialogueStatusSO DialogueStatusItem in TalkSOManager.Instance.DialogueStatusList)
                     {
-                        TalkManager.Instance.TalkStatusJudge[DialogueItem.DialogueStatusList[j].ConditionName] = DialogueItem.DialogueStatusList[j].Judge;
+                        if (DialogueStatusItem.ConditionName == conditionname)
+                        {
+                            TalkManager.Instance.TalkStatusJudge[conditionname] = DialogueStatusItem.Judge;
+                        }
                     }
                 }
             }
+            
         }
     }
 
