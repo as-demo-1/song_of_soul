@@ -99,7 +99,7 @@ public class TalkController : MonoBehaviour
         }*/
 
 
-        //已经过完剧情对话了，播放闲聊对话
+        //已经过完剧情对话了，播放闲聊对话,或者没有剧情对话
         if (!TalkManager.Instance.NPCAllContent.ContainsKey(NPCID) || num >= TalkManager.Instance.NPCAllContent[NPCID].Count) 
         {
             
