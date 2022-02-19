@@ -11,7 +11,7 @@ public class HitWallTrigger :EnemyFSMBaseTrigger
         triggerType = EnemyTriggers.HitWallTrigger;
         
     }
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     {
         return fsm_Manager.hitWall();
     }

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Boss00_Part1_Attack
   m_EditorClassIdentifier: 
-  lastStateID: 4
-  lastTriggerID: 3
+  lastStateID: 14
+  lastTriggerID: 0
   StateName: Boss00_Part1_Attack
-  StateType: 4
+  StateType: 14
   stateConfig:
     id: 0
-  TriggerType: 3
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList:
@@ -26,19 +26,29 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Attack_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Circle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 4
-        defaultAnimationName: 
+        stateType: 14
+        defaultAnimationName: Boss00_Chase
+        isflying: 0
+        flyingMinHight: 0
+        angleSpeed: 12
+        radio: 2
+        centreOfCircle: 1
+        lock_x: 0
+        lock_y: 1
+        isFaceToPlayer: 0
     00000001:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
+        triggerType: 0
         targetState: Boss00_Part1_Idle
-        checkAnimationName: 
+        maxTime: 5
+        timer: 0
     00000002:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
+        triggerType: 0
         targetState: Boss00_Part1_Idle
-        checkAnimationName: 
+        maxTime: 2
+        timer: 0
