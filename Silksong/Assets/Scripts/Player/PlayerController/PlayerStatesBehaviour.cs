@@ -501,11 +501,6 @@ public class PlayerCastSkill : PlayerAction
 
     public void CastSkill()
     {
-        if (!playerSkillManager.CanCastSkill())
-        {
-            Debug.Log("cannot cast") ;
-            return;
-        }
         playerSkillManager.equippingPlayerSkill.Cast();
         playerSkillManager.StartSkillCoolDown();
     }

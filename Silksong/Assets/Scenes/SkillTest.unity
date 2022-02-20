@@ -504,34 +504,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 642416865}
   m_CullTransparentMesh: 1
---- !u!1 &658048909 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 484977951162521061, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
-  m_PrefabInstance: {fileID: 1404704161}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &658048910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658048909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a12c12a981433a4bb795750a36ebe97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillCollection: {fileID: 11400000, guid: 32510a57a5f17954e87afd20262ee5aa, type: 2}
-  unlockedPlayerSkillList: []
-  equippingPlayerSkill:
-    Name: 0
-    Description: 
-    Damage: 0
-    ManaCost: 0
-    CoolDown: 0
-  pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
-  UnlockedSkillContainer: {fileID: 916305548}
-  equippingSkill: {fileID: 1483546587}
 --- !u!1 &725389397
 GameObject:
   m_ObjectHideFlags: 0
@@ -1152,7 +1124,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 658048910}
+      - m_Target: {fileID: 1601307087}
         m_TargetAssemblyTypeName: PlayerSkillManager, Assembly-CSharp
         m_MethodName: testUnlockDecendingDark
         m_Mode: 1
@@ -1717,7 +1689,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 680549888395503851, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+      propertyPath: equippingSkill
+      value: 
+      objectReference: {fileID: 1483546587}
+    - target: {fileID: 680549888395503851, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+      propertyPath: equippingSkillText
+      value: 
+      objectReference: {fileID: 1483546587}
+    - target: {fileID: 680549888395503851, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+      propertyPath: UnlockedSkillContainer
+      value: 
+      objectReference: {fileID: 916305548}
+    - target: {fileID: 8431473157400537811, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+      propertyPath: equippingSkillText
+      value: 
+      objectReference: {fileID: 1483546587}
+    - target: {fileID: 8431473157400537811, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+      propertyPath: UnlockedSkillContainer
+      value: 
+      objectReference: {fileID: 916305548}
+    m_RemovedComponents:
+    - {fileID: 680549888395503851, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
 --- !u!1 &1426739181
 GameObject:
@@ -1954,6 +1947,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577669844}
   m_CullTransparentMesh: 1
+--- !u!114 &1601307087 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8431473157400537811, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+  m_PrefabInstance: {fileID: 1404704161}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a12c12a981433a4bb795750a36ebe97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1855450128
 GameObject:
   m_ObjectHideFlags: 0
@@ -2114,7 +2118,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 658048910}
+      - m_Target: {fileID: 1601307087}
         m_TargetAssemblyTypeName: PlayerSkillManager, Assembly-CSharp
         m_MethodName: testUnlockDesolateDive
         m_Mode: 1
@@ -2187,7 +2191,7 @@ PrefabInstance:
     - target: {fileID: 5121183949575678383, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 658048910}
+      objectReference: {fileID: 0}
     - target: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

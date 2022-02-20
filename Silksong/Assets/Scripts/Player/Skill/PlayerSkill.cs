@@ -18,7 +18,7 @@ public class PlayerSkill
 
     public int Damage;
 
-    public float ManaCost; // ...or SoulCost?
+    public int ManaCost; 
 
     public float CoolDown;
 
@@ -48,12 +48,12 @@ public class PlayerSkill
     private void DesolateDive()
     {
         //PlayerController.Instance...
-        Debug.Log("ÊÍ·Å»ÄÎß¸©³å");
+        Debug.Log("Casting Desolate Dive");
     }
     private void DescendingDark()
     {
 
-        Debug.Log("ÊÍ·ÅºÚ°µ½µÁÙ");
+        Debug.Log("Casting Descending Dark");
     }
 
 

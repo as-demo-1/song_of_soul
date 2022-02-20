@@ -19,19 +19,11 @@ public class PlayerStatusDic
             {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag(animatorParamsMapping.CanNormalAttackParamHash) },
             {EPlayerStatus.CanSprint, new PlayerStatusFlag(animatorParamsMapping.CanSprintParamHash)},
             {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag(animatorParamsMapping.CanBreakMoonParamHash)},
-            {EPlayerStatus.CanHeal, new PlayerStatusFlag(animatorParamsMapping.CanHealParamHas)},
-
-            //{EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
-            //{EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, Constants.player skill soul cost)},
-            {EPlayerStatus.CanCastSkill, new PlayerStatusFlag(animatorParamsMapping.CanCastSkillParamHash)},
+            {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
+            {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, playerController.gameObject.GetComponent<PlayerSkillManager>().equippingPlayerSkill.ManaCost, playerController.playerCharacter)},
+            //{EPlayerStatus.CanCastSkill, new PlayerStatusFlag(animatorParamsMapping.CanCastSkillParamHash)},
             
         };
-        Debug.Log(animatorParamsMapping.CanJumpParamHash);
-        Debug.Log(animatorParamsMapping.CanNormalAttackParamHash);
-        Debug.Log(animatorParamsMapping.CanSprintParamHash);
-        Debug.Log(animatorParamsMapping.CanBreakMoonParamHash);
-        Debug.Log(animatorParamsMapping.CanHealParamHas);
-        Debug.Log(animatorParamsMapping.CanCastSkillParamHash);
     }
 
     public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.Override)
@@ -87,7 +79,6 @@ public class PlayerStatusDic
         }
         protected virtual void calcuteFlag()
         {
-            Debug.Log("print sth " + animatorParam.ToString());
             Flag = BuffFlags & StatuFlag;
         }          
 
@@ -134,7 +125,7 @@ public enum EPlayerStatus : int
     CanNormalAttack = 4,
     CanSprint=8,
     CanBreakMoon=16,
-    CanHeal=64,
-    CanCastSkill = 32,
+    CanHeal=32,
+    CanCastSkill = 64,
 
 }

@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 1048344337554074644}
   - component: {fileID: 4061423512895920214}
   - component: {fileID: 462374528}
+  - component: {fileID: 8431473157400537811}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -714,6 +715,11 @@ MonoBehaviour:
   heal:
     NotNeedGainAndReleaseControl: 0
     key: 99
+    controllerButton: 0
+    m_Enabled: 1
+  castSkill:
+    NotNeedGainAndReleaseControl: 0
+    key: 108
     controllerButton: 0
     m_Enabled: 1
   horizontal:
@@ -805,6 +811,7 @@ MonoBehaviour:
     m_Bits: 64
   gravityLock: 0
   groundCheckCollider: {fileID: 619636124}
+  telePosition: {fileID: 0}
   _guid: 00000000-0000-0000-0000-000000000000
   _saveSystem: {fileID: 0}
   _backpack: {fileID: 0}
@@ -934,6 +941,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.24, y: 1.6}
   m_EdgeRadius: 0
+--- !u!114 &8431473157400537811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a12c12a981433a4bb795750a36ebe97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillCollection: {fileID: 11400000, guid: 32510a57a5f17954e87afd20262ee5aa, type: 2}
+  unlockedPlayerSkillList: []
+  equippingPlayerSkill:
+    Name: 0
+    Description: 
+    Damage: 0
+    SoulCost: 0
+    CoolDown: 0
+  pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
+  UnlockedSkillContainer: {fileID: 0}
+  equippingSkillText: {fileID: 0}
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
