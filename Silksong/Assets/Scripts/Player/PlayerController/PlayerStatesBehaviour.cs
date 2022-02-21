@@ -501,8 +501,7 @@ public class PlayerCastSkill : PlayerAction
 
     public void CastSkill()
     {
-        playerSkillManager.equippingPlayerSkill.Cast();
-        playerSkillManager.StartSkillCoolDown();
+        playerSkillManager.Cast();
     }
 
 
