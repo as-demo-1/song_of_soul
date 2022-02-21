@@ -9,6 +9,8 @@ public enum EventType
 
     //Enemy Behavious
     onEnemyHitWall,
+
+    onMoneyChange,
 }
 
 public class EventDate
