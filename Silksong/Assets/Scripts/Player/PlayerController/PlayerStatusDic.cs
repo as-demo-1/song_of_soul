@@ -3,6 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//todo£∫ Œª∆•≈‰
+public enum EPlayerStatus : int
+{
+    None = 0,
+    CanMove = 1,
+    CanJump = 2,
+    CanNormalAttack = 4,
+    CanSprint = 8,
+    CanBreakMoon = 16,
+    CanHeal = 32,
+    CanToCat=128,
+
+}
+
 public class PlayerStatusDic
 {
     Dictionary<EPlayerStatus, PlayerStatusFlag> m_StatusDic;
@@ -21,7 +35,7 @@ public class PlayerStatusDic
             {EPlayerStatus.CanSprint, new PlayerStatusFlag(animatorParamsMapping.CanSprintParamHash)},
             {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag(animatorParamsMapping.CanBreakMoonParamHash)},
             {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
-
+            {EPlayerStatus.CanToCat, new PlayerStatusFlag(animatorParamsMapping.CanToCatParamHas)},
         };
     }
 
@@ -115,16 +129,4 @@ public class PlayerStatusDic
 
 }
 
-//todo£∫ Œª∆•≈‰
-public enum EPlayerStatus : int
-{
-    None = 0,
-    CanMove = 1,
-    CanJump = 2,
-    CanNormalAttack = 4,
-    CanSprint=8,
-    CanBreakMoon=16,
-    CanHeal=32,
 
-
-}

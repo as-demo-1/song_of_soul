@@ -60,29 +60,22 @@ public class PlayerController : MonoBehaviour
 
     public Animator PlayerAnimator;
 
-
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
-
-    public SpriteRenderer SpriteRenderer { get; private set; }
-    //[SerializeField, HideInInspector]
     public Transform m_Transform { get; set; }
     [SerializeField] private LayerMask groundLayerMask;
-    //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
-
-
 
     private PlayerGroundedCheck playerGroundedCheck;
 
     [DisplayOnly]
+    public PlayerToCat playerToCat;
 
+    [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
     private bool IsUnderWater;
 
-
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
-    [SerializeField] private GameObject telePosition;
     /// <summary>
     /// Only Demo Code for save
     /// </summary>
@@ -190,6 +183,7 @@ public class PlayerController : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
         playerGroundedCheck = new PlayerGroundedCheck(this);
+        playerToCat = new PlayerToCat(this);
 
         playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
@@ -373,6 +367,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 }
 
 public class PlayerGroundedCheck
@@ -433,6 +428,34 @@ public class PlayerGroundedCheck
     }
 
 }
+
+public class PlayerToCat
+{
+    private bool isCat;
+    public bool IsCat
+    {
+        get { return isCat; }
+        set
+        {
+            isCat = value;
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.IsCatParamHas,value);
+        }
+    }
+
+    private PlayerController playerController;
+    public PlayerToCat(PlayerController playerController)
+    {
+        this.playerController = playerController;
+    }
+
+    public void toCat()
+    {
+        IsCat = true;
+        playerController.GetComponentInChildren<SpriteRenderer>().flipX = true;//now the cat image is filpx from player image
+    }
+}
+
+
 
 
 

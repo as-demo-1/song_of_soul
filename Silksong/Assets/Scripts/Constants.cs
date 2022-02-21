@@ -29,10 +29,13 @@ public static class Constants
 
     public const float PlayerBaseHealTime = 2f;
 
+    public const float PlayerMoveSpeed = 5f;
+    public const float PlayerCatMoveSpeed = 6f;
+
 
     #region 玩家有关属性
     public const int playerInitialMaxHp=5;
-    public const int playerInitialMaxSoul = 100;
+    public const int playerInitialMaxMana = 100;
     public const int playerInitialMoney =0;
 
     public const int playerAttackGainSoul = 10;

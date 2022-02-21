@@ -16,6 +16,10 @@ public enum EPlayerState
     Heal=90,
     Hurt=100,
 
+    ToCat=200,
+    CatIdle=210,
+    CatRun=220,
+    CatJump=230,
 }
 public class PlayerStatesBehaviour 
 {
@@ -69,6 +73,16 @@ public class PlayerStatesBehaviour
             case EPlayerState.Heal:
                 playerHeal.healStart();
                 break;
+
+            case EPlayerState.ToCat:
+                break;
+            case EPlayerState.CatIdle:
+                playerController.playerToCat.toCat();
+                break;
+           /* case EPlayerState.CatRun:
+                break;
+            case EPlayerState.CatJump:
+                break;*/
             default:
                 break;
         }
@@ -116,8 +130,22 @@ public class PlayerStatesBehaviour
                 playerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Heal:
+                playerController.CheckHorizontalMove(0.4f);
                 playerHeal.healProcess();
                 break;
+
+            case EPlayerState.ToCat:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.CatIdle:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            /*case EPlayerState.CatRun:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.CatJump:
+                playerController.CheckHorizontalMove(0.4f);
+                break;*/
             default:
                 break;
         }
@@ -155,6 +183,19 @@ public class PlayerStatesBehaviour
             case EPlayerState.Heal:
 
                 break;
+
+            case EPlayerState.ToCat:
+
+                break;
+            case EPlayerState.CatIdle:
+
+                break;
+            /*case EPlayerState.CatRun:
+
+                break;
+            case EPlayerState.CatJump:
+
+                break;*/
             default:
                 break;
         }
