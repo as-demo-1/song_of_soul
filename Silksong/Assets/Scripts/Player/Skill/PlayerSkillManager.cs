@@ -123,8 +123,7 @@ public class PlayerSkillManager : MonoBehaviour
     {
         // 检测是否装备有技能，技能是否设置了棒棒的prefab，技能是否在冷却
         // 蓝量是否够用在PlayerStatusDic中的PlayerStatusFlagWithMana进行判定
-
-        Debug.Log(equippingPlayerSkill.Name);
+        // 在Start()和每次装备技能时都会调用
 
         if (equippingPlayerSkill.Name == PlayerSkill.SkillName.None)
         {
@@ -159,19 +158,19 @@ public class PlayerSkillManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 解锁一个在SkillCollection中的技能
+    /// 解锁一个在SkillCollection中的技能,不能重复解锁同一技能
     /// </summary>
     /// <param name="skillName">要解锁的技能的名字</param>
     public void UnlockSkill(PlayerSkill.SkillName skillName)
     {
-        if (SkillDictionary.ContainsKey(skillName))
+        if (SkillDictionary.ContainsKey(skillName) && !unlockedPlayerSkillList.Contains(SkillDictionary[skillName]))
         {
             unlockedPlayerSkillList.Add(SkillDictionary[skillName]);
-        }
 
-        Transform skillbutton = Instantiate(pfUnlockedSkillButton, UnlockedSkillContainer);
-        skillbutton.gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = skillName.ToString();
-        skillbutton.gameObject.GetComponent<UnlockedSkillButton>().EquipSkill += () => { EquipSkill(SkillDictionary[skillName]); };
+            Transform skillbutton = Instantiate(pfUnlockedSkillButton, UnlockedSkillContainer);
+            skillbutton.gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = skillName.ToString();
+            skillbutton.gameObject.GetComponent<UnlockedSkillButton>().EquipSkill += () => { EquipSkill(SkillDictionary[skillName]); };
+        }
     }
 
     #endregion
@@ -181,6 +180,8 @@ public class PlayerSkillManager : MonoBehaviour
 
     private void VengefulSpirit()
     {
+        Debug.Log("Casting Vengeful Spirit");
+
         Transform skillTransform = Instantiate(equippingPlayerSkill.SkillPrefab, this.transform.position, Quaternion.identity);
         skillTransform.gameObject.GetComponent<PlayerSkillDamager>().damage = equippingPlayerSkill.Damage;
 
@@ -192,7 +193,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     private void DesolateDive()
     {
-
+        Debug.Log("Casting Desolate Dive");
     }
 
     private void DescendingDark()
@@ -208,17 +209,17 @@ public class PlayerSkillManager : MonoBehaviour
     #region 用于测试的函数
     public void testUnlockDesolateDive()
     {
-        print("testing unlock skill");
+        //print("testing unlock skill");
         UnlockSkill(PlayerSkill.SkillName.DesolateDive);
     }
     public void testUnlockDecendingDark()
     {
-        print("testing unlock skill");
+        //print("testing unlock skill");
         UnlockSkill(PlayerSkill.SkillName.DescendingDark);
     }
     public void testUnlockVengefulSpirit()
     {
-        print("testing unlock skill");
+        //print("testing unlock skill");
         UnlockSkill(PlayerSkill.SkillName.VengefulSpirit);
     }
     #endregion
