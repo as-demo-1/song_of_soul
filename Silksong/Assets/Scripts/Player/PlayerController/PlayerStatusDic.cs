@@ -13,7 +13,8 @@ public enum EPlayerStatus : int
     CanSprint = 8,
     CanBreakMoon = 16,
     CanHeal = 32,
-    CanToCat=128,
+    CanCastSkill = 64,
+    CanToCat =128,
 
 }
 
@@ -22,7 +23,6 @@ public class PlayerStatusDic
     Dictionary<EPlayerStatus, PlayerStatusFlag> m_StatusDic;
 
     private PlayerController playerController;
-
 
     public PlayerStatusDic(PlayerController playerController,PlayerAnimatorParamsMapping animatorParamsMapping)
     {
@@ -36,6 +36,8 @@ public class PlayerStatusDic
             {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag(animatorParamsMapping.CanBreakMoonParamHash)},
             {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
             {EPlayerStatus.CanToCat, new PlayerStatusFlag(animatorParamsMapping.CanToCatParamHas)},
+            {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, playerController.gameObject.GetComponent<PlayerSkillManager>().equippingPlayerSkill.ManaCost, playerController.playerCharacter)},
+
         };
     }
 
@@ -128,5 +130,6 @@ public class PlayerStatusDic
     }
 
 }
+
 
 

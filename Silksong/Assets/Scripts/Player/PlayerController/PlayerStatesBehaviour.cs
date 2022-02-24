@@ -15,6 +15,7 @@ public enum EPlayerState
     BreakMoon=70,
     Heal=90,
     Hurt=100,
+    CastSkill = 110,
 
     ToCat=200,
     CatIdle=210,
@@ -30,6 +31,8 @@ public class PlayerStatesBehaviour
     public PlayerSprint playerSprint;
     public PlayerBreakMoon playerBreakMoon;
     public PlayerHeal playerHeal;
+    public PlayerCastSkill playerCastSkill;
+
     public void init()
     {
         playerJump = new PlayerJump(playerController);
@@ -37,6 +40,7 @@ public class PlayerStatesBehaviour
         playerSprint = new PlayerSprint(playerController);
         playerBreakMoon = new PlayerBreakMoon(playerController);
         playerHeal = new PlayerHeal(playerController);
+        playerCastSkill = new PlayerCastSkill(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -86,8 +90,11 @@ public class PlayerStatesBehaviour
                 break;
            /* case EPlayerState.CatRun:
                 break;
-            case EPlayerState.CatJump:
-                break;*/
+            case EPlayerState.CatJump:*/
+
+            case EPlayerState.CastSkill:
+                playerCastSkill.CastSkill();
+                break;
             default:
                 break;
         }
@@ -536,3 +543,19 @@ public class PlayerHeal:PlayerAction
 
 }
 
+public class PlayerCastSkill : PlayerAction
+{
+    public PlayerCastSkill(PlayerController playerController) : base(playerController) 
+    { 
+        playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>(); 
+    }
+
+    private PlayerSkillManager playerSkillManager;
+
+    public void CastSkill()
+    {
+        playerSkillManager.Cast();
+    }
+
+
+}
