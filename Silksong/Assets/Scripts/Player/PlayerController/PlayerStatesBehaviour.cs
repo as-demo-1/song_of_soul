@@ -18,8 +18,9 @@ public enum EPlayerState
 
     ToCat=200,
     CatIdle=210,
-    CatRun=220,
-    CatJump=230,
+    ToHuman=220,
+   /* CatRun=220,
+    CatJump=230,*/
 }
 public class PlayerStatesBehaviour 
 {
@@ -69,12 +70,16 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Hurt:
                 PlayerInput.Instance.ReleaseControls();
+                playerController.playerToCat.toHuman();
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
                 break;
 
             case EPlayerState.ToCat:
+
+                break;
+            case EPlayerState.ToHuman:
                 break;
             case EPlayerState.CatIdle:
                 playerController.playerToCat.toCat();
@@ -137,6 +142,10 @@ public class PlayerStatesBehaviour
             case EPlayerState.ToCat:
                 playerController.CheckHorizontalMove(0.4f);
                 break;
+            case EPlayerState.ToHuman:
+                playerController.CheckFlipPlayer(1f);
+                playerController.CheckHorizontalMove(0.4f);
+                break;
             case EPlayerState.CatIdle:
                 playerController.CheckHorizontalMove(0.4f);
                 break;
@@ -186,6 +195,9 @@ public class PlayerStatesBehaviour
 
             case EPlayerState.ToCat:
 
+                break;
+            case EPlayerState.ToHuman:
+                playerController.playerToCat.toHuman();
                 break;
             case EPlayerState.CatIdle:
 

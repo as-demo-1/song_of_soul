@@ -51,6 +51,7 @@ public class PlayerAnimatorParamsMapping
     public int CanToCatParamHas { get; } = Animator.StringToHash("CanToCat");
     public int ToCatIsValidParamHas { get; } = Animator.StringToHash("ToCatIsValid");
     public int IsCatParamHas { get; } = Animator.StringToHash("IsCat");
+    public int HasUpSpaceForHumanParamHas { get; } = Animator.StringToHash("HasUpSpaceForHuman");
 
     public void ParamsUpdate()
     {

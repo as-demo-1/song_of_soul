@@ -22,7 +22,7 @@ public static class Constants
     public const float JumpUpSlowDownTime=0.3f;//
     public const float JumpUpStopTime = 0.05f;//
     public const float SprintCd=0.3f;//从冲刺结束后算起
-    public const float SprintTime = 0.438f;//此值应与实际冲刺动画的时长相同
+    public const float SprintTime = 0.438f;//此值应与实际动画的时长相同
 
     public const float BreakMoonPointCd = 3f;
     public const float BreakMoonAfterDistance=2f;//碎月缓冲距离
@@ -31,6 +31,24 @@ public static class Constants
 
     public const float PlayerMoveSpeed = 5f;
     public const float PlayerCatMoveSpeed = 6f;
+
+    public const float PlayerCatToHumanTime = 0.33f;//此值应与实际动画的时长相同
+    public const float PlayerHumanToCatTime = 2f;
+
+    #region player collider settings
+    public const float playerBoxColliderOffsetY=-0.1f;
+    public const float playerBoxColliderWidth = 0.24f;
+    public const float playerBoxColliderHeight = 1.6f;
+
+    public const float playerCatBoxColliderOffsetY = 0.1f;
+    public const float playerCatBoxColliderWidth = 0.5f;
+    public const float playerCatBoxColliderHeight = 0.75f;
+
+    public const float playerGroundCheckColliderOffsetY = -0.85f;
+    public const float playerCatGroundCheckColliderOffsetY = -0.225f;
+    public const float playerGroundColliderXSizeSmall = 0.01f;
+
+    #endregion
 
 
     #region 玩家有关属性

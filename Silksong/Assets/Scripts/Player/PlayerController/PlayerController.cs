@@ -62,6 +62,9 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
+    [DisplayOnly]
+    public BoxCollider2D boxCollider;
+
     public Transform m_Transform { get; set; }
     [SerializeField] private LayerMask groundLayerMask;
 
@@ -74,7 +77,7 @@ public class PlayerController : MonoBehaviour
     public bool gravityLock;//为ture时，不允许gravityScale改变
     private bool IsUnderWater;
 
-    [SerializeField] private Collider2D groundCheckCollider;
+    public BoxCollider2D groundCheckCollider;
     //Teleport
     /// <summary>
     /// Only Demo Code for save
@@ -181,6 +184,7 @@ public class PlayerController : MonoBehaviour
     public void init()
     {
         RB = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
         playerGroundedCheck = new PlayerGroundedCheck(this);
         playerToCat = new PlayerToCat(this);
@@ -211,6 +215,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckIsGrounded();
+        playerToCat.checkUpSpaceForHuman();
 
         playerAnimatorStatesControl.ParamsUpdate();
         if(IsUnderWater)
@@ -442,6 +447,18 @@ public class PlayerToCat
         }
     }
 
+    private bool hasUpSpaceForHuman;
+    public bool HasUpSpaceForHuman
+    {
+        get { return hasUpSpaceForHuman; }
+        set
+        {
+            hasUpSpaceForHuman = value;
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.HasUpSpaceForHumanParamHas,value);
+        }
+    }
+
+
     private PlayerController playerController;
     public PlayerToCat(PlayerController playerController)
     {
@@ -450,9 +467,60 @@ public class PlayerToCat
 
     public void toCat()
     {
+        if (IsCat) return;
+
         IsCat = true;
         playerController.GetComponentInChildren<SpriteRenderer>().flipX = true;//now the cat image is filpx from player image
+        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerCatBoxColliderOffsetY);
+        playerController.boxCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, Constants.playerCatBoxColliderHeight);
+
+        playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerCatGroundCheckColliderOffsetY);
+        playerController.groundCheckCollider.size= new Vector2( Constants.playerCatBoxColliderWidth-Constants.playerGroundColliderXSizeSmall,playerController.groundCheckCollider.size.y);
+
     }
+
+    public void toHuman()
+    {
+        if (!IsCat) return;
+
+        //Debug.Log("to human");
+        IsCat = false;
+        playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
+        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerBoxColliderOffsetY);
+        playerController.boxCollider.size = new Vector2(Constants.playerBoxColliderWidth, Constants.playerBoxColliderHeight);
+
+        playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerGroundCheckColliderOffsetY);
+        playerController.groundCheckCollider.size = new Vector2(Constants.playerBoxColliderWidth - Constants.playerGroundColliderXSizeSmall, playerController.groundCheckCollider.size.y);
+    }
+
+    public void checkUpSpaceForHuman()
+    {
+        if (!IsCat) return;
+
+        Vector2 distance = new Vector2(0.125f, 0.5f);
+        Vector2 YOffset = new Vector2(0, 0.5f);
+
+        Vector2 upPoint = (Vector2)playerController.transform.position + YOffset;
+        Vector2 upPointA = upPoint + distance;
+        Vector2 upPointB = upPoint - distance;
+       // Debug.DrawLine(upPointA, upPointB);
+
+        Vector2 downPoint= (Vector2)playerController.transform.position - YOffset;
+        Vector2 downPointA =downPoint + distance;
+        Vector2 downPointB = downPoint - distance;
+       // Debug.DrawLine(downPointA, downPointB);
+        //Debug.Log(Physics2D.OverlapArea(upPointA, upPointB, LayerMask.NameToLayer("Ground")));
+        if (Physics2D.OverlapArea(upPointA, upPointB, 1<<LayerMask.NameToLayer("Ground")) && Physics2D.OverlapArea(downPointA,downPointB, 1<<LayerMask.NameToLayer("Ground")))
+        {
+            HasUpSpaceForHuman = false;
+        }
+        else
+        {
+            HasUpSpaceForHuman = true;
+        }
+    } 
+    
+
 }
 
 
