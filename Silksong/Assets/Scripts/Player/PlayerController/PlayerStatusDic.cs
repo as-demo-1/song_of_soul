@@ -9,7 +9,6 @@ public class PlayerStatusDic
 
     private PlayerController playerController;
 
-
     public PlayerStatusDic(PlayerController playerController,PlayerAnimatorParamsMapping animatorParamsMapping)
     {
         this.playerController = playerController;
@@ -21,7 +20,9 @@ public class PlayerStatusDic
             {EPlayerStatus.CanSprint, new PlayerStatusFlag(animatorParamsMapping.CanSprintParamHash)},
             {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag(animatorParamsMapping.CanBreakMoonParamHash)},
             {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
-
+            {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, playerController.gameObject.GetComponent<PlayerSkillManager>().equippingPlayerSkill.ManaCost, playerController.playerCharacter)},
+            //{EPlayerStatus.CanCastSkill, new PlayerStatusFlag(animatorParamsMapping.CanCastSkillParamHash)},
+            
         };
     }
 
@@ -125,6 +126,6 @@ public enum EPlayerStatus : int
     CanSprint=8,
     CanBreakMoon=16,
     CanHeal=32,
-
+    CanCastSkill = 64,
 
 }
