@@ -15,6 +15,10 @@ public static class Constants
     public const float AirAccelerationTimeReduceFactor = 1.5f;
     public const float AirDeccelerationTimeReduceFactor = 1.5f;
 
+    public const float PlayerMoveSpeed = 5f;
+    public const float PlayerCatMoveSpeed = 6f;
+    public const float PlayerJumpHeight = 4.1f;
+    public const float PlayerCatJumpHeight = 5.1f;
 
     public const int BufferFrameTime = 5;//输入缓存帧
     public const int IsGroundedBufferFrame = 10;
@@ -29,11 +33,15 @@ public static class Constants
 
     public const float PlayerBaseHealTime = 2f;
 
-    public const float PlayerMoveSpeed = 5f;
-    public const float PlayerCatMoveSpeed = 6f;
+    public const float PlayerCatToFastMoveDistance = 5f;
+    public const float PlayerCatFastMoveSpeed = 7.5f;
 
-    public const float PlayerCatToHumanTime = 0.33f;//此值应与实际动画的时长相同
-    public const float PlayerHumanToCatTime = 2f;
+    public const float PlayerCatToHumanExtraJumpHeight = 2.9f;
+
+
+
+    /*public const float PlayerCatToHumanTime = 0.167f;//此值应与实际动画的时长相同
+    public const float PlayerHumanToCatTime = 2f;*/
 
     #region player collider settings
     public const float playerBoxColliderOffsetY=-0.1f;

@@ -49,14 +49,14 @@ public class PlayerStatusDic
 
     public bool getPlayerStatus(EPlayerStatus playerStatus)
     {
-        return m_StatusDic[playerStatus];
+        return m_StatusDic[playerStatus].Flag;
     }
 
     public class PlayerStatusFlag
     {
         protected int animatorParam;
-        protected bool BuffFlags = true;
-        protected bool StatuFlag = true;
+        public bool StatuFlag;
+        public bool BuffFlag;
         private bool flag;
         public virtual bool Flag 
         {
@@ -74,27 +74,30 @@ public class PlayerStatusDic
         public PlayerStatusFlag(int param)
         {
             animatorParam = param;
+            BuffFlag = true;
         }
 
-        public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType = WayOfChangingFlag.Override)
+        public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType)
         {
             switch (setFlagType)
             {
                 case WayOfChangingFlag.Override:
                     StatuFlag = newFlag;
                     break;
+
                 case WayOfChangingFlag.OverrideBuffFlags:
-                    BuffFlags = newFlag;
+                    BuffFlag = newFlag;
                     break;
                 default:
                     break;
             }
-
+    
             calcuteFlag();
         }
         protected virtual void calcuteFlag()
         {
-            Flag = BuffFlags & StatuFlag;
+            Flag = BuffFlag & StatuFlag;
+
         }          
 
         public enum WayOfChangingFlag
@@ -104,7 +107,6 @@ public class PlayerStatusDic
             OverrideBuffFlags,
         }
 
-        public static implicit operator bool(PlayerStatusFlag playerStatus) => playerStatus.Flag;
     }
 
     public class PlayerStatusFlagWithMana:PlayerStatusFlag
@@ -119,7 +121,7 @@ public class PlayerStatusDic
 
         protected override void calcuteFlag()
         {
-            Flag = BuffFlags & StatuFlag & manaIsEnough;
+            Flag = BuffFlag & StatuFlag & manaIsEnough;
         }
 
         protected void calcuteMana(PlayerCharacter playerCharacter)

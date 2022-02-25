@@ -20,8 +20,7 @@ public enum EPlayerState
     ToCat=200,
     CatIdle=210,
     ToHuman=220,
-   /* CatRun=220,
-    CatJump=230,*/
+    CatToHumanExtraJump=230,
 }
 public class PlayerStatesBehaviour 
 {
@@ -57,6 +56,7 @@ public class PlayerStatesBehaviour
             case EPlayerState.Idle:
                 break;
             case EPlayerState.Run:
+                playerController.playerToCat.catMoveStart();
                 break;
             case EPlayerState.Jump:
                 playerJump.JumpStart();
@@ -88,10 +88,9 @@ public class PlayerStatesBehaviour
             case EPlayerState.CatIdle:
                 playerController.playerToCat.toCat();
                 break;
-           /* case EPlayerState.CatRun:
-                break;
-            case EPlayerState.CatJump:*/
+            case EPlayerState.CatToHumanExtraJump:
 
+                break;
             case EPlayerState.CastSkill:
                 playerCastSkill.CastSkill();
                 break;
@@ -116,6 +115,7 @@ public class PlayerStatesBehaviour
                 playerController.CheckAddItem();
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.4f);
+                playerController.playerToCat.moveDistanceCount();
                 break;
             case EPlayerState.Jump:
                 // PlayerController.IsGrounded = false;
@@ -156,12 +156,9 @@ public class PlayerStatesBehaviour
             case EPlayerState.CatIdle:
                 playerController.CheckHorizontalMove(0.4f);
                 break;
-            /*case EPlayerState.CatRun:
-                playerController.CheckHorizontalMove(0.4f);
+            case EPlayerState.CatToHumanExtraJump:
+
                 break;
-            case EPlayerState.CatJump:
-                playerController.CheckHorizontalMove(0.4f);
-                break;*/
             default:
                 break;
         }
@@ -203,18 +200,17 @@ public class PlayerStatesBehaviour
             case EPlayerState.ToCat:
 
                 break;
-            case EPlayerState.ToHuman:
+            case EPlayerState.ToHuman:         
+                playerJump.EndJump();
+                playerController.playerToCat.extraJump();
                 playerController.playerToCat.toHuman();
                 break;
             case EPlayerState.CatIdle:
 
                 break;
-            /*case EPlayerState.CatRun:
+            case EPlayerState.CatToHumanExtraJump:
 
                 break;
-            case EPlayerState.CatJump:
-
-                break;*/
             default:
                 break;
         }
@@ -267,11 +263,17 @@ public class PlayerJump:PlayerAction
        if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
          --CurrentJumpCountLeft;
 
-        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.jumpUpSpeed));
+        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.getJumpUpSpeed()));
         jumpStartHeight = playerController.transform.position.y;
 
         playerController.StopCoroutine(JumpUpCheck());
         playerController.StartCoroutine(JumpUpCheck());
+    }
+
+    public void EndJump()
+    {
+        playerController.StopCoroutine(JumpUpCheck());
+        playerController.setRigidGravityScaleToNormal();
     }
 
     public IEnumerator JumpUpCheck()
@@ -279,7 +281,7 @@ public class PlayerJump:PlayerAction
         bool hasQuickSlowDown=false;
         bool hasNormalSlowDown = false;
 
-        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
+        float normalSlowDistance = 0.5f*playerController.playerInfo.getJumpUpSpeed() * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
         while(true)
         {
             yield return null;//每次update后循环一次
@@ -304,7 +306,7 @@ public class PlayerJump:PlayerAction
                     // Debug.Log(gScale);
                     playerController.setRigidGravityScale(gScale);
                 }
-                if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance )//缓停
+                if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.getJumpHeight() - normalSlowDistance )//缓停
                 {
                     hasNormalSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpSlowDownTime;

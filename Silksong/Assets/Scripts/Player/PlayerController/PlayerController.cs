@@ -7,12 +7,13 @@ using UnityEngine;
 [System.Serializable]
 public struct PlayerInfo
 {
-    //move
-    public float moveSpeed;
-    public float jumpMaxHeight;
+    private PlayerController playerController;
+
     public float jumpMinHeight;
     public float maxFallSpeed;
-    public float jumpUpSpeed { get; private set; }
+
+    private float jumpUpSpeed;
+    private float catJumpUpSpeed;
 
     //jump
     public float sprintDistance;
@@ -27,13 +28,36 @@ public struct PlayerInfo
 
     public bool playerFacingRight;
 
-    public void init()
+    public void init(PlayerController playerController)
     {
+        this.playerController = playerController;
+        jumpUpSpeed = Constants.PlayerJumpHeight * 2.5f;
+        catJumpUpSpeed = Constants.PlayerCatJumpHeight * 2.5f;
 
-        jumpUpSpeed = jumpMaxHeight * 2.5f;
         sprintSpeed = sprintDistance / Constants.SprintTime;
-        //Debug.Log(jumpUpSpeed);
+    }
 
+    public float getMoveSpeed()
+    {
+        if (playerController.playerToCat.IsCat)
+        {
+            if (playerController.playerToCat.isFastMoving)
+                return Constants.PlayerCatFastMoveSpeed;
+            else return Constants.PlayerCatMoveSpeed;
+        }
+        else return Constants.PlayerMoveSpeed;
+    }
+
+    public float getJumpUpSpeed()
+    {
+        if (playerController.playerToCat.IsCat) return catJumpUpSpeed;
+        else return jumpUpSpeed;
+    }
+
+    public float getJumpHeight()
+    {
+        if (playerController.playerToCat.IsCat) return Constants.PlayerCatJumpHeight;
+        else return Constants.PlayerJumpHeight;
     }
 }
 
@@ -66,7 +90,6 @@ public class PlayerController : MonoBehaviour
     public BoxCollider2D boxCollider;
 
     public Transform m_Transform { get; set; }
-    [SerializeField] private LayerMask groundLayerMask;
 
     private PlayerGroundedCheck playerGroundedCheck;
 
@@ -113,6 +136,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
+        //Debug.Log("Enable PlayerController");
         if (Instance == null)
             Instance = this;
         else if (Instance != this)
@@ -122,6 +146,7 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         Instance = null;
+        //Debug.Log("Disable PlayerController");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -193,18 +218,14 @@ public class PlayerController : MonoBehaviour
         animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
         playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
-
     }
     void Start()
     {
-        playerInfo.init();
+        playerInfo.init(this);
         // _saveSystem.TestSaveGuid(_guid);
         RB.gravityScale = playerInfo.normalGravityScale;
         m_Transform = GetComponent<Transform>();
-        playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
-        playerGroundedCheck = new PlayerGroundedCheck(this);
-        animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
-        playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
+
         WhenStartSetLastHorizontalInputDirByFacing();
 
         HpDamable damable = GetComponent<HpDamable>();
@@ -215,7 +236,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckIsGrounded();
-        playerToCat.checkUpSpaceForHuman();
+        playerToCat.catUpdate();
 
         playerAnimatorStatesControl.ParamsUpdate();
         if(IsUnderWater)
@@ -223,6 +244,7 @@ public class PlayerController : MonoBehaviour
             SwimUnderWater();
         }
         
+
     }
 
     private void LateUpdate()
@@ -240,7 +262,7 @@ public class PlayerController : MonoBehaviour
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
 
-        float desireSpeed = lastHorizontalInputDir * playerInfo.moveSpeed;
+        float desireSpeed = lastHorizontalInputDir * playerInfo.getMoveSpeed();
         float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
@@ -263,6 +285,11 @@ public class PlayerController : MonoBehaviour
 
     public void CheckIsGrounded()
     {
+        int groundLayerMask = 1<<LayerMask.NameToLayer("Ground");
+        if(playerToCat.IsCat)
+        {
+            groundLayerMask += 1<<LayerMask.NameToLayer("CloudMass");
+        }
         playerGroundedCheck.IsGrounded = groundCheckCollider.IsTouchingLayers(groundLayerMask);
     }
 
@@ -331,44 +358,44 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
-            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.moveSpeed;
+            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.getMoveSpeed();
         }
         else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
-            RB.velocity = new Vector3(1, 1).normalized * playerInfo.moveSpeed;
+            RB.velocity = new Vector3(1, 1).normalized * playerInfo.getMoveSpeed();
         }
         else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
-            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.moveSpeed;
+            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.getMoveSpeed();
         }
         else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
-            RB.velocity = new Vector2(1, -1).normalized * playerInfo.moveSpeed;
+            RB.velocity = new Vector2(1, -1).normalized * playerInfo.getMoveSpeed();
         }
         else
         {
             if (Input.GetKey(KeyCode.W))
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
-                RB.velocity = new Vector2(0, 1) * playerInfo.moveSpeed;
+                RB.velocity = new Vector2(0, 1) * playerInfo.getMoveSpeed();
             }
             if (Input.GetKey(KeyCode.S))
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
-                RB.velocity = new Vector2(0, -1) * playerInfo.moveSpeed;
+                RB.velocity = new Vector2(0, -1) * playerInfo.getMoveSpeed();
             }
             if (Input.GetKey(KeyCode.A))
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
-                RB.velocity = new Vector2(-1, 0) * playerInfo.moveSpeed;
+                RB.velocity = new Vector2(-1, 0) * playerInfo.getMoveSpeed();
             }
             if (Input.GetKey(KeyCode.D))
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
-                RB.velocity = new Vector2(1, 0) * playerInfo.moveSpeed;
+                RB.velocity = new Vector2(1, 0) * playerInfo.getMoveSpeed();
             }
         }
     }
@@ -465,11 +492,15 @@ public class PlayerToCat
         this.playerController = playerController;
     }
 
+    private Vector2 runStartPos;
+    public bool isFastMoving;
+    private float fastMoveStartAbsSpeed;
     public void toCat()
     {
         if (IsCat) return;
 
         IsCat = true;
+        playerController.gameObject.layer =LayerMask.NameToLayer("PlayerCat");
         playerController.GetComponentInChildren<SpriteRenderer>().flipX = true;//now the cat image is filpx from player image
         playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerCatBoxColliderOffsetY);
         playerController.boxCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, Constants.playerCatBoxColliderHeight);
@@ -485,6 +516,8 @@ public class PlayerToCat
 
         //Debug.Log("to human");
         IsCat = false;
+        isFastMoving = false;
+        playerController.gameObject.layer = LayerMask.NameToLayer("Player");
         playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
         playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerBoxColliderOffsetY);
         playerController.boxCollider.size = new Vector2(Constants.playerBoxColliderWidth, Constants.playerBoxColliderHeight);
@@ -493,9 +526,15 @@ public class PlayerToCat
         playerController.groundCheckCollider.size = new Vector2(Constants.playerBoxColliderWidth - Constants.playerGroundColliderXSizeSmall, playerController.groundCheckCollider.size.y);
     }
 
-    public void checkUpSpaceForHuman()
+    public void catUpdate()
     {
         if (!IsCat) return;
+
+        checkUpSpaceForHuman();
+        checkFastMoveEnd();
+    }
+    private void checkUpSpaceForHuman()
+    {
 
         Vector2 distance = new Vector2(0.125f, 0.5f);
         Vector2 YOffset = new Vector2(0, 0.5f);
@@ -519,6 +558,45 @@ public class PlayerToCat
             HasUpSpaceForHuman = true;
         }
     } 
+
+    public void moveDistanceCount()
+    {
+        if (!IsCat) return;
+
+        if (!isFastMoving && Mathf.Abs(playerController.transform.position.x-runStartPos.x)>Constants.PlayerCatToFastMoveDistance)
+        {
+            isFastMoving = true;
+            Debug.Log("cat fast move");
+            fastMoveStartAbsSpeed =Mathf.Abs(playerController.getRigidVelocity().x);
+        }
+    }
+
+    private void checkFastMoveEnd()
+    {
+        if(isFastMoving && Mathf.Abs( playerController.getRigidVelocity().x)<fastMoveStartAbsSpeed)
+        {
+            isFastMoving = false;
+            Debug.Log("cat fast end");
+            /* Debug.Log(playerController.getRigidVelocity().x);
+             Debug.Log(fastMoveDir);
+             Debug.Log(playerController.getRigidVelocity().x != fastMoveDir);*/
+        }
+    }
+    public void catMoveStart()
+    {
+        if (!IsCat) return;
+        runStartPos = playerController.transform.position;
+    }
+
+    public void extraJump()
+    {
+        if (!isFastMoving || playerController.isGroundedBuffer()) return;
+
+        playerController.PlayerAnimator.Play("CatToHumanExtraJump");
+        Debug.Log("extra jump");
+        float speed = Mathf.Sqrt(Physics2D.gravity.y * -1 * playerController.playerInfo.normalGravityScale * 2 * Constants.PlayerCatToHumanExtraJumpHeight);
+        playerController.setRigidVelocity(new Vector2( playerController.getRigidVelocity().x, speed));
+    }
     
 
 }
