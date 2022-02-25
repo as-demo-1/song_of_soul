@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
+
 
 
 public class MovingPlatform : MonoBehaviour
@@ -11,6 +9,9 @@ public class MovingPlatform : MonoBehaviour
     public Transform[] movePoint;
     public bool isActive;
     private int idx; // movePoint's index
+    private bool flag;
+    private Transform playerTransform;
+    private float offset;
     void Start()
     {
         idx = 0;
@@ -29,7 +30,13 @@ public class MovingPlatform : MonoBehaviour
 
     void Move() 
     {
+        Vector3 position = transform.position;
         transform.position = Vector2.MoveTowards(transform.position, movePoint[idx].position, speed * Time.deltaTime);
+        offset = transform.position.x - position.x;
+        if (flag)
+        {
+            playerTransform.position = (new Vector2(playerTransform.position.x + offset,playerTransform.position.y));
+        }
         if (Vector2.Distance(transform.position, movePoint[idx].position) < 0.1f)
         {
             if (movePoint.Length == 1) return;
@@ -47,12 +54,19 @@ public class MovingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.transform.SetParent(this.transform);
+        if (collision.transform.CompareTag("Player"))
+        {
+            flag = true;
+            playerTransform = collision.transform;
+        }
+      
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        collision.transform.SetParent(null);
-        DontDestroyOnLoad(collision.gameObject);
+        if (collision.transform.CompareTag("Player"))
+        {
+            flag = false;
+        }
     }
 }
