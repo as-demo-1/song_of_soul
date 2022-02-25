@@ -60,7 +60,9 @@ public class PlayerController : MonoBehaviour
 
     public Animator PlayerAnimator;
 
+
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
+
 
     public SpriteRenderer SpriteRenderer { get; private set; }
     //[SerializeField, HideInInspector]
@@ -69,11 +71,14 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
 
 
+
     private PlayerGroundedCheck playerGroundedCheck;
 
     [DisplayOnly]
+
     public bool gravityLock;//为ture时，不允许gravityScale改变
     private bool IsUnderWater;
+
 
     [SerializeField] private Collider2D groundCheckCollider;
     //Teleport
@@ -103,6 +108,7 @@ public class PlayerController : MonoBehaviour
         else
             throw new UnityException("There cannot be more than one PlayerController script.  The instances are " + Instance.name + " and " + name + ".");
         DontDestroyOnLoad(this.gameObject);
+
         if(_backpack)
             _backpack.LoadSave();
 
@@ -252,7 +258,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerInput.Instance.interact.Down)
         {
-            InteractManager.Interact();
+            InteractManager.Instance.Interact();
         }
     }
 
@@ -386,9 +392,11 @@ public class PlayerGroundedCheck
         {
             return isGrounded;
         }
+
         set//每次update都会调用
         {
             if (value)//设为真
+
             {
                 playerController.playerStatesBehaviour.playerJump.resetJumpCount();
                 playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
@@ -414,6 +422,7 @@ public class PlayerGroundedCheck
         get {return isGroundedBuffer; }
         set
         {      
+
             if (isGroundedBuffer &&!value)//从真设为假
             {
                 playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;

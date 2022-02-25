@@ -73,7 +73,7 @@ public class HpDamable :Damable
     protected virtual void die(DamagerBase damager)
     {
         onDieEvent.Invoke(damager,this);
-        //Destroy(gameObject);//Œ¥ÕÍ…∆
+        Destroy(gameObject);//Œ¥ÕÍ…∆
         Debug.Log(gameObject.name+" die");
         if (dieAudio)
         {
