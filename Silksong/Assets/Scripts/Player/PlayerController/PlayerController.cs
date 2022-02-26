@@ -7,12 +7,13 @@ using UnityEngine;
 [System.Serializable]
 public struct PlayerInfo
 {
-    //move
-    public float moveSpeed;
-    public float jumpMaxHeight;
+    private PlayerController playerController;
+
     public float jumpMinHeight;
     public float maxFallSpeed;
-    public float jumpUpSpeed { get; private set; }
+
+    private float jumpUpSpeed;
+    private float catJumpUpSpeed;
 
     //jump
     public float sprintDistance;
@@ -27,13 +28,36 @@ public struct PlayerInfo
 
     public bool playerFacingRight;
 
-    public void init()
+    public void init(PlayerController playerController)
     {
+        this.playerController = playerController;
+        jumpUpSpeed = Constants.PlayerJumpHeight * 2.5f;
+        catJumpUpSpeed = Constants.PlayerCatJumpHeight * 2.5f;
 
-        jumpUpSpeed = jumpMaxHeight * 2.5f;
         sprintSpeed = sprintDistance / Constants.SprintTime;
-        //Debug.Log(jumpUpSpeed);
+    }
 
+    public float getMoveSpeed()
+    {
+        if (playerController.playerToCat.IsCat)
+        {
+            if (playerController.playerToCat.isFastMoving)
+                return Constants.PlayerCatFastMoveSpeed;
+            else return Constants.PlayerCatMoveSpeed;
+        }
+        else return Constants.PlayerMoveSpeed;
+    }
+
+    public float getJumpUpSpeed()
+    {
+        if (playerController.playerToCat.IsCat) return catJumpUpSpeed;
+        else return jumpUpSpeed;
+    }
+
+    public float getJumpHeight()
+    {
+        if (playerController.playerToCat.IsCat) return Constants.PlayerCatJumpHeight;
+        else return Constants.PlayerJumpHeight;
     }
 }
 
@@ -60,29 +84,24 @@ public class PlayerController : MonoBehaviour
 
     public Animator PlayerAnimator;
 
-
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
+    [DisplayOnly]
+    public BoxCollider2D boxCollider;
 
-    public SpriteRenderer SpriteRenderer { get; private set; }
-    //[SerializeField, HideInInspector]
     public Transform m_Transform { get; set; }
-    [SerializeField] private LayerMask groundLayerMask;
-    //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
-
-
 
     private PlayerGroundedCheck playerGroundedCheck;
 
     [DisplayOnly]
+    public PlayerToCat playerToCat;
 
+    [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
     private bool IsUnderWater;
 
-
-    [SerializeField] private Collider2D groundCheckCollider;
+    public BoxCollider2D groundCheckCollider;
     //Teleport
-    [SerializeField] private GameObject telePosition;
     /// <summary>
     /// Only Demo Code for save
     /// </summary>
@@ -117,6 +136,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
+        //Debug.Log("Enable PlayerController");
         if (Instance == null)
             Instance = this;
         else if (Instance != this)
@@ -126,6 +146,7 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         Instance = null;
+        //Debug.Log("Disable PlayerController");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -188,25 +209,23 @@ public class PlayerController : MonoBehaviour
     public void init()
     {
         RB = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
         playerGroundedCheck = new PlayerGroundedCheck(this);
+        playerToCat = new PlayerToCat(this);
 
         playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
         playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
-
     }
     void Start()
     {
-        playerInfo.init();
+        playerInfo.init(this);
         // _saveSystem.TestSaveGuid(_guid);
         RB.gravityScale = playerInfo.normalGravityScale;
         m_Transform = GetComponent<Transform>();
-        playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
-        playerGroundedCheck = new PlayerGroundedCheck(this);
-        animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
-        playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
+
         WhenStartSetLastHorizontalInputDirByFacing();
 
         HpDamable damable = GetComponent<HpDamable>();
@@ -217,6 +236,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckIsGrounded();
+        playerToCat.catUpdate();
 
         playerAnimatorStatesControl.ParamsUpdate();
         if(IsUnderWater)
@@ -224,6 +244,7 @@ public class PlayerController : MonoBehaviour
             SwimUnderWater();
         }
         
+
     }
 
     private void LateUpdate()
@@ -241,7 +262,7 @@ public class PlayerController : MonoBehaviour
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
 
-        float desireSpeed = lastHorizontalInputDir * playerInfo.moveSpeed;
+        float desireSpeed = lastHorizontalInputDir * playerInfo.getMoveSpeed();
         float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
@@ -264,6 +285,11 @@ public class PlayerController : MonoBehaviour
 
     public void CheckIsGrounded()
     {
+        int groundLayerMask = 1<<LayerMask.NameToLayer("Ground");
+        if(playerToCat.IsCat)
+        {
+            groundLayerMask += 1<<LayerMask.NameToLayer("CloudMass");
+        }
         playerGroundedCheck.IsGrounded = groundCheckCollider.IsTouchingLayers(groundLayerMask);
     }
 
@@ -332,47 +358,48 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
-            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.moveSpeed;
+            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.getMoveSpeed();
         }
         else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
-            RB.velocity = new Vector3(1, 1).normalized * playerInfo.moveSpeed;
+            RB.velocity = new Vector3(1, 1).normalized * playerInfo.getMoveSpeed();
         }
         else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
-            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.moveSpeed;
+            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.getMoveSpeed();
         }
         else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
-            RB.velocity = new Vector2(1, -1).normalized * playerInfo.moveSpeed;
+            RB.velocity = new Vector2(1, -1).normalized * playerInfo.getMoveSpeed();
         }
         else
         {
             if (Input.GetKey(KeyCode.W))
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
-                RB.velocity = new Vector2(0, 1) * playerInfo.moveSpeed;
+                RB.velocity = new Vector2(0, 1) * playerInfo.getMoveSpeed();
             }
             if (Input.GetKey(KeyCode.S))
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
-                RB.velocity = new Vector2(0, -1) * playerInfo.moveSpeed;
+                RB.velocity = new Vector2(0, -1) * playerInfo.getMoveSpeed();
             }
             if (Input.GetKey(KeyCode.A))
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
-                RB.velocity = new Vector2(-1, 0) * playerInfo.moveSpeed;
+                RB.velocity = new Vector2(-1, 0) * playerInfo.getMoveSpeed();
             }
             if (Input.GetKey(KeyCode.D))
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
-                RB.velocity = new Vector2(1, 0) * playerInfo.moveSpeed;
+                RB.velocity = new Vector2(1, 0) * playerInfo.getMoveSpeed();
             }
         }
     }
+
 }
 
 public class PlayerGroundedCheck
@@ -433,6 +460,148 @@ public class PlayerGroundedCheck
     }
 
 }
+
+public class PlayerToCat
+{
+    private bool isCat;
+    public bool IsCat
+    {
+        get { return isCat; }
+        set
+        {
+            isCat = value;
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.IsCatParamHas,value);
+        }
+    }
+
+    private bool hasUpSpaceForHuman;
+    public bool HasUpSpaceForHuman
+    {
+        get { return hasUpSpaceForHuman; }
+        set
+        {
+            hasUpSpaceForHuman = value;
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.HasUpSpaceForHumanParamHas,value);
+        }
+    }
+
+
+    private PlayerController playerController;
+    public PlayerToCat(PlayerController playerController)
+    {
+        this.playerController = playerController;
+    }
+
+    private Vector2 runStartPos;
+    public bool isFastMoving;
+    private float fastMoveStartAbsSpeed;
+    public void toCat()
+    {
+        if (IsCat) return;
+
+        IsCat = true;
+        playerController.gameObject.layer =LayerMask.NameToLayer("PlayerCat");
+        playerController.GetComponentInChildren<SpriteRenderer>().flipX = true;//now the cat image is filpx from player image
+        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerCatBoxColliderOffsetY);
+        playerController.boxCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, Constants.playerCatBoxColliderHeight);
+
+        playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerCatGroundCheckColliderOffsetY);
+        playerController.groundCheckCollider.size= new Vector2( Constants.playerCatBoxColliderWidth-Constants.playerGroundColliderXSizeSmall,playerController.groundCheckCollider.size.y);
+
+    }
+
+    public void toHuman()
+    {
+        if (!IsCat) return;
+
+        //Debug.Log("to human");
+        IsCat = false;
+        isFastMoving = false;
+        playerController.gameObject.layer = LayerMask.NameToLayer("Player");
+        playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
+        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerBoxColliderOffsetY);
+        playerController.boxCollider.size = new Vector2(Constants.playerBoxColliderWidth, Constants.playerBoxColliderHeight);
+
+        playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerGroundCheckColliderOffsetY);
+        playerController.groundCheckCollider.size = new Vector2(Constants.playerBoxColliderWidth - Constants.playerGroundColliderXSizeSmall, playerController.groundCheckCollider.size.y);
+    }
+
+    public void catUpdate()
+    {
+        if (!IsCat) return;
+
+        checkUpSpaceForHuman();
+        checkFastMoveEnd();
+    }
+    private void checkUpSpaceForHuman()
+    {
+
+        Vector2 distance = new Vector2(0.125f, 0.5f);
+        Vector2 YOffset = new Vector2(0, 0.5f);
+
+        Vector2 upPoint = (Vector2)playerController.transform.position + YOffset;
+        Vector2 upPointA = upPoint + distance;
+        Vector2 upPointB = upPoint - distance;
+       // Debug.DrawLine(upPointA, upPointB);
+
+        Vector2 downPoint= (Vector2)playerController.transform.position - YOffset;
+        Vector2 downPointA =downPoint + distance;
+        Vector2 downPointB = downPoint - distance;
+       // Debug.DrawLine(downPointA, downPointB);
+        //Debug.Log(Physics2D.OverlapArea(upPointA, upPointB, LayerMask.NameToLayer("Ground")));
+        if (Physics2D.OverlapArea(upPointA, upPointB, 1<<LayerMask.NameToLayer("Ground")) && Physics2D.OverlapArea(downPointA,downPointB, 1<<LayerMask.NameToLayer("Ground")))
+        {
+            HasUpSpaceForHuman = false;
+        }
+        else
+        {
+            HasUpSpaceForHuman = true;
+        }
+    } 
+
+    public void moveDistanceCount()
+    {
+        if (!IsCat) return;
+
+        if (!isFastMoving && Mathf.Abs(playerController.transform.position.x-runStartPos.x)>Constants.PlayerCatToFastMoveDistance)
+        {
+            isFastMoving = true;
+            Debug.Log("cat fast move");
+            fastMoveStartAbsSpeed =Mathf.Abs(playerController.getRigidVelocity().x);
+        }
+    }
+
+    private void checkFastMoveEnd()
+    {
+        if(isFastMoving && Mathf.Abs( playerController.getRigidVelocity().x)<fastMoveStartAbsSpeed)
+        {
+            isFastMoving = false;
+            Debug.Log("cat fast end");
+            /* Debug.Log(playerController.getRigidVelocity().x);
+             Debug.Log(fastMoveDir);
+             Debug.Log(playerController.getRigidVelocity().x != fastMoveDir);*/
+        }
+    }
+    public void catMoveStart()
+    {
+        if (!IsCat) return;
+        runStartPos = playerController.transform.position;
+    }
+
+    public void extraJump()
+    {
+        if (!isFastMoving || playerController.isGroundedBuffer()) return;
+
+        playerController.PlayerAnimator.Play("CatToHumanExtraJump");
+        Debug.Log("extra jump");
+        float speed = Mathf.Sqrt(Physics2D.gravity.y * -1 * playerController.playerInfo.normalGravityScale * 2 * Constants.PlayerCatToHumanExtraJumpHeight);
+        playerController.setRigidVelocity(new Vector2( playerController.getRigidVelocity().x, speed));
+    }
+    
+
+}
+
+
 
 
 

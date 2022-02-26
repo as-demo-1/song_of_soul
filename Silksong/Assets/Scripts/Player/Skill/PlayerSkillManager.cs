@@ -58,14 +58,14 @@ public class PlayerSkillManager : MonoBehaviour
     private void Update()
     {
         // 用于debug，以后不用了就可以删掉
-        if (equippingPlayerSkill == null)
+      /*  if (equippingPlayerSkill == null)
         {
             equippingSkillText.text = "null";
         }
         else
         {
             equippingSkillText.text = equippingPlayerSkill.Name.ToString();
-        }
+        }*/
         
     }
 

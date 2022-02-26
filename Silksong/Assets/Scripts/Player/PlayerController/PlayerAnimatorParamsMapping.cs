@@ -48,6 +48,10 @@ public class PlayerAnimatorParamsMapping
 
     public int CanHealParamHas { get; } = Animator.StringToHash("CanHeal");
 
+    public int CanToCatParamHas { get; } = Animator.StringToHash("CanToCat");
+    public int ToCatIsValidParamHas { get; } = Animator.StringToHash("ToCatIsValid");
+    public int IsCatParamHas { get; } = Animator.StringToHash("IsCat");
+    public int HasUpSpaceForHumanParamHas { get; } = Animator.StringToHash("HasUpSpaceForHuman");
     public int CanCastSkillParamHash { get; } = Animator.StringToHash("CanCastSkill");
 
     public int CastSkillIsValidParamHash { get; } = Animator.StringToHash("CastSkillIsValid");
@@ -71,6 +75,7 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(IsHealHeldParamHas, PlayerInput.Instance.heal.Held);
 
+            m_Animator.SetBool(ToCatIsValidParamHas, PlayerInput.Instance.toCat.IsValid);
             m_Animator.SetBool(CastSkillIsValidParamHash, PlayerInput.Instance.castSkill.IsValid);
         }
         else
@@ -88,6 +93,7 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(IsHealHeldParamHas,false);
 
+            m_Animator.SetBool(ToCatIsValidParamHas, false);
             m_Animator.SetBool(CastSkillIsValidParamHash, false);
         }
 
