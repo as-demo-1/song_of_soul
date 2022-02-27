@@ -14,25 +14,29 @@ public class MapController : MonoBehaviour
 
 	[SerializeField] public GameObject levelMap;
 	[SerializeField] public GameObject regionMap;
+    [SerializeField] public GameObject mapUI;
 	private LevelMapController levelMapController;
 	private RegionMapController regionMapController;
+    private MapUIController mapUIController;
 
-	private bool quick;
+	private bool quick, showLevel;
     private string region;
 
     // Start is called before the first frame update
     void Start()
     {
     	quick = true;
-    	levelMapController = FindObjectOfType<LevelMapController>();
-    	regionMapController = FindObjectOfType<RegionMapController>();
+    	levelMapController = levelMap.GetComponent<LevelMapController>();
+    	regionMapController = regionMap.GetComponent<RegionMapController>();
+        mapUIController = mapUI.GetComponent<MapUIController>();
     	levelMap.SetActive(false);
     	regionMap.SetActive(false);
+        mapUI.SetActive(false);
     }
 
     void Update()
     {
-        string region = SceneManager.GetActiveScene().name.Split('-')[0];
+        region = SceneManager.GetActiveScene().name.Split('-')[0];
 
     	// show quick map
     	if (quick && PlayerInput.Instance.quickMap.Down) {
@@ -49,39 +53,49 @@ public class MapController : MonoBehaviour
     	// show map
     	if (PlayerInput.Instance.showMap.Down) {
     		quick = false;
-    		levelMap.SetActive(true);
-    		levelMapController.SetInteractable(true);
-            levelMapController.centering(region);
+            showLevel = false;
+            levelMap.SetActive(false);
+            regionMap.SetActive(true);
+            mapUI.SetActive(true);
+            regionMapController.SetCurrentRegion(region);
+            mapUIController.showLevelMapIns(false);
     	}
 
     	if (!quick) {
     		// hide all maps
     		if (Input.GetButtonDown("Cancel")) {
-    			quick = true;
-    			levelMap.SetActive(false);
-    			regionMap.SetActive(false);
+                if (showLevel) {
+                    switch2RegionMap();
+                }
+                else {
+                    quick = true;
+                    levelMap.SetActive(false);
+                    regionMap.SetActive(false);
+                    mapUI.SetActive(false);
+                }
     		}
-    		// show level map
-    		// if (PlayerInput.Instance.normalAttack.Down) {
-    		// 	regionMap.SetActive(false);
-    		// 	levelMap.SetActive(true);
-    		// }
     		// show region map
     		if (PlayerInput.Instance.jump.Down) {
-    			levelMap.SetActive(false);
-    			regionMap.SetActive(true);
+                switch2RegionMap();
     		}
     	}
     }
 
-    void switch2LevelMap(GameObject levelMapIMG)
+    public void switch2LevelMap(GameObject levelMapIMG)
     {
-
+        showLevel = true;
+        regionMap.SetActive(false);
+        levelMap.SetActive(true);
+        levelMapController.SetInteractable(true);
+        levelMapController.centering(levelMapIMG);
+        mapUIController.showLevelMapIns(true);
     }
 
     void switch2RegionMap()
     {
+        showLevel = false;
     	levelMap.SetActive(false);
     	regionMap.SetActive(true);
+        mapUIController.showLevelMapIns(false);
     }
 }
