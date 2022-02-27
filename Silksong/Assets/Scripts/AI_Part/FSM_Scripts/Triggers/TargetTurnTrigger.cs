@@ -9,7 +9,7 @@ public class TargetTurnTrigger : EnemyFSMBaseTrigger
     {
         base.InitTrigger(fsm_Manager);
     }
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     {
         Vector2 targetDir = fsm_Manager.getTargetDir();
         bool faceLeft = fsm_Manager.currentFacingLeft();

@@ -8,16 +8,24 @@ public class Glue : Trigger2DBase
     public float downSpeedRate;
     protected override void enterEvent()
     {
+        playerController.playerToCat.toHuman();
+        playerController.playerCharacter.gluedCount++;
         playerController.PlayerHorizontalMoveControl.SpeedRate = downSpeedRate;
         playerController.PlayerHorizontalMoveControl.GroundAccelerationFactor = downSpeedRate;
         playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanJump, false, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
+        playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanToCat, false, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
     }
 
     protected override void exitEvent()
     {
-        playerController.PlayerHorizontalMoveControl.SpeedRate = 1;
-        playerController.PlayerHorizontalMoveControl.GroundAccelerationFactor = 1;
-        playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanJump, true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
+        if (--playerController.playerCharacter.gluedCount==0)
+        {
+            playerController.PlayerHorizontalMoveControl.SpeedRate = 1;
+            playerController.PlayerHorizontalMoveControl.GroundAccelerationFactor = 1;
+            playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanJump, true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
+            playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanToCat, true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
+        }
+      
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)

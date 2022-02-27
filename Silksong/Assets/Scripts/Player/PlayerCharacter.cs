@@ -64,6 +64,7 @@ public class PlayerCharacter : MonoBehaviour
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
     //private PlayerController playerController;
 
+    public int gluedCount; 
 
   
     private void Awake()

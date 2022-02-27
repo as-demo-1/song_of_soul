@@ -15,7 +15,12 @@ public enum EPlayerState
     BreakMoon=70,
     Heal=90,
     Hurt=100,
+    CastSkill = 110,
 
+    ToCat=200,
+    CatIdle=210,
+    ToHuman=220,
+    CatToHumanExtraJump=230,
 }
 public class PlayerStatesBehaviour 
 {
@@ -25,6 +30,8 @@ public class PlayerStatesBehaviour
     public PlayerSprint playerSprint;
     public PlayerBreakMoon playerBreakMoon;
     public PlayerHeal playerHeal;
+    public PlayerCastSkill playerCastSkill;
+
     public void init()
     {
         playerJump = new PlayerJump(playerController);
@@ -32,6 +39,7 @@ public class PlayerStatesBehaviour
         playerSprint = new PlayerSprint(playerController);
         playerBreakMoon = new PlayerBreakMoon(playerController);
         playerHeal = new PlayerHeal(playerController);
+        playerCastSkill = new PlayerCastSkill(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -48,6 +56,7 @@ public class PlayerStatesBehaviour
             case EPlayerState.Idle:
                 break;
             case EPlayerState.Run:
+                playerController.playerToCat.catMoveStart();
                 break;
             case EPlayerState.Jump:
                 playerJump.JumpStart();
@@ -65,9 +74,25 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Hurt:
                 PlayerInput.Instance.ReleaseControls();
+                playerController.playerToCat.toHuman();
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
+                break;
+
+            case EPlayerState.ToCat:
+
+                break;
+            case EPlayerState.ToHuman:
+                break;
+            case EPlayerState.CatIdle:
+                playerController.playerToCat.toCat();
+                break;
+            case EPlayerState.CatToHumanExtraJump:
+
+                break;
+            case EPlayerState.CastSkill:
+                playerCastSkill.CastSkill();
                 break;
             default:
                 break;
@@ -90,6 +115,7 @@ public class PlayerStatesBehaviour
                 playerController.CheckAddItem();
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.4f);
+                playerController.playerToCat.moveDistanceCount();
                 break;
             case EPlayerState.Jump:
                 // PlayerController.IsGrounded = false;
@@ -116,7 +142,22 @@ public class PlayerStatesBehaviour
                 playerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Heal:
+                playerController.CheckHorizontalMove(0.4f);
                 playerHeal.healProcess();
+                break;
+
+            case EPlayerState.ToCat:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.ToHuman:
+                playerController.CheckFlipPlayer(1f);
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.CatIdle:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.CatToHumanExtraJump:
+
                 break;
             default:
                 break;
@@ -153,6 +194,21 @@ public class PlayerStatesBehaviour
                 PlayerInput.Instance.GainControls();
                 break;
             case EPlayerState.Heal:
+
+                break;
+
+            case EPlayerState.ToCat:
+
+                break;
+            case EPlayerState.ToHuman:         
+                playerJump.EndJump();
+                playerController.playerToCat.extraJump();
+                playerController.playerToCat.toHuman();
+                break;
+            case EPlayerState.CatIdle:
+
+                break;
+            case EPlayerState.CatToHumanExtraJump:
 
                 break;
             default:
@@ -207,11 +263,17 @@ public class PlayerJump:PlayerAction
        if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
          --CurrentJumpCountLeft;
 
-        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.jumpUpSpeed));
+        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.getJumpUpSpeed()));
         jumpStartHeight = playerController.transform.position.y;
 
         playerController.StopCoroutine(JumpUpCheck());
         playerController.StartCoroutine(JumpUpCheck());
+    }
+
+    public void EndJump()
+    {
+        playerController.StopCoroutine(JumpUpCheck());
+        playerController.setRigidGravityScaleToNormal();
     }
 
     public IEnumerator JumpUpCheck()
@@ -219,7 +281,7 @@ public class PlayerJump:PlayerAction
         bool hasQuickSlowDown=false;
         bool hasNormalSlowDown = false;
 
-        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
+        float normalSlowDistance = 0.5f*playerController.playerInfo.getJumpUpSpeed() * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
         while(true)
         {
             yield return null;//每次update后循环一次
@@ -244,7 +306,7 @@ public class PlayerJump:PlayerAction
                     // Debug.Log(gScale);
                     playerController.setRigidGravityScale(gScale);
                 }
-                if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance )//缓停
+                if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.getJumpHeight() - normalSlowDistance )//缓停
                 {
                     hasNormalSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpSlowDownTime;
@@ -483,3 +545,19 @@ public class PlayerHeal:PlayerAction
 
 }
 
+public class PlayerCastSkill : PlayerAction
+{
+    public PlayerCastSkill(PlayerController playerController) : base(playerController) 
+    { 
+        playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>(); 
+    }
+
+    private PlayerSkillManager playerSkillManager;
+
+    public void CastSkill()
+    {
+        playerSkillManager.Cast();
+    }
+
+
+}
