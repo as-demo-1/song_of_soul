@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MapController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class MapController : MonoBehaviour
 	private RegionMapController regionMapController;
 
 	private bool quick;
+    private string region;
 
     // Start is called before the first frame update
     void Start()
@@ -30,10 +32,13 @@ public class MapController : MonoBehaviour
 
     void Update()
     {
+        string region = SceneManager.GetActiveScene().name.Split('-')[0];
+
     	// show quick map
     	if (quick && PlayerInput.Instance.quickMap.Down) {
     		levelMap.SetActive(true);
     		levelMapController.SetInteractable(false);
+            levelMapController.centering(region);
     	}
 
     	// hide quick map
@@ -46,6 +51,7 @@ public class MapController : MonoBehaviour
     		quick = false;
     		levelMap.SetActive(true);
     		levelMapController.SetInteractable(true);
+            levelMapController.centering(region);
     	}
 
     	if (!quick) {
@@ -56,10 +62,10 @@ public class MapController : MonoBehaviour
     			regionMap.SetActive(false);
     		}
     		// show level map
-    		if (PlayerInput.Instance.normalAttack.Down) {
-    			regionMap.SetActive(false);
-    			levelMap.SetActive(true);
-    		}
+    		// if (PlayerInput.Instance.normalAttack.Down) {
+    		// 	regionMap.SetActive(false);
+    		// 	levelMap.SetActive(true);
+    		// }
     		// show region map
     		if (PlayerInput.Instance.jump.Down) {
     			levelMap.SetActive(false);

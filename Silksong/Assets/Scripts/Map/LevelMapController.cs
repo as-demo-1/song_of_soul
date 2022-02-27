@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelMapController : MonoBehaviour
 {
@@ -8,10 +9,11 @@ public class LevelMapController : MonoBehaviour
     private float speed;
     private Dictionary<string, GameObject> mapIMGs = new Dictionary<string, GameObject>();
     private Transform canvas;
-    private GameObject playerMarker;
+    private GameObject sceneBound, mapBound, playerMarker;
+    private string currentLevel;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         speed = 50.0f;
         interactable = false;
@@ -31,6 +33,47 @@ public class LevelMapController : MonoBehaviour
 			foreach (KeyValuePair<string, GameObject> mapIMG in mapIMGs) {
 				mapIMG.Value.transform.position += d;
 			}
+        }
+
+        // trace player position
+        string level = SceneManager.GetActiveScene().name;
+
+        if (level != currentLevel) {
+            currentLevel = level;
+            sceneBound = GameObject.Find(level + "_SceneBound");
+            string region = level.Split('-')[0];
+            if (mapIMGs.ContainsKey(region)) {
+                mapBound = mapIMGs[region].transform.Find(level).gameObject;
+            }
+        }
+        
+        if (sceneBound && mapBound) {
+            Vector3 p = new Vector3();
+            p = PlayerInput.Instance.transform.position - sceneBound.transform.position;
+            p.x *= mapBound.transform.GetComponent<RectTransform>().rect.width / sceneBound.transform.localScale.x / 2.0f;
+            p.y *= mapBound.transform.GetComponent<RectTransform>().rect.height / sceneBound.transform.localScale.y / 2.0f;
+            playerMarker.transform.position = mapBound.transform.position + p;
+        }
+    }
+
+    // centering the map image with key value region
+    public void centering(string region)
+    {
+        if (!mapIMGs.ContainsKey(region)) return;
+        Vector3 c = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
+        Vector3 d = c - mapIMGs[region].transform.position;
+        foreach (KeyValuePair<string, GameObject> mapIMG in mapIMGs) {
+            mapIMG.Value.transform.position += d;
+        }
+    }
+
+    // centering the map image object m
+    public void centering(GameObject m)
+    {
+        Vector3 c = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
+        Vector3 d = c - m.transform.position;
+        foreach (KeyValuePair<string, GameObject> mapIMG in mapIMGs) {
+            mapIMG.Value.transform.position += d;
         }
     }
 
