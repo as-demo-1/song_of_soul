@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class NPCController : MonoBehaviour
 {
     public InteractiveSO InteractiveItem;
-    public SaveSystem SaveSystem;
 
     // Start is called before the first frame update
     void Start()

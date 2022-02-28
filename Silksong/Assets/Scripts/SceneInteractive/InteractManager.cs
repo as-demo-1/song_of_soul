@@ -140,6 +140,7 @@ public class InteractManager
             if (_interactiveActions.ContainsKey(InteractiveItem.ItemType))
             {
                 StopEvent();
+                Debug.Log(InteractiveItem.ItemType);
                 _interactiveActions[InteractiveItem.ItemType]();
             }
             else

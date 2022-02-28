@@ -22,7 +22,7 @@ public class InteractiveObjectTrigger : MonoBehaviour
 #if UNITY_EDITOR
     void Update()
     {
-        InteractiveItem.SetCoord(transform.position);
+        InteractiveItem.SetPosition(gameObject, transform.position);
     }
 #endif
 
