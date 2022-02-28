@@ -381,6 +381,53 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.13333334, y: 0.13333334}
   m_EdgeRadius: 0
+--- !u!1 &303103793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 303103794}
+  - component: {fileID: 303103795}
+  m_Layer: 14
+  m_Name: UnderWaterCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &303103794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303103793}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1889799000}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &303103795
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303103793}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.23
 --- !u!1 &363478500
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +556,7 @@ GameObject:
   - component: {fileID: 861144040}
   - component: {fileID: 861144039}
   - component: {fileID: 861144038}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UnderWater
   m_TagString: UnderWater
   m_Icon: {fileID: 0}
@@ -542,9 +589,9 @@ BuoyancyEffector2D:
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_SurfaceLevel: 0.05
-  m_Density: 1
-  m_LinearDrag: 5
+  m_SurfaceLevel: 0.064
+  m_Density: 0
+  m_LinearDrag: 1
   m_AngularDrag: 5
   m_FlowAngle: 0
   m_FlowMagnitude: 0
@@ -562,7 +609,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.00062286854}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -573,7 +620,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.13333334, y: 0.13333334}
+  m_Size: {x: 0.13333334, y: 0.13208762}
   m_EdgeRadius: 0
 --- !u!212 &861144040
 SpriteRenderer:
@@ -5793,7 +5840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1355862245}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.25, y: 17.79, z: -10}
+  m_LocalPosition: {x: 17.49, y: 17.35, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -6160,7 +6207,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822175973}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.25, y: 17.79, z: -10}
+  m_LocalPosition: {x: 17.49, y: 17.35, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1669972684}
@@ -6177,6 +6224,18 @@ PrefabInstance:
     - target: {fileID: 484977951162521058, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
       propertyPath: _guid
       value: 877ffbea-ee3a-4720-812f-a44b6cfb4f66
+      objectReference: {fileID: 0}
+    - target: {fileID: 484977951162521058, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+      propertyPath: playerInfo.swimSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 484977951162521058, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+      propertyPath: underWaterCheckCollider
+      value: 
+      objectReference: {fileID: 303103795}
+    - target: {fileID: 484977951162521058, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+      propertyPath: underwaterLayerMask.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 484977951162521059, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
       propertyPath: serializedGuid.Array.size
@@ -6256,11 +6315,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 484977951162521063, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.25
+      value: 17.49
       objectReference: {fileID: 0}
     - target: {fileID: 484977951162521063, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 17.79
+      value: 17.35
       objectReference: {fileID: 0}
     - target: {fileID: 484977951162521063, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
       propertyPath: m_LocalPosition.z

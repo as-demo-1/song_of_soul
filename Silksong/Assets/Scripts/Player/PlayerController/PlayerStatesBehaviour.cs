@@ -15,7 +15,7 @@ public enum EPlayerState
     BreakMoon=70,
     Heal=90,
     Hurt=100,
-
+    Swim = 110,
 }
 public class PlayerStatesBehaviour 
 {
@@ -25,6 +25,7 @@ public class PlayerStatesBehaviour
     public PlayerSprint playerSprint;
     public PlayerBreakMoon playerBreakMoon;
     public PlayerHeal playerHeal;
+    public PlayerSwim playerSwim;
     public void init()
     {
         playerJump = new PlayerJump(playerController);
@@ -32,6 +33,7 @@ public class PlayerStatesBehaviour
         playerSprint = new PlayerSprint(playerController);
         playerBreakMoon = new PlayerBreakMoon(playerController);
         playerHeal = new PlayerHeal(playerController);
+        playerSwim = new PlayerSwim(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -68,6 +70,9 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
+                break;
+            case EPlayerState.Swim:
+                playerSwim.SwimStart();
                 break;
             default:
                 break;
@@ -118,6 +123,9 @@ public class PlayerStatesBehaviour
             case EPlayerState.Heal:
                 playerHeal.healProcess();
                 break;
+            case EPlayerState.Swim:
+                playerController.SwimUnderWater();
+                break;
             default:
                 break;
         }
@@ -154,6 +162,9 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Heal:
 
+                break;
+            case EPlayerState.Swim:
+                playerSwim.SwimEnd();
                 break;
             default:
                 break;
@@ -480,6 +491,24 @@ public class PlayerHeal:PlayerAction
         }
     }
 
+}
 
+public class PlayerSwim : PlayerAction
+{
+    public PlayerSwim(PlayerController playerController) : base(playerController) { }
+
+    public void SwimStart()
+    {
+        playerController.IsUnderWater = true;
+        //在入水0.2s禁用上下移动
+        //setRigidGravityScale(playerInfo.normalGravityScale/2);
+    }
+
+    public void SwimEnd()
+    {
+        playerController.m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
+        playerController.IsUnderWater = false;
+        //setRigidGravityScaleToNormal();
+    }
 }
 
