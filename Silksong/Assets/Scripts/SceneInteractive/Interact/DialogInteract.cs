@@ -49,7 +49,7 @@ public class DialogInteract : InteractTriggerBase<DialogInteract>
         // 控制角色移动并播放动画
         Queue<System.Action> actions = PlayerInput.Instance.actions;
         SpriteRenderer sprite = m_player.GetComponent<SpriteRenderer>();
-        _tmpTalkCoord = InteractManager.Instance.NPCController.GetTalkCoord();
+        _tmpTalkCoord = InteractManager.Instance.GetInteractiveItemComponent<NPCController>().GetTalkCoord();
         while (--times >= 0)
         {
             if (times == 0)

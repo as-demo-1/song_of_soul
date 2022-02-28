@@ -25,9 +25,6 @@ public class NPCSO : InteractiveSO
     {
         GameObject go = base.InitChild(load);
 
-        NPCController npcController = go.AddComponent<NPCController>();
-        npcController.InteractiveItem = this;
-
         InitDialog(InteractiveID);
         return go;
     }

@@ -16,8 +16,6 @@ public class InteractManager
 
     // 当前正在交互的npc对象
     private GameObject _interactObject;
-    private NPCController _npcController;
-    private InteractiveObjectTrigger _interactiveObjectTrigger;
 
     private Dictionary<int, GameObject> _tmpObjects
         = new Dictionary<int, GameObject>()
@@ -36,30 +34,18 @@ public class InteractManager
         set { _isOnInteract = value; }
     }
 
-
     public InteractiveSO InteractiveItem
     {
         get
         {
-            if (InteractiveObjectTrigger)
+            if (InteractObject)
             {
-                return InteractiveObjectTrigger.InteractiveItem;
+                return GetInteractiveItemComponent<InteractiveObjectTrigger>()
+                    .InteractiveItem;
             }
             else
                 return null;
         }
-    }
-
-    public NPCController NPCController
-    {
-        get => _npcController;
-        private set { _npcController = value; }
-    }
-
-    public InteractiveObjectTrigger InteractiveObjectTrigger
-    {
-        get => _interactiveObjectTrigger;
-        private set { _interactiveObjectTrigger = value; }
     }
 
     public GameObject InteractObject
@@ -70,16 +56,6 @@ public class InteractManager
             if (!IsOnInteract)
             {
                 _interactObject = value;
-                if (value)
-                {
-                    InteractiveObjectTrigger = value.GetComponent<InteractiveObjectTrigger>();
-                    NPCController = value.GetComponent<NPCController>();
-                }
-                else
-                {
-                    InteractiveObjectTrigger = null;
-                    NPCController = null;
-                }
             }
             else
             {
@@ -104,6 +80,15 @@ public class InteractManager
                 s_instance = new InteractManager();
             return s_instance;
         }
+    }
+
+    public T GetInteractiveItemComponent<T>()
+    {
+        if (InteractObject)
+        {
+            return InteractObject.GetComponent<T>();
+        }
+        return default;
     }
 
     public void StopEvent()

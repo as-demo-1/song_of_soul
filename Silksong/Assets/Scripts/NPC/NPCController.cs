@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class NPCController : MonoBehaviour
 {
-    public InteractiveSO InteractiveItem;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +24,7 @@ public class NPCController : MonoBehaviour
 
     public Vector3 GetTalkCoord()
     {
+        InteractiveSO InteractiveItem = GetComponent<InteractiveObjectTrigger>().InteractiveItem;
         if (InteractiveItem.ItemType == EInteractiveItemType.DIALOG)
         {
             return transform.position + (InteractiveItem as NPCSO).TalkCoord;
