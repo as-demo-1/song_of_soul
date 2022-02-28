@@ -231,6 +231,7 @@ public class PlayerController : MonoBehaviour
         HpDamable damable = GetComponent<HpDamable>();
         damable.takeDamageEvent.AddListener(getHurt);
         damable.onDieEvent.AddListener(die);
+
     }
 
     private void Update()
@@ -254,7 +255,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Interact();
+        //Interact();
     }
 
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
@@ -510,22 +511,44 @@ public class PlayerToCat
 
     }
 
-    public void toHuman()
+    public void colliderToHuman()
     {
+        void checkIfNeedMoveAwayFromGround()//to prevent player from dropped in ground
+        {
+            Vector2 t = playerController.transform.position;
+            Vector2 rightPoint = new Vector2(t.x + playerController.boxCollider.size.x * 0.5f+0.05f, t.y);//only find dropped in ground from right side
+
+            if (Physics2D.OverlapArea(rightPoint, t, 1 << LayerMask.NameToLayer("Ground")) != null)
+            {
+                playerController.transform.position = new Vector2(t.x - 0.25f, t.y);
+            }      
+        }
+
+
         if (!IsCat) return;
 
-        //Debug.Log("to human");
-        IsCat = false;
-        isFastMoving = false;
-        playerController.gameObject.layer = LayerMask.NameToLayer("Player");
-        playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
+        checkIfNeedMoveAwayFromGround();
         playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerBoxColliderOffsetY);
         playerController.boxCollider.size = new Vector2(Constants.playerBoxColliderWidth, Constants.playerBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerGroundCheckColliderOffsetY);
-        playerController.groundCheckCollider.size = new Vector2(Constants.playerBoxColliderWidth - Constants.playerGroundColliderXSizeSmall, playerController.groundCheckCollider.size.y);
+        playerController.groundCheckCollider.size = new Vector2(Constants.playerBoxColliderWidth - Constants.playerGroundColliderXSizeSmall, playerController.groundCheckCollider.size.y);   
     }
 
+    public void stateToHuman()
+    {
+        if (!IsCat) return;
+
+        IsCat = false;
+        isFastMoving = false;
+        playerController.gameObject.layer = LayerMask.NameToLayer("Player");
+        playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
+    }
+    public void toHuman()
+    {
+        colliderToHuman();
+        stateToHuman();
+    }
     public void catUpdate()
     {
         if (!IsCat) return;

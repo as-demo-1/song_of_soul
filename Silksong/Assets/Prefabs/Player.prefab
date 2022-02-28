@@ -286,7 +286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448765874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 1439625706}
@@ -336,7 +336,7 @@ SpriteRenderer:
   m_SortingLayerID: 432623041
   m_SortingLayer: 3
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: 90bda714d13d1794ea178dc2af601565, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 83a92aa589b9ddc4fa8c25525c15ce5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -762,6 +762,7 @@ MonoBehaviour:
   onManaChangeEvent:
     m_PersistentCalls:
       m_Calls: []
+  gluedCount: 0
 --- !u!114 &484977951162521058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,10 +777,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 0}
   playerInfo:
-    moveSpeed: 5
-    jumpMaxHeight: 4.05
     jumpMinHeight: 0
-    maxFallSpeed: 20
+    maxFallSpeed: 15
     sprintDistance: 4
     maxAirSprintCount: 1
     maxJumpCount: 1
@@ -812,9 +811,6 @@ MonoBehaviour:
     playerFacingRight: 1
   PlayerAnimator: {fileID: 448765876}
   boxCollider: {fileID: 0}
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
   gravityLock: 0
   groundCheckCollider: {fileID: 619636124}
   _guid: e9a9d9d2-56ca-4a9d-a190-c8e87ddbf6be
@@ -933,7 +929,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -962,9 +958,10 @@ MonoBehaviour:
   unlockedPlayerSkillList: []
   equippingPlayerSkill:
     Name: 0
+    SkillPrefab: {fileID: 0}
     Description: 
     Damage: 0
-    SoulCost: 0
+    ManaCost: 0
     CoolDown: 0
   pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
   UnlockedSkillContainer: {fileID: 0}
@@ -1013,7 +1010,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.005, y: -0.85}
+  m_Offset: {x: -0.005, y: -0.75}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
