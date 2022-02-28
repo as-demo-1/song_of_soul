@@ -49,6 +49,15 @@ public class PlayerAnimatorParamsMapping
     public int CanHealParamHas { get; } = Animator.StringToHash("CanHeal");
     public int CanSwimParamHas { get; } = Animator.StringToHash("CanSwim");
 
+    public int CanToCatParamHas { get; } = Animator.StringToHash("CanToCat");
+    public int ToCatIsValidParamHas { get; } = Animator.StringToHash("ToCatIsValid");
+    public int IsCatParamHas { get; } = Animator.StringToHash("IsCat");
+    public int HasUpSpaceForHumanParamHas { get; } = Animator.StringToHash("HasUpSpaceForHuman");
+    public int CanCastSkillParamHash { get; } = Animator.StringToHash("CanCastSkill");
+
+    public int CastSkillIsValidParamHash { get; } = Animator.StringToHash("CastSkillIsValid");
+
+    public int SkillReadyParamHash { get; } = Animator.StringToHash("SkillReady");
 
     public void ParamsUpdate()
     {
@@ -66,6 +75,9 @@ public class PlayerAnimatorParamsMapping
             m_Animator.SetBool(BreakMoonIsValidParamHash, PlayerInput.Instance.breakMoon.IsValid);
 
             m_Animator.SetBool(IsHealHeldParamHas, PlayerInput.Instance.heal.Held);
+
+            m_Animator.SetBool(ToCatIsValidParamHas, PlayerInput.Instance.toCat.IsValid);
+            m_Animator.SetBool(CastSkillIsValidParamHash, PlayerInput.Instance.castSkill.IsValid);
         }
         else
         {
@@ -81,6 +93,9 @@ public class PlayerAnimatorParamsMapping
             m_Animator.SetBool(BreakMoonIsValidParamHash, false);
 
             m_Animator.SetBool(IsHealHeldParamHas,false);
+
+            m_Animator.SetBool(ToCatIsValidParamHas, false);
+            m_Animator.SetBool(CastSkillIsValidParamHash, false);
         }
 
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());

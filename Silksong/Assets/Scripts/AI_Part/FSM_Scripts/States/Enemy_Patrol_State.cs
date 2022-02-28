@@ -23,6 +23,7 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
  
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {
+        Turn();
         base.EnterState(fSM_Manager);
         if(fsmManager.currentFacingLeft()? moveSpeed.x>0 : moveSpeed.x<0)//使速度与面朝方向一致
         {
@@ -54,9 +55,10 @@ public class Enemy_Patrol_State : EnemyFSMBaseState
     }
     private void DetectionPlatformBoundary()
     {
-        if(fsmManager.nearPlatformBoundary(fsmManager.rigidbody2d.velocity) || fsmManager.hitWall())
+        if (fsmManager.nearPlatformBoundary(fsmManager.rigidbody2d.velocity) || fsmManager.hitWall())
+        { 
              Turn();
-
+        }
     }
 
 

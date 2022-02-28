@@ -3,12 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//todo£∫ Œª∆•≈‰
+public enum EPlayerStatus : int
+{
+    None = 0,
+    CanMove = 1,
+    CanJump = 2,
+    CanNormalAttack = 4,
+    CanSprint = 8,
+    CanBreakMoon = 16,
+    CanHeal = 32,
+    CanCastSkill = 64,
+    CanToCat =128,
+    CanSwim = 256,
+}
+
 public class PlayerStatusDic
 {
     Dictionary<EPlayerStatus, PlayerStatusFlag> m_StatusDic;
 
     private PlayerController playerController;
-
 
     public PlayerStatusDic(PlayerController playerController,PlayerAnimatorParamsMapping animatorParamsMapping)
     {
@@ -21,7 +35,9 @@ public class PlayerStatusDic
             {EPlayerStatus.CanSprint, new PlayerStatusFlag(animatorParamsMapping.CanSprintParamHash)},
             {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag(animatorParamsMapping.CanBreakMoonParamHash)},
             {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
-
+            {EPlayerStatus.CanToCat, new PlayerStatusFlag(animatorParamsMapping.CanToCatParamHas)},
+            {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, playerController.gameObject.GetComponent<PlayerSkillManager>().equippingPlayerSkill.ManaCost, playerController.playerCharacter)},
+            {EPlayerStatus.CanSwim, new PlayerStatusFlag(animatorParamsMapping.CanSwimParamHas)},
         };
     }
 
@@ -33,14 +49,14 @@ public class PlayerStatusDic
 
     public bool getPlayerStatus(EPlayerStatus playerStatus)
     {
-        return m_StatusDic[playerStatus];
+        return m_StatusDic[playerStatus].Flag;
     }
 
     public class PlayerStatusFlag
     {
         protected int animatorParam;
-        protected bool BuffFlags = true;
-        protected bool StatuFlag = true;
+        public bool StatuFlag;
+        public bool BuffFlag;
         private bool flag;
         public virtual bool Flag 
         {
@@ -58,27 +74,30 @@ public class PlayerStatusDic
         public PlayerStatusFlag(int param)
         {
             animatorParam = param;
+            BuffFlag = true;
         }
 
-        public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType = WayOfChangingFlag.Override)
+        public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType)
         {
             switch (setFlagType)
             {
                 case WayOfChangingFlag.Override:
                     StatuFlag = newFlag;
                     break;
+
                 case WayOfChangingFlag.OverrideBuffFlags:
-                    BuffFlags = newFlag;
+                    BuffFlag = newFlag;
                     break;
                 default:
                     break;
             }
-
+    
             calcuteFlag();
         }
         protected virtual void calcuteFlag()
         {
-            Flag = BuffFlags & StatuFlag;
+            Flag = BuffFlag & StatuFlag;
+
         }          
 
         public enum WayOfChangingFlag
@@ -88,7 +107,6 @@ public class PlayerStatusDic
             OverrideBuffFlags,
         }
 
-        public static implicit operator bool(PlayerStatusFlag playerStatus) => playerStatus.Flag;
     }
 
     public class PlayerStatusFlagWithMana:PlayerStatusFlag
@@ -103,7 +121,7 @@ public class PlayerStatusDic
 
         protected override void calcuteFlag()
         {
-            Flag = BuffFlags & StatuFlag & manaIsEnough;
+            Flag = BuffFlag & StatuFlag & manaIsEnough;
         }
 
         protected void calcuteMana(PlayerCharacter playerCharacter)
@@ -115,16 +133,5 @@ public class PlayerStatusDic
 
 }
 
-//todo£∫ Œª∆•≈‰
-public enum EPlayerStatus : int
-{
-    None = 0,
-    CanMove = 1,
-    CanJump = 2,
-    CanNormalAttack = 4,
-    CanSprint=8,
-    CanBreakMoon=16,
-    CanHeal=32,
 
 
-}

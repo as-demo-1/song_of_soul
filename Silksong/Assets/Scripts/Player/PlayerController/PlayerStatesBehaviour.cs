@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ²»ÒªÇáÒ×ÐÞ¸ÄÆäÖµ ÐÞ¸ÄºósmbµÄÃ¶¾Ù½«¶ªÊ§
+// ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½Öµ ï¿½Þ¸Äºï¿½smbï¿½ï¿½Ã¶ï¿½Ù½ï¿½ï¿½ï¿½Ê§
 public enum EPlayerState
 {
     None = 0,
@@ -15,7 +15,13 @@ public enum EPlayerState
     BreakMoon=70,
     Heal=90,
     Hurt=100,
-    Swim = 110,
+    CastSkill = 110,
+    Swim = 120,
+
+    ToCat =200,
+    CatIdle=210,
+    ToHuman=220,
+    CatToHumanExtraJump=230,
 }
 public class PlayerStatesBehaviour 
 {
@@ -26,6 +32,8 @@ public class PlayerStatesBehaviour
     public PlayerBreakMoon playerBreakMoon;
     public PlayerHeal playerHeal;
     public PlayerSwim playerSwim;
+    public PlayerCastSkill playerCastSkill;
+
     public void init()
     {
         playerJump = new PlayerJump(playerController);
@@ -34,6 +42,7 @@ public class PlayerStatesBehaviour
         playerBreakMoon = new PlayerBreakMoon(playerController);
         playerHeal = new PlayerHeal(playerController);
         playerSwim = new PlayerSwim(playerController);
+        playerCastSkill = new PlayerCastSkill(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -50,6 +59,7 @@ public class PlayerStatesBehaviour
             case EPlayerState.Idle:
                 break;
             case EPlayerState.Run:
+                playerController.playerToCat.catMoveStart();
                 break;
             case EPlayerState.Jump:
                 playerJump.JumpStart();
@@ -67,6 +77,7 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Hurt:
                 PlayerInput.Instance.ReleaseControls();
+                playerController.playerToCat.toHuman();
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
@@ -74,11 +85,25 @@ public class PlayerStatesBehaviour
             case EPlayerState.Swim:
                 playerSwim.SwimStart();
                 break;
+            case EPlayerState.ToCat:
+
+                break;
+            case EPlayerState.ToHuman:
+                break;
+            case EPlayerState.CatIdle:
+                playerController.playerToCat.toCat();
+                break;
+            case EPlayerState.CatToHumanExtraJump:
+
+                break;
+            case EPlayerState.CastSkill:
+                playerCastSkill.CastSkill();
+                break;
             default:
                 break;
         }
     }
-    //activeÎª½øÈë¸ÃstateÊ±µÚÒ»Ö¡¿ªÊ¼£¬Ò²¾ÍÊÇÃ»ÓÐ°Ñstart´ÓÖÐ·Ö¿ª
+    //activeÎªï¿½ï¿½ï¿½ï¿½ï¿½stateÊ±ï¿½ï¿½Ò»Ö¡ï¿½ï¿½Ê¼ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð°ï¿½startï¿½ï¿½ï¿½Ð·Ö¿ï¿½
     public  void StatesActiveBehaviour(EPlayerState playerStates)
     {
         switch (playerStates)
@@ -95,6 +120,7 @@ public class PlayerStatesBehaviour
                 playerController.CheckAddItem();
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.4f);
+                playerController.playerToCat.moveDistanceCount();
                 break;
             case EPlayerState.Jump:
                 // PlayerController.IsGrounded = false;
@@ -121,10 +147,24 @@ public class PlayerStatesBehaviour
                 playerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Heal:
+                playerController.CheckHorizontalMove(0.4f);
                 playerHeal.healProcess();
                 break;
             case EPlayerState.Swim:
                 playerController.SwimUnderWater();
+                break;
+            case EPlayerState.ToCat:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.ToHuman:
+                playerController.CheckFlipPlayer(1f);
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.CatIdle:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.CatToHumanExtraJump:
+
                 break;
             default:
                 break;
@@ -165,6 +205,20 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Swim:
                 playerSwim.SwimEnd();
+                break;
+            case EPlayerState.ToCat:
+
+                break;
+            case EPlayerState.ToHuman:         
+                playerJump.EndJump();
+                playerController.playerToCat.extraJump();
+                playerController.playerToCat.toHuman();
+                break;
+            case EPlayerState.CatIdle:
+
+                break;
+            case EPlayerState.CatToHumanExtraJump:
+
                 break;
             default:
                 break;
@@ -215,14 +269,20 @@ public class PlayerJump:PlayerAction
 
         playerController.setRigidGravityScale(0);
 
-       if(playerController.isGroundedBuffer()==false)//Ö»ÓÐ¿ÕÖÐÌøÔ¾¼õÌøÔ¾´ÎÊý£¬µØÉÏÌøÔ¾´ÎÊýÓÉIsGround set·½·¨¼õÈ¥
+       if(playerController.isGroundedBuffer()==false)//Ö»ï¿½Ð¿ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IsGround setï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥
          --CurrentJumpCountLeft;
 
-        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.jumpUpSpeed));
+        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.getJumpUpSpeed()));
         jumpStartHeight = playerController.transform.position.y;
 
         playerController.StopCoroutine(JumpUpCheck());
         playerController.StartCoroutine(JumpUpCheck());
+    }
+
+    public void EndJump()
+    {
+        playerController.StopCoroutine(JumpUpCheck());
+        playerController.setRigidGravityScaleToNormal();
     }
 
     public IEnumerator JumpUpCheck()
@@ -230,12 +290,12 @@ public class PlayerJump:PlayerAction
         bool hasQuickSlowDown=false;
         bool hasNormalSlowDown = false;
 
-        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
+        float normalSlowDistance = 0.5f*playerController.playerInfo.getJumpUpSpeed() * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
         while(true)
         {
-            yield return null;//Ã¿´ÎupdateºóÑ­»·Ò»´Î
+            yield return null;//Ã¿ï¿½ï¿½updateï¿½ï¿½Ñ­ï¿½ï¿½Ò»ï¿½ï¿½
             //EPlayerState state = playerController.PlayerAnimatorStatesControl.CurrentPlayerState;
-            if (playerController.getRigidVelocity().y<0.01f)//ÌøÔ¾ÉÏÉý¹ý³Ì½áÊø
+            if (playerController.getRigidVelocity().y<0.01f)//ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½
             {
                 playerController.setRigidGravityScaleToNormal();
                 break;
@@ -243,10 +303,10 @@ public class PlayerJump:PlayerAction
 
             float jumpHeight = playerController.transform.position.y - jumpStartHeight; 
 
-            if(jumpHeight>playerController.playerInfo.jumpMinHeight-0.5f)//´ïµ½×îÐ¡¸ß¶Èºó²ÅÄÜÍ£ÏÂ
+            if(jumpHeight>playerController.playerInfo.jumpMinHeight-0.5f)//ï¿½ïµ½ï¿½ï¿½Ð¡ï¿½ß¶Èºï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½
             {
 
-                if ( hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false )//¼±É²
+                if ( hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false )//ï¿½ï¿½É²
                 {
                     hasQuickSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpStopTime;
@@ -255,7 +315,7 @@ public class PlayerJump:PlayerAction
                     // Debug.Log(gScale);
                     playerController.setRigidGravityScale(gScale);
                 }
-                if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance )//»ºÍ£
+                if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.getJumpHeight() - normalSlowDistance )//ï¿½ï¿½Í£
                 {
                     hasNormalSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpSlowDownTime;
@@ -398,7 +458,7 @@ public class PlayerBreakMoon:PlayerAction
         currentTarget.bePicked();
 
     }
-    private bool sameSide(BreakMoonPoint b)//ÊÇ·ñÔÚÍæ¼ÒÃæ³¯µÄÒ»²à
+    private bool sameSide(BreakMoonPoint b)//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ³¯ï¿½ï¿½Ò»ï¿½ï¿½
     {
         float x = b.transform.position.x - playerController.transform.position.x;
         bool result = playerController.playerInfo.playerFacingRight ? x > 0 : x < 0;
@@ -442,7 +502,7 @@ public class PlayerBreakMoon:PlayerAction
             Vector2 s = totalDistance * rate;
             playerController.rigidMovePosition(startPosition + s);
 
-            if (!hasBreakTheMoon && s.magnitude>=toMoonDistance.magnitude )//»÷ËéÔÂÇò
+            if (!hasBreakTheMoon && s.magnitude>=toMoonDistance.magnitude )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             {
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
@@ -500,7 +560,7 @@ public class PlayerSwim : PlayerAction
     public void SwimStart()
     {
         playerController.IsUnderWater = true;
-        //ÔÚÈëË®0.2s½ûÓÃÉÏÏÂÒÆ¶¯
+        //ï¿½ï¿½ï¿½ï¿½Ë®0.2sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
         //setRigidGravityScale(playerInfo.normalGravityScale/2);
     }
 
@@ -512,3 +572,19 @@ public class PlayerSwim : PlayerAction
     }
 }
 
+public class PlayerCastSkill : PlayerAction
+{
+    public PlayerCastSkill(PlayerController playerController) : base(playerController) 
+    { 
+        playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>(); 
+    }
+
+    private PlayerSkillManager playerSkillManager;
+
+    public void CastSkill()
+    {
+        playerSkillManager.Cast();
+    }
+
+
+}

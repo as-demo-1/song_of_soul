@@ -14,7 +14,7 @@ public class PlayerInput : InputComponent
 
 
     public bool HaveControl { get { return m_HaveControl; } }
-    public bool IsFrozen { get; set; }
+    private bool m_isFrozen;
 
     private List<Button> buttons = new List<Button>();
 
@@ -26,6 +26,8 @@ public class PlayerInput : InputComponent
     public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None);
     public InputButton breakMoon = new InputButton(KeyCode.Q, XboxControllerButtons.None);
     public InputButton heal = new InputButton(KeyCode.C, XboxControllerButtons.None);
+    public InputButton toCat = new InputButton(KeyCode.N, XboxControllerButtons.None);
+    public InputButton castSkill = new InputButton(KeyCode.L, XboxControllerButtons.None);
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
@@ -54,6 +56,8 @@ public class PlayerInput : InputComponent
             Pick,
             breakMoon,
             heal,
+            toCat,
+            castSkill,
 
         });
     }
@@ -74,9 +78,14 @@ public class PlayerInput : InputComponent
         s_Instance = null;
     }
 
+    public void ToggleFrozen(bool isFrozen)
+    {
+        m_isFrozen = isFrozen;
+    }
+
     protected override void GetInputs(bool fixedUpdateHappened)
     {
-        if (IsFrozen)//”¶ π”√ReleaseControls
+        if (m_isFrozen)
         {
             return;
         }
