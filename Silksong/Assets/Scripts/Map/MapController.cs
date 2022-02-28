@@ -43,11 +43,13 @@ public class MapController : MonoBehaviour
     		levelMap.SetActive(true);
     		levelMapController.SetInteractable(false);
             levelMapController.centering(region);
+            PlayerController.Instance.animatorParamsMapping.SetControl(false);
     	}
 
     	// hide quick map
     	if (quick && PlayerInput.Instance.quickMap.Up) {
     		levelMap.SetActive(false);
+            PlayerController.Instance.animatorParamsMapping.SetControl(true);
     	}
 
     	// show map
@@ -59,6 +61,7 @@ public class MapController : MonoBehaviour
             mapUI.SetActive(true);
             regionMapController.SetCurrentRegion(region);
             mapUIController.showLevelMapIns(false);
+            PlayerController.Instance.animatorParamsMapping.SetControl(false);
     	}
 
     	if (!quick) {
@@ -72,6 +75,7 @@ public class MapController : MonoBehaviour
                     levelMap.SetActive(false);
                     regionMap.SetActive(false);
                     mapUI.SetActive(false);
+                    PlayerController.Instance.animatorParamsMapping.SetControl(true);
                 }
     		}
     		// show region map

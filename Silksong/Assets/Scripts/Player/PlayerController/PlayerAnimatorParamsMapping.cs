@@ -9,6 +9,7 @@ public class PlayerAnimatorParamsMapping
 
     public static bool HasControl=true;
 
+    public void SetControl(bool val) { HasControl = val; }
 
     public PlayerAnimatorParamsMapping(PlayerAnimatorStatesControl playerAnimatorStatesControl) 
     {
