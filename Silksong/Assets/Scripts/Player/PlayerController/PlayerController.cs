@@ -27,6 +27,8 @@ public struct PlayerInfo
     public float normalGravityScale;
 
     public bool playerFacingRight;
+    //swim
+    public float swimSpeed;
 
     public void init(PlayerController playerController)
     {
@@ -75,7 +77,7 @@ public class PlayerController : MonoBehaviour
     public PlayerStatusDic playerStatusDic;
 
     public PlayerCharacter playerCharacter;
-    public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
+    public CharacterMoveControl PlayerHorizontalMoveControl { get; }
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
 
     public PlayerInfo playerInfo;
@@ -86,10 +88,14 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
+    public SpriteRenderer SpriteRenderer { get; private set; }
+    //[SerializeField, HideInInspector]
+    public Transform m_Transform { get; set; }
+    [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask underwaterLayerMask;
+    //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
     [DisplayOnly]
     public BoxCollider2D boxCollider;
-
-    public Transform m_Transform { get; set; }
 
     private PlayerGroundedCheck playerGroundedCheck;
 
@@ -98,8 +104,9 @@ public class PlayerController : MonoBehaviour
 
     [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
-    private bool IsUnderWater;
+    public bool IsUnderWater;
 
+    [SerializeField] private Collider2D underWaterCheckCollider;
     public BoxCollider2D groundCheckCollider;
     //Teleport
     /// <summary>
@@ -161,27 +168,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Colide with SavePoint");
             _savePoint = other.gameObject;
         }
-        if(other.gameObject.CompareTag("UnderWater"))
-        {
-            IsUnderWater = true;
-            //入水时慢慢将速度减为0    
-            float smooth = 100f;
-            //float exitWaterTime = Time.time;
-            //RB.velocity = Vector2.Lerp(RB.velocity, new Vector2(RB.velocity.x, 0), (Time.time - exitWaterTime) * smooth);
-            RB.gravityScale = playerInfo.normalGravityScale / 5;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
         _savePoint = null;
-        if (other.gameObject.CompareTag("UnderWater"))
-        {
-            IsUnderWater = false;
-            RB.gravityScale = playerInfo.normalGravityScale;
-            RB.velocity += new Vector2(0, 5);       //添加一个出水速度
-        }
     }
 
     public void CheckAddItem()
@@ -205,7 +197,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
     public void init()
     {
         RB = GetComponent<Rigidbody2D>();
@@ -237,14 +229,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckIsGrounded();
-        playerToCat.catUpdate();
+        CheckUnderWater();
 
         playerAnimatorStatesControl.ParamsUpdate();
-        if(IsUnderWater)
-        {
-            SwimUnderWater();
-        }
-        
+        playerToCat.catUpdate();
 
     }
 
@@ -275,6 +263,7 @@ public class PlayerController : MonoBehaviour
                 lastHorizontalInputDir = -1;
         }
     }
+
 
     public void Interact()
     {
@@ -318,11 +307,15 @@ public class PlayerController : MonoBehaviour
     {
         return RB.velocity;
     }
+    public void addRigidVelocityY(float forceY)
+    {
+        RB.AddForce(new Vector2(0, forceY), ForceMode2D.Impulse);
+    }
 
     public void setRigidGravityScale(float newScale)
     {
-        if(gravityLock==false)
-        RB.gravityScale = newScale;
+        if (gravityLock == false)
+            RB.gravityScale = newScale;
     }
 
     public void setRigidGravityScaleToNormal()
@@ -344,61 +337,68 @@ public class PlayerController : MonoBehaviour
         playerStatesBehaviour.playerBreakMoon.findCurrentTarget();
     }
 
-    public void getHurt(DamagerBase damager,DamageableBase damable)
+    public void getHurt(DamagerBase damager, DamageableBase damable)
     {
         PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
     }
 
     public void die(DamagerBase damager, DamageableBase damable)
     {
-        PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas,true);
+        PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas, true);
     }
 
+    public void CheckUnderWater()
+    {
+        IsUnderWater = underWaterCheckCollider.IsTouchingLayers(underwaterLayerMask);
+    }
+    public void SwimMove()
+    {
+        RB.velocity = new Vector2(PlayerInput.Instance.horizontal.Value, PlayerInput.Instance.vertical.Value) * playerInfo.swimSpeed;
+    }
     public void SwimUnderWater()
     {
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        if (PlayerInput.Instance.horizontal.Value == -1f && PlayerInput.Instance.vertical.Value == 1f)     //左上
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
-            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.getMoveSpeed();
+            m_Transform.localScale = new Vector3(-1, 1, 1);
         }
-        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        else if (PlayerInput.Instance.horizontal.Value == 1f && PlayerInput.Instance.vertical.Value == 1f)    //右上
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
-            RB.velocity = new Vector3(1, 1).normalized * playerInfo.getMoveSpeed();
+            m_Transform.localScale = new Vector3(1, 1, 1);
         }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        else if (PlayerInput.Instance.horizontal.Value == -1f && PlayerInput.Instance.vertical.Value == -1f)    //左下
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
-            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.getMoveSpeed();
+            m_Transform.localScale = new Vector3(-1, 1, 1);
         }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        else if (PlayerInput.Instance.horizontal.Value == 1f && PlayerInput.Instance.vertical.Value == -1f)    //右下
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
-            RB.velocity = new Vector2(1, -1).normalized * playerInfo.getMoveSpeed();
+            m_Transform.localScale = new Vector3(1, 1, 1);
         }
         else
         {
-            if (Input.GetKey(KeyCode.W))
+            if (PlayerInput.Instance.vertical.Value == 1f)                                //上
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
-                RB.velocity = new Vector2(0, 1) * playerInfo.getMoveSpeed();
             }
-            if (Input.GetKey(KeyCode.S))
+            if (PlayerInput.Instance.vertical.Value == -1f)                                //下
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
-                RB.velocity = new Vector2(0, -1) * playerInfo.getMoveSpeed();
             }
-            if (Input.GetKey(KeyCode.A))
+            if (PlayerInput.Instance.horizontal.Value == -1f)                              //左
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
-                RB.velocity = new Vector2(-1, 0) * playerInfo.getMoveSpeed();
+                m_Transform.localScale = new Vector3(-1, 1, 1);
             }
-            if (Input.GetKey(KeyCode.D))
+            if (PlayerInput.Instance.horizontal.Value == 1f)                                //右
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
-                RB.velocity = new Vector2(1, 0) * playerInfo.getMoveSpeed();
+                m_Transform.localScale = new Vector3(1, 1, 1);
             }
         }
+        if (IsUnderWater) SwimMove();
     }
 
 }
@@ -431,7 +431,7 @@ public class PlayerGroundedCheck
                 bufferTimer = Constants.IsGroundedBufferFrame;
             }
 
-            if (bufferTimer>0)
+            if (bufferTimer > 0)
             {
                 bufferTimer--;
                 IsGroundedBuffer = true;
@@ -447,7 +447,7 @@ public class PlayerGroundedCheck
 
     public bool IsGroundedBuffer
     {
-        get {return isGroundedBuffer; }
+        get { return isGroundedBuffer; }
         set
         {      
 
@@ -457,7 +457,7 @@ public class PlayerGroundedCheck
             }
             isGroundedBuffer = value;
         }
-    
+
     }
 
 }
