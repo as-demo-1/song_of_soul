@@ -47,7 +47,7 @@ public class PlayerAnimatorParamsMapping
     public int IsHealHeldParamHas { get; } = Animator.StringToHash("IsHealHeld");
 
     public int CanHealParamHas { get; } = Animator.StringToHash("CanHeal");
-    public int CanSwimParamHas { get; } = Animator.StringToHash("CanSwim");
+    public int IsUnderWaterParamHas { get; } = Animator.StringToHash("IsUnderWater");
 
     public int CanToCatParamHas { get; } = Animator.StringToHash("CanToCat");
     public int ToCatIsValidParamHas { get; } = Animator.StringToHash("ToCatIsValid");
@@ -100,7 +100,7 @@ public class PlayerAnimatorParamsMapping
 
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
 
-        m_Animator.SetBool(CanSwimParamHas, m_PlayerAnimatorStatesControl.PlayerController.IsUnderWater);
+        m_Animator.SetBool(IsUnderWaterParamHas, m_PlayerAnimatorStatesControl.PlayerController.IsUnderWater);
 
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().x);
         m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().y);

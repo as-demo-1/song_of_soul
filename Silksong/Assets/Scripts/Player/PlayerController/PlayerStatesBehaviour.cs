@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ��Ҫ�����޸���ֵ �޸ĺ�smb��ö�ٽ���ʧ
+// 不要轻易修改其值 修改后smb的枚举将丢失
 public enum EPlayerState
 {
     None = 0,
@@ -103,8 +103,8 @@ public class PlayerStatesBehaviour
                 break;
         }
     }
-    //activeΪ�����stateʱ��һ֡��ʼ��Ҳ����û�а�start���зֿ�
-    public  void StatesActiveBehaviour(EPlayerState playerStates)
+    //active为进入该state时第一帧开始，也就是没有把start从中分开
+    public void StatesActiveBehaviour(EPlayerState playerStates)
     {
         switch (playerStates)
         {
@@ -269,8 +269,8 @@ public class PlayerJump:PlayerAction
 
         playerController.setRigidGravityScale(0);
 
-       if(playerController.isGroundedBuffer()==false)//ֻ�п�����Ծ����Ծ������������Ծ������IsGround set������ȥ
-         --CurrentJumpCountLeft;
+       if(playerController.isGroundedBuffer()==false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
+            --CurrentJumpCountLeft;
 
         playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.getJumpUpSpeed()));
         jumpStartHeight = playerController.transform.position.y;
@@ -293,9 +293,9 @@ public class PlayerJump:PlayerAction
         float normalSlowDistance = 0.5f*playerController.playerInfo.getJumpUpSpeed() * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
         while(true)
         {
-            yield return null;//ÿ��update��ѭ��һ��
+            yield return null;//每次update后循环一次
             //EPlayerState state = playerController.PlayerAnimatorStatesControl.CurrentPlayerState;
-            if (playerController.getRigidVelocity().y<0.01f)//��Ծ�������̽���
+            if (playerController.getRigidVelocity().y<0.01f)//跳跃上升过程结束
             {
                 playerController.setRigidGravityScaleToNormal();
                 break;
@@ -303,10 +303,10 @@ public class PlayerJump:PlayerAction
 
             float jumpHeight = playerController.transform.position.y - jumpStartHeight; 
 
-            if(jumpHeight>playerController.playerInfo.jumpMinHeight-0.5f)//�ﵽ��С�߶Ⱥ����ͣ��
+            if(jumpHeight>playerController.playerInfo.jumpMinHeight-0.5f)//达到最小高度后才能停下
             {
 
-                if ( hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false )//��ɲ
+                if ( hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false)//急刹
                 {
                     hasQuickSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpStopTime;
@@ -458,7 +458,7 @@ public class PlayerBreakMoon:PlayerAction
         currentTarget.bePicked();
 
     }
-    private bool sameSide(BreakMoonPoint b)//�Ƿ�������泯��һ��
+    private bool sameSide(BreakMoonPoint b)//是否在玩家面朝的一侧
     {
         float x = b.transform.position.x - playerController.transform.position.x;
         bool result = playerController.playerInfo.playerFacingRight ? x > 0 : x < 0;
@@ -502,7 +502,7 @@ public class PlayerBreakMoon:PlayerAction
             Vector2 s = totalDistance * rate;
             playerController.rigidMovePosition(startPosition + s);
 
-            if (!hasBreakTheMoon && s.magnitude>=toMoonDistance.magnitude )//��������
+            if (!hasBreakTheMoon && s.magnitude>=toMoonDistance.magnitude)//击碎月球
             {
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
@@ -560,7 +560,7 @@ public class PlayerSwim : PlayerAction
     public void SwimStart()
     {
         playerController.IsUnderWater = true;
-        //����ˮ0.2s���������ƶ�
+        //入水后0.2s内禁止向上
         //setRigidGravityScale(playerInfo.normalGravityScale/2);
     }
 

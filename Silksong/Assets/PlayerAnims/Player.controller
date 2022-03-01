@@ -1110,7 +1110,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: CanSwim
+    m_ConditionEvent: IsUnderWater
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -282906263192654341}
@@ -1223,7 +1223,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: CanSwim
+    m_ConditionEvent: IsUnderWater
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5049360347512891573}
@@ -2297,7 +2297,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: CanSwim
+  - m_Name: IsUnderWater
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -2846,10 +2846,6 @@ MonoBehaviour:
       playerStatus: 128
       statusIsActive: 0
       wayOfChangingFlag: 0
-    - timeNormalized: 0.1
-      playerStatus: 256
-      statusIsActive: 1
-      wayOfChangingFlag: 0
 --- !u!114 &2171833128074030270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3374,7 +3370,7 @@ AnimatorStateTransition:
     m_ConditionEvent: IsCat
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: CanSwim
+    m_ConditionEvent: IsUnderWater
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1045871781774062944}
