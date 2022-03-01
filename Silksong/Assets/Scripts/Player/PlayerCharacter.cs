@@ -84,6 +84,8 @@ public class PlayerCharacter : MonoBehaviour
     void Start()
     {
         GameObject gamingUI = GameObject.FindGameObjectWithTag("GamingUI");
+        if (gamingUI == null) return;
+
         hpUI = gamingUI.GetComponentInChildren<PlayerHpUI>();
         ManaBall = gamingUI.transform.Find("ManaBall").GetComponent<Image>();
         onManaChangeEvent.AddListener(changeManaBall);

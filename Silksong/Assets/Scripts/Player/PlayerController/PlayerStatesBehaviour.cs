@@ -77,7 +77,7 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Hurt:
                 PlayerInput.Instance.ReleaseControls();
-                playerController.playerToCat.toHuman();
+                playerController.playerToCat.colliderToHuman();
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
@@ -89,6 +89,7 @@ public class PlayerStatesBehaviour
 
                 break;
             case EPlayerState.ToHuman:
+                playerController.playerToCat.colliderToHuman();
                 break;
             case EPlayerState.CatIdle:
                 playerController.playerToCat.toCat();
@@ -111,24 +112,20 @@ public class PlayerStatesBehaviour
             /* case EPlayerState.None:
                  break;*/
             case EPlayerState.Idle:
-                //PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 playerController.CheckAddItem();
                 playerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Run:
-                // PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 playerController.CheckAddItem();
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.4f);
                 playerController.playerToCat.moveDistanceCount();
                 break;
             case EPlayerState.Jump:
-                // PlayerController.IsGrounded = false;
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.5f);
                 break;
             case EPlayerState.Fall:
-                //PlayerController.CheckIsGroundedAndResetAirJumpCount();
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.5f);
                 playerFall.checkMaxFallSpeed();
@@ -212,7 +209,7 @@ public class PlayerStatesBehaviour
             case EPlayerState.ToHuman:         
                 playerJump.EndJump();
                 playerController.playerToCat.extraJump();
-                playerController.playerToCat.toHuman();
+                playerController.playerToCat.stateToHuman();
                 break;
             case EPlayerState.CatIdle:
 

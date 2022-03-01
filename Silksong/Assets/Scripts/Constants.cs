@@ -44,16 +44,16 @@ public static class Constants
     public const float PlayerHumanToCatTime = 2f;*/
 
     #region player collider settings
-    public const float playerBoxColliderOffsetY=-0.1f;
+    public const float playerBoxColliderOffsetY=0f;
     public const float playerBoxColliderWidth = 0.24f;
     public const float playerBoxColliderHeight = 1.6f;
 
-    public const float playerCatBoxColliderOffsetY = 0.1f;
+    public const float playerCatBoxColliderOffsetY = 0.2f;
     public const float playerCatBoxColliderWidth = 0.5f;
     public const float playerCatBoxColliderHeight = 0.75f;
 
-    public const float playerGroundCheckColliderOffsetY = -0.85f;
-    public const float playerCatGroundCheckColliderOffsetY = -0.225f;
+    public const float playerGroundCheckColliderOffsetY = -0.75f;
+    public const float playerCatGroundCheckColliderOffsetY = -0.125f;
     public const float playerGroundColliderXSizeSmall = 0.01f;
 
     #endregion
