@@ -101,6 +101,15 @@ public class PlayerController : MonoBehaviour
     private bool IsUnderWater;
 
     public BoxCollider2D groundCheckCollider;
+
+    // plunge
+    public float[] plungeStrengthArr;  // plunge经过了PlungeStrength[i]的距离，达到强度级别i。可配置
+
+    public float canPlungeDistance;  // 在多高可以使用plunge。可配置
+
+    [DisplayOnly]
+    public float distanceToGround;  // 距离下方Groud距离
+
     //Teleport
     /// <summary>
     /// Only Demo Code for save
@@ -243,6 +252,8 @@ public class PlayerController : MonoBehaviour
         {
             SwimUnderWater();
         }
+
+        CalDistanceToGround();  // 计算离地距离
         
 
     }
@@ -400,6 +411,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void CalDistanceToGround()
+    {
+
+        if (IsUnderWater) return;
+
+        Vector2 groundCheckPos = groundCheckCollider.transform.position;
+        groundCheckPos = groundCheckPos + groundCheckCollider.offset;
+        Vector2 offset = new Vector2(0, -groundCheckCollider.size.y / 2);
+        // Debug.DrawRay(groundCheckPos + offset, Vector2.down, Color.red, 0.2f);
+
+        int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
+
+        // 向下发射射线，检测跟Ground Layer的距离。如果下方没有Ground则distanceToGround = -1.
+        RaycastHit2D hit = Physics2D.Raycast(groundCheckPos + offset, Vector2.down, 100.0f, groundLayerMask);
+        if (hit.collider == null)
+        {
+            distanceToGround = -1.0f;
+        }
+        else
+        {
+            distanceToGround = hit.distance;
+        }
+
+        // Debug.Log(distanceToGround);
+        if (distanceToGround > canPlungeDistance)
+        {
+            PlayerAnimator.SetBool(animatorParamsMapping.CanPlungeParamHash, true);
+        }
+        else
+        {
+            PlayerAnimator.SetBool(animatorParamsMapping.CanPlungeParamHash, false);
+        }
+
+    }
 }
 
 public class PlayerGroundedCheck

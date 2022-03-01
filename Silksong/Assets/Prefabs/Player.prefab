@@ -692,6 +692,11 @@ MonoBehaviour:
     key: 102
     controllerButton: 4
     m_Enabled: 1
+  plunge:
+    NotNeedGainAndReleaseControl: 0
+    key: 104
+    controllerButton: 0
+    m_Enabled: 1
   teleport:
     NotNeedGainAndReleaseControl: 0
     key: 120
@@ -762,6 +767,7 @@ MonoBehaviour:
   onManaChangeEvent:
     m_PersistentCalls:
       m_Calls: []
+  gluedCount: 0
 --- !u!114 &484977951162521058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,8 +782,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 0}
   playerInfo:
-    moveSpeed: 5
-    jumpMaxHeight: 4.05
     jumpMinHeight: 0
     maxFallSpeed: 20
     sprintDistance: 4
@@ -812,12 +816,16 @@ MonoBehaviour:
     playerFacingRight: 1
   PlayerAnimator: {fileID: 448765876}
   boxCollider: {fileID: 0}
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
   gravityLock: 0
   groundCheckCollider: {fileID: 619636124}
-  _guid: e9a9d9d2-56ca-4a9d-a190-c8e87ddbf6be
+  plungeStrengthArr:
+  - 0
+  - 2
+  - 4
+  - 7
+  canPlungeDistance: 1.5
+  distanceToGround: -1
+  _guid: 00000000-0000-0000-0000-000000000000
   _saveSystem: {fileID: 0}
   _backpack: {fileID: 0}
   _itemToAdd: {fileID: 0}
@@ -962,9 +970,10 @@ MonoBehaviour:
   unlockedPlayerSkillList: []
   equippingPlayerSkill:
     Name: 0
+    SkillPrefab: {fileID: 0}
     Description: 
     Damage: 0
-    SoulCost: 0
+    ManaCost: 0
     CoolDown: 0
   pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
   UnlockedSkillContainer: {fileID: 0}
