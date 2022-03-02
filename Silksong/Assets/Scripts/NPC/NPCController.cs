@@ -15,8 +15,6 @@ public enum NPCStatus
 
 public class NPCController : MonoBehaviour
 {
-    public Queue<UnityAction> Actions = new Queue<UnityAction>();
-
     private NPCStatus _status = NPCStatus.IDLE;
     private UnityAction _callback;
     private int _times = 30;
