@@ -7,7 +7,7 @@ using UnityEngine;
 public enum EPlayerStatus : int
 {
     None = 0,
-    CanMove = 1,
+   // CanMove = 1,
     CanJump = 2,
     CanNormalAttack = 4,
     CanSprint = 8,
