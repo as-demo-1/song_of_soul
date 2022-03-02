@@ -103,6 +103,9 @@ public class PlayerStatesBehaviour
             case EPlayerState.CastSkill:
                 playerCastSkill.CastSkill();
                 break;
+            case EPlayerState.Plunge:
+                playerPlunge.PlungeStart();
+                break;
             default:
                 break;
         }
@@ -170,6 +173,9 @@ public class PlayerStatesBehaviour
             case EPlayerState.CatToHumanExtraJump:
 
                 break;
+            case EPlayerState.Plunge:
+                playerPlunge.Plunging();
+                break;
             default:
                 break;
         }
@@ -223,6 +229,9 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.CatToHumanExtraJump:
 
+                break;
+            case EPlayerState.Plunge:
+                playerPlunge.PlungeEnd();
                 break;
             default:
                 break;
@@ -590,5 +599,69 @@ public class PlayerCastSkill : PlayerAction
         playerSkillManager.Cast();
     }
 
+
+}
+
+public class PlayerPlunge : PlayerAction
+{
+    public PlayerPlunge(PlayerController playerController) : base(playerController) { }
+
+    public bool isPlunging;
+    public bool isBreakingGround;
+
+    private float plungeStartPositionY;
+    private float plungeDistance;
+
+    public int plungeStrength;
+
+
+
+    public void PlungeStart()
+    {
+        // Debug.Log("start plunging");
+
+        // 竖直下落
+        playerController.setRigidVelocity(Vector2.zero);
+        playerController.setRigidGravityScale(1.2f);    // 待调整
+        playerController.gravityLock = true;
+
+        isPlunging = true;
+        isBreakingGround = false;
+        plungeStrength = 0;
+
+        plungeDistance = 0.0f;
+        plungeStartPositionY = playerController.transform.position.y;
+    }
+
+    public void Plunging()
+    {
+        float positionY = playerController.transform.position.y;
+        plungeDistance = plungeStartPositionY - positionY;
+
+        // 更新Strength
+        int i = plungeStrength;
+        while (i < playerController.plungeStrengthArr.Length - 1 && plungeDistance > playerController.plungeStrengthArr[i + 1])
+        {
+            Debug.Log(plungeStrength);
+            i++;
+        }
+        plungeStrength = i;
+
+        // Plunging end
+
+        // 更新 WillBreakGroundParamHash
+
+    }
+
+    public void PlungeEnd()
+    {
+        isPlunging = false;
+
+        playerController.gravityLock = false;
+        playerController.setRigidGravityScaleToNormal();
+
+        Debug.Log("Landed! Plunge strength:" + plungeStrength);
+
+    }
 
 }
