@@ -27,6 +27,8 @@ public struct PlayerInfo
     public float normalGravityScale;
 
     public bool playerFacingRight;
+    //swim
+    public float swimSpeed;
 
     public void init(PlayerController playerController)
     {
@@ -75,7 +77,7 @@ public class PlayerController : MonoBehaviour
     public PlayerStatusDic playerStatusDic;
 
     public PlayerCharacter playerCharacter;
-    public CharacterMoveControl PlayerHorizontalMoveControl { get; } 
+    public CharacterMoveControl PlayerHorizontalMoveControl { get; }
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
 
     public PlayerInfo playerInfo;
@@ -86,10 +88,16 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
+    public SpriteRenderer SpriteRenderer { get; private set; }
+    //[SerializeField, HideInInspector]
+    public Transform m_Transform { get; set; }
+    [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private LayerMask underwaterLayerMask;
+    //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
     [DisplayOnly]
     public BoxCollider2D boxCollider;
 
-    public Transform m_Transform { get; set; }
+
 
     private PlayerGroundedCheck playerGroundedCheck;
 
@@ -98,18 +106,10 @@ public class PlayerController : MonoBehaviour
 
     [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
-    private bool IsUnderWater;
+    public bool IsUnderWater;
 
+    [SerializeField] private Collider2D underWaterCheckCollider;
     public BoxCollider2D groundCheckCollider;
-
-    // plunge
-    public float[] plungeStrengthArr;  // plunge经过了PlungeStrength[i]的距离，达到强度级别i。可配置
-
-    public float canPlungeDistance;  // 在多高可以使用plunge。可配置
-
-    [DisplayOnly]
-    public float distanceToGround;  // 距离下方Groud距离
-
     //Teleport
     /// <summary>
     /// Only Demo Code for save
@@ -245,16 +245,10 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckIsGrounded();
-        playerToCat.catUpdate();
+        CheckUnderWater();
 
         playerAnimatorStatesControl.ParamsUpdate();
-        if(IsUnderWater)
-        {
-            SwimUnderWater();
-        }
-
-        CalDistanceToGround();  // 计算离地距离
-        
+        playerToCat.catUpdate();
 
     }
 
@@ -265,7 +259,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Interact();
+        //Interact();
     }
 
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
@@ -328,11 +322,15 @@ public class PlayerController : MonoBehaviour
     {
         return RB.velocity;
     }
+    public void addRigidVelocityY(float forceY)
+    {
+        RB.AddForce(new Vector2(0, forceY), ForceMode2D.Impulse);
+    }
 
     public void setRigidGravityScale(float newScale)
     {
-        if(gravityLock==false)
-        RB.gravityScale = newScale;
+        if (gravityLock == false)
+            RB.gravityScale = newScale;
     }
 
     public void setRigidGravityScaleToNormal()
@@ -354,97 +352,72 @@ public class PlayerController : MonoBehaviour
         playerStatesBehaviour.playerBreakMoon.findCurrentTarget();
     }
 
-    public void getHurt(DamagerBase damager,DamageableBase damable)
+    public void getHurt(DamagerBase damager, DamageableBase damable)
     {
         PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
     }
 
     public void die(DamagerBase damager, DamageableBase damable)
     {
-        PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas,true);
+        PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas, true);
     }
 
+    public void CheckUnderWater()
+    {
+        IsUnderWater = underWaterCheckCollider.IsTouchingLayers(underwaterLayerMask);
+    }
+    public void SwimMove()
+    {
+        RB.velocity = new Vector2(PlayerInput.Instance.horizontal.Value, PlayerInput.Instance.vertical.Value) * playerInfo.swimSpeed;
+    }
     public void SwimUnderWater()
     {
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.A))
+        if (PlayerInput.Instance.horizontal.Value == -1f && PlayerInput.Instance.vertical.Value == 1f)     //左上
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
-            RB.velocity = new Vector2(-1, 1).normalized * playerInfo.getMoveSpeed();
+            m_Transform.localScale = new Vector3(-1, 1, 1);
         }
-        else if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.D))
+        else if (PlayerInput.Instance.horizontal.Value == 1f && PlayerInput.Instance.vertical.Value == 1f)    //右上
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
-            RB.velocity = new Vector3(1, 1).normalized * playerInfo.getMoveSpeed();
+            m_Transform.localScale = new Vector3(1, 1, 1);
         }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.A))
+        else if (PlayerInput.Instance.horizontal.Value == -1f && PlayerInput.Instance.vertical.Value == -1f)    //左下
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
-            RB.velocity = new Vector2(-1, -1).normalized * playerInfo.getMoveSpeed();
+            m_Transform.localScale = new Vector3(-1, 1, 1);
         }
-        else if (Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.D))
+        else if (PlayerInput.Instance.horizontal.Value == 1f && PlayerInput.Instance.vertical.Value == -1f)    //右下
         {
             m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
-            RB.velocity = new Vector2(1, -1).normalized * playerInfo.getMoveSpeed();
+            m_Transform.localScale = new Vector3(1, 1, 1);
         }
         else
         {
-            if (Input.GetKey(KeyCode.W))
+            if (PlayerInput.Instance.vertical.Value == 1f)                                //上
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
                 RB.velocity = new Vector2(0, 1) * playerInfo.getMoveSpeed();
             }
-            if (Input.GetKey(KeyCode.S))
+            if (PlayerInput.Instance.vertical.Value == -1f)                                //下
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
                 RB.velocity = new Vector2(0, -1) * playerInfo.getMoveSpeed();
             }
-            if (Input.GetKey(KeyCode.A))
+            if (PlayerInput.Instance.horizontal.Value == -1f)                              //左
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
-                RB.velocity = new Vector2(-1, 0) * playerInfo.getMoveSpeed();
+                m_Transform.localScale = new Vector3(-1, 1, 1);
             }
-            if (Input.GetKey(KeyCode.D))
+            if (PlayerInput.Instance.horizontal.Value == 1f)                                //右
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
-                RB.velocity = new Vector2(1, 0) * playerInfo.getMoveSpeed();
+                m_Transform.localScale = new Vector3(1, 1, 1);
             }
         }
+        if (IsUnderWater) SwimMove();
     }
 
-    public void CalDistanceToGround()
-    {
-
-        if (IsUnderWater) return;
-
-        Vector2 groundCheckPos = groundCheckCollider.transform.position;
-        groundCheckPos = groundCheckPos + groundCheckCollider.offset;
-        Vector2 offset = new Vector2(0, -groundCheckCollider.size.y / 2);
-        // Debug.DrawRay(groundCheckPos + offset, Vector2.down, Color.red, 0.2f);
-
-        int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
-
-        // 向下发射射线，检测跟Ground Layer的距离。如果下方没有Ground则distanceToGround = -1.
-        RaycastHit2D hit = Physics2D.Raycast(groundCheckPos + offset, Vector2.down, 100.0f, groundLayerMask);
-        if (hit.collider == null)
-        {
-            distanceToGround = -1.0f;
-        }
-        else
-        {
-            distanceToGround = hit.distance;
-        }
-
-        // Debug.Log(distanceToGround);
-        if (distanceToGround > canPlungeDistance)
-        {
-            PlayerAnimator.SetBool(animatorParamsMapping.CanPlungeParamHash, true);
-        }
-        else
-        {
-            PlayerAnimator.SetBool(animatorParamsMapping.CanPlungeParamHash, false);
-        }
-
-    }
 }
 
 public class PlayerGroundedCheck
@@ -475,7 +448,7 @@ public class PlayerGroundedCheck
                 bufferTimer = Constants.IsGroundedBufferFrame;
             }
 
-            if (bufferTimer>0)
+            if (bufferTimer > 0)
             {
                 bufferTimer--;
                 IsGroundedBuffer = true;
@@ -491,7 +464,7 @@ public class PlayerGroundedCheck
 
     public bool IsGroundedBuffer
     {
-        get {return isGroundedBuffer; }
+        get { return isGroundedBuffer; }
         set
         {      
 
@@ -555,22 +528,44 @@ public class PlayerToCat
 
     }
 
-    public void toHuman()
+    public void colliderToHuman()
     {
+        void checkIfNeedMoveAwayFromGround()//to prevent player from dropped in ground
+        {
+            Vector2 t = playerController.transform.position;
+            Vector2 rightPoint = new Vector2(t.x + playerController.boxCollider.size.x * 0.5f+0.05f, t.y);//only find dropped in ground from right side
+
+            if (Physics2D.OverlapArea(rightPoint, t, 1 << LayerMask.NameToLayer("Ground")) != null)
+            {
+                playerController.transform.position = new Vector2(t.x - 0.25f, t.y);
+            }      
+        }
+
+
         if (!IsCat) return;
 
-        //Debug.Log("to human");
-        IsCat = false;
-        isFastMoving = false;
-        playerController.gameObject.layer = LayerMask.NameToLayer("Player");
-        playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
+        checkIfNeedMoveAwayFromGround();
         playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerBoxColliderOffsetY);
         playerController.boxCollider.size = new Vector2(Constants.playerBoxColliderWidth, Constants.playerBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerGroundCheckColliderOffsetY);
-        playerController.groundCheckCollider.size = new Vector2(Constants.playerBoxColliderWidth - Constants.playerGroundColliderXSizeSmall, playerController.groundCheckCollider.size.y);
+        playerController.groundCheckCollider.size = new Vector2(Constants.playerBoxColliderWidth - Constants.playerGroundColliderXSizeSmall, playerController.groundCheckCollider.size.y);   
     }
 
+    public void stateToHuman()
+    {
+        if (!IsCat) return;
+
+        IsCat = false;
+        isFastMoving = false;
+        playerController.gameObject.layer = LayerMask.NameToLayer("Player");
+        playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
+    }
+    public void toHuman()
+    {
+        colliderToHuman();
+        stateToHuman();
+    }
     public void catUpdate()
     {
         if (!IsCat) return;

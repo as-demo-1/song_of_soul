@@ -102,7 +102,7 @@ public class PlayerInput : InputComponent
 
     public override void GainControls()
     {
-       // Debug.Log("gainCtrl");
+        Debug.Log("gainCtrl");
         m_HaveControl = true;
 
         foreach (var button in buttons)
@@ -113,7 +113,7 @@ public class PlayerInput : InputComponent
 
     public override void ReleaseControls(bool resetValues = true)
     {
-      //  Debug.Log("releaseCtrl");
+        Debug.Log("releaseCtrl");
         m_HaveControl = false;
 
         foreach (var button in buttons)
