@@ -108,6 +108,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Collider2D underWaterCheckCollider;
     public BoxCollider2D groundCheckCollider;
+
+    // plunge
+    public float[] plungeStrengthArr = { 0.0f, 1.0f, 3.0f };  // plunge经过了PlungeStrength[i]的距离，达到强度级别i。可配置
+
+    public float canPlungeDistance = 3.0f;  // 在多高可以使用plunge。可配置
+
+    [DisplayOnly]
+    public float distanceToGround = -1.0f;  // 距离下方Groud距离
+
     //Teleport
     /// <summary>
     /// Only Demo Code for save
@@ -168,12 +177,27 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Colide with SavePoint");
             _savePoint = other.gameObject;
         }
+        if(other.gameObject.CompareTag("UnderWater"))
+        {
+            IsUnderWater = true;
+            //入水时慢慢将速度减为0    
+            float smooth = 100f;
+            //float exitWaterTime = Time.time;
+            //RB.velocity = Vector2.Lerp(RB.velocity, new Vector2(RB.velocity.x, 0), (Time.time - exitWaterTime) * smooth);
+            RB.gravityScale = playerInfo.normalGravityScale / 5;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
         _savePoint = null;
+        if (other.gameObject.CompareTag("UnderWater"))
+        {
+            IsUnderWater = false;
+            RB.gravityScale = playerInfo.normalGravityScale;
+            RB.velocity += new Vector2(0, 5);       //添加一个出水速度
+        }
     }
 
     public void CheckAddItem()
@@ -197,7 +221,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
+    
     public void init()
     {
         RB = GetComponent<Rigidbody2D>();
@@ -223,7 +247,6 @@ public class PlayerController : MonoBehaviour
         HpDamable damable = GetComponent<HpDamable>();
         damable.takeDamageEvent.AddListener(getHurt);
         damable.onDieEvent.AddListener(die);
-
     }
 
     private void Update()
@@ -233,6 +256,9 @@ public class PlayerController : MonoBehaviour
 
         playerAnimatorStatesControl.ParamsUpdate();
         playerToCat.catUpdate();
+
+        CalDistanceToGround(); // 计算离地距离
+
 
     }
 
@@ -263,7 +289,6 @@ public class PlayerController : MonoBehaviour
                 lastHorizontalInputDir = -1;
         }
     }
-
 
     public void Interact()
     {
@@ -382,10 +407,12 @@ public class PlayerController : MonoBehaviour
             if (PlayerInput.Instance.vertical.Value == 1f)                                //上
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
+                RB.velocity = new Vector2(0, 1) * playerInfo.getMoveSpeed();
             }
             if (PlayerInput.Instance.vertical.Value == -1f)                                //下
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
+                RB.velocity = new Vector2(0, -1) * playerInfo.getMoveSpeed();
             }
             if (PlayerInput.Instance.horizontal.Value == -1f)                              //左
             {
@@ -401,6 +428,40 @@ public class PlayerController : MonoBehaviour
         if (IsUnderWater) SwimMove();
     }
 
+    public void CalDistanceToGround()
+    {
+
+        if (IsUnderWater) return;
+
+        Vector2 groundCheckPos = groundCheckCollider.transform.position;
+        groundCheckPos = groundCheckPos + groundCheckCollider.offset;
+        Vector2 offset = new Vector2(0, -groundCheckCollider.size.y / 2);
+        // Debug.DrawRay(groundCheckPos + offset, Vector2.down, Color.red, 0.2f);
+
+        int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
+
+        // 向下发射射线，检测跟Ground Layer的距离。如果下方没有Ground则distanceToGround = -1.
+        RaycastHit2D hit = Physics2D.Raycast(groundCheckPos + offset, Vector2.down, 100.0f, groundLayerMask);
+        if (hit.collider == null)
+        {
+            distanceToGround = -1.0f;
+        }
+        else
+        {
+            distanceToGround = hit.distance;
+        }
+
+        // Debug.Log(distanceToGround);
+        if (distanceToGround > canPlungeDistance)
+        {
+            PlayerAnimator.SetBool(animatorParamsMapping.CanPlungeParamHash, true);
+        }
+        else
+        {
+            PlayerAnimator.SetBool(animatorParamsMapping.CanPlungeParamHash, false);
+        }
+
+    }
 }
 
 public class PlayerGroundedCheck
@@ -457,7 +518,7 @@ public class PlayerGroundedCheck
             }
             isGroundedBuffer = value;
         }
-
+    
     }
 
 }
