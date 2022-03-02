@@ -21,6 +21,7 @@ public class PlayerInput : InputComponent
     public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper);
     public InputButton Pick = new InputButton(KeyCode.F, XboxControllerButtons.Y);
     ////TODO:xbox button mapping
+    public InputButton plunge = new InputButton(KeyCode.H, XboxControllerButtons.None);
     public InputButton teleport = new InputButton(KeyCode.X, XboxControllerButtons.None);
     public InputButton jump = new InputButton(KeyCode.K, XboxControllerButtons.A);
     public InputButton interact = new InputButton(KeyCode.W, XboxControllerButtons.None);
@@ -58,7 +59,7 @@ public class PlayerInput : InputComponent
             heal,
             toCat,
             castSkill,
-
+            plunge,
         });
     }
 
