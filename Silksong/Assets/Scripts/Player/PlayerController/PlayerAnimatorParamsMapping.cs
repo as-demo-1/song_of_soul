@@ -47,12 +47,22 @@ public class PlayerAnimatorParamsMapping
     public int IsHealHeldParamHas { get; } = Animator.StringToHash("IsHealHeld");
 
     public int CanHealParamHas { get; } = Animator.StringToHash("CanHeal");
+    public int IsUnderWaterParamHas { get; } = Animator.StringToHash("IsUnderWater");
 
+    public int CanToCatParamHas { get; } = Animator.StringToHash("CanToCat");
+    public int ToCatIsValidParamHas { get; } = Animator.StringToHash("ToCatIsValid");
+    public int IsCatParamHas { get; } = Animator.StringToHash("IsCat");
+    public int HasUpSpaceForHumanParamHas { get; } = Animator.StringToHash("HasUpSpaceForHuman");
     public int CanCastSkillParamHash { get; } = Animator.StringToHash("CanCastSkill");
 
     public int CastSkillIsValidParamHash { get; } = Animator.StringToHash("CastSkillIsValid");
 
     public int SkillReadyParamHash { get; } = Animator.StringToHash("SkillReady");
+
+    public int CanPlungeParamHash { get; } = Animator.StringToHash("CanPlunge");
+    public int PlungeIsValidParamHash { get; } = Animator.StringToHash("PlungeIsValid");
+    public int IsPlungingParamHash { get; } = Animator.StringToHash("IsPlunging");
+    public int WillBreakGroundParamHash { get; } = Animator.StringToHash("WillBreakGround");
 
     public void ParamsUpdate()
     {
@@ -71,7 +81,11 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(IsHealHeldParamHas, PlayerInput.Instance.heal.Held);
 
+            m_Animator.SetBool(ToCatIsValidParamHas, PlayerInput.Instance.toCat.IsValid);
             m_Animator.SetBool(CastSkillIsValidParamHash, PlayerInput.Instance.castSkill.IsValid);
+
+            m_Animator.SetBool(PlungeIsValidParamHash, PlayerInput.Instance.plunge.IsValid);
+
         }
         else
         {
@@ -88,15 +102,24 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(IsHealHeldParamHas,false);
 
+            m_Animator.SetBool(ToCatIsValidParamHas, false);
             m_Animator.SetBool(CastSkillIsValidParamHash, false);
+
+            m_Animator.SetBool(PlungeIsValidParamHash, false);
+
         }
 
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
+
+        m_Animator.SetBool(IsUnderWaterParamHas, m_PlayerAnimatorStatesControl.PlayerController.IsUnderWater);
 
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().x);
         m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().y);
 
         m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
+
+        m_Animator.SetBool(IsPlungingParamHash, m_PlayerAnimatorStatesControl.PlayerController.playerStatesBehaviour.playerPlunge.isPlunging);
+
     }
 
     

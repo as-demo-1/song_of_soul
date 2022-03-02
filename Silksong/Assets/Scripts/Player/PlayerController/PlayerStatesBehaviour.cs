@@ -1,8 +1,8 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ≤ª“™«·“◊–ﬁ∏ƒ∆‰÷µ –ﬁ∏ƒ∫Ûsmbµƒ√∂æŸΩ´∂™ ß
+// ‰∏çË¶ÅËΩªÊòì‰øÆÊîπÂÖ∂ÂÄº ‰øÆÊîπÂêésmbÁöÑÊûö‰∏æÂ∞Ü‰∏¢Â§±
 public enum EPlayerState
 {
     None = 0,
@@ -11,14 +11,20 @@ public enum EPlayerState
     Jump = 30,
     Fall = 40,
     NormalAttack = 50,
-    Sprint=60,
-    BreakMoon=70,
-    Heal=90,
-    Hurt=100,
+    Sprint = 60,
+    BreakMoon = 70,
+    Heal = 90,
+    Hurt = 100,
     CastSkill = 110,
+    Swim = 120,
+    Plunge = 130,
 
+    ToCat = 200,
+    CatIdle = 210,
+    ToHuman = 220,
+    CatToHumanExtraJump = 230,
 }
-public class PlayerStatesBehaviour 
+public class PlayerStatesBehaviour
 {
     public PlayerController playerController { get; set; }
     public PlayerJump playerJump;
@@ -26,7 +32,9 @@ public class PlayerStatesBehaviour
     public PlayerSprint playerSprint;
     public PlayerBreakMoon playerBreakMoon;
     public PlayerHeal playerHeal;
+    public PlayerSwim playerSwim;
     public PlayerCastSkill playerCastSkill;
+    public PlayerPlunge playerPlunge;
 
     public void init()
     {
@@ -35,7 +43,9 @@ public class PlayerStatesBehaviour
         playerSprint = new PlayerSprint(playerController);
         playerBreakMoon = new PlayerBreakMoon(playerController);
         playerHeal = new PlayerHeal(playerController);
+        playerSwim = new PlayerSwim(playerController);
         playerCastSkill = new PlayerCastSkill(playerController);
+        playerPlunge = new PlayerPlunge(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -52,6 +62,7 @@ public class PlayerStatesBehaviour
             case EPlayerState.Idle:
                 break;
             case EPlayerState.Run:
+                playerController.playerToCat.catMoveStart();
                 break;
             case EPlayerState.Jump:
                 playerJump.JumpStart();
@@ -69,42 +80,62 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Hurt:
                 PlayerInput.Instance.ReleaseControls();
+                playerController.playerToCat.colliderToHuman();
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
                 break;
+            case EPlayerState.Swim:
+                playerSwim.SwimStart();
+                break;
+            case EPlayerState.ToCat:
+
+                break;
+            case EPlayerState.ToHuman:
+                playerController.playerToCat.colliderToHuman();
+                break;
+            case EPlayerState.CatIdle:
+                playerController.playerToCat.toCat();
+                break;
+            case EPlayerState.CatToHumanExtraJump:
+
+                break;
             case EPlayerState.CastSkill:
                 playerCastSkill.CastSkill();
+                break;
+            case EPlayerState.Plunge:
+                playerPlunge.PlungeStart();
                 break;
             default:
                 break;
         }
     }
-    //activeŒ™Ω¯»Î∏√state ±µ⁄“ª÷°ø™ º£¨“≤æÕ «√ª”–∞—start¥”÷–∑÷ø™
-    public  void StatesActiveBehaviour(EPlayerState playerStates)
+    //active‰∏∫ËøõÂÖ•ËØ•stateÊó∂Á¨¨‰∏ÄÂ∏ßÂºÄÂßãÔºå‰πüÂ∞±ÊòØÊ≤°ÊúâÊäästart‰ªé‰∏≠ÂàÜÂºÄ
+    public void StatesActiveBehaviour(EPlayerState playerStates)
     {
         switch (playerStates)
         {
             /* case EPlayerState.None:
                  break;*/
             case EPlayerState.Idle:
-                //PlayerController.CheckIsGroundedAndResetAirJumpCount();
+
                 playerController.CheckAddItem();
                 playerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Run:
-                // PlayerController.CheckIsGroundedAndResetAirJumpCount();
+
                 playerController.CheckAddItem();
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.4f);
+                playerController.playerToCat.moveDistanceCount();
                 break;
             case EPlayerState.Jump:
-                // PlayerController.IsGrounded = false;
+
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.5f);
                 break;
             case EPlayerState.Fall:
-                //PlayerController.CheckIsGroundedAndResetAirJumpCount();
+
                 playerController.CheckFlipPlayer(1f);
                 playerController.CheckHorizontalMove(0.5f);
                 playerFall.checkMaxFallSpeed();
@@ -123,13 +154,33 @@ public class PlayerStatesBehaviour
                 playerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Heal:
+                playerController.CheckHorizontalMove(0.4f);
                 playerHeal.healProcess();
+                break;
+            case EPlayerState.Swim:
+                playerController.SwimUnderWater();
+                break;
+            case EPlayerState.ToCat:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.ToHuman:
+                playerController.CheckFlipPlayer(1f);
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.CatIdle:
+                playerController.CheckHorizontalMove(0.4f);
+                break;
+            case EPlayerState.CatToHumanExtraJump:
+
+                break;
+            case EPlayerState.Plunge:
+                playerPlunge.Plunging();
                 break;
             default:
                 break;
         }
     }
-    public  void StatesExitBehaviour(EPlayerState playerStates)
+    public void StatesExitBehaviour(EPlayerState playerStates)
     {
         switch (playerStates)
         {
@@ -150,7 +201,7 @@ public class PlayerStatesBehaviour
 
                 break;
             case EPlayerState.Sprint:
-                playerSprint.SprintEnd();                  
+                playerSprint.SprintEnd();
                 break;
             case EPlayerState.BreakMoon:
                 playerBreakMoon.endBreakMoon();
@@ -161,6 +212,26 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Heal:
 
+                break;
+            case EPlayerState.Swim:
+                playerSwim.SwimEnd();
+                break;
+            case EPlayerState.ToCat:
+
+                break;
+            case EPlayerState.ToHuman:
+                playerJump.EndJump();
+                playerController.playerToCat.extraJump();
+                playerController.playerToCat.stateToHuman();
+                break;
+            case EPlayerState.CatIdle:
+
+                break;
+            case EPlayerState.CatToHumanExtraJump:
+
+                break;
+            case EPlayerState.Plunge:
+                playerPlunge.PlungeEnd();
                 break;
             default:
                 break;
@@ -187,7 +258,7 @@ public abstract class PlayerAction
     }
 }
 
-public class PlayerJump:PlayerAction
+public class PlayerJump : PlayerAction
 {
     public PlayerJump(PlayerController playerController) : base(playerController) { }
 
@@ -200,7 +271,7 @@ public class PlayerJump:PlayerAction
         set
         {
             currentJumpCountLeft = value;
-            playerController. PlayerAnimator.SetInteger(playerController.animatorParamsMapping.JumpLeftCountParamHash, currentJumpCountLeft);
+            playerController.PlayerAnimator.SetInteger(playerController.animatorParamsMapping.JumpLeftCountParamHash, currentJumpCountLeft);
         }
     }
 
@@ -211,38 +282,44 @@ public class PlayerJump:PlayerAction
 
         playerController.setRigidGravityScale(0);
 
-       if(playerController.isGroundedBuffer()==false)//÷ª”–ø’÷–Ã¯‘æºıÃ¯‘æ¥Œ ˝£¨µÿ…œÃ¯‘æ¥Œ ˝”…IsGround set∑Ω∑®ºı»•
-         --CurrentJumpCountLeft;
+        if (playerController.isGroundedBuffer() == false)//Âè™ÊúâÁ©∫‰∏≠Ë∑≥Ë∑ÉÂáèË∑≥Ë∑ÉÊ¨°Êï∞ÔºåÂú∞‰∏äË∑≥Ë∑ÉÊ¨°Êï∞Áî±IsGround setÊñπÊ≥ïÂáèÂéª
+            --CurrentJumpCountLeft;
 
-        playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.jumpUpSpeed));
+        playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.getJumpUpSpeed()));
         jumpStartHeight = playerController.transform.position.y;
 
         playerController.StopCoroutine(JumpUpCheck());
         playerController.StartCoroutine(JumpUpCheck());
     }
 
+    public void EndJump()
+    {
+        playerController.StopCoroutine(JumpUpCheck());
+        playerController.setRigidGravityScaleToNormal();
+    }
+
     public IEnumerator JumpUpCheck()
     {
-        bool hasQuickSlowDown=false;
+        bool hasQuickSlowDown = false;
         bool hasNormalSlowDown = false;
 
-        float normalSlowDistance = 0.5f*playerController.playerInfo.jumpUpSpeed * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
-        while(true)
+        float normalSlowDistance = 0.5f * playerController.playerInfo.getJumpUpSpeed() * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
+        while (true)
         {
-            yield return null;//√ø¥Œupdate∫Û—≠ª∑“ª¥Œ
+            yield return null;//ÊØèÊ¨°updateÂêéÂæ™ÁéØ‰∏ÄÊ¨°
             //EPlayerState state = playerController.PlayerAnimatorStatesControl.CurrentPlayerState;
-            if (playerController.getRigidVelocity().y<0.01f)//Ã¯‘æ…œ…˝π˝≥ÃΩ· ¯
+            if (playerController.getRigidVelocity().y < 0.01f)//Ë∑≥Ë∑É‰∏äÂçáËøáÁ®ãÁªìÊùü
             {
                 playerController.setRigidGravityScaleToNormal();
                 break;
             }
 
-            float jumpHeight = playerController.transform.position.y - jumpStartHeight; 
+            float jumpHeight = playerController.transform.position.y - jumpStartHeight;
 
-            if(jumpHeight>playerController.playerInfo.jumpMinHeight-0.5f)//¥ÔµΩ◊Ó–°∏ﬂ∂»∫Û≤≈ƒ‹Õ£œ¬
+            if (jumpHeight > playerController.playerInfo.jumpMinHeight - 0.5f)//ËææÂà∞ÊúÄÂ∞èÈ´òÂ∫¶ÂêéÊâçËÉΩÂÅú‰∏ã
             {
 
-                if ( hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false )//º±…≤
+                if (hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false)//ÊÄ•Âàπ
                 {
                     hasQuickSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpStopTime;
@@ -251,7 +328,7 @@ public class PlayerJump:PlayerAction
                     // Debug.Log(gScale);
                     playerController.setRigidGravityScale(gScale);
                 }
-                if(!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.jumpMaxHeight - normalSlowDistance )//ª∫Õ£
+                if (!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.getJumpHeight() - normalSlowDistance)//ÔøΩÔøΩÕ£
                 {
                     hasNormalSlowDown = true;
                     float jumpSlowDownTime = Constants.JumpUpSlowDownTime;
@@ -267,23 +344,23 @@ public class PlayerJump:PlayerAction
 
 }
 
-public class PlayerFall:PlayerAction
+public class PlayerFall : PlayerAction
 {
 
     public PlayerFall(PlayerController playerController) : base(playerController) { }
 
     public void checkMaxFallSpeed()
     {
-        if(playerController.getRigidVelocity().y<-playerController.playerInfo.maxFallSpeed)
+        if (playerController.getRigidVelocity().y < -playerController.playerInfo.maxFallSpeed)
         {
-            playerController.setRigidVelocity( new Vector2(playerController.getRigidVelocity().x, -playerController.playerInfo.maxFallSpeed));
+            playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x, -playerController.playerInfo.maxFallSpeed));
         }
     }
 }
 
 public class PlayerSprint : PlayerAction
 {
-    public PlayerSprint(PlayerController playerController):base(playerController){}
+    public PlayerSprint(PlayerController playerController) : base(playerController) { }
 
     private bool sprintReady;
     public bool SprintReady
@@ -292,7 +369,7 @@ public class PlayerSprint : PlayerAction
         set
         {
             sprintReady = value;
-            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.SprintReadyParamHash,sprintReady);
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.SprintReadyParamHash, sprintReady);
         }
     }
 
@@ -303,7 +380,7 @@ public class PlayerSprint : PlayerAction
         set
         {
             airSprintLeftCount = value;
-            playerController.PlayerAnimator.SetInteger(playerController.animatorParamsMapping.AirSprintLeftCountParamHash,airSprintLeftCount);
+            playerController.PlayerAnimator.SetInteger(playerController.animatorParamsMapping.AirSprintLeftCountParamHash, airSprintLeftCount);
         }
     }
 
@@ -315,7 +392,7 @@ public class PlayerSprint : PlayerAction
     {
         playerController.setRigidGravityScale(0);
         int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
-        playerController.setRigidVelocity( new Vector2(playerController.playerInfo.sprintSpeed * x, 0));
+        playerController.setRigidVelocity(new Vector2(playerController.playerInfo.sprintSpeed * x, 0));
 
         if (playerController.isGroundedBuffer() == false)
             AirSprintLeftCount--;
@@ -333,7 +410,7 @@ public class PlayerSprint : PlayerAction
 
     }
 
-    public IEnumerator  sprintCdCount()
+    public IEnumerator sprintCdCount()
     {
         SprintReady = false;
         yield return new WaitForSeconds(Constants.SprintCd);
@@ -342,12 +419,12 @@ public class PlayerSprint : PlayerAction
 
 }
 
-public class PlayerBreakMoon:PlayerAction
+public class PlayerBreakMoon : PlayerAction
 {
     public PlayerBreakMoon(PlayerController playerController) : base(playerController) { }
 
     public BreakMoonPoint currentTarget;
-    public List<BreakMoonPoint> availableTargets=new List<BreakMoonPoint>();
+    public List<BreakMoonPoint> availableTargets = new List<BreakMoonPoint>();
 
     private float timer;
     private float totalTime;
@@ -360,20 +437,20 @@ public class PlayerBreakMoon:PlayerAction
 
     public void findCurrentTarget()
     {
-       
+
         if (availableTargets.Count < 1)
         {
             currentTarget = null;
-            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.HasBreakMoonPointParamHash,false);
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.HasBreakMoonPointParamHash, false);
             return;
         }
 
         BreakMoonPoint temp;
         temp = availableTargets[0];
-        for(int i=1;i<availableTargets.Count;i++)
+        for (int i = 1; i < availableTargets.Count; i++)
         {
             BreakMoonPoint t = availableTargets[i];
-            if (sameSide(t) ==sameSide(temp))
+            if (sameSide(t) == sameSide(temp))
             {
                 if (Vector2.Distance(t.transform.position, playerController.transform.position)
                     < Vector2.Distance(temp.transform.position, playerController.transform.position))
@@ -381,20 +458,20 @@ public class PlayerBreakMoon:PlayerAction
                     temp = t;
                 }
             }
-            else if(sameSide(t))
+            else if (sameSide(t))
             {
                 temp = t;
             }
         }
-        if(currentTarget)
-        currentTarget.unPicked();
+        if (currentTarget)
+            currentTarget.unPicked();
 
         currentTarget = temp;
         playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.HasBreakMoonPointParamHash, true);
         currentTarget.bePicked();
 
     }
-    private bool sameSide(BreakMoonPoint b)// «∑Ò‘⁄ÕÊº“√Ê≥Øµƒ“ª≤‡
+    private bool sameSide(BreakMoonPoint b)//ÊòØÂê¶Âú®Áé©ÂÆ∂Èù¢ÊúùÁöÑ‰∏Ä‰æß
     {
         float x = b.transform.position.x - playerController.transform.position.x;
         bool result = playerController.playerInfo.playerFacingRight ? x > 0 : x < 0;
@@ -403,17 +480,17 @@ public class PlayerBreakMoon:PlayerAction
 
     public void breakMoonStart()
     {
-       // Debug.Log("breakMoonStart");
+        // Debug.Log("breakMoonStart");
         startPosition = playerController.transform.position;
         Vector2 target = currentTarget.transform.position;
-        toMoonDistance=target- startPosition;
-        Vector2 afterDistance = toMoonDistance.normalized* Constants.BreakMoonAfterDistance;
+        toMoonDistance = target - startPosition;
+        Vector2 afterDistance = toMoonDistance.normalized * Constants.BreakMoonAfterDistance;
         totalDistance = afterDistance + toMoonDistance;
-       /* Debug.Log(afterDistance);
-        Debug.Log(toMoonDistance);
-        Debug.Log(totalDistance);*/
-        totalTime= totalDistance.magnitude/playerController.playerInfo.breakMoonAvgSpeed;
-       // Debug.Log(totalTime);
+        /* Debug.Log(afterDistance);
+         Debug.Log(toMoonDistance);
+         Debug.Log(totalDistance);*/
+        totalTime = totalDistance.magnitude / playerController.playerInfo.breakMoonAvgSpeed;
+        // Debug.Log(totalTime);
 
         timer = 0;
         PlayerInput.Instance.ReleaseControls();
@@ -422,7 +499,7 @@ public class PlayerBreakMoon:PlayerAction
         playerController.setRigidVelocity(Vector2.zero);
         hasBreakTheMoon = false;
 
-        if(sameSide(currentTarget)==false)
+        if (sameSide(currentTarget) == false)
         {
             playerController.Flip();
         }
@@ -430,15 +507,15 @@ public class PlayerBreakMoon:PlayerAction
 
     public void breakingMoon()
     {
-        if(timer<totalTime)
+        if (timer < totalTime)
         {
             timer += Time.deltaTime;
-            float rate= playerController.playerInfo.breakMoonPositionCurve.Evaluate(timer / totalTime);
+            float rate = playerController.playerInfo.breakMoonPositionCurve.Evaluate(timer / totalTime);
             //Debug.Log(rate);
             Vector2 s = totalDistance * rate;
             playerController.rigidMovePosition(startPosition + s);
 
-            if (!hasBreakTheMoon && s.magnitude>=toMoonDistance.magnitude )//ª˜ÀÈ‘¬«Ú
+            if (!hasBreakTheMoon && s.magnitude >= toMoonDistance.magnitude)//ÂáªÁ¢éÊúàÁêÉ
             {
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
@@ -448,7 +525,7 @@ public class PlayerBreakMoon:PlayerAction
         }
         else
         {
-           // Debug.Log("start fall");
+            // Debug.Log("start fall");
             playerController.gravityLock = false;
             playerController.setRigidGravityScaleToNormal();
         }
@@ -456,14 +533,14 @@ public class PlayerBreakMoon:PlayerAction
     }
     public void endBreakMoon()
     {
-      //  Debug.Log("end braeakMoon");
+        //  Debug.Log("end braeakMoon");
         playerController.gravityLock = false;
         playerController.setRigidGravityScaleToNormal();
     }
 
 }
 
-public class PlayerHeal:PlayerAction
+public class PlayerHeal : PlayerAction
 {
     public PlayerHeal(PlayerController playerController) : base(playerController) { }
     private float healTotalTime;
@@ -479,22 +556,40 @@ public class PlayerHeal:PlayerAction
     {
         healTimer += Time.deltaTime;
         float rate = healTimer / healTotalTime;
-        playerController.playerCharacter.Mana = (int)Mathf.Lerp(healStartMana,(healStartMana - Constants.playerHealCostMana), rate);
-        if(rate>=1)
+        playerController.playerCharacter.Mana = (int)Mathf.Lerp(healStartMana, (healStartMana - Constants.playerHealCostMana), rate);
+        if (rate >= 1)
         {
-            playerController.playerCharacter.playerDamable.addHp(Constants.playerHealBaseValue,null);
+            playerController.playerCharacter.playerDamable.addHp(Constants.playerHealBaseValue, null);
             playerController.PlayerAnimator.Play("Idle");
         }
     }
 
+}
 
+public class PlayerSwim : PlayerAction
+{
+    public PlayerSwim(PlayerController playerController) : base(playerController) { }
+
+    public void SwimStart()
+    {
+        playerController.IsUnderWater = true;
+        //ÂÖ•Ê∞¥Âêé0.2sÂÜÖÁ¶ÅÊ≠¢Âêë‰∏ä
+        //setRigidGravityScale(playerInfo.normalGravityScale/2);
+    }
+
+    public void SwimEnd()
+    {
+        playerController.m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
+        playerController.IsUnderWater = false;
+        //setRigidGravityScaleToNormal();
+    }
 }
 
 public class PlayerCastSkill : PlayerAction
 {
-    public PlayerCastSkill(PlayerController playerController) : base(playerController) 
-    { 
-        playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>(); 
+    public PlayerCastSkill(PlayerController playerController) : base(playerController)
+    {
+        playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>();
     }
 
     private PlayerSkillManager playerSkillManager;
@@ -504,5 +599,69 @@ public class PlayerCastSkill : PlayerAction
         playerSkillManager.Cast();
     }
 
+
+}
+
+public class PlayerPlunge : PlayerAction
+{
+    public PlayerPlunge(PlayerController playerController) : base(playerController) { }
+
+    public bool isPlunging;
+    public bool isBreakingGround;
+
+    private float plungeStartPositionY;
+    private float plungeDistance;
+
+    public int plungeStrength;
+
+
+
+    public void PlungeStart()
+    {
+        // Debug.Log("start plunging");
+
+        // Á´ñÁõ¥‰∏ãËêΩ
+        playerController.setRigidVelocity(Vector2.zero);
+        playerController.setRigidGravityScale(1.2f);    // ÂæÖË∞ÉÊï¥
+        playerController.gravityLock = true;
+
+        isPlunging = true;
+        isBreakingGround = false;
+        plungeStrength = 0;
+
+        plungeDistance = 0.0f;
+        plungeStartPositionY = playerController.transform.position.y;
+    }
+
+    public void Plunging()
+    {
+        float positionY = playerController.transform.position.y;
+        plungeDistance = plungeStartPositionY - positionY;
+
+        // Êõ¥Êñ∞Strength
+        int i = plungeStrength;
+        while (i < playerController.plungeStrengthArr.Length - 1 && plungeDistance > playerController.plungeStrengthArr[i + 1])
+        {
+            Debug.Log(plungeStrength);
+            i++;
+        }
+        plungeStrength = i;
+
+        // Plunging end
+
+        // Êõ¥Êñ∞ WillBreakGroundParamHash
+
+    }
+
+    public void PlungeEnd()
+    {
+        isPlunging = false;
+
+        playerController.gravityLock = false;
+        playerController.setRigidGravityScaleToNormal();
+
+        Debug.Log("Landed! Plunge strength:" + plungeStrength);
+
+    }
 
 }
