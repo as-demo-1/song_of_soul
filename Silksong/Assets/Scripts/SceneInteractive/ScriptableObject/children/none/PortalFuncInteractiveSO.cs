@@ -46,4 +46,10 @@ public class PortalFuncInteractiveSO : FuncMultiInteractiveBaseSO
         }
     }
 
+    protected override void SetPositionChild(GameObject go, Vector3 pos)
+    {
+        int index = go.GetComponent<PortalController>().index;
+
+        InteractiveUnitList[index].Position = pos;
+    }
 }
