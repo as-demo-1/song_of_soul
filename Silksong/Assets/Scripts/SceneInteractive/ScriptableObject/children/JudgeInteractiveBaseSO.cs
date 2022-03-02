@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "judge", menuName = "Interactive/judge")]
-public class JudgeInteractiveBaseSO : InteractiveBaseSO
+public class JudgeInteractiveBaseSO : SingleInteractiveBaseSO
 {
     [HideInInspector]
     [SerializeField] private EInteractiveItemType _itemType = EInteractiveItemType.JUDGE;
@@ -28,19 +28,19 @@ public class JudgeInteractiveBaseSO : InteractiveBaseSO
 
     protected override void DoInteract()
     {
-        UIComponentManager.Instance.SetText("Judge/Image/Content", Tip);
-        UIComponentManager.Instance.ShowUI("Judge");
-        UIComponentManager.Instance.UIAddListener("Judge/Image/LButton", () => {
+        UIComponentManager.Instance.SetText(InteractConstant.UIJudgeContent, Tip);
+        UIComponentManager.Instance.ShowUI(InteractConstant.UIJudge);
+        UIComponentManager.Instance.UIAddListener(InteractConstant.UIJudgeLB, () => {
             Yes(base.DoInteract);
         });
-        UIComponentManager.Instance.UIAddListener("Judge/Image/RButton", () => {
+        UIComponentManager.Instance.UIAddListener(InteractConstant.UIJudgeRB, () => {
             No(base.DoInteract);
         });
     }
 
     protected override void Finish()
     {
-        UIComponentManager.Instance.HideUI("Judge");
+        UIComponentManager.Instance.HideUI(InteractConstant.UIJudge);
         base.Finish();
     }
 }

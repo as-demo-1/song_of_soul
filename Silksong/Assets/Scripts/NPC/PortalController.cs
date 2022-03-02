@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class PortalController : MonoBehaviour
 {
-    public GameObject Other;
-    public string Point;
+    public int index;
 }

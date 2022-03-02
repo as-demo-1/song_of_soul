@@ -12,9 +12,8 @@ public class InteractiveObjectTrigger : MonoBehaviour
 
     void Start()
     {
-        m_dialog = UIComponentManager.Instance.FindUI(gameObject, "Tip");
-        m_container = UIComponentManager.Instance.FindUI(gameObject, "Tip/Container");
-        UIComponentManager.Instance.SetText(gameObject, "Tip/Container/Text", InteractiveItem.Content);
+        m_dialog = UIComponentManager.Instance.FindUI(gameObject, InteractConstant.UITip);
+        m_container = UIComponentManager.Instance.FindUI(gameObject, InteractConstant.UITipContainer);
     }
 
 #if UNITY_EDITOR

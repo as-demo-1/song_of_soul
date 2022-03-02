@@ -21,3 +21,25 @@ public enum EInteractStatus
     INTERACTING,        // 交互中
     FINISH_INTERACT     // 结束交互
 }
+
+public class InteractConstant
+{
+    // UIFullText
+    public static readonly string UIFullText = "FullWindowText";
+    public static readonly string UIFullTextText = "FullWindowText/Image/Text";
+    public static readonly string UIFullTextClose = "FullWindowText/Image/Close";
+
+    // Judge
+    public static readonly string UIJudge = "Judge";
+    public static readonly string UIJudgeContent = "Judge/Image/Content";
+    public static readonly string UIJudgeLB = "Judge/Image/LButton";
+    public static readonly string UIJudgeRB = "Judge/Image/RButton";
+
+    // Tip
+    public static readonly string UITip = "Tip";
+    public static readonly string UITipContainer = "Tip/Container";
+    public static readonly string UITipText = "Tip/Container/Text";
+
+    // Talk
+    public static readonly string UITalkNext = "Talk/TalkPanel/Next";
+}

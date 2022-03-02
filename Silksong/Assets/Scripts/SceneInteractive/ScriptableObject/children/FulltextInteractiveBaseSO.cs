@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "fulltext", menuName = "Interactive/fulltext")]
-public class FulltextInteractiveBaseSO : InteractiveBaseSO
+public class FulltextInteractiveBaseSO : SingleInteractiveBaseSO
 {
     [HideInInspector]
     [SerializeField] private EInteractiveItemType _itemType = EInteractiveItemType.FULLTEXT;
@@ -15,14 +15,14 @@ public class FulltextInteractiveBaseSO : InteractiveBaseSO
 
     protected override void DoInteract()
     {
-        UIComponentManager.Instance.SetText("FullWindowText/Image/Text", Tip);
-        UIComponentManager.Instance.ShowUI("FullWindowText");
-        UIComponentManager.Instance.UIAddListener("FullWindowText/Image/Close", base.DoInteract);
+        UIComponentManager.Instance.SetText(InteractConstant.UIFullTextText, Tip);
+        UIComponentManager.Instance.ShowUI(InteractConstant.UIFullText);
+        UIComponentManager.Instance.UIAddListener(InteractConstant.UIFullTextClose, base.DoInteract);
     }
 
     protected override void Finish()
     {
-        UIComponentManager.Instance.HideUI("FullWindowText");
+        UIComponentManager.Instance.HideUI(InteractConstant.UIFullText);
         base.Finish();
     }
 }

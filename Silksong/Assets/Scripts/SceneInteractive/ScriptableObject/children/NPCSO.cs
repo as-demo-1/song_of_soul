@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "NPC", menuName = "Interactive/NPC")]
-public class NPCSO : InteractiveBaseSO
+public class NPCSO : SingleInteractiveBaseSO
 {
     public int Step = 30;
 
@@ -28,13 +28,11 @@ public class NPCSO : InteractiveBaseSO
     // npc动画
     public List<NPC_State_SO_Config> StateList => _stateList;
 
-    protected override GameObject InitChild(InteractLoad load)
+    protected override void SetField(GameObject go)
     {
-        GameObject go = base.InitChild(load);
-
+        base.SetField(go);
         InitDialog(InteractiveID);
         go.AddComponent<NPCController>();
-        return go;
     }
 
     public void InitDialog(int id)
@@ -115,7 +113,7 @@ public class NPCSO : InteractiveBaseSO
 
         TalkController.Instance.StartTalk(InteractiveID, callback);
 
-        UIComponentManager.Instance.UIAddListener("Talk/TalkPanel/Next", () => {
+        UIComponentManager.Instance.UIAddListener(InteractConstant.UITalkNext, () => {
             TalkController.Instance.StartTalk(InteractiveID, callback);
         });
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "save", menuName = "Interactive/func/save")]
-public class SaveFuncInteractiveSO : FuncInteractiveBaseSO
+public class SaveFuncInteractiveSO : FuncSingleInteractiveBaseSO
 {
     [SerializeField]
     [HideInInspector]

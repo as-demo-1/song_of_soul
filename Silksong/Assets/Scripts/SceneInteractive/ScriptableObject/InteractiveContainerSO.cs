@@ -6,7 +6,7 @@ using UnityEngine;
 public class InteractiveContainerSO : ScriptableObject
 {
     [Tooltip("The list of the InteractiveItem")]
-    [SerializeField] private List<InteractiveBaseSO> _interactive_item = default;
+    [SerializeField] private List<InteractiveBaseSO> _interactive_item_list = default;
 
-    public List<InteractiveBaseSO> InteractiveItemList => _interactive_item;
+    public List<InteractiveBaseSO> InteractiveItemList => _interactive_item_list;
 }
