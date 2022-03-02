@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "save", menuName = "Interactive/func/save")]
-public class SaveFuncInteractive : FuncInteractiveBaseSO
+public class SaveFuncInteractiveSO : FuncInteractiveBaseSO
 {
     [SerializeField]
+    [HideInInspector]
     private EFuncInteractItemType _funcInteractItemType = EFuncInteractItemType.SAVE;
 
     public override EFuncInteractItemType FuncInteractItemType => _funcInteractItemType;
@@ -18,9 +19,10 @@ public class SaveFuncInteractive : FuncInteractiveBaseSO
         return go;
     }
 
-    public override void DoAction()
+    protected override void DoInteract()
     {
-        InteractManager.Instance.InteractObject.GetComponent<SaveController>()
+        InteractManager.Instance.GetInteractiveItemComponent<SaveController>()
             .SaveSystem.SaveDataToDisk();
+        base.DoInteract();
     }
 }

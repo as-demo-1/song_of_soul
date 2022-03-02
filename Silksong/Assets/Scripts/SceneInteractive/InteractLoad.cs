@@ -12,7 +12,7 @@ public class InteractLoad : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        foreach (InteractiveSO interactiveItem in InteractiveContainer.InteractiveItemList)
+        foreach (InteractiveBaseSO interactiveItem in InteractiveContainer.InteractiveItemList)
         {
             interactiveItem.Init(this);
 

@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class FuncInteractiveBaseSO : InteractiveSO
+public class FuncInteractiveBaseSO : InteractiveBaseSO
 {
     public virtual EFuncInteractItemType FuncInteractItemType { get; }
 
-    [Tooltip("The type of the item")]
+    [HideInInspector]
     [SerializeField] private EInteractiveItemType _itemType = EInteractiveItemType.NONE;
     public override EInteractiveItemType ItemType => _itemType;
 
-    public virtual void DoAction() { }
+    protected override void DoInteract()
+    {
+        base.DoInteract();
+    }
 }

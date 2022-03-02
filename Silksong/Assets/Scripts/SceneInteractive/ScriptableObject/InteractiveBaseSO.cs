@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class InteractiveSO : ScriptableObject
+public abstract class InteractiveBaseSO : ScriptableObject
 {
     [Tooltip("The id of interactive item")]
     [SerializeField] private int _interactiveID = default;
@@ -27,6 +27,33 @@ public abstract class InteractiveSO : ScriptableObject
     public void Init(InteractLoad load)
     {
         InitChild(load);
+    }
+
+    public void Interact()
+    {
+        BeforeInteract();
+    }
+
+    // todo: 交互前的动画
+    protected virtual void BeforeInteract()
+    {
+        DoInteract();
+    }
+
+    protected virtual void DoInteract()
+    {
+        AfterInteract();
+    }
+
+    // todo: 交互结束的动画
+    protected virtual void AfterInteract()
+    {
+        Finish();
+    }
+
+    protected virtual void Finish()
+    {
+        InteractManager.Instance.Finish();
     }
 
     public void SetPosition(GameObject go, Vector3 pos)

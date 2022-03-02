@@ -4,9 +4,10 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "portal", menuName = "Interactive/func/portal")]
-public class PortalFuncInteractive : FuncInteractiveBaseSO
+public class PortalFuncInteractiveSO : FuncInteractiveBaseSO
 {
     [SerializeField]
+    [HideInInspector]
     private EFuncInteractItemType _funcInteractItemType = EFuncInteractItemType.PORTAL;
 
     public override EFuncInteractItemType FuncInteractItemType => _funcInteractItemType;
@@ -65,14 +66,13 @@ public class PortalFuncInteractive : FuncInteractiveBaseSO
         }
     }
 
-    public void Teleport(GameObject go)
+    protected override void DoInteract()
     {
-        PortalController portal = go.GetComponent<PortalController>();
+        PortalController portal = InteractManager.Instance.GetInteractiveItemComponent<PortalController>();
         Debug.Log("todo: teleport to：" + portal.Other.transform.position);
-    }
 
-    public override void DoAction()
-    {
-        Teleport(InteractManager.Instance.InteractObject);
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = portal.Other.transform.position;
+        base.DoInteract();
     }
 }

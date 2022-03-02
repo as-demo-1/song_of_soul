@@ -7,16 +7,14 @@ public class InteractiveObjectTrigger : MonoBehaviour
 {
     private GameObject m_dialog;
     private GameObject m_container;
-    private Text m_text;
 
-    public InteractiveSO InteractiveItem;
+    public InteractiveBaseSO InteractiveItem;
 
     void Start()
     {
-        m_dialog = FindUI("Tip");
-        m_container = FindUI("Tip/Container");
-        m_text = FindUI("Tip/Container/Text").GetComponent<Text>();
-        m_text.text = InteractiveItem.Content;
+        m_dialog = UIComponentManager.Instance.FindUI(gameObject, "Tip");
+        m_container = UIComponentManager.Instance.FindUI(gameObject, "Tip/Container");
+        UIComponentManager.Instance.SetText(gameObject, "Tip/Container/Text", InteractiveItem.Content);
     }
 
 #if UNITY_EDITOR
@@ -26,15 +24,6 @@ public class InteractiveObjectTrigger : MonoBehaviour
     }
 #endif
 
-    private GameObject FindUI(string path)
-    {
-        Transform trans = gameObject.transform.Find(path);
-        if (trans != null)
-            return gameObject.transform.Find(path).gameObject;
-
-        throw new UnityException("not found gameobject " + path);
-    }
-
     private void ToggleContent(bool isEnter)
     {
         // todo:
@@ -42,24 +31,11 @@ public class InteractiveObjectTrigger : MonoBehaviour
         m_dialog.SetActive(isEnter);
     }
 
-    private void ToggleContent(string content, bool isEnter)
-    {
-        // 如果需要切换文字的话
-
-        m_dialog.SetActive(isEnter);
-        m_text.text = content;
-    }
-
-    private void CheckTriggerState(bool isEnter)
-    {
-        InteractManager.Instance.InteractObject = isEnter ? gameObject : null;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            CheckTriggerState(true);
+            InteractManager.Instance.CollidingObject = gameObject;
             ToggleContent(true);
         }
     }
@@ -68,7 +44,7 @@ public class InteractiveObjectTrigger : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            CheckTriggerState(false);
+            InteractManager.Instance.CollidingObject = null;
             ToggleContent(false);
             m_container.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
