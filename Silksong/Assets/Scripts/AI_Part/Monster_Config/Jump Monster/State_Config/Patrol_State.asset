@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Patrol_State
+  m_EditorClassIdentifier: 
+  lastStateID: 2
+  lastTriggerID: 6
+  StateName: Patrol_State
+  StateType: 2
+  stateConfig:
+    id: 0
+  TriggerType: 6
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  - id: 3
+  - id: 4
+  - id: 5
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Patrol_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 2
+        defaultAnimationName: move
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        moveSpeed: {x: 2, y: 0, z: 0}
+        noTurnState: 0
+    00000001:
+      type: {class: NearPlatformBorderTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 6
+        targetState: 
+    00000002:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Idle_State
+        maxTime: 8
+        timer: 0
+    00000003:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Meet_State
+        checkNearRadius: 0
+        checkFarRadius: 10
+        horizontalOnly: 1
+    00000004:
+      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 1
+        targetState: Turn_State
+    00000005:
+      type: {class: NearPlatformBorderTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 6
+        targetState: Turn_State
