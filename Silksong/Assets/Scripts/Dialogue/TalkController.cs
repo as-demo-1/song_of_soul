@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TalkController : MonoBehaviour
@@ -83,13 +84,13 @@ public class TalkController : MonoBehaviour
         return _UI_trans.Find(path).gameObject;
     }
 
-    public void StartTalk(int NPCID)
+    public void StartTalk(int NPCID, UnityAction callback)
     {
         TalkPanel.SetActive(true);
         //Debug.Log(NPCID);
         if (num >= TalkManager.Instance.NPCAllContent[NPCID].Count) //已经过完剧情对话了，播放闲聊对话
         {
-            if(i < TalkManager.Instance.NPCAllContent[NPCID][0].Count)
+            if (i < TalkManager.Instance.NPCAllContent[NPCID][0].Count)
             {
 
                 NPCText.text = TalkManager.Instance.NPCAllContent[NPCID][0][i];
@@ -100,8 +101,7 @@ public class TalkController : MonoBehaviour
             {
                 i = 0;
                 TalkPanel.SetActive(false);
-                InteractManager.Instance.ContinueEvent();
-
+                callback();
             }
             _id = 0;
         }
@@ -122,7 +122,7 @@ public class TalkController : MonoBehaviour
                     i = 0;
                     num += 1;
                     TalkPanel.SetActive(false);
-                    InteractManager.Instance.ContinueEvent();
+                    callback();
                 }
             }
             else
@@ -152,7 +152,7 @@ public class TalkController : MonoBehaviour
                     {
                         i = 0;
                         TalkPanel.SetActive(false);
-                        InteractManager.Instance.ContinueEvent();
+                        callback();
                     }
                 }
                 if (_id == 1)
@@ -169,14 +169,14 @@ public class TalkController : MonoBehaviour
                         num += 1;
                         i = 0;
                         TalkPanel.SetActive(false);
-                        InteractManager.Instance.ContinueEvent();
+                        callback();
                     }
                 }
                 _id = 0;
             }
         }
     }
-    
+
 
     public void ConditionStatus()
     {
