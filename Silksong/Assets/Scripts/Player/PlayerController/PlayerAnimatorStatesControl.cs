@@ -41,9 +41,11 @@ public class PlayerAnimatorStatesControl
 
     public void ChangePlayerState(EPlayerState newState)
     {
-        CharacterStatesBehaviour.StatesExitBehaviour(CurrentPlayerState);
+        CharacterStatesBehaviour.StatesExitBehaviour(CurrentPlayerState,newState);
+        EPlayerState t = CurrentPlayerState;
         CurrentPlayerState = newState;
-        CharacterStatesBehaviour.StatesEnterBehaviour(newState);
+        CharacterStatesBehaviour.StatesEnterBehaviour(CurrentPlayerState,t);
+
     }
 }
 

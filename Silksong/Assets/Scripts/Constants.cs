@@ -38,6 +38,17 @@ public static class Constants
 
     public const float PlayerCatToHumanExtraJumpHeight = 2.9f;
 
+    public const float PlayerClimbIdleFallSpeed = 2f;
+
+    public const float PlayerClimbJumpFixedLength= 1.5f;
+    public const float PlayerClimbJumpFixedHeight = 1.5f;
+    public const float PlayerClimbJumpMaxHeight=4.1f;
+    public const float PlayerClimbJumpFixedTime = 0.2f;
+    public const float PlayerClimbJumpTotalTime = 0.5f;
+    public const float PlayerClimbJumpNormalSlowDownTime = 0.3f;//
+    public const float PlayerClimbJumpCanMoveTime = 0.1f;
+    //public const float PlayerClimbJumpFixedSlowTime = 0.1f;
+    // public const float PlayerClibmJumpFixedHeight = 2.5f;
 
 
     /*public const float PlayerCatToHumanTime = 0.167f;//此值应与实际动画的时长相同
@@ -52,8 +63,8 @@ public static class Constants
     public const float playerCatBoxColliderWidth = 0.5f;
     public const float playerCatBoxColliderHeight = 0.75f;
 
-    public const float playerGroundCheckColliderOffsetY = -0.75f;
-    public const float playerCatGroundCheckColliderOffsetY = -0.125f;
+    public const float playerGroundCheckColliderOffsetY = -0.80f;
+    public const float playerCatGroundCheckColliderOffsetY = -0.13f;
     public const float playerGroundColliderXSizeSmall = 0.01f;
 
     #endregion

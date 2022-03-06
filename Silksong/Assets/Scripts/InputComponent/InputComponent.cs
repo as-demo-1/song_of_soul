@@ -236,7 +236,7 @@ public abstract class InputComponent : MonoBehaviour
         public KeyCode positive;
         public KeyCode negative;
         public XboxControllerAxes controllerAxis;
-        public float Value { get; protected set; }
+        public float Value { get; protected set; }//can only be -1 0 or 1
         public bool ReceivingInput { get; protected set; }
         public bool Enabled
         {

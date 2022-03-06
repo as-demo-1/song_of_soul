@@ -18,6 +18,8 @@ public enum EPlayerState
     CastSkill = 110,
     Swim = 120,
     Plunge = 130,
+    ClimbIdle=140,
+    ClimbJump=150,
 
     ToCat = 200,
     CatIdle = 210,
@@ -35,6 +37,7 @@ public class PlayerStatesBehaviour
     public PlayerSwim playerSwim;
     public PlayerCastSkill playerCastSkill;
     public PlayerPlunge playerPlunge;
+    public PlayerClimb playerClimb;
 
     public void init()
     {
@@ -46,6 +49,7 @@ public class PlayerStatesBehaviour
         playerSwim = new PlayerSwim(playerController);
         playerCastSkill = new PlayerCastSkill(playerController);
         playerPlunge = new PlayerPlunge(playerController);
+        playerClimb = new PlayerClimb(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -53,9 +57,9 @@ public class PlayerStatesBehaviour
         this.playerController = playerController;
         init();
     }
-    public void StatesEnterBehaviour(EPlayerState playerStates)
+    public void StatesEnterBehaviour(EPlayerState newStates,EPlayerState oldState)
     {
-        switch (playerStates)
+        switch (newStates)
         {
             /* case EPlayerState.None:
                    break*/
@@ -73,7 +77,7 @@ public class PlayerStatesBehaviour
                 playerController.CheckFlipPlayer(1f);
                 break;
             case EPlayerState.Sprint:
-                playerSprint.SprintStart();
+                playerSprint.SprintStart(oldState);
                 break;
             case EPlayerState.BreakMoon:
                 playerBreakMoon.breakMoonStart();
@@ -105,6 +109,12 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Plunge:
                 playerPlunge.PlungeStart();
+                break;
+            case EPlayerState.ClimbIdle:
+                playerClimb.climbIdleStart();
+                break;
+            case EPlayerState.ClimbJump:
+                playerClimb.climbJumpStart();
                 break;
             default:
                 break;
@@ -171,18 +181,24 @@ public class PlayerStatesBehaviour
                 playerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.CatToHumanExtraJump:
-
+                playerController.CheckHorizontalMove(0.4f);
                 break;
             case EPlayerState.Plunge:
                 playerPlunge.Plunging();
+                break;
+            case EPlayerState.ClimbIdle:
+
+                break;
+            case EPlayerState.ClimbJump:
+                playerClimb.climbJumping();
                 break;
             default:
                 break;
         }
     }
-    public void StatesExitBehaviour(EPlayerState playerStates)
+    public void StatesExitBehaviour(EPlayerState exitStates,EPlayerState newState)
     {
-        switch (playerStates)
+        switch (exitStates)
         {
 
             case EPlayerState.Idle:
@@ -232,6 +248,12 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Plunge:
                 playerPlunge.PlungeEnd();
+                break;
+            case EPlayerState.ClimbIdle:
+                playerClimb.climbIdleEnd();
+                break;
+            case EPlayerState.ClimbJump:
+
                 break;
             default:
                 break;
@@ -322,24 +344,24 @@ public class PlayerJump : PlayerAction
                 if (hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false)//急刹
                 {
                     hasQuickSlowDown = true;
-                    float jumpSlowDownTime = Constants.JumpUpStopTime;
-                    float acce = playerController.getRigidVelocity().y / jumpSlowDownTime;
-                    float gScale = -acce / Physics2D.gravity.y;
-                    // Debug.Log(gScale);
-                    playerController.setRigidGravityScale(gScale);
+                    stopJumpInTime(Constants.JumpUpStopTime);
                 }
-                if (!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.getJumpHeight() - normalSlowDistance)//��ͣ
+                if (!hasNormalSlowDown && !hasQuickSlowDown && jumpHeight > playerController.playerInfo.getJumpHeight() - normalSlowDistance)//
                 {
                     hasNormalSlowDown = true;
-                    float jumpSlowDownTime = Constants.JumpUpSlowDownTime;
-                    float acce = playerController.getRigidVelocity().y / jumpSlowDownTime;
-                    float gScale = -acce / Physics2D.gravity.y;
-                    // Debug.Log(gScale);
-                    playerController.setRigidGravityScale(gScale);
+                    stopJumpInTime(Constants.JumpUpSlowDownTime);
                 }
             }
         }
 
+    }
+
+    public void stopJumpInTime(float stopTime)
+    {
+        float acce = playerController.getRigidVelocity().y / stopTime;
+        float gScale = -acce / Physics2D.gravity.y;
+        // Debug.Log(gScale);
+        playerController.setRigidGravityScale(gScale);
     }
 
 }
@@ -388,10 +410,16 @@ public class PlayerSprint : PlayerAction
     {
         AirSprintLeftCount = playerController.playerInfo.maxAirSprintCount;
     }
-    public void SprintStart()
+    public void SprintStart(EPlayerState oldState)
     {
         playerController.setRigidGravityScale(0);
+        if (oldState == EPlayerState.ClimbIdle)
+        {
+            playerController.Flip();
+        }
+
         int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
+
         playerController.setRigidVelocity(new Vector2(playerController.playerInfo.sprintSpeed * x, 0));
 
         if (playerController.isGroundedBuffer() == false)
@@ -665,3 +693,129 @@ public class PlayerPlunge : PlayerAction
     }
 
 }
+
+public class PlayerClimb : PlayerAction
+{
+    public PlayerClimb(PlayerController playerController) : base(playerController) { }
+
+    private bool canMove = false;
+    private float fixedJumpAcce = 0;
+   
+    public void climbIdleStart()
+    {
+        playerController.setRigidGravityScale(0);
+        playerController.setRigidVelocity(new Vector2(0, -Constants.PlayerClimbIdleFallSpeed));
+        playerController.playerStatesBehaviour.playerJump.resetJumpCount();
+        playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
+    }
+
+    public void climbIdleEnd()
+    {
+        playerController.setRigidGravityScale(playerController.playerInfo.normalGravityScale);
+        playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
+    }
+
+    public void climbJumpStart()
+    {
+        playerController.Flip();
+        int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
+        Vector2 speed;
+        speed.x = 2*Constants.PlayerClimbJumpFixedLength/ Constants.PlayerClimbJumpFixedTime * x;
+        fixedJumpAcce = speed.x / Constants.PlayerClimbJumpFixedTime;
+        float jumpSpeed = Constants.PlayerClimbJumpMaxHeight / (Constants.PlayerClimbJumpTotalTime - Constants.PlayerClimbJumpNormalSlowDownTime * 0.5f);
+        speed.y = jumpSpeed;
+        canMove = false;
+        playerController.setRigidVelocity(speed);
+        playerController.setRigidGravityScale(0);
+
+        playerController.StopCoroutine(IEClimbJumping());
+        playerController.StartCoroutine(IEClimbJumping());
+
+    }
+
+    public void climbJumping()
+    {
+        if(canMove)
+        {
+            playerController.CheckFlipPlayer(1f);
+            playerController.CheckHorizontalMove(0.5f);
+        }
+    }
+
+    public IEnumerator IEClimbJumping() 
+    {
+        float timer=0;
+        bool hasActiveSlowDown = false;//player active stop
+        bool hasNormalSlowDown = false;//passive stop
+        bool isFixedJumping=true;
+        bool isContinueJumping = false;
+        float jumpStartYPos=playerController.transform.position.y;
+        
+
+
+        while (true)
+        {
+            yield return null;
+            if (playerController.getRigidVelocity().y < 0.01f)//跳跃上升过程结束
+            {
+                playerController.setRigidGravityScaleToNormal();
+                break;
+            }
+            timer += Time.deltaTime;
+            float jumpHeight = playerController.transform.position.y - jumpStartYPos;
+
+            if(timer>=Constants.PlayerClimbJumpFixedTime)
+            {
+                if(isFixedJumping)
+                {
+                    isFixedJumping = false;
+                    isContinueJumping = true;
+                    canMove = true;
+                }
+
+            }
+            else if(!canMove)
+            {
+             
+                Vector2 t = playerController.getRigidVelocity();
+                t.x -= Time.deltaTime * fixedJumpAcce;
+                playerController.setRigidVelocity(t);
+
+                if(((PlayerInput.Instance.horizontal.Value==1)?fixedJumpAcce<0:fixedJumpAcce>0) && timer>Constants.PlayerClimbJumpCanMoveTime)
+                {
+                    canMove = true;
+                }
+           
+            }
+
+            if ( !hasActiveSlowDown  && PlayerInput.Instance.jump.Held == false)
+            {
+                hasActiveSlowDown = true;
+                if (isFixedJumping)
+                {
+                    float speed = 2f * (Constants.PlayerClimbJumpFixedHeight - jumpHeight) / (Constants.PlayerClimbJumpFixedTime - timer);
+                    playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x,speed));
+                    playerController.playerStatesBehaviour.playerJump.stopJumpInTime(Constants.PlayerClimbJumpFixedTime - timer);
+
+                }
+                if(isContinueJumping)
+                {
+                    playerController.playerStatesBehaviour.playerJump.stopJumpInTime(Constants.JumpUpStopTime);
+                }
+
+            }
+            if (!hasNormalSlowDown && !hasActiveSlowDown && timer>Constants.PlayerClimbJumpTotalTime-Constants.PlayerClimbJumpNormalSlowDownTime)//
+            {
+                hasNormalSlowDown = true;
+                playerController.playerStatesBehaviour.playerJump.stopJumpInTime(Constants.PlayerClimbJumpNormalSlowDownTime);
+            }
+            
+        }
+       
+       
+    }
+
+}
+
+
+ 
