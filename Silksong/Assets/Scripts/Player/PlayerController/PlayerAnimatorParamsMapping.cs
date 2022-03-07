@@ -63,6 +63,9 @@ public class PlayerAnimatorParamsMapping
     public int PlungeIsValidParamHash { get; } = Animator.StringToHash("PlungeIsValid");
     public int IsPlungingParamHash { get; } = Animator.StringToHash("IsPlunging");
     public int WillBreakGroundParamHash { get; } = Animator.StringToHash("WillBreakGround");
+    public int HasWallForClimbParamHash { get; } = Animator.StringToHash("HasWallForClimb");
+
+    public int CanClimbParamHash { get; } = Animator.StringToHash("CanClimb");
 
     public void ParamsUpdate()
     {

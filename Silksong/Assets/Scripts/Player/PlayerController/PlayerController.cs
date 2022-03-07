@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Inventory;
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -88,12 +89,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
-    public SpriteRenderer SpriteRenderer { get; private set; }
-    //[SerializeField, HideInInspector]
     public Transform m_Transform { get; set; }
-    [SerializeField] private LayerMask groundLayerMask;
     [SerializeField] private LayerMask underwaterLayerMask;
-    //[SerializeField] private LayerMask ropeLayerMask; ע�����ɣ����ܲ�����Ҫ��������
     [DisplayOnly]
     public BoxCollider2D boxCollider;
 
@@ -253,7 +250,7 @@ public class PlayerController : MonoBehaviour
     {
         CheckIsGrounded();
         CheckUnderWater();
-
+        CheckHasWallToClimb();
         playerAnimatorStatesControl.ParamsUpdate();
         playerToCat.catUpdate();
 
@@ -306,6 +303,12 @@ public class PlayerController : MonoBehaviour
             groundLayerMask += 1<<LayerMask.NameToLayer("CloudMass");
         }
         playerGroundedCheck.IsGrounded = groundCheckCollider.IsTouchingLayers(groundLayerMask);
+       /* Vector2 t = transform.position;
+        t.y += Constants.playerGroundCheckColliderOffsetY;
+        Vector2 pointA= new Vector2(t.x+0.115f,t.y+0.05f);
+        Vector2 pointB= new Vector2(t.x - 0.115f, t.y-0.05f);
+        Debug.DrawLine(pointA, pointB);
+        playerGroundedCheck.IsGrounded =Physics2D.OverlapArea(pointA,pointB,groundLayerMask);*/
     }
 
     public bool isGroundedBuffer()
@@ -341,6 +344,7 @@ public class PlayerController : MonoBehaviour
     {
         if (gravityLock == false)
             RB.gravityScale = newScale;
+        
     }
 
     public void setRigidGravityScaleToNormal()
@@ -462,6 +466,47 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    public bool checkHitWall(bool checkRight)
+    {
+        Vector2 t = transform.position;
+        t.y -= 0.5f;
+        Vector2 frontPoint;
+        frontPoint = new Vector2(t.x + (checkRight?1:-1) * boxCollider.size.x * 0.5f , t.y);
+
+        if (Physics2D.OverlapArea(frontPoint, t, 1 << LayerMask.NameToLayer("Ground")) != null)
+        {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    private void CheckHasWallToClimb()
+    {
+        bool checkRight;
+       
+        float horizontalInput = PlayerInput.Instance.horizontal.Value;
+        if (horizontalInput == 1) checkRight = true;
+        else if (horizontalInput == -1) checkRight = false;
+        else //input==0
+        {
+            if (playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.ClimbIdle)
+            {
+                checkRight = playerInfo.playerFacingRight;
+            }
+            else
+            {
+                PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash, false);
+                return;
+            }
+              
+        }
+        
+       
+        PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash,checkHitWall(checkRight));
+    }
 }
 
 public class PlayerGroundedCheck
@@ -470,7 +515,7 @@ public class PlayerGroundedCheck
     private PlayerController playerController;
     private int bufferTimer;
     private bool isGroundedBuffer;
-
+    private int bufferGroundTrue;
     public PlayerGroundedCheck(PlayerController playerController)
     {
         this.playerController = playerController;
@@ -485,11 +530,17 @@ public class PlayerGroundedCheck
         set//每次update都会调用
         {
             if (value)//设为真
-
             {
-                playerController.playerStatesBehaviour.playerJump.resetJumpCount();
-                playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
-                bufferTimer = Constants.IsGroundedBufferFrame;
+                if(++bufferGroundTrue>=5)
+                {
+                    playerController.playerStatesBehaviour.playerJump.resetJumpCount();
+                    playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
+                    bufferTimer = Constants.IsGroundedBufferFrame;
+                }
+            }
+            else
+            {
+                bufferGroundTrue = 0;
             }
 
             if (bufferTimer > 0)
@@ -577,12 +628,9 @@ public class PlayerToCat
         void checkIfNeedMoveAwayFromGround()//to prevent player from dropped in ground
         {
             Vector2 t = playerController.transform.position;
-            Vector2 rightPoint = new Vector2(t.x + playerController.boxCollider.size.x * 0.5f+0.05f, t.y);//only find dropped in ground from right side
 
-            if (Physics2D.OverlapArea(rightPoint, t, 1 << LayerMask.NameToLayer("Ground")) != null)
-            {
-                playerController.transform.position = new Vector2(t.x - 0.25f, t.y);
-            }      
+            if (playerController.checkHitWall(true))
+                playerController.transform.position = new Vector2(t.x - 0.25f, t.y);   
         }
 
 
