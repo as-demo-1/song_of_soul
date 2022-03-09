@@ -12,8 +12,8 @@ public class Glue : Trigger2DBase
         playerController.playerCharacter.gluedCount++;
         playerController.PlayerHorizontalMoveControl.SpeedRate = downSpeedRate;
         playerController.PlayerHorizontalMoveControl.GroundAccelerationFactor = downSpeedRate;
-        playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanJump, false, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
-        playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanToCat, false, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
+        playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanJump, false, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlag);
+        playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanToCat, false, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlag);
     }
 
     protected override void exitEvent()
@@ -22,8 +22,8 @@ public class Glue : Trigger2DBase
         {
             playerController.PlayerHorizontalMoveControl.SpeedRate = 1;
             playerController.PlayerHorizontalMoveControl.GroundAccelerationFactor = 1;
-            playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanJump, true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
-            playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanToCat, true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlags);
+            playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanJump, true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlag);
+            playerController.playerStatusDic.SetPlayerStatusFlag(EPlayerStatus.CanToCat, true, PlayerStatusDic.PlayerStatusFlag.WayOfChangingFlag.OverrideBuffFlag);
         }
       
     }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -41,11 +42,11 @@ public class PlayerSMBEvents : PlayerSMB
 
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        //if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name== "NormalAttack_01")
+        /*if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name== "Run")
         {
-            //  Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
+             Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
             //Debug.Log(Time.frameCount);
-        }
+        }*/
 
         base.OnSLStateEnter(animator, stateInfo, layerIndex, controller);
        // UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
