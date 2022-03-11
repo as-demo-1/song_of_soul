@@ -46,20 +46,20 @@ public class CharacterMoveControl
 
     // Acceleration or deceleration initial factor, and those would be determined in edit mode or setup by constructor
     float m_AccelerationTimeAmount = 1f;
+
     float m_GroundAccelerationTimeReduceFactor = 1.0f;
     float m_GroundDecelerationTimeReduceFactor = 1.0f;
+
     float m_AirAccelerationTimeReduceFactor = 1.5f;
     float m_AirDecelerationTimeReduceFactor = 1.5f;
 
-
-    //public AnimationCurve accelerationCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
-    //public AnimationCurve deccelerationCurve = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 0.0f);
-
-
+    //1 5 8 8 10
     public CharacterMoveControl(float accelerationTimeAmount, float groundAccelerationTimeReduceFactor, float groundDeccelerationTimeReduceFactor, float airAccelerationTimeReduceFactor, float airDeccelerationTimeReduceFactor)
     {
         this.m_AccelerationTimeAmount = accelerationTimeAmount == 0 ? Mathf.Infinity : accelerationTimeAmount;
+
         this.AccelerationTimeLeft = accelerationTimeAmount;
+
         this.m_GroundAccelerationTimeReduceFactor = groundAccelerationTimeReduceFactor;
         this.m_GroundDecelerationTimeReduceFactor = groundDeccelerationTimeReduceFactor;
         this.m_AirAccelerationTimeReduceFactor = airAccelerationTimeReduceFactor;
@@ -67,11 +67,17 @@ public class CharacterMoveControl
     }
     public CharacterMoveControl() { }
 
+
+
     /// <summary>
     /// Set the t value of the lerp
     /// </summary>
     /// <param name="normalizedTime">T value of the lerped Speed, set to 0 for no speed and 1 for the maximum speed</param>
     public void SetAccelerationLeftTimeNormalized(float normalizedTime) => AccelerationTimeStart = m_AccelerationTimeAmount == Mathf.Infinity ? 0 : m_AccelerationTimeAmount * (1 - normalizedTime);
+
+
+
+
 
     /// <summary>
     /// Call this in UpdateMethod to set speed to a linear one
@@ -100,6 +106,7 @@ public class CharacterMoveControl
             IsDecelerating = false;
             if (AccelerationTimeLeft >= AccelerationTimeStart)
                 AccelerationTimeLeft = AccelerationTimeStart;
+
             if (AccelerationTimeLeft > 0)
             {
                 AccelerationTimeLeft -= Time.deltaTime * (isGrounded ? GroundAccelerationFactor * m_GroundAccelerationTimeReduceFactor : AirAccelerationFactor * m_AirAccelerationTimeReduceFactor);

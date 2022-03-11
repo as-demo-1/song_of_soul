@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Boss00_Part2_State
   m_EditorClassIdentifier: 
   lastStateID: 10
-  lastTriggerID: 0
+  lastTriggerID: 3
   StateName: Boss00_Part2_State
   StateType: 10
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 3
   triggerConfig:
     id: 1
   triggerList: []
@@ -28,16 +28,23 @@ MonoBehaviour:
       type: {class: EnemySubFSMManager, ns: , asm: Assembly-CSharp}
       data:
         stateType: 10
+        defaultAnimationName: 
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
         currentStateName: 
-        defaultStateName: 
-        stateConfigs: []
+        defaultStateName: Boss00_Part2_Idle
+        stateConfigs:
+        - {fileID: 11400000, guid: 98c9b96acd69ba742be636137d0a1a97, type: 2}
+        - {fileID: 11400000, guid: cfbb26c5cca73124cbaec698b9b4a494, type: 2}
+        - {fileID: 11400000, guid: c2d8b4f2c95332c409a4ac145eaa2be5, type: 2}
+        - {fileID: 11400000, guid: c0e14f16001cee244a5eaec979150ef2, type: 2}
+        - {fileID: 11400000, guid: 109f2e685c44a7f499660b063e2e0e2f, type: 2}
+        - {fileID: 11400000, guid: a7ca2b8bbcffd554b98f96353d97d935, type: 2}
         anyStateConfig: {fileID: 0}
-        player: {fileID: 0}
-        FaceLeftFirstOriginal: 0
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: 0
-        maxTime: 0
-        timer: 0
+        triggerType: 3
+        targetState: 
+        checkAnimationName: 

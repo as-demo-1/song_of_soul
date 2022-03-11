@@ -12,26 +12,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Boss00_Part2_Idle
   m_EditorClassIdentifier: 
-  lastStateID: 0
+  lastStateID: 1
   lastTriggerID: 0
-  StateName: 
-  StateType: 0
+  StateName: Boss00_Part2_Idle
+  StateType: 1
   stateConfig:
     id: 0
   TriggerType: 0
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
+  - id: 3
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 0
+        stateType: 1
+        defaultAnimationName: Boss00_flying
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
+        isflying: 1
+        flyingMinHight: 5
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: 
-        maxTime: 0
+        targetState: Boss00_Part2_judge_node1
+        maxTime: 3
+        timer: 0
+    00000002:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Boss00_Part2_Shot_and_Circle
+        maxTime: 15
+        timer: 0
+    00000003:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Boss00_Part2_judge_node1
+        maxTime: 3
         timer: 0

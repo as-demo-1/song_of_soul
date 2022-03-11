@@ -24,6 +24,11 @@ public abstract class DamageableBase : MonoBehaviour
 
     public DamageEvent takeDamageEvent;
 
+    public AudioCue takeDamageAudio;
+
+    public SfxSO takeDamageSfxSO;
+
+
     protected virtual void Awake()//在awake时检测刚体 完成设定
     {
         setRigidbody2D();

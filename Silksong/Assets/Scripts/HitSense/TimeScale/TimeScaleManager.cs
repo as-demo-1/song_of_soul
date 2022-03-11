@@ -16,7 +16,7 @@ public class TimeScaleManager : MonoBehaviour
             if (instance != null)
                 return instance;
 
-            GameObject sceneControllerGameObject = new GameObject("TimeScaleManage");
+            GameObject sceneControllerGameObject = new GameObject("TimeScaleManager");
             instance = sceneControllerGameObject.AddComponent<TimeScaleManager>();
 
             return instance;
@@ -24,9 +24,14 @@ public class TimeScaleManager : MonoBehaviour
     }//µ¥Àý
 
     protected static TimeScaleManager instance;
-    void Start()
+    void Awake()
     {
-        
+        if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     public void changeTimeScaleForFrames(int framesCount,float scale)

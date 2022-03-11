@@ -13,21 +13,23 @@ MonoBehaviour:
   m_Name: Boss00_Part1_State
   m_EditorClassIdentifier: 
   lastStateID: 10
-  lastTriggerID: 0
+  lastTriggerID: 5
   StateName: Boss00_Part1_State
   StateType: 10
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 5
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
   references:
     version: 1
     00000000:
       type: {class: EnemySubFSMManager, ns: , asm: Assembly-CSharp}
       data:
         stateType: 10
+        defaultAnimationName: 
         currentStateName: 
         defaultStateName: Boss00_Part1_Idle
         stateConfigs:
@@ -37,13 +39,19 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 652a2c23f75f26e4690354217c42efc0, type: 2}
         - {fileID: 11400000, guid: 0e9358544573ce74ba90a7c33a3fe3db, type: 2}
         - {fileID: 11400000, guid: 3ab424c608c91ee4d89f71be0f7b6ace, type: 2}
+        - {fileID: 11400000, guid: 79602663859b58042a6445e3eb3d13f4, type: 2}
         anyStateConfig: {fileID: 11400000, guid: 396ec3de737d3784196b8afd41bc7eeb, type: 2}
-        player: {fileID: 0}
-        FaceLeftFirstOriginal: 0
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: SelfHPTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: 0
-        maxTime: 0
-        timer: 0
+        triggerType: 5
+        targetState: Boss00_Part_transition_State
+        Percent: 80
+        isLower: 1
+    00000002:
+      type: {class: SelfHPTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 5
+        targetState: Boss00_Part_transition_State
+        Percent: 80
+        isLower: 1

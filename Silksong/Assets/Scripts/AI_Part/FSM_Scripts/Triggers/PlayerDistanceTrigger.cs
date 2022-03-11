@@ -4,27 +4,32 @@ public class PlayerDistanceTrigger : EnemyFSMBaseTrigger
 {
     public float checkNearRadius;
     public float checkFarRadius;
-    public bool horizontalOnly;
+    public bool isReturnTrueBetweenNearAndFar=true;
+    public bool isRayDetect=false;
     public override void InitTrigger(EnemyFSMManager fsm_Manager)
     {
         base.InitTrigger(fsm_Manager);
         triggerType = EnemyTriggers.PlayerDistanceTrigger;
     }
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     {
-        Vector3 v = (fsm_Manager as EnemyFSMManager).getTargetDir();
+        Vector3 v = fsm_Manager.getTargetDir();
         if (v.sqrMagnitude > checkNearRadius * checkNearRadius && v.sqrMagnitude < checkFarRadius * checkFarRadius)
         {
-            if (horizontalOnly && (v.y > 1 || v.y < -1))
+            if(isRayDetect)
             {
-                return false;
+                var ray = Physics2D.Raycast(fsm_Manager.transform.position, v.normalized, 10000,LayerMask.NameToLayer("Ground"));
+                if (ray.distance * ray.distance >= v.sqrMagnitude)
+                    return isReturnTrueBetweenNearAndFar;
+                else
+                    return !isReturnTrueBetweenNearAndFar;
             }
-            return true;
+            else
+                return isReturnTrueBetweenNearAndFar;
         }
-
         else
         {
-            return false;
+            return !isReturnTrueBetweenNearAndFar;
         }
     }
 }

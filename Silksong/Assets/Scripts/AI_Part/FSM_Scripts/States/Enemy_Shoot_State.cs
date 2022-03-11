@@ -2,58 +2,44 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Enemy_Shoot_State : EnemyFSMBaseState
 {
-    public GameObject bullet;
-    //public float range;
-    public float shotCD;
-   // public float bulletExistTime;子弹存在时间在bulletCollision中设置
-    public float bulletSpeed;
-    private float time = 0;
-    private Transform shotPosition;//子弹发射的位置 发射子弹的小怪需要有这个子物体
-
-    public override void Act_State(EnemyFSMManager fSM_Manager)
-    {
-        //Debug.Log("shoot "+fsmManager.gameObject.name);
-        base.Act_State(fSM_Manager);
-        time += Time.deltaTime;
-        if (time >= shotCD)
-        {
-            Shot();
-            time = 0;
-        }
-    }
-
-
-    public override void EnterState(EnemyFSMManager fSM_Manager)
-    {
-        base.EnterState(fSM_Manager);
-
-    }
-    public override void ExitState(EnemyFSMManager fSM_Manager)
-    {
-        base.ExitState(fSM_Manager);
-
-    }
-
-
+    public string shootType;
+    private ShootSystem ShotPoint;
+    private Vector2 dir;
     public override void InitState(EnemyFSMManager fSM_Manager)
     {
         base.InitState(fSM_Manager);
-        fsmManager = fSM_Manager ;
-        stateType = EnemyStates.Enemy_Shoot_State;
-        shotPosition = fsmManager.transform.Find("shotPosition");
+        fsmManager = fSM_Manager;
+        ShotPoint = fSM_Manager.gameObject.transform.GetChild(1).gameObject.GetComponent<ShootSystem>();
+        animationEvents.AddListener(()=> { ShotPoint.Shoot(shootType); });
+
     }
 
-    private void Shot()
+    public override void EnterState(EnemyFSMManager enemyFSM)
     {
-       // Debug.Log("发射");
-        Vector3 move = (fsmManager as EnemyFSMManager).getTargetDir(true).normalized;
-
-        GameObject shot = UnityEngine.Object.Instantiate(bullet);
-        shot.transform.position = shotPosition.position;
-        shot.GetComponent<Rigidbody2D>().velocity = move * bulletSpeed;
+        base.EnterState(enemyFSM);
+        enemyFSM.rigidbody2d.velocity = Vector2.zero;
+        dir = enemyFSM.getTargetDir(true).normalized;
+        enemyFSM.rigidbody2d.DORotate(Mathf.Asin(dir.y), 0.5f);
+    }
+    public override void ExitState(EnemyFSMManager enemyFSM)
+    {
+        base.ExitState(enemyFSM);
+        enemyFSM.rigidbody2d.DORotate(-Mathf.Asin(dir.y), 1f);
+    }
+    public override void invokeAnimationEvent()
+    {
+        for (int i = 0; i < ShotPoint.shootModes.Count; i++)
+        {
+            ShootSystem.shootParam p = ShotPoint.shootModes[i];
+            p.target = fsmManager.player.gameObject;
+            ShotPoint.shootModes[i] = p;
+        }
+        base.invokeAnimationEvent();
+       // Debug.Log("");
     }
 
 }
