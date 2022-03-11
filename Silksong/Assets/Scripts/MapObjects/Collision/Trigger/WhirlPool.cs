@@ -1,19 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class PortalTransition : SceneTransitionPoint
+/// <summary>
+/// 漩涡 主动卷入玩家的传送触发器
+/// </summary>作者：Nothing
+public class WhirlPool : SceneTransitionPoint
 {
     private bool canTrans;
-    public GameObject TransitionPoint;
-    private GameObject player;
+    public int cnt = 1;
 
     void Update()
     {
         if (canTrans)
         {
-            enterEvent();       //切换到指定场景
-            //player移动到指定位置
+            enterEvent();       //移动到指定场景出口
+            cnt = 0;
         }
     }
 
@@ -21,8 +20,8 @@ public class PortalTransition : SceneTransitionPoint
     {
         if (other.CompareTag("Player"))
         {
+            //TODO:玩家被卷入动画
             canTrans = true;
-            player = other.gameObject;
         }
     }
     void OnTriggerExit2D(Collider2D other)
@@ -30,6 +29,7 @@ public class PortalTransition : SceneTransitionPoint
         if (other.CompareTag("Player"))
         {
             canTrans = false;
+            cnt = 1;
         }
     }
 }
