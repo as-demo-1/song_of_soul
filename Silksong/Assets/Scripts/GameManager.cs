@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject gamingUI;
 
+    public GameObject mapPack;
+
 
     void Awake()
     {
@@ -54,7 +56,8 @@ public class GameManager : MonoBehaviour
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
 
-
+        mapPack = Instantiate(mapPack);
+        DontDestroyOnLoad(mapPack);
 
     }
 

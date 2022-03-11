@@ -32,6 +32,10 @@ public class PlayerInput : InputComponent
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
+    ////TODO:xbox button mapping
+    public InputButton showMap = new InputButton(KeyCode.M, XboxControllerButtons.None);
+    ////TODO:xbox button mapping
+    public InputButton quickMap = new InputButton(KeyCode.Tab, XboxControllerButtons.None);
     [HideInInspector]
 
     protected bool m_HaveControl = true;
@@ -59,6 +63,8 @@ public class PlayerInput : InputComponent
             heal,
             toCat,
             castSkill,
+            showMap,
+            quickMap
             plunge,
         });
     }
