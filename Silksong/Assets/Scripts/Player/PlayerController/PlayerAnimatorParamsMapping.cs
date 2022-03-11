@@ -61,9 +61,9 @@ public class PlayerAnimatorParamsMapping
     public int SkillReadyParamHash { get; } = Animator.StringToHash("SkillReady");
 
     public int CanPlungeParamHash { get; } = Animator.StringToHash("CanPlunge");
+
+    public int HasHeightToPlungeParamHash { get; } = Animator.StringToHash("HasHeightToPlunge");
     public int PlungeIsValidParamHash { get; } = Animator.StringToHash("PlungeIsValid");
-    public int IsPlungingParamHash { get; } = Animator.StringToHash("IsPlunging");
-    public int WillBreakGroundParamHash { get; } = Animator.StringToHash("WillBreakGround");
     public int HasWallForClimbParamHash { get; } = Animator.StringToHash("HasWallForClimb");
 
     public int CanClimbParamHash { get; } = Animator.StringToHash("CanClimb");
@@ -122,7 +122,6 @@ public class PlayerAnimatorParamsMapping
 
         m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
 
-        m_Animator.SetBool(IsPlungingParamHash, m_PlayerAnimatorStatesControl.PlayerController.playerStatesBehaviour.playerPlunge.isPlunging);
 
     }
 
