@@ -7,7 +7,7 @@ using UnityEngine;
 public enum EPlayerStatus : int
 {
     None = 0,
-    CanMove = 1,
+   // CanMove = 1,
     CanJump = 2,
     CanNormalAttack = 4,
     CanSprint = 8,
@@ -15,6 +15,9 @@ public enum EPlayerStatus : int
     CanHeal = 32,
     CanCastSkill = 64,
     CanToCat =128,
+    CanPlunge = 256,
+    CanClimbIdle=512,
+
 
 }
 
@@ -37,11 +40,13 @@ public class PlayerStatusDic
             {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
             {EPlayerStatus.CanToCat, new PlayerStatusFlag(animatorParamsMapping.CanToCatParamHas)},
             {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, playerController.gameObject.GetComponent<PlayerSkillManager>().equippingPlayerSkill.ManaCost, playerController.playerCharacter)},
+            {EPlayerStatus.CanPlunge, new PlayerStatusFlag(animatorParamsMapping.CanPlungeParamHash) },
+            {EPlayerStatus.CanClimbIdle, new PlayerStatusFlag(animatorParamsMapping.CanClimbParamHash) },
 
         };
     }
 
-    public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.Override)
+    public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.OverrideStatuFlag)
     {
         PlayerStatusFlag flag = m_StatusDic[playerStatus];
         flag.SetFlag(newFlag, calcuteFlagType);
@@ -55,8 +60,9 @@ public class PlayerStatusDic
     public class PlayerStatusFlag
     {
         protected int animatorParam;
-        public bool StatuFlag;
-        public bool BuffFlag;
+        protected bool StatuFlag;
+        protected bool BuffFlag;
+        protected bool LearnFlag;
         private bool flag;
         public virtual bool Flag 
         {
@@ -75,18 +81,22 @@ public class PlayerStatusDic
         {
             animatorParam = param;
             BuffFlag = true;
+            LearnFlag = true;
         }
 
         public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType)
         {
             switch (setFlagType)
             {
-                case WayOfChangingFlag.Override:
+                case WayOfChangingFlag.OverrideStatuFlag:
                     StatuFlag = newFlag;
                     break;
 
-                case WayOfChangingFlag.OverrideBuffFlags:
+                case WayOfChangingFlag.OverrideBuffFlag:
                     BuffFlag = newFlag;
+                    break;
+                case WayOfChangingFlag.OverrideLearnFlag:
+                    LearnFlag = newFlag;
                     break;
                 default:
                     break;
@@ -96,15 +106,15 @@ public class PlayerStatusDic
         }
         protected virtual void calcuteFlag()
         {
-            Flag = BuffFlag & StatuFlag;
+            Flag = BuffFlag & StatuFlag &LearnFlag;
 
         }          
 
         public enum WayOfChangingFlag
         {
-            Override,
-          //  AndBuffFlag,
-            OverrideBuffFlags,
+            OverrideStatuFlag,
+            OverrideBuffFlag,
+            OverrideLearnFlag,
         }
 
     }
@@ -121,7 +131,7 @@ public class PlayerStatusDic
 
         protected override void calcuteFlag()
         {
-            Flag = BuffFlag & StatuFlag & manaIsEnough;
+            Flag = BuffFlag & StatuFlag & manaIsEnough & LearnFlag;
         }
 
         protected void calcuteMana(PlayerCharacter playerCharacter)
