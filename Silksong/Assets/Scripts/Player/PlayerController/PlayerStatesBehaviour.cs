@@ -634,8 +634,7 @@ public class PlayerPlunge : PlayerAction
 {
     public PlayerPlunge(PlayerController playerController) : base(playerController) { }
 
-    public bool isPlunging;
-    public bool isBreakingGround;
+    // public bool isBreakingGround;
 
     private float plungeStartPositionY;
     private float plungeDistance;
@@ -649,12 +648,13 @@ public class PlayerPlunge : PlayerAction
         // Debug.Log("start plunging");
 
         // 竖直下落
-        playerController.setRigidVelocity(Vector2.zero);
-        playerController.setRigidGravityScale(1.2f);    // 待调整
+        // playerController.setRigidVelocity(Vector2.zero);
+        playerController.setRigidGravityScale(0f);
+        playerController.setRigidVelocity(new Vector2(0, -1 * playerController.playerInfo.plungeSpeed));
+
         playerController.gravityLock = true;
 
-        isPlunging = true;
-        isBreakingGround = false;
+        // isBreakingGround = false;
         plungeStrength = 0;
 
         plungeDistance = 0.0f;
@@ -683,7 +683,6 @@ public class PlayerPlunge : PlayerAction
 
     public void PlungeEnd()
     {
-        isPlunging = false;
 
         playerController.gravityLock = false;
         playerController.setRigidGravityScaleToNormal();
