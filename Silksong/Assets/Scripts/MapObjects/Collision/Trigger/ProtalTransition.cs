@@ -13,6 +13,7 @@ public class ProtalTransition : SceneTransitionPoint
         if (canTrans)
         {
             enterEvent();       //切换到指定场景
+            
             //player移动到指定位置
         }
     }
