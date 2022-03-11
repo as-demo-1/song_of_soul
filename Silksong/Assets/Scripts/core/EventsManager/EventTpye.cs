@@ -9,7 +9,7 @@ public enum EventType
 
     //Enemy Behavious
     onEnemyHitWall,
-
+    onItemChange,
     onMoneyChange,
 }
 

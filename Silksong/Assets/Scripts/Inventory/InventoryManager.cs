@@ -6,7 +6,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
 
-	[SerializeField] private InventorySO _currentInventory = default;
+	[SerializeField] public InventorySO _currentInventory = default;
 	[SerializeField] private SaveSystem _saveSystem;
 	
 	public void AddItem(ItemSO item)
