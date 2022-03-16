@@ -634,14 +634,10 @@ public class PlayerPlunge : PlayerAction
 {
     public PlayerPlunge(PlayerController playerController) : base(playerController) { }
 
-    public bool isPlunging;
-    public bool isBreakingGround;
-
     private float plungeStartPositionY;
     private float plungeDistance;
 
     public int plungeStrength;
-
 
 
     public void PlungeStart()
@@ -649,12 +645,11 @@ public class PlayerPlunge : PlayerAction
         // Debug.Log("start plunging");
 
         // 竖直下落
-        playerController.setRigidVelocity(Vector2.zero);
-        playerController.setRigidGravityScale(1.2f);    // 待调整
+        playerController.setRigidGravityScale(0f);
         playerController.gravityLock = true;
+        playerController.setRigidVelocity(new Vector2(0, -1 * playerController.playerInfo.plungeSpeed));
 
-        isPlunging = true;
-        isBreakingGround = false;
+
         plungeStrength = 0;
 
         plungeDistance = 0.0f;
@@ -670,26 +665,23 @@ public class PlayerPlunge : PlayerAction
         int i = plungeStrength;
         while (i < playerController.plungeStrengthArr.Length - 1 && plungeDistance > playerController.plungeStrengthArr[i + 1])
         {
-            Debug.Log(plungeStrength);
+            // Debug.Log(plungeStrength);
             i++;
         }
         plungeStrength = i;
 
-        // Plunging end
-
-        // 更新 WillBreakGroundParamHash
+        // 在 DestructiblePlatform 组件更新 willBreakGround，在此更新animator param
+        // playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.WillBreakGroundParamHash, willBreakGround);
 
     }
 
     public void PlungeEnd()
     {
-        isPlunging = false;
 
         playerController.gravityLock = false;
         playerController.setRigidGravityScaleToNormal();
 
-        Debug.Log("Landed! Plunge strength:" + plungeStrength);
-
+        Debug.Log("Landed! Plunge strength:" + plungeStrength + "Distance:" + plungeDistance);
     }
 
 }

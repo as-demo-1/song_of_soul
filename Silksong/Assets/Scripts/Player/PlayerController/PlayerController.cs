@@ -31,6 +31,9 @@ public struct PlayerInfo
     //swim
     public float swimSpeed;
 
+    // plunge
+    public float plungeSpeed;
+
     public void init(PlayerController playerController)
     {
         this.playerController = playerController;
@@ -109,7 +112,7 @@ public class PlayerController : MonoBehaviour
     // plunge
     public float[] plungeStrengthArr = { 0.0f, 1.0f, 3.0f };  // plunge经过了PlungeStrength[i]的距离，达到强度级别i。可配置
 
-    public float canPlungeDistance = 3.0f;  // 在多高可以使用plunge。可配置
+    public float canPlungeHeight = 3.0f;  // 离地多远可以使用plunge。可配置
 
     [DisplayOnly]
     public float distanceToGround = -1.0f;  // 距离下方Groud距离
@@ -255,6 +258,7 @@ public class PlayerController : MonoBehaviour
         playerToCat.catUpdate();
 
         CalDistanceToGround(); // 计算离地距离
+        CheckHasHeightToPlunge();
 
 
     }
@@ -456,13 +460,15 @@ public class PlayerController : MonoBehaviour
         }
 
         // Debug.Log(distanceToGround);
-        if (distanceToGround > canPlungeDistance)
-        {
-            PlayerAnimator.SetBool(animatorParamsMapping.CanPlungeParamHash, true);
+
+    }
+
+    public void CheckHasHeightToPlunge() {
+        if (distanceToGround > canPlungeHeight) {
+            PlayerAnimator.SetBool(animatorParamsMapping.HasHeightToPlungeParamHash, true);
         }
-        else
-        {
-            PlayerAnimator.SetBool(animatorParamsMapping.CanPlungeParamHash, false);
+        else {
+            PlayerAnimator.SetBool(animatorParamsMapping.HasHeightToPlungeParamHash, false);
         }
 
     }
