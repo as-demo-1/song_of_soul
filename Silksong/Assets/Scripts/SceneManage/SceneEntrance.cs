@@ -9,7 +9,7 @@ public class SceneEntrance : MonoBehaviour
     public bool EntranceFaceLeft;
     public enum EntranceTag//标号区分,不够可以增加
     {
-        A, B, C, D, E, F, G,
+        A, B, C, D, E, F, G, H, I, J, K, L, M, N, X, Y ,Z,
     }
 
     public EntranceTag destinationTag;
