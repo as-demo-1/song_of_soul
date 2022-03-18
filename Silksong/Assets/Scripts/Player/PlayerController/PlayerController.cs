@@ -377,7 +377,12 @@ public class PlayerController : MonoBehaviour
 
     public void die(DamagerBase damager, DamageableBase damable)
     {
-        PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas, true);
+       // PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas, true);
+
+        GameObjectTeleporter.playerReborn();//reborn player for test, will be delete 
+        HpDamable HPdamable = GetComponent<HpDamable>();
+        HPdamable.setCurrentHp(playerCharacter.MaxHp);
+
     }
 
     public void CheckUnderWater()
