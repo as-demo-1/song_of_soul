@@ -260,7 +260,10 @@ public class PlayerController : MonoBehaviour
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
 
-
+        if(Input.GetKeyDown(KeyCode.P))//reborn player for test,will be delete
+        {
+            die(null,null);
+        }
     }
 
     private void LateUpdate()
