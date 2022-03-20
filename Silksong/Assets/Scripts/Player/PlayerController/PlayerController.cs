@@ -94,15 +94,20 @@ public class PlayerController : MonoBehaviour
 
     public Transform m_Transform { get; set; }
     [SerializeField] private LayerMask underwaterLayerMask;
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public BoxCollider2D boxCollider;
 
     private PlayerGroundedCheck playerGroundedCheck;
 
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public PlayerToCat playerToCat;
-
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public bool gravityLock;//为ture时，不允许gravityScale改变
     public bool IsUnderWater;
 
@@ -114,7 +119,9 @@ public class PlayerController : MonoBehaviour
 
     public float canPlungeHeight = 3.0f;  // 离地多远可以使用plunge。可配置
 
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public float distanceToGround = -1.0f;  // 距离下方Groud距离
 
     //Teleport
@@ -260,7 +267,10 @@ public class PlayerController : MonoBehaviour
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
 
-
+        if(Input.GetKeyDown(KeyCode.P))//reborn player for test,will be delete
+        {
+            die(null,null);
+        }
     }
 
     private void LateUpdate()

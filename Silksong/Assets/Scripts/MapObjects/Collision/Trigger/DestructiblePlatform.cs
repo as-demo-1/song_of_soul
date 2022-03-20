@@ -13,7 +13,9 @@ public class DestructiblePlatform : MonoBehaviour
     public int strengthToBreak;
 
 
-    [DisplayOnly]
+#if UNITY_EDITOR 
+    [DisplayOnly] 
+#endif
     public int playerPlungeStrength;
 
     protected void Start() {

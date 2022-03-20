@@ -5,7 +5,9 @@ using UnityEngine;
 public class WaitTimeTrigger : EnemyFSMBaseTrigger
 {
     public float maxTime;
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public float timer;
 
     public WaitTimeTrigger():base()
