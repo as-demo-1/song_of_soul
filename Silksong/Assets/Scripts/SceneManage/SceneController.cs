@@ -51,12 +51,13 @@ public class SceneController : MonoBehaviour
     public static void TransitionToScene(SceneTransitionPoint transitionPoint)
     {
         Instance.StartCoroutine(Instance.Transition(transitionPoint.newSceneName, transitionPoint.entranceTag, transitionPoint.resetInputValuesOnTransition));
+
     }
 
-   /* public static void TransitionToScene(string SceneName,bool resetInputValuesOnTransition)//从菜单到游戏场景用 暂不用
-    {
-        Instance.StartCoroutine(Instance.Transition(SceneName, SceneEntrance.EntranceTag.A, resetInputValuesOnTransition));
-    }*/
+    /* public static void TransitionToScene(string SceneName,bool resetInputValuesOnTransition)//从菜单到游戏场景用 暂不用
+     {
+         Instance.StartCoroutine(Instance.Transition(SceneName, SceneEntrance.EntranceTag.A, resetInputValuesOnTransition));
+     }*/
 
 
     protected IEnumerator Transition(string newSceneName, SceneEntrance.EntranceTag destinationTag, bool resetInputValues)
