@@ -11,6 +11,7 @@ public enum EventType
     onEnemyHitWall,
 
     onMoneyChange,
+    onKeyChange,//
 }
 
 public class EventDate
