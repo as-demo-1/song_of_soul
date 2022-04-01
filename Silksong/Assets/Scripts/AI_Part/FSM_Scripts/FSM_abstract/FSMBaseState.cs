@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 /// <typeparam name="T1">必须是枚举类型！！且为State枚举。</typeparam>
 /// <typeparam name="T2">必须是枚举类型！！且为Trigger枚举。</typeparam>
 [Serializable]
-public  class FSMBaseState<T1,T2>
+public  class FSMBaseState<T1,T2> 
 {
     //protected FSMManager<T1,T2> fsmManager;
     [DisplayOnly]
@@ -18,43 +18,10 @@ public  class FSMBaseState<T1,T2>
     [NonSerialized]
     public List<FSMBaseTrigger<T1,T2>> triggers = new List<FSMBaseTrigger<T1,T2>>();
 
-    public void ClearTriggers()
-    {
-        triggers.Clear();
-    }
-    public FSMBaseState()
-    {
-        //InitState();
-    }
-
     /// <summary>
     /// 状态初始化
     /// </summary>
     public virtual void InitState(FSMManager<T1,T2> fSMManager) { }
-
-
-
-    //public void AddTriggers(T2 triggerType,T1 targetState) 
-    //{
-    //    //Debug.Log(triggerType);
-
-    //    Type type = Type.GetType(triggerType.ToString());
-    //    if (type == null)
-    //    {
-    //        Debug.LogError(triggerType + "无法添加到" + stateType + "的triggers列表");
-    //        Debug.LogError("未找到对应的Trigger，检查该Trigger的类名是否与枚举名保持一致。");
-    //    }
-    //    else 
-    //    {
-    //        triggers.Add(Activator.CreateInstance(type) as FSMBaseTrigger<T1,T2>);
-    //        triggers[triggers.Count - 1].targetState = targetState;
-    //    }
-    //}
-    public void AddTriggers(FSMBaseTrigger<T1,T2> trigger)
-    {
-        triggers.Add(trigger);
-    }
-
 
     /// <summary>
     /// 进入状态时调用
@@ -70,31 +37,160 @@ public  class FSMBaseState<T1,T2>
     /// 状态持续及刷新
     /// </summary>
     public virtual void Act_State(FSMManager<T1,T2> fSM_Manager) { }
-
-    public virtual void FixAct_State(FSMManager<T1, T2> fSM_Manager) { }
     /// <summary>
-    /// 遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// Acting in fixUpdate 
     /// </summary>
-    public virtual void TriggerState(FSMManager<T1,T2> fsm_Manager)
+    public virtual void FixAct_State(FSMManager<T1, T2> fSM_Manager) { }
+
+    #region Colider Event
+    /// <summary>
+    /// invoke when TriggerEnter2D
+    /// </summary>
+    /// 
+    public virtual void OnTriggerEnter2D(FSMManager<T1, T2> fSM_Manager,Collider2D collision) { }
+    public virtual void OnTriggerStay2D(FSMManager<T1, T2> fSM_Manager,Collider2D collision) { }
+    public virtual void OnTriggerExit2D(FSMManager<T1, T2> fSM_Manager, Collider2D collision) { }
+
+    /// <summary>
+    /// invoke when ColiderEnter2D
+    /// </summary>
+    public virtual void OnCollisionEnter2D(FSMManager<T1, T2> fSM_Manager, Collision2D collision) { }
+    public virtual void OnCollisionExit2D(FSMManager<T1, T2> fSM_Manager, Collision2D collision) { }
+    public virtual void OnCollisionStay2D(FSMManager<T1, T2> fSM_Manager, Collision2D collision) { }
+    #endregion
+
+    #region TriggerInvoke
+    /// <summary>
+    /// 在Update中遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// </summary>
+    public virtual void TriggerStateInUpdate(FSMManager<T1,T2> fsm_Manager)
     {
         for (int i = 0; i < triggers.Count; i++)
         {
-            if (triggers[i].IsTriggerReach(fsm_Manager))
+            if (triggers[i].IsTriggerReachInUpdate(fsm_Manager))
             {
-               // Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
         }
     }
+    /// <summary>
+    /// 在FixUpdate中遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// </summary>
+    public virtual void TriggerStateInFixUpdate(FSMManager<T1, T2> fsm_Manager)
+    {
+        for (int i = 0; i < triggers.Count; i++)
+        {
+            if (triggers[i].IsTriggerReachInFixUpdate(fsm_Manager))
+            {
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
+            }
+        }
+    }
+    /// <summary>
+    /// 在OnColliderEnter中遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// </summary>
+    public virtual void TriggerStateOnCollisionEnter(FSMManager<T1, T2> fsm_Manager,Collision2D collision)
+    {
+        for (int i = 0; i < triggers.Count; i++)
+        {
+            if (triggers[i].IsTriggerReachOnCollisionEnter(fsm_Manager,collision))
+            {
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
+            }
+        }
+    }
+    /// <summary>
+    /// 在OnColliderExit中遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// </summary>
+    public virtual void TriggerStateOnCollisionExit(FSMManager<T1, T2> fsm_Manager, Collision2D collision)
+    {
+        for (int i = 0; i < triggers.Count; i++)
+        {
+            if (triggers[i].IsTriggerReachOnCollisionExit(fsm_Manager, collision))
+            {
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
+            }
+        }
+    }
+    /// <summary>
+    /// 在OnColliderStay中遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// </summary>
+    public virtual void TriggerStateOnCollisionStay(FSMManager<T1, T2> fsm_Manager, Collision2D collision)
+    {
+        for (int i = 0; i < triggers.Count; i++)
+        {
+            if (triggers[i].IsTriggerReachOnCollisionStay(fsm_Manager, collision))
+            {
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
+            }
+        }
+    }
+    /// <summary>
+    /// 在OnTriggerEnter中遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// </summary>
+    public virtual void TriggerStateOnTriggerEnter(FSMManager<T1, T2> fsm_Manager, Collider2D collision)
+    {
+        for (int i = 0; i < triggers.Count; i++)
+        {
+            if (triggers[i].IsTriggerReachOnTriggerEnter(fsm_Manager, collision))
+            {
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
+            }
+        }
+    }
+    /// <summary>
+    /// 在OnTriggerExit中遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// </summary>
+    public virtual void TriggerStateOnTriggerExit(FSMManager<T1, T2> fsm_Manager, Collider2D collision)
+    {
+        for (int i = 0; i < triggers.Count; i++)
+        {
+            if (triggers[i].IsTriggerReachOnTriggerExit(fsm_Manager, collision))
+            {
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
+            }
+        }
+    }
+    /// <summary>
+    /// 在OnTriggerStay中遍历Trigger并跳转到满足条件的对应trigger所指向的状态。
+    /// </summary>
+    public virtual void TriggerStateOnTriggerStay(FSMManager<T1, T2> fsm_Manager, Collider2D collision)
+    {
+        for (int i = 0; i < triggers.Count; i++)
+        {
+            if (triggers[i].IsTriggerReachOnTriggerStay(fsm_Manager, collision))
+            {
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                fsm_Manager.ChangeState(triggers[i].targetState);
+                break;
+            }
+        }
+    }
+    #endregion
 }
 
 
 public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers> 
 {
-    protected EnemyFSMManager fsmManager;
+    [NonSerialized]
+    public  EnemyFSMManager fsmManager;
     public string defaultAnimationName;
-    public UnityEvent animationEvents;
+    [NonSerialized]
+    public UnityEvent animationEvents=new UnityEvent();
     //对一些触发函数进行二次封装
     //////////////////////////////////////////////////////////////////////////////////////////
     public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
@@ -131,6 +227,49 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
         FixAct_State(fSM_Manager as EnemyFSMManager);
     }
     public virtual void FixAct_State(EnemyFSMManager enemyFSM) { }
+    #region Colider Events
+    public override void OnCollisionStay2D(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager, Collision2D collision)
+    {
+        base.OnCollisionStay2D(fSM_Manager, collision);
+        OnCollisionStay2D(fSM_Manager as EnemyFSMManager, collision);
+    }
+    public virtual void OnCollisionStay2D(EnemyFSMManager enemyFSM,Collision2D collision) { }
+
+    public override void OnCollisionEnter2D(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager, Collision2D collision)
+    {
+        base.OnCollisionEnter2D(fSM_Manager, collision);
+        OnCollisionEnter2D(fSM_Manager as EnemyFSMManager, collision);
+    }
+    public virtual void OnCollisionEnter2D(EnemyFSMManager enemyFSM, Collision2D collision) { }
+
+    public override void OnCollisionExit2D(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager, Collision2D collision)
+    {
+        base.OnCollisionExit2D(fSM_Manager, collision);
+        OnCollisionExit2D(fSM_Manager as EnemyFSMManager, collision);
+    }
+    public virtual void OnCollisionExit2D(EnemyFSMManager enemyFSM, Collision2D collision) { }
+
+    public override void OnTriggerEnter2D(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager, Collider2D collision)
+    {
+        base.OnTriggerEnter2D(fSM_Manager, collision);
+        OnTriggerEnter2D(fSM_Manager as EnemyFSMManager, collision);
+    }
+    public virtual void OnTriggerEnter2D(EnemyFSMManager enemyFSM, Collider2D collision) { }
+
+    public override void OnTriggerExit2D(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager, Collider2D collision)
+    {
+        base.OnTriggerExit2D(fSM_Manager, collision);
+        OnTriggerExit2D(fSM_Manager as EnemyFSMManager, collision);
+    }
+    public virtual void OnTriggerExit2D(EnemyFSMManager enemyFSM, Collider2D collision) { }
+
+    public override void OnTriggerStay2D(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager, Collider2D collision)
+    {
+        base.OnTriggerStay2D(fSM_Manager, collision);
+        OnTriggerStay2D(fSM_Manager as EnemyFSMManager, collision);
+    }
+    public virtual void OnTriggerStay2D(EnemyFSMManager enemyFSM, Collider2D collision) { }
+    #endregion
     public override void ExitState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
 
@@ -143,9 +282,9 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
     {
         for (int i = 0; i < triggers.Count; i++)
         {
-            if (triggers[i].IsTriggerReach(fsm_Manager.fsmManager))
+            if (triggers[i].IsTriggerReachInUpdate(fsm_Manager.fsmManager))
             {
-                Debug.Log(triggers[i]+"     "+ triggers[i].targetState);
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }

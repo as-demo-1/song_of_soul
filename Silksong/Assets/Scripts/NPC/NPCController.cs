@@ -2,95 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+
+public enum NPCStatus
+{
+    IDLE,
+    START_RUN,
+    RUN,
+    END_RUN,
+}
 
 public class NPCController : MonoBehaviour
 {
-    private GameObject m_dialog;
-    private GameObject m_container;
-    private Text m_text;
+    private NPCStatus _status = NPCStatus.IDLE;
+    private UnityAction _callback;
+    private int _times = 30;
 
-    public InteractiveSO InteractiveItem;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_dialog = FindUI("Tip");
-        m_container = FindUI("Tip/Container");
-        m_text = FindUI("Tip/Container/Text").GetComponent<Text>();
-    }
-#if UNITY_EDITOR
     void Update()
     {
-        InteractiveItem.SetCoord(transform.position);
-    }
-#endif
-
-    private GameObject FindUI(string path)
-    {
-        return gameObject.transform.Find(path).gameObject;
-    }
-
-    private void CheckTriggerState(EInteractiveItemType itemType, bool isEnter)
-    {
-        switch (itemType)
+        switch (_status)
         {
-            // 对话框事件
-            case EInteractiveItemType.DIALOG:
-                DialogInteract.Instance.IsOnTrigger = isEnter;
-                DialogInteract.Instance.TriggerItemType = itemType;
-                DialogInteract.Instance.DialogPos = GetCoord((InteractiveItem as NPCSO).TalkCoord);
-                DialogInteract.Instance.NPCID = InteractiveItem.ID;
+            case NPCStatus.IDLE:
                 break;
-            // 普通事件
-            case EInteractiveItemType.NONE:
-            case EInteractiveItemType.FULLWINDOW:
-            case EInteractiveItemType.JUDGE:
-                NormaInteract.Instance.IsOnTrigger = isEnter;
-                NormaInteract.Instance.TriggerItemType = itemType;
+            case NPCStatus.START_RUN:
+                _status = NPCStatus.RUN;
+                break;
+            case NPCStatus.RUN:
+                --_times;
+                //RunFn();
+                if (_times == 0)
+                {
+                    _callback();
+                    _status = NPCStatus.END_RUN;
+                }
+                break;
+            case NPCStatus.END_RUN:
+                _status = NPCStatus.IDLE;
+                _times = 30;
                 break;
             default:
                 break;
         }
     }
 
-    private Vector3 GetCoord(Vector3 coord)
+    /*public void RunFn()
     {
-        return transform.position + coord;
+        Vector3 tmpPos = transform.position;
+        tmpPos.x -= 1;
+        transform.position = tmpPos;
     }
 
-    private void ToggleContent(bool isEnter)
+    public void Run(UnityAction callback)
     {
-        // todo:
-        // --最好有动画
-        m_dialog.SetActive(isEnter);
-    }
-
-    private void ToggleContent(string content, bool isEnter)
-    {
-        // 如果需要切换文字的话
-
-        m_dialog.SetActive(isEnter);
-        m_text.text = content;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            m_text.text = InteractiveItem.Content;
-            CheckTriggerState(InteractiveItem.ItemType, true);
-            ToggleContent(true);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Player")
-        {
-            CheckTriggerState(InteractiveItem.ItemType, false);
-            ToggleContent(false);
-            m_container.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        }
-    }
+        _callback = callback;
+        _status = NPCStatus.START_RUN;
+    }*/
 }
+
+

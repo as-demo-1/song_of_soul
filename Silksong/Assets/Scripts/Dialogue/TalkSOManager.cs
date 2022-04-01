@@ -1,28 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class TalkSOManager : MonoBehaviour
+public class TalkSOManager:MonoBehaviour
 {
-    public List<DialogueSectionSO> DialogueSectionList;
-    public List<DialogueStatusSO> DialogueStatusList;
-    public List<DialogueSO> DialogueList;
+    /*public static List<DialogueSectionSO> DialogueSectionList;
+    public static List<DialogueStatusSO> DialogueStatusList;
+    public static List<DialogueSO> DialogueList;*/
+
+    public List<DialogueSectionSO> DialogueSectionListInstance = new List<DialogueSectionSO>();
+    public List<DialogueStatusSO> DialogueStatusListInstance = new List<DialogueStatusSO>();
+    public List<DialogueSO> DialogueListInstance = new List<DialogueSO>();
+
+    //public DialogueContainerSO Container;
 
     private static TalkSOManager _instance;
     public static TalkSOManager Instance => _instance;
 
     private string FilePath;
 
-    // Start is called before the first frame update
     public void Awake()
     {
         _instance = this;
-    }
+        //Debug.Log(TalkSOManager.Instance.DialogueSectionListInstance);
+        ExcelLoad.ReadExcelStream();
+        DialogueSO.MultyCreateSO();
+        DialogueStatusSO.CreateStatusSO();
+        DialogueSectionSO.CreateSectionSO();
+        ExcelLoad.Load();
+        }
 
-    private void OnEnable()
+    // Start is called before the first frame update
+    /*[MenuItem("Dialogue/Awakelist/Awake",false,1)]
+    public static void AwakeList()
     {
-        FilePath = Application.dataPath + "/Resources/AllDialogue.xlsx";
-        ExcelLoad.ReadExcelStream(FilePath);
-    }
+        DialogueList = new List<DialogueSO>();
+        DialogueSectionList = new List<DialogueSectionSO>();
+        DialogueStatusList = new List<DialogueStatusSO>();
+
+        Instance = new TalkSOManager();
+    
+    }*/
 
 }

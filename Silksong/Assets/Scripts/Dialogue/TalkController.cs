@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TalkController : MonoBehaviour
@@ -10,8 +11,8 @@ public class TalkController : MonoBehaviour
     private GameObject TalkPanel;
     private Text NPCText;
     private Text NPCName;
-    private int _id = 0; 
-    private static int num = 0; //作为剧情对话到第几段对话的指示器
+    private int _id = 0;
+    private static int num = 1; //作为对话到第几段对话的指示器
     private static int i = 0;
     private static int gnum = 0; //作为闲聊对话到第几段对话的指示器，默认从第一段闲聊对话开始
 
@@ -55,7 +56,7 @@ public class TalkController : MonoBehaviour
         {
             TalkConditionState.money += 10;
             Text txt = FindUI("Test/money/Text").GetComponent<Text>();
-            txt.text = "当前金币："+ TalkConditionState.money + " ，点击增加";
+            txt.text = "当前金币：" + TalkConditionState.money + " ，点击增加";
         });
         UIAddListener("Test/lock", () =>
         {
@@ -84,25 +85,13 @@ public class TalkController : MonoBehaviour
         return _UI_trans.Find(path).gameObject;
     }
 
-    public void StartTalk(int NPCID)
+    public void StartTalk(int NPCID, UnityAction callback)
     {
         TalkPanel.SetActive(true);
-
-        /*foreach (int key in TalkManager.Instance.NPCAllGossip[NPCID].Keys)
+        //Debug.Log(NPCID);
+        if (!TalkManager.Instance.NPCAllContent.ContainsKey(NPCID) || num >= TalkManager.Instance.NPCAllContent[NPCID].Count)
         {
-            Debug.Log(key);
-        }
-        
-        foreach (int keys in TalkManager.Instance.gossipRand[NPCID])
-        {
-            Debug.Log(keys);
-        }*/
 
-
-        //已经过完剧情对话了，播放闲聊对话,或者没有剧情对话
-        if (!TalkManager.Instance.NPCAllContent.ContainsKey(NPCID) || num >= TalkManager.Instance.NPCAllContent[NPCID].Count) 
-        {
-            
 
 
             if (i < TalkManager.Instance.NPCAllGossip[NPCID][TalkManager.Instance.gossipRand[NPCID][gnum]].Count)
@@ -116,7 +105,7 @@ public class TalkController : MonoBehaviour
                 gnum = Random.Range(0, TalkManager.Instance.NPCAllGossip[NPCID].Count);
                 i = 0;
                 TalkPanel.SetActive(false);
-                DialogInteract.Instance.ContinueEvent();
+                callback();
 
             }
             _id = 0;
@@ -142,7 +131,7 @@ public class TalkController : MonoBehaviour
                     i = 0;
                     num += 1;
                     TalkPanel.SetActive(false);
-                    DialogInteract.Instance.ContinueEvent();
+                    callback();
                 }
             }
             else
@@ -172,7 +161,7 @@ public class TalkController : MonoBehaviour
                         gnum = Random.Range(0, TalkManager.Instance.NPCAllGossip[NPCID].Count);
                         i = 0;
                         TalkPanel.SetActive(false);
-                        DialogInteract.Instance.ContinueEvent();
+                        callback();
                     }
                 }
                 if (_id == 1)
@@ -189,33 +178,29 @@ public class TalkController : MonoBehaviour
                         num += 1;
                         i = 0;
                         TalkPanel.SetActive(false);
-                        DialogInteract.Instance.ContinueEvent();
+                        callback();
                     }
                 }
                 _id = 0;
             }
         }
     }
-    
+
 
     public void ConditionStatus()
     {
-        foreach (DialogueSO DialogueItem in TalkSOManager.Instance.DialogueList)
+        foreach (DialogueSectionSO DialogueItem in TalkSOManager.Instance.DialogueSectionListInstance)
         {
-            if (DialogueItem.StatusList.Count != 0)
+            for (int x = 0; x < DialogueItem.DialogueList.ToArray().Length; x++)
             {
-                foreach (string conditionname in DialogueItem.StatusList)
+                if (DialogueItem.DialogueList[x].StatusList.ToArray().Length != 0) //如果这段对话有条件控制，把控制这段话的条件的Name装入TalkStatus字典
                 {
-                    foreach (DialogueStatusSO DialogueStatusItem in TalkSOManager.Instance.DialogueStatusList)
+                    for (int j = 0; j < DialogueItem.DialogueStatusList.ToArray().Length; j++)
                     {
-                        if (DialogueStatusItem.ConditionName == conditionname)
-                        {
-                            TalkManager.Instance.TalkStatusJudge[conditionname] = DialogueStatusItem.Judge;
-                        }
+                        TalkManager.Instance.TalkStatusJudge[DialogueItem.DialogueStatusList[j].ConditionName] = DialogueItem.DialogueStatusList[j].Judge;
                     }
                 }
             }
-            
         }
     }
 

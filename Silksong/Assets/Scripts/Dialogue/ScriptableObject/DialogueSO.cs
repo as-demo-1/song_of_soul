@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
+using System.IO;
+using System.Data;
 
 [CreateAssetMenu(fileName = "Dialogue", menuName = "Dialogue/Dialogue")]
 public class DialogueSO : ScriptableObject
@@ -10,35 +13,40 @@ public class DialogueSO : ScriptableObject
     [SerializeField] private int _startid = default;
     [Tooltip("The end id of the dialogue")]
     [SerializeField] private int _endid = default;
-    [Tooltip("The content of the dialogue")]
-    [SerializeField] private List<string> _content = default;
     [Tooltip("The NPCID")]
     [SerializeField] private int _npcid = default;
     [Tooltip("Type of Content")]
     [SerializeField] string _type = default;
-
-    [Tooltip("控制这段对话的条件")]
-    [SerializeField] private List<string> _StatusList = default;
 
     
     public int StartID => _startid;
     public int EndID => _endid;
     public int NPCID => _npcid;
     public string Type => _type;
-    public List<string> Content => _content;
-    public List<string> StatusList => _StatusList;
+    public List<string> Content;
+    public List<string> StatusList;
 
-    public static DialogueSO CreateSO(string startID,string endID,int npcid,string type)
+    //[MenuItem("Dialogue/Create/CreateSO", false, 2)]
+    public static void MultyCreateSO()
     {
-        DialogueSO asset = ScriptableObject.CreateInstance<DialogueSO>();
-        AssetDatabase.CreateAsset(asset, "Assets/Resources/SO_objects/" + startID + "-" + endID + ".asset");
-        AssetDatabase.SaveAssets();
-        EditorUtility.FocusProjectWindow();
-        Selection.activeObject = asset;
-        asset._startid = int.Parse(startID);
-        asset._endid = int.Parse(endID);
-        asset._npcid = npcid;
-        asset._type = type;
-        return asset;
+        TalkSOManager.Instance.DialogueListInstance = new List<DialogueSO>();
+        foreach (KeyValuePair<int, int> item in ExcelLoad.SIDList)
+        {
+            if (!Directory.Exists(Application.dataPath + "/Resources/SO_Objects/" + int.Parse(item.Key.ToString()) + "-" + int.Parse(item.Value.ToString()) + ".asset"))
+            {
+                DialogueSO asset = ScriptableObject.CreateInstance<DialogueSO>();
+                AssetDatabase.CreateAsset(asset, "Assets/Resources/SO_objects/" + int.Parse(item.Key.ToString()) + "-" + int.Parse(item.Value.ToString()) + ".asset");
+                AssetDatabase.SaveAssets();
+                EditorUtility.FocusProjectWindow();
+                Selection.activeObject = asset;
+                asset._startid = int.Parse(item.Key.ToString());
+                asset._endid = int.Parse(item.Value.ToString());
+                asset._npcid = ExcelLoad.SidGetNpcID[item.Key];
+                asset._type = ExcelLoad.type[item.Key];
+                //TalkSOManager.DialogueList.Add(asset);
+                TalkSOManager.Instance.DialogueListInstance.Add(asset);
+                //Debug.Log(asset._npcid);
+            }
+        }
     }
 }

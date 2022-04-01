@@ -40,7 +40,7 @@ public class State_SO_Config<T1, T2, T3, T4> : ScriptableObject
     public Type stateType;
 
 
-    /*private void Awake()
+    private void Awake()
     {
         if (stateConfig == null && triggerConfig == null)
         {
@@ -60,7 +60,7 @@ public class State_SO_Config<T1, T2, T3, T4> : ScriptableObject
             else
                 Debug.LogError("找不到所对应的Trigger，请检查枚举名称是否与类名一致。");
         }
-    }*/
+    }
     
 }
 

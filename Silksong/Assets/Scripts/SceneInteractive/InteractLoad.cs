@@ -1,40 +1,48 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using UnityEditor;
 
 
 public class InteractLoad : MonoBehaviour
 {
+    [SerializeField]
     public InteractiveContainerSO InteractiveContainer;
     public GameObject ItemPrefab;
-    //public DialogContainerSO DialogContainer;
+    public SaveSystem SaveSystem;
+
+    public static InteractiveContainerSO InterContainer;
+
+    //public static InterContainer.InteractiveItemList InteractiveSOList = new List<InteractiveBaseSO>();
+    //public static List<InteractiveBaseSO> InteractiveSOList = InterContainer.InteractiveItemList;
+
+    //private static InteractLoad _instance;
+    public static InteractLoad Instance;
+    
 
     // Use this for initialization
     void Start()
     {
-        
-        foreach (InteractiveSO interactiveItem in InteractiveContainer.InteractiveItemList)
+        foreach (InteractiveBaseSO interactiveItem in InteractiveContainer.InteractiveItemList)
         {
-            GameObject go = Instantiate(ItemPrefab, transform);
-            go.transform.position = interactiveItem.Coord;
+            int id = interactiveItem.InteractiveID;
+            //Debug.Log("Interative");
+            interactiveItem.Init(this);
 
-            SpriteRenderer npcSprite = go.GetComponent<SpriteRenderer>();
-            NPCController npcController = go.AddComponent<NPCController>();
-            //TalkController npcTalkController = go.AddComponent<TalkController>();
-
-
-            foreach (DialogueSectionSO DialogueItem in TalkSOManager.Instance.DialogueSectionList)
+            foreach (DialogueSectionSO DialogueItem in TalkSOManager.Instance.DialogueSectionListInstance)
             {
+                //Debug.Log(id);
                 int i = 0;//每添加一次闲聊对话这个i+1
-                if (DialogueItem.NPCID == interactiveItem.ID)
+                if (DialogueItem.NPCID == id)
                 {
-                    TalkManager.Instance.NPCAllContent[interactiveItem.ID] = new Dictionary<int, List<string>>();
-                    TalkManager.Instance.Name[interactiveItem.ID] = DialogueItem.NPCName;
-                    TalkManager.Instance.NPCAllCondition[interactiveItem.ID] = new Dictionary<int, string>();
-                    TalkManager.Instance.NPCAllGossip[interactiveItem.ID] = new Dictionary<int, List<string>>();
-                    TalkManager.Instance.gossipRand[interactiveItem.ID] = new List<int>();
+                    TalkManager.Instance.NPCAllContent[DialogueItem.NPCID] = new Dictionary<int, List<string>>();
+                    TalkManager.Instance.Name[DialogueItem.NPCID] = DialogueItem.NPCName;
+                    TalkManager.Instance.NPCAllCondition[DialogueItem.NPCID] = new Dictionary<int, string>();
+                    TalkManager.Instance.NPCAllGossip[DialogueItem.NPCID] = new Dictionary<int, List<string>>();
+                    TalkManager.Instance.gossipRand[DialogueItem.NPCID] = new List<int>();
 
-                    for (int num = 0; num < DialogueItem.DialogueList.Count; num++) //存储对话内容
+                    for (int num = 0; num < DialogueItem.DialogueList.ToArray().Length; num++) //存储对话内容
                     {
                         List<string> TalkContent = new List<string>();
                         for (int j = 0; j < DialogueItem.DialogueList[num].Content.ToArray().Length; j++)
@@ -43,12 +51,12 @@ public class InteractLoad : MonoBehaviour
                         }
                         if (DialogueItem.DialogueList[num].Type.Equals("plot"))
                         {
-                            TalkManager.Instance.NPCAllContent[interactiveItem.ID][num-i] = TalkContent;
+                            TalkManager.Instance.NPCAllContent[DialogueItem.NPCID][num - i] = TalkContent;
                         }
                         else
                         {
-                            TalkManager.Instance.NPCAllGossip[interactiveItem.ID][i] = TalkContent;
-                            TalkManager.Instance.gossipRand[interactiveItem.ID].Add(i);
+                            TalkManager.Instance.NPCAllGossip[DialogueItem.NPCID][i] = TalkContent;
+                            TalkManager.Instance.gossipRand[DialogueItem.NPCID].Add(i);
                             i += 1;
                         }
                     }
@@ -60,7 +68,7 @@ public class InteractLoad : MonoBehaviour
                         {
                             for (int j = 0; j < DialogueItem.DialogueStatusList.ToArray().Length; j++)
                             {
-                                TalkManager.Instance.NPCAllCondition[interactiveItem.ID][num] = DialogueItem.DialogueList[num].StatusList[j];
+                                TalkManager.Instance.NPCAllCondition[DialogueItem.NPCID][num] = DialogueItem.DialogueList[num].StatusList[j];
                                 //如果字典里还没有这个条件则写入，默认未达成
                                 if (!TalkManager.Instance.TalkStatusJudge.ContainsKey(DialogueItem.DialogueStatusList[j].ConditionName))
                                 {
@@ -69,15 +77,10 @@ public class InteractLoad : MonoBehaviour
                             }
                         }
                     }
+
                     //把条件的Name和是否达成装入TalkManager的TalkStatusJudge，这里装，改变条件在别的地方改变
                 }
-                
             }
-            npcSprite.sprite = interactiveItem.Icon;
-            npcSprite.flipX = !interactiveItem.IsFaceRight;
-            npcController.InteractiveItem = interactiveItem;
-            //Debug.Log(npcTalkController.DialogueSection);
-            //TalkManager.Instance.NPCAllCondition[interactiveItem.ID] = TalkManager.Instance.TalkStatus;
         }
     }
 }

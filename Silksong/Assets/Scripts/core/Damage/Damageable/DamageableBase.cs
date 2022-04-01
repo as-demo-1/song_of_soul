@@ -28,7 +28,6 @@ public abstract class DamageableBase : MonoBehaviour
 
     public SfxSO takeDamageSfxSO;
 
-    protected ContactPoint2D[] points = new ContactPoint2D[5];
 
     protected virtual void Awake()//在awake时检测刚体 完成设定
     {

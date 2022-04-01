@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
+using System.Data;
 
 [CreateAssetMenu(fileName = "DialogueStatus", menuName = "Dialogue/DialogueStatus")]
 public class DialogueStatusSO : ScriptableObject
@@ -14,16 +16,30 @@ public class DialogueStatusSO : ScriptableObject
     public bool Judge => _judge;
     public string ConditionName => _conditionname;
 
-    public static DialogueStatusSO CreateStatusSO(string conditionname, bool judge)
+    //[MenuItem("Dialogue/Create/CreateStatusSO", false, 2)]
+    public static void CreateStatusSO()
     {
-        DialogueStatusSO asset = ScriptableObject.CreateInstance<DialogueStatusSO>();
-        AssetDatabase.CreateAsset(asset, "Assets/Resources/SO_Status/" + conditionname + ".asset");
-        AssetDatabase.SaveAssets();
-        EditorUtility.FocusProjectWindow();
-        Selection.activeObject = asset;
-        asset._conditionname = conditionname;
-        asset._judge = judge;
-        return asset;
+        TalkSOManager.Instance.DialogueStatusListInstance = new List<DialogueStatusSO>();
+        foreach (KeyValuePair<int, int> item in ExcelLoad.SIDList)
+        {
+            if (ExcelLoad.ConditionList.ContainsKey(item.Key))
+            {
+                foreach (string conditionName in ExcelLoad.ConditionList[item.Key])
+                {
+                    if (!Directory.Exists(Application.dataPath + "Assets/Resources/SO_Status/" + conditionName + ".asset"))
+                    {
+                        DialogueStatusSO asset = ScriptableObject.CreateInstance<DialogueStatusSO>();
+                        AssetDatabase.CreateAsset(asset, "Assets/Resources/SO_Status/" + conditionName + ".asset");
+                        AssetDatabase.SaveAssets();
+                        EditorUtility.FocusProjectWindow();
+                        Selection.activeObject = asset;
+                        asset._conditionname = conditionName;
+                        asset._judge = false;
+                        TalkSOManager.Instance.DialogueStatusListInstance.Add(asset);
+                    }
+                }
+            }
+        }
     }
 
 

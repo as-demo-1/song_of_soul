@@ -12,7 +12,7 @@ public class NearPlatformBorderTrigger :EnemyFSMBaseTrigger
     }
 
 
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     {
         Vector2 dir=Vector2.zero;
         switch (checkDir)

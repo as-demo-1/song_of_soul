@@ -9,9 +9,9 @@ public class RandomTrigger :EnemyFSMBaseTrigger
     public EnemyFSMBaseTrigger insideTrigger;
     public List<string> targetList;
     
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     {
-        bool tem= insideTrigger.IsTriggerReach(fsm_Manager);
+        bool tem= insideTrigger.IsTriggerReachInUpdate(fsm_Manager);
         if(tem)
         {
             targetState = targetList[Random.Range(0, targetList.Count)];
