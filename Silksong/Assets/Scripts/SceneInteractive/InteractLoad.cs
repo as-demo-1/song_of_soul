@@ -24,63 +24,64 @@ public class InteractLoad : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        /*TalkManager.Instance.GossipContent = new Dictionary<int, string>();
+        TalkManager.Instance.PlotContent = new Dictionary<int, string>();
+        TalkManager.Instance.NPCContent = new Dictionary<int, List<int>>();*/
         foreach (InteractiveBaseSO interactiveItem in InteractiveContainer.InteractiveItemList)
         {
             int id = interactiveItem.InteractiveID;
             //Debug.Log("Interative");
             interactiveItem.Init(this);
 
-            foreach (DialogueSectionSO DialogueItem in TalkSOManager.Instance.DialogueSectionListInstance)
+            //新的储存对话代码
+            foreach (DialogueSectionSO section in TalkSOManager.Instance.DialogueSectionListInstance)
             {
-                //Debug.Log(id);
-                int i = 0;//每添加一次闲聊对话这个i+1
-                if (DialogueItem.NPCID == id)
+                if (section.NPCID == id)
                 {
-                    TalkManager.Instance.NPCAllContent[DialogueItem.NPCID] = new Dictionary<int, List<string>>();
-                    TalkManager.Instance.Name[DialogueItem.NPCID] = DialogueItem.NPCName;
-                    TalkManager.Instance.NPCAllCondition[DialogueItem.NPCID] = new Dictionary<int, string>();
-                    TalkManager.Instance.NPCAllGossip[DialogueItem.NPCID] = new Dictionary<int, List<string>>();
-                    TalkManager.Instance.gossipRand[DialogueItem.NPCID] = new List<int>();
+                    //Debug.Log(section.NPCID);
+                    TalkManager.Instance.Name[section.NPCID] = section.NPCName;
+                    TalkManager.Instance.NPCPlotContent[section.NPCID] = new List<int>();
+                    TalkManager.Instance.NPCGossipContent[section.NPCID] = new List<int>();
 
-                    for (int num = 0; num < DialogueItem.DialogueList.ToArray().Length; num++) //存储对话内容
+                    foreach (DialogueSO item in section.DialogueList)
                     {
-                        List<string> TalkContent = new List<string>();
-                        for (int j = 0; j < DialogueItem.DialogueList[num].Content.ToArray().Length; j++)
+                        //Debug.Log(item.StartID);
+                        TalkManager.Instance.Condition[item.StartID] = new List<string>();
+                        if (item.Type.Equals("plot"))
                         {
-                            TalkContent.Add(DialogueItem.DialogueList[num].Content[j]);
-                        }
-                        if (DialogueItem.DialogueList[num].Type.Equals("plot"))
-                        {
-                            TalkManager.Instance.NPCAllContent[DialogueItem.NPCID][num - i] = TalkContent;
+                            TalkManager.Instance.NPCPlotContent[section.NPCID].Add(item.StartID);
+                            for (int i = 0; i < item.Content.Count; i++)
+                            {
+                                TalkManager.Instance.PlotContent.Add(item.StartID + i, item.Content[i]);
+                            }
+                            TalkManager.Instance.NPCPlotContent[section.NPCID].Sort((x, y) => x.CompareTo(y));
                         }
                         else
                         {
-                            TalkManager.Instance.NPCAllGossip[DialogueItem.NPCID][i] = TalkContent;
-                            TalkManager.Instance.gossipRand[DialogueItem.NPCID].Add(i);
-                            i += 1;
-                        }
-                    }
-
-                    //储存条件列表，同时把条件的Name和是否达成装入TalkManager的TalkStatusJudge，这里装，改变条件在别的地方改变
-                    for (int num = 0; num < DialogueItem.DialogueList.ToArray().Length; num++)
-                    {
-                        if (DialogueItem.DialogueList[num].StatusList.ToArray().Length != 0) //如果这段对话有条件控制，把控制这段话的条件的Name装入TalkStatus字典
-                        {
-                            for (int j = 0; j < DialogueItem.DialogueStatusList.ToArray().Length; j++)
+                            TalkManager.Instance.NPCGossipContent[section.NPCID].Add(item.StartID);
+                            for (int i = 0; i < item.Content.Count; i++)
                             {
-                                TalkManager.Instance.NPCAllCondition[DialogueItem.NPCID][num] = DialogueItem.DialogueList[num].StatusList[j];
-                                //如果字典里还没有这个条件则写入，默认未达成
-                                if (!TalkManager.Instance.TalkStatusJudge.ContainsKey(DialogueItem.DialogueStatusList[j].ConditionName))
-                                {
-                                    TalkManager.Instance.TalkStatusJudge[DialogueItem.DialogueStatusList[j].ConditionName] = DialogueItem.DialogueStatusList[j].Judge;
-                                }
+                                TalkManager.Instance.GossipContent.Add(item.StartID + i, item.Content[i]);
+                            }
+                            TalkManager.Instance.NPCGossipContent[section.NPCID].Sort((x, y) => x.CompareTo(y));
+                        }
+                        if (item.StatusList != null)
+                        {
+                            foreach (string conditionname in item.StatusList)
+                            {
+                                TalkManager.Instance.Condition[item.StartID].Add(conditionname);
                             }
                         }
                     }
-
-                    //把条件的Name和是否达成装入TalkManager的TalkStatusJudge，这里装，改变条件在别的地方改变
+                    foreach (DialogueStatusSO statusItem in section.DialogueStatusList)
+                    {
+                        TalkManager.Instance.TalkStatusJudge.Add(statusItem.ConditionName, statusItem.Judge);
+                    }
                 }
             }
+            
+                
+            
         }
     }
 }

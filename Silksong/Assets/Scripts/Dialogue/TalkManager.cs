@@ -9,18 +9,14 @@ public class TalkManager
     //所有条件都储存在这个字典中
     public Dictionary<string, bool> TalkStatusJudge = new Dictionary<string,bool>();//前面是条件名称，后面判断是否达成
 
-    
-    /*public Dictionary<int, List<string>> TalkContentDic = new Dictionary<int, List<string>>(); //每一个List<string>都是一段剧情对话
-    public Dictionary<int, List<string>> GossipTalk = new Dictionary<int, List<string>>();//前面是NPCID，后面是这个角色的闲聊对话*/
-    public Dictionary<int, string> TalkStatus = new Dictionary<int, string>(); //前面是第几段对话，后面用于检索条件列表是否达成，表示第int段对话由string(s)条件控制
-
-    public Dictionary<int, Dictionary<int, List<string>>> NPCAllGossip = new Dictionary<int, Dictionary<int, List<string>>>();
-    public Dictionary<int, Dictionary<int, List<string>>> NPCAllContent = new Dictionary<int, Dictionary<int, List<string>>>();//前面是NPCID，后面装的是TalkContentDic
-    public Dictionary<int, Dictionary<int, string>> NPCAllCondition = new Dictionary<int, Dictionary<int, string>>();
+    //-----------------------------------------------
+    public Dictionary<int, string> PlotContent = new Dictionary<int, string>();//前面是每个对话的ID，后面是剧情对话内容
+    public Dictionary<int, string> GossipContent = new Dictionary<int, string>();//前面是对话ID，后面是闲聊对话内容
+    public Dictionary<int, List<int>> NPCPlotContent = new Dictionary<int, List<int>>();//前面是NPCID，后面是这个NPC的所有剧情对话的StartID
+    public Dictionary<int, List<int>> NPCGossipContent = new Dictionary<int, List<int>>();//前面是NPCID，后面是这个NPC的所有闲聊对话的StartID
+    public Dictionary<int, List<string>> Condition = new Dictionary<int, List<string>>();//前面是对话StartID，后面是控制对话的条件
     public Dictionary<int, string> Name = new Dictionary<int, string>();
 
-    public Dictionary<int, List<int>> gossipRand = new Dictionary<int, List<int>>();//前面是NPCID，后面是这个NPC的所有闲聊的序号
-    public List<int> gossipRandList = new List<int>();//储存NPC的所有闲聊的序号
 
     private bool _isInit;
     public bool IsInit => _isInit;

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Boss00_Part2_judge_node1
+  m_EditorClassIdentifier: 
+  lastStateID: 0
+  lastTriggerID: 2
+  StateName: Boss00_Part2_judge_node1
+  StateType: 0
+  stateConfig:
+    id: 0
+  TriggerType: 2
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  - id: 3
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 0
+        defaultAnimationName: 
+    00000001:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss00_Part2_Attack
+        checkNearRadius: 0
+        checkFarRadius: 30
+        addYBlockCheck: 0
+        returnTrueWhenYBlock: 0
+    00000002:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss00_Part2_FlyAway
+        checkNearRadius: 20
+        checkFarRadius: 200
+        addYBlockCheck: 1
+        returnTrueWhenYBlock: 0
+    00000003:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss00_Part2_Attack
+        checkNearRadius: 0
+        checkFarRadius: 20
+        addYBlockCheck: 1
+        returnTrueWhenYBlock: 0

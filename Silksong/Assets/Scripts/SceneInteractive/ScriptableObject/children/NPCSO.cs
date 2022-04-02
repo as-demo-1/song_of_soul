@@ -58,7 +58,7 @@ public class NPCSO : SingleInteractiveBaseSO
     {
         NPCController npc = InteractManager.Instance.GetInteractiveItemComponent<NPCController>();
 
-        //npc.Run(base.AfterInteract);
+        npc.Run(base.AfterInteract);
     }
 
     private void showDialog(UnityAction callback)

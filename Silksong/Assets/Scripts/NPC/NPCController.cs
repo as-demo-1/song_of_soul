@@ -46,7 +46,7 @@ public class NPCController : MonoBehaviour
         }
     }
 
-    /*public void RunFn()
+    public void RunFn()
     {
         Vector3 tmpPos = transform.position;
         tmpPos.x -= 1;
@@ -57,7 +57,7 @@ public class NPCController : MonoBehaviour
     {
         _callback = callback;
         _status = NPCStatus.START_RUN;
-    }*/
+    }
 }
 
 

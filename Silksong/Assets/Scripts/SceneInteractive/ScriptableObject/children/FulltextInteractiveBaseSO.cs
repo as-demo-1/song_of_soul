@@ -46,18 +46,18 @@ public class FulltextInteractiveBaseSO : SingleInteractiveBaseSO
             GameObject go = GameObject.Find("FullWindowText/Image");
             if (go != null)
             {
-                Debug.Log("go");
+                //Debug.Log("go");
                 Image image = go.GetComponent<Image>();
                 image.sprite = sprite;
             }
-            Debug.Log("对话框");
+            //Debug.Log("对话框");
 
-            m_player = GameObject.FindGameObjectWithTag("Player");
+            //m_player = GameObject.FindGameObjectWithTag("Player");
 
         }
         UIComponentManager.Instance.SetText(InteractConstant.UIFullTextText, Tip);
         UIComponentManager.Instance.UIAddListener(InteractConstant.UIFullTextClose, base.DoInteract);
-        move(base.DoInteract);
+        showDialog(base.DoInteract);
     }
 
     protected override void Finish()
@@ -68,7 +68,6 @@ public class FulltextInteractiveBaseSO : SingleInteractiveBaseSO
 
     private void showDialog(UnityAction callback)
     {
-        Debug.Log("123");
         // todo:
         // 2.调用对话系统的方法
         if (IsDraw == true)
@@ -81,54 +80,6 @@ public class FulltextInteractiveBaseSO : SingleInteractiveBaseSO
             {
                 TalkController.Instance.StartTalk(InteractiveID, callback);
             });
-        }
-    }
-
-
-    private void move(UnityAction callback)
-    {
-        if (IsDraw == true)
-        {
-            int times = Step;
-
-            // todo:
-            // 控制角色移动并播放动画
-            Queue<System.Action> actions = PlayerInput.Instance.actions;
-            //SpriteRenderer sprite = m_player.GetComponent<SpriteRenderer>();
-            _tmpTalkCoord = InteractManager.Instance.InteractObjectTransform.position + TalkCoord;
-            while (--times >= 0)
-            {
-                if (times == 0)
-                {
-                    actions.Enqueue(() =>
-                    {
-                        Vector3 tmpPos = m_player.transform.position;
-                        float tmpStep = (_tmpTalkCoord.x - tmpPos.x) / Step;
-                        tmpPos.x += tmpStep;
-                        m_player.transform.position = tmpPos;
-
-                        //sprite.flipX = tmpStep > 0;
-                        PlayerController.Instance.playerInfo.playerFacingRight = tmpStep <= 0;
-
-                        showDialog(callback);
-                    });
-                }
-                else
-                {
-                    actions.Enqueue(() =>
-                    {
-                        Vector3 tmpPos = m_player.transform.position;
-                        float tmpStep = (_tmpTalkCoord.x - tmpPos.x) / Step;
-                        //sprite.flipX = tmpStep <= 0;
-                        PlayerController.Instance.playerInfo.playerFacingRight = tmpStep > 0;
-
-                        PlayerController.Instance.playerAnimatorStatesControl.ChangePlayerState(EPlayerState.Run);
-
-                        tmpPos.x += tmpStep;
-                        m_player.transform.position = tmpPos;
-                    });
-                }
-            }
         }
     }
 
