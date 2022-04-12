@@ -26,7 +26,15 @@ public class InventoryManager : MonoBehaviour
 		_currentInventory.Remove(item);
 		_saveSystem.SaveDataToDisk();
 	}
-
+	public ItemSO SearchItem(string id)
+    {
+		return _currentInventory.Search(id);
+	}
+	public void RemoveItem(string id,int count=1)
+	{
+		_currentInventory.Remove(_currentInventory.Search(id),count);
+		_saveSystem.SaveDataToDisk();
+	}
 	public void LoadSave()
 	{
 		_currentInventory.Items.Clear();

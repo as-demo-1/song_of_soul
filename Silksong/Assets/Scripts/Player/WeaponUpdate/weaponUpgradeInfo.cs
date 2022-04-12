@@ -14,7 +14,6 @@ public class WeaponUpgradeInfo
     public int level;//该次升级时武器的等级
     public int attack;
     public List<RequiredMaterial> requiredMaterial=new List<RequiredMaterial>() ;//该次升级时所需的材料id和对应的数量
-    //public string id;
-    //public int itemAmonut;//所需材料数量
+
 
 }

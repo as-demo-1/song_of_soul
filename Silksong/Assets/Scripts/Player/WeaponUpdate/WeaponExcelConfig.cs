@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExcelConfig : MonoBehaviour
+public class WeaponExcelConfig : MonoBehaviour
 {
     /// <summary>
     /// 存放excel表文件夹的的路径

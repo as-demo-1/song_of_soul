@@ -6,24 +6,22 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 
+        
 public class ExcelBuild : Editor
 {
-        [MenuItem("CustomEditor/CreateItemAsset")]
-         public static void CreateWeaponUpdate()
+        [MenuItem("Assets/Create/ScriptableObjects/WeaponUpdate")]
+    public static void CreateWeaponUpdate()
         {
             WeaponUpdate manager = ScriptableObject.CreateInstance<WeaponUpdate>();
-            //赋值
-            manager.weaponUpgradeInfoList = ExcelReader.CreateWeaponUpgradeInfoWithExcel(ExcelConfig.excelsFolderPath + "weapon.xlsx");
-
+            manager.weaponUpgradeInfoList = ExcelReader.CreateWeaponUpgradeInfoWithExcel(WeaponExcelConfig.excelsFolderPath + "weapon.xlsx");
+            //manager.playerInventory=
             //确保文件夹存在
-            if (!Directory.Exists(ExcelConfig.assetPath))
+            if (!Directory.Exists(WeaponExcelConfig.assetPath))
             {
-                Directory.CreateDirectory(ExcelConfig.assetPath);
+                Directory.CreateDirectory(WeaponExcelConfig.assetPath);
             }
 
-            //asset文件的路径 要以"Assets/..."开始，否则CreateAsset会报错
-            string assetPath = string.Format("{0}{1}.asset", ExcelConfig.assetPath, "Item");
-            //生成一个Asset文件
+            string assetPath = string.Format("{0}{1}.asset", WeaponExcelConfig.assetPath, "WeaponUpgrade");
             AssetDatabase.CreateAsset(manager, assetPath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

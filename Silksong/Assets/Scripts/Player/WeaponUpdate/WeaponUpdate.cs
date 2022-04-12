@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/WeaponUpdate")]
+
 public class WeaponUpdate : ScriptableObject
 {
     public int weaponLevel=0;
@@ -23,16 +24,21 @@ public class WeaponUpdate : ScriptableObject
         if (requiredItem == null)
             return false;
 
-        //foreach (RequiredMaterial i in requiredItem.requiredMaterial)
-        //{  
-        //    if (playerInventory.Count(i.id) < i.amonut)
-        //        return false;
-        //    else
-        //    {
-        //        for (int j = 0; j < i.amonut; j++)
-        //            playerInventory.Remove(item);//¿Û³ý²ÄÁÏ
-        //    }
-        //}
+        InventoryManager inventoryManager=new InventoryManager();
+        inventoryManager._currentInventory = playerInventory;
+        foreach (RequiredMaterial i in requiredItem.requiredMaterial)
+        {
+            ItemSO item = inventoryManager.SearchItem(i.id);
+            if (playerInventory.Count(item) < i.amonut)
+                return false;
+            
+        }
+
+        foreach (RequiredMaterial i in requiredItem.requiredMaterial)
+        {
+            ItemSO item = inventoryManager.SearchItem(i.id);
+            inventoryManager.RemoveItem(i.id,i.amonut);//¿Û³ý²ÄÁÏ
+        }
         return true;
     }
     public bool weaponUpdate()
