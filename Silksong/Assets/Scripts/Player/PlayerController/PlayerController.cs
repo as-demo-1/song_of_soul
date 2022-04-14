@@ -31,6 +31,8 @@ public struct PlayerInfo
     //swim
     public float swimSpeed;
 
+    public float gravityUnderWater;
+
     // plunge
     public float plungeSpeed;
 
@@ -41,6 +43,7 @@ public struct PlayerInfo
         catJumpUpSpeed = Constants.PlayerCatJumpHeight * 2.5f;
 
         sprintSpeed = sprintDistance / Constants.SprintTime;
+        gravityUnderWater = normalGravityScale / 5;
     }
 
     public float getMoveSpeed()
@@ -184,7 +187,8 @@ public class PlayerController : MonoBehaviour
             float smooth = 100f;
             //float exitWaterTime = Time.time;
             //RB.velocity = Vector2.Lerp(RB.velocity, new Vector2(RB.velocity.x, 0), (Time.time - exitWaterTime) * smooth);
-            RB.gravityScale = playerInfo.normalGravityScale / 5;
+            // RB.gravityScale = playerInfo.normalGravityScale / 5;
+            RB.gravityScale = playerInfo.gravityUnderWater;
         }
     }
 
