@@ -25,6 +25,7 @@ public enum EPlayerState
     CatIdle = 210,
     ToHuman = 220,
     CatToHumanExtraJump = 230,
+    SprintInWater = 240,
 }
 public class PlayerStatesBehaviour
 {
@@ -38,6 +39,7 @@ public class PlayerStatesBehaviour
     public PlayerCastSkill playerCastSkill;
     public PlayerPlunge playerPlunge;
     public PlayerClimb playerClimb;
+    public PlayerSprintInWater playerSprintInWater;
 
     public void init()
     {
@@ -50,6 +52,7 @@ public class PlayerStatesBehaviour
         playerCastSkill = new PlayerCastSkill(playerController);
         playerPlunge = new PlayerPlunge(playerController);
         playerClimb = new PlayerClimb(playerController);
+        playerSprintInWater = new PlayerSprintInWater(playerController);
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)
@@ -115,6 +118,9 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.ClimbJump:
                 playerClimb.climbJumpStart();
+                break;
+            case EPlayerState.SprintInWater:
+                playerSprintInWater.SprintInWaterStart();
                 break;
             default:
                 break;
@@ -192,6 +198,9 @@ public class PlayerStatesBehaviour
             case EPlayerState.ClimbJump:
                 playerClimb.climbJumping();
                 break;
+            case EPlayerState.SprintInWater:
+    
+                break;
             default:
                 break;
         }
@@ -254,6 +263,9 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.ClimbJump:
 
+                break;
+            case EPlayerState.SprintInWater:
+                playerSprintInWater.SprintInWaterEnd();
                 break;
             default:
                 break;
@@ -809,5 +821,49 @@ public class PlayerClimb : PlayerAction
 
 }
 
+public class PlayerSprintInWater : PlayerAction {
+    public PlayerSprintInWater(PlayerController playerController) : base(playerController) { }
+    private bool sprintReady;
+    public bool SprintReady
+    {
+        get { return sprintReady; }
+        set
+        {
+            sprintReady = value;
+            playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.SprintReadyParamHash, sprintReady);
+        }
+    }
+    public void SprintInWaterStart(){
+        playerController.setRigidGravityScale(0);
+        int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
+        int y = 0;
+        if(PlayerInput.Instance.vertical.Value != 0){
+            y = PlayerInput.Instance.vertical.Value > 0 ? 1:-1;
+        }
+        playerController.setRigidVelocity(new Vector2(playerController.playerInfo.sprintSpeed * x,playerController.playerInfo.sprintSpeed * y));
+        playerController.gravityLock = true;
+        playerController.IsUnderWater = false;
+    }
 
+     public void SprintInWaterEnd()
+    {
+        Debug.Log(playerController.IsUnderWater);
+        playerController.gravityLock = false;
+        if (!playerController.IsUnderWater){
+            //冲出水面重力正常
+            playerController.setRigidGravityScaleToNormal();
+        }else{
+            playerController.setRigidGravityScale(playerController.playerInfo.gravityUnderWater);
+        }
+        playerController.setRigidVelocity(Vector2.zero);
+        playerController.StartCoroutine(sprintCdCount());
+    }
+
+    public IEnumerator sprintCdCount()
+    {
+        SprintReady = false;
+        yield return new WaitForSeconds(Constants.SprintCd);
+        SprintReady = true;
+    }
+}
  
