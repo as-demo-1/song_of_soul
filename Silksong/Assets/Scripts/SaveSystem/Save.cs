@@ -12,6 +12,7 @@ public class Save
     // This will change according to whatever data that needs to be stored
     public int _healthMax;
     public uint _goldAmount;
+    public uint _weaponLevel;
     // The variables need to be public, else we would have to write trivial getter/setter functions.
     public List<string> _finishedObjectGuid = new List<string>();
     public Dictionary<string, int> _sceneInterative = new Dictionary<string, int>();
