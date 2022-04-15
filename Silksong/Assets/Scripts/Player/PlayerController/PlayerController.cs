@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     [SerializeField] private string _guid;
     [SerializeField] private SaveSystem _saveSystem;
-    [SerializeField] private InventoryManager _backpack;
+    [SerializeField] public InventoryManager _backpack;
     public GameObject _itemToAdd = null;
     public GameObject _savePoint = null;
     public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
