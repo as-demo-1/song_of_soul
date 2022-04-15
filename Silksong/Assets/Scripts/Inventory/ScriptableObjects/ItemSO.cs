@@ -4,6 +4,9 @@ using UnityEngine;
 public class ItemSO : SerializableScriptableObject
 {
     [Tooltip("The name of the item")]
+    [SerializeField] private string _id = default;
+
+    [Tooltip("The name of the item")]
     [SerializeField] private string _name = default;
 
     [Tooltip("A preview image for the item")]
@@ -16,7 +19,7 @@ public class ItemSO : SerializableScriptableObject
     
     [Tooltip("The type of interaction")]
     [SerializeField]
-    private InteractiveItemType _interitemType = default;
+    private EInteractiveItemType _interitemType = default;
 
     [Tooltip("The type of item")]
     [SerializeField]
@@ -30,8 +33,9 @@ public class ItemSO : SerializableScriptableObject
     [SerializeField]
     private int _price = default;
 
+    public string ID => _id;
     public string Name => _name;
-    public InteractiveItemType m_itemType => _interitemType;
+    public EInteractiveItemType m_itemType => _interitemType;
     public Sprite PreviewImage => _previewImage;
     public string Description => _description;
     public int price =>_price;

@@ -20,7 +20,7 @@ public class OnHittedTrigger :EnemyFSMBaseTrigger
        // Debug.Log(this.GetHashCode());
 
     }
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     {
         if(isHitted)
         {

@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &750477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 750478}
+  m_Layer: 15
+  m_Name: ShotPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &750478
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750477}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.16, y: 1.41, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 974113151}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &456044677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 456044678}
+  m_Layer: 15
+  m_Name: other
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &456044678
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456044677}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.28, y: -0.27, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 974113151}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &974113150
 GameObject:
   m_ObjectHideFlags: 0
@@ -25,9 +85,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974113150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.47, y: 0, z: 0}
+  m_LocalPosition: {x: -0.36, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 750478}
+  - {fileID: 456044678}
   m_Father: {fileID: 7455931157576861603}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -45,23 +107,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootModes:
   - shootModeName: normalShoot
-    bullet: {fileID: 1792609399031990055, guid: 41438ab8ccd6f2745ab98a1b16be5c49, type: 3}
+    bullet: {fileID: 3364640303672543083, guid: 754ce68ecfe9b7442b3370ffbd128721, type: 3}
     bulletNum: 10
     shootMethod: 2
     shotDir: 1
     target: {fileID: 0}
-    createPos: 0
+    createPos: {fileID: 456044678}
+    bulletDelayTime: 0
     bulletSpeed: 10
     shootOffsetAngle: 1
   - shootModeName: Shot
-    bullet: {fileID: 1792609399031990055, guid: 41438ab8ccd6f2745ab98a1b16be5c49, type: 3}
+    bullet: {fileID: 3364640303672543083, guid: 754ce68ecfe9b7442b3370ffbd128721, type: 3}
     bulletNum: 10
     shootMethod: 1
     shotDir: 1
     target: {fileID: 0}
-    createPos: 0
-    bulletSpeed: 10
+    createPos: {fileID: 750478}
+    bulletDelayTime: 0
+    bulletSpeed: 15
     shootOffsetAngle: 2
+  - shootModeName: AlwaysShoot
+    bullet: {fileID: 3364640303672543083, guid: 754ce68ecfe9b7442b3370ffbd128721, type: 3}
+    bulletNum: 30
+    shootMethod: 2
+    shotDir: 1
+    target: {fileID: 484977951162521061, guid: d55ddaf3e9dbfd749a56666a757de684, type: 3}
+    createPos: {fileID: 456044678}
+    bulletDelayTime: 0.1
+    bulletSpeed: 10
+    shootOffsetAngle: 1
 --- !u!1 &7455931157228853701
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,8 +207,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ignoreInvincibility: 0
-  canDamage: 1
+  canDamage: 0
   damage: 1
+  beatBackVector: {x: 0, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -154,6 +229,8 @@ GameObject:
   - component: {fileID: 7891543500922852345}
   - component: {fileID: 7891543500922852342}
   - component: {fileID: 2059763982}
+  - component: {fileID: 5628222166543021453}
+  - component: {fileID: 5628222166543021454}
   m_Layer: 15
   m_Name: Boss00
   m_TagString: Untagged
@@ -170,7 +247,7 @@ Transform:
   m_GameObject: {fileID: 7455931157576861613}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.7309, y: 0.5051, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 7455931157228853722}
   - {fileID: 974113151}
@@ -246,9 +323,15 @@ MonoBehaviour:
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
-  maxHp: 2000
-  currentHp: 2000
+  takeDamageAudio: {fileID: 0}
+  takeDamageSfxSO: {fileID: 0}
+  maxHp: 1000
+  currentHp: 1000
   resetHealthOnSceneReload: 0
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  dieAudio: {fileID: 0}
 --- !u!61 &7455931157576861606
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -262,7 +345,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.16535783, y: -0.012153387}
+  m_Offset: {x: -0.16535783, y: 0.050622225}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -273,7 +356,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.172583, y: 2.426453}
+  m_Size: {x: 4.172583, y: 2.300902}
   m_EdgeRadius: 0
 --- !u!50 &7455931157576861607
 Rigidbody2D:
@@ -331,12 +414,8 @@ MonoBehaviour:
   audios: {fileID: 0}
   rigidbody2d: {fileID: 0}
   damageable: {fileID: 0}
-  currentState:
-    stateType: 0
   currentStateName: 
-  anyState:
-    stateType: 0
-  defaultStateName: Boss00_Part2_State
+  defaultStateName: Boss00_Part1_State
   stateConfigs:
   - {fileID: 11400000, guid: dab00504fc4a6a643a93d5f9fbc240ad, type: 2}
   - {fileID: 11400000, guid: 8339bf95dd9c9b342a77e760cecef578, type: 2}
@@ -345,6 +424,7 @@ MonoBehaviour:
   anyStateConfig: {fileID: 11400000, guid: d14be75b0b1cb874d9e129923229e474, type: 2}
   player: {fileID: 0}
   FaceLeftFirstOriginal: 0
+  beatBackRatio: 0
   hasInvokedAnimationEvent: 0
   isInvokingAnimationEvent: 0
 --- !u!114 &2059763982
@@ -365,8 +445,48 @@ MonoBehaviour:
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
+  takeDamageAudio: {fileID: 0}
+  takeDamageSfxSO: {fileID: 0}
   maxHp: 5
   currentHp: 0
   resetHealthOnSceneReload: 0
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  dieAudio: {fileID: 0}
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 3
+--- !u!114 &5628222166543021453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455931157576861613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f304abe06fda784bb0fde4c3ff6647b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
+  sfxSO: {fileID: 11400000, guid: d25acefb1695ac041a2a319bc1756a09, type: 2}
+--- !u!114 &5628222166543021454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455931157576861613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
+  shakeForce: 0

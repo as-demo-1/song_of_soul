@@ -77,7 +77,15 @@ public class InventorySO : ScriptableObject
 
 		return 0;
 	}
-	
+	public ItemSO Search(string id)
+    {
+		foreach(ItemStack i in _items)
+        {
+			if (i.Item.ID == id)
+				return i.Item;
+        }
+		return null;
+    }
 
 	public void Init()
 	{
