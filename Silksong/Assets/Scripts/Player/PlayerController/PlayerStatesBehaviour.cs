@@ -87,7 +87,6 @@ public class PlayerStatesBehaviour
                 break;
             case EPlayerState.Hurt:
                 PlayerInput.Instance.ReleaseControls();
-                playerController.playerToCat.colliderToHuman();
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
@@ -702,8 +701,8 @@ public class PlayerClimb : PlayerAction
 {
     public PlayerClimb(PlayerController playerController) : base(playerController) { }
 
-    private bool canMove = false;
-    private float fixedJumpAcce = 0;
+    private bool canMove = false;//能否水平移动
+    private float fixedJumpAcce = 0;//水平减速度
    
     public void climbIdleStart()
     {
