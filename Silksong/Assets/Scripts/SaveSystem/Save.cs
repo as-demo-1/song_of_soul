@@ -19,7 +19,8 @@ public class Save
     public List<string> _bossGUID = new List<string>();
     public List<SerializedItemStack> _itemStacks = new List<SerializedItemStack>();
     public List<SerializedItemStack> _storeStacks = new List<SerializedItemStack>();
-    
+    public List<string> _destructivePlatformGuid = new List<string>();
+
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

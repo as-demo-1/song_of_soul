@@ -692,7 +692,9 @@ public class PlayerPlunge : PlayerAction
         playerController.gravityLock = false;
         playerController.setRigidGravityScaleToNormal();
 
-        Debug.Log("Landed! Plunge strength:" + plungeStrength + "Distance:" + plungeDistance);
+        // Debug.Log("Landed! Plunge strength:" + plungeStrength + "Distance:" + plungeDistance);
+        plungeStrength = 0;
+        plungeDistance = 0.0f;
     }
 
 }

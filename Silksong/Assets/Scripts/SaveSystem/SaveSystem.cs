@@ -23,6 +23,16 @@ public class SaveSystem : ScriptableObject
 		saveData._bossGUID.Add(GUID);
 	}
 
+	public bool ContainDestructivePlatformGUID(string GUID)
+    {
+		return saveData._destructivePlatformGuid.Contains(GUID);
+	}
+	
+	public void AddDestructivePlatformGUID(string GUID)
+    {
+		saveData._destructivePlatformGuid.Add(GUID);
+	}
+
 	/// <summary>
 	/// Check the interactive item count
 	/// </summary>
