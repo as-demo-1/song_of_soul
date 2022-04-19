@@ -74,9 +74,16 @@ public class SaveSystem : ScriptableObject
 	{
 		saveData._goldAmount = goldamount;
 	}
-	
-	
-	
+	public uint GetWeaponLevel()
+	{
+		return saveData._weaponLevel;
+	}
+
+	public void SetWeaponLevel(uint weaponLevel)
+	{
+		saveData._weaponLevel = weaponLevel;
+	}
+
 	public void TestSaveGuid(string Guid)
 	{
 		Debug.Log("WriteData");

@@ -31,6 +31,8 @@ public struct PlayerInfo
     //swim
     public float swimSpeed;
 
+    public float gravityUnderWater;
+
     // plunge
     public float plungeSpeed;
 
@@ -41,6 +43,7 @@ public struct PlayerInfo
         catJumpUpSpeed = Constants.PlayerCatJumpHeight * 2.5f;
 
         sprintSpeed = sprintDistance / Constants.SprintTime;
+        gravityUnderWater = normalGravityScale / 5;
     }
 
     public float getMoveSpeed()
@@ -130,7 +133,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     [SerializeField] private string _guid;
     [SerializeField] private SaveSystem _saveSystem;
-    [SerializeField] private InventoryManager _backpack;
+    [SerializeField] public InventoryManager _backpack;
     public GameObject _itemToAdd = null;
     public GameObject _savePoint = null;
     public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
@@ -191,7 +194,8 @@ public class PlayerController : MonoBehaviour
             float smooth = 100f;
             //float exitWaterTime = Time.time;
             //RB.velocity = Vector2.Lerp(RB.velocity, new Vector2(RB.velocity.x, 0), (Time.time - exitWaterTime) * smooth);
-            RB.gravityScale = playerInfo.normalGravityScale / 5;
+            // RB.gravityScale = playerInfo.normalGravityScale / 5;
+            RB.gravityScale = playerInfo.gravityUnderWater;
         }
     }
 
@@ -383,6 +387,8 @@ public class PlayerController : MonoBehaviour
     public void getHurt(DamagerBase damager, DamageableBase damable)
     {
         PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
+        playerToCat.toHuman();
+    
     }
 
     public void die(DamagerBase damager, DamageableBase damable)
@@ -488,12 +494,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public bool checkHitWall(bool checkRight)
+    public bool checkHitWall(bool checkRightSide)
     {
         Vector2 t = transform.position;
         t.y -= 0.5f;
         Vector2 frontPoint;
-        frontPoint = new Vector2(t.x + (checkRight?1:-1) * boxCollider.size.x * 0.5f , t.y);
+        frontPoint = new Vector2(t.x + (checkRightSide?1:-1) * boxCollider.size.x * 0.5f , t.y);
 
         if (Physics2D.OverlapArea(frontPoint, t, 1 << LayerMask.NameToLayer("Ground")) != null)
         {
@@ -506,16 +512,16 @@ public class PlayerController : MonoBehaviour
 
     private void CheckHasWallToClimb()
     {
-        bool checkRight;
+        bool checkRightSide;
        
         float horizontalInput = PlayerInput.Instance.horizontal.Value;
-        if (horizontalInput == 1) checkRight = true;
-        else if (horizontalInput == -1) checkRight = false;
+        if (horizontalInput == 1) checkRightSide = true;
+        else if (horizontalInput == -1) checkRightSide = false;
         else //input==0
         {
             if (playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.ClimbIdle)
             {
-                checkRight = playerInfo.playerFacingRight;
+                checkRightSide = playerInfo.playerFacingRight;
             }
             else
             {
@@ -526,7 +532,7 @@ public class PlayerController : MonoBehaviour
         }
         
        
-        PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash,checkHitWall(checkRight));
+        PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash,checkHitWall(checkRightSide));
     }
 }
 
@@ -635,13 +641,11 @@ public class PlayerToCat
 
         IsCat = true;
         playerController.gameObject.layer =LayerMask.NameToLayer("PlayerCat");
-        playerController.GetComponentInChildren<SpriteRenderer>().flipX = true;//now the cat image is filpx from player image
         playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerCatBoxColliderOffsetY);
         playerController.boxCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, Constants.playerCatBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerCatGroundCheckColliderOffsetY);
         playerController.groundCheckCollider.size= new Vector2( Constants.playerCatBoxColliderWidth-Constants.playerGroundColliderXSizeSmall,playerController.groundCheckCollider.size.y);
-
     }
 
     public void colliderToHuman()
@@ -672,10 +676,10 @@ public class PlayerToCat
         IsCat = false;
         isFastMoving = false;
         playerController.gameObject.layer = LayerMask.NameToLayer("Player");
-        playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
     }
     public void toHuman()
     {
+        if (isCat == false) return;
         colliderToHuman();
         stateToHuman();
     }
