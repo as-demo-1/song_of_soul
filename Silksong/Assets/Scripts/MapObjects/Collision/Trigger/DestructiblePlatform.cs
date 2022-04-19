@@ -28,7 +28,7 @@ public class DestructiblePlatform : MonoBehaviour
 
 
     protected void Start() {
-        if (_saveSystem.ContainDestructivePlatformGUID(_guid))
+        if (_saveSystem.ContainDestructiblePlatformGUID(_guid))
         {
             Destroy(this.gameObject);
             //gameObject.SetActive(false);
@@ -59,7 +59,7 @@ public class DestructiblePlatform : MonoBehaviour
         collider2d.enabled = false;
         playerController.setRigidVelocity(new Vector2(0, -1 * playerController.playerInfo.plungeSpeed));
 
-        _saveSystem.AddDestructivePlatformGUID(_guid);
+        _saveSystem.AddDestructiblePlatformGUID(_guid);
         
         // Destroy(this.gameObject);
         gameObject.SetActive(false);

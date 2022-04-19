@@ -23,14 +23,14 @@ public class SaveSystem : ScriptableObject
 		saveData._bossGUID.Add(GUID);
 	}
 
-	public bool ContainDestructivePlatformGUID(string GUID)
+	public bool ContainDestructiblePlatformGUID(string GUID)
     {
-		return saveData._destructivePlatformGuid.Contains(GUID);
+		return saveData._destructiblePlatformGuid.Contains(GUID);
 	}
 	
-	public void AddDestructivePlatformGUID(string GUID)
+	public void AddDestructiblePlatformGUID(string GUID)
     {
-		saveData._destructivePlatformGuid.Add(GUID);
+		saveData._destructiblePlatformGuid.Add(GUID);
 	}
 
 	/// <summary>
