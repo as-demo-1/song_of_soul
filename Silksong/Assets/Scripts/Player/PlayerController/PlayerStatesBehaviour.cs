@@ -471,6 +471,7 @@ public class PlayerBreakMoon : PlayerAction
     private Vector2 startPosition;
     private Vector2 toMoonDistance;
     private bool hasBreakTheMoon;
+    private bool prepareOver;
 
 
 
@@ -537,6 +538,7 @@ public class PlayerBreakMoon : PlayerAction
         playerController.gravityLock = true;
         playerController.setRigidVelocity(Vector2.zero);
         hasBreakTheMoon = false;
+        prepareOver = false;
 
         if (sameSide(currentTarget) == false)
         {
@@ -546,9 +548,19 @@ public class PlayerBreakMoon : PlayerAction
 
     public void breakingMoon()
     {
+        timer += Time.deltaTime;
+        if (!prepareOver )
+        {
+            if (timer < Constants.BreakMoonPrePareTime) return;
+            else
+            {
+                timer = 0;
+                prepareOver = true;
+            }
+        }
+
         if (timer < totalTime)
         {
-            timer += Time.deltaTime;
             float rate = playerController.playerInfo.breakMoonPositionCurve.Evaluate(timer / totalTime);
             //Debug.Log(rate);
             Vector2 s = totalDistance * rate;

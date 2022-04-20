@@ -5,7 +5,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SaveSystemSO", order = 1)]
-public class SaveSystem : ScriptableObject
+
+public class SaveSystem : ScriptableObject//you can get SaveSystem instance from GameManager 
 {
 	[SerializeField] private InventorySO _playerInventory;
 	[SerializeField] private InventorySO _StoreInventory;
