@@ -86,7 +86,7 @@ public class PlayerStatesBehaviour
                 playerBreakMoon.breakMoonStart();
                 break;
             case EPlayerState.Hurt:
-                PlayerInput.Instance.ReleaseControls();
+                PlayerAnimatorParamsMapping.SetControl(false);
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
@@ -232,7 +232,7 @@ public class PlayerStatesBehaviour
 
                 break;
             case EPlayerState.Hurt:
-                PlayerInput.Instance.GainControls();
+                PlayerAnimatorParamsMapping.SetControl(true);
                 break;
             case EPlayerState.Heal:
 
@@ -532,7 +532,7 @@ public class PlayerBreakMoon : PlayerAction
         // Debug.Log(totalTime);
 
         timer = 0;
-        PlayerInput.Instance.ReleaseControls();
+        PlayerAnimatorParamsMapping.SetControl(false);
         playerController.setRigidGravityScale(0);
         playerController.gravityLock = true;
         playerController.setRigidVelocity(Vector2.zero);
@@ -558,7 +558,7 @@ public class PlayerBreakMoon : PlayerAction
             {
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
-                PlayerInput.Instance.GainControls();
+                PlayerAnimatorParamsMapping.SetControl(true);
                 currentTarget.atBreakMoonPoint();
             }
         }
