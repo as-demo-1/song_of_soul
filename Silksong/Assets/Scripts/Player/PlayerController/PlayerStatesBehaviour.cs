@@ -86,7 +86,7 @@ public class PlayerStatesBehaviour
                 playerBreakMoon.breakMoonStart();
                 break;
             case EPlayerState.Hurt:
-                PlayerInput.Instance.ReleaseControls();
+                PlayerAnimatorParamsMapping.SetControl(false);
                 break;
             case EPlayerState.Heal:
                 playerHeal.healStart();
@@ -232,7 +232,7 @@ public class PlayerStatesBehaviour
 
                 break;
             case EPlayerState.Hurt:
-                PlayerInput.Instance.GainControls();
+                PlayerAnimatorParamsMapping.SetControl(true);
                 break;
             case EPlayerState.Heal:
 
@@ -471,6 +471,7 @@ public class PlayerBreakMoon : PlayerAction
     private Vector2 startPosition;
     private Vector2 toMoonDistance;
     private bool hasBreakTheMoon;
+    private bool prepareOver;
 
 
 
@@ -532,11 +533,12 @@ public class PlayerBreakMoon : PlayerAction
         // Debug.Log(totalTime);
 
         timer = 0;
-        PlayerInput.Instance.ReleaseControls();
+        PlayerAnimatorParamsMapping.SetControl(false);
         playerController.setRigidGravityScale(0);
         playerController.gravityLock = true;
         playerController.setRigidVelocity(Vector2.zero);
         hasBreakTheMoon = false;
+        prepareOver = false;
 
         if (sameSide(currentTarget) == false)
         {
@@ -546,9 +548,19 @@ public class PlayerBreakMoon : PlayerAction
 
     public void breakingMoon()
     {
+        timer += Time.deltaTime;
+        if (!prepareOver )
+        {
+            if (timer < Constants.BreakMoonPrePareTime) return;
+            else
+            {
+                timer = 0;
+                prepareOver = true;
+            }
+        }
+
         if (timer < totalTime)
         {
-            timer += Time.deltaTime;
             float rate = playerController.playerInfo.breakMoonPositionCurve.Evaluate(timer / totalTime);
             //Debug.Log(rate);
             Vector2 s = totalDistance * rate;
@@ -558,7 +570,7 @@ public class PlayerBreakMoon : PlayerAction
             {
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
-                PlayerInput.Instance.GainControls();
+                PlayerAnimatorParamsMapping.SetControl(true);
                 currentTarget.atBreakMoonPoint();
             }
         }

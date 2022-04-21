@@ -106,17 +106,11 @@ public class PlayerInput : InputComponent
         }
     }
 
-    public override void GainControls()
-    {
-        Debug.Log("gainCtrl");
-        m_HaveControl = true;
 
-        foreach (var button in buttons)
-        {
-            button.Enable();
-        }
-    }
 
+    /// <summary>
+    /// 屏蔽所有的输入，包括角色和系统，一般不使用
+    /// </summary>
     public override void ReleaseControls(bool resetValues = true)
     {
         Debug.Log("releaseCtrl");
@@ -125,6 +119,17 @@ public class PlayerInput : InputComponent
         foreach (var button in buttons)
         {
             button.Disable();
+        }
+    }
+
+    public override void GainControls()
+    {
+        Debug.Log("gainCtrl");
+        m_HaveControl = true;
+
+        foreach (var button in buttons)
+        {
+            button.Enable();
         }
     }
 
