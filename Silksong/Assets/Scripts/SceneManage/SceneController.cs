@@ -66,16 +66,16 @@ public class SceneController : MonoBehaviour
 
         if(playerInput == null)
             playerInput = FindObjectOfType<PlayerInput>();
-        playerInput.ReleaseControls(resetInputValues);
+        PlayerAnimatorParamsMapping.SetControl(false);
 
-      //  yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.Loading));
+        //  yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.Loading));
         yield return SceneManager.LoadSceneAsync(newSceneName);//异步加载场景
         GameObjectTeleporter.Instance.playerEnterScene(destinationTag);//玩家到场景入口 
 
         // yield return StartCoroutine(ScreenFader.FadeSceneIn());
         if (playerInput == null)
             playerInput = FindObjectOfType<PlayerInput>();
-        playerInput.GainControls();
+        PlayerAnimatorParamsMapping.SetControl(true);
 
         m_Transitioning = false;
     }

@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     public SceneEntrance.EntranceTag entranceTag;//Temporary use
     public GameObject mapPack;
 
+    public SaveSystem saveSystem;
+
 
     void Awake()
     {
