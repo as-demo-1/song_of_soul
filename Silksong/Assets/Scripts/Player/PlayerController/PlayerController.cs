@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
     private PlayerGroundedCheck playerGroundedCheck;
 
     [DisplayOnly]
-    public PlayerToCat playerToCat;
+    public PlayerToCatAndHuman playerToCat;
 
     [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
         playerGroundedCheck = new PlayerGroundedCheck(this);
-        playerToCat = new PlayerToCat(this);
+        playerToCat = new PlayerToCatAndHuman(this);
 
         playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
@@ -371,7 +371,8 @@ public class PlayerController : MonoBehaviour
         playerInfo.playerFacingRight = !playerInfo.playerFacingRight;
         Vector3 t = transform.localScale;
         transform.localScale = new Vector3(-t.x, t.y, t.z);
-        playerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+        PlayerBreakMoon playerBreakMoon = (PlayerBreakMoon)playerStatesBehaviour.StateActionsDic[EPlayerState.BreakMoon];
+        playerBreakMoon .findCurrentTarget();
     }
 
     public void getHurt(DamagerBase damager, DamageableBase damable)
@@ -545,8 +546,8 @@ public class PlayerGroundedCheck
             {
                 if(++bufferGroundTrue>=5)
                 {
-                    playerController.playerStatesBehaviour.playerJump.resetJumpCount();
-                    playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
+                   ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetJumpCount();
+                   ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
                     bufferTimer = Constants.IsGroundedBufferFrame;
                 }
             }
@@ -577,7 +578,7 @@ public class PlayerGroundedCheck
 
             if (isGroundedBuffer &&!value)//从真设为假
             {
-                playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
+                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).CurrentJumpCountLeft--;
             }
             isGroundedBuffer = value;
         }
@@ -586,7 +587,7 @@ public class PlayerGroundedCheck
 
 }
 
-public class PlayerToCat
+public class PlayerToCatAndHuman
 {
     private bool isCat;
     public bool IsCat
@@ -612,7 +613,7 @@ public class PlayerToCat
 
 
     private PlayerController playerController;
-    public PlayerToCat(PlayerController playerController)
+    public PlayerToCatAndHuman(PlayerController playerController)
     {
         this.playerController = playerController;
     }
