@@ -15,7 +15,7 @@ public class Enemy_Hitted_State :EnemyFSMBaseState
         fsmManager = fSMManager;
         if (fsmManager.animator.HasState(0, Animator.StringToHash(defaultAnimationName)))
         {
-            AnimationClip[] clips = fsmManager.animator.runtimeAnimatorController.animationClips;      
+            AnimationClip[] clips = fsmManager.animator.runtimeAnimatorController.animationClips;
             foreach (AnimationClip clip in clips)
             {
                 if (clip.name.Equals(defaultAnimationName))

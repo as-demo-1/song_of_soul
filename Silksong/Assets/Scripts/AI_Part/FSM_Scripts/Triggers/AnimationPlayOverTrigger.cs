@@ -6,7 +6,7 @@ public class AnimationPlayOverTrigger :EnemyFSMBaseTrigger
 {
     AnimatorStateInfo info;
     public string checkAnimationName;
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     {
 
         if (fsm_Manager.animator != null)

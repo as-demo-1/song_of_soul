@@ -8,8 +8,9 @@ public class SceneTransitionPoint : Trigger2DBase
     public SceneEntrance.EntranceTag entranceTag;
     public bool resetInputValuesOnTransition = true;
 
+
     protected override void enterEvent()
-    {
+    {        
         SceneController.TransitionToScene(this);
     }
 }
