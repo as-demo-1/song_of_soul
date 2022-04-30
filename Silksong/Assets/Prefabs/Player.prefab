@@ -1,5 +1,135 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &132305938
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 132305939}
+  - component: {fileID: 132305943}
+  - component: {fileID: 132305942}
+  - component: {fileID: 132305941}
+  - component: {fileID: 132305940}
+  m_Layer: 20
+  m_Name: upAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &132305939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 448765875}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &132305943
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.5}
+  m_EdgeRadius: 0
+--- !u!114 &132305942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04c49877695c20044abc3ee41276ca77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreInvincibility: 0
+  canDamage: 1
+  damage: 1
+  beatBackVector: {x: 0.25, y: 0}
+  makeDamageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 484977951751258056}
+        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
+        m_MethodName: AttackGainMana
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  hittableLayers2:
+    serializedVersion: 2
+    m_Bits: 32768
+  damage2: 10
+--- !u!114 &132305941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9758a46ce5d59469767080cae67c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  timeScale: 0
+  frameCounts: 4
+--- !u!114 &132305940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cc32ae9e719444d8d0324adbc50ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTiming: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  shakeForce: 0.4
 --- !u!1 &225317964
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +211,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 484977951751258056}
         m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainSoul
+        m_MethodName: AttackGainMana
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -130,6 +260,53 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   shakeForce: 1
+--- !u!1 &303103793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 303103794}
+  - component: {fileID: 303103795}
+  m_Layer: 0
+  m_Name: UnderWaterCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &303103794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303103793}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 484977951162521063}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &303103795
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303103793}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.23
 --- !u!1 &448765874
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,12 +333,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448765874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 1439625706}
   - {fileID: 2013861695}
   - {fileID: 225317965}
+  - {fileID: 132305939}
   m_Father: {fileID: 484977951162521063}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -202,9 +380,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 432623041
+  m_SortingLayer: 3
+  m_SortingOrder: 20
   m_Sprite: {fileID: 21300000, guid: 83a92aa589b9ddc4fa8c25525c15ce5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -316,7 +494,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 484977951751258056}
         m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainSoul
+        m_MethodName: AttackGainMana
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -446,7 +624,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 484977951751258056}
         m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainSoul
+        m_MethodName: AttackGainMana
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -504,15 +682,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 484977951162521063}
+  - component: {fileID: 484977951162521056}
+  - component: {fileID: 484977951751258056}
   - component: {fileID: 484977951162521058}
   - component: {fileID: 484977951162521062}
-  - component: {fileID: 484977951162521056}
   - component: {fileID: 484977951162521059}
-  - component: {fileID: 484977951751258056}
   - component: {fileID: 1342962417}
   - component: {fileID: 1048344337554074644}
   - component: {fileID: 4061423512895920214}
   - component: {fileID: 462374528}
+  - component: {fileID: 8431473157400537811}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -534,9 +713,119 @@ Transform:
   - {fileID: 484977951192663522}
   - {fileID: 3898795374264322033}
   - {fileID: 448765875}
+  - {fileID: 303103794}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &484977951162521056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28aa47a7635985f468ccaee4358a06bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputType: 0
+  sprint:
+    NotNeedGainAndReleaseControl: 0
+    key: 304
+    controllerButton: 9
+    m_Enabled: 1
+  Pick:
+    NotNeedGainAndReleaseControl: 0
+    key: 102
+    controllerButton: 4
+    m_Enabled: 1
+  plunge:
+    NotNeedGainAndReleaseControl: 0
+    key: 104
+    controllerButton: 0
+    m_Enabled: 1
+  teleport:
+    NotNeedGainAndReleaseControl: 0
+    key: 120
+    controllerButton: 0
+    m_Enabled: 1
+  jump:
+    NotNeedGainAndReleaseControl: 0
+    key: 107
+    controllerButton: 1
+    m_Enabled: 1
+  interact:
+    NotNeedGainAndReleaseControl: 0
+    key: 119
+    controllerButton: 0
+    m_Enabled: 1
+  breakMoon:
+    NotNeedGainAndReleaseControl: 0
+    key: 113
+    controllerButton: 0
+    m_Enabled: 1
+  heal:
+    NotNeedGainAndReleaseControl: 0
+    key: 99
+    controllerButton: 0
+    m_Enabled: 1
+  toCat:
+    NotNeedGainAndReleaseControl: 0
+    key: 110
+    controllerButton: 0
+    m_Enabled: 1
+  castSkill:
+    NotNeedGainAndReleaseControl: 0
+    key: 108
+    controllerButton: 0
+    m_Enabled: 1
+  horizontal:
+    NotNeedGainAndReleaseControl: 0
+    positive: 100
+    negative: 97
+    controllerAxis: 1
+  vertical:
+    NotNeedGainAndReleaseControl: 0
+    positive: 119
+    negative: 115
+    controllerAxis: 2
+  normalAttack:
+    NotNeedGainAndReleaseControl: 0
+    key: 106
+    controllerButton: 3
+    m_Enabled: 1
+  showMap:
+    NotNeedGainAndReleaseControl: 0
+    key: 109
+    controllerButton: 0
+    m_Enabled: 1
+  quickMap:
+    NotNeedGainAndReleaseControl: 0
+    key: 9
+    controllerButton: 0
+    m_Enabled: 1
+--- !u!114 &484977951751258056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9912943845aa4db488c102a390b6aca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 10
+  maxMana: 100
+  mana: 0
+  money: 0
+  playerDamable: {fileID: 0}
+  onManaChangeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  gluedCount: 0
 --- !u!114 &484977951162521058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -549,26 +838,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacter: {fileID: 0}
   playerInfo:
-    moveSpeed: 5
-    jumpMaxHeight: 4.05
     jumpMinHeight: 0
-    maxFallSpeed: 20
+    maxFallSpeed: 15
     sprintDistance: 4
     maxAirSprintCount: 1
     maxJumpCount: 1
+    breakMoonAvgSpeed: 10
+    breakMoonPositionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     normalGravityScale: 5
     playerFacingRight: 1
-  lastHorizontalInputDir: 0
+    swimSpeed: 10
+    plungeSpeed: 20
   PlayerAnimator: {fileID: 448765876}
-  groundLayerMask:
+  underwaterLayerMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 512
+  boxCollider: {fileID: 0}
+  gravityLock: 0
+  IsUnderWater: 0
+  underWaterCheckCollider: {fileID: 303103795}
   groundCheckCollider: {fileID: 619636124}
-  _guid: e9a9d9d2-56ca-4a9d-a190-c8e87ddbf6be
+  plungeStrengthArr:
+  - 0
+  - 3
+  - 5
+  - 10
+  canPlungeHeight: 3
+  distanceToGround: -1
+  _guid: 00000000-0000-0000-0000-000000000000
   _saveSystem: {fileID: 0}
   _backpack: {fileID: 0}
   _itemToAdd: {fileID: 0}
+  _savePoint: {fileID: 0}
 --- !u!50 &484977951162521062
 Rigidbody2D:
   serializedVersion: 4
@@ -590,59 +916,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &484977951162521056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484977951162521061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28aa47a7635985f468ccaee4358a06bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputType: 0
-  sprint:
-    NeedGainAndReleaseControl: 0
-    key: 304
-    controllerButton: 9
-    m_Enabled: 1
-  Pick:
-    NeedGainAndReleaseControl: 0
-    key: 102
-    controllerButton: 4
-    m_Enabled: 1
-  teleport:
-    NeedGainAndReleaseControl: 0
-    key: 120
-    controllerButton: 0
-    m_Enabled: 1
-  jump:
-    NeedGainAndReleaseControl: 0
-    key: 32
-    controllerButton: 1
-    m_Enabled: 1
-  interact:
-    NeedGainAndReleaseControl: 0
-    key: 119
-    controllerButton: 0
-    m_Enabled: 1
-  horizontal:
-    NeedGainAndReleaseControl: 0
-    positive: 100
-    negative: 97
-    controllerAxis: 1
-  vertical:
-    NeedGainAndReleaseControl: 0
-    positive: 119
-    negative: 115
-    controllerAxis: 2
-  normalAttack:
-    NeedGainAndReleaseControl: 0
-    key: 106
-    controllerButton: 3
-    m_Enabled: 1
 --- !u!114 &484977951162521059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,22 +929,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedGuid: 
---- !u!114 &484977951751258056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 484977951162521061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9912943845aa4db488c102a390b6aca1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 5
-  maxSoul: 100
-  soul: 0
-  money: 0
 --- !u!114 &1342962417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,8 +949,8 @@ MonoBehaviour:
       m_Calls: []
   takeDamageAudio: {fileID: 3942139613390052856}
   takeDamageSfxSO: {fileID: 0}
-  maxHp: 50
-  currentHp: 50
+  maxHp: 5
+  currentHp: 5
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
@@ -749,7 +1006,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.1}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -762,6 +1019,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.24, y: 1.6}
   m_EdgeRadius: 0
+--- !u!114 &8431473157400537811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a12c12a981433a4bb795750a36ebe97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillCollection: {fileID: 11400000, guid: 32510a57a5f17954e87afd20262ee5aa, type: 2}
+  unlockedPlayerSkillList: []
+  equippingPlayerSkill:
+    Name: 0
+    SkillPrefab: {fileID: 0}
+    Description: 
+    Damage: 0
+    ManaCost: 0
+    CoolDown: 0
+  pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
+  UnlockedSkillContainer: {fileID: 0}
+  equippingSkillText: {fileID: 0}
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,7 +1087,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.005, y: -0.85}
+  m_Offset: {x: -0.005, y: -0.8}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

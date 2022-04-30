@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum EventType
 {
+<<<<<<< HEAD
     onTakeDamage,
     onMakeDamage,
     onDie,
 
     //Enemy Behavious
     onEnemyHitWall,
+
+    onMoneyChange,
+=======
+    onTakeDamager,
+    onMakeDamager,
+    onDie
+>>>>>>> 30f6fd9d (damage test)
 }
 
 public class EventDate

@@ -5,7 +5,9 @@ using UnityEngine;
 public class WaitTimeTrigger : EnemyFSMBaseTrigger
 {
     public float maxTime;
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public float timer;
 
     public WaitTimeTrigger():base()
@@ -13,7 +15,7 @@ public class WaitTimeTrigger : EnemyFSMBaseTrigger
         maxTime = 0;
     }
 
-    public override bool IsTriggerReach(EnemyFSMManager fsm_Manager)
+    public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)
     { 
         timer += Time.deltaTime;
         if(timer>maxTime)

@@ -43,6 +43,7 @@ public class AudioManager : MonoBehaviour
 
 		_pool.Prewarm(_initialSize);
 		_pool.SetParent(this.transform);
+		setMonstersDefaultHittedAudio();
 
 	}
 
@@ -64,7 +65,7 @@ public class AudioManager : MonoBehaviour
 	{
 		bool volumeSet = audioMixer.SetFloat(parameterName, NormalizedToMixerValue(normalizedVolume));
 		if (!volumeSet)
-			Debug.LogError("The AudioMixer parameter was not found");
+			Debug.Log("The AudioMixer parameter was not found");
 	}
 
 	public float GetGroupVolume(string parameterName)

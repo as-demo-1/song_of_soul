@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SaveSystemSO", order = 1)]
 public class SaveSystem : ScriptableObject
@@ -9,9 +11,72 @@ public class SaveSystem : ScriptableObject
 	[SerializeField] private InventorySO _StoreInventory;
 	public string saveFilename = "save.asoul";
 	public string backupSaveFilename = "save.asoul.bak";
-	public Save saveData = new Save();
-	
+	private Save saveData = new Save();
 
+	public bool ContainBossGUID(string GUID)
+	{
+		return saveData._bossGUID.Contains(GUID);
+	}
+
+	public void AddBossGUID(string GUID)
+	{
+		saveData._bossGUID.Add(GUID);
+	}
+
+	/// <summary>
+	/// Check the interactive item count
+	/// </summary>
+	/// <param name="param">sceneID - sequenceID</param>
+	/// <returns>count of trigger time, -1 for not inside the dictionary</returns>
+	public int ContainSceneInteractive(string param)
+	{
+		if (saveData._sceneInterative.ContainsKey(param))
+		{
+			return saveData._sceneInterative[param];
+		}
+
+		return -1;
+	}
+
+	/// <summary>
+	/// Update interacitve item count
+	/// </summary>
+	/// <param name="param">sceneID - sequenceID</param>
+	public void AddSceneInteractive(string param)
+	{
+		if (saveData._sceneInterative.ContainsKey(param))
+		{
+			saveData._sceneInterative[param]++;
+		}
+		else
+		{
+			saveData._sceneInterative.Add(param, 1);
+		}
+
+	}
+
+	public int GetHealthMax()
+	{
+		return saveData._healthMax;
+	}
+
+	public void SetHealthMax(int healthMax)
+	{
+		saveData._healthMax = healthMax;
+	}
+	
+	public uint GetGoldAmount()
+	{
+		return saveData._goldAmount;
+	}
+
+	public void SetGoldAmount(uint goldamount)
+	{
+		saveData._goldAmount = goldamount;
+	}
+	
+	
+	
 	public void TestSaveGuid(string Guid)
 	{
 		Debug.Log("WriteData");
@@ -22,13 +87,24 @@ public class SaveSystem : ScriptableObject
 	//Read save data from FileManager
 	public bool LoadSaveDataFromDisk()
 	{
+#if UNITY_EDITOR
 		if (FileManager.LoadFromFile(saveFilename, out var json))
 		{
 			saveData.LoadFromJson(json);
-			return true;
 		}
+		else return false;
+		foreach (var serializedItemStack in saveData._itemStacks)
+		{
+			string path = AssetDatabase.GUIDToAssetPath(serializedItemStack.itemGuid);
+			ItemSO tmp = AssetDatabase.LoadAssetAtPath(path,typeof(ItemSO)) as ItemSO;
+			_playerInventory.Add(tmp,serializedItemStack.amount);
+		}
+		return true;
+#endif
 
+#if UNITY_STANDALONE //can not use assetDataBase when publish, to be fixed
 		return false;
+#endif
 	}
 	//Save data to file
 	public void SaveDataToDisk()

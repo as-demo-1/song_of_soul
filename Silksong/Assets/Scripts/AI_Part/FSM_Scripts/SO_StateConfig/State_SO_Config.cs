@@ -65,6 +65,7 @@ public class State_SO_Config<T1, T2, T3, T4> : ScriptableObject
 }
 
 
+#if UNITY_EDITOR
 
 /// <summary>
 /// 辅助工具，用于Enemy_SO ,Inspirte面板的刷新
@@ -234,4 +235,5 @@ public class DisplayOnlyDraw:PropertyDrawer
         GUI.enabled = true;
     }
 }
+#endif
 

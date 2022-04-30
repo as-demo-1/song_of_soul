@@ -35,7 +35,9 @@ public class CameraShakeManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         gameObject.AddComponent<CinemachineImpulseSource>();
         impulseSource = GetComponent<CinemachineImpulseSource>();
+#if UNITY_EDITOR
         impulseSource.m_ImpulseDefinition.m_RawSignal = (SignalSourceAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/HitSense/CameraShake/shake.asset", typeof( SignalSourceAsset));
+#endif  
     }
     protected static CameraShakeManager instance;
     void Start()
@@ -51,6 +53,4 @@ public class CameraShakeManager : MonoBehaviour
     {
         impulseSource.GenerateImpulse(force);
     }
-
-
 }

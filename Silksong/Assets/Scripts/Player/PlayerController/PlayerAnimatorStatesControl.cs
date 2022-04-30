@@ -22,7 +22,7 @@ public class PlayerAnimatorStatesControl
         this.CurrentPlayerState = currentPlayerState;
         this.CharacterStatesBehaviour = new PlayerStatesBehaviour(this.PlayerController);
         this.CharacterAnimatorParamsMapping = new PlayerAnimatorParamsMapping(this);
-        this.PlayerStatusDic = new PlayerStatusDic(this.PlayerController);
+        this.PlayerStatusDic = new PlayerStatusDic(this.PlayerController,CharacterAnimatorParamsMapping);
         PlayerSMBEvents.Initialise(this.Animator,PlayerController);
     }
 
@@ -41,9 +41,11 @@ public class PlayerAnimatorStatesControl
 
     public void ChangePlayerState(EPlayerState newState)
     {
-        CharacterStatesBehaviour.StatesExitBehaviour(CurrentPlayerState);
+        CharacterStatesBehaviour.StatesExitBehaviour(CurrentPlayerState,newState);
+        EPlayerState t = CurrentPlayerState;
         CurrentPlayerState = newState;
-        CharacterStatesBehaviour.StatesEnterBehaviour(newState);
+        CharacterStatesBehaviour.StatesEnterBehaviour(CurrentPlayerState,t);
+
     }
 }
 

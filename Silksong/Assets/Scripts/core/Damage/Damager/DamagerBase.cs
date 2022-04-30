@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< HEAD
 using System;
 using UnityEngine.Events;
 
+=======
+/// <summary>
+/// 作者：青瓜
+/// damager的抽象基类 
+/// damager和其trigger应作为独立的物体 有自己的layer 不再有子物体
+/// </summary>
+>>>>>>> 30f6fd9d (damage test)
 public static class LayerMaskExtensions//layerMask增加contains方法 判断gameObject是否在layerMask中
 {
     public static bool Contains(this LayerMask layers, GameObject gameObject)
@@ -12,16 +20,20 @@ public static class LayerMaskExtensions//layerMask增加contains方法 判断gameObjec
     }
 }
 
+<<<<<<< HEAD
 /// <summary>
 /// 
 /// damager的抽象基类 
 /// </summary>作者：青瓜
+=======
+>>>>>>> 30f6fd9d (damage test)
 
 public abstract class DamagerBase : MonoBehaviour
 {
     public bool ignoreInvincibility = false;//无视无敌
     public bool canDamage = true;
     public int damage;//伤害数值
+<<<<<<< HEAD
     public Vector2 beatBackVector = Vector2.zero;
 
     [Serializable]
@@ -29,6 +41,8 @@ public abstract class DamagerBase : MonoBehaviour
     { }
 
     public DamableEvent makeDamageEvent;
+=======
+>>>>>>> 30f6fd9d (damage test)
 
 
     public virtual int getDamage(DamageableBase target)//获得造成的具体伤害数值

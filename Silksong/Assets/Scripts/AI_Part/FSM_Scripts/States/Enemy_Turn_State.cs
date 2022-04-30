@@ -11,7 +11,7 @@ public class Enemy_Turn_State : EnemyFSMBaseState
 
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {
-        base.EnterState(fSM_Manager);
+        base.EnterState(fSM_Manager);                       
         fsmManager.rigidbody2d.velocity = Vector2.zero;
     }
     public override void InitState(EnemyFSMManager fSM_Manager)

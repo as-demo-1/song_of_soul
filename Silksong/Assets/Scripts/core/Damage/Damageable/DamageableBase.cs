@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+<<<<<<< HEAD
 using System;
 using UnityEngine.Events;
 /// <summary>
@@ -28,7 +29,17 @@ public abstract class DamageableBase : MonoBehaviour
 
     public SfxSO takeDamageSfxSO;
 
-    protected ContactPoint2D[] points = new ContactPoint2D[5];
+=======
+
+/// <summary>
+/// 作者：青瓜
+/// damageable的抽象基类 
+/// </summary>
+public abstract class DamageableBase : MonoBehaviour
+{
+    public bool invulnerable;//是否无敌
+    public abstract void takeDamage(DamagerBase damager);//受到伤害时触发的效果
+>>>>>>> 30f6fd9d (damage test)
 
     protected virtual void Awake()//在awake时检测刚体 完成设定
     {

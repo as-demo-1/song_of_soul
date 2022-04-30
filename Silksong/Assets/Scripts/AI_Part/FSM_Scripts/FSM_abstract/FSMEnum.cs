@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 /// <summary>
 /// 添加States时务必加上序号。
 /// </summary>
 public enum EnemyStates
 {
+    StateCombinationNode=99,
     EnemySubFSMManager = 10,
 
     Enemy_Any_State =0,
@@ -21,10 +21,22 @@ public enum EnemyStates
     Enemy_Bump_State=9,
 
     Enemy_Chase_State=11,
-    Enemy_Turn_State=12,
-    Enemy_Meet_State=13,
-    Enemy_Smash_Down_State=14,
-    Boss_Shoot_State=15
+    Enemy_Smash_Down_State=12,
+    Boss_Shoot_State=13,
+    Enemy_Turn_State = 14,
+    Enemy_Meet_State = 15,
+    Enemy_Circle_State = 16,
+    Enemy_Die_State=17,
+    LittleMonster_Die=18,
+    BigMonster_Die=19,
+    Enemy_HookToMoonPoint_State=20,
+    Enemy_PullRope_State=21,
+    Enemy_VerticalJump_State=22,
+    Enemy_VerticalPatrol_State=23,
+    Enemy_VerticlAttack_State=24,
+    Enemy_Hook_State=25,
+    Enemy_BroadswordAttack_State=26,
+    Enemy_JumpAttack_State=27,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
@@ -40,7 +52,15 @@ public enum EnemyTriggers
     NearPlatformBorderTrigger=6,
     TargetTurnTrigger=7,
     RandomTrigger = 8,
+    TouchLayerTrigger=9,
+    FindMoonPoinTrigger=10,
+    DistanceToMoonPointTrigger= 11,
+    CheckPlatformTrigger=12,
 
+    LandTrigger=14,
+    VerticalTurnTirgger=15,
+    WaitHookBackTrigger=16,
+    SightCheckTrigger=17,
 }
 
 
