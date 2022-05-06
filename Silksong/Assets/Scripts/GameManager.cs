@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
             return instance;
         }
-    }//µ¥Àı
+    }//ï¿½ï¿½ï¿½ï¿½ 
 
     protected static GameManager instance;
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
         GameInitialize();
 
-        //ÒÔÏÂ´úÂë´ú±íÍæ¼Ò´Ó²Ëµ¥½øÈëÓÎÏ·³¡¾°µÄ³õÊ¼»¯£¬ÁÙÊ±Ê¹ÓÃ
+        //ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò´Ó²Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±Ê¹ï¿½ï¿½
 
         gamingUI = Instantiate(gamingUI);
         DontDestroyOnLoad(gamingUI);
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ½øÈëÓÎÏ·³¡¾°Ê±Éú³ÉÍæ¼Ò
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void creatPlayer()
     {
