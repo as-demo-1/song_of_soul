@@ -48,6 +48,12 @@ public abstract class CharmSO: ScriptableObject
     [SerializeField]
     Sprite charmImage;
 
+    /// <summary>
+    /// 是否是易碎护符
+    /// </summary>
+    [SerializeField]
+    private bool isFragile;
+
     [SerializeField]
     protected CharmListSO CharmListSO = default;
 

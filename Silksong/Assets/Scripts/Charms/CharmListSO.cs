@@ -23,6 +23,33 @@ public class CharmListSO : ScriptableObject
     /// </summary>
     public int CharmHurtGainSoul { get => charmHurtGainSoul; set => charmHurtGainSoul = value; }
 
+    /// <summary>
+    /// 护符提供的临时血量
+    /// </summary>
+    public int CharmExtraHealth;
+
+    /// <summary>
+    /// 护符提供的攻击范围
+    /// </summary>
+    public float CharmAttackRange;
+
+    /// <summary>
+    /// 护符提供的攻击速度
+    /// </summary>
+    public float CharmAttackSpeed;
+
+    /// <summary>
+    /// 护符提供的移动速度
+    /// </summary>
+    public float CharmMoveSpeed;
+
+    /// <summary>
+    /// 护符提供的攻击伤害
+    /// </summary>
+    public float CharmAttackDamage;
+
+
+
 
 
     /// <summary>
@@ -50,17 +77,37 @@ public class CharmListSO : ScriptableObject
     /// <returns></returns>
     public bool EquipCharm(string name)
     {
-        foreach (var item in Charms)
+        foreach (var charm in Charms)
         {
-            if (name.Equals(item.Name))
+            if (!charm.HasEquiped && name.Equals(charm.Name))
             {
-                item.HasEquiped = true;
-                item.OnEquip();
+                charm.HasEquiped = true;
+                charm.OnEquip();
+                return true;
+            }
+        }
+        return false; //没有找到匹配的护符名称
+    }
+
+    /// <summary>
+    /// 卸载护符
+    /// </summary>
+    /// <param name="name">护符名称</param>
+    /// <returns></returns>
+    public bool DisEquipCharm(string name)
+    {
+        foreach (CharmSO charm in Charms)
+        {
+            if (charm.HasEquiped && name.Equals(charm.Name))
+            {
+                charm.HasEquiped = false;
+                charm.OnDisEquip();
                 return true;
             }
         }
         return false;
     }
+
 
     /// <summary>
     /// 激活所有护符，在游戏开始后激活所有已装备的护符
