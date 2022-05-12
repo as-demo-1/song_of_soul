@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject mapPack;
 
+    public SaveSystem saveSystem;
+
 
     void Awake()
     {
