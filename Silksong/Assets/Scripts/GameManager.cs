@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
             return instance;
         }
-    }//���� 
+    }//单例
 
     protected static GameManager instance;
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
         GameInitialize();
 
-        //���´��������ҴӲ˵�������Ϸ�����ĳ�ʼ������ʱʹ��
+        //以下代码代表玩家从菜单进入游戏场景的初始化，临时使用
 
         gamingUI = Instantiate(gamingUI);
         DontDestroyOnLoad(gamingUI);
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ������Ϸ����ʱ�������
+    /// 进入游戏场景时生成玩家
     /// </summary>
     public void creatPlayer()
     {
