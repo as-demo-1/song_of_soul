@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gamingUI);
 
         creatPlayer();
-        GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
+        GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
 
         mapPack = Instantiate(mapPack);
         DontDestroyOnLoad(mapPack);
