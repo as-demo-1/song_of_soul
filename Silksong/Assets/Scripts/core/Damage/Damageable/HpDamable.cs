@@ -9,9 +9,21 @@ using UnityEngine.Events;
 /// </summary>作者：青瓜
 public class HpDamable :Damable
 {
-    public int maxHp ;//最大生命值
+    [SerializeField]
+    private int maxHp ;//最大生命值
+    public int MaxHp
+    {
+        get { return maxHp; }
+        set { maxHp = value; }
+    }
 
-    public int currentHp;//当前hp
+    [SerializeField]
+    private int currentHp;//当前hp
+    public int CurrentHp
+    {
+        get { return currentHp; }
+    }
+    
 
     public bool resetHealthOnSceneReload;
 
@@ -19,7 +31,13 @@ public class HpDamable :Damable
     public class dieEvent : UnityEvent<DamagerBase, DamageableBase>
     { }
 
+    //[Serializable]
+    public class setHpEvent : UnityEvent<HpDamable>
+    { }
+
     public dieEvent onDieEvent;
+
+    public setHpEvent onHpChange=new setHpEvent();
 
     public AudioCue dieAudio;//在audiomanager中有绑定怪物hpdamable默认《受击》音效的效果
 
@@ -37,34 +55,25 @@ public class HpDamable :Damable
     }
 
 
-    public void setHp(int hp,DamagerBase damager=null)
+    public void setCurrentHp(int hp,DamagerBase damager=null)
     {
-        currentHp = hp;
-        checkHp(damager);
-    }
-
-    protected virtual void checkHp(DamagerBase damager)
-    {
-        if (currentHp > maxHp)
-        {
-            currentHp = maxHp;
-        }
-        if (currentHp <= 0)
+        currentHp = Mathf.Clamp(hp,0,MaxHp);
+        onHpChange.Invoke(this);
+        if (currentHp == 0)
         {
             die(damager);
         }
     }
-    protected void addHp(int number,DamagerBase damager)//如受到伤害 number<0
-    {
-        currentHp += number;
-        checkHp(damager);
 
+    public void addHp(int number,DamagerBase damager)//如受到伤害 number<0
+    {
+        setCurrentHp(currentHp + number,damager);
     }
 
     protected virtual void die(DamagerBase damager)
     {
         onDieEvent.Invoke(damager,this);
-        //Destroy(gameObject);//未完善
+        Destroy(gameObject);//未完善
         Debug.Log(gameObject.name+" die");
         if (dieAudio)
         {

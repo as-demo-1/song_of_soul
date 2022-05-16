@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: Boss00_Part2_Idle
   m_EditorClassIdentifier: 
   lastStateID: 1
-  lastTriggerID: 6
+  lastTriggerID: 0
   StateName: Boss00_Part2_Idle
   StateType: 1
   stateConfig:
     id: 0
-  TriggerType: 6
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList:
   - id: 2
+  - id: 3
   references:
     version: 1
     00000000:
@@ -36,19 +37,23 @@ MonoBehaviour:
         isflying: 1
         flyingMinHight: 5
     00000001:
-      type: {class: RandomTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 6
-        targetState: 
-        insideTriggerType: 4
-        insideTrigger:
-          triggerType: 0
-          targetState: 
-        targetList: []
+        triggerType: 0
+        targetState: Boss00_Part2_judge_node1
+        maxTime: 3
+        timer: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Boss00_Part2_FlyAway
-        maxTime: 5
+        targetState: Boss00_Part2_Shot_and_Circle
+        maxTime: 15
+        timer: 0
+    00000003:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Boss00_Part2_judge_node1
+        maxTime: 3
         timer: 0

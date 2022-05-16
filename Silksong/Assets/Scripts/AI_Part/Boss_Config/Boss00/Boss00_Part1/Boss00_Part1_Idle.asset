@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Boss00_Part1_Idle
   m_EditorClassIdentifier: 
   lastStateID: 1
-  lastTriggerID: 2
+  lastTriggerID: 0
   StateName: Boss00_Part1_Idle
   StateType: 1
   stateConfig:
     id: 0
-  TriggerType: 2
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList:
@@ -31,24 +31,26 @@ MonoBehaviour:
       data:
         stateType: 1
         defaultAnimationName: Boss00_Idle
+        isflying: 0
+        flyingMinHight: 0
     00000001:
-      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 2
-        targetState: Boss00_Part1_FarAway
-        checkNearRadius: 0
-        checkFarRadius: 0
+        triggerType: 0
+        targetState: Boss00_Part1_Dash
+        maxTime: 6
+        timer: 0
     00000002:
-      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 2
-        targetState: Boss00_Part1_Chase
-        checkNearRadius: 0
-        checkFarRadius: 30
+        triggerType: 0
+        targetState: Boss00_Part1_judge_node1
+        maxTime: 3
+        timer: 0
     00000003:
-      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 2
-        targetState: Boss00_Part1_FarAway
-        checkNearRadius: 30
-        checkFarRadius: 100000
+        triggerType: 0
+        targetState: Boss00_Part1_Dash
+        maxTime: 6
+        timer: 0

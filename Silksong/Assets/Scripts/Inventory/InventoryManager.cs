@@ -6,7 +6,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
 
-	[SerializeField] private InventorySO _currentInventory = default;
+	[SerializeField] public InventorySO _currentInventory = default;
 	[SerializeField] private SaveSystem _saveSystem;
 	
 	public void AddItem(ItemSO item)
@@ -26,17 +26,20 @@ public class InventoryManager : MonoBehaviour
 		_currentInventory.Remove(item);
 		_saveSystem.SaveDataToDisk();
 	}
-
+	public ItemSO SearchItem(string id)
+    {
+		return _currentInventory.Search(id);
+	}
+	public void RemoveItem(string id,int count=1)
+	{
+		_currentInventory.Remove(_currentInventory.Search(id),count);
+		_saveSystem.SaveDataToDisk();
+	}
 	public void LoadSave()
 	{
 		_currentInventory.Items.Clear();
 		_saveSystem.LoadSaveDataFromDisk();
-		foreach (var serializedItemStack in _saveSystem.saveData._itemStacks)
-		{
-			string path = AssetDatabase.GUIDToAssetPath(serializedItemStack.itemGuid);
-			ItemSO tmp = AssetDatabase.LoadAssetAtPath(path,typeof(ItemSO)) as ItemSO;
-			_currentInventory.Add(tmp,serializedItemStack.amount);
-		}
+		
 	}
 	
 }

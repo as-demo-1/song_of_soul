@@ -51,6 +51,4 @@ public class CameraShakeManager : MonoBehaviour
     {
         impulseSource.GenerateImpulse(force);
     }
-
-
 }

@@ -29,13 +29,12 @@ MonoBehaviour:
       type: {class: Enemy_Chase_State, ns: , asm: Assembly-CSharp}
       data:
         stateType: 11
-        defaultAnimationName: Boss00_meet
-        animationEvents:
-          m_PersistentCalls:
-            m_Calls: []
-        chaseSpeed: -3
+        defaultAnimationName: Boss00_flying
+        chaseSpeed: -1
         isFaceWithSpeed: 1
         isFlying: 1
+        lock_x_move: 0
+        lock_y_move: 0
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -46,5 +45,5 @@ MonoBehaviour:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: Boss00_Part2_Shoot1
-        checkAnimationName: Boss00_meet
+        targetState: Boss00_Part2_Random_Shoot
+        checkAnimationName: 
