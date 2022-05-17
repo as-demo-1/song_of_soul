@@ -40,7 +40,7 @@ public class LightTree_Pedal : MonoBehaviour
         while (i < lst.Count)
         {
             yield return new WaitForSeconds(CD);//以CD为间隔长出平台
-            Debug.Log("出现的平台是：" + lst[i].gameObject);
+            //Debug.Log("出现的平台是：" + lst[i].gameObject);
             lst[i].gameObject.layer = 6;
             i++;
         }

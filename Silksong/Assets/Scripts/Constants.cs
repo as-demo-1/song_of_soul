@@ -30,7 +30,6 @@ public static class Constants
 
     public const float BreakMoonPointCd = 3f;
     public const float BreakMoonAfterDistance=2f;//ËéÔÂ»º³å¾àÀë
-    public const float BreakMoonPrePareTime = 0.417f;
 
     public const float PlayerBaseHealTime = 2f;
 

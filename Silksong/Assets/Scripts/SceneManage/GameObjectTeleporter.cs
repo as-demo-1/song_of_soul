@@ -72,6 +72,9 @@ public class GameObjectTeleporter : MonoBehaviour
         GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
 
         Teleport(playerInput.gameObject, entrance.transform.position);
+
+        //show scene name for test,will be delete
+        PlayerHpUI.setSceneNameText(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
     public static void Teleport(GameObject transitioningGameObject, Vector3 destinationPosition)
     {
@@ -87,7 +90,7 @@ public class GameObjectTeleporter : MonoBehaviour
 
         if (releaseControl)
         {
-            PlayerAnimatorParamsMapping.SetControl(false);
+            playerInput.ReleaseControls(resetInputValues);
         }
 
         /*  if (fade)
@@ -102,7 +105,7 @@ public class GameObjectTeleporter : MonoBehaviour
 
         if (releaseControl)
         {
-            PlayerAnimatorParamsMapping.SetControl(true);
+            playerInput.GainControls();
         }
 
         Transitioning = false;

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Meet_State
   m_EditorClassIdentifier: 
-  lastStateID: 15
+  lastStateID: 13
   lastTriggerID: 3
   StateName: Meet_State
-  StateType: 15
+  StateType: 13
   stateConfig:
     id: 0
   TriggerType: 3
@@ -28,8 +28,11 @@ MonoBehaviour:
     00000000:
       type: {class: Enemy_Meet_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 15
+        stateType: 13
         defaultAnimationName: meet
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:

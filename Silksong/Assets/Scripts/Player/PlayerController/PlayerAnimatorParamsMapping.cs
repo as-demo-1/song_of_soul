@@ -9,7 +9,7 @@ public class PlayerAnimatorParamsMapping
 
     public static bool HasControl=true;
 
-    public static void SetControl(bool val) { HasControl = val; }
+    public void SetControl(bool val) { HasControl = val; }
 
     public PlayerAnimatorParamsMapping(PlayerAnimatorStatesControl playerAnimatorStatesControl) 
     {
@@ -68,13 +68,14 @@ public class PlayerAnimatorParamsMapping
 
     public int CanClimbParamHash { get; } = Animator.StringToHash("CanClimb");
 
+    public int SingingParamHash { get; } = Animator.StringToHash("Singing");
     public void ParamsUpdate()
     {
         if(HasControl)
         {
             m_Animator.SetInteger(HorizontalInputParamHash, (int)PlayerInput.Instance.horizontal.Value);
             m_Animator.SetInteger(VerticalInputParamHash, (int)PlayerInput.Instance.vertical.Value);
-
+            m_Animator.SetInteger(SingingParamHash, (int)PlayerInput.Instance.Singing.Value);
             m_Animator.SetBool(JumpIsValidParamHash, PlayerInput.Instance.jump.IsValid);
 
             m_Animator.SetBool(SprintIsValidParamHash, PlayerInput.Instance.sprint.IsValid);
@@ -90,6 +91,7 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(PlungeIsValidParamHash, PlayerInput.Instance.plunge.IsValid);
 
+            
         }
         else
         {
@@ -112,7 +114,7 @@ public class PlayerAnimatorParamsMapping
             m_Animator.SetBool(PlungeIsValidParamHash, false);
 
         }
-
+        
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
 
         m_Animator.SetBool(IsUnderWaterParamHas, m_PlayerAnimatorStatesControl.PlayerController.IsUnderWater);

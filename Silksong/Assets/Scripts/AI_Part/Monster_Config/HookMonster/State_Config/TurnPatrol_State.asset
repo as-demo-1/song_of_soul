@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: TurnPatrol_State
   m_EditorClassIdentifier: 
-  lastStateID: 14
+  lastStateID: 12
   lastTriggerID: 0
   StateName: TurnPatrol_State
-  StateType: 14
+  StateType: 12
   stateConfig:
     id: 0
   TriggerType: 0
@@ -28,8 +28,11 @@ MonoBehaviour:
     00000000:
       type: {class: Enemy_Turn_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 14
+        stateType: 12
         defaultAnimationName: turn
+        animationEvents:
+          m_PersistentCalls:
+            m_Calls: []
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:

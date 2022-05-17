@@ -33,9 +33,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject gamingUI;
 
+    public SceneEntrance.EntranceTag entranceTag;//Temporary use
     public GameObject mapPack;
-
-    public SaveSystem saveSystem;
 
 
     void Awake()
@@ -56,7 +55,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gamingUI);
 
         creatPlayer();
-        GameObjectTeleporter.Instance.playerEnterScene(SceneEntrance.EntranceTag.A);
+        GameObjectTeleporter.Instance.playerEnterScene(entranceTag);
 
         mapPack = Instantiate(mapPack);
         DontDestroyOnLoad(mapPack);

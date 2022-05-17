@@ -36,6 +36,7 @@ public class PlayerInput : InputComponent
     public InputButton showMap = new InputButton(KeyCode.M, XboxControllerButtons.None);
     ////TODO:xbox button mapping
     public InputButton quickMap = new InputButton(KeyCode.Tab, XboxControllerButtons.None);
+    public InputAxis Singing = new InputAxis(KeyCode.U,KeyCode.None, XboxControllerAxes.None);
     [HideInInspector]
 
     protected bool m_HaveControl = true;
@@ -66,6 +67,7 @@ public class PlayerInput : InputComponent
             showMap,
             quickMap,
             plunge,
+            Singing,
         });
     }
 
@@ -106,22 +108,6 @@ public class PlayerInput : InputComponent
         }
     }
 
-
-
-    /// <summary>
-    /// 屏蔽所有的输入，包括角色和系统，一般不使用
-    /// </summary>
-    public override void ReleaseControls(bool resetValues = true)
-    {
-        Debug.Log("releaseCtrl");
-        m_HaveControl = false;
-
-        foreach (var button in buttons)
-        {
-            button.Disable();
-        }
-    }
-
     public override void GainControls()
     {
         Debug.Log("gainCtrl");
@@ -130,6 +116,17 @@ public class PlayerInput : InputComponent
         foreach (var button in buttons)
         {
             button.Enable();
+        }
+    }
+
+    public override void ReleaseControls(bool resetValues = true)
+    {
+        Debug.Log("releaseCtrl");
+        m_HaveControl = false;
+
+        foreach (var button in buttons)
+        {
+            button.Disable();
         }
     }
 

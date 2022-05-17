@@ -714,6 +714,7 @@ Transform:
   - {fileID: 3898795374264322033}
   - {fileID: 448765875}
   - {fileID: 303103794}
+  - {fileID: 6551371233460283112}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -805,6 +806,11 @@ MonoBehaviour:
     key: 9
     controllerButton: 0
     m_Enabled: 1
+  Singing:
+    NotNeedGainAndReleaseControl: 0
+    positive: 117
+    negative: 0
+    controllerAxis: 0
 --- !u!114 &484977951751258056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,8 +858,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 2
-        outSlope: 2
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -873,8 +879,7 @@ MonoBehaviour:
     normalGravityScale: 5
     playerFacingRight: 1
     swimSpeed: 10
-    gravityUnderWater: 0
-    plungeSpeed: 8
+    plungeSpeed: 20
   PlayerAnimator: {fileID: 448765876}
   underwaterLayerMask:
     serializedVersion: 2
@@ -886,12 +891,12 @@ MonoBehaviour:
   groundCheckCollider: {fileID: 619636124}
   plungeStrengthArr:
   - 0
-  - 1
   - 3
-  - 4
+  - 5
+  - 10
   canPlungeHeight: 3
   distanceToGround: -1
-  _guid: 5abe8ca4-eced-4d7e-94e6-6ef486e5fe9e
+  _guid: 00000000-0000-0000-0000-000000000000
   _saveSystem: {fileID: 0}
   _backpack: {fileID: 0}
   _itemToAdd: {fileID: 0}
@@ -1179,3 +1184,65 @@ MonoBehaviour:
   _playOnStart: 0
   _audioCueEventChannel: {fileID: 11400000, guid: 0821cfc0d1753004eb111b4f696e379b, type: 2}
   _audioConfiguration: {fileID: 11400000, guid: 6b42c99763682d64ba019b447d78be04, type: 2}
+--- !u!1001 &7427229995348728820
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 484977951162521063}
+    m_Modifications:
+    - target: {fileID: 4465872331780128024, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_Name
+      value: Singing
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+--- !u!4 &6551371233460283112 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4465872331780128028, guid: 2ec02cfa72fa77244ae1cc11a47c3201, type: 3}
+  m_PrefabInstance: {fileID: 7427229995348728820}
+  m_PrefabAsset: {fileID: 0}

@@ -51,12 +51,13 @@ public class SceneController : MonoBehaviour
     public static void TransitionToScene(SceneTransitionPoint transitionPoint)
     {
         Instance.StartCoroutine(Instance.Transition(transitionPoint.newSceneName, transitionPoint.entranceTag, transitionPoint.resetInputValuesOnTransition));
+
     }
 
-   /* public static void TransitionToScene(string SceneName,bool resetInputValuesOnTransition)//从菜单到游戏场景用 暂不用
-    {
-        Instance.StartCoroutine(Instance.Transition(SceneName, SceneEntrance.EntranceTag.A, resetInputValuesOnTransition));
-    }*/
+    /* public static void TransitionToScene(string SceneName,bool resetInputValuesOnTransition)//从菜单到游戏场景用 暂不用
+     {
+         Instance.StartCoroutine(Instance.Transition(SceneName, SceneEntrance.EntranceTag.A, resetInputValuesOnTransition));
+     }*/
 
 
     protected IEnumerator Transition(string newSceneName, SceneEntrance.EntranceTag destinationTag, bool resetInputValues)
@@ -65,16 +66,16 @@ public class SceneController : MonoBehaviour
 
         if(playerInput == null)
             playerInput = FindObjectOfType<PlayerInput>();
-        PlayerAnimatorParamsMapping.SetControl(false);
+        playerInput.ReleaseControls(resetInputValues);
 
-        //  yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.Loading));
+      //  yield return StartCoroutine(ScreenFader.FadeSceneOut(ScreenFader.FadeType.Loading));
         yield return SceneManager.LoadSceneAsync(newSceneName);//异步加载场景
         GameObjectTeleporter.Instance.playerEnterScene(destinationTag);//玩家到场景入口 
 
         // yield return StartCoroutine(ScreenFader.FadeSceneIn());
         if (playerInput == null)
             playerInput = FindObjectOfType<PlayerInput>();
-        PlayerAnimatorParamsMapping.SetControl(true);
+        playerInput.GainControls();
 
         m_Transitioning = false;
     }

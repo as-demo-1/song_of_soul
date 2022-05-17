@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// ç¢°æ’æ£€æµ‹çš„æŠ½è±¡ç±» 
-/// </summary>ä½œè€…ï¼šé’ç“œ
+/// Åö×²¼ì²âµÄ³éÏóÀà 
+/// </summary>×÷Õß£ºÇà¹Ï
 public abstract class Trigger2DBase : MonoBehaviour
 {
-    public LayerMask targetLayer;//è§¦å‘è¯¥triggerçš„layer
+    public LayerMask targetLayer;//´¥·¢¸ÃtriggerµÄlayer
     public bool canWork;
-    public bool isOneTime;//æ˜¯å¦åªè§¦å‘ä¸€æ¬¡
+    public bool isOneTime;//ÊÇ·ñÖ»´¥·¢Ò»´Î
 
     protected  virtual void OnTriggerEnter2D(Collider2D collision)
     {

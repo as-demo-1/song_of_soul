@@ -5,7 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 public class PlayerCharacter : MonoBehaviour
 {
-
     [SerializeField]
     private int maxHp;
     public int MaxHp

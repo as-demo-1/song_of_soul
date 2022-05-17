@@ -46,7 +46,7 @@ public class Coin : MonoBehaviour
         circleCollider2D.radius = colliderRadius;
         m_BounceCount = bounceCount;
     }
-     
+
 
     private void FixedUpdate()
     {
