@@ -8,7 +8,7 @@ public class MoonLightCast : MonoBehaviour
     public float g;
     public LayerMask Ground;
     public Vector2 direct;
-    public Vector2 realDirect;
+    Vector2 realDirect;
     GameObject reflectorLight;
     GameObject reflector;
     RaycastHit2D[] hit2Ds;
