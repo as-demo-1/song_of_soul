@@ -31,7 +31,7 @@ public class WwiseBankReference : WwiseObjectReference
 
 	public override void CompleteData()
 	{
-		SetAddressableBank(WwiseAddressableSoundBank.GetAddressableBankAsset(DisplayName));
+		SetAddressableBank(AkAssetUtilities.GetAddressableBankAsset(DisplayName));
 	}
 
 	public override bool IsComplete()

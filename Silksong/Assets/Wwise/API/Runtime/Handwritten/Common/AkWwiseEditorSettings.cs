@@ -24,6 +24,7 @@ public class WwiseSettings
 	public bool CreatedPicker = false;
 	public bool CreateWwiseGlobal = true;
 	public bool CreateWwiseListener = true;
+	public bool ObjectReferenceAutoCleanup = true;
 	public bool ShowMissingRigidBodyWarning = true;
 	public bool ShowSpatialAudioWarningMsg = true;
 	public string WwiseInstallationPathMac;
@@ -190,11 +191,11 @@ public class AkWwiseEditorSettings
 
 			public static string GlobalSettings = "Global Settings";
 			public static UnityEngine.GUIContent CreateWwiseGlobal = new UnityEngine.GUIContent("Create WwiseGlobal GameObject", "The WwiseGlobal object is a GameObject that contains the Initializing and Terminating scripts for the Wwise Sound Engine. In the Editor workflow, it is added to every scene, so that it can be properly previewed in the Editor. In the game, only one instance is created, in the first scene, and it is persisted throughout the game. It is recommended to leave this box checked.");
-			public static UnityEngine.GUIContent CreateWwiseListener = new UnityEngine.GUIContent("Add Listener to Main Camera", "In order for positioning to work, the AkAudioListener script needs to be attached to the main camera in every scene. If you wish for your listener to be attached to another GameObject, uncheck this box");
+			public static UnityEngine.GUIContent CreateWwiseListener = new UnityEngine.GUIContent("Add Listener to Main Camera", "In order for positioning to work, the AkAudioListener script needs to be attached to the main camera in every scene. If you wish for your listener to be attached to another GameObject, uncheck this box.");
+			public static UnityEngine.GUIContent ObjectReferenceAutoCleanup = new UnityEngine.GUIContent("Auto-delete WwiseObjectReferences", "Components that reference Wwise objects such as Events, Banks, and Busses track these references using WwiseObjectReference assets that are created in the Wwise/ScriptableObjects folder. If this option is checked and a Wwise Object has been removed from the Wwise Project, when parsing the Wwise project structure, the corresponding asset in the Wwise/ScriptableObjects folder will be deleted.");
 
 			public static string InEditorWarnings = "In Editor Warnings";
-			public static UnityEngine.GUIContent ShowMissingRigidBodyWarning = new UnityEngine.GUIContent("Show warning for missing RigidBody", "Interactions between AkGameObj and AkEnvironment or AkRoom require a Rigidbody component on the object or the environment/room. It is recommended to leave this box checked.");
-			public static UnityEngine.GUIContent ShowSpatialAudioWarningMsg = new UnityEngine.GUIContent("Show warning for missing Collider", "Interactions between AkRoomAwareObject and AkRoom require a Collider component on the object. It is recommended to leave this box checked.");
+			public static UnityEngine.GUIContent ShowSpatialAudioWarningMsg = new UnityEngine.GUIContent("Show Spatial Audio Warnings", "Warnings will be displayed on Wwise components that are not configured for Spatial Audio to function properly. It is recommended to leave this box checked.");
 
 			public static string WaapiSection = "Wwise Authoring API (WAAPI)";
 			public static UnityEngine.GUIContent UseWaapi = new UnityEngine.GUIContent("Connect to Wwise");
@@ -443,6 +444,7 @@ public class AkWwiseEditorSettings
 			{
 				settings.CreateWwiseGlobal = UnityEditor.EditorGUILayout.Toggle(Styles.CreateWwiseGlobal, settings.CreateWwiseGlobal);
 				settings.CreateWwiseListener = UnityEditor.EditorGUILayout.Toggle(Styles.CreateWwiseListener, settings.CreateWwiseListener);
+				settings.ObjectReferenceAutoCleanup = UnityEditor.EditorGUILayout.Toggle(Styles.ObjectReferenceAutoCleanup, settings.ObjectReferenceAutoCleanup);
 			}
 
 			UnityEngine.GUILayout.Space(UnityEditor.EditorGUIUtility.standardVerticalSpacing);
@@ -450,7 +452,6 @@ public class AkWwiseEditorSettings
 
 			using (new UnityEngine.GUILayout.VerticalScope("box"))
 			{
-				settings.ShowMissingRigidBodyWarning = UnityEditor.EditorGUILayout.Toggle(Styles.ShowMissingRigidBodyWarning, settings.ShowMissingRigidBodyWarning);
 				settings.ShowSpatialAudioWarningMsg = UnityEditor.EditorGUILayout.Toggle(Styles.ShowSpatialAudioWarningMsg, settings.ShowSpatialAudioWarningMsg);
 			}
 

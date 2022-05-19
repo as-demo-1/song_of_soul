@@ -3,8 +3,12 @@
 	<SoundBanks>
 		<WorkUnit Name="Default Work Unit" ID="{F23C2B6D-F8DD-43D5-A225-EFDE98998FB2}" PersistMode="Standalone">
 			<ChildrenList>
-				<SoundBank Name="New_SoundBank" ID="{6B31D5AE-5196-4743-ADF9-FF3BA96A27F1}">
-					<ObjectInclusionList/>
+				<SoundBank Name="General" ID="{6B31D5AE-5196-4743-ADF9-FF3BA96A27F1}">
+					<ObjectInclusionList>
+						<ObjectRef Name="PlayerLanded" ID="{BB9CE92D-3791-40C1-B4E9-86933F3C4DAF}" WorkUnitID="{8DD9A9A2-8251-4E23-B9C4-D83982789ECE}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="PlayerRun" ID="{00586402-5CE2-4482-9009-79607A90BDB5}" WorkUnitID="{8DD9A9A2-8251-4E23-B9C4-D83982789ECE}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="PlayerSprint" ID="{21287891-FC1D-4D18-BAAC-7F1705182796}" WorkUnitID="{8DD9A9A2-8251-4E23-B9C4-D83982789ECE}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
 				</SoundBank>
