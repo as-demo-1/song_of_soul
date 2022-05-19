@@ -77,7 +77,6 @@ public class DialogueChangeItem : MonoBehaviour
 
     public void ItemAct(int talkID)
     {
-        //Debug.Log(Itemdic.Count);
         if (Itemdic.ContainsKey(talkID))
         {
             ItemAction action = Action[talkID];

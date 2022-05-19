@@ -11,8 +11,8 @@ using UnityEditor;
 public class ExcelLoad
 {
     public static Dictionary<int, string> Content = new Dictionary<int, string>(); //�Ի�����
+    public static Dictionary<int, List<string>> ConditionList = new Dictionary<int, List<string>>();//前面是对话StartID，后面是控制对话的条件
     public static List<string> Condition = new List<string>();//�洢����
-    public static Dictionary<int, List<string>> ConditionList = new Dictionary<int, List<string>>();//ǰ���ǶԻ�ID��ֻҪװÿ�ζԻ��ĵ�һ��Ի���ID��������������Ի��������б�
     public static Dictionary<int, List<int>> NPCID = new Dictionary<int, List<int>>(); //ǰ��װNPCID������װ���NPCID������SID
     public static List<int> AllSID = new List<int>(); //��NPCID�������ˣ�װ����SID
     public static Dictionary<int, int> SidGetNpcID = new Dictionary<int, int>();//ͨ��SID����NPCID
@@ -75,16 +75,27 @@ public class ExcelLoad
                     }
                     if (j > 6)
                     {
+                        int re = 0;
                         byte[] array = System.Text.Encoding.ASCII.GetBytes(nvalue);
+
+                        
                         if (array.Length != 0)
                         {
-                            Condition.Add(nvalue);
-                            ConditionList.Add(int.Parse(result.Tables[TableNum].Rows[i][0].ToString()), Condition);
+                            if (int.TryParse(result.Tables[TableNum].Rows[i][0].ToString(), out re))
+                            {
+                                if (!ConditionList.ContainsKey(int.Parse(result.Tables[TableNum].Rows[i][0].ToString())))
+                                {
+                                    ConditionList.Add(int.Parse(result.Tables[TableNum].Rows[i][0].ToString()), Condition);
+                                }
+                            }
+                            //Condition.Add(nvalue);
+                            ConditionList[int.Parse(result.Tables[TableNum].Rows[i][0].ToString())].Add(nvalue);
+                            Debug.Log(ConditionList[int.Parse(result.Tables[TableNum].Rows[i][0].ToString())][0]);
+                            Debug.Log(int.Parse(result.Tables[TableNum].Rows[i][0].ToString()));
                         }
                     }
                     //Debug.Log(nvalue);
                 }
-                //Debug.Log(Content[int.Parse(result.Tables[0].Rows[i][0].ToString())]);
             }
         }
         //excelDataReader.Close();

@@ -11,15 +11,13 @@ public class TalkController : MonoBehaviour
     private GameObject TalkPanel;
     private Text NPCText;
     private Text NPCName;
-    private int _id = 0; //判断是否满足条件的指示器
+    private static int _id = 0; //判断是否满足条件的指示器
     private static int i = 0;
 
     private static int TalkID = 0;//对话ID，指示进行到了哪里
     private static int startID;//指示每段对话的第一句对话的ID
     private static int TalkCount = 0;//指示剧情对话到了NPC的第几段对话
     private static int _end = 0;//指示一段对话是否已经结束
-
-
 
 
 
@@ -51,6 +49,7 @@ public class TalkController : MonoBehaviour
         NPCName = FindUI("Talk/TalkPanel/NPCTalkPanel/NPCName").GetComponent<Text>();
         // todo: test
         testBtn();
+
     }
 
     // todo: 测试按钮，点击会修改对话状态
@@ -103,15 +102,25 @@ public class TalkController : MonoBehaviour
                 _end = 1;
                 NPCText.text = TalkManager.Instance.GossipContent[i];
                 NPCName.text = TalkManager.Instance.Name[NPCID];
+                //PlayAudio
+                if (AudioPlay.filename.Contains(i.ToString()))
+                {
+                    AudioPlay.Instance.PlayAudio(i.ToString());
+                }
                 i += 1;
+                //Debug.Log(_end + "-" + i);
             }
             else
             {
-                //Debug.Log(_end + "-" + i);
                 if (TalkManager.Instance.GossipContent.ContainsKey(i))
                 {
                     NPCText.text = TalkManager.Instance.GossipContent[i];
                     NPCName.text = TalkManager.Instance.Name[NPCID];
+                    //PlayAudio
+                    if (AudioPlay.filename.Contains(i.ToString()))
+                    {
+                        AudioPlay.Instance.PlayAudio(i.ToString());
+                    }
                     i += 1;
                 }
                 else
@@ -130,60 +139,87 @@ public class TalkController : MonoBehaviour
         //PlotDialogue
         else
         {
-            if (_end == 0)
+            //Debug.Log("Plot");
+            if (_end == 0) //第一句对话
             {
                 TalkID = TalkManager.Instance.NPCPlotContent[NPCID][TalkCount];
                 int rnum = Random.Range(0, TalkManager.Instance.NPCGossipContent[NPCID].Count);
                 i = TalkManager.Instance.NPCGossipContent[NPCID][rnum];
-
-                if (!TalkManager.Instance.Condition.ContainsKey(TalkID))
+                startID = TalkID;
+                if (!TalkManager.Instance.Condition.ContainsKey(TalkID)) //如果条件列表不包含这个StartID，说明可以无条件触发
                 {
-                    startID = TalkID;
+                    //Debug.Log(TalkID);
+                    Debug.Log("Plot,No Condition");
                     NPCText.text = TalkManager.Instance.PlotContent[TalkID];
                     NPCName.text = TalkManager.Instance.Name[NPCID];
+                    //PlayAudio
+                    if (AudioPlay.filename.Contains(TalkID.ToString()))
+                    {
+                        AudioPlay.Instance.PlayAudio(TalkID.ToString());
+                    }
                     TalkID += 1;
                 }
                 else
                 {
-                    ConditionStatus();
+                    Debug.Log("Plot,Condition");
+                    //Debug.Log(TalkID);
+                    ConditionStatus(NPCID);
+                    //Debug.Log(TalkManager.Instance.Condition[TalkID].Count);
                     foreach (string conditionname in TalkManager.Instance.Condition[TalkID])
                     {
                         if (!TalkManager.Instance.TalkStatusJudge[conditionname]) //如果有一个条件未满足
                         {
+                            Debug.Log(conditionname);
                             _id = 0;
+                            Debug.Log("False");
                             break;
                         }
+                        Debug.Log("True");
                         _id = 1;
                     }
                     if (_id == 0)
                     {
-                        startID = i;
+                        //startID = i;
                         NPCText.text = TalkManager.Instance.GossipContent[i];
                         NPCName.text = TalkManager.Instance.Name[NPCID];
+                        //PlayAudio
+                        if (AudioPlay.filename.Contains(i.ToString()))
+                        {
+                            AudioPlay.Instance.PlayAudio(i.ToString());
+                        }
                         i += 1;
                     }
                     else
                     {
-                        startID = TalkID;
+                        //startID = TalkID;
                         NPCText.text = TalkManager.Instance.PlotContent[TalkID];
                         NPCName.text = TalkManager.Instance.Name[NPCID];
+                        //PlayAudio
+                        if (AudioPlay.filename.Contains(TalkID.ToString()))
+                        {
+                            AudioPlay.Instance.PlayAudio(TalkID.ToString());
+                        }
                         TalkID += 1;
                     }
                 }
 
                 _end = 1;
             }
-            else
+            else //后续对话
             {
-                if (!TalkManager.Instance.Condition.ContainsKey(TalkID)) //如果TalkCondition里不包含这段对话的键，说明这段对话可以无条件触发
+                if (!TalkManager.Instance.Condition.ContainsKey(startID)) //如果TalkCondition里不包含这段对话的StartID，说明这段对话可以无条件触发
                 {
-                    //Debug.Log(TalkManager.Instance.NPCAllContent[NPCID].Count); //1
+                    Debug.Log("Plot,no condition");
                     if (TalkManager.Instance.PlotContent.ContainsKey(TalkID))
                     {
                         NPCText.text = TalkManager.Instance.PlotContent[TalkID];
                         NPCName.text = TalkManager.Instance.Name[NPCID];
+                        //PlayAudio
+                        if (AudioPlay.filename.Contains(TalkID.ToString()))
+                        {
+                            AudioPlay.Instance.PlayAudio(TalkID.ToString());
+                        }
                         TalkID += 1;
-                        //Debug.Log(i);
                     }
                     else
                     {
@@ -196,17 +232,21 @@ public class TalkController : MonoBehaviour
                 }
                 else
                 {
-                    //检验条件
-                    ConditionStatus();
-                    foreach (string conditionname in TalkManager.Instance.Condition[TalkID])
+                    ConditionStatus(NPCID);
+                    foreach (string conditionname in TalkManager.Instance.Condition[startID])
                     {
                         if (!TalkManager.Instance.TalkStatusJudge[conditionname]) //如果有一个条件未满足
                         {
+                            Debug.Log(conditionname);
                             _id = 0;
+                            Debug.Log("False");
                             break;
                         }
+                        Debug.Log("True");
                         _id = 1;
                     }
+                    Debug.Log("Plot,condition");
+                    Debug.Log(_id);
                     if (_id == 0)
                     {
                         //条件不满足，进入闲聊
@@ -214,6 +254,11 @@ public class TalkController : MonoBehaviour
                         {
                             NPCText.text = TalkManager.Instance.GossipContent[i];
                             NPCName.text = TalkManager.Instance.Name[NPCID];
+                            //PlayAudio
+                            if (AudioPlay.filename.Contains(i.ToString()))
+                            {
+                                AudioPlay.Instance.PlayAudio(i.ToString());
+                            }
                             i += 1;
                         }
                         else
@@ -221,6 +266,7 @@ public class TalkController : MonoBehaviour
                             i = 0;
                             _end = 0;
                             TalkPanel.SetActive(false);
+                            //Debug.Log(startID);
                             DialogueChangeItem.Instance.ItemAct(startID);
                             callback();
                         }
@@ -231,6 +277,11 @@ public class TalkController : MonoBehaviour
                         {
                             NPCText.text = TalkManager.Instance.PlotContent[TalkID];
                             NPCName.text = TalkManager.Instance.Name[NPCID];
+                            //PlayAudio
+                            if (AudioPlay.filename.Contains(TalkID.ToString()))
+                            {
+                                AudioPlay.Instance.PlayAudio(TalkID.ToString());
+                            }
                             TalkID += 1;
                         }
                         else
@@ -249,21 +300,21 @@ public class TalkController : MonoBehaviour
     }
 
 
-    public void ConditionStatus()
+    public void ConditionStatus(int npcid)
     {
         foreach (DialogueSectionSO DialogueItem in TalkSOManager.Instance.DialogueSectionListInstance)
         {
-            for (int x = 0; x < DialogueItem.DialogueList.Count; x++)
+            if (DialogueItem.NPCID == npcid)
             {
-                if (DialogueItem.DialogueList[x].StatusList.Count != 0) //如果这段对话有条件控制，把控制这段话的条件的Name装入TalkStatus字典
+                foreach (DialogueStatusSO statusso in DialogueItem.DialogueStatusList)
                 {
-                    for (int j = 0; j < DialogueItem.DialogueStatusList.ToArray().Length; j++)
-                    {
-                        TalkManager.Instance.TalkStatusJudge[DialogueItem.DialogueStatusList[j].ConditionName] = DialogueItem.DialogueStatusList[j].Judge;
-                    }
+                    TalkManager.Instance.TalkStatusJudge[statusso.ConditionName] = statusso.Judge;
                 }
             }
         }
+
+
+
     }
 
 }

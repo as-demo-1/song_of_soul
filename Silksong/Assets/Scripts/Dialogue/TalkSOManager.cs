@@ -25,7 +25,8 @@ public class TalkSOManager:MonoBehaviour
         DialogueStatusSO.CreateStatusSO();
         DialogueSectionSO.CreateSectionSO();
         ExcelLoad.Load();
-        }
+        //Debug.Log(TalkManager.Instance.Condition[105001][0]);
+    }
 
 
 }
