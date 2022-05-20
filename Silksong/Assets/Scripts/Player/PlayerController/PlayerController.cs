@@ -97,20 +97,15 @@ public class PlayerController : MonoBehaviour
 
     public Transform m_Transform { get; set; }
     [SerializeField] private LayerMask underwaterLayerMask;
-#if UNITY_EDITOR 
     [DisplayOnly]
-#endif
     public BoxCollider2D boxCollider;
 
     private PlayerGroundedCheck playerGroundedCheck;
 
-#if UNITY_EDITOR 
     [DisplayOnly]
-#endif
-    public PlayerToCat playerToCat;
-#if UNITY_EDITOR 
+    public PlayerToCatAndHuman playerToCat;
+
     [DisplayOnly]
-#endif
     public bool gravityLock;//为ture时，不允许gravityScale改变
     public bool IsUnderWater;
 
@@ -122,9 +117,7 @@ public class PlayerController : MonoBehaviour
 
     public float canPlungeHeight = 3.0f;  // 离地多远可以使用plunge。可配置
 
-#if UNITY_EDITOR 
     [DisplayOnly]
-#endif
     public float distanceToGround = -1.0f;  // 距离下方Groud距离
 
     //Teleport
@@ -239,7 +232,7 @@ public class PlayerController : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
         playerGroundedCheck = new PlayerGroundedCheck(this);
-        playerToCat = new PlayerToCat(this);
+        playerToCat = new PlayerToCatAndHuman(this);
 
         playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
@@ -271,10 +264,7 @@ public class PlayerController : MonoBehaviour
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
 
-        if(Input.GetKeyDown(KeyCode.P))//reborn player for test,will be delete
-        {
-            die(null,null);
-        }
+
     }
 
     private void LateUpdate()
@@ -381,7 +371,8 @@ public class PlayerController : MonoBehaviour
         playerInfo.playerFacingRight = !playerInfo.playerFacingRight;
         Vector3 t = transform.localScale;
         transform.localScale = new Vector3(-t.x, t.y, t.z);
-        playerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+        PlayerBreakMoon playerBreakMoon = (PlayerBreakMoon)playerStatesBehaviour.StateActionsDic[EPlayerState.BreakMoon];
+        playerBreakMoon .findCurrentTarget();
     }
 
     public void getHurt(DamagerBase damager, DamageableBase damable)
@@ -393,12 +384,7 @@ public class PlayerController : MonoBehaviour
 
     public void die(DamagerBase damager, DamageableBase damable)
     {
-       // PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas, true);
-
-        GameObjectTeleporter.playerReborn();//reborn player for test, will be delete 
-        HpDamable HPdamable = GetComponent<HpDamable>();
-        HPdamable.setCurrentHp(playerCharacter.MaxHp);
-
+        PlayerAnimator.SetBool(animatorParamsMapping.DeadParamHas, true);
     }
 
     public void CheckUnderWater()
@@ -560,8 +546,8 @@ public class PlayerGroundedCheck
             {
                 if(++bufferGroundTrue>=5)
                 {
-                    playerController.playerStatesBehaviour.playerJump.resetJumpCount();
-                    playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
+                   ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetJumpCount();
+                   ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
                     bufferTimer = Constants.IsGroundedBufferFrame;
                 }
             }
@@ -592,7 +578,7 @@ public class PlayerGroundedCheck
 
             if (isGroundedBuffer &&!value)//从真设为假
             {
-                playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
+                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).CurrentJumpCountLeft--;
             }
             isGroundedBuffer = value;
         }
@@ -601,7 +587,7 @@ public class PlayerGroundedCheck
 
 }
 
-public class PlayerToCat
+public class PlayerToCatAndHuman
 {
     private bool isCat;
     public bool IsCat
@@ -627,7 +613,7 @@ public class PlayerToCat
 
 
     private PlayerController playerController;
-    public PlayerToCat(PlayerController playerController)
+    public PlayerToCatAndHuman(PlayerController playerController)
     {
         this.playerController = playerController;
     }

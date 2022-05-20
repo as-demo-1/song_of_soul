@@ -29,7 +29,7 @@ public class BreakMoonPoint:MonoBehaviour
     {
         if (ready && targetLayer.Contains(collision.gameObject))
         {
-            playerBreakMoon = collision.GetComponent<PlayerController>().playerStatesBehaviour.playerBreakMoon;
+            playerBreakMoon = collision.GetComponent<PlayerController>().playerStatesBehaviour.StateActionsDic[EPlayerState.BreakMoon] as PlayerBreakMoon ;
             playerBreakMoon.availableTargets.Add(this);
             playerBreakMoon.findCurrentTarget();
         }

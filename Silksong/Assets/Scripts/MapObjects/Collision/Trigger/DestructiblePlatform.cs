@@ -44,7 +44,7 @@ public class DestructiblePlatform : MonoBehaviour
 
             playerController = collision.GetComponent<PlayerController>();
 
-            playerPlungeStrength = playerController.playerStatesBehaviour.playerPlunge.plungeStrength;
+            playerPlungeStrength = (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Plunge] as PlayerPlunge).plungeStrength;
 
             // Debug.Log("PlungeStrength:" + playerPlungeStrength + " PlatformStrength:" + strengthToBreak);
 
