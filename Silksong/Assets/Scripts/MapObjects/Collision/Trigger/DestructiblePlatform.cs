@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class DestructiblePlatform : MonoBehaviour
 {
+
+    [SerializeField] private string _guid;
+    [SerializeField] private SaveSystem _saveSystem;
+    public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
+
     protected PlayerController playerController;
     protected Collider2D collider2d;
 
@@ -12,12 +17,26 @@ public class DestructiblePlatform : MonoBehaviour
 
     public int strengthToBreak;
 
-
     [DisplayOnly]
     public int playerPlungeStrength;
 
+
+    private void OnValidate()
+    {
+        _guid = GUID;
+    }
+
+
     protected void Start() {
-        collider2d = GetComponent<Collider2D>();
+        if (_saveSystem.ContainDestructiblePlatformGUID(_guid))
+        {
+            Destroy(this.gameObject);
+            //gameObject.SetActive(false);
+        }
+        else
+        {
+            collider2d = GetComponent<Collider2D>();
+        }
     }
 
     protected void OnTriggerEnter2D(Collider2D collision) {
@@ -25,32 +44,25 @@ public class DestructiblePlatform : MonoBehaviour
 
             playerController = collision.GetComponent<PlayerController>();
 
-            playerPlungeStrength = playerController.playerStatesBehaviour.playerPlunge.plungeStrength;
+            playerPlungeStrength = (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Plunge] as PlayerPlunge).plungeStrength;
 
-            Debug.Log("PlungeStrength:" + playerPlungeStrength + " PlatformStrength:" + strengthToBreak);
+            // Debug.Log("PlungeStrength:" + playerPlungeStrength + " PlatformStrength:" + strengthToBreak);
 
-            if(playerPlungeStrength >= strengthToBreak) {
-                // playerController.playerStatesBehaviour.playerPlunge.willBreakGround = true;
+            if(/*playerController.animatorParamsMapping.CurrentStatesParamHash == 130 &&*/ playerPlungeStrength >= strengthToBreak) {
                 BreakThisPlatform();
             }
-
-            else {
-                // playerController.playerStatesBehaviour.playerPlunge.willBreakGround = false;
-            }
-
         }
     }
 
 
     public void BreakThisPlatform() {
-        // playerController.playerStatesBehaviour.playerPlunge.willBreakGround = false;
-        collider2d.enabled = false;        
+        collider2d.enabled = false;
         playerController.setRigidVelocity(new Vector2(0, -1 * playerController.playerInfo.plungeSpeed));
 
-        Destroy(this.gameObject);
-
-        // Debug.Log("break platform");
-
+        _saveSystem.AddDestructiblePlatformGUID(_guid);
+        
+        // Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
 
 
@@ -60,4 +72,15 @@ public class DestructiblePlatform : MonoBehaviour
         }
     }
 
+    /*
+    protected void Update()
+    {
+        // Debug.Log(Application.persistentDataPath);
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            _saveSystem.LoadSaveDataFromDisk();
+        }
+    }
+    */
 }

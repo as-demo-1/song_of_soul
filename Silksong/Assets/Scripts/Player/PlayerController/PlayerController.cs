@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
     private PlayerGroundedCheck playerGroundedCheck;
 
     [DisplayOnly]
-    public PlayerToCat playerToCat;
+    public PlayerToCatAndHuman playerToCat;
 
     [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
@@ -232,7 +232,7 @@ public class PlayerController : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
         playerGroundedCheck = new PlayerGroundedCheck(this);
-        playerToCat = new PlayerToCat(this);
+        playerToCat = new PlayerToCatAndHuman(this);
 
         playerAnimatorStatesControl = new PlayerAnimatorStatesControl(this, PlayerAnimator, EPlayerState.Idle);
         animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
@@ -371,12 +371,15 @@ public class PlayerController : MonoBehaviour
         playerInfo.playerFacingRight = !playerInfo.playerFacingRight;
         Vector3 t = transform.localScale;
         transform.localScale = new Vector3(-t.x, t.y, t.z);
-        playerStatesBehaviour.playerBreakMoon.findCurrentTarget();
+        PlayerBreakMoon playerBreakMoon = (PlayerBreakMoon)playerStatesBehaviour.StateActionsDic[EPlayerState.BreakMoon];
+        playerBreakMoon .findCurrentTarget();
     }
 
     public void getHurt(DamagerBase damager, DamageableBase damable)
     {
         PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
+        playerToCat.toHuman();
+    
     }
 
     public void die(DamagerBase damager, DamageableBase damable)
@@ -477,12 +480,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public bool checkHitWall(bool checkRight)
+    public bool checkHitWall(bool checkRightSide)
     {
         Vector2 t = transform.position;
         t.y -= 0.5f;
         Vector2 frontPoint;
-        frontPoint = new Vector2(t.x + (checkRight?1:-1) * boxCollider.size.x * 0.5f , t.y);
+        frontPoint = new Vector2(t.x + (checkRightSide?1:-1) * boxCollider.size.x * 0.5f , t.y);
 
         if (Physics2D.OverlapArea(frontPoint, t, 1 << LayerMask.NameToLayer("Ground")) != null)
         {
@@ -495,16 +498,16 @@ public class PlayerController : MonoBehaviour
 
     private void CheckHasWallToClimb()
     {
-        bool checkRight;
+        bool checkRightSide;
        
         float horizontalInput = PlayerInput.Instance.horizontal.Value;
-        if (horizontalInput == 1) checkRight = true;
-        else if (horizontalInput == -1) checkRight = false;
+        if (horizontalInput == 1) checkRightSide = true;
+        else if (horizontalInput == -1) checkRightSide = false;
         else //input==0
         {
             if (playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.ClimbIdle)
             {
-                checkRight = playerInfo.playerFacingRight;
+                checkRightSide = playerInfo.playerFacingRight;
             }
             else
             {
@@ -515,7 +518,7 @@ public class PlayerController : MonoBehaviour
         }
         
        
-        PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash,checkHitWall(checkRight));
+        PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash,checkHitWall(checkRightSide));
     }
 }
 
@@ -543,8 +546,8 @@ public class PlayerGroundedCheck
             {
                 if(++bufferGroundTrue>=5)
                 {
-                    playerController.playerStatesBehaviour.playerJump.resetJumpCount();
-                    playerController.playerStatesBehaviour.playerSprint.resetAirSprintLeftCount();
+                   ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetJumpCount();
+                   ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
                     bufferTimer = Constants.IsGroundedBufferFrame;
                 }
             }
@@ -575,7 +578,7 @@ public class PlayerGroundedCheck
 
             if (isGroundedBuffer &&!value)//从真设为假
             {
-                playerController.playerStatesBehaviour.playerJump.CurrentJumpCountLeft--;
+                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).CurrentJumpCountLeft--;
             }
             isGroundedBuffer = value;
         }
@@ -584,7 +587,7 @@ public class PlayerGroundedCheck
 
 }
 
-public class PlayerToCat
+public class PlayerToCatAndHuman
 {
     private bool isCat;
     public bool IsCat
@@ -610,7 +613,7 @@ public class PlayerToCat
 
 
     private PlayerController playerController;
-    public PlayerToCat(PlayerController playerController)
+    public PlayerToCatAndHuman(PlayerController playerController)
     {
         this.playerController = playerController;
     }
@@ -624,13 +627,11 @@ public class PlayerToCat
 
         IsCat = true;
         playerController.gameObject.layer =LayerMask.NameToLayer("PlayerCat");
-        playerController.GetComponentInChildren<SpriteRenderer>().flipX = true;//now the cat image is filpx from player image
         playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerCatBoxColliderOffsetY);
         playerController.boxCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, Constants.playerCatBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerCatGroundCheckColliderOffsetY);
         playerController.groundCheckCollider.size= new Vector2( Constants.playerCatBoxColliderWidth-Constants.playerGroundColliderXSizeSmall,playerController.groundCheckCollider.size.y);
-
     }
 
     public void colliderToHuman()
@@ -661,10 +662,10 @@ public class PlayerToCat
         IsCat = false;
         isFastMoving = false;
         playerController.gameObject.layer = LayerMask.NameToLayer("Player");
-        playerController.GetComponentInChildren<SpriteRenderer>().flipX = false;//now the cat image is filpx from player image
     }
     public void toHuman()
     {
+        if (isCat == false) return;
         colliderToHuman();
         stateToHuman();
     }
