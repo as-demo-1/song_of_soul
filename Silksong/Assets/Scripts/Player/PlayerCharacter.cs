@@ -141,7 +141,10 @@ public class PlayerCharacter : MonoBehaviour
     }
 
 
+    private int coldValue;
 
-
+    public void reduceColdValue(int value){
+        coldValue -= value;
+    }
 
 }
