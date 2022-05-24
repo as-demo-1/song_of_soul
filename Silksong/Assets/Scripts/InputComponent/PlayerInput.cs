@@ -64,7 +64,7 @@ public class PlayerInput : InputComponent
             toCat,
             castSkill,
             showMap,
-            quickMap
+            quickMap,
             plunge,
         });
     }
