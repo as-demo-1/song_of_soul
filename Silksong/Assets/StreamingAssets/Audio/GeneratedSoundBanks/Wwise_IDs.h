@@ -13,9 +13,33 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID CATFALL = 1532010348U;
+        static const AkUniqueID CATIDLE = 3896809837U;
+        static const AkUniqueID CATJUMP = 244401571U;
+        static const AkUniqueID CATLAND = 3906859072U;
+        static const AkUniqueID CATRUN = 3022582778U;
+        static const AkUniqueID CATTOPLAYER = 1336419575U;
+        static const AkUniqueID PLATERATTACKB = 835939195U;
+        static const AkUniqueID PLAYERATTACKA = 3417697019U;
+        static const AkUniqueID PLAYERATTACKC = 3417697017U;
+        static const AkUniqueID PLAYERATTACKUP = 2657146445U;
+        static const AkUniqueID PLAYERCLIMBIDLE = 3860578583U;
+        static const AkUniqueID PLAYERCLIMBJUMPUP = 2737941890U;
+        static const AkUniqueID PLAYERFALL = 2715294761U;
+        static const AkUniqueID PLAYERHEAL = 3216143520U;
+        static const AkUniqueID PLAYERHURT = 3537581393U;
+        static const AkUniqueID PLAYERIDLE = 897824824U;
+        static const AkUniqueID PLAYERJUMP = 4008126242U;
         static const AkUniqueID PLAYERLANDED = 2507707338U;
+        static const AkUniqueID PLAYERLEFTWALL = 4100655285U;
+        static const AkUniqueID PLAYERPLUNGEEND = 3717971118U;
+        static const AkUniqueID PLAYERPLUNGELOOP = 1416887945U;
+        static const AkUniqueID PLAYERPLUNGESTART = 1860540613U;
         static const AkUniqueID PLAYERRUN = 3964335501U;
+        static const AkUniqueID PLAYERSLIDE = 170095377U;
         static const AkUniqueID PLAYERSPRINT = 833420410U;
+        static const AkUniqueID PLAYERSWIM = 3968782598U;
+        static const AkUniqueID PLAYERTOCAT = 4191837063U;
     } // namespace EVENTS
 
     namespace BANKS
