@@ -795,6 +795,16 @@ MonoBehaviour:
     key: 106
     controllerButton: 3
     m_Enabled: 1
+  showMap:
+    NotNeedGainAndReleaseControl: 0
+    key: 109
+    controllerButton: 0
+    m_Enabled: 1
+  quickMap:
+    NotNeedGainAndReleaseControl: 0
+    key: 9
+    controllerButton: 0
+    m_Enabled: 1
 --- !u!114 &484977951751258056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,8 +852,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0
-        outSlope: 0
+        inSlope: 2
+        outSlope: 2
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -863,6 +873,8 @@ MonoBehaviour:
     normalGravityScale: 5
     playerFacingRight: 1
     swimSpeed: 10
+    gravityUnderWater: 0
+    plungeSpeed: 8
   PlayerAnimator: {fileID: 448765876}
   underwaterLayerMask:
     serializedVersion: 2
@@ -874,10 +886,10 @@ MonoBehaviour:
   groundCheckCollider: {fileID: 619636124}
   plungeStrengthArr:
   - 0
-  - 2
+  - 1
+  - 3
   - 4
-  - 7
-  canPlungeDistance: 2.5
+  canPlungeHeight: 3
   distanceToGround: -1
   _guid: 5abe8ca4-eced-4d7e-94e6-6ef486e5fe9e
   _saveSystem: {fileID: 0}

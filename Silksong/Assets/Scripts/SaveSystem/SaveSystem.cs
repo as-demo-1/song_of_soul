@@ -5,7 +5,8 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SaveSystemSO", order = 1)]
-public class SaveSystem : ScriptableObject
+
+public class SaveSystem : ScriptableObject//you can get SaveSystem instance from GameManager 
 {
 	[SerializeField] private InventorySO _playerInventory;
 	[SerializeField] private InventorySO _StoreInventory;
@@ -21,6 +22,16 @@ public class SaveSystem : ScriptableObject
 	public void AddBossGUID(string GUID)
 	{
 		saveData._bossGUID.Add(GUID);
+	}
+
+	public bool ContainDestructiblePlatformGUID(string GUID)
+    {
+		return saveData._destructiblePlatformGuid.Contains(GUID);
+	}
+	
+	public void AddDestructiblePlatformGUID(string GUID)
+    {
+		saveData._destructiblePlatformGuid.Add(GUID);
 	}
 
 	/// <summary>
@@ -74,9 +85,16 @@ public class SaveSystem : ScriptableObject
 	{
 		saveData._goldAmount = goldamount;
 	}
-	
-	
-	
+	public uint GetWeaponLevel()
+	{
+		return saveData._weaponLevel;
+	}
+
+	public void SetWeaponLevel(uint weaponLevel)
+	{
+		saveData._weaponLevel = weaponLevel;
+	}
+
 	public void TestSaveGuid(string Guid)
 	{
 		Debug.Log("WriteData");
