@@ -24,7 +24,7 @@ public class PlayerSMBEvents : PlayerSMB
     {
         m_SMBStateData.reInvokeWhenLoop = false;
         m_SMBStatusData.reInvokeWhenLoop = false;
-        m_SMBWwiseData.reInvokeWhenLoop = true;
+       // m_SMBWwiseData.reInvokeWhenLoop =true;   //set in slEnter 
 
         m_SMBEventLists.Add(m_SMBStateData);
         m_SMBEventLists.Add(m_SMBStatusData);
@@ -38,12 +38,12 @@ public class PlayerSMBEvents : PlayerSMB
 
     public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-        /*if(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name== "Run")
-        {
-             Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip play");
-            //Debug.Log(Time.frameCount);
-        }*/
 
+        AnimatorClipInfo cilpInfo = animator.GetCurrentAnimatorClipInfo(0)[0];
+        /*if (stateInfo.IsName("JumpUp")) 
+        Debug.Log(cilpInfo.clip.isLooping);*/
+        Debug.Log(cilpInfo.clip.name);
+        m_SMBWwiseData.reInvokeWhenLoop = cilpInfo.clip.isLooping;
         base.OnSLStateEnter(animator, stateInfo, layerIndex, controller);
         foreach (var SMBEventList in m_SMBEventLists)
         {
@@ -53,11 +53,7 @@ public class PlayerSMBEvents : PlayerSMB
 
     protected override void OnSLStateActive(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable controller)
     {
-       /* if (animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "NormalAttack_01")
-        {
-            Debug.Log(animator.GetCurrentAnimatorClipInfo(0)[0].clip.name + "  anim clip update");
-            Debug.Log(Time.frameCount);
-        }*/
+
         base.OnSLStateActive(animator, stateInfo, layerIndex, controller);
 
         UpdateSMBStateInfoNormalizedTime(stateInfo, m_SMBStateInfo);
@@ -108,6 +104,8 @@ public class SMBStateInfo
     //public float previousFrameTime => Time.time - PreviousNormalizedTime * stateInfo.length;
     public AnimatorStateInfo stateInfo;
 
+   // public bool isLoop => stateInfo.;
+
     public float StateLength => stateInfo.length;
    // public float StateNormalizedTime => stateInfo.normalizedTime;
    // public float PreviousNormalizedTime { get; set; }
@@ -120,6 +118,5 @@ public class SMBStateInfo
         this.stateInfo = stateInfo;
         this.CurrentNormalizedTime = stateInfo.normalizedTime % 1.0f;
         this.NormalizedTimeLoopCount = Mathf.FloorToInt(stateInfo.normalizedTime);
-       // Debug.Log(stateInfo.normalizedTime);
     }
 }

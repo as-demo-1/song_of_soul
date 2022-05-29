@@ -9,6 +9,5 @@ public class SMBWwiseData : SMBEventTimeStamp
     public override void EventActive()
     {
         AkSoundEngine.PostEvent(EventName,PlayerController.Instance.gameObject);
-
     }
 }

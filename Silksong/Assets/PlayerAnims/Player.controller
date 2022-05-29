@@ -1720,6 +1720,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
     m_EventTreshold: 70
+  - m_ConditionMode: 7
+    m_ConditionEvent: CurrentStates
+    m_EventTreshold: 40
   - m_ConditionMode: 2
     m_ConditionEvent: IsCat
     m_EventTreshold: 0
@@ -2086,9 +2089,7 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList:
-    - timeNormalized: 0.096
-      EventName: PlayerLanded
+    m_SMBEventList: []
 --- !u!114 &-2496319268684918498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3772,13 +3773,11 @@ MonoBehaviour:
     - timeNormalized: 0
       newState: 10
   m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBWwiseData:
     m_SMBEventList:
     - timeNormalized: 0
-      playerStatus: 0
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-  m_SMBWwiseData:
-    m_SMBEventList: []
+      EventName: PlayerLanded
 --- !u!1101 &4005218460564836423
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
