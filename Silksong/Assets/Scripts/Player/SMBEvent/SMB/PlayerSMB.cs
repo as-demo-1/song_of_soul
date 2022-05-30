@@ -47,7 +47,7 @@ public class PlayerSMB : SceneLinkedSMB<PlayerController>
         }
     }*/
 
-        //子类将不再调用一下sealed方法
+        //子类将不再调用以下sealed方法
     public sealed override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
 
     public sealed override void OnSLTransitionToStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) { }
