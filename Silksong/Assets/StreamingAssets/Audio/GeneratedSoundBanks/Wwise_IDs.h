@@ -13,6 +13,7 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID AMBBASICGENERAL = 2955541745U;
         static const AkUniqueID CATFALL = 1532010348U;
         static const AkUniqueID CATIDLE = 3896809837U;
         static const AkUniqueID CATJUMP = 244401571U;
@@ -42,6 +43,11 @@ namespace AK
         static const AkUniqueID PLAYERTOCAT = 4191837063U;
     } // namespace EVENTS
 
+    namespace GAME_PARAMETERS
+    {
+        static const AkUniqueID POSITIONTOPLAYER = 2608081584U;
+    } // namespace GAME_PARAMETERS
+
     namespace BANKS
     {
         static const AkUniqueID INIT = 1355168291U;
@@ -51,7 +57,18 @@ namespace AK
     namespace BUSSES
     {
         static const AkUniqueID MASTER_AUDIO_BUS = 3803692087U;
+        static const AkUniqueID RVB = 695384145U;
     } // namespace BUSSES
+
+    namespace AUX_BUSSES
+    {
+        static const AkUniqueID LD = 1702304877U;
+        static const AkUniqueID LE = 1702304876U;
+        static const AkUniqueID LR = 1702304891U;
+        static const AkUniqueID RD = 1601639155U;
+        static const AkUniqueID RE = 1601639154U;
+        static const AkUniqueID RR = 1601639141U;
+    } // namespace AUX_BUSSES
 
     namespace AUDIO_DEVICES
     {
