@@ -5,6 +5,8 @@
 			<ChildrenList>
 				<ActorMixer Name="Player" ID="{DC1EE025-1BAD-4967-9EEE-8E5CDE221C36}" ShortID="191813610">
 					<PropertyList>
+						<Property Name="Color" Type="int16" Value="26"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
 						<Property Name="UserAuxSendVolume0" Type="Real64">
 							<ValueList>
 								<Value>-6</Value>
@@ -662,6 +664,9 @@
 									<ObjectLists/>
 								</RandomSequenceContainer>
 								<Sound Name="PlayerClimbIdle" ID="{F5C3376B-43BE-4334-9011-79DAAF479280}" ShortID="284187275">
+									<PropertyList>
+										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
@@ -929,6 +934,10 @@
 					<ObjectLists/>
 				</ActorMixer>
 				<ActorMixer Name="Ambience" ID="{8103B681-1C20-4FF6-A3B5-854AA14AAEB3}" ShortID="861777431">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
