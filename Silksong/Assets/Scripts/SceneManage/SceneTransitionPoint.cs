@@ -13,4 +13,6 @@ public class SceneTransitionPoint : Trigger2DBase
     {        
         SceneController.TransitionToScene(this);
     }
+
+
 }

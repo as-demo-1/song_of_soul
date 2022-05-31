@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 碰撞检测的抽象类 
+/// 一个碰撞检测的抽象类 
 /// </summary>作者：青瓜
 public abstract class Trigger2DBase : MonoBehaviour
 {
