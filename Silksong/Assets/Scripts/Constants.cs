@@ -26,11 +26,11 @@ public static class Constants
     public const float JumpUpSlowDownTime=0.3f;//
     public const float JumpUpStopTime = 0.05f;//
     public const float SprintCd=0.3f;//从冲刺结束后算起
-    public const float SprintTime = 0.438f;//此值应与实际动画的时长相同
+    public const float SprintTime = 0.248f;//此值应与实际动画的时长相同
 
     public const float BreakMoonPointCd = 3f;
     public const float BreakMoonAfterDistance=2f;//碎月缓冲距离
-    public const float BreakMoonPrePareTime = 0.417f;
+    public const float BreakMoonPrePareTime = 0.278f;
 
     public const float PlayerBaseHealTime = 2f;
 
