@@ -8,7 +8,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharmList", menuName = "Charm/CharmList")]
 public class CharmListSO : ScriptableObject
 {
-    [SerializeField] private List<CharmSO> Charms = new List<CharmSO>();
+    [SerializeField] public List<CharmSO> Charms = new List<CharmSO>();
 
     
     private int charmAttackGainSoul;
@@ -53,7 +53,7 @@ public class CharmListSO : ScriptableObject
 
 
     /// <summary>
-    /// 获得护符
+    /// 获得护符，拾取、购买或剧情获得时调用此方法
     /// </summary>
     /// <param name="name"> 护符名称 </param>
     /// <returns></returns>
@@ -61,12 +61,13 @@ public class CharmListSO : ScriptableObject
     {
         foreach (var item in Charms)
         {
-            if (name.Equals(item.Name))
+            if (name.Equals(item.CharmName))
             {
                 item.HasCollected = true;
                 return true;
             }
         }
+        Debug.Log("无法找到指定的护符，请检查护符名字");
         return false;
     }
 
@@ -79,7 +80,20 @@ public class CharmListSO : ScriptableObject
     {
         foreach (var charm in Charms)
         {
-            if (!charm.HasEquiped && name.Equals(charm.Name))
+            if (!charm.HasEquiped && name.Equals(charm.CharmName))
+            {
+                charm.HasEquiped = true;
+                charm.OnEquip();
+                return true;
+            }
+        }
+        return false; //没有找到匹配的护符名称
+    }
+    public bool EquipCharm(CharmSO _charmSO)
+    {
+        foreach (var charm in Charms)
+        {
+            if (!charm.HasEquiped && _charmSO.Equals(charm))
             {
                 charm.HasEquiped = true;
                 charm.OnEquip();
@@ -98,7 +112,20 @@ public class CharmListSO : ScriptableObject
     {
         foreach (CharmSO charm in Charms)
         {
-            if (charm.HasEquiped && name.Equals(charm.Name))
+            if (charm.HasEquiped && name.Equals(charm.CharmName))
+            {
+                charm.HasEquiped = false;
+                charm.OnDisEquip();
+                return true;
+            }
+        }
+        return false;
+    }
+    public bool DisEquipCharm(CharmSO _charmSO)
+    {
+        foreach (CharmSO charm in Charms)
+        {
+            if (charm.HasEquiped && _charmSO.Equals(charm))
             {
                 charm.HasEquiped = false;
                 charm.OnDisEquip();
