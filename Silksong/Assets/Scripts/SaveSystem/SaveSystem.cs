@@ -105,6 +105,7 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 	//Read save data from FileManager
 	public bool LoadSaveDataFromDisk()
 	{
+#if UNITY_EDITOR
 		if (FileManager.LoadFromFile(saveFilename, out var json))
 		{
 			saveData.LoadFromJson(json);
@@ -117,6 +118,11 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 			_playerInventory.Add(tmp,serializedItemStack.amount);
 		}
 		return true;
+#endif
+
+#if UNITY_STANDALONE //can not use assetDataBase when publish, to be fixed
+		return false;
+#endif
 	}
 	//Save data to file
 	public void SaveDataToDisk()
