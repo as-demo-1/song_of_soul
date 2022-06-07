@@ -11,6 +11,8 @@ public struct PlayerInfo
     private PlayerController playerController;
     public float sprintSpeed { get; private set; }
 
+    public bool hasDoubleJump;
+
     public AnimationCurve breakMoonPositionCurve;
     //climb
     public float normalGravityScale;
@@ -57,6 +59,12 @@ public struct PlayerInfo
     {
         if (playerController.playerToCat.IsCat) return Constants.PlayerCatJumpHeight;
         else return Constants.PlayerJumpMaxHeight;
+    }
+
+    public int getJumpCount()
+    {
+        if (hasDoubleJump) return Constants.PlayerMaxDoubleJumpCount;
+        else return Constants.PlayerMaxJumpCount;
     }
 }
 

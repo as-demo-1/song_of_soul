@@ -123,7 +123,13 @@ public class PlayerJump : PlayerAction
         }
     }
 
-    public void resetJumpCount() => CurrentJumpCountLeft = Constants.PlayerMaxJumpCount;
+    public void resetJumpCount() => CurrentJumpCountLeft = playerController.playerInfo.getJumpCount();
+
+    public void resetDoubleJump()
+    {
+        if (playerController.playerInfo.hasDoubleJump == false) return;
+        CurrentJumpCountLeft = Constants.PlayerMaxDoubleJumpCount - Constants.PlayerMaxJumpCount;
+    }
 
     public override void StateStart(EPlayerState oldState)
     {
