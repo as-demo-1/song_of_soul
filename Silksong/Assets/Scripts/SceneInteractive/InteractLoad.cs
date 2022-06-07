@@ -14,19 +14,12 @@ public class InteractLoad : MonoBehaviour
 
     public static InteractiveContainerSO InterContainer;
 
-    //public static InterContainer.InteractiveItemList InteractiveSOList = new List<InteractiveBaseSO>();
-    //public static List<InteractiveBaseSO> InteractiveSOList = InterContainer.InteractiveItemList;
-
-    //private static InteractLoad _instance;
     public static InteractLoad Instance;
     
 
     // Use this for initialization
     void Start()
     {
-        /*TalkManager.Instance.GossipContent = new Dictionary<int, string>();
-        TalkManager.Instance.PlotContent = new Dictionary<int, string>();
-        TalkManager.Instance.NPCContent = new Dictionary<int, List<int>>();*/
         foreach (InteractiveBaseSO interactiveItem in InteractiveContainer.InteractiveItemList)
         {
             int id = interactiveItem.InteractiveID;
@@ -46,7 +39,10 @@ public class InteractLoad : MonoBehaviour
                     foreach (DialogueSO item in section.DialogueList)
                     {
                         //Debug.Log(item.StartID);
-                        TalkManager.Instance.Condition[item.StartID] = new List<string>();
+                        if (item.StatusList.Count != 0)
+                        {
+                            TalkManager.Instance.Condition[item.StartID] = new List<string>();
+                        }
                         if (item.Type.Equals("plot"))
                         {
                             TalkManager.Instance.NPCPlotContent[section.NPCID].Add(item.StartID);
@@ -59,29 +55,45 @@ public class InteractLoad : MonoBehaviour
                         else
                         {
                             TalkManager.Instance.NPCGossipContent[section.NPCID].Add(item.StartID);
+                            //Debug.Log(item.StartID);
                             for (int i = 0; i < item.Content.Count; i++)
                             {
                                 TalkManager.Instance.GossipContent.Add(item.StartID + i, item.Content[i]);
                             }
                             TalkManager.Instance.NPCGossipContent[section.NPCID].Sort((x, y) => x.CompareTo(y));
                         }
-                        if (item.StatusList != null)
-                        {
-                            foreach (string conditionname in item.StatusList)
-                            {
-                                TalkManager.Instance.Condition[item.StartID].Add(conditionname);
-                            }
-                        }
                     }
                     foreach (DialogueStatusSO statusItem in section.DialogueStatusList)
                     {
-                        TalkManager.Instance.TalkStatusJudge.Add(statusItem.ConditionName, statusItem.Judge);
+                        if (!TalkManager.Instance.TalkStatusJudge.ContainsKey(statusItem.ConditionName))
+                        {
+                            TalkManager.Instance.TalkStatusJudge.Add(statusItem.ConditionName, statusItem.Judge); 
+                        }
                     }
                 }
             }
             
                 
             
+        }
+        foreach (KeyValuePair<int, List<string>> pair in ExcelLoad.ConditionList)
+        {
+            if (!TalkManager.Instance.Condition.ContainsKey(pair.Key))
+            {
+                TalkManager.Instance.Condition.Add(pair.Key, pair.Value) ;
+                Debug.Log(pair.Key);
+                Debug.Log(pair.Value);
+            }
+            else
+            {
+                foreach (string conditionname in pair.Value)
+                {
+                    if (!TalkManager.Instance.Condition[pair.Key].Contains(conditionname))
+                    {
+                        TalkManager.Instance.Condition[pair.Key].Add(conditionname);
+                    }
+                }
+            }
         }
     }
 }

@@ -40,7 +40,7 @@ public class NPCSO : SingleInteractiveBaseSO
     {
         // todo:
         // 1.播放行走动画并移动 在走到相应坐标时停止
-        Debug.Log("对话框");
+        //Debug.Log("对话框");
 
         m_player = GameObject.FindGameObjectWithTag("Player");
 
@@ -65,7 +65,7 @@ public class NPCSO : SingleInteractiveBaseSO
     {
         // todo:
         // 2.调用对话系统的方法
-        Debug.Log("调用对话系统方法");
+        //Debug.Log("调用对话系统方法");
 
         TalkController.Instance.StartTalk(InteractiveID, callback);
 
