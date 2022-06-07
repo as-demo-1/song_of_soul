@@ -123,7 +123,7 @@ public class PlayerJump : PlayerAction
         }
     }
 
-    public void resetJumpCount() => CurrentJumpCountLeft = playerController.playerInfo.maxJumpCount;
+    public void resetJumpCount() => CurrentJumpCountLeft = Constants.PlayerMaxJumpCount;
 
     public override void StateStart(EPlayerState oldState)
     {
@@ -170,7 +170,7 @@ public class PlayerJump : PlayerAction
 
             float jumpHeight = playerController.transform.position.y - jumpStartHeight;
 
-            if (jumpHeight > playerController.playerInfo.jumpMinHeight - 0.5f)//达到最小高度后才能停下
+            if (jumpHeight > Constants.PlayerJumpMinHeight - 0.5f)//达到最小高度后才能停下
             {
 
                 if (hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false)//急刹
@@ -211,9 +211,9 @@ public class PlayerFall : PlayerAction
 
     public void checkMaxFallSpeed()
     {
-        if (playerController.getRigidVelocity().y < -playerController.playerInfo.maxFallSpeed)
+        if (playerController.getRigidVelocity().y < -Constants.PlayerMaxFallSpeed)
         {
-            playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x, -playerController.playerInfo.maxFallSpeed));
+            playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x, -Constants.PlayerMaxFallSpeed));
         }
     }
 }
