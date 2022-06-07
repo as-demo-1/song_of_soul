@@ -10,13 +10,19 @@ public class Lift : MonoBehaviour
 
     private LiftFloorGear[] gears;//lift为该电梯的liftFloorGear在start时绑定到该数组  按从低层到高层顺序
 
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public float currentFloor;//当前层 若为x.5层则表示正在x与x+1层之间移动
 
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public int targetFloor;//最终要到的层
 
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public int midTargetFloor;//现在层和目标层之间的中间层 用于在跨多层移动中记录电梯当前位置
 
 
@@ -32,7 +38,9 @@ public class Lift : MonoBehaviour
     private Rigidbody2D rigid;
     private BoxCollider2D floorCollider;//电梯地面的碰撞体
 
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public bool playerIsOnLift = false;//玩家是否在电梯上 用于同步速度
 
     void Awake()

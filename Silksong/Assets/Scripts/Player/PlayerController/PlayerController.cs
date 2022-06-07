@@ -9,20 +9,10 @@ using UnityEngine;
 public struct PlayerInfo
 {
     private PlayerController playerController;
-
-    public float jumpMinHeight;
-    public float maxFallSpeed;
-
-    private float jumpUpSpeed;
-    private float catJumpUpSpeed;
-
-    //jump
-    public float sprintDistance;
     public float sprintSpeed { get; private set; }
-    public int maxAirSprintCount;
-    public int maxJumpCount;
 
-    public float breakMoonAvgSpeed;
+    public bool hasDoubleJump;
+
     public AnimationCurve breakMoonPositionCurve;
     //climb
     public float normalGravityScale;
@@ -39,10 +29,8 @@ public struct PlayerInfo
     public void init(PlayerController playerController)
     {
         this.playerController = playerController;
-        jumpUpSpeed = Constants.PlayerJumpHeight * 2.5f;
-        catJumpUpSpeed = Constants.PlayerCatJumpHeight * 2.5f;
 
-        sprintSpeed = sprintDistance / Constants.SprintTime;
+        sprintSpeed = Constants.PlayerSprintDistance / Constants.SprintTime;
         gravityUnderWater = normalGravityScale / 5;
     }
 
@@ -54,19 +42,29 @@ public struct PlayerInfo
                 return Constants.PlayerCatFastMoveSpeed;
             else return Constants.PlayerCatMoveSpeed;
         }
+        else if(playerController.playerAnimatorStatesControl.CurrentPlayerState==EPlayerState.NormalAttack)
+        {
+            return Constants.AttackingMoveSpeed;
+        }
         else return Constants.PlayerMoveSpeed;
     }
 
     public float getJumpUpSpeed()
     {
-        if (playerController.playerToCat.IsCat) return catJumpUpSpeed;
-        else return jumpUpSpeed;
+        if (playerController.playerToCat.IsCat) return Constants.PlayerCatJumpUpSpeed;
+        else return Constants.PlayerJumpUpSpeed;
     }
 
     public float getJumpHeight()
     {
         if (playerController.playerToCat.IsCat) return Constants.PlayerCatJumpHeight;
-        else return Constants.PlayerJumpHeight;
+        else return Constants.PlayerJumpMaxHeight;
+    }
+
+    public int getJumpCount()
+    {
+        if (hasDoubleJump) return Constants.PlayerMaxDoubleJumpCount;
+        else return Constants.PlayerMaxJumpCount;
     }
 }
 
@@ -263,8 +261,6 @@ public class PlayerController : MonoBehaviour
 
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
-
-
     }
 
     private void LateUpdate()
@@ -326,8 +322,8 @@ public class PlayerController : MonoBehaviour
 
     public void CheckFlipPlayer(float setAccelerationNormalizedTime)
     {
-        if (PlayerInput.Instance.horizontal.Value == 1f & !playerInfo.playerFacingRight ||
-                PlayerInput.Instance.horizontal.Value == -1f & playerInfo.playerFacingRight)
+        if (PlayerInput.Instance.horizontal.ValueBuffer == 1f & !playerInfo.playerFacingRight ||
+                PlayerInput.Instance.horizontal.ValueBuffer == -1f & playerInfo.playerFacingRight)
         {
             Flip();
             PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);

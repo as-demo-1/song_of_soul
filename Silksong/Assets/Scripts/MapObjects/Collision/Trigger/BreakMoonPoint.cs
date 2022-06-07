@@ -5,11 +5,15 @@ using UnityEngine;
 public class BreakMoonPoint:MonoBehaviour
 {
     private PlayerBreakMoon playerBreakMoon;
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public bool isPicked;
     public LayerMask targetLayer;
-   // public float cd;
+    // public float cd;
+#if UNITY_EDITOR
     [DisplayOnly]
+#endif
     public bool ready;
 
     private SpriteRenderer spriteRenderer;

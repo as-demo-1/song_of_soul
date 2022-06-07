@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class OnHittedTrigger :EnemyFSMBaseTrigger
 {
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public bool isHitted=false;
 
     public override void InitTrigger(EnemyFSMManager fsm_Manager)
