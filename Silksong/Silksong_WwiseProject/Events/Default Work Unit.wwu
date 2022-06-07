@@ -31,7 +31,7 @@
 												</Action>
 											</ChildrenList>
 										</Event>
-										<Event Name="PlaterAttackB" ID="{F9DDFFAE-5F82-408B-9114-984DB4BD41F7}">
+										<Event Name="PlayerAttackB" ID="{F9DDFFAE-5F82-408B-9114-984DB4BD41F7}">
 											<ChildrenList>
 												<Action Name="" ID="{19A87EF9-804F-46C8-AAAF-8B76BAEDD760}" ShortID="1004883413">
 													<ReferenceList>
@@ -171,7 +171,55 @@
 												</Action>
 											</ChildrenList>
 										</Event>
-										<Event Name="PlayerHurt" ID="{2C7772CA-EB9E-409F-8637-9C2D0ED3C46C}"/>
+										<Event Name="PlayerHurt" ID="{2C7772CA-EB9E-409F-8637-9C2D0ED3C46C}">
+											<ChildrenList>
+												<Action Name="" ID="{D551446D-BF81-4E10-925D-7D9731096495}" ShortID="807247962">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerHurt" ID="{8FFA12B3-CC71-4A2A-933C-27A05E3B281D}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{C6D707AA-8F81-4998-B428-0CC8642FA187}" ShortID="124664173">
+													<PropertyList>
+														<Property Name="Delay" Type="Real64" Value="0.5"/>
+														<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="Dungeon_Deep_Transition_Whoosh_2" ID="{060CF476-5D71-441C-A79F-DAD423990288}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{A51F4A99-AC7C-4CF4-9DF6-2DAB4F11FE02}" ShortID="995990026">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="26"/>
+														<Property Name="FadeInCurve" Type="int16" Value="1"/>
+														<Property Name="Lowpass" Type="int16" Value="86"/>
+														<Property Name="Scope" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{E8A12B2C-F28F-4169-A5F8-2BA8AF80BCF7}" ShortID="764570583">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="27"/>
+														<Property Name="Delay" Type="Real64" Value="0.5"/>
+														<Property Name="FadeOutCurve" Type="int16" Value="7"/>
+														<Property Name="FadeTime" Type="Real64" Value="1.5"/>
+														<Property Name="Scope" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
 										<Event Name="PlayerIdle" ID="{1748218D-8480-4708-97F0-E5726AA7EA02}">
 											<ChildrenList>
 												<Action Name="" ID="{22B775DF-B45F-4006-8191-A2E608F9E97F}" ShortID="197082480">

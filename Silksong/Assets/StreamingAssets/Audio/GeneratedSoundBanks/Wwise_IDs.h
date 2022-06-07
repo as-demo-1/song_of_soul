@@ -20,8 +20,8 @@ namespace AK
         static const AkUniqueID CATLAND = 3906859072U;
         static const AkUniqueID CATRUN = 3022582778U;
         static const AkUniqueID CATTOPLAYER = 1336419575U;
-        static const AkUniqueID PLATERATTACKB = 835939195U;
         static const AkUniqueID PLAYERATTACKA = 3417697019U;
+        static const AkUniqueID PLAYERATTACKB = 3417697016U;
         static const AkUniqueID PLAYERATTACKC = 3417697017U;
         static const AkUniqueID PLAYERATTACKUP = 2657146445U;
         static const AkUniqueID PLAYERCLIMBIDLE = 3860578583U;

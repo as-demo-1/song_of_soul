@@ -153,6 +153,94 @@
 										<ActiveSource Name="PlayerAttack3" ID="{C482307F-3B53-44D9-BDA0-6FAECA030093}" Platform="Linked"/>
 									</ActiveSourceList>
 								</Sound>
+								<ActorMixer Name="PlayerHurt" ID="{EED04469-29AD-4261-AA6D-649374EBC45E}" ShortID="581520959">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<Sound Name="PlayerHurt" ID="{8FFA12B3-CC71-4A2A-933C-27A05E3B281D}" ShortID="931062873">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="PlayerHurt" ID="{A65167E0-E7D6-415B-9FD8-C063802C2930}">
+													<Language>SFX</Language>
+													<AudioFile>PlayerHurt.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="11687907"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists/>
+											<ActiveSourceList>
+												<ActiveSource Name="PlayerHurt" ID="{A65167E0-E7D6-415B-9FD8-C063802C2930}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+										<Sound Name="Dungeon_Deep_Transition_Whoosh_2" ID="{060CF476-5D71-441C-A79F-DAD423990288}" ShortID="243056090">
+											<PropertyList>
+												<Property Name="OverrideEffect" Type="bool" Value="True"/>
+												<Property Name="RenderEffect0" Type="bool">
+													<ValueList>
+														<Value>True</Value>
+													</ValueList>
+												</Property>
+												<Property Name="Volume" Type="Real64">
+													<ValueList>
+														<Value>-5</Value>
+													</ValueList>
+												</Property>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+												</Reference>
+												<Reference Name="Effect0">
+													<Custom>
+														<Effect Name="Wwise Parametric EQ (Custom)" ID="{8156BF5A-1491-4522-A692-F4278260F176}" ShortID="738303476" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
+															<PropertyList>
+																<Property Name="FilterTypeBand3" Type="int32" Value="1"/>
+																<Property Name="FrequencyBand3" Type="Real32" Value="691"/>
+															</PropertyList>
+														</Effect>
+													</Custom>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<AudioFileSource Name="Dungeon_Deep_Transition_Whoosh_2" ID="{F37AF110-5B8E-4D7C-8CE2-997E4563FFDB}">
+													<PropertyList>
+														<Property Name="FadeInDuration" Type="Real64" Value="0.710120303468208"/>
+														<Property Name="FadeOutDuration" Type="Real64" Value="1.87089387644508"/>
+														<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+														<Property Name="TrimEnd" Type="Real64" Value="1.87089387644508"/>
+													</PropertyList>
+													<Language>SFX</Language>
+													<AudioFile>Dungeon_Deep_Transition_Whoosh_2.wav</AudioFile>
+													<MediaIDList>
+														<MediaID ID="996470470"/>
+													</MediaIDList>
+												</AudioFileSource>
+											</ChildrenList>
+											<ObjectLists/>
+											<ActiveSourceList>
+												<ActiveSource Name="Dungeon_Deep_Transition_Whoosh_2" ID="{F37AF110-5B8E-4D7C-8CE2-997E4563FFDB}" Platform="Linked"/>
+											</ActiveSourceList>
+										</Sound>
+									</ChildrenList>
+									<ObjectLists/>
+								</ActorMixer>
 							</ChildrenList>
 							<ObjectLists/>
 						</ActorMixer>
@@ -553,6 +641,7 @@
 												</ModifierInfo>
 											</ModifierList>
 										</Property>
+										<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
 										<Property Name="Volume" Type="Real64">
 											<ValueList>
 												<Value>-9</Value>

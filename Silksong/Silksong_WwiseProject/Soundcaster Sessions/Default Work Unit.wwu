@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{6E739B48-4A39-4A80-B74D-A5F47649C827}" SchemaVersion="103">
 	<SoundcasterSessions>
-		<WorkUnit Name="Default Work Unit" ID="{6E739B48-4A39-4A80-B74D-A5F47649C827}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{6E739B48-4A39-4A80-B74D-A5F47649C827}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundcasterSession Name="123" ID="{F8E134FF-9AC8-4FEF-823B-6C8A3FD39523}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="AmbBasicGeneral" ID="{89F2795D-99D2-4874-B433-61212A3DEF72}" WorkUnitID="{8DD9A9A2-8251-4E23-B9C4-D83982789ECE}"/>
+							<Position X="0" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="PlayerRun" ID="{00586402-5CE2-4482-9009-79607A90BDB5}" WorkUnitID="{8DD9A9A2-8251-4E23-B9C4-D83982789ECE}"/>
+							<Position X="1" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="PlayerHurt" ID="{2C7772CA-EB9E-409F-8637-9C2D0ED3C46C}" WorkUnitID="{8DD9A9A2-8251-4E23-B9C4-D83982789ECE}"/>
+							<Position X="2" Y="0"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="PositionToPlayer" ID="{C1BD6DD1-996B-410B-AB63-A703C3BD1C09}"/>
+							<Value>50</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true"/>
+				</SoundcasterSession>
+			</ChildrenList>
+		</WorkUnit>
 	</SoundcasterSessions>
 </WwiseDocument>
