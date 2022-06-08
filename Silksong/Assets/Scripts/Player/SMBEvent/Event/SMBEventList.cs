@@ -6,15 +6,13 @@ using UnityEngine;
 public class SMBEventList<TSMBEvent> : ISMBEventList//<TSMBEvent>
     where TSMBEvent : SMBEvent
 {
-    //[SerializeField]
-   // private bool m_IgnorePreviousEventsWhenEntered = true;
     [SerializeField]
     public List<TSMBEvent> m_SMBEventList;
-    //public bool IgnorePreviousEventsWhenEntered => m_IgnorePreviousEventsWhenEntered;
     public int Index { get; private set; }
     public int Count => m_SMBEventList.Count;
-    //public int InvokeEvents(float previousNormalizedTime, float currentNormalizedTime, int index)
-    public int InvokeEvents(float currentNormalizedTime, int index)
+
+    public bool reInvokeWhenLoop { get; set; }
+    public int InvokeEvents(float currentNormalizedTime, int index)//index:指向下一个未执行的事件
     {
         for (; index < m_SMBEventList.Count; index++)
         {
@@ -45,8 +43,6 @@ public class SMBEventList<TSMBEvent> : ISMBEventList//<TSMBEvent>
 
     public void Sort() => m_SMBEventList.Sort();
 
-   /* public static implicit operator List<TSMBEvent>(SMBEventList<TSMBEvent> smbEventList)
-        => smbEventList.m_SMBEventList;*/
 }
 
 public interface ISMBEventList//<out T>
@@ -54,6 +50,8 @@ public interface ISMBEventList//<out T>
   //  public bool IgnorePreviousEventsWhenEntered { get; }
     public int Index { get; }
     public int Count { get; }
+
+    public bool reInvokeWhenLoop { get; set; }
     //public int InvokeEvents(float previousNormalizedTime, float currentNormalizedTime, int index);
     public int InvokeEvents(float currentNormalizedTime, int index);
    // public void SetIndexByTime(float timeNormalized);

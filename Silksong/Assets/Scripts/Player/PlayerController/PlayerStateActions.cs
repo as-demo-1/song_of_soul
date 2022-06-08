@@ -295,7 +295,7 @@ public class PlayerSprint : PlayerAction
 
     public void resetAirSprintLeftCount()
     {
-        AirSprintLeftCount = playerController.playerInfo.maxAirSprintCount;
+        AirSprintLeftCount = Constants.PlayerMaxAirSprintCount;
     }
 
     public override void StateStart(EPlayerState oldState)
@@ -304,6 +304,10 @@ public class PlayerSprint : PlayerAction
         if (oldState == EPlayerState.ClimbIdle)
         {
             playerController.Flip();
+        }
+        else
+        {
+            playerController.CheckFlipPlayer(0.5f);
         }
 
         int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
@@ -359,7 +363,7 @@ public class PlayerBreakMoon : PlayerAction
         /* Debug.Log(afterDistance);
          Debug.Log(toMoonDistance);
          Debug.Log(totalDistance);*/
-        totalTime = totalDistance.magnitude / playerController.playerInfo.breakMoonAvgSpeed;
+        totalTime = totalDistance.magnitude / Constants.BreakMoonAvgSpeed;
         // Debug.Log(totalTime);
 
         timer = 0;
@@ -450,6 +454,8 @@ public class PlayerBreakMoon : PlayerAction
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
                 PlayerAnimatorParamsMapping.SetControl(true);
+                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
+                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).resetDoubleJump();
                 currentTarget.atBreakMoonPoint();
             }
         }
