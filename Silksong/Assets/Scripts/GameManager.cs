@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
 
         mapPack = Instantiate(mapPack);
         DontDestroyOnLoad(mapPack);
+        uint bankid;
+        AkSoundEngine.LoadBank("General",out bankid);
 
     }
 

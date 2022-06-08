@@ -42,7 +42,7 @@ public class PlayerSMBEvents : PlayerSMB
         AnimatorClipInfo cilpInfo = animator.GetCurrentAnimatorClipInfo(0)[0];
         /*if (stateInfo.IsName("JumpUp")) 
         Debug.Log(cilpInfo.clip.isLooping);*/
-        Debug.Log(cilpInfo.clip.name);
+       // Debug.Log(cilpInfo.clip.name);
         m_SMBWwiseData.reInvokeWhenLoop = cilpInfo.clip.isLooping;
         base.OnSLStateEnter(animator, stateInfo, layerIndex, controller);
         foreach (var SMBEventList in m_SMBEventLists)
