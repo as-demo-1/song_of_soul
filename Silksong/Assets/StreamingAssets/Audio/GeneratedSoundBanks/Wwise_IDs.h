@@ -13,7 +13,13 @@ namespace AK
 {
     namespace EVENTS
     {
+<<<<<<< Updated upstream
         static const AkUniqueID AMBBASICGENERAL = 2955541745U;
+=======
+        static const AkUniqueID BUMPMONSTERBUMP = 1413612053U;
+        static const AkUniqueID BUMPMONSTERHURT = 3481930502U;
+        static const AkUniqueID BUMPMONSTERMEET = 39419828U;
+>>>>>>> Stashed changes
         static const AkUniqueID CATFALL = 1532010348U;
         static const AkUniqueID CATIDLE = 3896809837U;
         static const AkUniqueID CATJUMP = 244401571U;

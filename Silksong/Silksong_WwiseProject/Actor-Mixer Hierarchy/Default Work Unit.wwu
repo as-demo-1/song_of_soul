@@ -1022,11 +1022,15 @@
 					</ChildrenList>
 					<ObjectLists/>
 				</ActorMixer>
+<<<<<<< Updated upstream
 				<ActorMixer Name="Ambience" ID="{8103B681-1C20-4FF6-A3B5-854AA14AAEB3}" ShortID="861777431">
 					<PropertyList>
 						<Property Name="Color" Type="int16" Value="4"/>
 						<Property Name="OverrideColor" Type="bool" Value="True"/>
 					</PropertyList>
+=======
+				<ActorMixer Name="Monster" ID="{C166C585-9DB5-41AD-B773-3BDBA2E3D5C4}" ShortID="816614911">
+>>>>>>> Stashed changes
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
@@ -1036,7 +1040,11 @@
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
+<<<<<<< Updated upstream
 						<ActorMixer Name="Level_1" ID="{4A35801E-B130-47B1-A6D9-0DB84903511E}" ShortID="978576364">
+=======
+						<ActorMixer Name="BumpMonster" ID="{86F4C1CE-D2F4-4E6E-8C1E-7DF2B042504B}" ShortID="923559052">
+>>>>>>> Stashed changes
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
@@ -1046,7 +1054,11 @@
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
+<<<<<<< Updated upstream
 								<ActorMixer Name="Level_1_General" ID="{8885BC70-E7A3-4762-AAB6-ACDEECADD2AC}" ShortID="941362935">
+=======
+								<RandomSequenceContainer Name="BumpMonsterTurn" ID="{06FED518-122A-40F8-85CE-3BEC0E51E6BD}" ShortID="612722852">
+>>>>>>> Stashed changes
 									<ReferenceList>
 										<Reference Name="Conversion">
 											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
@@ -1056,6 +1068,7 @@
 										</Reference>
 									</ReferenceList>
 									<ChildrenList>
+<<<<<<< Updated upstream
 										<Sound Name="LayerAir" ID="{861102C0-1038-4592-B5BD-F0D2D8BBBEB3}" ShortID="869662589">
 											<PropertyList>
 												<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
@@ -1081,10 +1094,14 @@
 													</ValueList>
 												</Property>
 											</PropertyList>
+=======
+										<BlendContainer Name="New Blend Container" ID="{7E8455C2-821F-4BDF-8B77-20B0EAE39ECD}" ShortID="250491199">
+>>>>>>> Stashed changes
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
 												</Reference>
+<<<<<<< Updated upstream
 												<Reference Name="Effect0">
 													<Custom>
 														<Effect Name="Wwise Parametric EQ (Custom)" ID="{BAD7BB9F-7E1B-43B6-905C-5A65C564F6F7}" ShortID="316972132" PluginName="Wwise Parametric EQ" CompanyID="0" PluginID="105" PluginType="3">
@@ -1095,11 +1112,14 @@
 														</Effect>
 													</Custom>
 												</Reference>
+=======
+>>>>>>> Stashed changes
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
+<<<<<<< Updated upstream
 												<AudioFileSource Name="安静的城市quiet-town-1~1" ID="{921E69BF-73D3-4F60-AFAC-4D123D555A21}">
 													<PropertyList>
 														<Property Name="FadeOutShape" Type="int16" Value="1"/>
@@ -1131,6 +1151,138 @@
 												<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
 												<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+=======
+												<Sound Name="金属放入物品栏zth070511" ID="{0EFD4150-62C2-415B-8A36-DA6D05EC5487}" ShortID="234198569">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-12</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="金属放入物品栏zth070511" ID="{2A52A335-164A-4445-984A-26424FA66E2E}">
+															<Language>SFX</Language>
+															<AudioFile>金属放入物品栏zth070511.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="557543319"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="金属放入物品栏zth070511" ID="{2A52A335-164A-4445-984A-26424FA66E2E}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="物品落地zth070523" ID="{F80ADCC6-8AAE-406F-BD3C-2255FEE1495F}" ShortID="180625719">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="物品落地zth070523" ID="{69584DD8-C625-4CA9-BC8A-84ED8BC87A7B}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0393775901165064"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.367524174420726"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.393775901165064"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>物品落地zth070523.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="892581420"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="物品落地zth070523" ID="{69584DD8-C625-4CA9-BC8A-84ED8BC87A7B}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="物品落地zth070518" ID="{784FB43B-9FCC-45F9-BFBA-CDE639135679}" ShortID="736215839">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-10</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="物品落地zth070518" ID="{235B5E81-CD01-4509-89C3-47D559CDDC52}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0319774806474314"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.475220892954883"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.209630150910939"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.697286730784268"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>物品落地zth070518.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="429084765"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="物品落地zth070518" ID="{235B5E81-CD01-4509-89C3-47D559CDDC52}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<ObjectLists/>
+										</BlendContainer>
+									</ChildrenList>
+									<ObjectLists/>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="BumpMonsterIdel" ID="{913DC85C-E501-4AC4-ACB1-F22713A3BA72}" ShortID="418239579">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+										</Reference>
+									</ReferenceList>
+									<ObjectLists/>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="BumpMonsterMove" ID="{DEB7018B-1200-419C-8ACD-994109D6EF9E}" ShortID="128478191">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<BlendContainer Name="New Blend Container" ID="{312AEC2E-A1D2-4E8F-A316-ABFF9D896542}" ShortID="1022280996">
+											<PropertyList>
+												<Property Name="Pitch" Type="int32">
+													<ValueList>
+														<Value>-600</Value>
+													</ValueList>
+												</Property>
+>>>>>>> Stashed changes
 											</PropertyList>
 											<ReferenceList>
 												<Reference Name="Conversion">
@@ -1139,6 +1291,7 @@
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
 												</Reference>
+<<<<<<< Updated upstream
 												<Reference Name="UserAuxSend0">
 													<ObjectRef Name="RR" ID="{A3319BE9-AC01-4BED-A0F2-E38DAA4F5EB2}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
 												</Reference>
@@ -1150,6 +1303,46 @@
 												<RandomSequenceContainer Name="LayerJingle" ID="{8A7BCB32-B1C1-4FAB-8C99-DDF16FBC47F8}" ShortID="14525169">
 													<PropertyList>
 														<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+=======
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="JD16-10 摩托赛车（隆隆的空转声 起动）" ID="{7B82A164-30E0-4DF9-82C7-570C75C962B7}" ShortID="579243372">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="JD16-10 摩托赛车（隆隆的空转声 起动）" ID="{CE2CDA79-2EBC-4B6F-A642-6D8689C78642}">
+															<PropertyList>
+																<Property Name="ChannelConfigOverride" Type="int64" Value="49410"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.632128922815946"/>
+																<Property Name="TrimEnd" Type="Real64" Value="16.0797794741307"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>JD16-10 摩托赛车（隆隆的空转声 起动）.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="111200248"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="JD16-10 摩托赛车（隆隆的空转声 起动）" ID="{CE2CDA79-2EBC-4B6F-A642-6D8689C78642}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="坦克履带2" ID="{CD91D7CF-BA54-4E8F-B9C2-4BD462EF0408}" ShortID="93919554">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-24</Value>
+															</ValueList>
+														</Property>
+>>>>>>> Stashed changes
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -1160,6 +1353,7 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
+<<<<<<< Updated upstream
 														<RandomSequenceContainer Name="Jingle" ID="{6E7827F4-9F83-4656-9679-DC10ED00F5FE}" ShortID="44856371">
 															<PropertyList>
 																<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
@@ -1467,6 +1661,32 @@
 												<RandomSequenceContainer Name="Scilence" ID="{0C72D1F5-D461-49C7-8171-312C0BCDFC28}" ShortID="129460637">
 													<PropertyList>
 														<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
+=======
+														<AudioFileSource Name="坦克履带2" ID="{EE992ED8-C697-4CA3-A43A-12D5FEAC852A}">
+															<PropertyList>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="1.18747868956743"/>
+																<Property Name="TrimEnd" Type="Real64" Value="15.1133651399491"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>坦克履带2.WAV</AudioFile>
+															<MediaIDList>
+																<MediaID ID="197829868"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="坦克履带2" ID="{EE992ED8-C697-4CA3-A43A-12D5FEAC852A}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="坦克履带1" ID="{ACFC49C8-3CEA-4EC4-B224-9351BA2ADB50}" ShortID="111524922">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-25</Value>
+															</ValueList>
+														</Property>
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -1477,6 +1697,43 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
+														<AudioFileSource Name="坦克履带1" ID="{3830829D-ECF6-40A4-AEA8-65CDA2CD7A64}">
+															<PropertyList>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="7.34851272264631"/>
+																<Property Name="TrimEnd" Type="Real64" Value="16.5044266327396"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>坦克履带1.WAV</AudioFile>
+															<MediaIDList>
+																<MediaID ID="636096113"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="坦克履带1" ID="{3830829D-ECF6-40A4-AEA8-65CDA2CD7A64}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="01坦克行驶" ID="{7CCF2194-C746-42A4-A9EA-B514A821ADCA}" ShortID="254896432">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-30</Value>
+															</ValueList>
+														</Property>
+>>>>>>> Stashed changes
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+<<<<<<< Updated upstream
 														<Sound Name="New Sound SFX_02" ID="{A6231549-1C08-4E76-A1AA-6FABC7E42421}" ShortID="507746226">
 															<ReferenceList>
 																<Reference Name="Conversion">
@@ -1560,6 +1817,57 @@
 												<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 											</PropertyList>
+=======
+														<AudioFileSource Name="01坦克行驶" ID="{9C4C7277-205B-4515-8EAC-150C43454DBB}">
+															<PropertyList>
+																<Property Name="ChannelConfigOverride" Type="int64" Value="49410"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="112.654724342663"/>
+																<Property Name="TrimEnd" Type="Real64" Value="124.095987026726"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>01坦克行驶.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="600899758"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="01坦克行驶" ID="{9C4C7277-205B-4515-8EAC-150C43454DBB}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<ObjectLists/>
+										</BlendContainer>
+									</ChildrenList>
+									<ObjectLists/>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="BumpMonsterBump" ID="{23BA3983-8D6F-4C11-B5CE-B654CEA44E55}" ShortID="530224206">
+									<PropertyList>
+										<Property Name="Pitch" Type="int32">
+											<ModifierList>
+												<ModifierInfo>
+													<Modifier Name="" ID="{E50A767E-40B4-4592-9C2B-4CE58D2723D2}">
+														<PropertyList>
+															<Property Name="Enabled" Type="bool" Value="True"/>
+														</PropertyList>
+													</Modifier>
+												</ModifierInfo>
+											</ModifierList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<BlendContainer Name="New Blend Container" ID="{2E533879-9026-45ED-9637-2D2644815CA2}" ShortID="342542244">
+>>>>>>> Stashed changes
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
@@ -1569,9 +1877,31 @@
 												</Reference>
 											</ReferenceList>
 											<ChildrenList>
+<<<<<<< Updated upstream
 												<RandomSequenceContainer Name="LayerLF" ID="{6D7CAC60-526B-4EC8-9942-33DFECCA1B36}" ShortID="337935598">
 													<PropertyList>
 														<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+=======
+												<Sound Name="撞击－击中1-mcx20070517" ID="{CE8ECD75-1CDF-42D6-A837-BA72BD6CB519}" ShortID="540738756">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{EEAE3503-27EB-4865-87AB-CC5256BBDADF}">
+																		<PropertyList>
+																			<Property Name="Max" Type="Real64" Value="200"/>
+																			<Property Name="Min" Type="Real64" Value="-200"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-21</Value>
+															</ValueList>
+														</Property>
+>>>>>>> Stashed changes
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -1582,6 +1912,7 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
+<<<<<<< Updated upstream
 														<RandomSequenceContainer Name="Scilence" ID="{D9AE539D-D625-41AA-9B92-CF2BDBC84AC9}" ShortID="891597250">
 															<PropertyList>
 																<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
@@ -1898,6 +2229,42 @@
 												<RandomSequenceContainer Name="Scilence" ID="{59D09476-30BA-4E82-A767-1903092B3288}" ShortID="554621310">
 													<PropertyList>
 														<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
+=======
+														<AudioFileSource Name="撞击－击中1-mcx20070517" ID="{DFCB484B-6BE4-45CC-BD0C-92A2957CB978}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.211030534351145"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.199229484732824"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.0118010496183206"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.388740458015267"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>撞击－击中1-mcx20070517.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="841212957"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="撞击－击中1-mcx20070517" ID="{DFCB484B-6BE4-45CC-BD0C-92A2957CB978}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="90 - 踢打洞器身体秋天小型爵士乐团 4 x_1_R" ID="{C4F1DCF4-8470-417A-83A5-F9519B495BE8}" ShortID="876944788">
+													<PropertyList>
+														<Property Name="Pitch" Type="int32">
+															<ModifierList>
+																<ModifierInfo>
+																	<Modifier Name="" ID="{44A807D5-9665-4905-9B4D-39F9F78ECAAC}">
+																		<PropertyList>
+																			<Property Name="Enabled" Type="bool" Value="True"/>
+																			<Property Name="Min" Type="Real64" Value="-100"/>
+																		</PropertyList>
+																	</Modifier>
+																</ModifierInfo>
+															</ModifierList>
+														</Property>
+>>>>>>> Stashed changes
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -1908,6 +2275,7 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
+<<<<<<< Updated upstream
 														<Sound Name="New Sound SFX_02" ID="{A8295585-AD6B-437E-A997-ECC44FBE07BD}" ShortID="110833673">
 															<ReferenceList>
 																<Reference Name="Conversion">
@@ -1991,6 +2359,44 @@
 												<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
 												<Property Name="RandomOrSequence" Type="int16" Value="0"/>
 											</PropertyList>
+=======
+														<AudioFileSource Name="90 - 踢打洞器身体秋天小型爵士乐团 4 x_1_R" ID="{6E9E9A99-0AE5-493A-BB10-7F600E23B091}">
+															<PropertyList>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.0930255011141918"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.827907337569827"/>
+																<Property Name="TrimEnd" Type="Real64" Value="1.07221124278538"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>90 - 踢打洞器身体秋天小型爵士乐团 4 x.1.R.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="727507950"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="90 - 踢打洞器身体秋天小型爵士乐团 4 x_1_R" ID="{6E9E9A99-0AE5-493A-BB10-7F600E23B091}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<ObjectLists/>
+										</BlendContainer>
+									</ChildrenList>
+									<ObjectLists/>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="BumpMonsterHurt" ID="{7A6EE2CF-436F-4822-A9C8-30515F49A905}" ShortID="178151226">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<BlendContainer Name="New Blend Container" ID="{9D5715CF-09CE-4ECC-8CFC-AB00A60402E1}" ShortID="613052235">
+>>>>>>> Stashed changes
 											<ReferenceList>
 												<Reference Name="Conversion">
 													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
@@ -1998,6 +2404,7 @@
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
 												</Reference>
+<<<<<<< Updated upstream
 												<Reference Name="UserAuxSend0">
 													<ObjectRef Name="RR" ID="{A3319BE9-AC01-4BED-A0F2-E38DAA4F5EB2}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
 												</Reference>
@@ -2009,6 +2416,18 @@
 												<RandomSequenceContainer Name="LayerMetal" ID="{8EAE234D-89A0-4A34-A4C6-376BD49D7239}" ShortID="838359556">
 													<PropertyList>
 														<Property Name="RandomOrSequence" Type="int16" Value="0"/>
+=======
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="北冥派-雷神秘术-受击" ID="{C51BE611-2890-4E07-8DC6-A85390C3E490}" ShortID="1053403684">
+													<PropertyList>
+														<Property Name="OverrideConversion" Type="bool" Value="True"/>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-5</Value>
+															</ValueList>
+														</Property>
+>>>>>>> Stashed changes
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -2019,6 +2438,7 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
+<<<<<<< Updated upstream
 														<RandomSequenceContainer Name="Scilence" ID="{3BB6CD8D-6E84-4365-945C-DCE85E9513D1}" ShortID="298032316">
 															<PropertyList>
 																<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
@@ -2341,6 +2761,85 @@
 												<RandomSequenceContainer Name="Scilence" ID="{851DCF50-DA26-4ACB-BAED-08A606D75C1D}" ShortID="764587851">
 													<PropertyList>
 														<Property Name="RandomAvoidRepeatingCount" Type="int32" Value="2"/>
+=======
+														<AudioFileSource Name="北冥派-雷神秘术-受击" ID="{B9ED5D5B-D630-4595-B2FF-A9A43396E3DF}">
+															<PropertyList>
+																<Property Name="ChannelConfigOverride" Type="int64" Value="49410"/>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0311371910935706"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.320529908316168"/>
+																<Property Name="OverrideConversion" Type="bool" Value="True"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.0183159947609239"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.379141091551124"/>
+															</PropertyList>
+															<ReferenceList>
+																<Reference Name="Conversion">
+																	<Custom>
+																		<Conversion Name="Conversion Settings (Custom)" ID="{97AEE3C1-2ACC-4054-BB13-2DC82872C67E}">
+																			<PropertyList>
+																				<Property Name="Channels" Type="int32">
+																					<ValueList>
+																						<Value Platform="Mac">2</Value>
+																						<Value Platform="Windows">2</Value>
+																					</ValueList>
+																				</Property>
+																				<Property Name="LRMix" Type="Real64">
+																					<ValueList>
+																						<Value Platform="Mac">0</Value>
+																						<Value Platform="Windows">0</Value>
+																					</ValueList>
+																				</Property>
+																				<Property Name="MaxSampleRate" Type="int32">
+																					<ValueList>
+																						<Value Platform="Mac">0</Value>
+																						<Value Platform="Windows">0</Value>
+																					</ValueList>
+																				</Property>
+																				<Property Name="MinSampleRate" Type="int32">
+																					<ValueList>
+																						<Value Platform="Mac">0</Value>
+																						<Value Platform="Windows">0</Value>
+																					</ValueList>
+																				</Property>
+																				<Property Name="SampleRate" Type="int32">
+																					<ValueList>
+																						<Value Platform="Mac">0</Value>
+																						<Value Platform="Windows">0</Value>
+																					</ValueList>
+																				</Property>
+																			</PropertyList>
+																			<ConversionPluginInfoList>
+																				<ConversionPluginInfo Platform="Mac">
+																					<ConversionPlugin Name="" ID="{D0DF3252-030C-43A6-8EF3-1FB1AB338E32}" PluginName="PCM" CompanyID="0" PluginID="1"/>
+																				</ConversionPluginInfo>
+																				<ConversionPluginInfo Platform="Windows">
+																					<ConversionPlugin Name="" ID="{69FAE966-182F-4717-8B82-58107A6266E0}" PluginName="PCM" CompanyID="0" PluginID="1"/>
+																				</ConversionPluginInfo>
+																			</ConversionPluginInfoList>
+																		</Conversion>
+																	</Custom>
+																</Reference>
+															</ReferenceList>
+															<Language>SFX</Language>
+															<AudioFile>北冥派-雷神秘术-受击.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="568372185"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="北冥派-雷神秘术-受击" ID="{B9ED5D5B-D630-4595-B2FF-A9A43396E3DF}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="刀击中(铁器)10-WQ20070524" ID="{50BF9677-5847-4884-873C-1B912ED9D877}" ShortID="979883002">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-10</Value>
+															</ValueList>
+														</Property>
+>>>>>>> Stashed changes
 													</PropertyList>
 													<ReferenceList>
 														<Reference Name="Conversion">
@@ -2351,6 +2850,7 @@
 														</Reference>
 													</ReferenceList>
 													<ChildrenList>
+<<<<<<< Updated upstream
 														<Sound Name="New Sound SFX_02" ID="{543D3553-7DCB-4063-B86B-D31A9427BA58}" ShortID="467025494">
 															<ReferenceList>
 																<Reference Name="Conversion">
@@ -2474,6 +2974,191 @@
 									</ChildrenList>
 									<ObjectLists/>
 								</ActorMixer>
+=======
+														<AudioFileSource Name="刀击中(铁器)10-WQ20070524" ID="{EC9FF844-DC28-47FE-9809-9634597E6D1B}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0340925377784702"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.325773138772048"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.00473507469145419"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.374070900624881"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>刀击中(铁器)10-WQ20070524.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="406079073"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="刀击中(铁器)10-WQ20070524" ID="{EC9FF844-DC28-47FE-9809-9634597E6D1B}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="击中铁器-YS070510" ID="{E46AE5BF-95AB-4564-82A2-3CBBC73500B3}" ShortID="723095794">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-10</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="击中铁器-YS070510" ID="{41348D5C-4F6E-4B6E-A80D-598F71880C73}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0332019236872018"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.13051790690831"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimBegin" Type="Real64" Value="0.46139224986008"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.836917455701534"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>击中铁器-YS070510.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="406371167"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="击中铁器-YS070510" ID="{41348D5C-4F6E-4B6E-A80D-598F71880C73}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="铁器撞击声01" ID="{3C478230-97F1-4A93-B869-6417C5E39193}" ShortID="604888632">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-11</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="铁器撞击声01" ID="{D00F12AA-8668-4F0E-9D01-111A9CA5B91D}">
+															<PropertyList>
+																<Property Name="FadeInDuration" Type="Real64" Value="0.0494264711821964"/>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.0775007068136839"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.1984967082677"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>铁器撞击声01.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="676336705"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="铁器撞击声01" ID="{D00F12AA-8668-4F0E-9D01-111A9CA5B91D}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+												<Sound Name="徒手击中铁器－YS20070423" ID="{F79AB1D0-3962-442A-8C4A-F3D08A65E7B8}" ShortID="912746654">
+													<PropertyList>
+														<Property Name="Volume" Type="Real64">
+															<ValueList>
+																<Value>-3</Value>
+															</ValueList>
+														</Property>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="徒手击中铁器－YS20070423" ID="{067F6B9A-55DD-48E8-B865-228CD32A96A0}">
+															<Language>SFX</Language>
+															<AudioFile>徒手击中铁器－YS20070423.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="578803081"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="徒手击中铁器－YS20070423" ID="{067F6B9A-55DD-48E8-B865-228CD32A96A0}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<ObjectLists/>
+										</BlendContainer>
+									</ChildrenList>
+									<ObjectLists/>
+								</RandomSequenceContainer>
+								<RandomSequenceContainer Name="BumpMonsterMeet" ID="{BC2ADEA3-6270-45DD-8D12-0B2F9E55E031}" ShortID="252359509">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<BlendContainer Name="New Blend Container" ID="{B82939DF-CA6F-4A23-9AA7-0BC0588263D4}" ShortID="304118351">
+											<ReferenceList>
+												<Reference Name="Conversion">
+													<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+												</Reference>
+												<Reference Name="OutputBus">
+													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+												</Reference>
+											</ReferenceList>
+											<ChildrenList>
+												<Sound Name="击中－石头－mcx20060416" ID="{6441D952-F1B2-4429-B250-AF338C4123D7}" ShortID="953397885">
+													<ReferenceList>
+														<Reference Name="Conversion">
+															<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{5A9C6B6A-80A4-48F9-A94B-5EB47BFA07FA}"/>
+														</Reference>
+														<Reference Name="OutputBus">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+													<ChildrenList>
+														<AudioFileSource Name="击中－石头－mcx20060416" ID="{E8731F4D-9C12-4CE4-B304-139799BDF44D}">
+															<PropertyList>
+																<Property Name="FadeOutDuration" Type="Real64" Value="0.24897612989216"/>
+																<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+																<Property Name="TrimEnd" Type="Real64" Value="0.327225770715411"/>
+															</PropertyList>
+															<Language>SFX</Language>
+															<AudioFile>击中－石头－mcx20060416.wav</AudioFile>
+															<MediaIDList>
+																<MediaID ID="954777737"/>
+															</MediaIDList>
+														</AudioFileSource>
+													</ChildrenList>
+													<ObjectLists/>
+													<ActiveSourceList>
+														<ActiveSource Name="击中－石头－mcx20060416" ID="{E8731F4D-9C12-4CE4-B304-139799BDF44D}" Platform="Linked"/>
+													</ActiveSourceList>
+												</Sound>
+											</ChildrenList>
+											<ObjectLists/>
+										</BlendContainer>
+									</ChildrenList>
+									<ObjectLists/>
+								</RandomSequenceContainer>
+>>>>>>> Stashed changes
 							</ChildrenList>
 							<ObjectLists/>
 						</ActorMixer>
