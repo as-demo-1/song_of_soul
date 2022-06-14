@@ -27,7 +27,7 @@ public class GameMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerInput.Instance.charmMenu.Down)
+        if (PlayerInput.Instance.inGameMenu.Down)
         {
             if (!isPlaying && !isShowing)
             {
@@ -40,8 +40,8 @@ public class GameMenu : MonoBehaviour
             {
                 isPlaying = true;
                 MainPanel.transform.DOScale(0.0f, 0.5f).SetEase(Ease.InOutFlash).OnComplete(() => 
-                { isShowing = false; isPlaying = false; });
-                panelList[currentPanelIndex].SetActive(false);
+                { isShowing = false; isPlaying = false; panelList[currentPanelIndex].SetActive(false); });
+                
             }
         }
         

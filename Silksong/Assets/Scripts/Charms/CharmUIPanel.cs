@@ -9,8 +9,12 @@ using UnityEngine.EventSystems;
 
 public class CharmUIPanel : MonoBehaviour
 {
+    /// <summary>
+    /// 可以装备护符
+    /// </summary> 用于控制护符的可装备状态，可以设置为在休息点才能更换护符
     [SerializeField]
-    private bool isLocked;
+    private bool ableEquipCharm;
+    public bool AbleEquipCharm { get => ableEquipCharm; set => ableEquipCharm = value; }
 
     [SerializeField]
     private CharmListSO CharmListSO = default;
@@ -45,6 +49,8 @@ public class CharmUIPanel : MonoBehaviour
     private List<GameObject> orangeSlots = new List<GameObject>();
 
     private Dictionary<CharmQuality, List<GameObject>> slotDic = new Dictionary<CharmQuality, List<GameObject>>();
+
+    
 
     private void Awake()
     {
@@ -109,7 +115,7 @@ public class CharmUIPanel : MonoBehaviour
     }
     public bool TryEquipCharm(GameObject _icon)
     {
-        if (isLocked)
+        if (!AbleEquipCharm)
         {
             return false;
         }
@@ -133,7 +139,7 @@ public class CharmUIPanel : MonoBehaviour
     }
     public bool TryDisEquipCharm(GameObject _slot)
     {
-        if (isLocked)
+        if (!AbleEquipCharm)
         {
             return false;
         }
@@ -141,6 +147,7 @@ public class CharmUIPanel : MonoBehaviour
         CharmListSO.DisEquipCharm(slotImage.charmSO);
         slotImage.CharmSlotDisplay(false);
         slotImage.SlotEmpty = true;
+        slotImage.charmSO = null;
         RefreshIcon();
         return true;
     }

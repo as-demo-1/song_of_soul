@@ -36,7 +36,7 @@ public class PlayerInput : InputComponent
     public InputButton showMap = new InputButton(KeyCode.M, XboxControllerButtons.None);
     ////TODO:xbox button mapping
     public InputButton quickMap = new InputButton(KeyCode.Tab, XboxControllerButtons.None);
-    public InputButton charmMenu = new InputButton(KeyCode.P, XboxControllerButtons.Menu);
+    public InputButton inGameMenu = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu);
     [HideInInspector]
 
     protected bool m_HaveControl = true;
@@ -67,7 +67,7 @@ public class PlayerInput : InputComponent
             showMap,
             quickMap,
             plunge,
-            charmMenu,
+            inGameMenu,
         });
     }
 

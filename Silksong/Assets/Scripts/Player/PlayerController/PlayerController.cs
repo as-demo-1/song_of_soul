@@ -36,6 +36,9 @@ public struct PlayerInfo
     // plunge
     public float plungeSpeed;
 
+    [SerializeField]
+    private CharmListSO CharmListSO;
+
     public void init(PlayerController playerController)
     {
         this.playerController = playerController;
@@ -54,7 +57,7 @@ public struct PlayerInfo
                 return Constants.PlayerCatFastMoveSpeed;
             else return Constants.PlayerCatMoveSpeed;
         }
-        else return Constants.PlayerMoveSpeed;
+        else return Constants.PlayerMoveSpeed + CharmListSO.CharmMoveSpeed;
     }
 
     public float getJumpUpSpeed()

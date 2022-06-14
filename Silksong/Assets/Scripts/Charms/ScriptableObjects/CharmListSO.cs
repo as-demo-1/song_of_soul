@@ -10,47 +10,66 @@ public class CharmListSO : ScriptableObject
 {
     [SerializeField] public List<CharmSO> Charms = new List<CharmSO>();
 
-    
+
+    [SerializeField]
+    [Tooltip("攻击回能加成")]
     private int charmAttackGainSoul;
     /// <summary>
     /// 护符攻击回能改变值
     /// </summary>
     public int CharmAttackGainSoul { get => charmAttackGainSoul; set => charmAttackGainSoul = value; }
-    
+
+    [SerializeField]
+    [Tooltip("受伤回能加成")]
     private int charmHurtGainSoul;
     /// <summary>
     /// 护符受伤回能改变值
     /// </summary>
     public int CharmHurtGainSoul { get => charmHurtGainSoul; set => charmHurtGainSoul = value; }
 
+    [SerializeField]
+    [Tooltip("格挡回能加成")]
+    private int charmBlockGainSoul;
+    /// <summary>
+    /// 护符格挡回能改变值
+    /// </summary>
+    public int CharmBlockGainSoul { get => charmBlockGainSoul; set => charmBlockGainSoul = value; }
+
+
+    [Tooltip("临时血量")]
     /// <summary>
     /// 护符提供的临时血量
     /// </summary>
     public int CharmExtraHealth;
 
+    [Tooltip("攻击范围加成")]
     /// <summary>
     /// 护符提供的攻击范围
     /// </summary>
     public float CharmAttackRange;
 
+    [Tooltip("攻击速度加成")]
     /// <summary>
     /// 护符提供的攻击速度
     /// </summary>
     public float CharmAttackSpeed;
 
+    [Tooltip("移动速度加成")]
     /// <summary>
     /// 护符提供的移动速度
     /// </summary>
     public float CharmMoveSpeed;
 
+    [Tooltip("攻击伤害加成")]
     /// <summary>
     /// 护符提供的攻击伤害
     /// </summary>
     public float CharmAttackDamage;
 
-
-
-
+    public void InitRef()
+    {
+        ActiveAllEquipedCharms();
+    }
 
     /// <summary>
     /// 获得护符，拾取、购买或剧情获得时调用此方法
