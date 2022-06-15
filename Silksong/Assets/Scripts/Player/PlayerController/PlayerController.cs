@@ -26,6 +26,9 @@ public struct PlayerInfo
     // plunge
     public float plungeSpeed;
 
+    [SerializeField]
+    private CharmListSO CharmListSO;
+
     public void init(PlayerController playerController)
     {
         this.playerController = playerController;
@@ -44,9 +47,9 @@ public struct PlayerInfo
         }
         else if(playerController.playerAnimatorStatesControl.CurrentPlayerState==EPlayerState.NormalAttack)
         {
-            return Constants.AttackingMoveSpeed;
+            return Constants.AttackingMoveSpeed + CharmListSO.CharmMoveSpeed;
         }
-        else return Constants.PlayerMoveSpeed;
+        else return Constants.PlayerMoveSpeed + + CharmListSO.CharmMoveSpeed;
     }
 
     public float getJumpUpSpeed()
