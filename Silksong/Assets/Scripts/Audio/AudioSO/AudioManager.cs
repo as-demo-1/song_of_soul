@@ -55,7 +55,7 @@ public class AudioManager : MonoBehaviour
 	{
 		if (Application.isPlaying)
 		{
-			SetGroupVolume("MasterVolume", _masterVolume);
+			//SetGroupVolume("MasterVolume", _masterVolume);
 			SetGroupVolume("MusicVolume", _musicVolume);
 			SetGroupVolume("SFXVolume", _sfxVolume);
 		}
