@@ -3,7 +3,383 @@
 	<Events>
 		<WorkUnit Name="Default Work Unit" ID="{8DD9A9A2-8251-4E23-B9C4-D83982789ECE}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="play_close" ID="{FBBF8A24-073F-498E-BF33-3ECFBCEF2A20}"/>
+				<Folder Name="Player" ID="{DDF08FD8-80F2-4AD0-8402-FAB609CB3BDC}" ShortID="705721159">
+					<ChildrenList>
+						<Folder Name="General" ID="{34B90226-0315-4E8C-AA5A-EE46AB1037EB}" ShortID="690419805">
+							<ChildrenList>
+								<Folder Name="Combat" ID="{D4902235-93AF-4072-9DCC-AFD313314455}" ShortID="646980171">
+									<ChildrenList>
+										<Event Name="PlayerAttackUp" ID="{2B2FCD3F-F52E-4F5B-9096-8333208A8881}">
+											<ChildrenList>
+												<Action Name="" ID="{06AB769E-A3B9-4C7B-AAC5-178A1BE0AF10}" ShortID="741343219">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerAttackUp" ID="{C193A3DB-EB19-4375-B3B8-25B404271A34}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerAttackC" ID="{181937B3-960A-4C2B-98E1-C244A0A829D1}">
+											<ChildrenList>
+												<Action Name="" ID="{1E693F44-4C72-47D9-84FD-6C545D25DA15}" ShortID="550879354">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerAttackC" ID="{3C13EDC6-2D13-4F2D-8E9A-E0E8A520374D}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerAttackB" ID="{F9DDFFAE-5F82-408B-9114-984DB4BD41F7}">
+											<ChildrenList>
+												<Action Name="" ID="{19A87EF9-804F-46C8-AAAF-8B76BAEDD760}" ShortID="1004883413">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerAttackB" ID="{3FB3CC2A-47E7-4FE9-8C41-12A9BEC40282}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerAttackA" ID="{2FBC4B11-E91D-416A-BF91-1DEA14897CE0}">
+											<ChildrenList>
+												<Action Name="" ID="{E6211E28-6300-44B5-A00F-0A3A13E7000E}" ShortID="783076677">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerAttackA" ID="{AC40CE8D-1038-42DC-B3E1-16EE8BFEE684}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+									</ChildrenList>
+								</Folder>
+								<Folder Name="Movement" ID="{81540DA7-A8CC-4395-A4D4-17F1E09E6D22}" ShortID="43191906">
+									<ChildrenList>
+										<Event Name="PlayerRun" ID="{00586402-5CE2-4482-9009-79607A90BDB5}">
+											<ChildrenList>
+												<Action Name="" ID="{F2F52689-F4C3-41D3-AFC3-D687340C4414}" ShortID="478421655">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerRun" ID="{152AF936-DA84-4DDC-A9DC-A8FEDB1FA8A1}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerSprint" ID="{21287891-FC1D-4D18-BAAC-7F1705182796}">
+											<ChildrenList>
+												<Action Name="" ID="{333335B6-46F5-404E-B0A5-2C8EA6B2D1B3}" ShortID="851545002">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="2"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerClimbIdle" ID="{F5C3376B-43BE-4334-9011-79DAAF479280}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{B737F36E-F70F-4EF0-8070-98A9570827EB}" ShortID="980383962">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerSprint" ID="{7C561DE9-D987-4EC7-9FE6-060A1715669F}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerFall" ID="{C962DFDD-389F-4E85-AE7D-66A0868E62F8}"/>
+										<Event Name="PlayerLanded" ID="{BB9CE92D-3791-40C1-B4E9-86933F3C4DAF}">
+											<ChildrenList>
+												<Action Name="" ID="{5551962F-007D-49AF-A467-EF9390E890A4}" ShortID="620339619">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="2"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerClimbIdle" ID="{F5C3376B-43BE-4334-9011-79DAAF479280}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{E41CD37B-C0A6-4BD8-AFB3-EEE382832B30}" ShortID="523976192">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerLand" ID="{46C4BB3A-D5A1-48D1-B4E0-B192A026296F}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerSlide" ID="{2E4146C9-6F89-4009-B2EE-15821A9CBC2F}"/>
+										<Event Name="PlayerLeftWall" ID="{D2FDDF4C-8DB3-4FDF-9B4B-761E0BE254DD}">
+											<ChildrenList>
+												<Action Name="" ID="{A8186931-7032-411E-A20B-696C17F8AFD9}" ShortID="406393103">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="2"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerClimbIdle" ID="{F5C3376B-43BE-4334-9011-79DAAF479280}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{60A15017-9B4E-4A3F-9488-3EBCBD340B60}" ShortID="116697635">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerLeftWall" ID="{96638F2C-EEB9-4F34-9E07-BCCC2F4962A6}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerClimbJumpUp" ID="{9999BD53-BC1D-4FFB-8822-7EB97E9A720C}"/>
+										<Event Name="PlayerPlungeStart" ID="{9F9A8B50-5691-4E8E-9EDA-8B38164BF0D7}">
+											<ChildrenList>
+												<Action Name="" ID="{9047B463-93C8-4BD2-AE90-0D1C9B646EC8}" ShortID="201666286">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerPlungeStart" ID="{4559CC04-82A1-460F-82F6-93D0E691CC46}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerPlungeLoop" ID="{E8EC4008-FB6B-40D6-8C84-D09CA230B7C9}"/>
+										<Event Name="PlayerPlungeEnd" ID="{9018E67B-2E49-4358-A575-834FD0CC76B5}">
+											<ChildrenList>
+												<Action Name="" ID="{777893A0-A38E-4A40-84AD-0571EEF27CF3}" ShortID="339338074">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerPlungeEnd" ID="{01F8AD3D-D237-4F60-8E4E-BCCB2EDC45BD}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerSwim" ID="{8F3D1C2B-452E-47FA-BAC3-EA9C79367578}"/>
+										<Event Name="PlayerToCat" ID="{D920B241-9BE5-433D-BED4-90FFF36FD614}"/>
+										<Event Name="CatToPlayer" ID="{F8715F6D-A1F1-4099-9AA3-6941392957F5}"/>
+										<Event Name="PlayerHeal" ID="{198C380A-ED34-4D61-A1B4-F97BCBC42D46}">
+											<ChildrenList>
+												<Action Name="" ID="{6E47689A-D635-4628-86B4-18AC91CF5CE3}" ShortID="545478197">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerHeal" ID="{D17169B8-80F3-4BF1-A23A-19C46C7591AB}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerHurt" ID="{2C7772CA-EB9E-409F-8637-9C2D0ED3C46C}">
+											<ChildrenList>
+												<Action Name="" ID="{D551446D-BF81-4E10-925D-7D9731096495}" ShortID="807247962">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerHurt" ID="{8FFA12B3-CC71-4A2A-933C-27A05E3B281D}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{C6D707AA-8F81-4998-B428-0CC8642FA187}" ShortID="124664173">
+													<PropertyList>
+														<Property Name="Delay" Type="Real64" Value="0.5"/>
+														<Property Name="FadeTime" Type="Real64" Value="0.5"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="Dungeon_Deep_Transition_Whoosh_2" ID="{060CF476-5D71-441C-A79F-DAD423990288}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{A51F4A99-AC7C-4CF4-9DF6-2DAB4F11FE02}" ShortID="995990026">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="26"/>
+														<Property Name="FadeInCurve" Type="int16" Value="1"/>
+														<Property Name="Lowpass" Type="int16" Value="86"/>
+														<Property Name="Scope" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+												<Action Name="" ID="{E8A12B2C-F28F-4169-A5F8-2BA8AF80BCF7}" ShortID="764570583">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="27"/>
+														<Property Name="Delay" Type="Real64" Value="0.5"/>
+														<Property Name="FadeOutCurve" Type="int16" Value="7"/>
+														<Property Name="FadeTime" Type="Real64" Value="1.5"/>
+														<Property Name="Scope" Type="int16" Value="1"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{61150544-A932-482B-AD52-39702E86D31E}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerIdle" ID="{1748218D-8480-4708-97F0-E5726AA7EA02}">
+											<ChildrenList>
+												<Action Name="" ID="{22B775DF-B45F-4006-8191-A2E608F9E97F}" ShortID="197082480">
+													<PropertyList>
+														<Property Name="ActionType" Type="int16" Value="2"/>
+													</PropertyList>
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerClimbIdle" ID="{F5C3376B-43BE-4334-9011-79DAAF479280}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="PlayerClimbIdle" ID="{4EA0EDF3-305B-4F82-85BA-4A5CF57F04C7}">
+											<ChildrenList>
+												<Action Name="" ID="{EEDF658B-0054-441D-BEBB-CCDD464EAC0C}" ShortID="237848876">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerClimbIdle" ID="{F5C3376B-43BE-4334-9011-79DAAF479280}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="CatRun" ID="{C899FF69-351E-43DB-A2DD-B1D3DD5F5E70}">
+											<ChildrenList>
+												<Action Name="" ID="{42DCDB68-2C03-49BB-A24E-AB45812ACDA2}" ShortID="880840980">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="CatRun" ID="{2FFFA2BD-1B14-4A74-B39F-0AAE17DC3E26}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="CatJump" ID="{D9656237-B255-49EA-9C34-4DC298EC2A2B}"/>
+										<Event Name="CatLand" ID="{ADD592CD-B706-42CF-8B64-627BDFD276CE}">
+											<ChildrenList>
+												<Action Name="" ID="{15EEF8C7-928E-4D2B-ADEF-732B023EA303}" ShortID="1065682649">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="CatLand" ID="{EBB9AC53-BD63-4526-877B-D1B37C1CF7D2}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+										<Event Name="CatIdle" ID="{4013D60F-A8C2-4DF1-9A71-3CB724233FA1}"/>
+										<Event Name="CatFall" ID="{34FC8DA5-CC56-47EF-8123-6EA4A1E404BF}"/>
+										<Event Name="PlayerJump" ID="{4BB21496-B433-44EF-BDB5-5FF484BF2108}">
+											<ChildrenList>
+												<Action Name="" ID="{CF6169BF-BE5D-4958-BB0C-82C6DDC7A720}" ShortID="652467191">
+													<ReferenceList>
+														<Reference Name="Target">
+															<ObjectRef Name="PlayerJumpUp" ID="{339624C4-6EF3-4CAF-8470-85A5544AEF7D}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+														</Reference>
+													</ReferenceList>
+												</Action>
+											</ChildrenList>
+										</Event>
+									</ChildrenList>
+								</Folder>
+								<Folder Name="Interact" ID="{EA7D0E76-E819-466E-82D0-DA35839F5CA9}" ShortID="841149646"/>
+								<Folder Name="Voice" ID="{6FA14904-7F4E-4935-8568-90CB48599CFC}" ShortID="865013421"/>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="Aarea" ID="{C48F9C6B-CE05-45AA-91EE-95951B7FAB74}" ShortID="448205074"/>
+						<Folder Name="Barea" ID="{5F73CCC7-B50B-4C3F-A7DC-D8EDFDD365E6}" ShortID="196277987"/>
+						<Folder Name="Carea" ID="{8EBE6BD4-438D-4206-9D1D-8DF58EC7D7BC}" ShortID="63108779"/>
+						<Folder Name="Darea" ID="{921DFBBD-5F06-4EAA-9B71-DC7086AADDAF}" ShortID="8340896"/>
+						<Folder Name="Earea" ID="{8996B148-839A-4621-A4E6-25B0372F0E63}" ShortID="171115921"/>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Monsters" ID="{386A6CC1-5DA4-40DF-9649-02FBA5CEC63B}" ShortID="958866244">
+					<ChildrenList>
+						<Folder Name="Earea" ID="{37554148-D353-42F8-BC2F-005E4BBF445E}" ShortID="1071768412"/>
+						<Folder Name="Darea" ID="{FF0C64A2-C6B7-42DD-8BEF-C4D2B3BA1E61}" ShortID="1007161410"/>
+						<Folder Name="Carea" ID="{A1362410-D158-4A2D-8DEB-A2B07F447EC9}" ShortID="948123947"/>
+						<Folder Name="Barea" ID="{7FCB2A8A-4301-4E98-BFDA-32928EF50C97}" ShortID="53747803"/>
+						<Folder Name="Aarea" ID="{7E0E64A7-E096-4179-AB59-879FD3481286}" ShortID="81361157"/>
+						<Folder Name="BasicArea" ID="{891516B7-BBEE-4337-BC26-DB5D0F945E4E}" ShortID="458390930"/>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Bosses" ID="{D3B77D8E-92CB-4FB6-9359-7E45C94A7B2E}" ShortID="809999460">
+					<ChildrenList>
+						<Folder Name="BasicArea" ID="{C1C819CD-FC19-444E-94AF-1BA551D09317}" ShortID="285284177"/>
+						<Folder Name="Carea" ID="{CD8C186D-3BA5-438A-952D-ACB3878A02CF}" ShortID="777252498"/>
+						<Folder Name="Darea" ID="{0736A834-2C1A-4D24-B02D-0B770612461E}" ShortID="35018713"/>
+						<Folder Name="Earea" ID="{EC2AE6E2-7D02-49F0-9191-7CED06C9138C}" ShortID="361301098"/>
+						<Folder Name="Barea" ID="{2051E922-943A-4746-856C-9E6B6DA413D7}" ShortID="1012793671"/>
+						<Folder Name="Aarea" ID="{17EEDC84-2A59-4F98-AE40-206BFF4640E4}" ShortID="948743521"/>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Objects" ID="{522DF1E9-13FC-4831-AB1B-6E92D68BF7FD}" ShortID="135090651">
+					<ChildrenList>
+						<Folder Name="General" ID="{1EBDF625-64AA-440A-960A-62526DEF92FB}" ShortID="1061247008"/>
+						<Folder Name="Aarea" ID="{C7F01C22-6D61-4B78-88CE-F457394DF1AD}" ShortID="789977115"/>
+						<Folder Name="Barea" ID="{6E21C68F-3B16-49FA-BE3E-968B87173664}" ShortID="768958726"/>
+						<Folder Name="Carea" ID="{9BFD7774-512A-4317-832D-D0AE66ECBC44}" ShortID="870625313"/>
+						<Folder Name="Darea" ID="{B2EE4E45-64C3-48DA-86B7-172D46282C5B}" ShortID="247350172"/>
+						<Folder Name="Earea" ID="{4F4E75C4-6633-4275-AADB-260ED4495F83}" ShortID="512860430"/>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Ambiences" ID="{E660B88F-08C7-4D64-AE5C-8B2866DECC4D}" ShortID="367318993">
+					<ChildrenList>
+						<Folder Name="BasicArea" ID="{672294DD-DBE9-4523-A578-ABBB65715C11}" ShortID="823895432">
+							<ChildrenList>
+								<Event Name="AmbBasicGeneral" ID="{89F2795D-99D2-4874-B433-61212A3DEF72}">
+									<ChildrenList>
+										<Action Name="" ID="{022AC717-7625-43F5-AA04-53F0159C4D3A}" ShortID="369132664">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="LayerJingle" ID="{6031D27B-BDF3-479F-B662-55EA714B2C87}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{C2379376-021A-41BB-968B-54E42922D800}" ShortID="640092538">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="LayerLF" ID="{F44CD067-A4B5-4EE3-92CD-1E6E5E72F145}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{DA618788-0A9B-4AB9-88F3-510466806D41}" ShortID="820708312">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="LayerMetal" ID="{6ED40658-5965-4079-9F39-A6741C77ABC1}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+										<Action Name="" ID="{15AEDCF5-3B68-4575-ACF7-1EACAA012AD0}" ShortID="833265156">
+											<ReferenceList>
+												<Reference Name="Target">
+													<ObjectRef Name="LayerAir" ID="{861102C0-1038-4592-B5BD-F0D2D8BBBEB3}" WorkUnitID="{3A9944B2-FFB0-40A4-B4F3-8F6D977E8709}"/>
+												</Reference>
+											</ReferenceList>
+										</Action>
+									</ChildrenList>
+								</Event>
+							</ChildrenList>
+						</Folder>
+						<Folder Name="Carea" ID="{DFFD8650-872D-4D5E-8F52-CE76B958A8A9}" ShortID="991064063"/>
+						<Folder Name="Darea" ID="{027B1C9F-8294-4E2A-BDC4-FCE88A06F6F5}" ShortID="219898123"/>
+						<Folder Name="Earea" ID="{0ADF6F13-3341-4C82-A035-FB3A58B1047C}" ShortID="768729403"/>
+						<Folder Name="Barea" ID="{01ABBBF1-6360-431D-A670-A118F74470E4}" ShortID="271050786"/>
+						<Folder Name="Aarea" ID="{44EF81AD-5157-4764-AE72-6E12B9773D60}" ShortID="327156313"/>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Music" ID="{537EAE34-14BF-469C-B01B-46C373D3D5FC}" ShortID="461056206">
+					<ChildrenList>
+						<Folder Name="Earea" ID="{8590A097-8888-4D74-ACA0-B9F85CD3B9DD}" ShortID="3684723"/>
+						<Folder Name="Darea" ID="{FAB3656E-7598-41DD-B711-28779EA6E114}" ShortID="521023260"/>
+						<Folder Name="Carea" ID="{8024B0C2-B228-4913-B0B4-8CE92578AEC5}" ShortID="1042947636"/>
+						<Folder Name="Barea" ID="{12B6DB1B-ACA9-464B-8F28-01CC43D85627}" ShortID="73150702"/>
+						<Folder Name="Aarea" ID="{6D249CBE-893E-4BE7-96C5-BB4A0C603DE6}" ShortID="736063052"/>
+						<Folder Name="BasicArea" ID="{3E38B84D-66B2-4D7B-93B4-9862AABF9D0F}" ShortID="1053219609"/>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="UI&amp;Menu" ID="{0DD3EAC9-C166-478D-BFB6-5B12340874DF}" ShortID="1022993413"/>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

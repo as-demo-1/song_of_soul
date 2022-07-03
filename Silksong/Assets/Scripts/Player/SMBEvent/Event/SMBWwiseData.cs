@@ -6,9 +6,9 @@ using UnityEngine;
 public class SMBWwiseData : SMBEventTimeStamp
 {
     public string EventName;
-    public override void EventActive()
+    public override void EventActive(MonoBehaviour mono)
     {
-        AkSoundEngine.PostEvent(EventName,PlayerController.Instance.gameObject);
-
+        Debug.Log(EventName +"  "+ mono.name);
+        AkSoundEngine.PostEvent(EventName,mono.gameObject);
     }
 }
