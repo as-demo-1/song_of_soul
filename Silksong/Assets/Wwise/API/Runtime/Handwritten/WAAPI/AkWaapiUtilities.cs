@@ -588,7 +588,7 @@ public class AkWaapiUtilities
 	}
 
 	/// <summary>
-	/// Enqueues a waapi command to fetch the specified object and all of its ancestors in the heirarchy.
+	/// Enqueues a waapi command to fetch the specified object and all of its ancestors in the hierarchy.
 	/// Passes the list of WwiseObjectInfo containing the specified object and ancestors to the callback. 
 	/// </summary>
 	/// <param name="guid">GUID of the target object.</param>
@@ -602,7 +602,7 @@ public class AkWaapiUtilities
 	}
 
 	/// <summary>
-	/// Enqueues a waapi comand to fetch the specified object and all of its descendants in the heirarchy to a specified depth.
+	/// Enqueues a waapi comand to fetch the specified object and all of its descendants in the hierarchy to a specified depth.
 	/// Passes the list of WwiseObjectInfo containing the specified object and descendants to the callback. 
 	/// </summary>
 	/// <param name="guid">GUID of the target object.</param>
@@ -618,7 +618,7 @@ public class AkWaapiUtilities
 	/// Composes a WAQL "from object" request based on the parameters and enqueues a WAAPI command.
 	/// Passes the list of WwiseObjectInfo containing the results to the callback
 	/// </summary>
-	/// <param name="identifier">Can bethe target object GUID or path within the heirarchy.</param>
+	/// <param name="identifier">Can bethe target object GUID or path within the hierarchy.</param>
 	/// <param name="options">Specifies which object properties to include in the response</param>
 	/// <param name="depth">Depth of descendants to fetch. If -1, fetches all descendants.</param>
 	/// <param name="callback">Function accepting a list of WwiseObjectInfo.</param>

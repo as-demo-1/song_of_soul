@@ -316,7 +316,9 @@ MonoBehaviour:
       statusIsActive: 0
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerSprint
 --- !u!1101 &-8086407564069046355
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -374,7 +376,11 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0.725
+      EventName: PlayerRun
+    - timeNormalized: 0.207
+      EventName: PlayerRun
 --- !u!1102 &-7775867002174387890
 AnimatorState:
   serializedVersion: 6
@@ -451,7 +457,11 @@ MonoBehaviour:
   m_SMBStatusData:
     m_SMBEventList: []
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0.176
+      EventName: PlayerHeal
+    - timeNormalized: 0.176
+      EventName: PlayerHeal
 --- !u!1101 &-7531057800556324977
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -568,6 +578,26 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-7160395628620324463
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SMBStateData:
+    m_SMBEventList: []
+  m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBWwiseData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerPlungeStart
 --- !u!1102 &-7149420758045392465
 AnimatorState:
   serializedVersion: 6
@@ -1179,7 +1209,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6379522566979178129}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 1584853502914679429}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1644,6 +1675,44 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 483107583404517475}
+--- !u!114 &-3751669909313557532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SMBStateData:
+    m_SMBEventList: []
+  m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBWwiseData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerLeftWall
+--- !u!114 &-3748690283426320468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SMBStateData:
+    m_SMBEventList: []
+  m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBWwiseData:
+    m_SMBEventList: []
 --- !u!1101 &-3559359697593148269
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1670,6 +1739,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 7
     m_ConditionEvent: CurrentStates
     m_EventTreshold: 70
+  - m_ConditionMode: 7
+    m_ConditionEvent: CurrentStates
+    m_EventTreshold: 40
   - m_ConditionMode: 2
     m_ConditionEvent: IsCat
     m_EventTreshold: 0
@@ -1787,7 +1859,9 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerJump
 --- !u!1102 &-3376491650340957650
 AnimatorState:
   serializedVersion: 6
@@ -1903,7 +1977,9 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerAttackA
 --- !u!114 &-2968703719750889292
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1985,7 +2061,9 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: CatRun
 --- !u!114 &-2802636013184170732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2251,7 +2329,9 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: CatLand
 --- !u!114 &-1881857740271605978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2287,7 +2367,9 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerAttackUp
 --- !u!1101 &-1453667346429138824
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2611,7 +2693,9 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerAttackB
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -2928,7 +3012,9 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerAttackC
 --- !u!114 &337923171764513045
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3087,7 +3173,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4262979111460028897}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -7160395628620324463}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -3168,6 +3255,26 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+--- !u!114 &1584853502914679429
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SMBStateData:
+    m_SMBEventList: []
+  m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBWwiseData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerPlungeEnd
 --- !u!1102 &1683462972816609308
 AnimatorState:
   serializedVersion: 6
@@ -3543,7 +3650,8 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -3751669909313557532}
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 120, y: 190, z: 0}
@@ -3719,7 +3827,9 @@ MonoBehaviour:
   m_SMBStatusData:
     m_SMBEventList: []
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerLanded
 --- !u!1101 &4005218460564836423
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4204,7 +4314,8 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -3748690283426320468}
   m_AnyStatePosition: {x: 50, y: 10, z: 0}
   m_EntryPosition: {x: 80, y: 130, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
@@ -4592,7 +4703,9 @@ MonoBehaviour:
   m_SMBStatusData:
     m_SMBEventList: []
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerHurt
 --- !u!1101 &7290083676124914474
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4759,7 +4872,9 @@ MonoBehaviour:
       statusIsActive: 0
       wayOfChangingFlag: 0
   m_SMBWwiseData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      EventName: PlayerClimbIdle
 --- !u!114 &8899686965712861498
 MonoBehaviour:
   m_ObjectHideFlags: 1

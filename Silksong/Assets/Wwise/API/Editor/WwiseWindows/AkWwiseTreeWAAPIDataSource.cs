@@ -628,7 +628,7 @@ public class AkWwiseTreeWAAPIDataSource : AkWwiseTreeDataSource
 			treeviewCommandQueue.Enqueue(toRequeue.Dequeue());
 		}
 
-		//Preemptively load items in heirarchy that are close to being exposed ( up to grandchildren of unexpanded items)
+		//Preemptively load items in hierarchy that are close to being exposed ( up to grandchildren of unexpanded items)
 		if (rebuildFlag)
 		{
 			TreeUtility.TreeToList(ProjectRoot, ref Data);
