@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour
 
     public SaveSystem saveSystem;
 
+    public GameObject gameMenu;
+
+    [SerializeField]
+    private CharmManager charmManager;
+
 
     void Awake()
     {
@@ -52,8 +57,11 @@ public class GameManager : MonoBehaviour
 
         //以下代码代表玩家从菜单进入游戏场景的初始化，临时使用
 
+        // 用生成的物体替换对预制体的引用，未验证合理性
         gamingUI = Instantiate(gamingUI);
+        gameMenu = Instantiate(gameMenu);
         DontDestroyOnLoad(gamingUI);
+        DontDestroyOnLoad(gameMenu);
 
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
@@ -70,7 +78,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void creatPlayer()
     {
-        player= Instantiate(player.gameObject);     
+        player= Instantiate(player.gameObject);
+
+        // 护符效果引用初始化，需要获取一些玩家的属性
+        charmManager = Instantiate(charmManager);
     }
 
     public void GameInitialize()
