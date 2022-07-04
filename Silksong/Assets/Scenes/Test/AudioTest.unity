@@ -490,6 +490,7 @@ GameObject:
   m_Component:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
+  - component: {fileID: 519420030}
   - component: {fileID: 519420029}
   m_Layer: 0
   m_Name: Main Camera
@@ -498,14 +499,42 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &519420029
-AudioListener:
+--- !u!114 &519420029
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2006b5399f481784aa170c646ac9f509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDefaultListener: 1
+  listenerId: 0
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a754370b0247ce849b8c38efca53b956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -781,35 +810,80 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputType: 0
   sprint:
-    NeedToGainAndReleaseControl: 1
+    NotNeedGainAndReleaseControl: 0
     key: 304
     controllerButton: 9
     m_Enabled: 1
+  Pick:
+    NotNeedGainAndReleaseControl: 0
+    key: 102
+    controllerButton: 4
+    m_Enabled: 1
+  plunge:
+    NotNeedGainAndReleaseControl: 0
+    key: 104
+    controllerButton: 0
+    m_Enabled: 1
   teleport:
-    NeedToGainAndReleaseControl: 1
+    NotNeedGainAndReleaseControl: 0
     key: 120
     controllerButton: 0
     m_Enabled: 1
   jump:
-    NeedToGainAndReleaseControl: 1
+    NotNeedGainAndReleaseControl: 0
     key: 32
     controllerButton: 1
     m_Enabled: 1
-  normalAttack:
-    NeedToGainAndReleaseControl: 1
-    key: 106
-    controllerButton: 3
+  interact:
+    NotNeedGainAndReleaseControl: 0
+    key: 119
+    controllerButton: 0
+    m_Enabled: 1
+  breakMoon:
+    NotNeedGainAndReleaseControl: 0
+    key: 113
+    controllerButton: 0
+    m_Enabled: 1
+  heal:
+    NotNeedGainAndReleaseControl: 0
+    key: 99
+    controllerButton: 0
+    m_Enabled: 1
+  toCat:
+    NotNeedGainAndReleaseControl: 0
+    key: 110
+    controllerButton: 0
+    m_Enabled: 1
+  castSkill:
+    NotNeedGainAndReleaseControl: 0
+    key: 108
+    controllerButton: 0
     m_Enabled: 1
   horizontal:
-    NeedToGainAndReleaseControl: 1
+    NotNeedGainAndReleaseControl: 0
     positive: 100
     negative: 97
     controllerAxis: 1
   vertical:
-    NeedToGainAndReleaseControl: 1
+    NotNeedGainAndReleaseControl: 0
     positive: 119
     negative: 115
     controllerAxis: 2
+  normalAttack:
+    NotNeedGainAndReleaseControl: 0
+    key: 106
+    controllerButton: 3
+    m_Enabled: 1
+  showMap:
+    NotNeedGainAndReleaseControl: 0
+    key: 109
+    controllerButton: 0
+    m_Enabled: 1
+  quickMap:
+    NotNeedGainAndReleaseControl: 0
+    key: 9
+    controllerButton: 0
+    m_Enabled: 1
 --- !u!114 &754444838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -835,25 +909,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacter: {fileID: 0}
   playerInfo:
-    speed: 0
-    jumpHeight: 0
-    sprintForce: 0
-    maxAirExtraJumpCount: 0
-    gravity: 0
-    climbSpeed: 0
-    isClimb: 0
+    jumpMinHeight: 0
+    maxFallSpeed: 0
+    sprintDistance: 0
+    maxAirSprintCount: 0
+    maxJumpCount: 0
+    breakMoonAvgSpeed: 0
+    breakMoonPositionCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    normalGravityScale: 0
     playerFacingRight: 0
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
-  ropeLayerMask:
+    swimSpeed: 0
+    plungeSpeed: 0
+  PlayerAnimator: {fileID: 0}
+  underwaterLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  groundCheckCapsuleCollider: {fileID: 0}
-  telePosition: {fileID: 508142974}
+  boxCollider: {fileID: 0}
+  gravityLock: 0
+  IsUnderWater: 0
+  underWaterCheckCollider: {fileID: 0}
+  groundCheckCollider: {fileID: 0}
+  plungeStrengthArr:
+  - 0
+  - 1
+  - 3
+  canPlungeHeight: 3
+  distanceToGround: -1
   _guid: abea4a61-0e04-4486-8c24-996f6be3f551
   _saveSystem: {fileID: 11400000, guid: cbc98f862ce2a4947b93a72a2e666282, type: 2}
+  _backpack: {fileID: 0}
+  _itemToAdd: {fileID: 0}
+  _savePoint: {fileID: 0}
 --- !u!1 &892856619
 GameObject:
   m_ObjectHideFlags: 0
@@ -906,6 +999,7 @@ MonoBehaviour:
   _masterVolume: 1
   _musicVolume: 1
   _sfxVolume: 1
+  monstersDefaultHittedAudio: {fileID: 0}
 --- !u!1 &1020209574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,6 +1495,62 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1664281028}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1494628686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1494628688}
+  - component: {fileID: 1494628687}
+  m_Layer: 0
+  m_Name: WwiseGlobal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1494628687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494628686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 736b7e26ecad4914b9374e3cf3679ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InitializationSettings: {fileID: 11400000, guid: 9aa9ace2479aa90449c1ee9a018fb561, type: 2}
+  basePath: 
+  language: 
+  defaultPoolSize: 0
+  lowerPoolSize: 0
+  streamingPoolSize: 0
+  memoryCutoffThreshold: 0
+  monitorPoolSize: 0
+  monitorQueuePoolSize: 0
+  callbackManagerBufferSize: 0
+  spatialAudioPoolSize: 0
+  maxSoundPropagationDepth: 0
+  engineLogging: 0
+--- !u!4 &1494628688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494628686}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1646467875
 GameObject:

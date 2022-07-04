@@ -6,7 +6,7 @@ using UnityEngine.Animations;
 public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB
     where TMonoBehaviour : MonoBehaviour
 {
-    protected TMonoBehaviour m_MonoBehaviour;//保持联系的mono 目前其实没有用到
+    protected TMonoBehaviour m_MonoBehaviour;
 
 
     //Fist frame of NoTransitionUpdate happened

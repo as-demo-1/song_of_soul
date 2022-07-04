@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEditor;
 
 
-[CustomEditor(typeof(DamagerBase),true)]
+#if UNITY_EDITOR
+[CustomEditor(typeof(DamagerBase), true)]
+#endif
+
 public class FrozenArea : DamagerBase
 {
     [Tooltip("每隔多久受到一次伤害")]

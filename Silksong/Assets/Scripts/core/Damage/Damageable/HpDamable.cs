@@ -73,7 +73,10 @@ public class HpDamable :Damable
     protected virtual void die(DamagerBase damager)
     {
         onDieEvent.Invoke(damager,this);
+
+        if(gameObject.tag!="Player")//reborn player for  test
         Destroy(gameObject);//Œ¥ÕÍ…∆
+
         Debug.Log(gameObject.name+" die");
         if (dieAudio)
         {

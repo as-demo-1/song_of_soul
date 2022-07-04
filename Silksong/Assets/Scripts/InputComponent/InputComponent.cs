@@ -237,6 +237,10 @@ public abstract class InputComponent : MonoBehaviour
         public KeyCode negative;
         public XboxControllerAxes controllerAxis;
         public float Value { get; protected set; }//can only be -1 0 or 1
+
+        public float ValueBuffer;
+        private bool m_BufferEnabled=true;
+        private int m_FrameCount;
         public bool ReceivingInput { get; protected set; }
         public bool Enabled
         {
@@ -298,8 +302,30 @@ public abstract class InputComponent : MonoBehaviour
                 Value = -1f;
 
             ReceivingInput = positiveHeld || negativeHeld;
-        }
 
+            IsValidUpdate(ReceivingInput);
+        }
+        public void IsValidUpdate(bool ReceivingInput)
+        {
+            if (!m_BufferEnabled)
+                return;
+            if (ReceivingInput)
+            {
+                m_FrameCount = Constants.BufferFrameTime;
+                ValueBuffer = Value;
+                return;
+            }
+
+
+            if (m_FrameCount > 0)
+            {
+                --m_FrameCount;
+            }
+            else
+            {
+                ValueBuffer = 0;
+            }
+        }
         public override void Enable()
         {
             m_Enabled = true;

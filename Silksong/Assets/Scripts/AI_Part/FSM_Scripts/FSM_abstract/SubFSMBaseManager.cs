@@ -7,7 +7,9 @@ public class EnemySubFSMManager:EnemyFSMBaseState
     /// 当前状态
     /// </summary>
     public EnemyFSMBaseState currentState;
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public string currentStateName;
     /// <summary>
     /// 任意状态
