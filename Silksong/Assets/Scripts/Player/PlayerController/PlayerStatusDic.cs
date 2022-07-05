@@ -48,6 +48,7 @@ public class PlayerStatusDic
 
     public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.OverrideStatuFlag)
     {
+        //Debug.Log(playerStatus);
         PlayerStatusFlag flag = m_StatusDic[playerStatus];
         flag.SetFlag(newFlag, calcuteFlagType);
     }

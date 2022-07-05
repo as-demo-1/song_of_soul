@@ -14,7 +14,7 @@ public partial class AkBuildPreprocessor
 
 	public static Dictionary<UnityEditor.BuildTarget, string> BuildTargetToPlatformName = new Dictionary<UnityEditor.BuildTarget, string>();
 
-	private static string GetPlatformName(UnityEditor.BuildTarget target)
+	public static string GetPlatformName(UnityEditor.BuildTarget target)
 	{
 		var platformSubDir = string.Empty;
 		GetCustomPlatformName?.Invoke(ref platformSubDir, target);

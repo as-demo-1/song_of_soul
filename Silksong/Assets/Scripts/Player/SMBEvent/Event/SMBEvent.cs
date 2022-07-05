@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class SMBEvent : IComparable<SMBEvent>, ISMBEventBehaviour, ISMBEventActive //实现IComparable接口，重写CompareTo方法
 {
-    public abstract void EventActive();
+    public abstract void EventActive(MonoBehaviour mono);
     //public abstract bool IsActive(float previousTimeNormalized, float currentTimeNormalized);
     public abstract bool IsActive(float currentTimeNormalized);
   //  public abstract bool Next(float previousTimeNormalized);//是否是下一个event
@@ -27,7 +27,7 @@ public interface ISMBEventActive : ISMBEventBehaviour
 
 public interface ISMBEventBehaviour
 {
-    public void EventActive();
+    public void EventActive(MonoBehaviour mono);
 }
 
 public abstract class SMBEventTimeStamp : SMBEvent

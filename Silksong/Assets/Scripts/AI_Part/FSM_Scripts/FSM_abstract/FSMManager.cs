@@ -264,6 +264,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     protected override void Start()
     {
         base.Start();
+        SceneLinkedSMB<MonoBehaviour>.Initialise(animator,this);//use smb for animator event,such as wwise event
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
