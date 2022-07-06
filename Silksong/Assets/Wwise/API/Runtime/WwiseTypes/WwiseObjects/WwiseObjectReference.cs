@@ -101,7 +101,15 @@ public abstract class WwiseObjectReference : UnityEngine.ScriptableObject
 		{
 			FetchAssetsOfType(wwiseObjectType);
 		}
-		s_objectReferenceDictionary[wwiseObjectType].Add(objectReference.Guid, objectReference);
+
+		if (s_objectReferenceDictionary[wwiseObjectType].ContainsKey(objectReference.Guid))
+		{
+			s_objectReferenceDictionary[wwiseObjectType][objectReference.Guid] = objectReference;
+		}
+		else
+		{
+			s_objectReferenceDictionary[wwiseObjectType].Add(objectReference.Guid, objectReference);
+		}
 
 		return objectReference;
 	}
