@@ -44,10 +44,11 @@ public class InactItemSO : ScriptableObject, IInact
     public void AddGo(GameObject go, bool isPoint = false)
     {
         _go = go;
+
+        SpriteRenderer spriteRender = go.GetComponent<SpriteRenderer>();
+        spriteRender.sprite = Icon;
         if (!isPoint)
         {
-            SpriteRenderer spriteRender = go.GetComponent<SpriteRenderer>();
-            spriteRender.sprite = Icon;
             UIComponentManager.Instance.SetText(go, InteractConstant.UITipText, Content);
         }
     }

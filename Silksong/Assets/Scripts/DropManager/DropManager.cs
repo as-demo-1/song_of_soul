@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropManager
+public class DropManager: MonoBehaviour
 {
     public List<DropInfo> GetDrop4Monster(string monsterID)
     {
@@ -104,19 +104,48 @@ public class DropManager
         return ret;
     }
 
-    private static DropManager _instance;
-    public static DropManager Instance
+    void Awake()
     {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new DropManager();
-            }
+        _instance = this;
+    }
 
-            return _instance;
+    public void MonsterDrop(GameObject go)
+    {
+        var items = GetDrop4Monster("20000002");
+
+        foreach (var item in items)
+        {
+            if (item.info.ID == "10000001")
+            {
+                int reduce = item.dropNum;
+                int large = reduce / 5;
+                reduce %= 5;
+                int mid = reduce / 3;
+                reduce %= 3;
+                int small = reduce;
+
+                CoinGenerator.Instance.GenerateCoins(go, large, mid, small);
+            }
+            else
+            {
+                ItemGenerator.Instance.GenerateItems(go, item);
+            }
         }
     }
+
+    private static DropManager _instance;
+    public static DropManager Instance => _instance;
+    //{
+    //    get
+    //    {
+    //        if (_instance == null)
+    //        {
+    //            _instance = new DropManager();
+    //        }
+
+    //        return _instance;
+    //    }
+    //}
 }
 
 public struct DropInfo
