@@ -2,34 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class DropItem : MonoBehaviour
 {
-    //È·¶¨Åö×²»ñÈ¡
+    //È·ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½È¡
     private BoxCollider2D boxCollider2D;
-    //È·¶¨ÎüÒý·¶Î§
+    //È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î§
     private CircleCollider2D circleCollider2D;
     private Rigidbody2D rigidbody2D;
 
-    private float speed = 20f;//ÎüÈ¡Ê±·ÉÐÐËÙ¶È
-    private bool isAttracted = false;//ÊÇ·ñ±»Ä¿±êÎüÒý
-    private Vector3 targetPosition;//Ä¿±êÎ»ÖÃ
-    private GameObject targetGameObject;//Ä¿±ê¶ÔÏó
+    private float speed = 20f;//ï¿½ï¿½È¡Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    private bool isAttracted = false;//ï¿½Ç·ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private Vector3 targetPosition;//Ä¿ï¿½ï¿½Î»ï¿½ï¿½
+    private GameObject targetGameObject;//Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½
     private float jumpForce = 300f;
 
     [SerializeField] private LayerMask playerLayerMask;
     [SerializeField] private LayerMask groundLayerMask;
 
-    public int bounceCount;//µ¯Ìø´ÎÊý unity±à¼­¿É¼û
+    public int bounceCount;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ unityï¿½à¼­ï¿½É¼ï¿½
 
     [SerializeField] private int m_BounceCount;
-    [SerializeField] private float colliderRadius;//ÎüÈ¡µÄÅö×²ºÐ´óÐ¡
+    [SerializeField] private float colliderRadius;//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½×²ï¿½Ð´ï¿½Ð¡
 
 
     float launchTime = 1.0f;
     bool launch = false;
 
-    private int m_MoneyNum = 0;       //´ú±íµÄÇ®±ÒÊýÁ¿
-    
+    private int m_ItemNum = 0;       //ï¿½ï¿½ï¿½ï¿½ï¿½Ç®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private ItemInfo m_Item = default;
+
 
 
     void OnEnable()
@@ -55,30 +56,30 @@ public class Coin : MonoBehaviour
         attract();
     }
 
-    //ÎüÒýÓÃÇò×´Åö×²Ìå
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´ï¿½ï¿½×²ï¿½ï¿½
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (circleCollider2D.IsTouchingLayers(playerLayerMask))//´ý¶¨
+        if (circleCollider2D.IsTouchingLayers(playerLayerMask))//ï¿½ï¿½ï¿½ï¿½
         {
             isAttracted = true;
             rigidbody2D.gravityScale = 0;
         }
     }
   
-    ///»ñµÃÓÃ·½ÐÎÅö×²Ìå
+    ///ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (boxCollider2D.IsTouchingLayers(playerLayerMask))
         {
             RecycleCoin();
-            //TODO:Íæ¼ÒÔö¼Ó½ðÇ®,Ó¦¸ÃÔÚÊý¾ÝÀàÖÐÅÉ·¢ÊÂ¼þ
-            EventManager.Instance.Dispatch<int>(EventType.onMoneyChange,m_MoneyNum);
+            //TODO:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½Ç®,Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É·ï¿½ï¿½Â¼ï¿½
+            EventManager.Instance.Dispatch<string, int>(EventType.onItemChange, m_Item.NameSid, m_ItemNum);
 
         }
     }
 
-    //·¢Éä½ð±Ò
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     void LaunchCoin() 
     {
         if (!launch) {
@@ -91,13 +92,13 @@ public class Coin : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ð±Òµ¯Ìø
+    /// ï¿½ï¿½Òµï¿½ï¿½ï¿½
     /// </summary>
     private void Bounce()
     {
         if (IsGround() && !isAttracted && m_BounceCount >= 0)
         {
-            if (rigidbody2D.velocity.x != 0)    //Ïû³ý·¢ÉäÊ±´øÀ´µÄ¹ßÐÔ
+            if (rigidbody2D.velocity.x != 0)    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½
             {
                 rigidbody2D.velocity = Vector2.zero;
             }
@@ -111,7 +112,7 @@ public class Coin : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ð±Ò±»ÎüÒý
+    /// ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     private void attract()
     {
@@ -128,7 +129,7 @@ public class Coin : MonoBehaviour
     }
 
     /// <summary>
-    /// »ØÊÕ½ð±ÒÔ¤ÖÆ
+    /// ï¿½ï¿½ï¿½Õ½ï¿½ï¿½Ô¤ï¿½ï¿½
     /// </summary>
     private void RecycleCoin() 
     {
@@ -136,16 +137,16 @@ public class Coin : MonoBehaviour
         m_BounceCount = bounceCount;
         rigidbody2D.gravityScale = 3;
         launch = false;
-        CoinGenerator.Instance.RecycleCoinsPrefabs(this.gameObject);
+        ItemGenerator.Instance.RecycleCoinsPrefabs(this.gameObject);
     }
 
     /// <summary>
-    /// ÉèÖÃ½ð±ÒµÄÇ®Êý
+    /// ï¿½ï¿½ï¿½Ã½ï¿½Òµï¿½Ç®ï¿½ï¿½
     /// </summary>
-    /// <param name="moneyNum"></param>
-    public void SetCoinMoneyNum(int moneyNum) 
+    /// <param name="dropInfo"></param>
+    public void SetDropInfo(DropInfo dropInfo) 
     {
-        m_MoneyNum = moneyNum;
+        m_Item = dropInfo.info;
+        m_ItemNum = dropInfo.dropNum;
     }
-
 }

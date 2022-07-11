@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinGenerator:MonoSingleton<CoinGenerator>
+public class ItemGenerator : MonoSingleton<ItemGenerator>
 {
-    //½ð±ÒÔ¤ÖÆµÄÂ·¾¶
-    private readonly static string coinPrefabPath = "coin";
+    //ï¿½ï¿½ï¿½Ô¤ï¿½Æµï¿½Â·ï¿½ï¿½
+    private readonly static string coinPrefabPath = "item";
 
     private List<GameObject> coinsPool = null;
-
-    private int largeCoinMoneyNum = 5;
-    private int middleCoinMoneyNum = 2;
-    private int smallCoinMoneyNum = 1;
 
     public override void Init()
     {
@@ -19,7 +15,7 @@ public class CoinGenerator:MonoSingleton<CoinGenerator>
     }
 
     /// <summary>
-    /// ³¢ÊÔ´Ó»º´æ³ØÀïÄÃ½ð±ÒµÄgameobject,»º´æÀïÃ»ÓÐ¾ÍÉú³ÉÒ»¸ö
+    /// ï¿½ï¿½ï¿½Ô´Ó»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã½ï¿½Òµï¿½gameobject,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
     /// </summary>
     /// <returns></returns>
     private GameObject TryGetCoinPrefabsFormPool() 
@@ -31,7 +27,7 @@ public class CoinGenerator:MonoSingleton<CoinGenerator>
             coinsPool.RemoveAt(0);
             coin.transform.localScale = Vector3.one;
         }
-        else 
+        else
         {
             coin = (GameObject)Instantiate(Resources.Load(coinPrefabPath));        
         }
@@ -39,62 +35,20 @@ public class CoinGenerator:MonoSingleton<CoinGenerator>
     }
 
     /// <summary>
-    /// Éú³ÉÖ¸¶¨ÊýÄ¿µÄ½ð±Ò
+    /// ï¿½ï¿½ï¿½É½ï¿½ï¿½
     /// </summary>
-    /// <param name="obj">Éú³ÉµÄÎ»ÖÃ</param>
-    /// <param name="num">ÊýÁ¿</param>
-    public void GenerateCoinsByNum(GameObject obj,int num) 
+    /// <param name="obj">ï¿½ï¿½ï¿½ï¿½ï¿½gameobjectï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="item">ï¿½ï¿½ï¿½Í½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    /// <param name="dropItemNums">ï¿½ï¿½ï¿½Í½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½</param>
+    public void GenerateItems(GameObject obj, DropInfo drop)
     {
-        int maxLargeCoin = num / largeCoinMoneyNum;
-        int largeCoin = Random.Range(1,maxLargeCoin);
-
-        num -= largeCoin * largeCoinMoneyNum;
-
-        int maxMiddleCoin = num / middleCoinMoneyNum;
-        int middleCoin = Random.Range(1,maxMiddleCoin);
-
-        num -= middleCoin * middleCoinMoneyNum;
-
-        int smallCoin = num;
-
-        GenerateCoins(obj,largeCoin,middleCoin,smallCoin);
+        GameObject coin = TryGetCoinPrefabsFormPool();
+        coin.GetComponent<SpriteRenderer>().sprite = drop.info.Icon;
+        coin.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        coin.transform.position = obj.transform.position;
+        coin.SetActive(true);
+        coin.GetComponent<DropItem>().SetDropInfo(drop);
     }
-
-    /// <summary>
-    /// Éú³É½ð±Ò
-    /// </summary>
-    /// <param name="obj">´ÓÕâ¸ögameobjectµÄÎ»ÖÃÉú³É</param>
-    /// <param name="largeCoins">´óÐÍ½ð±ÒµÄÊýÁ¿</param>
-    /// <param name="middleCoins">ÖÐÐÍ½ð±ÒµÄÊýÁ¿</param>
-    /// <param name="smallCoins">Ð¡ÐÍ½ð±ÒµÄÊýÁ¿</param>
-    public void GenerateCoins(GameObject obj, int largeCoins, int middleCoins, int smallCoins)
-    {
-        for (int i = 0; i < largeCoins; ++i) 
-        {
-            GameObject coin = TryGetCoinPrefabsFormPool();
-            coin.transform.localScale = new Vector3(1.2f,1.2f,1.2f);
-            coin.transform.position = obj.transform.position;
-            coin.SetActive(true);
-            coin.GetComponent<Coin>().SetCoinMoneyNum(largeCoinMoneyNum);
-        }
-        for (int i = 0; i < middleCoins; ++i)
-        {
-            GameObject coin = TryGetCoinPrefabsFormPool();
-            coin.transform.localScale = Vector3.one;
-            coin.transform.position = obj.transform.position;
-            coin.SetActive(true);
-            coin.GetComponent<Coin>().SetCoinMoneyNum(middleCoinMoneyNum);
-        }
-        for (int i = 0; i < smallCoins; ++i)
-        {
-            GameObject coin = TryGetCoinPrefabsFormPool();
-            coin.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-            coin.transform.position = obj.transform.position;
-            coin.SetActive(true);
-            coin.GetComponent<Coin>().SetCoinMoneyNum(smallCoinMoneyNum);
-        }
-    }
-
 
     public void RecycleCoinsPrefabs(GameObject coin)
     {

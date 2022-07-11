@@ -20,28 +20,20 @@ public class ItemTableSystem
 
     private ItemTableSystem()
     {
-        string path = "Assets/Scripts/ItemTableSystem/items";
-        if (Directory.Exists(path))
+        string path = "ScriptableObjects/items";
+        var all = Resources.LoadAll<ItemTableScriptableObject>(path);
+
+        foreach (var item in all)
         {
-            DirectoryInfo direction = new DirectoryInfo(path);
-            FileInfo[] files = direction.GetFiles("*");
-            for (int i = 0; i < files.Length; ++i)
+            _itemDic[item.ID] = new ItemInfo(item.ID, item.NameSid, item.DescSid, item.BuffID, item.BuffVal, item.Icon);
+            _itemList.Add(_itemDic[item.ID]);
+
+            if (!_typeDic.ContainsKey(item.TypeID))
             {
-                if (files[i].Name.EndsWith(".meta"))
-                    continue;
-
-                ItemTableScriptableObject item = AssetDatabase.LoadAssetAtPath<ItemTableScriptableObject>(path + "/" + files[i].Name);
-
-                _itemDic[item.ID] = new ItemInfo(item.ID, item.NameSid, item.DescSid, item.BuffID, item.BuffVal, item.Icon);
-                _itemList.Add(_itemDic[item.ID]);
-
-                if (!_typeDic.ContainsKey(item.TypeID))
-                {
-                    _typeDic[item.TypeID] = new List<ItemInfo>();
-                }
-
-                _typeDic[item.TypeID].Add(_itemDic[item.ID]);
+                _typeDic[item.TypeID] = new List<ItemInfo>();
             }
+
+            _typeDic[item.TypeID].Add(_itemDic[item.ID]);
         }
     }
 
@@ -60,24 +52,29 @@ public class ItemTableSystem
     // 获取获取某一类别的道具
     public List<ItemInfo> GetItemsByType(string TypeID)
     {
-        List<ItemInfo> ret = _typeDic[TypeID];
-        if (ret == null)
+        if (_typeDic.ContainsKey(TypeID))
+        {
+            return _typeDic[TypeID];
+        }
+        else
         {
             Debug.LogError("分类为" + TypeID + "的道具类型不存在，请检查道具表以及输入TypeID");
+            return default;
         }
-
-        return ret;
     }
 
     // 获取某一种道具
     public ItemInfo GetOneItemByID(string id)
     {
-        ItemInfo ret = _itemDic[id];
-        if (ret == null)
+        if (_itemDic.ContainsKey(id))
+        {
+            return _itemDic[id];
+        }
+        else
         {
             Debug.LogError("id为" + id + "的道具不存在，请检查道具表以及输入id");
+            return default;
         }
-        return ret;
     }
 
     private static ItemTableSystem _instance;
