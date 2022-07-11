@@ -11,7 +11,9 @@ using System.Runtime.Serialization;
 [Serializable]
 public  class FSMBaseTrigger<T1,T2>
 {
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public T2 triggerType;
     public string targetState;
     public FSMBaseTrigger()

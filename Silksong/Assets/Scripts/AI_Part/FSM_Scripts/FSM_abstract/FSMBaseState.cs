@@ -13,8 +13,10 @@ using UnityEngine.EventSystems;
 public  class FSMBaseState<T1,T2> 
 {
     //protected FSMManager<T1,T2> fsmManager;
+#if UNITY_EDITOR 
     [DisplayOnly]
-    public  T1 stateType;
+#endif
+    public T1 stateType;
     [NonSerialized]
     public List<FSMBaseTrigger<T1,T2>> triggers = new List<FSMBaseTrigger<T1,T2>>();
 
@@ -69,7 +71,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachInUpdate(fsm_Manager))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+               // Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }

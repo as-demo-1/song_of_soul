@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHpUI : MonoBehaviour
 {
@@ -60,5 +61,11 @@ public class PlayerHpUI : MonoBehaviour
         {
             Destroy( transform.GetChild(i));
         }
+    }
+
+    public static void setSceneNameText(string name) //show scene name for test,will be delete
+    {
+        Text text = GameObject.Find("SceneName").GetComponent<Text>();
+        text.text = name;
     }
 }

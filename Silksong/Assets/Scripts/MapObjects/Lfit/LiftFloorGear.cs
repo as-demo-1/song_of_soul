@@ -9,7 +9,9 @@ public class LiftFloorGear : Damable
     public int floor;
     public Lift lift;
 
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public float floorHeight;//世界坐标的地面y轴高度 用于对齐电梯
     void Start()
     {
