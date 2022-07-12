@@ -11,7 +11,7 @@ public class ItemTableEditor : EditorWindow
     private DefaultAsset _sourceExcelText;
     private string _tip_text;
 
-    string _path = "/Scripts/ItemTableSystem/items";
+    string _path = "/Resources/ScriptableObjects/items";
 
     [MenuItem("Importer/Items", false)]
 
