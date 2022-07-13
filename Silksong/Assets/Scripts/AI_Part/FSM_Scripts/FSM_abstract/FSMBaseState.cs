@@ -284,7 +284,7 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
         {
             if (triggers[i].IsTriggerReachInUpdate(fsm_Manager.fsmManager))
             {
-                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -307,4 +307,3 @@ public class PlayerFSMBaseState : FSMBaseState<PlayerStates, PlayerTriggers>
 {
 
 }
-

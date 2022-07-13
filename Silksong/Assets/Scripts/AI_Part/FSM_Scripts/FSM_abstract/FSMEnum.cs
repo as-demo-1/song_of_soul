@@ -28,9 +28,7 @@ public enum EnemyStates
     Enemy_Circle_State = 16,
     Enemy_Die_State=17,
     LittleMonster_Die=18,
-    BigMonster_Die=19,
-
-    Boss_Rush_State=20,
+    BigMonster_Die=19
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
@@ -48,6 +46,7 @@ public enum EnemyTriggers
     RandomTrigger = 8,
     TouchLayerTrigger=9,
 }
+
 
 
 
