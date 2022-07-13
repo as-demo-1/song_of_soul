@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lastStateID: 0
   lastTriggerID: 0
-  stateID: 0
+  StateName: Boss00_Any_State
+  StateType: 0
   stateConfig:
     id: 0
-  triggerID: 0
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList: []
@@ -26,11 +27,12 @@ MonoBehaviour:
     00000000:
       type: {class: Enemy_Any_State, ns: , asm: Assembly-CSharp}
       data:
-        stateID: 0
+        stateType: 0
+        defaultAnimationName: 
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerID: 0
-        targetState: 0
+        triggerType: 0
+        targetState: B
         maxTime: 0
         timer: 0

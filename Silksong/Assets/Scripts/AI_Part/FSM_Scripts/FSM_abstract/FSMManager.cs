@@ -276,14 +276,14 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     {
         if(anyStateConfig!=null)
         {
-            //Debug.Log("set anyStateConfig");
+            Debug.Log("set anyStateConfig");
             anyState = ObjectClone.CloneObject(anyStateConfig.stateConfig) as FSMBaseState<EnemyStates, EnemyTriggers>;
             anyState.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
             for (int k=0;k<anyStateConfig.triggerList.Count; k++)
             {
                 anyState.triggers.Add(ObjectClone.CloneObject(anyStateConfig.triggerList[k]) as FSMBaseTrigger<EnemyStates, EnemyTriggers>);
                 anyState.triggers[anyState.triggers.Count - 1].InitTrigger(this);
-                //Debug.Log(this.gameObject.name+"  "+ anyState.triggers[anyState.triggers.Count - 1]+"  "+anyState.triggers[anyState.triggers.Count - 1].GetHashCode());
+                Debug.Log(this.gameObject.name + "  " + anyState.triggers[anyState.triggers.Count - 1] + "  " + anyState.triggers[anyState.triggers.Count - 1].GetHashCode());
             }
             anyState.InitState(this);
         }
@@ -295,7 +295,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
             {
                 tem.triggers.Add(ObjectClone.CloneObject(stateConfigs[i].triggerList[k]) as FSMBaseTrigger<EnemyStates, EnemyTriggers>);
                 tem.triggers[tem.triggers.Count-1].InitTrigger(this);
-                //Debug.Log(this.gameObject.name + "  " + tem.triggers[tem.triggers.Count - 1] + "  " + tem.triggers[tem.triggers.Count - 1].GetHashCode());
+                Debug.Log(this.gameObject.name + "  " + tem.triggers[tem.triggers.Count - 1] + "  " + tem.triggers[tem.triggers.Count - 1].GetHashCode());
             }
             statesDic.Add(stateConfigs[i].StateName, tem);
             tem.InitState(this);

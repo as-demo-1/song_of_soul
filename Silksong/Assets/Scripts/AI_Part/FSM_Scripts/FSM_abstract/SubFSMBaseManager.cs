@@ -45,6 +45,7 @@ public class EnemySubFSMManager:EnemyFSMBaseState
         {
             EnemyFSMBaseState tem = ObjectClone.CloneObject(stateConfigs[i].stateConfig) as EnemyFSMBaseState;
             tem.triggers = new List<FSMBaseTrigger<EnemyStates, EnemyTriggers>>();
+            //Debug.Log("In1");
             for (int k = 0; k < stateConfigs[i].triggerList.Count; k++)
             {
                 tem.triggers.Add(ObjectClone.CloneObject(stateConfigs[i].triggerList[k]) as FSMBaseTrigger<EnemyStates, EnemyTriggers>);
