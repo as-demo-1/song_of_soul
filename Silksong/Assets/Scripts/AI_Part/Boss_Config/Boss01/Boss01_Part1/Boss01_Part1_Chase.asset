@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Boss01_Part1_Chase
+  m_EditorClassIdentifier: 
+  lastStateID: 11
+  lastTriggerID: 2
+  StateName: Boss01_Part1_Chase
+  StateType: 11
+  stateConfig:
+    id: 0
+  TriggerType: 2
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Chase_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 11
+        defaultAnimationName: Run
+        chaseSpeed: 20
+        isFaceWithSpeed: 1
+        isFlying: 0
+        lock_x_move: 0
+        lock_y_move: 0
+        isMoveWithCurve: 0
+        curveCycle: 0
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    00000001:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss01_Part1_Attack
+        checkNearRadius: 2
+        checkFarRadius: 4
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
+    00000002:
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 2
+        targetState: Boss01_Part1_Attack
+        checkNearRadius: 2
+        checkFarRadius: 4
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
