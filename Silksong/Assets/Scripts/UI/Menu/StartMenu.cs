@@ -212,6 +212,9 @@ public class StartMenu : MonoBehaviour
     public void SetMasterVolume(float volume)
     {
         //audioMixer.SetFloat("MasterVolume", volume);
+        float value=volume*5/4;
+        value += 100;//this change (-80£¬0) to (0,100)
+        AkSoundEngine.SetRTPCValue("MainVolume", value);
     }
 
     #endregion
