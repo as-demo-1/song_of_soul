@@ -76,6 +76,7 @@ public class EnemySubFSMManager:EnemyFSMBaseState
         {
             currentState = statesDic[state];
             currentStateName = state;
+            Debug.Log(currentStateName);
             currentState.EnterState(fsmManager);
         }
         else

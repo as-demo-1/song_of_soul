@@ -28,6 +28,7 @@ public class Enemy_Chase_State :EnemyFSMBaseState
     }
     public override void FixAct_State(EnemyFSMManager fSM_Manager)
     {
+        Debug.Log("FixAct_State" + fSM_Manager.rigidbody2d);
         v = fSM_Manager.getTargetDir(true);
         v=v.normalized;
         if (!isFlying)

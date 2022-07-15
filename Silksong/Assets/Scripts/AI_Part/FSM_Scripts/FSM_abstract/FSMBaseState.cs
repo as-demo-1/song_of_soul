@@ -69,7 +69,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachInUpdate(fsm_Manager))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -84,7 +84,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachInFixUpdate(fsm_Manager))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -99,7 +99,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachOnCollisionEnter(fsm_Manager,collision))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -114,7 +114,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachOnCollisionExit(fsm_Manager, collision))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -129,7 +129,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachOnCollisionStay(fsm_Manager, collision))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -144,7 +144,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachOnTriggerEnter(fsm_Manager, collision))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -159,7 +159,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachOnTriggerExit(fsm_Manager, collision))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -174,7 +174,7 @@ public  class FSMBaseState<T1,T2>
         {
             if (triggers[i].IsTriggerReachOnTriggerStay(fsm_Manager, collision))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
@@ -202,9 +202,8 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
     public override void EnterState(FSMManager<EnemyStates, EnemyTriggers> fSM_Manager)
     {
         base.EnterState(fSM_Manager);
-
         EnterState(fSM_Manager as EnemyFSMManager);
-
+        Debug.Log(this.stateType);
        
     }
     public virtual void EnterState(EnemyFSMManager enemyFSM) {
@@ -284,7 +283,7 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
         {
             if (triggers[i].IsTriggerReachInUpdate(fsm_Manager.fsmManager))
             {
-                Debug.Log(triggers[i] + "     " + triggers[i].targetState);
+                //Debug.Log(triggers[i] + "     " + triggers[i].targetState);
                 fsm_Manager.ChangeState(triggers[i].targetState);
                 break;
             }
