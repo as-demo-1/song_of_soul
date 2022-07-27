@@ -74,8 +74,7 @@ public class DropItem : MonoBehaviour
         {
             RecycleCoin();
             //TODO:������ӽ�Ǯ,Ӧ�������������ɷ��¼�
-            EventManager.Instance.Dispatch<string, int>(EventType.onItemChange, m_Item.NameSid, m_ItemNum);
-
+            EventManager.Instance.Dispatch<ItemInfo, int>(EventType.onItemChange, m_Item, m_ItemNum);
         }
     }
 

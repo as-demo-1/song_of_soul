@@ -42,14 +42,6 @@ public class InactDrop : InactChildFuncSO
             }
         }
 
-        //try
-        //{
-        //}
-        //catch (System.Exception ex)
-        //{
-
-        //}
-
         Next();
     }
 }

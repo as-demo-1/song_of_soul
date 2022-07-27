@@ -25,7 +25,7 @@ public class UICoin : MonoBehaviour
     void Start()
     {
         EventManager.Instance.Register<int>(EventType.onMoneyChange, ChangeMoneyNum);
-        EventManager.Instance.Register<string, int>(EventType.onItemChange, ChangeItemNum);
+        EventManager.Instance.Register<ItemInfo, int>(EventType.onItemChange, ChangeItemNum);
 
         moneyText =  transform.Find("moneyCount").GetComponent<Text>();
         moneyChangeText = transform.Find("moneyChange").GetComponent<Text>();
@@ -79,9 +79,10 @@ public class UICoin : MonoBehaviour
         moneyChangeText.text = "+" + addAll.ToString();
     }
 
-    void ChangeItemNum(string itemID, int changeNum)
+    void ChangeItemNum(ItemInfo item, int changeNum)
     {
-        Debug.Log("item:" + itemID + " num:" + changeNum);
+        InventoryManager.Instance.AddItemStack(
+            new ItemStack(item.ItemSO, changeNum));
     }
 
     void PrepareCountDown()
