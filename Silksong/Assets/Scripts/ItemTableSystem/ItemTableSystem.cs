@@ -21,11 +21,11 @@ public class ItemTableSystem
     private ItemTableSystem()
     {
         string path = "ScriptableObjects/items";
-        var all = Resources.LoadAll<ItemTableScriptableObject>(path);
+        var all = Resources.LoadAll<ItemTableSO>(path);
 
         foreach (var item in all)
         {
-            _itemDic[item.ID] = new ItemInfo(item.ID, item.NameSid, item.DescSid, item.BuffID, item.BuffVal, item.Icon);
+            _itemDic[item.ID] = new ItemInfo(item.ID, item.NameSid, item.DescSid, item.BuffID, item.BuffVal, item.Icon, item.ItemSO);
             _itemList.Add(_itemDic[item.ID]);
 
             if (!_typeDic.ContainsKey(item.TypeID))
@@ -94,12 +94,13 @@ public class ItemTableSystem
 
 public class ItemInfo
 {
-    private string _id;             // 物品id   id
-    private string _nameSid;        // 物品名称  item name
-    private string _descSid;        // 物品说明  item desc
-    private string _buffId;         // 效果id   the id of buff
-    private string _buffVal;        // 效果数值  buff effect
-    private Sprite _icon = default; // 图标     icon asset
+    private string _id;                 // 物品id    id
+    private string _nameSid;            // 物品名称  item name
+    private string _descSid;            // 物品说明  item desc
+    private string _buffId;             // 效果id    the id of buff
+    private string _buffVal;            // 效果数值  buff effect
+    private Sprite _icon = default;     // 图标     icon asset
+    private ItemSO _itemSO = default;   // 物品so   itemso
 
     public string ID => _id;
     public string NameSid => _nameSid;
@@ -107,8 +108,9 @@ public class ItemInfo
     public string BuffID => _buffId;
     public string BuffVal => _buffVal;
     public Sprite Icon => _icon;
+    public ItemSO ItemSO => _itemSO;
 
-    public ItemInfo(string id, string nameSid, string descSid, string buffId, string buffVal, Sprite icon)
+    public ItemInfo(string id, string nameSid, string descSid, string buffId, string buffVal, Sprite icon, ItemSO itemSO)
     {
         _id = id;
         _nameSid = nameSid;
@@ -116,5 +118,6 @@ public class ItemInfo
         _buffId = buffId;
         _buffVal = buffVal;
         _icon = icon;
+        _itemSO = itemSO;
     }
 }

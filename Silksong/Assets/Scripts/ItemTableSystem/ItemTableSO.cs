@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemTableScriptableObject : ScriptableObject
+public class ItemTableSO : ScriptableObject
 {
     [Tooltip("物品id   id")]
     [SerializeField] private string _id;
@@ -18,6 +18,8 @@ public class ItemTableScriptableObject : ScriptableObject
     [SerializeField] private string _typeID;
     [Tooltip("图标 icon asset")]
     [SerializeField] private Sprite _icon = default;
+    [Tooltip("用于背包的文件 itemSO")]
+    [SerializeField] private ItemSO _itemSO = default;
 
     public string ID => _id;
     public string NameSid => _nameSid;
@@ -26,8 +28,9 @@ public class ItemTableScriptableObject : ScriptableObject
     public string BuffVal => _buffVal;
     public string TypeID => _typeID;
     public Sprite Icon => _icon;
+    public ItemSO ItemSO => _itemSO;
 
-    public void Crt(string id, string nameSid, string descSid, string buffId, string buffVal)
+    public void Crt(string id, string nameSid, string descSid, string buffId, string buffVal, ItemSO itemSO, ItemTypeSO itemTypeSO)
     {
         _id = id;
         _nameSid = nameSid;
@@ -35,6 +38,8 @@ public class ItemTableScriptableObject : ScriptableObject
         _buffId = buffId;
         _buffVal = buffVal;
         _typeID = id.Substring(1, 2);
+        _itemSO = itemSO;
+        _itemSO.Crt(id, nameSid, descSid, itemTypeSO);
     }
 
     public void Upd(string nameSid, string descSid, string buffId, string buffVal)
@@ -43,5 +48,6 @@ public class ItemTableScriptableObject : ScriptableObject
         _descSid = descSid;
         _buffId = buffId;
         _buffVal = buffVal;
+        _itemSO.Upd(nameSid, descSid);
     }
 }

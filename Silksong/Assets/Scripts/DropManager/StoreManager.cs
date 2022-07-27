@@ -1,17 +1,23 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 
-public class NewMonoBehaviour : MonoBehaviour
+public class StoreManager : MonoBehaviour
 {
     // Use this for initialization
     void Start()
     {
-
+        EventManager.Instance.Register(EventType.onOpenStore, openStore);
+        EventManager.Instance.Register(EventType.onCloseStore, closeStore);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void openStore()
     {
+        Debug.Log("openStore");
+    }
 
+    private void closeStore()
+    {
+        Debug.Log("closeStore");
     }
 }

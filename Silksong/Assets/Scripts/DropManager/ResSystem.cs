@@ -17,7 +17,7 @@ public class ResSystem
 
         foreach (var item in all)
         {
-            _itemDic[item.ID] = new ItemInfo(item.ID, item.NameSid, item.DescSid, "", "", default);
+            _itemDic[item.ID] = new ItemInfo(item.ID, item.NameSid, item.DescSid, "", "", default, default);
             _itemList.Add(_itemDic[item.ID]);
         }
     }
