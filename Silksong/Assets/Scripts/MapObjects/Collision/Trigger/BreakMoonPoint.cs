@@ -5,11 +5,15 @@ using UnityEngine;
 public class BreakMoonPoint:MonoBehaviour
 {
     private PlayerBreakMoon playerBreakMoon;
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public bool isPicked;
     public LayerMask targetLayer;
-   // public float cd;
+    // public float cd;
+#if UNITY_EDITOR
     [DisplayOnly]
+#endif
     public bool ready;
 
     private SpriteRenderer spriteRenderer;
@@ -25,7 +29,7 @@ public class BreakMoonPoint:MonoBehaviour
     {
         if (ready && targetLayer.Contains(collision.gameObject))
         {
-            playerBreakMoon = collision.GetComponent<PlayerController>().playerStatesBehaviour.playerBreakMoon;
+            playerBreakMoon = collision.GetComponent<PlayerController>().playerStatesBehaviour.StateActionsDic[EPlayerState.BreakMoon] as PlayerBreakMoon ;
             playerBreakMoon.availableTargets.Add(this);
             playerBreakMoon.findCurrentTarget();
         }

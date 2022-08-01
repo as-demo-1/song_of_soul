@@ -65,7 +65,10 @@ public class PlayerCharacter : MonoBehaviour
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
     //private PlayerController playerController;
 
-    public int gluedCount; 
+    public int gluedCount;
+
+    [SerializeField]
+    private CharmListSO CharmListSO = default;
 
   
     private void Awake()
@@ -96,7 +99,11 @@ public class PlayerCharacter : MonoBehaviour
 
     public int getAttackGainManaNumber()
     {
-        return Constants.playerAttackGainSoul;
+        return Constants.playerAttackGainSoul + CharmListSO.CharmAttackGainSoul;
+    }
+    public int getHurtGainManaNumber()
+    {
+        return CharmListSO.CharmHurtGainSoul;
     }
 
     public void AttackGainMana(DamagerBase damager,DamageableBase damageable)
@@ -106,6 +113,20 @@ public class PlayerCharacter : MonoBehaviour
             addMana(getAttackGainManaNumber());
         }
     }
+    
+    /// <summary>
+    /// 受伤时获得能量
+    /// </summary>
+    /// <param name="damager"></param>
+    /// <param name="damageable"></param>
+    public void HurtGainMana(DamagerBase damager, DamageableBase damageable)
+    {
+        if (true)
+        {
+            addMana(getHurtGainManaNumber());
+        }
+    }
+    
     public void addMana(int number)
     {
         Mana+=number;
@@ -122,7 +143,10 @@ public class PlayerCharacter : MonoBehaviour
     }
 
 
+    private int coldValue;
 
-
+    public void reduceColdValue(int value){
+        coldValue -= value;
+    }
 
 }

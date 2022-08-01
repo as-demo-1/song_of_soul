@@ -20,7 +20,9 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     /// 当前状态
     /// </summary>
     protected FSMBaseState<T1,T2> currentState;
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public string currentStateName;
     /// <summary>
     /// 任意状态
@@ -254,12 +256,15 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public GameObject player;
     public bool FaceLeftFirstOriginal;//原图是否朝向左
     public float beatBackRatio = 0;//0表示不被击退
+#if UNITY_EDITOR 
     [DisplayOnly]
+#endif
     public bool hasInvokedAnimationEvent=false, isInvokingAnimationEvent=false;
 
     protected override void Start()
     {
         base.Start();
+        SceneLinkedSMB<MonoBehaviour>.Initialise(animator,this);//use smb for animator event,such as wwise event
         player = GameObject.FindGameObjectWithTag("Player");
     }
 

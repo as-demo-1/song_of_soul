@@ -9,6 +9,138 @@
 							<ObjectRef Name="System" ID="{B3C8076B-D5AF-494E-9B9E-40DB15A2FD38}" WorkUnitID="{9AF1201A-C56C-4FC3-9F07-09518A44B453}"/>
 						</Reference>
 					</ReferenceList>
+					<ChildrenList>
+						<Bus Name="RVB" ID="{46DA2FC1-03C0-4B64-B900-26A01EE63FE5}">
+							<PropertyList>
+								<Property Name="BusChannelConfig" Type="int32">
+									<ValueList>
+										<Value>12546</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ChildrenList>
+								<AuxBus Name="LE" ID="{1F1520EA-230E-4C61-BEE4-1C4F3A2ABD54}">
+									<PropertyList>
+										<Property Name="3DSpatialization" Type="int16" Value="1"/>
+										<Property Name="EnableAttenuation" Type="bool" Value="False"/>
+										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise Stereo Delay (Custom)" ID="{9B2DE0D5-5A86-44DA-9B03-99DAFB2DD275}" ShortID="983906629" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
+													<PropertyList>
+														<Property Name="RightInputType" Type="int32" Value="3"/>
+													</PropertyList>
+												</Effect>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<PositioningInfo>
+										<Panner Name="" ID="{FAD6F15B-2E7F-42E0-A4C3-EE252AA48309}">
+											<PropertyList>
+												<Property Name="PanX" Type="Real64" Value="-100"/>
+												<Property Name="PanY" Type="Real64" Value="5.55111512312578E-17"/>
+											</PropertyList>
+										</Panner>
+									</PositioningInfo>
+									<ObjectLists/>
+								</AuxBus>
+								<AuxBus Name="LR" ID="{9F108E52-6F1D-4F69-8A2B-2AA08AA023BC}">
+									<PropertyList>
+										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise RoomVerb (Custom)" ID="{491D5FF7-69B6-415E-BF4C-E0EB4FBB7DD1}" ShortID="934322471" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3"/>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<PositioningInfo>
+										<Panner Name="" ID="{0852AACC-34E0-498F-8ADD-67206A39ED7A}">
+											<PropertyList>
+												<Property Name="PanX" Type="Real64" Value="-100"/>
+											</PropertyList>
+										</Panner>
+									</PositioningInfo>
+									<ObjectLists/>
+								</AuxBus>
+								<AuxBus Name="RE" ID="{8D4E56E7-D374-4022-8FDA-91A9F4D38DC0}">
+									<PropertyList>
+										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise Stereo Delay (Custom)" ID="{6B654CE1-1E3A-40E2-BB92-F5A7A9B66BDC}" ShortID="988596495" PluginName="Wwise Stereo Delay" CompanyID="0" PluginID="135" PluginType="3">
+													<PropertyList>
+														<Property Name="LeftInputType" Type="int32" Value="3"/>
+													</PropertyList>
+												</Effect>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<PositioningInfo>
+										<Panner Name="" ID="{A9A0FD79-6BC9-4839-B284-716A7047998D}">
+											<PropertyList>
+												<Property Name="PanX" Type="Real64" Value="100"/>
+											</PropertyList>
+										</Panner>
+									</PositioningInfo>
+									<ObjectLists/>
+								</AuxBus>
+								<AuxBus Name="RR" ID="{A3319BE9-AC01-4BED-A0F2-E38DAA4F5EB2}">
+									<PropertyList>
+										<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Effect0">
+											<Custom>
+												<Effect Name="Wwise RoomVerb (Custom)" ID="{E8D0627B-C52A-463F-B6FC-50F1970E3B07}" ShortID="977462808" PluginName="Wwise RoomVerb" CompanyID="0" PluginID="118" PluginType="3"/>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<PositioningInfo>
+										<Panner Name="" ID="{992B05DF-1639-4781-933D-E0AB38FA60D0}">
+											<PropertyList>
+												<Property Name="PanX" Type="Real64" Value="100"/>
+											</PropertyList>
+										</Panner>
+									</PositioningInfo>
+									<ObjectLists/>
+								</AuxBus>
+							</ChildrenList>
+							<ObjectLists/>
+						</Bus>
+						<AuxBus Name="LD" ID="{D601D9E2-33B3-4B80-8D62-CB39D78F11B2}">
+							<PropertyList>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+							</PropertyList>
+							<PositioningInfo>
+								<Panner Name="" ID="{34B2286F-639A-44E6-917A-D15F06A9C319}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="-100"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists/>
+						</AuxBus>
+						<AuxBus Name="RD" ID="{46F6ABD0-01AF-4CB8-A643-9C663864CFA3}">
+							<PropertyList>
+								<Property Name="SpeakerPanning" Type="int16" Value="1"/>
+							</PropertyList>
+							<PositioningInfo>
+								<Panner Name="" ID="{B9C02E7D-2FD3-4840-95D0-CF1A4AC26DFB}">
+									<PropertyList>
+										<Property Name="PanX" Type="Real64" Value="100"/>
+										<Property Name="PanY" Type="Real64" Value="-2.1094237467878E-14"/>
+									</PropertyList>
+								</Panner>
+							</PositioningInfo>
+							<ObjectLists/>
+						</AuxBus>
+					</ChildrenList>
 					<ObjectLists/>
 				</Bus>
 			</ChildrenList>
