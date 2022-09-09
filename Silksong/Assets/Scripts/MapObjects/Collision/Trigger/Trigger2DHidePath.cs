@@ -9,6 +9,7 @@ public class Trigger2DHidePath : Trigger2DBase
     [SerializeField] private PolygonCollider2D boundary;
     [SerializeField] private Transform cameraPack;
     private GameObject vcam;
+    public CinemachineVirtualCameraBase switchToCam;
 
     private PolygonCollider2D preBoundary;
     private bool isSwitched;
@@ -18,13 +19,15 @@ public class Trigger2DHidePath : Trigger2DBase
         if (vcam != null)
         {
             if (!isSwitched)
-            {           
-                vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = boundary;
+            {
+                //vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = boundary;
+                switchToCam.gameObject.SetActive(true);
                 isSwitched = true;
             }
             else
             {
-                vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = preBoundary;
+                //vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = preBoundary;
+                switchToCam.gameObject.SetActive(false);
                 isSwitched = false;
             }
         }
@@ -44,6 +47,7 @@ public class Trigger2DHidePath : Trigger2DBase
         {
             Debug.Log("find boundary failed");
         }
+        switchToCam.gameObject.SetActive(false);
     }
 
     // Update is called once per frame

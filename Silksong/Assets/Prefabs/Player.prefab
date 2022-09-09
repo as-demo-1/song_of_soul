@@ -714,6 +714,7 @@ Transform:
   - {fileID: 3898795374264322033}
   - {fileID: 448765875}
   - {fileID: 303103794}
+  - {fileID: 6305642733106019366}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -785,11 +786,13 @@ MonoBehaviour:
     positive: 100
     negative: 97
     controllerAxis: 1
+    ValueBuffer: 0
   vertical:
     NotNeedGainAndReleaseControl: 0
     positive: 119
     negative: 115
     controllerAxis: 2
+    ValueBuffer: 0
   normalAttack:
     NotNeedGainAndReleaseControl: 0
     key: 106
@@ -846,12 +849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 484977951751258056}
   playerInfo:
-    jumpMinHeight: 0
-    maxFallSpeed: 20
-    sprintDistance: 4
-    maxAirSprintCount: 1
-    maxJumpCount: 1
-    breakMoonAvgSpeed: 12
+    hasDoubleJump: 0
     breakMoonPositionCurve:
       serializedVersion: 2
       m_Curve:
@@ -1051,6 +1049,7 @@ MonoBehaviour:
   pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
   UnlockedSkillContainer: {fileID: 0}
   equippingSkillText: {fileID: 0}
+  CharmListSO: {fileID: 0}
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,6 +1137,36 @@ Transform:
   - {fileID: 8654808106935568865}
   m_Father: {fileID: 484977951162521063}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7772862850573235419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6305642733106019366}
+  m_Layer: 0
+  m_Name: FollowPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6305642733106019366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772862850573235419}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 484977951162521063}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8454482759745670562
 GameObject:

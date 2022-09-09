@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 
 public class GameManager : MonoBehaviour
@@ -82,6 +83,11 @@ public class GameManager : MonoBehaviour
 
         // 护符效果引用初始化，需要获取一些玩家的属性
         charmManager = Instantiate(charmManager);
+        // 初始化镜头追踪
+        foreach (var vcam in FindObjectsOfType<CinemachineVirtualCameraBase>())
+        {
+            vcam.Follow = player.GetComponent<PlayerController>().followPoint.transform;
+        } 
     }
 
     public void GameInitialize()

@@ -25,12 +25,12 @@ public static class Constants
     #region about player sprint
     public const float PlayerSprintDistance = 4f;
     public const int PlayerMaxAirSprintCount = 1;
-    public const float SprintCd = 0.3f;//´Ó³å´Ì½áÊøºóËãÆð
-    public const float SprintTime = 0.248f;//´ËÖµÓ¦ÓëÊµ¼Ê¶¯»­µÄÊ±³¤ÏàÍ¬
+    public const float SprintCd = 0.3f;//ï¿½Ó³ï¿½Ì½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public const float SprintTime = 0.248f;//ï¿½ï¿½ÖµÓ¦ï¿½ï¿½Êµï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í¬
     #endregion
 
     #region about player input
-    public const int BufferFrameTime = 5;//ÊäÈë»º´æÖ¡
+    public const int BufferFrameTime = 5;//ï¿½ï¿½ï¿½ë»ºï¿½ï¿½Ö¡
     public const int IsGroundedBufferFrame = 10;
     #endregion
 
@@ -67,7 +67,7 @@ public static class Constants
 
     #region about player break moon
     public const float BreakMoonPointCd = 3f;
-    public const float BreakMoonAfterDistance=2f;//ËéÔÂ»º³å¾àÀë
+    public const float BreakMoonAfterDistance=2f;//ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public const float BreakMoonPrePareTime = 0.278f;
     public const float BreakMoonAvgSpeed = 12f;
     #endregion
@@ -94,7 +94,7 @@ public static class Constants
     #endregion
 
 
-    #region Íæ¼ÒÓÐ¹ØÊôÐÔ
+    #region ï¿½ï¿½ï¿½ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½
     public const int playerInitialMaxHp=5;
     public const int playerInitialMaxMana = 100;
     public const int playerInitialMoney =0;
@@ -105,6 +105,8 @@ public static class Constants
 
 
     #endregion
+
+    public const float lookUpDownDistance = 10.0f;
 
     public const float monsterBeatBackTime = 0.15f;
 

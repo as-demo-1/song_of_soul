@@ -132,6 +132,8 @@ public class PlayerController : MonoBehaviour
     public GameObject _savePoint = null;
     public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
 
+    public GameObject followPoint;
+
     private void OnValidate()
     {
         _guid = GUID;

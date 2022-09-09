@@ -68,7 +68,7 @@ public class CharmListSO : ScriptableObject
 
     public void InitRef()
     {
-        ActiveAllEquipedCharms();
+        //ActiveAllEquipedCharms();
     }
 
     /// <summary>
