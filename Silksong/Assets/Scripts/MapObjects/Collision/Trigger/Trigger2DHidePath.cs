@@ -6,21 +6,24 @@ using Cinemachine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Trigger2DHidePath : Trigger2DBase
 {
-    [SerializeField] private PolygonCollider2D boundary;
+    [SerializeField] private CinemachineVirtualCamera vcam;
+    [SerializeField] private Transform boundary;
     [SerializeField] private CameraPack cameraPack;
 
-    private bool atRightSide;
+    private bool atLeft;
     protected override void OnTriggerExit2D(Collider2D collision)
     {
-        if (cameraPack != null)
+        if (cameraPack != null && collision.CompareTag("Player"))
         {
-            if (SameSide(collision.transform))
+            Debug.Log(CheckSide(collision.transform));
+            if (CheckSide(collision.transform))
             {
-                cameraPack.SetBoundary(boundary);
+                cameraPack.ChangeVcam(vcam);
             }
             else
             {
-                cameraPack.SetBoundary(cameraPack.Boundary);
+                cameraPack.ChangeVcam(cameraPack.vcam);
+
             }
         }
     }
@@ -33,13 +36,14 @@ public class Trigger2DHidePath : Trigger2DBase
     void Start()
     {
         GetComponent<BoxCollider2D>().isTrigger = true;
-        atRightSide = (boundary.transform.position.x - transform.position.x) > 0 ? true : false;
+        atLeft = boundary.transform.localPosition.x < 0 ? true : false;
     }
 
-    bool SameSide(Transform _transform)
+    bool CheckSide(Transform _transform)
     {
         bool result = false;
-        if (((_transform.position.x - transform.position.x) > 0) == atRightSide)
+        Debug.Log(_transform.position.x - transform.position.x);
+        if (((_transform.position.x - transform.position.x) < 0) == atLeft)
         {
             result = true;
         }

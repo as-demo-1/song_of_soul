@@ -11,22 +11,21 @@ public class CameraPack : MonoBehaviour
     
 
     [SerializeField]
-    private CinemachineVirtualCamera virtualCamera;
+    public CinemachineVirtualCamera vcam;
     [SerializeField]
-    private CinemachineConfiner confiner;
+    private CinemachineVirtualCamera currentVcam;
     [SerializeField]
     private PolygonCollider2D boundary;
-    public PolygonCollider2D Boundary => boundary;
     // Start is called before the first frame update
 
 
     private void Awake()
     {
-
+        
     }
     void Start()
     {
-        
+        currentVcam = vcam;
     }
 
     // Update is called once per frame
@@ -36,10 +35,18 @@ public class CameraPack : MonoBehaviour
     }
     public void SetFollow(Transform _transform)
     {
-        virtualCamera.Follow = _transform;
+        vcam.Follow = _transform;
     }
-    public void SetBoundary(PolygonCollider2D _boundary)
+    public void ChangeVcam(CinemachineVirtualCamera _vcam)
     {
-        confiner.m_BoundingShape2D = _boundary;
+        currentVcam.gameObject.SetActive(false);
+        _vcam.gameObject.SetActive(true);
+        _vcam.Follow = vcam.Follow;
+        currentVcam = _vcam;
     }
+    public void SetVcam(bool _option)
+    {
+        vcam.gameObject.SetActive(_option);
+    }
+
 }
