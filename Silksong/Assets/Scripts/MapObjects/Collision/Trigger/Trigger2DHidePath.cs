@@ -7,17 +7,20 @@ using Cinemachine;
 public class Trigger2DHidePath : Trigger2DBase
 {
     [SerializeField] private PolygonCollider2D boundary;
+<<<<<<< Updated upstream
     [SerializeField] private Transform cameraPack;
     private GameObject vcam;
     public CinemachineVirtualCameraBase switchToCam;
+=======
+    [SerializeField] private CameraPack cameraPack;
+>>>>>>> Stashed changes
 
-    private PolygonCollider2D preBoundary;
-    private bool isSwitched;
-    protected override void enterEvent()
+    private bool atRightSide;
+    protected override void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("player 进入");
-        if (vcam != null)
+        if (cameraPack != null)
         {
+<<<<<<< Updated upstream
             if (!isSwitched)
             {
                 //vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = boundary;
@@ -29,14 +32,28 @@ public class Trigger2DHidePath : Trigger2DBase
                 //vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = preBoundary;
                 switchToCam.gameObject.SetActive(false);
                 isSwitched = false;
+=======
+            if (SameSide(collision.transform))
+            {
+                cameraPack.SetBoundary(boundary);
+            }
+            else
+            {
+                cameraPack.SetBoundary(cameraPack.Boundary);
+>>>>>>> Stashed changes
             }
         }
+    }
+    protected override void exitEvent()
+    {
+        
     }
 
     // Use this for initialization
     void Start()
     {
         GetComponent<BoxCollider2D>().isTrigger = true;
+<<<<<<< Updated upstream
         vcam = cameraPack.Find("CM vcam1").gameObject;
         preBoundary = cameraPack.Find("Boundary").gameObject.GetComponent<PolygonCollider2D>();
         if (vcam == null)
@@ -48,11 +65,19 @@ public class Trigger2DHidePath : Trigger2DBase
             Debug.Log("find boundary failed");
         }
         switchToCam.gameObject.SetActive(false);
+=======
+        atRightSide = (boundary.transform.position.x - transform.position.x) > 0 ? true : false;
+>>>>>>> Stashed changes
     }
 
-    // Update is called once per frame
-    void Update()
+    bool SameSide(Transform _transform)
     {
+        bool result = false;
+        if (((_transform.position.x - transform.position.x) > 0) == atRightSide)
+        {
+            result = true;
+        }
 
+        return result;
     }
 }

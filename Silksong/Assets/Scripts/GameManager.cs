@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CharmManager charmManager;
 
+    [SerializeField]
+    private CameraPack cameraPack;
+
 
     void Awake()
     {
@@ -76,18 +79,26 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// 进入游戏场景时生成玩家
+    /// Generate player while enter game scene
     /// </summary>
     public void creatPlayer()
     {
         player= Instantiate(player.gameObject);
 
-        // 护符效果引用初始化，需要获取一些玩家的属性
+        // initialize charm manager, update player properties 护符效果引用初始化，需要获取一些玩家的属性
         charmManager = Instantiate(charmManager);
+<<<<<<< Updated upstream
         // 初始化镜头追踪
         foreach (var vcam in FindObjectsOfType<CinemachineVirtualCameraBase>())
         {
             vcam.Follow = player.GetComponent<PlayerController>().followPoint.transform;
         } 
+=======
+
+        // initialize camera following
+        cameraPack = Camera.main.GetComponentInParent<CameraPack>();
+        cameraPack.SetFollow(PlayerController.Instance.lookPos);
+>>>>>>> Stashed changes
     }
 
     public void GameInitialize()
