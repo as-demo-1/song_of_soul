@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class UICoin : MonoBehaviour
 {
-    private int moneyNum = 0;       //²âÊÔÓÃ£¬Ó¦¸Ã´ÓÊý¾ÝÀàÄÃµ½½ð±ÒÊýÁ¿
+    private int moneyNum = 0;       //ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½Ó¦ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    private int addAll = 0;     //Ôö¼ÓµÄ×ÜÁ¿
+    private int addAll = 0;     //ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½
 
-    public float changeTime = 3.0f;     //Êý×Ö¼ÇÂ¼µÄÊ±¼ä
+    public float changeTime = 3.0f;     //ï¿½ï¿½ï¿½Ö¼ï¿½Â¼ï¿½ï¿½Ê±ï¿½ï¿½
     private float changeTimeRecord = 3.0f;
     private bool changeTimeStart = false;
     private bool changeTimeOver = false;
 
-    public float zeroTime = 1.5f;       //Êý×Ö¹éÁãµÄÊ±¼ä
+    public float zeroTime = 1.5f;       //ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
     private float zeroTimeRecord = 1.5f;
 
     private float perReduce = 0;
@@ -25,6 +25,7 @@ public class UICoin : MonoBehaviour
     void Start()
     {
         EventManager.Instance.Register<int>(EventType.onMoneyChange, ChangeMoneyNum);
+        EventManager.Instance.Register<ItemInfo, int>(EventType.onItemChange, ChangeItemNum);
 
         moneyText =  transform.Find("moneyCount").GetComponent<Text>();
         moneyChangeText = transform.Find("moneyChange").GetComponent<Text>();
@@ -41,10 +42,10 @@ public class UICoin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (changeTimeStart)    //Ôö¼Ó½ð±ÒµÄÐÐÎª¿ªÊ¼
+        if (changeTimeStart)    //ï¿½ï¿½ï¿½Ó½ï¿½Òµï¿½ï¿½ï¿½Îªï¿½ï¿½Ê¼
         {
             changeTimeRecord -= Time.deltaTime;
-            if (changeTimeRecord <= 0)  //¼ÇÂ¼Ê±¼ä½áÊø
+            if (changeTimeRecord <= 0)  //ï¿½ï¿½Â¼Ê±ï¿½ï¿½ï¿½ï¿½ï¿½
             {
                 changeTimeOver = true;
                 changeTimeStart = false;
@@ -52,7 +53,7 @@ public class UICoin : MonoBehaviour
             }
         }
 
-        if (changeTimeOver)     //Ôö¼Ó½ð±ÒµÄÐÐÎª½áÊøÁË£¬¼´ÒÑ¾­ÓÐÒ»¶ÎÊ±¼äÃ»ÓÐ»ñÈ¡µ½½ð±ÒÁË£¬¿ªÊ¼µ¹ÊýÔö¼Ó½ð±Ò
+        if (changeTimeOver)     //ï¿½ï¿½ï¿½Ó½ï¿½Òµï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ê±ï¿½ï¿½Ã»ï¿½Ð»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½
         {
             zeroTimeRecord -= Time.deltaTime;
             if (zeroTimeRecord >= 0)
@@ -69,13 +70,19 @@ public class UICoin : MonoBehaviour
 
     void ChangeMoneyNum(int changeNum) 
     {
-        changeTimeRecord = changeTime;  //ÓÖ»ñµÃÁËÐÂµÄ½ð±Ò£¬ÖØÖÃÊ±¼ä
+        changeTimeRecord = changeTime;  //ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄ½ï¿½Ò£ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 
         changeTimeStart = true;
         addAll += changeNum;
 
         moneyChangeText.gameObject.SetActive(true);
         moneyChangeText.text = "+" + addAll.ToString();
+    }
+
+    void ChangeItemNum(ItemInfo item, int changeNum)
+    {
+        InventoryManager.Instance.AddItemStack(
+            new ItemStack(item.ItemSO, changeNum));
     }
 
     void PrepareCountDown()
@@ -92,7 +99,7 @@ public class UICoin : MonoBehaviour
 
 
     /// <summary>
-    /// ×îºóÒ»Ö¡Ç¿ÖÆ¹éÁã
+    /// ï¿½ï¿½ï¿½Ò»Ö¡Ç¿ï¿½Æ¹ï¿½ï¿½ï¿½
     /// </summary>
     void ForceZero() 
     {
@@ -107,7 +114,7 @@ public class UICoin : MonoBehaviour
         changeTimeRecord = changeTime;
         changeTimeStart = false;
         changeTimeOver = false;
-        zeroTimeRecord = zeroTime;       //Êý×Ö¹éÁãµÄÊ±¼ä
+        zeroTimeRecord = zeroTime;       //ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
         moneyChangeText.gameObject.SetActive(false);
     }
 }

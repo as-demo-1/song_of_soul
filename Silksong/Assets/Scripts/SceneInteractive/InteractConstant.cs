@@ -13,13 +13,29 @@ public enum EFuncInteractItemType
     PORTAL,  // 传送门
 }
 
+public enum EInact
+{
+    WORLD_ROOT,
+    CONTAINER,
+    ITEM
+}
+
+public enum EInact2
+{
+    NORMAL,
+    PLAYER_TARGET,
+    THIS_TARGET
+}
+
 public enum EInteractStatus
 {
-    CANT_INTERACT = -1, // 不可交互
-    NO_INTERACT,        // 未交互
-    BEGIN_INTERACT,     // 开始交互
-    INTERACTING,        // 交互中
-    FINISH_INTERACT     // 结束交互
+    INIT,
+    BEFORE_INTERACT,
+    DO_INTERACT,
+    DO_INTERACT_Y,
+    DO_INTERACT_N,
+    AFTER_INTERACT,
+    FINISH
 }
 
 public class InteractConstant
