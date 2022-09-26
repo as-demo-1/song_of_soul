@@ -87,18 +87,10 @@ public class GameManager : MonoBehaviour
 
         // initialize charm manager, update player properties 护符效果引用初始化，需要获取一些玩家的属性
         charmManager = Instantiate(charmManager);
-<<<<<<< Updated upstream
-        // 初始化镜头追踪
-        foreach (var vcam in FindObjectsOfType<CinemachineVirtualCameraBase>())
-        {
-            vcam.Follow = player.GetComponent<PlayerController>().followPoint.transform;
-        } 
-=======
 
         // initialize camera following
         cameraPack = Camera.main.GetComponentInParent<CameraPack>();
         cameraPack.SetFollow(PlayerController.Instance.lookPos);
->>>>>>> Stashed changes
     }
 
     public void GameInitialize()
