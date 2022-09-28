@@ -11,7 +11,8 @@ public class ItemTableEditor : EditorWindow
     private DefaultAsset _sourceExcelText;
     private string _tip_text;
 
-    string _path = "/Scripts/ItemTableSystem/items";
+    string _path = "/Resources/ScriptableObjects/items";
+    string _path_so = "/Resources/ScriptableObjects/itemso";
 
     [MenuItem("Importer/Items", false)]
 
@@ -94,8 +95,12 @@ public class ItemTableEditor : EditorWindow
         int column = resultds.Tables[0].Columns.Count;
         int row = resultds.Tables[0].Rows.Count;
 
+        string itemTypePath = "Assets/Resources/ScriptableObjects/ItemType.asset";
+        ItemTypeSO itemTypeAsset = AssetDatabase.LoadAssetAtPath<ItemTypeSO>(itemTypePath);
+
         string dataPath = Application.dataPath;
         string folderPath = dataPath + _path;
+        string folderPath2 = dataPath + _path_so;
         //string saveDirectory = new FileInfo(AssetDatabase.GetAssetPath(sourceObject)).DirectoryName;
 
         //folderPath = EditorUtility.SaveFolderPanel("Save Cash Questions! ScriptObject Files", saveDirectory, sourceObject.name);
@@ -107,6 +112,7 @@ public class ItemTableEditor : EditorWindow
         }
         _tip_text = "准备生成so文件";
         string relativeFolderPath = folderPath.Substring(dataPath.Length - 6);
+        string relativeFolderPath2 = folderPath2.Substring(dataPath.Length - 6);
 
         //获得每行的名字，并添加到数组里
         for (int i = 4; i < row; ++i)
@@ -120,14 +126,23 @@ public class ItemTableEditor : EditorWindow
 
             string fileName = id;
             string tex_Path_NoExt = relativeFolderPath + "/" + fileName;
+            string tex_Path_NoExt2 = relativeFolderPath2 + "/" + fileName;
 
-            ItemTableScriptableObject itemAsset = AssetDatabase.LoadAssetAtPath<ItemTableScriptableObject>(tex_Path_NoExt + ".asset");
+            ItemTableSO itemAsset = AssetDatabase.LoadAssetAtPath<ItemTableSO>(tex_Path_NoExt + ".asset");
+            ItemSO itemAsset2 = AssetDatabase.LoadAssetAtPath<ItemSO>(tex_Path_NoExt2 + ".asset");
+
+            // new
+            if (itemAsset2 == null)
+            {
+                itemAsset2 = ScriptableObject.CreateInstance<ItemSO>();
+                AssetDatabase.CreateAsset(itemAsset2, tex_Path_NoExt2 + ".asset");
+            }
 
             // new
             if (itemAsset == null)
             {
-                itemAsset = ScriptableObject.CreateInstance<ItemTableScriptableObject>();
-                itemAsset.Crt(id, nameSid, descSid, buffId, buffVal);
+                itemAsset = ScriptableObject.CreateInstance<ItemTableSO>();
+                itemAsset.Crt(id, nameSid, descSid, buffId, buffVal, itemAsset2, itemTypeAsset);
                 AssetDatabase.CreateAsset(itemAsset, tex_Path_NoExt + ".asset");
             }
             // update

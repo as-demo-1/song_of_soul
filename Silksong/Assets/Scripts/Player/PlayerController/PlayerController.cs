@@ -304,7 +304,10 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerInput.Instance.interact.Down)
         {
-            InteractManager.Instance.Interact();
+            if (InteractManager.Instance.CollidingObject)
+            {
+                InteractManager.Instance.CollidingObject.GetComponent<InteractController>().InactItem.Interact();
+            }
         }
     }
 
