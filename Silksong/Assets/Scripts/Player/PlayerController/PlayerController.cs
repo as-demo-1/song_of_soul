@@ -130,7 +130,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public InventoryManager _backpack;
     public GameObject _itemToAdd = null;
     public GameObject _savePoint = null;
+
+    public Transform lookPos;
+
     public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
+
+    public GameObject followPoint;
 
     private void OnValidate()
     {
@@ -264,6 +269,7 @@ public class PlayerController : MonoBehaviour
 
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
+        CheckLookDown();
     }
 
     private void LateUpdate()
@@ -521,6 +527,22 @@ public class PlayerController : MonoBehaviour
         
        
         PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash,checkHitWall(checkRightSide));
+    }
+
+    private void CheckLookDown()
+    {
+        if (PlayerInput.Instance.vertical.Value == -1 && RB.velocity.magnitude < 0.01f)                                
+        {
+            lookPos.localPosition = new Vector3(0.0f, -3.0f, 0.0f);
+        }
+        else if (PlayerInput.Instance.vertical.Value == 1 && RB.velocity.magnitude < 0.01f)                                
+        {
+            lookPos.localPosition = new Vector3(0.0f, 3.0f, 0.0f);
+        }
+        else
+        {
+            lookPos.localPosition = Vector3.zero;
+        }
     }
 }
 

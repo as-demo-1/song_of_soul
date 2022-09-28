@@ -1,9 +1,9 @@
 /// <summary>
 /// Created by Kimo.               ----2021/08/29    
-/// Update£ºÌí¼ÓÁËRemoveEvent·½·¨  ---- 2021/08/29
-/// Update£º
-///     1.Ìí¼ÓÁË·½·¨´«²ÎµÄ¹¦ÄÜ
-///     2.Ìí¼ÓÁË·ºĞÍÒÔÖ§³ÖÌí¼ÓÈÎÒâ·µ»ØÖµµÄ·½·¨
+/// Updateï¼šæ·»åŠ äº†RemoveEventæ–¹æ³•  ---- 2021/08/29
+/// Updateï¼š
+///     1.æ·»åŠ äº†æ–¹æ³•ä¼ å‚çš„åŠŸèƒ½
+///     2.æ·»åŠ äº†æ³›å‹ä»¥æ”¯æŒæ·»åŠ ä»»æ„è¿”å›å€¼çš„æ–¹æ³•
 ///                                ---- 2021/08/30
 /// </summary>
 /// 
@@ -13,10 +13,10 @@ using UnityEngine;
 using UnityEngine.Events;
 /// <summary>
 /// Created by Kimo.
-/// ÓÃÀ´ÊµÏÖ¶Ô³¡¾°ÄÚ£¨·µ»ØÖµÎªvoidÀàĞÍ£©µÄËùÓĞÊÂ¼şµÄÉú³É£¬´¢´æ£¬½ÓÊÕ£¬¼¤»î¡£
+/// ç”¨æ¥å®ç°å¯¹åœºæ™¯å†…ï¼ˆè¿”å›å€¼ä¸ºvoidç±»å‹ï¼‰çš„æ‰€æœ‰äº‹ä»¶çš„ç”Ÿæˆï¼Œå‚¨å­˜ï¼Œæ¥æ”¶ï¼Œæ¿€æ´»ã€‚
 /// </summary>
 public class EventsManager
-{   /*µ¥ÀıÄ£Ê½*/
+{   /*å•ä¾‹æ¨¡å¼*/
     private static EventsManager instance = new EventsManager();
     public static EventsManager Instance
     {
@@ -24,7 +24,7 @@ public class EventsManager
     }
 
 
-    /*¹¹ÔìÎ¯ÍĞ*/
+    /*æ„é€ å§”æ‰˜*/
     public delegate void voidDelegate();
     public delegate void ArgsDelegate(EventDate eventDate);
 
@@ -41,11 +41,11 @@ public class EventsManager
         argsEventDictionary = new Dictionary<GameObject, Dictionary<EventType, Dictionary<ArgsDelegate, EventDate>>>();
     }
     /// <summary>
-    /// ÎªÄ³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍÌí¼ÓÄ³·½·¨
+    /// ä¸ºæŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹æ·»åŠ æŸæ–¹æ³•
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
-    /// <param name="function"> Îª¸ÃÊÂ¼şÌí¼ÓµÄ·½·¨</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
+    /// <param name="function"> ä¸ºè¯¥äº‹ä»¶æ·»åŠ çš„æ–¹æ³•</param>
     public void AddListener(GameObject target, EventType eventType, voidDelegate function)
     {
         if (!(voidEventDictionary.ContainsKey(target) && voidEventDictionary[target].ContainsKey(eventType)))
@@ -53,12 +53,12 @@ public class EventsManager
         voidEventDictionary[target][eventType] += function;
     }
     /// <summary>
-    /// ÎªÄ³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍÌí¼ÓÄ³·½·¨
+    /// ä¸ºæŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹æ·»åŠ æŸæ–¹æ³•
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
-    /// <param name="function"> Îª¸ÃÊÂ¼şÌí¼ÓµÄ·½·¨</param>
-    /// <param name="Args">·½·¨ËùĞèµÄ²ÎÊı£¬¹éÒ»»¯ÎªEventDateÀàĞÍ£¬¿ÉĞŞ¸ÄEventDateÀà×ÔĞĞÌí¼Ó</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
+    /// <param name="function"> ä¸ºè¯¥äº‹ä»¶æ·»åŠ çš„æ–¹æ³•</param>
+    /// <param name="Args">æ–¹æ³•æ‰€éœ€çš„å‚æ•°ï¼Œå½’ä¸€åŒ–ä¸ºEventDateç±»å‹ï¼Œå¯ä¿®æ”¹EventDateç±»è‡ªè¡Œæ·»åŠ </param>
     public void AddListener(GameObject target, EventType eventType, ArgsDelegate function, EventDate Args)
     {
         if (!(argsEventDictionary.ContainsKey(target) && argsEventDictionary[target].ContainsKey(eventType)))
@@ -67,11 +67,11 @@ public class EventsManager
 
     }
     /// <summary>
-    /// ÎªÄ³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍÉ¾È¥Ä³·½·¨
+    /// ä¸ºæŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹åˆ å»æŸæ–¹æ³•
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
-    /// <param name="function"> Îª¸ÃÊÂ¼şÌí¼ÓµÄ·½·¨</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
+    /// <param name="function"> ä¸ºè¯¥äº‹ä»¶æ·»åŠ çš„æ–¹æ³•</param>
     public void RemoveListener(GameObject target, EventType eventType, voidDelegate function)
     {
         if (voidEventDictionary.ContainsKey(target) && voidEventDictionary[target].ContainsKey(eventType))
@@ -84,10 +84,10 @@ public class EventsManager
                 argsEventDictionary[target][eventType].Remove(function);
     }
     /// <summary>
-    /// É¾È¥Ä³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍËùÓĞ×¢²áµÄ·½·¨
+    /// åˆ å»æŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹æ‰€æœ‰æ³¨å†Œçš„æ–¹æ³•
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
     public void RemoveAllListener(GameObject target, EventType eventType)
     {
         if (voidEventDictionary.ContainsKey(target) && voidEventDictionary[target].ContainsKey(eventType))
@@ -103,14 +103,14 @@ public class EventsManager
         }
     }
     /// <summary>
-    /// £¨É÷ÓÃ£©ÒÆ³ı³¡¾°ÄÚËùÓĞÊÂ¼ş£¬Ò»°ãÔÚ³¡¾°ÇĞ»»Ê±Ê¹ÓÃ¡£
+    /// ï¼ˆæ…ç”¨ï¼‰ç§»é™¤åœºæ™¯å†…æ‰€æœ‰äº‹ä»¶ï¼Œä¸€èˆ¬åœ¨åœºæ™¯åˆ‡æ¢æ—¶ä½¿ç”¨ã€‚
     /// </summary>
     public void RemoveAllEvent()
     {
         voidEventDictionary.Clear();
     }
     /// <summary>
-    /// ÒÆ³ıÄ¿±êÉíÉÏËùÓĞÊÂ¼ş
+    /// ç§»é™¤ç›®æ ‡èº«ä¸Šæ‰€æœ‰äº‹ä»¶
     /// </summary>
     /// <param name="target"></param>
     public void RemoveTargetAllEvent(GameObject target)
@@ -121,10 +121,10 @@ public class EventsManager
         }
     }
     /// <summary>
-    /// ´¥·¢Ä¿±ê¶ÔÏóµÄÄ³ÊÂ¼şÀàĞÍËùÓĞ×¢²áµÄ·½·¨£¬Éè¶¨´¥·¢ÍêÖ®ºóÃ»ÓĞ×Ô¶¯É¾È¥ËùÓĞ×¢²á·½·¨£¬ĞèÒªÊÖ¶¯É¾È¥
+    /// è§¦å‘ç›®æ ‡å¯¹è±¡çš„æŸäº‹ä»¶ç±»å‹æ‰€æœ‰æ³¨å†Œçš„æ–¹æ³•ï¼Œè®¾å®šè§¦å‘å®Œä¹‹åæ²¡æœ‰è‡ªåŠ¨åˆ å»æ‰€æœ‰æ³¨å†Œæ–¹æ³•ï¼Œéœ€è¦æ‰‹åŠ¨åˆ å»
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
     public void Invoke(GameObject target, EventType eventType)
     {
         if (voidEventDictionary.ContainsKey(target) && voidEventDictionary[target].ContainsKey(eventType))
@@ -140,10 +140,10 @@ public class EventsManager
         }
     }
     /// <summary>
-    ///ÎªÄ³ÎïÌå´´½¨Ä³ÀàĞÍµÄÊÂ¼ş
+    ///ä¸ºæŸç‰©ä½“åˆ›å»ºæŸç±»å‹çš„äº‹ä»¶
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
     public void CreatEvent(GameObject target, EventType eventType)
     {
         if (target == null)
@@ -168,10 +168,10 @@ public class EventsManager
 
 /// <summary>
 /// Created by Kimo.
-/// ÓÃÀ´ÊµÏÖ¶Ô³¡¾°ÄÚ£¨·µ»ØÖµÎªTÀàĞÍ£©µÄËùÓĞÊÂ¼şµÄÉú³É£¬´¢´æ£¬½ÓÊÕ£¬¼¤»î¡£
+/// ç”¨æ¥å®ç°å¯¹åœºæ™¯å†…ï¼ˆè¿”å›å€¼ä¸ºTç±»å‹ï¼‰çš„æ‰€æœ‰äº‹ä»¶çš„ç”Ÿæˆï¼Œå‚¨å­˜ï¼Œæ¥æ”¶ï¼Œæ¿€æ´»ã€‚
 /// </summary>
 public class EventsManager<T>
-{   /*µ¥ÀıÄ£Ê½*/
+{   /*å•ä¾‹æ¨¡å¼*/
     private static EventsManager<T> instance = new EventsManager<T>();
     public static EventsManager<T> Instance
     {
@@ -179,7 +179,7 @@ public class EventsManager<T>
     }
 
 
-    /*¹¹ÔìÎ¯ÍĞ*/
+    /*æ„é€ å§”æ‰˜*/
     public delegate T voidDelegate();
     public delegate T ArgsDelegate(EventDate eventDate);
 
@@ -194,11 +194,11 @@ public class EventsManager<T>
         argsEventDictionary = new Dictionary<GameObject, Dictionary<EventType, Dictionary<ArgsDelegate, EventDate>>>();
     }
     /// <summary>
-    /// ÎªÄ³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍÌí¼ÓÄ³·½·¨
+    /// ä¸ºæŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹æ·»åŠ æŸæ–¹æ³•
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
-    /// <param name="function"> Îª¸ÃÊÂ¼şÌí¼ÓµÄ·½·¨</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
+    /// <param name="function"> ä¸ºè¯¥äº‹ä»¶æ·»åŠ çš„æ–¹æ³•</param>
     public void AddListener(GameObject target, EventType eventType, voidDelegate function)
     {
         if (!(voidEventDictionary.ContainsKey(target) && voidEventDictionary[target].ContainsKey(eventType)))
@@ -206,12 +206,12 @@ public class EventsManager<T>
         voidEventDictionary[target][eventType] += function;
     }
     /// <summary>
-    /// ÎªÄ³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍÌí¼ÓÄ³·½·¨
+    /// ä¸ºæŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹æ·»åŠ æŸæ–¹æ³•
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
-    /// <param name="function"> Îª¸ÃÊÂ¼şÌí¼ÓµÄ·½·¨</param>
-    /// <param name="Args">·½·¨ËùĞèµÄ²ÎÊı£¬¹éÒ»»¯ÎªEventDateÀàĞÍ£¬¿ÉĞŞ¸ÄEventDateÀà×ÔĞĞÌí¼Ó</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
+    /// <param name="function"> ä¸ºè¯¥äº‹ä»¶æ·»åŠ çš„æ–¹æ³•</param>
+    /// <param name="Args">æ–¹æ³•æ‰€éœ€çš„å‚æ•°ï¼Œå½’ä¸€åŒ–ä¸ºEventDateç±»å‹ï¼Œå¯ä¿®æ”¹EventDateç±»è‡ªè¡Œæ·»åŠ </param>
     public void AddListener(GameObject target, EventType eventType, ArgsDelegate function, EventDate Args)
     {
         if (!(argsEventDictionary.ContainsKey(target) && argsEventDictionary[target].ContainsKey(eventType)))
@@ -220,11 +220,11 @@ public class EventsManager<T>
 
     }
     /// <summary>
-    /// ÎªÄ³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍÉ¾È¥Ä³·½·¨
+    /// ä¸ºæŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹åˆ å»æŸæ–¹æ³•
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
-    /// <param name="function"> Îª¸ÃÊÂ¼şÌí¼ÓµÄ·½·¨</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
+    /// <param name="function"> ä¸ºè¯¥äº‹ä»¶æ·»åŠ çš„æ–¹æ³•</param>
     public void RemoveListener(GameObject target, EventType eventType, voidDelegate function)
     {
         if (voidEventDictionary.ContainsKey(target) && voidEventDictionary[target].ContainsKey(eventType))
@@ -237,10 +237,10 @@ public class EventsManager<T>
                 argsEventDictionary[target][eventType].Remove(function);
     }
     /// <summary>
-    /// É¾È¥Ä³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍËùÓĞ×¢²áµÄ·½·¨
+    /// åˆ å»æŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹æ‰€æœ‰æ³¨å†Œçš„æ–¹æ³•
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
     public void RemoveAllListener(GameObject target, EventType eventType)
     {
         if (voidEventDictionary.ContainsKey(target) && voidEventDictionary[target].ContainsKey(eventType))
@@ -256,14 +256,14 @@ public class EventsManager<T>
         }
     }
     /// <summary>
-    /// £¨É÷ÓÃ£©ÒÆ³ı³¡¾°ÄÚËùÓĞÊÂ¼ş£¬Ò»°ãÔÚ³¡¾°ÇĞ»»Ê±Ê¹ÓÃ¡£
+    /// ï¼ˆæ…ç”¨ï¼‰ç§»é™¤åœºæ™¯å†…æ‰€æœ‰äº‹ä»¶ï¼Œä¸€èˆ¬åœ¨åœºæ™¯åˆ‡æ¢æ—¶ä½¿ç”¨ã€‚
     /// </summary>
     public void RemoveAllEvent()
     {
         voidEventDictionary.Clear();
     }
     /// <summary>
-    /// ÒÆ³ıÄ¿±êÉíÉÏËùÓĞÊÂ¼ş
+    /// ç§»é™¤ç›®æ ‡èº«ä¸Šæ‰€æœ‰äº‹ä»¶
     /// </summary>
     /// <param name="target"></param>
     public void RemoveTargetAllEvent(GameObject target)
@@ -274,10 +274,10 @@ public class EventsManager<T>
         }
     }
     /// <summary>
-    /// ´¥·¢Ä³ÎïÌåµÄÄ³ÊÂ¼şÀàĞÍËùÓĞ×¢²áµÄ·½·¨£¬Éè¶¨´¥·¢ÍêÖ®ºóÃ»ÓĞ×Ô¶¯É¾È¥ËùÓĞ×¢²á·½·¨£¬ĞèÒªÊÖ¶¯É¾È¥
+    /// è§¦å‘æŸç‰©ä½“çš„æŸäº‹ä»¶ç±»å‹æ‰€æœ‰æ³¨å†Œçš„æ–¹æ³•ï¼Œè®¾å®šè§¦å‘å®Œä¹‹åæ²¡æœ‰è‡ªåŠ¨åˆ å»æ‰€æœ‰æ³¨å†Œæ–¹æ³•ï¼Œéœ€è¦æ‰‹åŠ¨åˆ å»
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
     public void Invoke(GameObject target, EventType eventType)
     {
         if (voidEventDictionary.ContainsKey(target) && voidEventDictionary[target].ContainsKey(eventType))
@@ -293,10 +293,10 @@ public class EventsManager<T>
         }
     }
     /// <summary>
-    ///ÎªÄ³ÎïÌå´´½¨Ä³ÀàĞÍµÄÊÂ¼ş
+    ///ä¸ºæŸç‰©ä½“åˆ›å»ºæŸç±»å‹çš„äº‹ä»¶
     /// </summary>
-    /// <param name="target">Ä¿±ê¶ÔÏó£¬Ò»°ãÊÇthis.gameObject </param>
-    /// <param name="eventType"> ÊÂ¼şÀàĞÍ£¬ÒªÊÇÃ»ÓĞ¾Í×Ô¼ºÌí¼Ó</param>
+    /// <param name="target">ç›®æ ‡å¯¹è±¡ï¼Œä¸€èˆ¬æ˜¯this.gameObject </param>
+    /// <param name="eventType"> äº‹ä»¶ç±»å‹ï¼Œè¦æ˜¯æ²¡æœ‰å°±è‡ªå·±æ·»åŠ </param>
     public void CreatEvent(GameObject target, EventType eventType)
     {
         if (target == null)
