@@ -25,12 +25,12 @@ public static class Constants
     #region about player sprint
     public const float PlayerSprintDistance = 4f;
     public const int PlayerMaxAirSprintCount = 1;
-    public const float SprintCd = 0.3f;//�ӳ�̽���������
-    public const float SprintTime = 0.248f;//��ֵӦ��ʵ�ʶ�����ʱ����ͬ
+    public const float SprintCd = 0.3f;//从冲刺结束后算起
+    public const float SprintTime = 0.248f;//此值应与实际动画的时长相同
     #endregion
 
     #region about player input
-    public const int BufferFrameTime = 5;//���뻺��֡
+    public const int BufferFrameTime = 5;//输入缓存帧
     public const int IsGroundedBufferFrame = 10;
     #endregion
 
@@ -67,7 +67,7 @@ public static class Constants
 
     #region about player break moon
     public const float BreakMoonPointCd = 3f;
-    public const float BreakMoonAfterDistance=2f;//���»������
+    public const float BreakMoonAfterDistance=2f;//碎月缓冲距离
     public const float BreakMoonPrePareTime = 0.278f;
     public const float BreakMoonAvgSpeed = 12f;
     #endregion
@@ -94,7 +94,7 @@ public static class Constants
     #endregion
 
 
-    #region ����й�����
+    #region 玩家有关属性
     public const int playerInitialMaxHp=5;
     public const int playerInitialMaxMana = 100;
     public const int playerInitialMoney =0;
