@@ -6,48 +6,49 @@ using Cinemachine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Trigger2DHidePath : Trigger2DBase
 {
-    [SerializeField] private CinemachineVirtualCamera vcam;
-    [SerializeField] private Transform boundary;
-    [SerializeField] private CameraPack cameraPack;
+    [SerializeField] private PolygonCollider2D boundary;
+    [SerializeField] private Transform cameraPack;
+    private GameObject vcam;
 
-    private bool atLeft;
-    protected override void OnTriggerExit2D(Collider2D collision)
+    private PolygonCollider2D preBoundary;
+    private bool isSwitched;
+    protected override void enterEvent()
     {
-        if (cameraPack != null && collision.CompareTag("Player"))
+        Debug.Log("player 进入");
+        if (vcam != null)
         {
-            Debug.Log(CheckSide(collision.transform));
-            if (CheckSide(collision.transform))
-            {
-                cameraPack.ChangeVcam(vcam);
+            if (!isSwitched)
+            {           
+                vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = boundary;
+                isSwitched = true;
             }
             else
             {
-                cameraPack.ChangeVcam(cameraPack.vcam);
-
+                vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = preBoundary;
+                isSwitched = false;
             }
         }
-    }
-    protected override void exitEvent()
-    {
-        
     }
 
     // Use this for initialization
     void Start()
     {
         GetComponent<BoxCollider2D>().isTrigger = true;
-        atLeft = boundary.transform.localPosition.x < 0 ? true : false;
+        vcam = cameraPack.Find("CM vcam1").gameObject;
+        preBoundary = cameraPack.Find("Boundary").gameObject.GetComponent<PolygonCollider2D>();
+        if (vcam == null)
+        {
+            Debug.Log("find vcam failed");
+        }
+        if (preBoundary == null)
+        {
+            Debug.Log("find boundary failed");
+        }
     }
 
-    bool CheckSide(Transform _transform)
+    // Update is called once per frame
+    void Update()
     {
-        bool result = false;
-        Debug.Log(_transform.position.x - transform.position.x);
-        if (((_transform.position.x - transform.position.x) < 0) == atLeft)
-        {
-            result = true;
-        }
 
-        return result;
     }
 }

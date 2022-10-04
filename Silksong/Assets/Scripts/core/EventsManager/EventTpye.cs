@@ -12,15 +12,11 @@ public enum EventType
     onItemChange,
     onMoneyChange,
     onKeyChange,//
-
-    // store
-    onOpenStore,
-    onCloseStore
 }
 
 public class EventDate
 {
-    /*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÝµÄ²ï¿½ï¿½ï¿½*/
+    /*ÔÊÐí´«µÝµÄ²ÎÊý*/
     public float floatValue;
     public bool boolValue;
     public int intValue;

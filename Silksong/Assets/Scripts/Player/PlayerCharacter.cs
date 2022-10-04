@@ -113,7 +113,6 @@ public class PlayerCharacter : MonoBehaviour
             addMana(getAttackGainManaNumber());
         }
     }
-    
     /// <summary>
     /// 受伤时获得能量
     /// </summary>
@@ -126,7 +125,6 @@ public class PlayerCharacter : MonoBehaviour
             addMana(getHurtGainManaNumber());
         }
     }
-    
     public void addMana(int number)
     {
         Mana+=number;
