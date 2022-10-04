@@ -5,12 +5,12 @@ using System;
 using UnityEngine.Events;
 /// <summary>
 /// 
-/// ÓµÓĞÉúÃüÖµ¼°Ïà¹Ø·½·¨µÄdamable 
-/// </summary>×÷Õß£ºÇà¹Ï
+/// æ‹¥æœ‰ç”Ÿå‘½å€¼åŠç›¸å…³æ–¹æ³•çš„damable 
+/// </summary>ä½œè€…ï¼šé’ç“œ
 public class HpDamable :Damable
 {
     [SerializeField]
-    private int maxHp ;//×î´óÉúÃüÖµ
+    private int maxHp ;//æœ€å¤§ç”Ÿå‘½å€¼
     public int MaxHp
     {
         get { return maxHp; }
@@ -18,7 +18,7 @@ public class HpDamable :Damable
     }
 
     [SerializeField]
-    private int currentHp;//µ±Ç°hp
+    private int currentHp;//å½“å‰hp
     public int CurrentHp
     {
         get { return currentHp; }
@@ -39,7 +39,7 @@ public class HpDamable :Damable
 
     public setHpEvent onHpChange=new setHpEvent();
 
-    public AudioCue dieAudio;//ÔÚaudiomanagerÖĞÓĞ°ó¶¨¹ÖÎïhpdamableÄ¬ÈÏ¡¶ÊÜ»÷¡·ÒôĞ§µÄĞ§¹û
+    public AudioCue dieAudio;//åœ¨audiomanagerä¸­æœ‰ç»‘å®šæ€ªç‰©hpdamableé»˜è®¤ã€Šå—å‡»ã€‹éŸ³æ•ˆçš„æ•ˆæœ
 
 
     public override void takeDamage(DamagerBase damager)
@@ -65,7 +65,7 @@ public class HpDamable :Damable
         }
     }
 
-    public void addHp(int number,DamagerBase damager)//ÈçÊÜµ½ÉËº¦ number<0
+    public void addHp(int number,DamagerBase damager)//å¦‚å—åˆ°ä¼¤å®³ number<0
     {
         setCurrentHp(currentHp + number,damager);
     }
@@ -75,7 +75,7 @@ public class HpDamable :Damable
         onDieEvent.Invoke(damager,this);
 
         if(gameObject.tag!="Player")//reborn player for  test
-        Destroy(gameObject);//Î´ÍêÉÆ
+        Destroy(gameObject);//æœªå®Œå–„
 
         Debug.Log(gameObject.name+" die");
         if (dieAudio)

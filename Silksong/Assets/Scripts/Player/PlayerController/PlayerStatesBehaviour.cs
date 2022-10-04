@@ -26,6 +26,9 @@ public enum EPlayerState
     ToHuman = 220,
     CatToHumanExtraJump = 230,
     SprintInWater = 240,
+
+    LookUp = 300,
+    LookDown = 310,
 }
 public abstract class PlayerAction
 {
@@ -79,6 +82,9 @@ public class PlayerStatesBehaviour
         StateActionsDic.Add(EPlayerState.ToCat, new PlayerToCat(playerController));
         StateActionsDic.Add(EPlayerState.ToHuman, new PlayerToHuman(playerController));
         StateActionsDic.Add(EPlayerState.CatToHumanExtraJump, new PlayerCatToHumanExtraJump(playerController));
+
+        StateActionsDic.Add(EPlayerState.LookUp, new PlayerLookUp(playerController));
+        StateActionsDic.Add(EPlayerState.LookDown, new PlayerLookDown(playerController));
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)

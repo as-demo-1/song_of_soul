@@ -707,13 +707,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484977951162521061}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.76, y: -3.64, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 484977951192663522}
   - {fileID: 3898795374264322033}
   - {fileID: 448765875}
   - {fileID: 303103794}
+  - {fileID: 8880507379412427680}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -807,6 +808,11 @@ MonoBehaviour:
     key: 9
     controllerButton: 0
     m_Enabled: 1
+  inGameMenu:
+    NotNeedGainAndReleaseControl: 0
+    key: 27
+    controllerButton: 8
+    m_Enabled: 1
 --- !u!114 &484977951751258056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -828,7 +834,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   gluedCount: 0
-  CharmListSO: {fileID: 0}
+  CharmListSO: {fileID: 11400000, guid: 9a62242ac86ba224db3169dbc7b1a52e, type: 2}
 --- !u!114 &484977951162521058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -841,9 +847,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77920b78de73334b8f3dbeaa6279508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCharacter: {fileID: 0}
+  playerCharacter: {fileID: 484977951751258056}
   playerInfo:
-    hasDoubleJump: 1
+    hasDoubleJump: 0
     breakMoonPositionCurve:
       serializedVersion: 2
       m_Curve:
@@ -873,6 +879,7 @@ MonoBehaviour:
     swimSpeed: 10
     gravityUnderWater: 0
     plungeSpeed: 16
+    CharmListSO: {fileID: 11400000, guid: 9a62242ac86ba224db3169dbc7b1a52e, type: 2}
   PlayerAnimator: {fileID: 448765876}
   underwaterLayerMask:
     serializedVersion: 2
@@ -894,6 +901,7 @@ MonoBehaviour:
   _backpack: {fileID: 0}
   _itemToAdd: {fileID: 0}
   _savePoint: {fileID: 0}
+  lookPos: {fileID: 8880507379412427680}
 --- !u!50 &484977951162521062
 Rigidbody2D:
   serializedVersion: 4
@@ -1042,6 +1050,7 @@ MonoBehaviour:
   pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
   UnlockedSkillContainer: {fileID: 0}
   equippingSkillText: {fileID: 0}
+  CharmListSO: {fileID: 0}
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1129,6 +1138,36 @@ Transform:
   - {fileID: 8654808106935568865}
   m_Father: {fileID: 484977951162521063}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7488612306447926829
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8880507379412427680}
+  m_Layer: 0
+  m_Name: LookPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8880507379412427680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7488612306447926829}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 484977951162521063}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8454482759745670562
 GameObject:

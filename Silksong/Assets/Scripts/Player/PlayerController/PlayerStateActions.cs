@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerHeal : PlayerAction
 {
@@ -82,7 +83,7 @@ public class PlayerPlunge : PlayerAction
     {
         // Debug.Log("start plunging");
 
-        // ÊúÖ±ÏÂÂä
+        // ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½
         playerController.setRigidGravityScale(0f);
         playerController.gravityLock = true;
         playerController.setRigidVelocity(new Vector2(0, -1 * playerController.playerInfo.plungeSpeed));
@@ -99,7 +100,7 @@ public class PlayerPlunge : PlayerAction
         float positionY = playerController.transform.position.y;
         plungeDistance = plungeStartPositionY - positionY;
 
-        // ¸üÐÂStrength
+        // ï¿½ï¿½ï¿½ï¿½Strength
         int i = plungeStrength;
         while (i < playerController.plungeStrengthArr.Length - 1 && plungeDistance > playerController.plungeStrengthArr[i + 1])
         {
@@ -108,7 +109,7 @@ public class PlayerPlunge : PlayerAction
         }
         plungeStrength = i;
 
-        // ÔÚ DestructiblePlatform ×é¼þ¸üÐÂ willBreakGround£¬ÔÚ´Ë¸üÐÂanimator param
+        // ï¿½ï¿½ DestructiblePlatform ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ willBreakGroundï¿½ï¿½ï¿½Ú´Ë¸ï¿½ï¿½ï¿½animator param
         // playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.WillBreakGroundParamHash, willBreakGround);
     }
 
@@ -128,8 +129,8 @@ public class PlayerClimbJump : PlayerAction
 {
     public PlayerClimbJump(PlayerController playerController) : base(playerController) { }
 
-    private bool canMove = false;//ÄÜ·ñË®Æ½ÒÆ¶¯
-    private float fixedJumpAcce = 0;//Ë®Æ½¼õËÙ¶È
+    private bool canMove = false;//ï¿½Ü·ï¿½Ë®Æ½ï¿½Æ¶ï¿½
+    private float fixedJumpAcce = 0;//Ë®Æ½ï¿½ï¿½ï¿½Ù¶ï¿½
 
 
     public override void StateStart(EPlayerState oldState)
@@ -172,7 +173,7 @@ public class PlayerClimbJump : PlayerAction
         while (true)
         {
             yield return null;
-            if (playerController.getRigidVelocity().y < 0.01f)//ÌøÔ¾ÉÏÉý¹ý³Ì½áÊø
+            if (playerController.getRigidVelocity().y < 0.01f)//ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½
             {
                 playerController.setRigidGravityScaleToNormal();
                 break;
@@ -416,7 +417,7 @@ public class PlayerBreakMoon : PlayerAction
         currentTarget.bePicked();
 
     }
-    private bool sameSide(BreakMoonPoint b)//ÊÇ·ñÔÚÍæ¼ÒÃæ³¯µÄÒ»²à
+    private bool sameSide(BreakMoonPoint b)//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ³¯ï¿½ï¿½Ò»ï¿½ï¿½
     {
         float x = b.transform.position.x - playerController.transform.position.x;
         bool result = playerController.playerInfo.playerFacingRight ? x > 0 : x < 0;
@@ -449,7 +450,7 @@ public class PlayerBreakMoon : PlayerAction
             Vector2 s = totalDistance * rate;
             playerController.rigidMovePosition(startPosition + s);
 
-            if (!hasBreakTheMoon && s.magnitude >= toMoonDistance.magnitude)//»÷ËéÔÂÇò
+            if (!hasBreakTheMoon && s.magnitude >= toMoonDistance.magnitude)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             {
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
@@ -468,4 +469,40 @@ public class PlayerBreakMoon : PlayerAction
     }
 
 
+}
+
+public class PlayerLookUp: PlayerAction
+{
+    public PlayerLookUp(PlayerController playerController) : base(playerController) { }
+    public Vector3 lookPos;
+    public override void StateStart(EPlayerState oldState)
+    {
+        lookPos = new Vector3(0.0f, Constants.lookUpDownDistance, 0.0f);
+    }
+    public override void StateUpdate()
+    {
+        playerController.followPoint.transform.localPosition = lookPos;
+    }
+    public override void StateEnd(EPlayerState newState)
+    {
+        playerController.followPoint.transform.localPosition = Vector3.zero;
+    }
+}
+
+public class PlayerLookDown : PlayerAction
+{
+    public PlayerLookDown(PlayerController playerController) : base(playerController) { }
+    public Vector3 lookPos;
+    public override void StateStart(EPlayerState oldState)
+    {
+        lookPos = new Vector3(0.0f, -Constants.lookUpDownDistance, 0.0f);
+    }
+    public override void StateUpdate()
+    {
+        playerController.followPoint.transform.localPosition = lookPos;
+    }
+    public override void StateEnd(EPlayerState newState)
+    {
+        playerController.followPoint.transform.localPosition = Vector3.zero;
+    }
 }

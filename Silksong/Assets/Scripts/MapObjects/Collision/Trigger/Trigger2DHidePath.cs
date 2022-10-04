@@ -6,49 +6,48 @@ using Cinemachine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Trigger2DHidePath : Trigger2DBase
 {
-    [SerializeField] private PolygonCollider2D boundary;
-    [SerializeField] private Transform cameraPack;
-    private GameObject vcam;
+    [SerializeField] private CinemachineVirtualCamera vcam;
+    [SerializeField] private Transform boundary;
+    [SerializeField] private CameraPack cameraPack;
 
-    private PolygonCollider2D preBoundary;
-    private bool isSwitched;
-    protected override void enterEvent()
+    private bool atLeft;
+    protected override void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("player 进入");
-        if (vcam != null)
+        if (cameraPack != null && collision.CompareTag("Player"))
         {
-            if (!isSwitched)
-            {           
-                vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = boundary;
-                isSwitched = true;
+            Debug.Log(CheckSide(collision.transform));
+            if (CheckSide(collision.transform))
+            {
+                cameraPack.ChangeVcam(vcam);
             }
             else
             {
-                vcam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = preBoundary;
-                isSwitched = false;
+                cameraPack.ChangeVcam(cameraPack.vcam);
+
             }
         }
+    }
+    protected override void exitEvent()
+    {
+        
     }
 
     // Use this for initialization
     void Start()
     {
         GetComponent<BoxCollider2D>().isTrigger = true;
-        vcam = cameraPack.Find("CM vcam1").gameObject;
-        preBoundary = cameraPack.Find("Boundary").gameObject.GetComponent<PolygonCollider2D>();
-        if (vcam == null)
-        {
-            Debug.Log("find vcam failed");
-        }
-        if (preBoundary == null)
-        {
-            Debug.Log("find boundary failed");
-        }
+        atLeft = boundary.transform.localPosition.x < 0 ? true : false;
     }
 
-    // Update is called once per frame
-    void Update()
+    bool CheckSide(Transform _transform)
     {
+        bool result = false;
+        Debug.Log(_transform.position.x - transform.position.x);
+        if (((_transform.position.x - transform.position.x) < 0) == atLeft)
+        {
+            result = true;
+        }
 
+        return result;
     }
 }
