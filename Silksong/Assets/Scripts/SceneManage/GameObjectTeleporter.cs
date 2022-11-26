@@ -33,6 +33,7 @@ public class GameObjectTeleporter : MonoBehaviour
     public bool Transitioning;
 
     public CinemachineVirtualCamera virtualCamera;
+    public CinemachineVirtualCamera mSecondVirtualCamera;
     void Awake()
     {
         if (Instance != this)
@@ -63,15 +64,19 @@ public class GameObjectTeleporter : MonoBehaviour
         //playerInput.transform.localScale = new Vector3();角色朝向 暂未考虑
         playerRebornPoint = enterPos;
 
-        virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        CameraController.Instance.AfterChangeScene();
+        virtualCamera = CameraController.Instance.mMainVirtualCamera;
         if (virtualCamera)
             virtualCamera.Follow = PlayerInput.Instance.transform;
+        mSecondVirtualCamera = CameraController.Instance.mSecondVirtualCamera;
+        if (mSecondVirtualCamera)
+            mSecondVirtualCamera.Follow = PlayerInput.Instance.transform;
 
         GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
 
         Teleport(PlayerInput.Instance.gameObject, enterPos);
     }
-    public  void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//在玩家进入新场景时调用该方法
+    public void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//在玩家进入新场景时调用该方法
     {
         Vector3 enterPos = Vector3.zero;
         if(transitionPoint is  SceneTransitionPointKeepPos keepPos)

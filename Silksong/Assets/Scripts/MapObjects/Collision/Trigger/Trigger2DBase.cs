@@ -7,10 +7,12 @@ using UnityEngine;
 public abstract class Trigger2DBase : MonoBehaviour
 {
     public LayerMask targetLayer;//触发该trigger的layer
+    [Header("可以正常运行")]
     public bool canWork;
-    public bool isOneTime;//是否只触发一次
+    [Header("只触发一次")]
+    public bool isOneTime;
 
-    protected  virtual void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (canWork && targetLayer.Contains(collision.gameObject) )
         {
@@ -34,7 +36,7 @@ public abstract class Trigger2DBase : MonoBehaviour
         }
     }
 
-    protected  virtual void exitEvent()
+    protected virtual void exitEvent()
     {
 
     }

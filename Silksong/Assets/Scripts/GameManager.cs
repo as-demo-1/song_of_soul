@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
+    [SerializeField]
+    private GameObject mCamera;
+
     public AudioManager audioManager;
 
     public GameObject gamingUI;
@@ -55,6 +58,7 @@ public class GameManager : MonoBehaviour
         gamingUI = Instantiate(gamingUI);
         DontDestroyOnLoad(gamingUI);
 
+        CreateCamera();
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
 
@@ -70,7 +74,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void creatPlayer()
     {
-        player= Instantiate(player.gameObject);     
+        player = Instantiate(player.gameObject);
+    }
+
+    public void CreateCamera()
+    {
+        GameObject tempCam = GameObject.Find("TempCamera");
+        if (tempCam != null)
+        {
+            GameObject.Destroy(tempCam);
+        }
+        GameObject cam = Instantiate(mCamera.gameObject);
+        cam.name = "CameraPack";
+        DontDestroyOnLoad(cam);
     }
 
     public void GameInitialize()
