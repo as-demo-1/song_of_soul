@@ -7,9 +7,9 @@ using UnityEngine;
 public abstract class Trigger2DBase : MonoBehaviour
 {
     public LayerMask targetLayer;//触发该trigger的layer
-    [Header("可以正常运行")]
-    public bool canWork;
-    [Header("只触发一次")]
+    [HideInInspector]
+    public bool canWork = true;
+    [HideInInspector]
     public bool isOneTime;
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)

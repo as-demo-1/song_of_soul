@@ -48,6 +48,8 @@ public class CameraController : MonoBehaviour
             GameObject BoundNext = Instantiate(bound);
             BoundNext.name = "MainCameraBoundary";
             BoundNext.transform.position = gameObject.transform.position;
+            BoundNext.transform.rotation = gameObject.transform.rotation;
+            BoundNext.transform.localScale = gameObject.transform.lossyScale;
             Destroy(gameObject);
             return;
         }
