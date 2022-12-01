@@ -28,7 +28,9 @@ public enum EnemyStates
     Enemy_Circle_State = 16,
     Enemy_Die_State=17,
     LittleMonster_Die=18,
-    BigMonster_Die=19
+    BigMonster_Die=19,
+    
+    Enemy_PlayAnimWithSpeed_State=20,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。

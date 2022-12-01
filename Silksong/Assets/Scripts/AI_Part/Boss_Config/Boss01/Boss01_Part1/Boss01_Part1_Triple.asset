@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Boss01_Part1_Triple
+  m_EditorClassIdentifier: 
+  lastStateID: 99
+  lastTriggerID: 0
+  StateName: Boss01_Part1_Triple
+  StateType: 99
+  stateConfig:
+    id: 0
+  TriggerType: 0
+  triggerConfig:
+    id: 1
+  triggerList: []
+  references:
+    version: 1
+    00000000:
+      type: {class: StateCombinationNode, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 99
+        defaultAnimationName: 
+        executeWay: 0
+        stateConfigs:
+        - {fileID: 11400000, guid: c08c56ce4be8fd94cb8cc438e2d16bdd, type: 2}
+        - {fileID: 11400000, guid: 26f230e16ef1a2b4dbca0c010d6125e3, type: 2}
+        - {fileID: 11400000, guid: 07a8fbe0f799cf64380d096317148d9f, type: 2}
+        - {fileID: 11400000, guid: 07687785e41333742a4a5e9395fed5a9, type: 2}
+    00000001:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: 
+        maxTime: 0
+        timer: 0
