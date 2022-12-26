@@ -68,7 +68,7 @@ public struct PlayerInfo
     }
 }
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 //[RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerStatusDic playerStatusDic;
 
+    [HideInInspector]
     public PlayerCharacter playerCharacter;
     public CharacterMoveControl PlayerHorizontalMoveControl { get; }
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
