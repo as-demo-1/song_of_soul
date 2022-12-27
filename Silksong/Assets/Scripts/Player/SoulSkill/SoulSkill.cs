@@ -13,17 +13,17 @@ public enum SkillName
     IceStorm
 }
 
-[RequireComponent(typeof(PlayerCharacter))]
-public abstract class SoulSkill : MonoBehaviour
+public abstract class SoulSkill : Hitter
 {
     public SkillName skillName;
     public uint constPerSec = 0;
     public uint constPerAttack = 0;
     protected PlayerCharacter playerCharacter;
     protected PlayerController playerController;
+    public String atcEventName = "Soul Skill ATK";
     protected abstract PlayerCharacter GetPlayerCharacter();
     protected abstract PlayerController GetPlayerController();
-    private void Awake()
+    public void Awake()
     {
         playerCharacter = GetPlayerCharacter();
         playerController = GetPlayerController();

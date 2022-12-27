@@ -42,7 +42,6 @@ public abstract class DamageableBase : MonoBehaviour
             gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;//Ĭ������static���� ���ڻ��ء�ǽ��  Dynamic������Ҫ�ֶ�����
         }
         gameObject.GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;//����������˯��״̬���޷���Ӧ��ײ
-        
     }
 
 }
