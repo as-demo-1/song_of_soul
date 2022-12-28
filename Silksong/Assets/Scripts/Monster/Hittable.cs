@@ -4,64 +4,102 @@ using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-[RequireComponent(typeof(Collider2D), typeof(MonsterFSM))]
+public enum BuffType
+{
+    ElectricMark
+}
+
+public class Buff
+{
+    public BuffType buffType;
+}
+
+public class ElectricMark : Buff
+{
+    public ElectricMark()
+    {
+        buffType = BuffType.ElectricMark;
+    }
+
+    public static uint counter = 0;
+}
+
+
+[RequireComponent(typeof(Collider2D), typeof(Animator))]
 public class Hittable : MonoBehaviour
 {
-    public int maxHP;
-    public int currentHP;
+    public int m_maxHP;
+    public int m_currentHP;
     // face left is -1, face right is 1
     public int face = -1;
     public bool lockHP;
-    private MonsterFSM _monsterFsm;
-    
-    public Hittable(int maxHp, int currentHp = Int32.MaxValue)
+
+    private Animator _animator;
+    public Hittable(int maxHp = 100, int currentHp = Int32.MaxValue)
     {
-        maxHP = maxHp;
-        currentHP = Mathf.Min(maxHp, currentHp);
+        m_maxHP = maxHp;
+        m_currentHP = Mathf.Min(maxHp, currentHp);
+    }
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.PlayerNormalAtk, BeHitAction);
+        EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.LightningChainAtk, BeHitAction);
     }
 
-    void BeHitAction(in Hitter hitter)
+    
+
+    public void BeHitAction(object hitter)
     {
-        _monsterFsm.TransitionState(EMonsterState.Hurt);
-        switch (hitter.m_actionName)
+        Debug.LogError("monster be hit");
+        Hitter hitter_ = (Hitter)hitter;
+        switch (hitter_.m_eventType)
         {
-            case "Player Normal Atk":
+            case BattleEventType.PlayerNormalAtk:
                 TickNormalAtcEffect((PlayerNormalAtk)hitter);
                 break;
-            case "LightningChain Atk":
+            case BattleEventType.LightningChainAtk:
+                TickLightningChainEffect((LightningChain)hitter);
                 break;
             default:
                 break;
         }
     }
-
-    void TickLightningChainEffect(LightningChain lightningChain)
-    {
-        //lightningChain
-    }
     
+    private string beHitTrigger = "beHit";
     void TickNormalAtcEffect(PlayerNormalAtk playerNormalAtk)
     {
-        playerNormalAtk.AtkPerTarget(this);
+        if (playerNormalAtk.AtkPerTarget(this))
+        {
+            _animator.SetTrigger(beHitTrigger);
+        }
+    }
+    void TickLightningChainEffect(LightningChain lightningChain)
+    {
+        if (lightningChain.AtkPerTarget(this))
+        {
+            _animator.SetTrigger(beHitTrigger);
+        }
     }
 
     public void GetDamage(int atk)
     {
-        if (_monsterFsm.monsterState.stateEnum != EMonsterState.Die)
-        {
-            currentHP -= atk;
-        }
-
-        if (currentHP <= 0)
+        if(lockHP) return;
+        if (m_currentHP <= 0)
         {
             
         }
+        else
+        {
+            m_currentHP -= atk;
+        }       
     }
 
     public void GetRepel(float backDistance)
     {
-        Vector3 position = GetComponentInParent<Transform>().position;
-        position = new Vector3(position.x + face * backDistance, position.y, position.z);
+        Vector3 position = transform.position;
+        transform.position = new Vector3(position.x + face * backDistance, position.y, position.z);
     }
 }

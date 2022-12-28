@@ -16,16 +16,30 @@ public enum SkillName
 public abstract class SoulSkill : Hitter
 {
     public SkillName skillName;
-    public uint constPerSec = 0;
-    public uint constPerAttack = 0;
-    protected PlayerCharacter playerCharacter;
-    protected PlayerController playerController;
-    public String atcEventName = "Soul Skill ATK";
-    protected abstract PlayerCharacter GetPlayerCharacter();
-    protected abstract PlayerController GetPlayerController();
-    public void Awake()
+    public int constPerSec = 1;
+    public int constPerAttack = 0;
+
+    protected PlayerInfomation _playerInfomation;
+
+    protected void Start()
     {
-        playerCharacter = GetPlayerCharacter();
-        playerController = GetPlayerController();
+        MonoManager.Instance.AddUpdateEvent(Timer.Instance.TimerUpdate);
+    }
+
+    protected void OnEnable()
+    {
+        // 使用定时器定时结算灵魂状态的const
+        Timer.Instance.StartTickActionLoop("TickSoulStatus", 0, 1, TickSoulStatus);
+    }
+
+    protected void OnDisable()
+    {
+        Timer.Instance.EndTickActionLoop("TickSoulStatus");
+    }
+
+    protected void TickSoulStatus()
+    {
+        _playerInfomation.CostMana(constPerSec);
+        Debug.LogError("soul skill ticking");
     }
 }

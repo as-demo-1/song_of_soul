@@ -31,27 +31,31 @@ public class PlayerInfomation : MonoBehaviour
         sprintSpeed = Constants.PlayerSprintDistance / Constants.SprintTime;
         gravityUnderWater = normalGravityScale / 5;
     }
-    
-    public float getMoveSpeed()
+
+    private float _speedUpFactor = 1.0f;
+    public float GetMoveSpeed()
     {
+        float speed;
         if (isCat)
         {
             if (isFastMoving)
             {
-                return Constants.PlayerCatFastMoveSpeed;
+                speed = Constants.PlayerCatFastMoveSpeed;
             }
             else
             {
-                return Constants.PlayerCatMoveSpeed;
+                speed = Constants.PlayerCatMoveSpeed;
             }
         }
         else if(currentState == EPlayerState.NormalAttack)
         {
-            return Constants.AttackingMoveSpeed;
+            speed = Constants.AttackingMoveSpeed;
         }
-        else return Constants.PlayerMoveSpeed;
+        else speed = Constants.PlayerMoveSpeed;
+
+        return speed *= _speedUpFactor;
     }
-    public float getJumpUpSpeed()
+    public float GetJumpUpSpeed()
     {
         if (isCat)
         {
@@ -62,7 +66,7 @@ public class PlayerInfomation : MonoBehaviour
             return Constants.PlayerJumpUpSpeed;
         }
     }
-    public float getJumpHeight()
+    public float GetJumpHeight()
     {
         if (isCat)
         {
@@ -73,8 +77,7 @@ public class PlayerInfomation : MonoBehaviour
             return Constants.PlayerJumpMaxHeight;
         }
     }
-
-    public int getJumpCount()
+    public int GetJumpCount()
     {
         if (hasDoubleJump)
         {
@@ -84,5 +87,20 @@ public class PlayerInfomation : MonoBehaviour
         {
             return Constants.PlayerMaxJumpCount;
         }
+    }
+
+    public void CostMana(int cost)
+    {
+        currentMana += cost;
+    }
+
+    public void SpeedUp(float speedUpPercent)
+    {
+        _speedUpFactor *= 1.0f + speedUpPercent;
+    }
+
+    public void SpeedUpReset()
+    {
+        _speedUpFactor = 1.0f;
     }
 }

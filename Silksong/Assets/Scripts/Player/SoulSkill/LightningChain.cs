@@ -8,44 +8,58 @@ public class LightningChain : SoulSkill
     public float range = 1.0f;
     [Range(0,1)]
     public float extraSpeedPercent = 0;
-    public float baseDamage = 0;
+    public float baseDamage = 1;
     [Range(0,1)]
     public float extraDamagePercent = 0;
-    
-    //private 
-    override protected PlayerCharacter GetPlayerCharacter()
+
+    void Start()
     {
-        return GetComponentInParent<PlayerCharacter>();
-    }
-    
-    override protected PlayerController GetPlayerController()
-    {
-        return GetComponentInParent<PlayerController>();
-    }
-    public void SpeedUp(bool needApply)
-    {
-        
-    }
-    
-    public void Attack()
-    {
-        atcEventName = "LightningChain Attack";
-        EventCenter.Instance.TiggerEvent(atcEventName, this);
+        _playerInfomation = GetComponentInParent<PlayerInfomation>();
+        RefreshAtk(_playerInfomation.atk);
     }
 
-    void Awake()
+    private void OnEnable()
     {
-        base.Awake();
+        base.OnEnable();
         SpeedUp(true);
-    }
-
-    private void Update()
-    {
-        Attack();
     }
 
     private void OnDisable()
     {
+        base.OnDisable();
         SpeedUp(false);
+    }
+
+    public void TriggerAddElectricMarkEvent()
+    {
+        EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, this);
+    }
+    
+    public override bool AtkPerTarget(Hittable target)
+    {
+        if (!IsAtkSuccess(target)) return false;
+        target.GetDamage(Damage());
+        return true;
+    }
+
+    protected override bool IsAtkSuccess(Hittable target)
+    {
+        float dis = (GetComponentInParent<Transform>().position - target.transform.position).magnitude;
+        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
+    }
+
+    public void SpeedUp(bool needApply)
+    {
+        if(needApply) _playerInfomation.SpeedUp(extraSpeedPercent);
+        else
+        {
+            _playerInfomation.SpeedUpReset();
+        }
+    }
+
+    private int Damage()
+    {
+        var damage = baseDamage * (1.0f + extraDamagePercent * ElectricMark.counter);
+        return (int)damage;
     }
 }

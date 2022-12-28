@@ -1,25 +1,33 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum BattleEventType
+{
+    PlayerNormalAtk,
+    LightningChainAtk,
+    LightningAddElectricMarkEvent
+}
+
 /// <summary>
 /// 事件中心，负责事件的接收与执行
 /// </summary>
-public class EventCenter : Singleton<EventCenter> {
+public class EventCenter<T> : Singleton<EventCenter<T>> {
     // 为了省事，这里用了一个参数的Action，后续可以优化成泛型
-    private Dictionary<string, UnityAction<object>> eventCenter = new Dictionary<string, UnityAction<object>> ();
+    private Dictionary<T, UnityAction<object>> eventCenter = new Dictionary<T, UnityAction<object>> ();
 
     /// <summary>
     /// 添加监听，监听事件并执行方法
     /// </summary>
     /// <param name="eventName">事件名称</param>
     /// <param name="action">需要触发的行为</param>
-    public void AddEventListener (string eventName, UnityAction<object> action) {
-        if (eventCenter.ContainsKey (eventName)) {
-            eventCenter[eventName] += action;
+    public void AddEventListener (T eventType, UnityAction<object> action) {
+        if (eventCenter.ContainsKey (eventType)) {
+            eventCenter[eventType] += action;
         } else {
-            eventCenter.Add (eventName, action);
+            eventCenter.Add (eventType, action);
         }
     }
 
@@ -28,9 +36,9 @@ public class EventCenter : Singleton<EventCenter> {
     /// </summary>
     /// <param name="eventName">事件名称</param>
     /// <param name="action">需要移除的方法</param>
-    public void RemoveEventListener (string eventName, UnityAction<object> action) {
-        if (eventCenter.ContainsKey (eventName)) {
-            eventCenter[eventName] -= action;
+    public void RemoveEventListener (T eventType, UnityAction<object> action) {
+        if (eventCenter.ContainsKey (eventType)) {
+            eventCenter[eventType] -= action;
         }
     }
 
@@ -39,9 +47,9 @@ public class EventCenter : Singleton<EventCenter> {
     /// </summary>
     /// <param name="eventName">事件名称</param>
     /// <param name="obj">附加信息</param>
-    public void TiggerEvent (string eventName, object obj) {
-        if (eventCenter.ContainsKey (eventName)) {
-            eventCenter[eventName].Invoke (obj);
+    public void TiggerEvent (T eventType, object obj) {
+        if (eventCenter.ContainsKey (eventType)) {
+            eventCenter[eventType].Invoke (obj);
         }
     }
     /// <summary>

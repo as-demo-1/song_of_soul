@@ -86,33 +86,4 @@ public class HpDamable :Damable
 
     }
 
-    public void BeAtcBySoulSkillAction(object obj)
-    {
-        SoulSkill soulSkill = (SoulSkill)obj;
-        switch (soulSkill.atcEventName)
-        {
-            case "LightningChain Attack":
-                
-                break;
-            default:
-                break;
-        }
-        /*
-        if(monster.GetComponent<MonsterInfo>().monsterName == monsterInfo.monsterName){
-            string name = monsterInfo.monsterName;
-            string playerName = player.GetComponent<PlayerInfo>().playerName;
-            monsterInfo.hp -= player.GetComponent<PlayerInfo>().atk;
-            anim.SetTrigger("beHit");
-            if(monsterInfo.hp <= 0){
-                anim.SetBool("isDie",true);
-                this.GetComponent<Collider>().isTrigger = true;
-                this.gameObject.layer = 0;
-                rb.useGravity = false;
-            }
-            Debug.Log(name+" be atked by "+playerName+" HP: "+monsterInfo.hp);
-            AudioManagerMy.Instance.PlayAudio("hit_05");
-        }
-        */
-    }
-
 }

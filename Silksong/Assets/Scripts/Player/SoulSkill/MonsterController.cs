@@ -1,17 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Animator _animator;
+    private Hittable _hittable;
+
+    private void Awake()
     {
-        
+        _hittable = GetComponent<Hittable>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
         
     }

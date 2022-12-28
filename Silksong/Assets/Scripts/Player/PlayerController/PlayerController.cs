@@ -224,9 +224,21 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
+    public GameObject normalAttackPrefab;
+    public GameObject lightningChainPrefab;
+    private PlayerNormalAtk _normalAttack;
+    private LightningChain _lightningChain;
     public void init()
     {
+        _normalAttack = Instantiate(normalAttackPrefab).GetComponent<PlayerNormalAtk>();
+        _normalAttack.transform.SetParent(transform); 
+        _normalAttack.transform.localPosition = new Vector3(0, 0, 0);
+
+        _lightningChain = Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
+        _lightningChain.transform.SetParent(transform);
+        _lightningChain.transform.localPosition = new Vector3(0,0,0);
+
         RB = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
@@ -238,6 +250,8 @@ public class PlayerController : MonoBehaviour
         playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
     }
+    
+    
     void Start()
     {
         playerInfo.init(this);
@@ -252,6 +266,7 @@ public class PlayerController : MonoBehaviour
         damable.onDieEvent.AddListener(die);
     }
 
+    
     private void Update()
     {
         CheckIsGrounded();
@@ -262,6 +277,9 @@ public class PlayerController : MonoBehaviour
 
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
+        
+        TickNormalAtk();
+        TickLightningChain();
     }
 
     private void LateUpdate()
@@ -274,6 +292,23 @@ public class PlayerController : MonoBehaviour
         //Interact();
     }
 
+    public void TickNormalAtk()
+    {
+        if (PlayerInput.Instance.normalAttack.IsValid)
+        {
+            _normalAttack.TiggerAtkEvent();
+        }
+    }
+
+    public void TickLightningChain()
+    {
+        if (PlayerInput.Instance.soulSkill.IsValid)
+        {
+            _lightningChain.TiggerAtkEvent();
+        }
+        _lightningChain.TriggerAddElectricMarkEvent();
+    }
+    
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);

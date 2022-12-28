@@ -3,22 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class PlayerNormalAtk : Hitter
 {
     public float repelDistance;
     private void Start()
     {
         base.RefreshAtk(GetComponentInParent<PlayerInfomation>().atk);
-        m_actionName = "Player Normal Atk";
+        m_eventType = BattleEventType.PlayerNormalAtk;
     }
-
-    public override void AtkPerTarget(Hittable target)
+    
+    public override bool AtkPerTarget(Hittable target)
     {
-        base.AtkPerTarget(target);
+        if(!IsAtkSuccess(target)) return false; 
         target.GetDamage(_atk);
         target.GetRepel(repelDistance);
-        //target.
+        return true;
+    }
+
+    protected override bool IsAtkSuccess(Hittable target)
+    {
+        //return true;
+        float dis = (GetComponentInParent<Transform>().position - target.transform.position).magnitude;
+        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
     }
 }

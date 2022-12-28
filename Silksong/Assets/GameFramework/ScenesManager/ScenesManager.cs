@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,7 +34,7 @@ public class ScenesManager : Singleton<ScenesManager>
         AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName); // 这个是真的异步
         while(!ao.isDone) // 如果ao操作没有完成
         {
-            EventCenter.Instance.TiggerEvent("loading", ao.progress); // 向事件中心分发事件
+            EventCenter<String>.Instance.TiggerEvent("loading", ao.progress); // 向事件中心分发事件
             yield return ao.progress; // 每一帧返回进度
         }
 
