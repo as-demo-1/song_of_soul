@@ -24,7 +24,7 @@ public class PlayerInfomation : MonoBehaviour
     public bool isFastMoving;
 
     public EPlayerState currentState; 
-    private void Awake()
+    public void Init()
     {
         currentHP = Mathf.Min(maxHP, currentHP);
         currentMana = Mathf.Min(maxMana, currentMana);

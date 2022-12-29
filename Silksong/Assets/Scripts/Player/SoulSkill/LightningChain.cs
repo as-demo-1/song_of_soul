@@ -42,10 +42,23 @@ public class LightningChain : SoulSkill
         return true;
     }
 
+    public bool AddElectricMark(Hittable target)
+    {
+        if (!IsAddElectricMarkSuccess(target)) return false;
+        target.GetBuff(BuffType.ElectricMark);
+        return true;
+    }
+
     protected override bool IsAtkSuccess(Hittable target)
     {
         float dis = (GetComponentInParent<Transform>().position - target.transform.position).magnitude;
         return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
+    }
+
+    // TODO:实现挂载闪电标记的逻辑
+    private bool IsAddElectricMarkSuccess(Hittable target)
+    {
+        return true;
     }
 
     public void SpeedUp(bool needApply)

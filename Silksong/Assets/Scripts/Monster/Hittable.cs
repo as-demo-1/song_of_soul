@@ -6,25 +6,6 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public enum BuffType
-{
-    ElectricMark
-}
-
-public class Buff
-{
-    public BuffType buffType;
-}
-
-public class ElectricMark : Buff
-{
-    public ElectricMark()
-    {
-        buffType = BuffType.ElectricMark;
-    }
-
-    public static uint counter = 0;
-}
 
 
 [RequireComponent(typeof(Collider2D), typeof(Animator))]
@@ -35,6 +16,7 @@ public class Hittable : MonoBehaviour
     // face left is -1, face right is 1
     public int face = -1;
     public bool lockHP;
+    private Dictionary<BuffType, Buff> _buffs;
 
     private Animator _animator;
     public Hittable(int maxHp = 100, int currentHp = Int32.MaxValue)
@@ -44,9 +26,11 @@ public class Hittable : MonoBehaviour
     }
     private void Awake()
     {
+        _buffs = new Dictionary<BuffType, Buff>();
         _animator = GetComponent<Animator>();
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.PlayerNormalAtk, BeHitAction);
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.LightningChainAtk, BeHitAction);
+        EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.LightningAddElectricMarkEvent, BeHitAction);
     }
 
     
@@ -63,16 +47,19 @@ public class Hittable : MonoBehaviour
             case BattleEventType.LightningChainAtk:
                 TickLightningChainEffect((LightningChain)hitter);
                 break;
+            case BattleEventType.LightningAddElectricMarkEvent:
+                
             default:
                 break;
         }
     }
     
-    private string beHitTrigger = "beHit";
+    private const string beHitTrigger = "beHit";
     void TickNormalAtcEffect(PlayerNormalAtk playerNormalAtk)
     {
         if (playerNormalAtk.AtkPerTarget(this))
         {
+            Debug.LogError("set beHitTrigger");
             _animator.SetTrigger(beHitTrigger);
         }
     }
@@ -81,6 +68,18 @@ public class Hittable : MonoBehaviour
         if (lightningChain.AtkPerTarget(this))
         {
             _animator.SetTrigger(beHitTrigger);
+        }
+    }
+
+    void TickElectricMarkEffect(LightningChain lightningChain)
+    {
+        if (lightningChain.AddElectricMark(this))
+        {
+            if (!_buffs.ContainsKey(BuffType.ElectricMark))
+            {
+                _buffs.Add(BuffType.ElectricMark, new ElectricMark());
+                ElectricMark.counter++;
+            }
         }
     }
 
@@ -101,5 +100,16 @@ public class Hittable : MonoBehaviour
     {
         Vector3 position = transform.position;
         transform.position = new Vector3(position.x + face * backDistance, position.y, position.z);
+    }
+
+    public void GetBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                break;
+            default:
+                break;
+        }
     }
 }
