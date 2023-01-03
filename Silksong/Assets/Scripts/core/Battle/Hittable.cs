@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using UnityEditor;
+using UnityEditor.Experimental;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -16,7 +17,7 @@ public class Hittable : MonoBehaviour
     // face left is -1, face right is 1
     public int face = -1;
     public bool lockHP;
-    private Dictionary<BuffType, Buff> _buffs;
+    private Dictionary<BuffType, Buff> _buffs = new Dictionary<BuffType, Buff>();
 
     private Animator _animator;
     public Hittable(int maxHp = 100, int currentHp = Int32.MaxValue)
@@ -26,36 +27,34 @@ public class Hittable : MonoBehaviour
     }
     private void Awake()
     {
-        
         _animator = GetComponent<Animator>();
+        _buffs = new Dictionary<BuffType, Buff>();
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.PlayerNormalAtk, BeHitAction);
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.LightningChainAtk, BeHitAction);
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.LightningAddElectricMarkEvent, BeHitAction);
     }
 
-    
-
     public void BeHitAction(object hitter)
     {
-        Debug.LogError("monster be hit");
         Hitter hitter_ = (Hitter)hitter;
         switch (hitter_.m_eventType)
         {
             case BattleEventType.PlayerNormalAtk:
-                TickNormalAtcEffect((PlayerNormalAtk)hitter);
+                TickNormalAtkEffect((PlayerNormalAtk)hitter);
                 break;
             case BattleEventType.LightningChainAtk:
-                TickLightningChainEffect((LightningChain)hitter);
+                TickLightningChainAtkEffect((LightningChain)hitter);
                 break;
             case BattleEventType.LightningAddElectricMarkEvent:
-                
+                TickElectricMarkEffect((LightningChain)hitter);
+                break;
             default:
                 break;
         }
     }
     
     private const string beHitTrigger = "beHit";
-    void TickNormalAtcEffect(PlayerNormalAtk playerNormalAtk)
+    void TickNormalAtkEffect(PlayerNormalAtk playerNormalAtk)
     {
         if (playerNormalAtk.AtkPerTarget(this))
         {
@@ -63,23 +62,21 @@ public class Hittable : MonoBehaviour
             _animator.SetTrigger(beHitTrigger);
         }
     }
-    void TickLightningChainEffect(LightningChain lightningChain)
+    void TickLightningChainAtkEffect(LightningChain lightningChain)
     {
         if (lightningChain.AtkPerTarget(this))
         {
+            Debug.Log("Light Chain ATK");
             _animator.SetTrigger(beHitTrigger);
         }
     }
 
     void TickElectricMarkEffect(LightningChain lightningChain)
     {
+        Debug.Log("Tick Electric Mark");
         if (lightningChain.AddElectricMark(this))
         {
-            if (!_buffs.ContainsKey(BuffType.ElectricMark))
-            {
-                _buffs.Add(BuffType.ElectricMark, new ElectricMark());
-                ElectricMark.counter++;
-            }
+            ((ElectricMark)_buffs[BuffType.ElectricMark]).ShowPerformance(transform);
         }
     }
 
@@ -102,26 +99,71 @@ public class Hittable : MonoBehaviour
         transform.position = new Vector3(position.x + face * backDistance, position.y, position.z);
     }
 
+    private uint buffindex;
     public void GetBuff(BuffType buffType)
     {
         switch (buffType)
         {
             case BuffType.ElectricMark:
-                ElectricMark eBuff = (ElectricMark) _buffs[BuffType.ElectricMark];
-                if (eBuff.GetLayerNum() == 0)
-                {
-                    eBuff.AddOneLayer();
-                    ElectricMark.targets.Add(this);
-                }
+                ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                eBuff.AddOneLayer();
+                buffindex = ElectricMark.GetCurrentIndex();
+                ElectricMark.AddTarget(buffindex, this);
+                ElectricMark.counter++;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    public void RemoveBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                eBuff.ResetLayer();
+                eBuff.HidePerformance();
+                ElectricMark.RemoveTarget(buffindex);
                 break;
             default:
                 break;
         }
     }
 
-    private void InitViableBuff()
+    public bool CanGetBuff(BuffType buffType)
     {
-        _buffs = new Dictionary<BuffType, Buff>();
-        _buffs.Add(BuffType.ElectricMark, new ElectricMark());
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                if (_buffs.ContainsKey(BuffType.ElectricMark))
+                {
+                    ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                    return eBuff.GetLayerNum() < 1;
+                }
+                else
+                {
+                    _buffs.Add(BuffType.ElectricMark, new ElectricMark());
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
+    public bool HaveBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                if (_buffs.ContainsKey(BuffType.ElectricMark))
+                {
+                    ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                    return eBuff.GetLayerNum() > 0;
+                }
+                return false;
+            default:
+                return false;
+        }
     }
 }

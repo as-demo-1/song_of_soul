@@ -91,11 +91,12 @@ public class PlayerInfomation : MonoBehaviour
 
     public void CostMana(int cost)
     {
-        currentMana += cost;
+        currentMana -= cost;
     }
 
     public void SpeedUp(float speedUpPercent)
     {
+        Debug.LogError("Speed Up Success");
         _speedUpFactor *= 1.0f + speedUpPercent;
     }
 

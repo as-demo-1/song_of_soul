@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -63,6 +64,7 @@ public class Timer : Singleton<Timer>
 
     public void EndTickActionLoop(string actionName)
     {
+        Debug.LogError(actionName + " end ticking!");
         if (_tikers.ContainsKey(actionName))
         {
             _tikers.Remove(actionName);

@@ -16,8 +16,10 @@ public class Buff
 
 public class ElectricMark : Buff
 {
+    
     public static uint counter = 0;
-    public static List<Hittable> targets = new List<Hittable>();
+    public static Dictionary<uint, Hittable> targets = new Dictionary<uint, Hittable>();
+    private static uint currentIndex = 0;
     
     private int layers;
     public ElectricMark()
@@ -36,11 +38,47 @@ public class ElectricMark : Buff
         return layers;
     }
 
-    public static void LinkTargets()
+    public void ResetLayer()
     {
-        
+        layers = 0;
+    }
+
+    private GameObject electricMarkPrefeb;
+    public void ShowPerformance(Transform perfPos)
+    {
+        if (electricMarkPrefeb is null)
+        {
+            // TODO : 后续改为运行时实例化
+            electricMarkPrefeb = GameObject.Instantiate(GameObject.Find("electricMarkPrefeb"));
+        }
+        electricMarkPrefeb.transform.parent = perfPos;
+        electricMarkPrefeb.transform.localPosition = Vector3.zero;
+        electricMarkPrefeb.SetActive(true);
+    }
+    public void HidePerformance()
+    {
+        electricMarkPrefeb.SetActive(false);
+    }
+
+    public static void AddTarget(uint index, Hittable target)
+    {
+        targets.Add(index, target);
+        counter++;
+    }
+
+    public static void RemoveTarget(uint index)
+    {
+        targets.Remove(index);
+        if (targets.Count < 1)
+        {
+            counter = 0;
+        }
     }
     
+    public static uint GetCurrentIndex()
+    {
+        return currentIndex++;
+    }
 }
 
 public class SpeedUp : Buff

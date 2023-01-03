@@ -13,6 +13,7 @@ public enum SkillName
     IceStorm
 }
 
+[Serializable]
 public abstract class SoulSkill : Hitter
 {
     public SkillName skillName;
@@ -21,15 +22,22 @@ public abstract class SoulSkill : Hitter
 
     protected PlayerInfomation _playerInfomation;
 
+    protected SoulSkill()
+    {
+        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
+    }
+    
     protected void Start()
     {
+        Debug.LogError("START TIMER UPDATE");
         MonoManager.Instance.AddUpdateEvent(Timer.Instance.TimerUpdate);
     }
 
     protected void OnEnable()
     {
+        Debug.LogError("test!!!!!!!!!!!");
         // 使用定时器定时结算灵魂状态的const
-        Timer.Instance.StartTickActionLoop("TickSoulStatus", 0, 1, TickSoulStatus);
+        Timer.Instance.StartTickActionLoop("TickSoulStatus", 0, 10, TickSoulStatus);
     }
 
     protected void OnDisable()
@@ -37,9 +45,11 @@ public abstract class SoulSkill : Hitter
         Timer.Instance.EndTickActionLoop("TickSoulStatus");
     }
 
+    private int debugCnt = 0;
     protected void TickSoulStatus()
     {
         _playerInfomation.CostMana(constPerSec);
-        Debug.LogError("soul skill ticking");
+        Debug.LogError("!!!!!!!!! soul skill ticking" + debugCnt);
+        debugCnt++;
     }
 }

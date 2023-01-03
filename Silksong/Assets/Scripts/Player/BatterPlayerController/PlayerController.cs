@@ -52,11 +52,11 @@ namespace BatterGame
             _normalAttack.transform.SetParent(transform);
             _normalAttack.transform.localPosition = new Vector3(0, 0, 0);
 
-            /*
+            
             _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
             _lightningChain.transform.SetParent(transform);
             _lightningChain.transform.localPosition = new Vector3(0,0,0);
-            */
+            
 
             RB = GetComponent<Rigidbody2D>();
             boxCollider = GetComponent<BoxCollider2D>();
@@ -86,8 +86,8 @@ namespace BatterGame
             
             _playerStateController.DirveAnimatorParameters();
             
-            TickNormalAtk();
-            //TickLightningChain();
+            //TickNormalAtk();
+            TickLightningChain();
         }
 
         private void LateUpdate()
@@ -110,12 +110,38 @@ namespace BatterGame
 
         public void TickLightningChain()
         {
+            if (playerInfo.currentMana <= 0)
+            {
+                _lightningChain.gameObject.SetActive(false);
+            }
             if (PlayerInput.Instance.soulSkill.IsValid)
             {
-                _lightningChain.TiggerAtkEvent();
+                m_playerAnimator.SetTrigger("castSkill");
+                Debug.LogError("R is down");
+                if (_lightningChain.isActiveAndEnabled)
+                {
+                    Debug.LogError("light chain is active");
+                    _lightningChain.TiggerAtkEvent();
+                }
+                else
+                {
+                    if (playerInfo.currentMana < _lightningChain.constPerSec)
+                    {
+                        Debug.LogError("not enough mana");
+                    }
+                    else
+                    {
+                        _lightningChain.gameObject.SetActive(true);
+                        _lightningChain.enabled = true;
+                    }
+                }
             }
 
-            _lightningChain.TriggerAddElectricMarkEvent();
+            if (_lightningChain.isActiveAndEnabled)
+            {
+                _lightningChain.TriggerAddElectricMarkEvent();
+                _lightningChain.UpdateTargetsLink();
+            }
         }
 
         public void CheckHorizontalMove(float setAccelerationNormalizedTime)

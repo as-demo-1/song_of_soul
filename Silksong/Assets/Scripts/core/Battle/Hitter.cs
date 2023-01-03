@@ -4,6 +4,7 @@ using System.Collections.Generic;using UnityEditor;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
+[Serializable]
 [RequireComponent(typeof(Collider2D))]
 public abstract class Hitter : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public abstract class Hitter : MonoBehaviour
     public float _atkDistance = int.MaxValue;
     [HideInInspector]
     public BattleEventType m_eventType;
-    
+
     public void RefreshAtk(int atk)
     {
         _atk = atk;
