@@ -8,7 +8,7 @@ using UnityEngine;
 public abstract class Hitter : MonoBehaviour
 {
     protected int _atk = 0;
-    public float _atkDistance = 10f;
+    public float _atkDistance = int.MaxValue;
     [HideInInspector]
     public BattleEventType m_eventType;
     

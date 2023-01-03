@@ -26,7 +26,7 @@ public class Hittable : MonoBehaviour
     }
     private void Awake()
     {
-        _buffs = new Dictionary<BuffType, Buff>();
+        
         _animator = GetComponent<Animator>();
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.PlayerNormalAtk, BeHitAction);
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.LightningChainAtk, BeHitAction);
@@ -107,9 +107,21 @@ public class Hittable : MonoBehaviour
         switch (buffType)
         {
             case BuffType.ElectricMark:
+                ElectricMark eBuff = (ElectricMark) _buffs[BuffType.ElectricMark];
+                if (eBuff.GetLayerNum() == 0)
+                {
+                    eBuff.AddOneLayer();
+                    ElectricMark.targets.Add(this);
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    private void InitViableBuff()
+    {
+        _buffs = new Dictionary<BuffType, Buff>();
+        _buffs.Add(BuffType.ElectricMark, new ElectricMark());
     }
 }

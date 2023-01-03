@@ -49,16 +49,16 @@ public class LightningChain : SoulSkill
         return true;
     }
 
-    protected override bool IsAtkSuccess(Hittable target)
+    public void UpdateTargetsLink()
     {
-        float dis = (GetComponentInParent<Transform>().position - target.transform.position).magnitude;
-        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
-    }
-
-    // TODO:实现挂载闪电标记的逻辑
-    private bool IsAddElectricMarkSuccess(Hittable target)
-    {
-        return true;
+        Vector3 preTarget;
+        foreach (var target in ElectricMark.targets)
+        {
+            if (preTarget == null)
+            {
+                
+            }
+        }
     }
 
     public void SpeedUp(bool needApply)
@@ -68,6 +68,18 @@ public class LightningChain : SoulSkill
         {
             _playerInfomation.SpeedUpReset();
         }
+    }
+    
+    protected override bool IsAtkSuccess(Hittable target)
+    {
+        float dis = (GetComponentInParent<Transform>().position - target.transform.position).magnitude;
+        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
+    }
+
+    // TODO:实现挂载闪电标记的逻辑
+    private bool IsAddElectricMarkSuccess(Hittable target)
+    {
+        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
     }
 
     private int Damage()

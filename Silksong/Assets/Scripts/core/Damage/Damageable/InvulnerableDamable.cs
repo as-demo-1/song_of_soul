@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 /// 
-/// ÔÚhpdamableµÄ»ù´¡ÉÏ Ôö¼ÓÊÜ»÷ºóÎŞµĞ»úÖÆ
-/// </summary>×÷Õß£ºÇà¹Ï
+/// åœ¨hpdamableçš„åŸºç¡€ä¸Š å¢åŠ å—å‡»åæ— æ•Œæœºåˆ¶
+/// </summary>ä½œè€…ï¼šé’ç“œ
 public class InvulnerableDamable : HpDamable
 {
-    public bool invulnerableAfterDamage = true;//ÊÜÉËºóÎŞµĞ
-    public float invulnerabilityDuration = 3f;//ÎŞµĞÊ±¼ä
+    public bool invulnerableAfterDamage = true;//å—ä¼¤åæ— æ•Œ
+    public float invulnerabilityDuration = 3f;//æ— æ•Œæ—¶é—´
     protected float inulnerabilityTimer;
 
     public override void takeDamage(DamagerBase damager)
@@ -22,7 +22,7 @@ public class InvulnerableDamable : HpDamable
 
 
 
-    public void enableInvulnerability(bool ignoreTimer = false)//¿ªÆôÎŞµĞ
+    public void enableInvulnerability(bool ignoreTimer = false)//å¼€å¯æ— æ•Œ
     {
         invulnerable = true;
         //technically don't ignore timer, just set it to an insanly big number. Allow to avoid to add more test & special case.
@@ -38,7 +38,7 @@ public class InvulnerableDamable : HpDamable
             if (inulnerabilityTimer <= 0f)
             {
                 invulnerable = false;
-                GetComponent<Collider2D>().enabled = false;//ÖØĞÂ¼¤»îÒ»´Îcollider ±ÜÃâÔÚÎŞµĞÊ±½øÈëtriggerÄÚ µ¼ÖÂÎŞµĞ¹ıºóontriggerEnter²»´¥·¢
+                GetComponent<Collider2D>().enabled = false;//é‡æ–°æ¿€æ´»ä¸€æ¬¡collider é¿å…åœ¨æ— æ•Œæ—¶è¿›å…¥triggerå†… å¯¼è‡´æ— æ•Œè¿‡åontriggerEnterä¸è§¦å‘
                 GetComponent<Collider2D>().enabled = true;
             }
         }

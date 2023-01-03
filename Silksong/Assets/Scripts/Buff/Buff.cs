@@ -16,12 +16,31 @@ public class Buff
 
 public class ElectricMark : Buff
 {
+    public static uint counter = 0;
+    public static List<Hittable> targets = new List<Hittable>();
+    
+    private int layers;
     public ElectricMark()
     {
+        layers = 0;
         buffType = BuffType.ElectricMark;
     }
 
-    public static uint counter = 0;
+    public void AddOneLayer()
+    {
+        layers++;
+    }
+
+    public int GetLayerNum()
+    {
+        return layers;
+    }
+
+    public static void LinkTargets()
+    {
+        
+    }
+    
 }
 
 public class SpeedUp : Buff
