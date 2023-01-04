@@ -39,7 +39,7 @@ public class PlayerStatusDic
             {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag(animatorParamsMapping.CanBreakMoonParamHash)},
             {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
             {EPlayerStatus.CanToCat, new PlayerStatusFlag(animatorParamsMapping.CanToCatParamHas)},
-            {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, playerController.gameObject.GetComponent<PlayerSkillManager>().equippingPlayerSkill.ManaCost, playerController.playerCharacter)},
+            {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, 0, playerController.playerCharacter)},
             {EPlayerStatus.CanPlunge, new PlayerStatusFlag(animatorParamsMapping.CanPlungeParamHash) },
             {EPlayerStatus.CanClimbIdle, new PlayerStatusFlag(animatorParamsMapping.CanClimbParamHash) },
 
@@ -48,6 +48,7 @@ public class PlayerStatusDic
 
     public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.OverrideStatuFlag)
     {
+        //Debug.Log(playerStatus);
         PlayerStatusFlag flag = m_StatusDic[playerStatus];
         flag.SetFlag(newFlag, calcuteFlagType);
     }

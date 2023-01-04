@@ -5,11 +5,11 @@ using System.Collections.Generic;
 public class PlayerAnimatorStatesControl
 {
     public  Animator Animator { get; }
-    //角色在不同的state上的行为，在animator的state上的SMB上设置对应动画的state
+    //瑙掕壊鍦ㄤ笉鍚岀殑state涓婄殑琛屼负锛屽湪animator鐨剆tate涓婄殑SMB涓婅缃搴斿姩鐢荤殑state
     public  PlayerStatesBehaviour CharacterStatesBehaviour { get; set; }
-    //animator参数映射
+    //animator鍙傛暟鏄犲皠
     public  PlayerAnimatorParamsMapping CharacterAnimatorParamsMapping { get; }
-    //提供一种设定角色state之间转换的状态，比如一个状态中从什么时候开始能够攻击，在animator的state上的SMB上设置对应动画的status
+    //鎻愪緵涓�绉嶈瀹氳鑹瞫tate涔嬮棿杞崲鐨勭姸鎬侊紝姣斿涓�涓姸鎬佷腑浠庝粈涔堟椂鍊欏紑濮嬭兘澶熸敾鍑伙紝鍦╝nimator鐨剆tate涓婄殑SMB涓婅缃搴斿姩鐢荤殑status
     public PlayerStatusDic PlayerStatusDic { get; private set; }
 
     public PlayerController PlayerController { get; set; }

@@ -52,16 +52,17 @@ public class PlayerHurt : PlayerAction
 
 public class PlayerCastSkill : PlayerAction
 {
+    
     public PlayerCastSkill(PlayerController playerController) : base(playerController)
     {
-        playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>();
+        //playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>();
     }
 
-    private PlayerSkillManager playerSkillManager;
+    //private PlayerSkillManager playerSkillManager;
 
     public override void StateStart(EPlayerState oldState)
     {
-        playerSkillManager.Cast();
+        //playerSkillManager.Cast();
     }
 
 
@@ -295,7 +296,7 @@ public class PlayerSprint : PlayerAction
 
     public void resetAirSprintLeftCount()
     {
-        AirSprintLeftCount = playerController.playerInfo.maxAirSprintCount;
+        AirSprintLeftCount = Constants.PlayerMaxAirSprintCount;
     }
 
     public override void StateStart(EPlayerState oldState)
@@ -304,6 +305,10 @@ public class PlayerSprint : PlayerAction
         if (oldState == EPlayerState.ClimbIdle)
         {
             playerController.Flip();
+        }
+        else
+        {
+            playerController.CheckFlipPlayer(0.5f);
         }
 
         int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
@@ -359,7 +364,7 @@ public class PlayerBreakMoon : PlayerAction
         /* Debug.Log(afterDistance);
          Debug.Log(toMoonDistance);
          Debug.Log(totalDistance);*/
-        totalTime = totalDistance.magnitude / playerController.playerInfo.breakMoonAvgSpeed;
+        totalTime = totalDistance.magnitude / Constants.BreakMoonAvgSpeed;
         // Debug.Log(totalTime);
 
         timer = 0;
@@ -450,6 +455,8 @@ public class PlayerBreakMoon : PlayerAction
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
                 PlayerAnimatorParamsMapping.SetControl(true);
+                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
+                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).resetDoubleJump();
                 currentTarget.atBreakMoonPoint();
             }
         }

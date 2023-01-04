@@ -32,6 +32,7 @@ public class PlayerInput : InputComponent
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
+    public InputButton soulSkill = new InputButton(KeyCode.R, XboxControllerButtons.None);
     ////TODO:xbox button mapping
     public InputButton showMap = new InputButton(KeyCode.M, XboxControllerButtons.None);
     ////TODO:xbox button mapping
@@ -56,6 +57,7 @@ public class PlayerInput : InputComponent
             jump,
             interact,
             normalAttack,
+            soulSkill,
             sprint,
             teleport,
             Pick,

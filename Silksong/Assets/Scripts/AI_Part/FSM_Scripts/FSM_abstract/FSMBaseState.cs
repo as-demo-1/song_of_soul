@@ -5,36 +5,38 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 /// <summary>
-/// ×´Ì¬»úÖĞ¶Ô×´Ì¬µÄ³éÏó,¾ßÌåÓÃ·¨¿É²Î¿¼Enemy×´Ì¬»úµÄ¹¹½¨Ä£Ê½¡£
+/// ×´Ì¬ï¿½ï¿½ï¿½Ğ¶ï¿½×´Ì¬ï¿½Ä³ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½É²Î¿ï¿½Enemy×´Ì¬ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½
 /// </summary>
-/// <typeparam name="T1">±ØĞëÊÇÃ¶¾ÙÀàĞÍ£¡£¡ÇÒÎªStateÃ¶¾Ù¡£</typeparam>
-/// <typeparam name="T2">±ØĞëÊÇÃ¶¾ÙÀàĞÍ£¡£¡ÇÒÎªTriggerÃ¶¾Ù¡£</typeparam>
+/// <typeparam name="T1">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ÎªStateÃ¶ï¿½Ù¡ï¿½</typeparam>
+/// <typeparam name="T2">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ÎªTriggerÃ¶ï¿½Ù¡ï¿½</typeparam>
 [Serializable]
 public  class FSMBaseState<T1,T2> 
 {
     //protected FSMManager<T1,T2> fsmManager;
+#if UNITY_EDITOR 
     [DisplayOnly]
-    public  T1 stateType;
+#endif
+    public T1 stateType;
     [NonSerialized]
     public List<FSMBaseTrigger<T1,T2>> triggers = new List<FSMBaseTrigger<T1,T2>>();
 
     /// <summary>
-    /// ×´Ì¬³õÊ¼»¯
+    /// ×´Ì¬ï¿½ï¿½Ê¼ï¿½ï¿½
     /// </summary>
     public virtual void InitState(FSMManager<T1,T2> fSMManager) { }
 
     /// <summary>
-    /// ½øÈë×´Ì¬Ê±µ÷ÓÃ
+    /// ï¿½ï¿½ï¿½ï¿½×´Ì¬Ê±ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public  virtual void EnterState(FSMManager<T1,T2> fSM_Manager) { }
 
     /// <summary>
-    /// ÍË³ö×´Ì¬Ê±µ÷ÓÃ
+    /// ï¿½Ë³ï¿½×´Ì¬Ê±ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public virtual void ExitState(FSMManager<T1,T2> fSM_Manager) { }
 
     /// <summary>
-    /// ×´Ì¬³ÖĞø¼°Ë¢ĞÂ
+    /// ×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½
     /// </summary>
     public virtual void Act_State(FSMManager<T1,T2> fSM_Manager) { }
     /// <summary>
@@ -61,7 +63,7 @@ public  class FSMBaseState<T1,T2>
 
     #region TriggerInvoke
     /// <summary>
-    /// ÔÚUpdateÖĞ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼şµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½Updateï¿½Ğ±ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerStateInUpdate(FSMManager<T1,T2> fsm_Manager)
     {
@@ -76,7 +78,7 @@ public  class FSMBaseState<T1,T2>
         }
     }
     /// <summary>
-    /// ÔÚFixUpdateÖĞ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼şµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½FixUpdateï¿½Ğ±ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerStateInFixUpdate(FSMManager<T1, T2> fsm_Manager)
     {
@@ -91,7 +93,7 @@ public  class FSMBaseState<T1,T2>
         }
     }
     /// <summary>
-    /// ÔÚOnColliderEnterÖĞ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼şµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½OnColliderEnterï¿½Ğ±ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerStateOnCollisionEnter(FSMManager<T1, T2> fsm_Manager,Collision2D collision)
     {
@@ -106,7 +108,7 @@ public  class FSMBaseState<T1,T2>
         }
     }
     /// <summary>
-    /// ÔÚOnColliderExitÖĞ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼şµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½OnColliderExitï¿½Ğ±ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerStateOnCollisionExit(FSMManager<T1, T2> fsm_Manager, Collision2D collision)
     {
@@ -121,7 +123,7 @@ public  class FSMBaseState<T1,T2>
         }
     }
     /// <summary>
-    /// ÔÚOnColliderStayÖĞ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼şµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½OnColliderStayï¿½Ğ±ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerStateOnCollisionStay(FSMManager<T1, T2> fsm_Manager, Collision2D collision)
     {
@@ -136,7 +138,7 @@ public  class FSMBaseState<T1,T2>
         }
     }
     /// <summary>
-    /// ÔÚOnTriggerEnterÖĞ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼şµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½OnTriggerEnterï¿½Ğ±ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerStateOnTriggerEnter(FSMManager<T1, T2> fsm_Manager, Collider2D collision)
     {
@@ -151,7 +153,7 @@ public  class FSMBaseState<T1,T2>
         }
     }
     /// <summary>
-    /// ÔÚOnTriggerExitÖĞ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼şµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½OnTriggerExitï¿½Ğ±ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerStateOnTriggerExit(FSMManager<T1, T2> fsm_Manager, Collider2D collision)
     {
@@ -166,7 +168,7 @@ public  class FSMBaseState<T1,T2>
         }
     }
     /// <summary>
-    /// ÔÚOnTriggerStayÖĞ±éÀúTrigger²¢Ìø×ªµ½Âú×ãÌõ¼şµÄ¶ÔÓ¦triggerËùÖ¸ÏòµÄ×´Ì¬¡£
+    /// ï¿½ï¿½OnTriggerStayï¿½Ğ±ï¿½ï¿½ï¿½Triggerï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½Ó¦triggerï¿½ï¿½Ö¸ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½
     /// </summary>
     public virtual void TriggerStateOnTriggerStay(FSMManager<T1, T2> fsm_Manager, Collider2D collision)
     {
@@ -191,7 +193,7 @@ public class EnemyFSMBaseState : FSMBaseState<EnemyStates,EnemyTriggers>
     public string defaultAnimationName;
     [NonSerialized]
     public UnityEvent animationEvents=new UnityEvent();
-    //¶ÔÒ»Ğ©´¥·¢º¯Êı½øĞĞ¶ş´Î·â×°
+    //ï¿½ï¿½Ò»Ğ©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¶ï¿½ï¿½Î·ï¿½×°
     //////////////////////////////////////////////////////////////////////////////////////////
     public override void InitState(FSMManager<EnemyStates, EnemyTriggers> fSMManager)
     {

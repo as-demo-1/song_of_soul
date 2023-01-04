@@ -143,7 +143,7 @@ public class AkGameObjectInspector : UnityEditor.Editor
 
 	public static void RigidbodyCheck(UnityEngine.GameObject gameObject)
 	{
-		if (AkWwiseEditorSettings.Instance.ShowMissingRigidBodyWarning && gameObject.GetComponent<UnityEngine.Rigidbody>() == null)
+		if (AkWwiseEditorSettings.Instance.ShowSpatialAudioWarningMsg && gameObject.GetComponent<UnityEngine.Rigidbody>() == null)
 		{
 			UnityEngine.GUILayout.Space(UnityEditor.EditorGUIUtility.standardVerticalSpacing);
 

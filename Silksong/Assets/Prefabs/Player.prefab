@@ -785,11 +785,13 @@ MonoBehaviour:
     positive: 100
     negative: 97
     controllerAxis: 1
+    ValueBuffer: 0
   vertical:
     NotNeedGainAndReleaseControl: 0
     positive: 119
     negative: 115
     controllerAxis: 2
+    ValueBuffer: 0
   normalAttack:
     NotNeedGainAndReleaseControl: 0
     key: 106
@@ -826,6 +828,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   gluedCount: 0
+  CharmListSO: {fileID: 0}
 --- !u!114 &484977951162521058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -840,12 +843,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 0}
   playerInfo:
-    jumpMinHeight: 0
-    maxFallSpeed: 15
-    sprintDistance: 4
-    maxAirSprintCount: 1
-    maxJumpCount: 1
-    breakMoonAvgSpeed: 10
+    hasDoubleJump: 1
     breakMoonPositionCurve:
       serializedVersion: 2
       m_Curve:
@@ -870,11 +868,11 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    normalGravityScale: 5
+    normalGravityScale: 6
     playerFacingRight: 1
     swimSpeed: 10
     gravityUnderWater: 0
-    plungeSpeed: 8
+    plungeSpeed: 16
   PlayerAnimator: {fileID: 448765876}
   underwaterLayerMask:
     serializedVersion: 2
@@ -891,7 +889,7 @@ MonoBehaviour:
   - 4
   canPlungeHeight: 3
   distanceToGround: -1
-  _guid: 5abe8ca4-eced-4d7e-94e6-6ef486e5fe9e
+  _guid: 00000000-0000-0000-0000-000000000000
   _saveSystem: {fileID: 0}
   _backpack: {fileID: 0}
   _itemToAdd: {fileID: 0}

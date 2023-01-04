@@ -5,18 +5,18 @@ using System;
 using UnityEngine.Events;
 /// <summary>
 /// 
-/// damageableµÄ³éÏó»ùÀà 
-/// </summary>×÷Õß£ºÇà¹Ï
+/// damageableï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+/// </summary>ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½
 public abstract class DamageableBase : MonoBehaviour
 {
-    public bool invulnerable;//ÊÇ·ñÎŞµĞ
+    public bool invulnerable;//ï¿½Ç·ï¿½ï¿½Şµï¿½
 
     [HideInInspector]
-    public Vector2 damageDirection;//ÉËº¦À´Ô´µÄ·½Ïò
+    public Vector2 damageDirection;//ï¿½Ëºï¿½ï¿½ï¿½Ô´ï¿½Ä·ï¿½ï¿½ï¿½
 
-    public bool playerAttackCanGainSoul;//Íæ¼Ò¹¥»÷Ê±ÄÜµÃµ½»ê
+    public bool playerAttackCanGainSoul;//ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½Ê±ï¿½ÜµÃµï¿½ï¿½ï¿½
 
-    public abstract void takeDamage(DamagerBase damager);//ÊÜµ½ÉËº¦Ê±µ÷ÓÃ
+    public abstract void takeDamage(DamagerBase damager);//ï¿½Üµï¿½ï¿½Ëºï¿½Ê±ï¿½ï¿½ï¿½ï¿½
 
     [Serializable]
     public class DamageEvent : UnityEvent<DamagerBase, DamageableBase>
@@ -29,20 +29,19 @@ public abstract class DamageableBase : MonoBehaviour
     public SfxSO takeDamageSfxSO;
 
 
-    protected virtual void Awake()//ÔÚawakeÊ±¼ì²â¸ÕÌå Íê³ÉÉè¶¨
+    protected virtual void Awake()//ï¿½ï¿½awakeÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½è¶¨
     {
         setRigidbody2D();
     }
 
-    protected void setRigidbody2D()//ontriggerEnterµÄ´¥·¢ĞèÒªÖÁÉÙÒ»·½ÓĞ¸ÕÌå  ÕâÀï±£Ö¤damableÓĞ¸ÕÌå
+    protected void setRigidbody2D()//ontriggerEnterï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ğ¸ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï±£Ö¤damableï¿½Ğ¸ï¿½ï¿½ï¿½
     {
-        if(GetComponent<Rigidbody2D>()==null)//Èç¹ûÃ»ÓĞÊÖ¶¯Éè¶¨µÄ¸ÕÌå ÔòÌí¼ÓÒ»¸östatic¸ÕÌå
+        if(GetComponent<Rigidbody2D>()==null)//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½è¶¨ï¿½Ä¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½staticï¿½ï¿½ï¿½ï¿½
         {
             gameObject.AddComponent<Rigidbody2D>();
-            gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;//Ä¬ÈÏÌí¼Óstatic¸ÕÌå ÓÃÓÚ»ú¹Ø¡¢Ç½±Ú  Dynamic¸ÕÌåĞèÒªÊÖ¶¯Ìí¼Ó
+            gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;//Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½staticï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú»ï¿½ï¿½Ø¡ï¿½Ç½ï¿½ï¿½  Dynamicï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½
         }
-        gameObject.GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;//Èç¹û¸ÕÌå½øÈëË¯Ãß×´Ì¬¾ÍÎŞ·¨ÏìÓ¦Åö×²
-        
+        gameObject.GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¯ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½Ş·ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½×²
     }
 
 }

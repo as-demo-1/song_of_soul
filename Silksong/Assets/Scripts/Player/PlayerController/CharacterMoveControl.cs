@@ -5,23 +5,23 @@ public class CharacterMoveControl
     /// <summary>
     /// Set this to dynamically modify the factor of a character ground acceleration, default value is 1.0f
     /// </summary>
-    public float GroundAccelerationFactor { get; set; } = 1.0f;
+    public float GroundAccelerationFactor { get; set; } = 1.3f;
     /// <summary>
     /// Set this to dynamically modify the factor of a character ground deceleration, default value is 1.0f
     /// </summary>
-    public float GroundDecelerationFactor { get; set; } = 1.0f;
+    public float GroundDecelerationFactor { get; set; } = 1.3f;
     /// <summary>
     /// Set this to dynamically modify the factor of a character air acceleration, default value is 1.0f
     /// </summary>
-    public float AirAccelerationFactor { get; set; } = 1.0f;
+    public float AirAccelerationFactor { get; set; } = 1.3f;
     /// <summary>
     /// Set this to dynamically modify the factor of a character air deceleration, default value is 1.0f
     /// </summary>
-    public float AirDecelerationFactor { get; set; } = 1.0f;
+    public float AirDecelerationFactor { get; set; } = 1.3f;
     /// <summary>
     /// modifine this to control the speedRate for character
     /// </summary>
-    public float SpeedRate { get; set; } = 1.0f;
+    public float SpeedRate { get; set; } = 1.1f;
     /// <summary>
     /// Time start for character acceleration or deceleration
     /// </summary>

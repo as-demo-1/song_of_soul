@@ -29,6 +29,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject player;
 
+    [SerializeField]
+    private GameObject mCamera;
+
     public AudioManager audioManager;
 
     public GameObject gamingUI;
@@ -51,15 +54,18 @@ public class GameManager : MonoBehaviour
         GameInitialize();
 
         //以下代码代表玩家从菜单进入游戏场景的初始化，临时使用
+        CreateCamera();
 
-        gamingUI = Instantiate(gamingUI);
-        DontDestroyOnLoad(gamingUI);
+        // 临时初始化UI
+        UIManager.Instance.ShowGameUI();
 
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
 
         mapPack = Instantiate(mapPack);
         DontDestroyOnLoad(mapPack);
+        uint bankid;
+        AkSoundEngine.LoadBank("General",out bankid);
 
     }
 
@@ -68,7 +74,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void creatPlayer()
     {
-        player= Instantiate(player.gameObject);     
+        player = Instantiate(player.gameObject);
+    }
+
+    public void CreateCamera()
+    {
+        GameObject tempCam = GameObject.Find("TempCamera");
+        if (tempCam != null)
+        {
+            GameObject.Destroy(tempCam);
+        }
+        GameObject cam = Instantiate(mCamera.gameObject);
+        cam.name = "CameraPack";
+        DontDestroyOnLoad(cam);
     }
 
     public void GameInitialize()
