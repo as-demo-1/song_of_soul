@@ -21,6 +21,7 @@ public abstract class SoulSkill : Hitter
     public int constPerAttack = 0;
 
     protected PlayerInfomation _playerInfomation;
+    protected PlayerCharacter _playerCharacter;
 
     protected SoulSkill()
     {
@@ -29,13 +30,13 @@ public abstract class SoulSkill : Hitter
     
     protected void Start()
     {
-        Debug.LogError("START TIMER UPDATE");
+        //Debug.LogError("START TIMER UPDATE");
         MonoManager.Instance.AddUpdateEvent(Timer.Instance.TimerUpdate);
     }
 
     protected void OnEnable()
     {
-        Debug.LogError("test!!!!!!!!!!!");
+        //Debug.LogError("test!!!!!!!!!!!");
         // 使用定时器定时结算灵魂状态的const
         Timer.Instance.StartTickActionLoop("TickSoulStatus", 0, 10, TickSoulStatus);
     }
@@ -48,8 +49,9 @@ public abstract class SoulSkill : Hitter
     private int debugCnt = 0;
     protected void TickSoulStatus()
     {
-        _playerInfomation.CostMana(constPerSec);
-        Debug.LogError("!!!!!!!!! soul skill ticking" + debugCnt);
+        //_playerInfomation.CostMana(constPerSec);
+        _playerCharacter.CostMana(constPerSec);
+        //Debug.LogError("!!!!!!!!! soul skill ticking" + debugCnt);
         debugCnt++;
     }
 }

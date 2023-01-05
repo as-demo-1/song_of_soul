@@ -129,6 +129,10 @@ public class PlayerCharacter : MonoBehaviour
     {
         Mana+=number;
     }
+    public void CostMana(int cost)
+    {
+        Mana -= cost;
+    }
 
     private void changeManaBall(PlayerCharacter playerCharacter)
     {

@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void creatPlayer()
     {
-        player = Instantiate(player.gameObject);
+        player = Instantiate(player.gameObject, transform.position, Quaternion.identity);
     }
 
     public void CreateCamera()

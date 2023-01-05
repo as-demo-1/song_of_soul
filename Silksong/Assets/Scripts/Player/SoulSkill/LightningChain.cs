@@ -19,20 +19,21 @@ public class LightningChain : SoulSkill
     
     private void Awake()
     {
-        _playerInfomation = GetComponentInParent<PlayerInfomation>();
+        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
+        _playerCharacter = GetComponentInParent<PlayerCharacter>();
         m_eventType = BattleEventType.LightningChainAtk;
     }
 
     void Start()
     {
         base.Start();
-        _playerInfomation = GetComponentInParent<PlayerInfomation>();
-        RefreshAtk(_playerInfomation.atk);
+        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
+        //RefreshAtk(_playerInfomation.atk);
     }
 
     private void OnEnable()
     {
-        _playerInfomation = GetComponentInParent<PlayerInfomation>();
+        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
         base.OnEnable();
         SpeedUp(true);
     }
