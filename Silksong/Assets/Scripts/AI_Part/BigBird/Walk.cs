@@ -28,16 +28,23 @@ namespace BehaviorDesigner.Runtime.Tasks
             {
                 return TaskStatus.Success;
             }
-            if (Player.position.x >= rb.position.x)
+            if (Player.position.x > rb.position.x)
             {
                 animator.ResetTrigger("MoveRight");
                 animator.SetTrigger("MoveLeft");
+            }
+            else if (Player.position.x == rb.position.x)
+            {
+                animator.SetTrigger("MoveLeft");
+                animator.ResetTrigger("MoveRight");
+               
             }
             else
             {
                 animator.ResetTrigger("MoveLeft");
                 animator.SetTrigger("MoveRight");
             }
+        
             
 
             Vector2 target = new Vector2(Player.position.x, rb.position.y);

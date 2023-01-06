@@ -30,7 +30,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             Debug.Log(body.position.y);
            if (body.position.y == -2f)
            {
-               
+               animator.ResetTrigger("Fly_Up");
                return TaskStatus.Success;
            }
            return TaskStatus.Running;

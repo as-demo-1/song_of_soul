@@ -6,7 +6,7 @@ namespace BehaviorDesigner.Runtime.Tasks
     {
         private Boss_BigBird BirdController;
         private GameObject Player;
-        private float Health = 50;
+        private float Health = 500;
         public override void OnStart()
         {
             Player = GameObject.FindGameObjectWithTag("Player");
