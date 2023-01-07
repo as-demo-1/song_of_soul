@@ -119,6 +119,9 @@ public class PlayerController : MonoBehaviour
     [DisplayOnly]
     public float distanceToGround = -1.0f;  // 距离下方Groud距离
 
+    public ParticleSystem climp;
+    public ParticleSystem dash;
+
     //Teleport
     /// <summary>
     /// Only Demo Code for save
@@ -566,10 +569,12 @@ public class PlayerController : MonoBehaviour
         {
             if (playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.ClimbIdle)
             {
+                
                 checkRightSide = playerInfo.playerFacingRight;
             }
             else
             {
+                //climp.Play();
                 PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash, false);
                 return;
             }

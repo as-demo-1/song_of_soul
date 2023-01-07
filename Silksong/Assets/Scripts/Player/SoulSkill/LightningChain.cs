@@ -35,13 +35,13 @@ public class LightningChain : SoulSkill
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
         base.OnEnable();
-        SpeedUp(true);
+        //SpeedUp(true);
     }
 
     private void OnDisable()
     {
         base.OnDisable();
-        SpeedUp(false);
+        //SpeedUp(false);
     }
 
     private LightningChain eventVariant;
