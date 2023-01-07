@@ -52,16 +52,17 @@ public class PlayerHurt : PlayerAction
 
 public class PlayerCastSkill : PlayerAction
 {
+    
     public PlayerCastSkill(PlayerController playerController) : base(playerController)
     {
-        playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>();
+        //playerSkillManager = playerController.gameObject.GetComponent<PlayerSkillManager>();
     }
 
-    private PlayerSkillManager playerSkillManager;
+    //private PlayerSkillManager playerSkillManager;
 
     public override void StateStart(EPlayerState oldState)
     {
-        playerSkillManager.Cast();
+        //playerSkillManager.Cast();
     }
 
 

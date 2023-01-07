@@ -58,9 +58,7 @@ public class PlayerCharacter : MonoBehaviour
     }
 
     public HpDamable playerDamable;
-    private PlayerHpUI hpUI;
-    private Image ManaBall;
-
+    private PlayerStatusMenu hpUI;
     
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
     //private PlayerController playerController;
@@ -79,22 +77,24 @@ public class PlayerCharacter : MonoBehaviour
     }
     public void playerInit()
     { 
-
         playerDamable.MaxHp = maxHp;
         hpUI.setRepresentedDamable(playerDamable);
         playerDamable.setCurrentHp(maxHp);
-        Mana = 40;
+        MaxMana = Constants.playerInitialMaxMana;
+        Mana = MaxMana;
     }
     void Start()
     {
-        GameObject gamingUI = GameObject.FindGameObjectWithTag("GamingUI");
+        GameObject gamingUI = GameObject.FindGameObjectWithTag("UIMenu_PlayerStatus");
         if (gamingUI == null) return;
 
-        hpUI = gamingUI.GetComponentInChildren<PlayerHpUI>();
-        ManaBall = gamingUI.transform.Find("ManaBall").GetComponent<Image>();
+        hpUI = gamingUI.GetComponentInChildren<PlayerStatusMenu>();
         onManaChangeEvent.AddListener(changeManaBall);
 
         playerInit();
+
+        hpUI.ChangeManaMax(this);
+        hpUI.ChangeManaValue(this);
     }
 
     public int getAttackGainManaNumber()
@@ -129,10 +129,14 @@ public class PlayerCharacter : MonoBehaviour
     {
         Mana+=number;
     }
+    public void CostMana(int cost)
+    {
+        Mana -= cost;
+    }
 
     private void changeManaBall(PlayerCharacter playerCharacter)
     {
-        ManaBall.fillAmount = (float)playerCharacter.Mana / playerCharacter.MaxMana;
+        hpUI.ChangeManaValue(playerCharacter);
     }
    // -----------------------------------------------------------------------------
     protected void addMaxHp(int number)

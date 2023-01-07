@@ -2,6 +2,7 @@ using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
 
+// todo 修改相机镜头时，如果此时已经有镜头了，那么执行一次exit
 /// <summary>
 /// 隐藏小路镜头切换的触发器 作者：次元
 /// 修改：将镜头改为 CM MixingCamera 通过调整权重进行平滑切换 by 敢敢
@@ -66,6 +67,7 @@ public class Trigger2DHidePath : Trigger2DBase
     {
         if (mCinemachineConfiner != null && !isSwitched)
         {
+            print($"进入相机区域 {transform.name}");
             _KillTween();
             float target0 = 0.01f;
             float target1 = 1;
@@ -112,6 +114,7 @@ public class Trigger2DHidePath : Trigger2DBase
     {
         if (mCinemachineConfiner != null && isSwitched)
         {
+            print($"退出相机区域 {transform.name}");
             _KillTween();
             float target0 = 1;
             float target1 = 0.01f;
@@ -130,7 +133,7 @@ public class Trigger2DHidePath : Trigger2DBase
 
     public void BeforeChangeScene()
     {
-        _KillTween();
+        exitEvent();
         if (mCinemachineConfiner != null)
         {
             mCinemachineConfiner.m_BoundingShape2D = null;
