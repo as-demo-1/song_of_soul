@@ -13,16 +13,19 @@ public class Laser : MonoBehaviour
     public LineRenderer m_lineRender;
 
     private Transform m_transform;
+
+    private Vector3 dir;
     // Start is called before the first frame update
 
     private void Awake()
     {
         m_transform = GetComponent<Transform>();
+        dir = GameObject.FindGameObjectWithTag("Player").transform.position;
     }
 
     void FireLaser()
     {
-        if (Physics2D.Raycast(m_transform.position, transform.right))
+        if (Physics2D.Raycast(m_transform.position, dir - m_transform.position))
         {
             RaycastHit2D hit = Physics2D.Raycast(m_transform.position, transform.right);
             DrawRay(firepoint.position,hit.point);

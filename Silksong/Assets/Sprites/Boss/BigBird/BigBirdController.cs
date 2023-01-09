@@ -10,15 +10,28 @@ public class BigBirdController : MonoBehaviour
     private Vector3 bossloc;
     private Vector3 playerloc;
     private int cur_loc;
-    private int Health = 100;
+    private int Health = 300;
     void Start()
     {
         rbd = GetComponent<Rigidbody2D>();
     }
 
+    public  int GetHealth()
+    {
+        return Health;
+    }
+
+    public void SetHealth(int Damage)
+    {
+        Health -= Damage;
+    }
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Health -= 50;
+        }
         bossloc = rbd.position;
         playerloc = Player.transform.position;
         CaculateLoc(bossloc,playerloc);

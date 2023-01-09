@@ -18,17 +18,13 @@ namespace BehaviorDesigner.Runtime.Tasks
             animator = gameObject.GetComponentInChildren<Animator>();
             
         }
+        
 
         IEnumerator Reset()
         {
-            yield return new WaitForSeconds(1f);
-            Vector2 targetup = new Vector2(body.position.x, -2f);
-            Vector2 resup = Vector2.MoveTowards(body.position, targetup, Speed * Time.fixedDeltaTime);
-            body.MovePosition(resup);
-           // animator.ResetTrigger("Attack_Claw");
-            IsFirstAttack = true;
-            reset = true;
-           
+            yield return new WaitForSeconds(2f);
+          
+            
         }
     
 
@@ -41,34 +37,40 @@ namespace BehaviorDesigner.Runtime.Tasks
         public override TaskStatus OnUpdate()
         {
 
+            float time = 0;
             //if(reset)
            // return TaskStatus.Inactive;
-            
-            animator.SetTrigger("Attack_Claw");
-                IsFirstAttack = false;
-            Vector2 target = new Vector2(Player.position.x, Player.position.y - 1.0f);
-            Vector2 res = Vector2.MoveTowards(body.position, target, Speed * Time.fixedDeltaTime);
-            body.MovePosition(res);
+       
+               animator.SetTrigger("Attack_Claw");
+               IsFirstAttack = false;
+               Vector2 target = new Vector2(Player.position.x, Player.position.y - 1.0f);
+               Vector2 res = Vector2.MoveTowards(body.position, target, Speed * Time.fixedDeltaTime);
+               body.MovePosition(res);
+
+               time += Time.deltaTime;
+
+               StartCoroutine(Reset());
+
+
+               Debug.Log("time"+time);
+               if (body.position.y == -4.246644f || time >= 2)
+               {
+                   animator.ResetTrigger("Attack_Claw");
+                   Vector2 targetup = new Vector2(body.position.x, -2f);
+                   Vector2 resup = Vector2.MoveTowards(body.position, targetup, Speed * Time.fixedDeltaTime);
+                   body.MovePosition(resup);
+                   // animator.ResetTrigger("Attack_Claw")
+                   // ;
+                   time = 0;
+                   return TaskStatus.Success;
+                   Debug.Log("1");
+
+                //   return TaskStatus.Success;
+
+               }
            
-          
-            StartCoroutine(Reset());
-            
-            
-            //Debug.Log(body.position.y);
-            if (body.position.y == -4.246644f)
-            {
-                animator.ResetTrigger("Attack_Claw");
 
-                Vector2 targetup = new Vector2(body.position.x, -2f);
-                Vector2 resup = Vector2.MoveTowards(body.position, targetup, Speed * Time.fixedDeltaTime);
-                body.MovePosition(resup);
-                Debug.Log("1");
-                
-                return TaskStatus.Inactive;
-                
-            }
-
-            return TaskStatus.Running;
+           return TaskStatus.Running;
 
         }
     }
