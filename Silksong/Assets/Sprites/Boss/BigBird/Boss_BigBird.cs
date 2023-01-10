@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,6 +8,7 @@ using UnityEngine.Serialization;
 public class Boss_BigBird : MonoBehaviour
 {
     public GameObject PlayerRef;
+    public float Health;
     [Header("MapObjectsInfo")]
     public List<GameObject> StoneMonsterLoc;
     public List<GameObject> StoneMonsterPool;
@@ -31,12 +33,15 @@ public class Boss_BigBird : MonoBehaviour
     private Vector2 temploc;
     private Vector2 lsa;
     private int MonsterSpawnLocIndex = 0;
+    private BehaviorTree BehaviorTree;
     void Start()
     {
         lsa = LaserLeftStartArea.transform.position;
+    
     }
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.B))
         {
             SpawnStoneMonster();
