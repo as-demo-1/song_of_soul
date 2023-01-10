@@ -34,9 +34,13 @@ public class GameManager : MonoBehaviour
 
     public AudioManager audioManager;
 
+    public UIManager uiManager;
+
     public GameObject gamingUI;
 
     public GameObject mapPack;
+
+    public GameObject eventSystem;
 
     public SaveSystem saveSystem;
 
@@ -62,8 +66,8 @@ public class GameManager : MonoBehaviour
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
 
-        mapPack = Instantiate(mapPack);
-        DontDestroyOnLoad(mapPack);
+        eventSystem = Instantiate(eventSystem);
+        DontDestroyOnLoad(eventSystem);
         uint bankid;
         AkSoundEngine.LoadBank("General",out bankid);
 
@@ -93,5 +97,6 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 120;
         audioManager = Instantiate(audioManager);
+        uiManager = Instantiate(uiManager);
     }
 }

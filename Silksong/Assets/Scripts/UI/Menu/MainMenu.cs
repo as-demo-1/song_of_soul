@@ -56,7 +56,7 @@ public class MainMenu : MonoBehaviour
     {
         obj.name = index.ToString();
         GComponent comp = obj.asCom;
-        GTextField text = comp.GetChild("text").asTextField;
+        GTextField text = comp.GetChild("title").asTextField;
         text.text = btnInfos[index].text;
         obj.onRollOut.Add(onRollOut);
         obj.onRollOver.Add(onRollOver);
