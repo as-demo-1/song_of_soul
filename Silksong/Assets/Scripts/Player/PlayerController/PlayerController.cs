@@ -119,6 +119,9 @@ public class PlayerController : MonoBehaviour
     [DisplayOnly]
     public float distanceToGround = -1.0f;  // 距离下方Groud距离
 
+    public ParticleSystem climp;
+    public ParticleSystem dash;
+
     //Teleport
     /// <summary>
     /// Only Demo Code for save
@@ -225,19 +228,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public GameObject normalAttackPrefab;
+    //public GameObject normalAttackPrefab;
     public GameObject lightningChainPrefab;
-    private PlayerNormalAtk _normalAttack;
+    //private PlayerNormalAtk _normalAttack;
     private LightningChain _lightningChain;
+    //public PlayerInfomation playerInfomation;
     public void init()
     {
-        _normalAttack = Instantiate(normalAttackPrefab).GetComponent<PlayerNormalAtk>();
-        _normalAttack.transform.SetParent(transform); 
-        _normalAttack.transform.localPosition = new Vector3(0, 0, 0);
+        //_normalAttack = Instantiate(normalAttackPrefab).GetComponent<PlayerNormalAtk>();
+        //_normalAttack.transform.SetParent(transform); 
+        //_normalAttack.transform.localPosition = new Vector3(0, 0, 0);
 
-        _lightningChain = Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
+        _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
         _lightningChain.transform.SetParent(transform);
-        _lightningChain.transform.localPosition = new Vector3(0,0,0);
+        _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
 
         RB = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
@@ -277,8 +281,7 @@ public class PlayerController : MonoBehaviour
 
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
-        
-        TickNormalAtk();
+
         TickLightningChain();
     }
 
@@ -292,23 +295,50 @@ public class PlayerController : MonoBehaviour
         //Interact();
     }
 
-    public void TickNormalAtk()
-    {
-        if (PlayerInput.Instance.normalAttack.IsValid)
-        {
-            _normalAttack.TiggerAtkEvent();
-        }
-    }
+    //public void TickNormalAtk()
+    //{
+    //    if (PlayerInput.Instance.normalAttack.IsValid)
+    //    {
+    //        _normalAttack.TiggerAtkEvent();
+    //    }
+    //}
 
     public void TickLightningChain()
     {
+        if (playerCharacter.Mana <= 0)
+        {
+            _lightningChain.gameObject.SetActive(false);
+        }
         if (PlayerInput.Instance.soulSkill.IsValid)
         {
-            _lightningChain.TiggerAtkEvent();
+            PlayerAnimator.SetTrigger("castSkill");
+            Debug.LogError("R is down");
+            if (_lightningChain.isActiveAndEnabled)
+            {
+                Debug.LogError("light chain is active");
+                _lightningChain.TiggerAtkEvent();
+            }
+            else
+            {
+                if (playerCharacter.Mana < _lightningChain.constPerSec)
+                {
+                    Debug.LogError("not enough mana");
+                }
+                else
+                {
+                    _lightningChain.gameObject.SetActive(true);
+                    _lightningChain.enabled = true;
+                }
+            }
         }
-        _lightningChain.TriggerAddElectricMarkEvent();
+
+        if (_lightningChain.isActiveAndEnabled)
+        {
+            _lightningChain.TriggerAddElectricMarkEvent();
+            _lightningChain.UpdateTargetsLink();
+        }
     }
-    
+
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
@@ -539,10 +569,12 @@ public class PlayerController : MonoBehaviour
         {
             if (playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.ClimbIdle)
             {
+                
                 checkRightSide = playerInfo.playerFacingRight;
             }
             else
             {
+                //climp.Play();
                 PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash, false);
                 return;
             }

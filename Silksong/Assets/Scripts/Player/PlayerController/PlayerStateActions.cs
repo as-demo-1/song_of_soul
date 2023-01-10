@@ -148,6 +148,7 @@ public class PlayerClimbJump : PlayerAction
 
         playerController.StopCoroutine(IEClimbJumping());
         playerController.StartCoroutine(IEClimbJumping());
+        //playerController.climp.Play();
     }
 
     public override void StateUpdate()
@@ -319,6 +320,8 @@ public class PlayerSprint : PlayerAction
             AirSprintLeftCount--;
 
         playerController.gravityLock = true;
+
+        //playerController.dash.Play();
     }
     public override void StateEnd(EPlayerState newState)
     {
