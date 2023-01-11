@@ -55,8 +55,8 @@ public class GameManager : MonoBehaviour
 
         //以下代码代表玩家从菜单进入游戏场景的初始化，临时使用
 
-        gamingUI = Instantiate(gamingUI);
-        DontDestroyOnLoad(gamingUI);
+        //gamingUI = Instantiate(gamingUI);
+        //DontDestroyOnLoad(gamingUI);
 
         CreateCamera();
         creatPlayer();
