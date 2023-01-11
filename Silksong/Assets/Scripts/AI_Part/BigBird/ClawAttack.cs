@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro.Examples;
 using UnityEngine;
 namespace BehaviorDesigner.Runtime.Tasks
 {
@@ -10,7 +11,7 @@ namespace BehaviorDesigner.Runtime.Tasks
         private Transform Player;
         private bool IsFirstAttack = true;
         private bool reset = false;
-
+        float time = 0;
         public override void OnAwake()
         {
             Player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -37,7 +38,7 @@ namespace BehaviorDesigner.Runtime.Tasks
         public override TaskStatus OnUpdate()
         {
 
-            float time = 0;
+          
             //if(reset)
            // return TaskStatus.Inactive;
        
@@ -52,7 +53,7 @@ namespace BehaviorDesigner.Runtime.Tasks
                StartCoroutine(Reset());
 
 
-               Debug.Log("time"+time);
+              // Debug.Log("time"+time);
                if (body.position.y == -4.246644f || time >= 2)
                {
                    animator.ResetTrigger("Attack_Claw");
