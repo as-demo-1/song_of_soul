@@ -40,6 +40,7 @@ public class Trigger2DHidePath : Trigger2DBase
 
     private PolygonCollider2D preBoundary;
     private bool isSwitched;
+    private bool isChangeScene = false;
 
     void Start()
     {
@@ -119,6 +120,10 @@ public class Trigger2DHidePath : Trigger2DBase
 
     private void _exitEvent(bool force)
     {
+        if (isChangeScene)
+        {
+            return;
+        }
         if (mCinemachineConfiner != null && isSwitched)
         {
             cameraController.BeforeExitBound(this);
@@ -149,16 +154,17 @@ public class Trigger2DHidePath : Trigger2DBase
 
     public void BeforeChangeScene()
     {
-        exitEvent();
-        if (mCinemachineConfiner != null)
-        {
-            mCinemachineConfiner.m_BoundingShape2D = null;
-        }
+        _exitEvent(true);
+        //isChangeScene = true;
+        //if (mCinemachineConfiner != null)
+        //{
+        //    mCinemachineConfiner.m_BoundingShape2D = null;
+        //}
     }
 
     public void ForceExitEvent()
     {
-        _exitEvent(true);
+        //_exitEvent(true);
     }
 
     private void _ClearBoundary()

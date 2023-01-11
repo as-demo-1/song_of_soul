@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
 
     public AudioManager audioManager;
 
-    public UIManager uiManager;
-
     public GameObject gamingUI;
 
     public GameObject mapPack;
@@ -97,6 +95,5 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 120;
         audioManager = Instantiate(audioManager);
-        uiManager = Instantiate(uiManager);
     }
 }
