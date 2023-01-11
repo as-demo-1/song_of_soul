@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class SoulJump 
 {
-    public static bool ifGetSoulJump;
+    public static bool ifGetSoulJump = true;
 }
