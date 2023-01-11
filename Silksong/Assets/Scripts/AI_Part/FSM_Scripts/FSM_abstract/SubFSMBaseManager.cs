@@ -78,12 +78,11 @@ public class EnemySubFSMManager:EnemyFSMBaseState
         {
             currentState = statesDic[state];
             currentStateName = state;
-            Debug.Log(currentStateName);
             currentState.EnterState(fsmManager);
         }
         else
         {
-            Debug.LogError("敌人状态不存在");
+            Debug.LogError("敌人状态不存在 " + state);
         }
         
     }

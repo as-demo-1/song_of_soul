@@ -10,32 +10,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Boss01_Part1_Triple2
+  m_Name: Boss01_Part1_Shoot
   m_EditorClassIdentifier: 
-  lastStateID: 20
+  lastStateID: 13
   lastTriggerID: 0
-  StateName: Boss01_Part1_Triple2
-  StateType: 20
+  StateName: Boss01_Part1_Shoot
+  StateType: 13
   stateConfig:
     id: 0
   TriggerType: 0
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
   references:
     version: 1
     00000000:
-      type: {class: Enemy_PlayAnimWithSpeed_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_Shoot_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 20
-        defaultAnimationName: Triple1
-        moveSpeed: {x: 5, y: 0}
-        maxMoveDis: 10
-        startWaitTime: 1
+        stateType: 13
+        defaultAnimationName: Charge
+        isflying: 0
+        flyingMinHight: 0
+        shootSequence:
+        - WaveShoot_1
+        - WaveShoot_2
+        - WaveShoot_3
+        index: 0
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: 
-        maxTime: 0
+        targetState: Boss01_Part1_Idle
+        maxTime: 1
+        timer: 0
+    00000002:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Boss01_Part1_Idle
+        maxTime: 1
         timer: 0

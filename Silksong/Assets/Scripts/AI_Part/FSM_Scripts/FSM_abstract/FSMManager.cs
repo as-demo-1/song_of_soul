@@ -110,7 +110,6 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     {
         if (currentState != null)
         {
-            Debug.Log(currentStateName + this.rigidbody2d);
             currentState.FixAct_State(this);
             currentState.TriggerStateInFixUpdate(this);
         }

@@ -5,9 +5,6 @@ using UnityEngine;
 public class BulletScript_Straight : MonoBehaviour
 {
     [SerializeField]
-    GameObject StraightBulletPrefab;
-
-    [SerializeField]
     float startspeed = 0f;
 
     [SerializeField]
@@ -18,29 +15,15 @@ public class BulletScript_Straight : MonoBehaviour
 
     Collider2D coll;
     Transform bulletTransform;
-
-    protected float currentSpeed;
-    protected float smoothSpeed;
-
-    public void SetBullet(Vector3 Position, Quaternion Rotation, float startspeed, float targetspeed, float speedupTime)
-    {
-        if (StraightBulletPrefab == null)
-        {
-            Debug.LogError("没有为散射子弹脚本指定预制体");
-            return;
-        }
-        Instantiate(StraightBulletPrefab, Position, Rotation);
-        BulletScript_Straight bullet_Script = StraightBulletPrefab.GetComponent<BulletScript_Straight>();
-        bullet_Script.startspeed = startspeed;
-        bullet_Script.targetSpeed = targetspeed;
-        bullet_Script.speedUpTime = speedupTime;
-    }
+    float currentSpeed;
+    float smoothSpeed;
+    
 
     private void Start()
     {
         bulletTransform = transform;
         coll = GetComponent<Collider2D>();
-        currentSpeed = startspeed;
+        currentSpeed = startspeed;  
     }
 
     private void Update()
