@@ -22,7 +22,7 @@ public abstract class DamageableBase : MonoBehaviour
     public class DamageEvent : UnityEvent<DamagerBase, DamageableBase>
     { }
 
-    public DamageEvent takeDamageEvent;
+    public DamageEvent takeDamageEvent = new DamageEvent();
 
     public AudioCue takeDamageAudio;
 

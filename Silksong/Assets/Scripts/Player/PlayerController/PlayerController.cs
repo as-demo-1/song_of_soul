@@ -119,8 +119,18 @@ public class PlayerController : MonoBehaviour
     [DisplayOnly]
     public float distanceToGround = -1.0f;  // 距离下方Groud距离
 
+    #region 特效
+    [Header("特效")]
     public ParticleSystem climp;
+    public ParticleSystem climpLight;
     public ParticleSystem dash;
+    public ParticleSystem jump;
+    public ParticleSystem plunge;
+    public ParticleSystem hurt;
+    public ParticleSystem lighting;
+    #endregion
+
+    InvulnerableDamable damable;
 
     //Teleport
     /// <summary>
@@ -240,6 +250,7 @@ public class PlayerController : MonoBehaviour
         //_normalAttack.transform.localPosition = new Vector3(0, 0, 0);
 
         _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
+        _lightningChain.gameObject.SetActive(false);
         _lightningChain.transform.SetParent(transform);
         _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
 
@@ -265,7 +276,7 @@ public class PlayerController : MonoBehaviour
 
         WhenStartSetLastHorizontalInputDirByFacing();
 
-        HpDamable damable = GetComponent<HpDamable>();
+        damable = GetComponent<InvulnerableDamable>();
         damable.takeDamageEvent.AddListener(getHurt);
         damable.onDieEvent.AddListener(die);
     }
@@ -276,13 +287,15 @@ public class PlayerController : MonoBehaviour
         CheckIsGrounded();
         CheckUnderWater();
         CheckHasWallToClimb();
-        playerAnimatorStatesControl.ParamsUpdate();
-        playerToCat.catUpdate();
+        
 
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
 
         TickLightningChain();
+
+        playerAnimatorStatesControl.ParamsUpdate();
+        playerToCat.catUpdate();
     }
 
     private void LateUpdate()
@@ -317,6 +330,8 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.LogError("light chain is active");
                 _lightningChain.TiggerAtkEvent();
+                _lightningChain.gameObject.SetActive(false);
+                _lightningChain.enabled = false;
             }
             else
             {
@@ -326,6 +341,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
+                    Debug.LogError("cast skill");
                     _lightningChain.gameObject.SetActive(true);
                     _lightningChain.enabled = true;
                 }
@@ -385,6 +401,10 @@ public class PlayerController : MonoBehaviour
     {
         return playerGroundedCheck.IsGroundedBuffer;
     }
+    public bool isGrounded()
+    {
+        return playerGroundedCheck.IsGrounded;
+    }
 
     public void CheckFlipPlayer(float setAccelerationNormalizedTime)
     {
@@ -441,6 +461,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
         playerToCat.toHuman();
+        Debug.Log("受伤");
     
     }
 

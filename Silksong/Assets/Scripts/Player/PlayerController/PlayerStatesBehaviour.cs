@@ -143,6 +143,13 @@ public class PlayerJump : PlayerAction
 
         playerController.StopCoroutine(JumpUpCheck());
         playerController.StartCoroutine(JumpUpCheck());
+
+        //Debug.Log("跳跃参数：" + CurrentJumpCountLeft);
+        if(CurrentJumpCountLeft == 0)
+        {
+            playerController.jump.Play();
+        }
+        
     }
 
     public override void StateUpdate()

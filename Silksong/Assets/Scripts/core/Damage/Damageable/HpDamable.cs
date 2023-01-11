@@ -6,12 +6,12 @@ using UnityEditor;
 using UnityEngine.Events;
 /// <summary>
 /// 
-/// ÓµÓĞÉúÃüÖµ¼°Ïà¹Ø·½·¨µÄdamable 
-/// </summary>×÷Õß£ºÇà¹Ï
+/// Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ø·ï¿½ï¿½ï¿½ï¿½ï¿½damable 
+/// </summary>ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½
 public class HpDamable :Damable
 {
     [SerializeField]
-    private int maxHp ;//×î´óÉúÃüÖµ
+    private int maxHp ;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
     public int MaxHp
     {
         get { return maxHp; }
@@ -19,7 +19,7 @@ public class HpDamable :Damable
     }
 
     [SerializeField]
-    private int currentHp;//µ±Ç°hp
+    private int currentHp;//ï¿½ï¿½Ç°hp
     public int CurrentHp
     {
         get { return currentHp; }
@@ -40,7 +40,8 @@ public class HpDamable :Damable
 
     public setHpEvent onHpChange=new setHpEvent();
 
-    public AudioCue dieAudio;//ÔÚaudiomanagerÖĞÓĞ°ó¶¨¹ÖÎïhpdamableÄ¬ÈÏ¡¶ÊÜ»÷¡·ÒôĞ§µÄĞ§¹û
+    public ParticleSystem hurt = default;
+    
 
 
     public override void takeDamage(DamagerBase damager)
@@ -49,10 +50,14 @@ public class HpDamable :Damable
         {
            // return;
         }
-
+        takeDamageEvent.Invoke(damager, this);
         base.takeDamage(damager);
         addHp(-damager.getDamage(this),damager);
-
+        if(hurt)
+        {
+            Destroy(Instantiate(hurt, transform), 3.0f);
+        }
+        
     }
 
 
@@ -66,7 +71,7 @@ public class HpDamable :Damable
         }
     }
 
-    public void addHp(int number,DamagerBase damager)//ÈçÊÜµ½ÉËº¦ number<0
+    public void addHp(int number,DamagerBase damager)//ï¿½ï¿½ï¿½Üµï¿½ï¿½Ëºï¿½ number<0
     {
         setCurrentHp(currentHp + number,damager);
     }
@@ -76,13 +81,9 @@ public class HpDamable :Damable
         onDieEvent.Invoke(damager,this);
 
         if(gameObject.tag!="Player")//reborn player for  test
-        Destroy(gameObject);//Î´ÍêÉÆ
+        Destroy(gameObject);//Î´ï¿½ï¿½ï¿½ï¿½
 
         Debug.Log(gameObject.name+" die");
-        if (dieAudio)
-        {
-            dieAudio.PlayAudioCue();
-        }
 
     }
 

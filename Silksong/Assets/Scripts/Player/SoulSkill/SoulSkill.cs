@@ -23,10 +23,11 @@ public abstract class SoulSkill : Hitter
     protected PlayerInfomation _playerInfomation;
     protected PlayerCharacter _playerCharacter;
 
-    protected SoulSkill()
-    {
-        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-    }
+    //protected SoulSkill()
+    //{
+    //    _playerCharacter = GetComponentInParent<PlayerCharacter>();
+    //    //_playerInfomation = GetComponentInParent<PlayerInfomation>();
+    //}
     
     protected void Start()
     {

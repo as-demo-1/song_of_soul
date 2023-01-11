@@ -22,6 +22,8 @@ public class ElectricMark : Buff
     private static uint currentIndex = 0;
     
     private int layers;
+
+     
     public ElectricMark()
     {
         layers = 0;
@@ -43,7 +45,7 @@ public class ElectricMark : Buff
         layers = 0;
     }
 
-    private GameObject electricMarkPrefeb;
+    public GameObject electricMarkPrefeb = default;
     public void ShowPerformance(Transform perfPos)
     {
         if (electricMarkPrefeb is null)

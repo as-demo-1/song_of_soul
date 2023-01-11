@@ -39,6 +39,7 @@ public class PlayerHurt : PlayerAction
     public override void StateEnd(EPlayerState newState)
     {
         PlayerAnimatorParamsMapping.SetControl(true);
+        playerController.hurt.Play();
     }
     public override void StateUpdate()
     {
@@ -78,12 +79,17 @@ public class PlayerPlunge : PlayerAction
 
     public int plungeStrength;
 
-
+    public bool hasPlunged;
     public override void StateStart(EPlayerState oldState)
     {
-        // Debug.Log("start plunging");
+        //if (hasPlunged)
+        //{
+        //    return;
+        //}
+        //hasPlunged = true;
+        //Debug.Log("start plunging" + Time.time);
 
-        // ÊúÖ±ÏÂÂä
+        // ç«–ç›´ä¸‹è½
         playerController.setRigidGravityScale(0f);
         playerController.gravityLock = true;
         playerController.setRigidVelocity(new Vector2(0, -1 * playerController.playerInfo.plungeSpeed));
@@ -100,7 +106,7 @@ public class PlayerPlunge : PlayerAction
         float positionY = playerController.transform.position.y;
         plungeDistance = plungeStartPositionY - positionY;
 
-        // ¸üĞÂStrength
+        // æ›´æ–°Strength
         int i = plungeStrength;
         while (i < playerController.plungeStrengthArr.Length - 1 && plungeDistance > playerController.plungeStrengthArr[i + 1])
         {
@@ -109,7 +115,7 @@ public class PlayerPlunge : PlayerAction
         }
         plungeStrength = i;
 
-        // ÔÚ DestructiblePlatform ×é¼ş¸üĞÂ willBreakGround£¬ÔÚ´Ë¸üĞÂanimator param
+        // åœ¨ DestructiblePlatform ç»„ä»¶æ›´æ–° willBreakGroundï¼Œåœ¨æ­¤æ›´æ–°animator param
         // playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.WillBreakGroundParamHash, willBreakGround);
     }
 
@@ -118,9 +124,27 @@ public class PlayerPlunge : PlayerAction
         playerController.gravityLock = false;
         playerController.setRigidGravityScaleToNormal();
 
-        // Debug.Log("Landed! Plunge strength:" + plungeStrength + "Distance:" + plungeDistance);
+
+
+        //if (plungeDistance > 2.57f || (plungeDistance < 2.53f && plungeDistance > 0.01f))
+        //{
+
+        //    Debug.Log("ä¸‹ç ¸ç»“æŸ");
+        //    
+        //}
+        //    hasPlunged= false;
+
+        if (plungeStrength == 3)
+        {
+            playerController.plunge.Play();
+        }
+        
+
+        Debug.Log("Landed! Plunge strength:" + plungeStrength + "Distance:" + plungeDistance);
         plungeStrength = 0;
         plungeDistance = 0.0f;
+
+        
     }
 
 }
@@ -129,8 +153,8 @@ public class PlayerClimbJump : PlayerAction
 {
     public PlayerClimbJump(PlayerController playerController) : base(playerController) { }
 
-    private bool canMove = false;//ÄÜ·ñË®Æ½ÒÆ¶¯
-    private float fixedJumpAcce = 0;//Ë®Æ½¼õËÙ¶È
+    private bool canMove = false;//èƒ½å¦æ°´å¹³ç§»åŠ¨
+    private float fixedJumpAcce = 0;//æ°´å¹³å‡é€Ÿåº¦
 
 
     public override void StateStart(EPlayerState oldState)
@@ -148,7 +172,8 @@ public class PlayerClimbJump : PlayerAction
 
         playerController.StopCoroutine(IEClimbJumping());
         playerController.StartCoroutine(IEClimbJumping());
-        //playerController.climp.Play();
+        playerController.climp.Play();
+        playerController.climpLight.Play();
     }
 
     public override void StateUpdate()
@@ -174,7 +199,7 @@ public class PlayerClimbJump : PlayerAction
         while (true)
         {
             yield return null;
-            if (playerController.getRigidVelocity().y < 0.01f)//ÌøÔ¾ÉÏÉı¹ı³Ì½áÊø
+            if (playerController.getRigidVelocity().y < 0.01f)//è·³è·ƒä¸Šå‡è¿‡ç¨‹ç»“æŸ
             {
                 playerController.setRigidGravityScaleToNormal();
                 break;
@@ -261,7 +286,11 @@ public class PlayerNormalAttack : PlayerAction
 
     public override void StateStart(EPlayerState oldState)
     {
+        
         playerController.CheckFlipPlayer(1f);
+
+
+        
     }
     public override void StateUpdate()
     {
@@ -321,7 +350,7 @@ public class PlayerSprint : PlayerAction
 
         playerController.gravityLock = true;
 
-        //playerController.dash.Play();
+        playerController.dash.Play();
     }
     public override void StateEnd(EPlayerState newState)
     {
@@ -420,7 +449,7 @@ public class PlayerBreakMoon : PlayerAction
         currentTarget.bePicked();
 
     }
-    private bool sameSide(BreakMoonPoint b)//ÊÇ·ñÔÚÍæ¼ÒÃæ³¯µÄÒ»²à
+    private bool sameSide(BreakMoonPoint b)//æ˜¯å¦åœ¨ç©å®¶é¢æœçš„ä¸€ä¾§
     {
         float x = b.transform.position.x - playerController.transform.position.x;
         bool result = playerController.playerInfo.playerFacingRight ? x > 0 : x < 0;
@@ -453,7 +482,7 @@ public class PlayerBreakMoon : PlayerAction
             Vector2 s = totalDistance * rate;
             playerController.rigidMovePosition(startPosition + s);
 
-            if (!hasBreakTheMoon && s.magnitude >= toMoonDistance.magnitude)//»÷ËéÔÂÇò
+            if (!hasBreakTheMoon && s.magnitude >= toMoonDistance.magnitude)//å‡»ç¢æœˆçƒ
             {
                 //Debug.Log("break");
                 hasBreakTheMoon = true;
