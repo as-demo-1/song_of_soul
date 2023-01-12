@@ -12,12 +12,15 @@ using Object = UnityEngine.Object;
 [RequireComponent(typeof(Collider2D), typeof(Animator))]
 public class Hittable : MonoBehaviour
 {
+    public HpDamable hpDamable;
     public int m_maxHP;
     public int m_currentHP;
     // face left is -1, face right is 1
     public int face = -1;
     public bool lockHP;
     private Dictionary<BuffType, Buff> _buffs = new Dictionary<BuffType, Buff>();
+
+    public GameObject electricMarkPref = default; // 闪电标记
 
     private Animator _animator;
     public Hittable(int maxHp = 100, int currentHp = Int32.MaxValue)
@@ -32,6 +35,8 @@ public class Hittable : MonoBehaviour
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.PlayerNormalAtk, BeHitAction);
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.LightningChainAtk, BeHitAction);
         EventCenter<BattleEventType>.Instance.AddEventListener(BattleEventType.LightningAddElectricMarkEvent, BeHitAction);
+
+        hpDamable = GetComponent<HpDamable>();
     }
 
     public void BeHitAction(object hitter)
@@ -76,21 +81,13 @@ public class Hittable : MonoBehaviour
         Debug.Log("Tick Electric Mark");
         if (lightningChain.AddElectricMark(this))
         {
-            ((ElectricMark)_buffs[BuffType.ElectricMark]).ShowPerformance(transform);
+            ((ElectricMark)_buffs[BuffType.ElectricMark]).ShowPerformance(transform, electricMarkPref);
         }
     }
 
     public void GetDamage(int atk)
     {
-        if(lockHP) return;
-        if (m_currentHP <= 0)
-        {
-            
-        }
-        else
-        {
-            m_currentHP -= atk;
-        }       
+        hpDamable.takeDamage(atk);              
     }
 
     public void GetRepel(float backDistance)

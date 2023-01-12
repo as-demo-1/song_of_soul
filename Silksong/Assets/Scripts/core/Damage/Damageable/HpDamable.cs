@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using UnityEditor;
 using UnityEngine.Events;
+using Cinemachine.Utility;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 /// <summary>
 /// 
 /// ӵ������ֵ����ط�����damable 
@@ -46,18 +48,36 @@ public class HpDamable :Damable
 
     public override void takeDamage(DamagerBase damager)
     {
+
         if ( currentHp <= 0)
         {
            // return;
         }
-        takeDamageEvent.Invoke(damager, this);
-        base.takeDamage(damager);
-        addHp(-damager.getDamage(this),damager);
-        if(hurt)
+        if (hurt)
         {
             Destroy(Instantiate(hurt, transform), 3.0f);
         }
+
+        takeDamageEvent.Invoke(damager, this);
+        base.takeDamage(damager);
+        addHp(-damager.getDamage(this),damager);
         
+        
+    }
+
+    public void takeDamage(int number)
+    {
+        if (currentHp <= 0)
+        {
+            // return;
+        }
+        if (hurt)
+        {
+            Destroy(Instantiate(hurt, transform), 3.0f);
+        }
+        takeDamageEvent.Invoke(null, this);
+
+        setCurrentHp(currentHp - number);
     }
 
 
@@ -81,7 +101,7 @@ public class HpDamable :Damable
         onDieEvent.Invoke(damager,this);
 
         if(gameObject.tag!="Player")//reborn player for  test
-        Destroy(gameObject);//δ����
+        Destroy(gameObject, 0.8f);//δ����
 
         Debug.Log(gameObject.name+" die");
 

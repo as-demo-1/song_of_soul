@@ -46,12 +46,12 @@ public class ElectricMark : Buff
     }
 
     public GameObject electricMarkPrefeb = default;
-    public void ShowPerformance(Transform perfPos)
+    public void ShowPerformance(Transform perfPos, GameObject perf)
     {
         if (electricMarkPrefeb is null)
         {
             // TODO : 后续改为运行时实例化
-            electricMarkPrefeb = GameObject.Instantiate(GameObject.Find("electricMarkPrefeb"));
+            electricMarkPrefeb = GameObject.Instantiate(perf);
         }
         electricMarkPrefeb.transform.parent = perfPos;
         electricMarkPrefeb.transform.localPosition = Vector3.zero;

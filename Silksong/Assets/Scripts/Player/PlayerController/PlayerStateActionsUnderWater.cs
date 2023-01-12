@@ -13,7 +13,7 @@ public class PlayerSwim : PlayerAction
     public override void StateStart(EPlayerState oldState)
     {
         playerController.IsUnderWater = true;
-        //ÈëË®ºó0.2sÄÚ½ûÖ¹ÏòÉÏ
+        //ï¿½ï¿½Ë®ï¿½ï¿½0.2sï¿½Ú½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½
         //setRigidGravityScale(playerInfo.normalGravityScale/2);
     }
     public override void StateEnd(EPlayerState newState)
@@ -59,7 +59,7 @@ public class PlayerSprintInWater : PlayerAction
         playerController.gravityLock = false;
         if (!playerController.IsUnderWater)
         {
-            //³å³öË®ÃæÖØÁ¦Õý³£
+            //ï¿½ï¿½ï¿½Ë®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             playerController.setRigidGravityScaleToNormal();
         }
         else

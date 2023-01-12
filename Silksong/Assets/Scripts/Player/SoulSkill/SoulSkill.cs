@@ -8,7 +8,10 @@ public enum SkillName
 {
     FlameGeyser,
     ShadowBlade,
+
+    [Tooltip("闪电链")]
     LightningChain,
+
     ArcaneBlast,
     IceStorm
 }
@@ -32,6 +35,7 @@ public abstract class SoulSkill : Hitter
     protected void Start()
     {
         //Debug.LogError("START TIMER UPDATE");
+        _playerCharacter = GetComponentInParent<PlayerCharacter>();
         MonoManager.Instance.AddUpdateEvent(Timer.Instance.TimerUpdate);
     }
 

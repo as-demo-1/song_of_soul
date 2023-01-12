@@ -111,7 +111,7 @@ public class PlayerInput : InputComponent
 
 
     /// <summary>
-    /// 屏蔽所有的输入，包括角色和系统，一般不使用
+    /// 锟斤拷锟斤拷锟斤拷锟叫碉拷锟斤拷锟诫，锟斤拷锟斤拷锟斤拷色锟斤拷系统锟斤拷一锟姐不使锟斤拷
     /// </summary>
     public override void ReleaseControls(bool resetValues = true)
     {

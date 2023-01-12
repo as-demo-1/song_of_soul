@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// ×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½
+/// ×´Ì¬»ú¹ÜÀíÆ÷µÄ»ùÀà
 /// </summary>
 /// <typeparam name="T1"></typeparam>  
 /// <typeparam name="T2"></typeparam>
@@ -17,7 +17,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     public DamageableBase damageable;
 
     /// /// <summary>
-    /// ï¿½ï¿½Ç°×´Ì¬
+    /// µ±Ç°×´Ì¬
     /// </summary>
     protected FSMBaseState<T1,T2> currentState;
 #if UNITY_EDITOR 
@@ -25,12 +25,12 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 #endif
     public string currentStateName;
     /// <summary>
-    /// ï¿½ï¿½ï¿½ï¿½×´Ì¬
+    /// ÈÎÒâ×´Ì¬
     /// </summary>
     protected FSMBaseState<T1, T2> anyState;
     public string defaultStateName;
     /// <summary>
-    /// ï¿½ï¿½Ç°×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½Ð±ï¿½
+    /// µ±Ç°×´Ì¬»ú°üº¬µÄËùÒÔ×´Ì¬ÁÐ±í
     /// </summary>
     public Dictionary<string, FSMBaseState<T1,T2>> statesDic = new Dictionary<string, FSMBaseState<T1,T2>>();
 
@@ -52,7 +52,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ "+state);
+            Debug.LogError("µÐÈË×´Ì¬²»´æÔÚ "+state);
         }
         currentState.EnterState(this);
     }
@@ -79,7 +79,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
             damageable = GetComponent<DamageableBase>();
         }
         InitWithScriptableObject();
-        ////ï¿½ï¿½ï¿½ï¿½ï¿½È¡
+        ////×é¼þ»ñÈ¡
     }
 
     protected void Awake()
@@ -92,7 +92,7 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
     {
         if (statesDic.Count == 0)
             return;
-        //Ä¬ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½
+        //Ä¬ÈÏ×´Ì¬ÉèÖÃ
        currentStateName = defaultStateName;
         ChangeState(currentStateName);
         if (anyState != null)
@@ -226,14 +226,14 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
         if (currentState != null)
         {
-            //Ö´ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½
+            //Ö´ÐÐ×´Ì¬ÄÚÈÝ
             currentState.Act_State(this);
-            //ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+            //¼ì²â×´Ì¬Ìõ¼þÁÐ±í
             currentState.TriggerStateInUpdate(this);
         }
         else
         {
-            Debug.LogError("currentStateÎªï¿½ï¿½");
+            Debug.LogError("currentStateÎª¿Õ");
         }
 
         if (anyState != null)
@@ -247,15 +247,15 @@ public abstract class FSMManager<T1,T2> : MonoBehaviour
 
 
 /// <summary>
-///ï¿½ï¿½ï¿½ï¿½Enemy×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SOï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½
+///¹¹½¨Enemy×´Ì¬»ú¹ÜÀíÆ÷£¬²¢ÎªÆäÌí¼ÓSOÅäÖÃ¹¦ÄÜ
 /// </summary>
 public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers> 
 {
     public List<Enemy_State_SO_Config> stateConfigs;
     public Enemy_State_SO_Config anyStateConfig;
     public GameObject player;
-    public bool FaceLeftFirstOriginal;//Ô­Í¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
-    public float beatBackRatio = 0;//0ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public bool FaceLeftFirstOriginal;//Ô­Í¼ÊÇ·ñ³¯Ïò×ó
+    public float beatBackRatio = 0;//0±íÊ¾²»±»»÷ÍË
 #if UNITY_EDITOR 
     [DisplayOnly]
 #endif
@@ -276,7 +276,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     }
         
     
-    //ï¿½ï¿½SOï¿½ï¿½ï¿½ï¿½
+    //¿ÉSOÅäÖÃ
     public override void InitWithScriptableObject()
     {
         if(anyStateConfig!=null)
@@ -308,7 +308,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     }
 
 
-    public void faceLeft()//Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public void faceLeft()//Ê¹×ÔÉí³¯Ïò×ó
     {
         int x = FaceLeftFirstOriginal ? 1 : -1;
         Vector3 tem = transform.localScale;
@@ -334,7 +334,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     }
 
     /// <summary>
-    /// ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½Ù¶È¸Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// ¸ù¾Ý¸ÕÌåËÙ¶È¸Ä±ä×ÔÉí³¯Ïò
     /// </summary>
     public void faceWithSpeed()
     {
@@ -344,7 +344,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     }
 
     /// <summary>
-    ///ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ãµï¿½vector2(ï¿½ï¿½normalized) ï¿½ï¿½Ñ¡Í¬Ê±ï¿½Ä±ï¿½ï¿½ï¿½ï³¯ï¿½ï¿½
+    ///»ñµÃÖ¸ÏòÍæ¼ÒÎ»ÖÃµÄvector2(·Çnormalized) ¿ÉÑ¡Í¬Ê±¸Ä±ä¹ÖÎï³¯Ïò
     /// </summary>
     public Vector2 getTargetDir(bool changeFace=false)
     {
@@ -377,7 +377,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
         var rayHit = Physics2D.Raycast(frontPoint, Vector2.down,100, 1 << LayerMask.NameToLayer("Ground"));
       /* Debug.DrawRay(frontPoint,Vector3.down);
         Debug.Log(rayHit.distance);*/
-        if (rayHit.distance > rayToGroundDistance || rayHit.distance==0)//ï¿½ï¿½ï¿½ï¿½ï¿½Ôµ
+        if (rayHit.distance > rayToGroundDistance || rayHit.distance==0)//µ½´ï±ßÔµ
         {
             return true;
         }
@@ -419,7 +419,7 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
 
 
 /// <summary>
-///ï¿½ï¿½ï¿½ï¿½NPC×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SOï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½
+///¹¹½¨NPC×´Ì¬»ú¹ÜÀíÆ÷£¬²¢ÎªÆäÌí¼ÓSOÅäÖÃ¹¦ÄÜ
 /// </summary>
 public class NPCFSMManager : FSMManager<NPCStates, NPCTriggers>
 {
@@ -455,10 +455,10 @@ public class NPCFSMManager : FSMManager<NPCStates, NPCTriggers>
     }
 }
 /// <summary>
-/// ï¿½ï¿½ï¿½ï¿½Player×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SOï¿½ï¿½ï¿½Ã¹ï¿½ï¿½Ü£ï¿½
-/// ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½
-/// ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½
-/// È»ï¿½ï¿½ï¿½Player_State_SO_Configï¿½Å±ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Player_State_SO_Configï¿½ï¿½ï¿½×¢ï¿½Í¼ï¿½ï¿½É¡ï¿½
+/// ¹¹½¨Player×´Ì¬»ú¹ÜÀíÆ÷£¬Ä¬ÈÏÃ»ÓÐÌí¼ÓSOÅäÖÃ¹¦ÄÜ£¬
+/// ÈçÐèÒª£¬
+/// Ê×ÏÈÈ¡ÏûµôÏÂÃæµÄ×¢ÊÍ
+/// È»ºó´ò¿ªPlayer_State_SO_Config½Å±¾£¬È¡Ïû¹ØÓÚPlayer_State_SO_ConfigÀàµÄ×¢ÊÍ¼´¿É¡£
 /// 
 /// </summary>
 public class PlayerFSMManager : FSMManager<PlayerStates, PlayerTriggers> 

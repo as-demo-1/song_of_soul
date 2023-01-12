@@ -13,10 +13,13 @@ public class LightningChain : SoulSkill
     public float range = 1.0f;
     [Range(0,1)]
     public float extraSpeedPercent = 0;
-    public float baseDamage = 1;
+    public float baseDamage = 5;
     [Range(0,1)]
-    public float extraDamagePercent = 0;
-    
+    public float extraDamagePercent = 1;
+
+    Hittable preTarget;
+
+
     private void Awake()
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
@@ -80,7 +83,7 @@ public class LightningChain : SoulSkill
     {
         if(ElectricMark.targets.Count < 2) return;
         bool needInitFirstTarget = true;
-        Hittable preTarget = new Hittable();
+        ;
         int index = 0;
         foreach (var target in ElectricMark.targets)
         {
@@ -91,7 +94,7 @@ public class LightningChain : SoulSkill
             }
             else
             {
-                DrawLightningChain(preTarget.transform.position,
+                LightningChainUpdate(preTarget.transform.position,
                     target.Value.transform.position, index);
                 index++;
                 preTarget = target.Value;
@@ -116,19 +119,54 @@ public class LightningChain : SoulSkill
     // TODO:实现挂载闪电标记的逻辑
     private bool IsAddElectricMarkSuccess(Hittable target)
     {
+        if (target == null)
+        {
+            return false;
+        }
         return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
     }
 
     private int Damage()
     {
         var damage = baseDamage * (1.0f + extraDamagePercent * ElectricMark.counter);
+        Debug.Log("闪电链造成： " + damage);
         return (int)damage;
     }
 
     public Material lightningChainMat;
+    public GameObject lightningChainPref;
     private float width = 0.1f;
     private Dictionary<int, GameObject> chains = new Dictionary<int, GameObject>();
     private GameObject chainsRoot;
+
+    private void LightningChainUpdate(Vector3 start, Vector3 end, int chainIndex)
+    {
+        if (chains == null) chains = new Dictionary<int, GameObject>();
+        if (chainsRoot == null)
+        {
+            chainsRoot = new GameObject();
+            chainsRoot.name = "Chains Root";
+        }
+
+        float len = Vector3.Distance(start, end);
+        float theta = Mathf.Atan2(end.y-start.y, end.x-start.x)/(Mathf.PI)*180;
+        //float theta = Vector3.Angle(start, end);
+
+        if (chains.ContainsKey(chainIndex))
+        {
+            GameObject chainGo = chains[chainIndex];
+            chainGo.transform.localPosition = start;
+            chainGo.transform.localRotation = Quaternion.Euler(theta, -90.0f, 0.0f);
+            chainGo.transform.localScale = new Vector3(len, chainGo.transform.localScale.y, chainGo.transform.localScale.z);
+        }
+        else
+        {
+            GameObject lightningChainGo = Instantiate(lightningChainPref, chainsRoot.transform);
+            //lightningChainGo.transform.localRotation = Quaternion.Euler(0.0f, -90.0f, 0.0f);
+            chains.Add(chainIndex, lightningChainGo);
+        }
+
+    }
     private void DrawLightningChain(Vector3 start, Vector3 end, int chainIndex)
     {
         if(chains == null) chains = new Dictionary<int, GameObject>();

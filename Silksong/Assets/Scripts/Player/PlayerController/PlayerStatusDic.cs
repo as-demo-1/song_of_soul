@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//todo£º Î»Æ¥Åä
+//todoï¿½ï¿½ Î»Æ¥ï¿½ï¿½
 public enum EPlayerStatus : int
 {
     None = 0,
