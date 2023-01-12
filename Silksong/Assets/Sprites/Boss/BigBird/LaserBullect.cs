@@ -12,7 +12,7 @@ public class LaserBullect : MonoBehaviour
     private Vector3 ShootDir;
     void Start()
     {
-        Setup(GameObject.FindGameObjectWithTag("Player").transform.position);
+        Setup(GameObject.FindGameObjectWithTag("Player").transform.position + new Vector3(Random.Range(0,5),Random.Range(0,4),Random.Range(0,4)));
         _boxCollider2D = GetComponent<BoxCollider2D>();
     }
 

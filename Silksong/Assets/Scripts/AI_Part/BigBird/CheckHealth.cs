@@ -8,7 +8,7 @@ namespace BehaviorDesigner.Runtime.Tasks
     {
         private Boss_BigBird BirdController;
         private GameObject Player;
-        private float Health = 71;
+       public float Health = 71;
         public List<int> Stage;
         public int stageindex;
         public override void OnStart()

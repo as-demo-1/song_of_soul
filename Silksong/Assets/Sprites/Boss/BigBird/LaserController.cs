@@ -12,12 +12,28 @@ public class LaserController : MonoBehaviour
         
     }
 
+    IEnumerator ResetLasers()
+    {
+        yield return new WaitForSeconds(4);
+
+        ResetLaser();
+    }
 
     public void FireLaser()
     {
         foreach (var VARIABLE in Lasers)
         {
             VARIABLE.SetActive(true);
+        }
+
+        StartCoroutine(ResetLasers());
+    }
+
+    public void ResetLaser()
+    {
+        foreach (var VARIABLE in Lasers)
+        {
+            VARIABLE.SetActive(false);
         }
     }
     // Update is called once per frame

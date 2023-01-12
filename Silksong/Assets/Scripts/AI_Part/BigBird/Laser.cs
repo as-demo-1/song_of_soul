@@ -8,13 +8,22 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         public LaserController LaserController;
 
+        private bool IsFire = false;
         public override void OnStart()
         {
             if (LaserController)
             {
                 LaserController.FireLaser();
-                Debug.Log("1");
+                
             }
         }
+
+        public override void OnBehaviorComplete()
+        {
+            base.OnBehaviorComplete();
+          
+        }
+
+      
     }
 }
