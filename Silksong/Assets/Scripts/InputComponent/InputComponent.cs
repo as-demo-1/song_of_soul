@@ -165,8 +165,8 @@ public abstract class InputComponent : MonoBehaviour
                 m_FrameCount = Constants.BufferFrameTime;
             }
 
-            // 一次按下只触发一次IsValid
-            if (m_FrameCount >= Constants.BufferFrameTime)
+
+            if (m_FrameCount > 0)
             {
                 IsValid = true;
                 --m_FrameCount;
