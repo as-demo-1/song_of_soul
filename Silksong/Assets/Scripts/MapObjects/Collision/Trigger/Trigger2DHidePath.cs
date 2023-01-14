@@ -24,6 +24,7 @@ public class Trigger2DHidePath : Trigger2DBase
     private bool mLockCameraY = false;
 
     private Transform cameraPack;
+    private CameraController cameraController;
 
     private CinemachineVirtualCamera mMainCinemachineVirtualCamera;
 
@@ -39,6 +40,7 @@ public class Trigger2DHidePath : Trigger2DBase
 
     private PolygonCollider2D preBoundary;
     private bool isSwitched;
+    private bool isChangeScene = false;
 
     void Start()
     {
@@ -50,7 +52,7 @@ public class Trigger2DHidePath : Trigger2DBase
             return;
         }
         mMixingCamera = cameraPack.GetComponent<CinemachineMixingCamera>();
-
+        cameraController = cameraPack.GetComponent<CameraController>();
         mMainCinemachineVirtualCamera = cameraPack.Find("CM vcam1").gameObject.GetComponent<CinemachineVirtualCamera>();
 
         vcam = cameraPack.Find("CM vcam_other").gameObject;
@@ -67,6 +69,7 @@ public class Trigger2DHidePath : Trigger2DBase
     {
         if (mCinemachineConfiner != null && !isSwitched)
         {
+            cameraController.BeforeEnterBound(this);
             print($"进入相机区域 {transform.name}");
             _KillTween();
             float target0 = 0.01f;
@@ -112,32 +115,56 @@ public class Trigger2DHidePath : Trigger2DBase
 
     protected override void exitEvent()
     {
+        _exitEvent(false);
+    }
+
+    private void _exitEvent(bool force)
+    {
+        if (isChangeScene)
+        {
+            return;
+        }
         if (mCinemachineConfiner != null && isSwitched)
         {
-            print($"退出相机区域 {transform.name}");
+            cameraController.BeforeExitBound(this);
+            print($"退出相机区域 {transform.name} {force}");
             _KillTween();
-            float target0 = 1;
-            float target1 = 0.01f;
-            CinemachineFramingTransposer composer = mCinemachineVirtualCamera.
-                GetCinemachineComponent<CinemachineFramingTransposer>();
-            composer.m_DeadZoneWidth = 0.2f;
-            composer.m_SoftZoneWidth = 0.8f;
-            composer.m_DeadZoneHeight = 0.2f;
-            composer.m_SoftZoneHeight = 0.8f;
-            mSwitchTween0 = DOTween.To(() => mMixingCamera.GetWeight(0), x => mMixingCamera.SetWeight(0, x), target0, mSwitchTime);
-            mSwitchTween1 = DOTween.To(() => mMixingCamera.GetWeight(1), x => mMixingCamera.SetWeight(1, x), target1, mSwitchTime);
-            mSwitchTween1.onComplete = _ClearBoundary;
+            if (!force)
+            {
+                float target0 = 1;
+                float target1 = 0.01f;
+                CinemachineFramingTransposer composer = mCinemachineVirtualCamera.
+                    GetCinemachineComponent<CinemachineFramingTransposer>();
+                composer.m_DeadZoneWidth = 0.2f;
+                composer.m_SoftZoneWidth = 0.8f;
+                composer.m_DeadZoneHeight = 0.2f;
+                composer.m_SoftZoneHeight = 0.8f;
+
+                mSwitchTween0 = DOTween.To(() => mMixingCamera.GetWeight(0), x => mMixingCamera.SetWeight(0, x), target0, mSwitchTime);
+                mSwitchTween1 = DOTween.To(() => mMixingCamera.GetWeight(1), x => mMixingCamera.SetWeight(1, x), target1, mSwitchTime);
+                mSwitchTween1.onComplete = _ClearBoundary;
+            }
+            //else
+            //{
+            //    _ClearBoundary();
+            //}
             isSwitched = false;
         }
     }
 
     public void BeforeChangeScene()
     {
-        exitEvent();
-        if (mCinemachineConfiner != null)
-        {
-            mCinemachineConfiner.m_BoundingShape2D = null;
-        }
+        _exitEvent(true);
+        //isChangeScene = true;
+        //if (mCinemachineConfiner != null)
+        //{
+        //    mCinemachineConfiner.m_BoundingShape2D = null;
+        //}
+    }
+
+    public void ForceExitEvent()
+    {
+        //_exitEvent(true);
     }
 
     private void _ClearBoundary()
