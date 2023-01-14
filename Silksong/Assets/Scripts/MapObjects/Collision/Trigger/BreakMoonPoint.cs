@@ -48,7 +48,7 @@ public class BreakMoonPoint:MonoBehaviour
     public void bePicked()
     {
         isPicked = true;
-        spriteRenderer.color = new Color(0, 255, 0);//è¢«é€‰ä¸­åå˜ä¸ºç»¿è‰²
+        spriteRenderer.color = new Color(0, 255, 0);//±»Ñ¡ÖĞºó±äÎªÂÌÉ«
     }
 
     private void broken()
@@ -74,7 +74,7 @@ public class BreakMoonPoint:MonoBehaviour
         spriteRenderer.color = new Color(255, 255, 255);
     }
 
-    public void atBreakMoonPoint()//åœ¨ç©å®¶ä½¿ç”¨ç¢æœˆï¼Œæ¥è§¦ç¢æœˆç‚¹åè°ƒç”¨
+    public void atBreakMoonPoint()//ÔÚÍæ¼ÒÊ¹ÓÃËéÔÂ£¬½Ó´¥ËéÔÂµãºóµ÷ÓÃ
     {
         StartCoroutine(countCd());
     }
