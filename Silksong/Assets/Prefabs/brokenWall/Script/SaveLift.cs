@@ -47,13 +47,13 @@ public class SaveLift : MonoBehaviour
     IEnumerator Moving(Vector2 target)
     {
         ifMoving = true;
-        while(Mathf.Abs(transform.position.y-target.y) > 0.05)
+        while (Mathf.Abs(transform.position.y - target.y) > 0.05)
         {
             transform.position = Vector2.MoveTowards(transform.position,
-                new Vector2(transform.position.x, target.y), moveSpeed * Time.deltaTime);
-            yield return null;  
+               new Vector2(transform.position.x, target.y), moveSpeed * Time.fixedDeltaTime);
+            yield return new WaitForFixedUpdate();
         }
-        ifMoving=false;
+        ifMoving = false;
     }
     public void MovingUp()
     {
