@@ -40,9 +40,6 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    [Header("这个是UI摄像机")]
-    public Camera mStageCamera;
-
     void Awake()
     {
         if (_instance != null)
@@ -70,12 +67,6 @@ public class CameraController : MonoBehaviour
         PolygonCollider2D polygon = mainCameraBoundary.GetComponent<PolygonCollider2D>();
         CinemachineConfiner confier = mMainVirtualCamera.GetComponent<CinemachineConfiner>();
         confier.m_BoundingShape2D = polygon;
-        
-        GameObject tempCam = GameObject.Find("TempCamera");
-        if (tempCam != null)
-        {
-            GameObject.Destroy(tempCam);
-        }
     }
 
     public void BeforeChangeScene()
@@ -84,28 +75,5 @@ public class CameraController : MonoBehaviour
         {
             mCurHidePath.BeforeChangeScene();
         }
-    }
-
-    public void BeforeEnterBound(Trigger2DHidePath trigger2DHidePath)
-    {
-        if (mCurHidePath != null)
-        {
-            mCurHidePath.ForceExitEvent();
-        }
-        mCurHidePath = trigger2DHidePath;
-    }
-
-    public void BeforeExitBound(Trigger2DHidePath trigger2DHidePath)
-    {
-        if (mCurHidePath == trigger2DHidePath)
-        {
-            mCurHidePath = null;
-        }
-    }
-
-    private bool usingOtherCam;
-    public void OnGetTargetCam()
-    {
-
     }
 }

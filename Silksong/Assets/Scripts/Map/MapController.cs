@@ -14,61 +14,75 @@ public class MapController : MonoBehaviour
 
 	[SerializeField] public GameObject levelMap;
 	[SerializeField] public GameObject regionMap;
-    //[SerializeField] public GameObject mapUI;
-    public LevelMapController levelMapController;
-    public RegionMapController regionMapController;
-    //public MapUIController mapUIController;
+    [SerializeField] public GameObject mapUI;
+	private LevelMapController levelMapController;
+	private RegionMapController regionMapController;
+    private MapUIController mapUIController;
 
-    public bool quick, showLevel;
+	private bool quick, showLevel;
     private string region;
 
     // Start is called before the first frame update
-    public void Init()
+    void Start()
     {
     	quick = true;
     	levelMapController = levelMap.GetComponent<LevelMapController>();
     	regionMapController = regionMap.GetComponent<RegionMapController>();
-        //mapUIController = mapUI.GetComponent<MapUIController>();
+        mapUIController = mapUI.GetComponent<MapUIController>();
     	levelMap.SetActive(false);
     	regionMap.SetActive(false);
-        //mapUI.SetActive(false);
+        mapUI.SetActive(false);
     }
 
     void Update()
     {
+        region = SceneManager.GetActiveScene().name.Split('-')[0];
+
+    	// show quick map
+    	if (quick && PlayerInput.Instance.quickMap.Down) {
+    		levelMap.SetActive(true);
+    		levelMapController.SetInteractable(false);
+            levelMapController.centering(region);
+            PlayerAnimatorParamsMapping.SetControl(false);
+    	}
+
+    	// hide quick map
+    	if (quick && PlayerInput.Instance.quickMap.Up) {
+    		levelMap.SetActive(false);
+            PlayerAnimatorParamsMapping.SetControl(true);
+        }
+
+    	// show map
     	if (PlayerInput.Instance.showMap.Down) {
-            ShowRegion();
+    		quick = false;
+            showLevel = false;
+            levelMap.SetActive(false);
+            regionMap.SetActive(true);
+            mapUI.SetActive(true);
+            regionMapController.SetCurrentRegion(region);
+            mapUIController.showLevelMapIns(false);
+            PlayerAnimatorParamsMapping.SetControl(false);
         }
-        if (PlayerInput.Instance.showMap.Up)
-        {
-            ShowLevel();
-        }
-    }
 
-    public void ShowLevel()
-    {
-        quick = true;
-        showLevel = true;
-        region = SceneManager.GetActiveScene().name.Split('-')[0];
-        levelMap.SetActive(true);
-        regionMap.SetActive(false);
-        levelMapController.SetInteractable(false);
-        //levelMapController.centering(region);
-        PlayerAnimatorParamsMapping.SetControl(false);
-    }
-
-    public void ShowRegion()
-    {
-        quick = false;
-        showLevel = false;
-        levelMap.SetActive(false);
-        regionMap.SetActive(true);
-        levelMapController.SetInteractable(true);
-        region = SceneManager.GetActiveScene().name.Split('-')[0];
-        //mapUI.SetActive(true);
-        //regionMapController.SetCurrentRegion(region);
-        //mapUIController.showLevelMapIns(false);
-        PlayerAnimatorParamsMapping.SetControl(false);
+    	if (!quick) {
+    		// hide all maps
+    		if (Input.GetButtonDown("Cancel")) {
+                if (showLevel) {
+                    switch2RegionMap();
+                }
+                else {
+                    quick = true;
+                    levelMap.SetActive(false);
+                    regionMap.SetActive(false);
+                    mapUI.SetActive(false);
+                    PlayerAnimatorParamsMapping.SetControl(true);
+                }
+    		}
+    		// show region map
+    		if (PlayerInput.Instance.jump.Down) {
+                switch2RegionMap();
+    		}
+    	}
     }
 
     public void switch2LevelMap(GameObject levelMapIMG)
@@ -78,7 +92,7 @@ public class MapController : MonoBehaviour
         levelMap.SetActive(true);
         levelMapController.SetInteractable(true);
         levelMapController.centering(levelMapIMG);
-        //mapUIController.showLevelMapIns(true);
+        mapUIController.showLevelMapIns(true);
     }
 
     void switch2RegionMap()
@@ -86,6 +100,6 @@ public class MapController : MonoBehaviour
         showLevel = false;
     	levelMap.SetActive(false);
     	regionMap.SetActive(true);
-        //mapUIController.showLevelMapIns(false);
+        mapUIController.showLevelMapIns(false);
     }
 }
