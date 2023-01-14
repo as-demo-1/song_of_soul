@@ -38,8 +38,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject mapPack;
 
-    public GameObject eventSystem;
-
     public SaveSystem saveSystem;
 
 
@@ -56,16 +54,16 @@ public class GameManager : MonoBehaviour
         GameInitialize();
 
         //以下代码代表玩家从菜单进入游戏场景的初始化，临时使用
+
+        //gamingUI = Instantiate(gamingUI);
+        //DontDestroyOnLoad(gamingUI);
+
         CreateCamera();
-
-        // 临时初始化UI
-        UIManager.Instance.ShowGameUI();
-
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
 
-        eventSystem = Instantiate(eventSystem);
-        DontDestroyOnLoad(eventSystem);
+        mapPack = Instantiate(mapPack);
+        DontDestroyOnLoad(mapPack);
         uint bankid;
         AkSoundEngine.LoadBank("General",out bankid);
 
@@ -76,7 +74,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void creatPlayer()
     {
-        player = Instantiate(player.gameObject, transform.position, Quaternion.identity);
+        player = Instantiate(player.gameObject);
     }
 
     public void CreateCamera()

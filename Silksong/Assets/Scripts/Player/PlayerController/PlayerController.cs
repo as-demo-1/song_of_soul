@@ -68,7 +68,7 @@ public struct PlayerInfo
     }
 }
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody))]
 //[RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
@@ -81,7 +81,6 @@ public class PlayerController : MonoBehaviour
 
     public PlayerStatusDic playerStatusDic;
 
-    [HideInInspector]
     public PlayerCharacter playerCharacter;
     public CharacterMoveControl PlayerHorizontalMoveControl { get; }
         = new CharacterMoveControl(1f, 5f, 8f, 8f, 10f);
@@ -118,19 +117,6 @@ public class PlayerController : MonoBehaviour
 
     [DisplayOnly]
     public float distanceToGround = -1.0f;  // 距离下方Groud距离
-
-    #region 特效
-    [Header("特效")]
-    public ParticleSystem climp;
-    public ParticleSystem climpLight;
-    public ParticleSystem dash;
-    public ParticleSystem jump;
-    public ParticleSystem plunge;
-    public ParticleSystem hurt;
-    public ParticleSystem lighting;
-    #endregion
-
-    InvulnerableDamable damable;
 
     //Teleport
     /// <summary>
@@ -237,23 +223,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    //public GameObject normalAttackPrefab;
-    public GameObject lightningChainPrefab;
-    //private PlayerNormalAtk _normalAttack;
-    private LightningChain _lightningChain;
-    //public PlayerInfomation playerInfomation;
+    
     public void init()
     {
-        //_normalAttack = Instantiate(normalAttackPrefab).GetComponent<PlayerNormalAtk>();
-        //_normalAttack.transform.SetParent(transform); 
-        //_normalAttack.transform.localPosition = new Vector3(0, 0, 0);
-
-        _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
-        _lightningChain.gameObject.SetActive(false);
-        _lightningChain.transform.SetParent(transform);
-        _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
-
         RB = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
@@ -265,8 +237,6 @@ public class PlayerController : MonoBehaviour
         playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
     }
-    
-    
     void Start()
     {
         playerInfo.init(this);
@@ -276,26 +246,21 @@ public class PlayerController : MonoBehaviour
 
         WhenStartSetLastHorizontalInputDirByFacing();
 
-        damable = GetComponent<InvulnerableDamable>();
+        HpDamable damable = GetComponent<HpDamable>();
         damable.takeDamageEvent.AddListener(getHurt);
         damable.onDieEvent.AddListener(die);
     }
 
-    
     private void Update()
     {
         CheckIsGrounded();
         CheckUnderWater();
         CheckHasWallToClimb();
-        
+        playerAnimatorStatesControl.ParamsUpdate();
+        playerToCat.catUpdate();
 
         CalDistanceToGround(); // 计算离地距离
         CheckHasHeightToPlunge();
-
-        TickLightningChain();
-
-        playerAnimatorStatesControl.ParamsUpdate();
-        playerToCat.catUpdate();
     }
 
     private void LateUpdate()
@@ -306,53 +271,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         //Interact();
-    }
-
-    //public void TickNormalAtk()
-    //{
-    //    if (PlayerInput.Instance.normalAttack.IsValid)
-    //    {
-    //        _normalAttack.TiggerAtkEvent();
-    //    }
-    //}
-
-    public void TickLightningChain()
-    {
-        if (playerCharacter.Mana <= 0)
-        {
-            _lightningChain.gameObject.SetActive(false);
-        }
-        if (PlayerInput.Instance.soulSkill.IsValid)
-        {
-            PlayerAnimator.SetTrigger("castSkill");
-            Debug.LogError("R is down");
-            if (_lightningChain.isActiveAndEnabled)
-            {
-                Debug.LogError("light chain is active");
-                _lightningChain.TiggerAtkEvent();
-                _lightningChain.gameObject.SetActive(false);
-                _lightningChain.enabled = false;
-            }
-            else
-            {
-                if (playerCharacter.Mana < _lightningChain.constPerSec)
-                {
-                    Debug.LogError("not enough mana");
-                }
-                else
-                {
-                    Debug.LogError("cast skill");
-                    _lightningChain.gameObject.SetActive(true);
-                    _lightningChain.enabled = true;
-                }
-            }
-        }
-
-        if (_lightningChain.isActiveAndEnabled)
-        {
-            _lightningChain.TriggerAddElectricMarkEvent();
-            _lightningChain.UpdateTargetsLink();
-        }
     }
 
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
@@ -400,10 +318,6 @@ public class PlayerController : MonoBehaviour
     public bool isGroundedBuffer()
     {
         return playerGroundedCheck.IsGroundedBuffer;
-    }
-    public bool isGrounded()
-    {
-        return playerGroundedCheck.IsGrounded;
     }
 
     public void CheckFlipPlayer(float setAccelerationNormalizedTime)
@@ -461,7 +375,6 @@ public class PlayerController : MonoBehaviour
     {
         PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
         playerToCat.toHuman();
-        Debug.Log("受伤");
     
     }
 
@@ -590,12 +503,10 @@ public class PlayerController : MonoBehaviour
         {
             if (playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.ClimbIdle)
             {
-                
                 checkRightSide = playerInfo.playerFacingRight;
             }
             else
             {
-                //climp.Play();
                 PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash, false);
                 return;
             }
