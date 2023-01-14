@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ignoreInvincibility: 0
-  canDamage: 0
+  canDamage: 1
   damage: 1
   beatBackVector: {x: 0, y: 0}
   makeDamageEvent:
@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 2059763982}
   - component: {fileID: 5628222166543021453}
   - component: {fileID: 5628222166543021454}
+  - component: {fileID: 727703180}
   m_Layer: 15
   m_Name: Boss00
   m_TagString: Untagged
@@ -331,7 +332,7 @@ MonoBehaviour:
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  dieAudio: {fileID: 0}
+  hurt: {fileID: 0}
 --- !u!61 &7455931157576861606
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -453,7 +454,7 @@ MonoBehaviour:
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  dieAudio: {fileID: 0}
+  hurt: {fileID: 0}
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 3
 --- !u!114 &5628222166543021453
@@ -490,3 +491,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1048576
   shakeForce: 0
+--- !u!114 &727703180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7455931157576861613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa0e8e12982ba1043aa78347a1edf4d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpDamable: {fileID: 7455931157576861601}
+  m_maxHP: 0
+  m_currentHP: 0
+  face: 0
+  lockHP: 0
+  electricMarkPref: {fileID: 7510243404077426586, guid: ce56c9b9535402e42975ceb44091dc2f, type: 3}
