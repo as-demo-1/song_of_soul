@@ -5,16 +5,16 @@ using UnityEngine;
 public class Enemy_Climb_State : EnemyFSMBaseState
 {
    // public Vector2 range;
-    public float maxSpeed = 2;//µ±Ç°Ä¬ÈÏ¹ÖÎïË³Ê±ÕëÔË¶¯
+    public float maxSpeed = 2;//ï¿½ï¿½Ç°Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½Ë³Ê±ï¿½ï¿½ï¿½Ë¶ï¿½
     public float force = 10;
     ContactPoint2D[] points = new ContactPoint2D[3];
-    //float g; ¹ÖÎï³õÊ¼ÖØÁ¦Îª0 ½öËÀÍöÊ±»ñµÃÖØÁ¦
+    //float g; ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Îª0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {
         // g = fsmManager.rigidbody2d.gravityScale;
         // fsmManager.rigidbody2d.gravityScale = 0;
         base.EnterState(fSM_Manager);
-        fsmManager.faceRight();//Ë³Ê±Õë
+        fsmManager.faceRight();//Ë³Ê±ï¿½ï¿½
     }
 
     public override void ExitState(EnemyFSMManager fSM_Manager)
