@@ -62,8 +62,8 @@ public class GameManager : MonoBehaviour
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
 
-        mapPack = Instantiate(mapPack);
-        DontDestroyOnLoad(mapPack);
+        //mapPack = Instantiate(mapPack);
+        //DontDestroyOnLoad(mapPack);
         uint bankid;
         AkSoundEngine.LoadBank("General",out bankid);
 
