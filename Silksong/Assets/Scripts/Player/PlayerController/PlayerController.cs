@@ -250,7 +250,7 @@ public class PlayerController : MonoBehaviour
         //_normalAttack.transform.localPosition = new Vector3(0, 0, 0);
 
         _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
-        _lightningChain.gameObject.SetActive(false);
+        //_lightningChain.gameObject.SetActive(false);
         _lightningChain.transform.SetParent(transform);
         _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
 
@@ -325,10 +325,10 @@ public class PlayerController : MonoBehaviour
         if (PlayerInput.Instance.soulSkill.IsValid)
         {
             PlayerAnimator.SetTrigger("castSkill");
-            Debug.LogError("R is down");
+            Debug.Log("R is down");
             if (_lightningChain.isActiveAndEnabled)
             {
-                Debug.LogError("light chain is active");
+                Debug.Log("light chain is active");
                 _lightningChain.TiggerAtkEvent();
                 _lightningChain.gameObject.SetActive(false);
                 _lightningChain.enabled = false;
@@ -337,11 +337,11 @@ public class PlayerController : MonoBehaviour
             {
                 if (playerCharacter.Mana < _lightningChain.constPerSec)
                 {
-                    Debug.LogError("not enough mana");
+                    Debug.Log("not enough mana");
                 }
                 else
                 {
-                    Debug.LogError("cast skill");
+                    Debug.Log("cast skill");
                     _lightningChain.gameObject.SetActive(true);
                     _lightningChain.enabled = true;
                 }

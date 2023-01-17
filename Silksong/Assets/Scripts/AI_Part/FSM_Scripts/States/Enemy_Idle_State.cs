@@ -12,9 +12,10 @@ public class Enemy_Idle_State : EnemyFSMBaseState
     {
         base.Act_State(fSM_Manager);
     }
-    public override void FixAct_State(EnemyFSMManager enemyFSM)
+    public override void FixAct_State_next(EnemyFSMManager enemyFSM)
     {
-        base.FixAct_State(enemyFSM);
+        base.FixAct_State_next(enemyFSM);
+        Debug.Log("正在idle模式");
     }
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {

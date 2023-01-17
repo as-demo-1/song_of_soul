@@ -20,14 +20,19 @@ public class Enemy_Chase_State :EnemyFSMBaseState
     }
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
+        Debug.Log("进入追击模式");
         base.EnterState(enemyFSM);
         if (isFlying)
         {
             enemyFSM.rigidbody2d.gravityScale = 0;
         }
     }
-    public override void FixAct_State(EnemyFSMManager fSM_Manager)
+    public override void Act_State(EnemyFSMManager fSM_Manager)
     {
+        Debug.Log("执行");
+
+        
+
         v = fSM_Manager.getTargetDir(true);
         v=v.normalized;
         if (!isFlying)
@@ -50,5 +55,7 @@ public class Enemy_Chase_State :EnemyFSMBaseState
             fSM_Manager.rigidbody2d.velocity = chaseSpeed*v;
         if (isFaceWithSpeed)
             fSM_Manager.faceWithSpeed();
+        
+        Debug.Log("敌人当前速度："+v);
     }
 }
