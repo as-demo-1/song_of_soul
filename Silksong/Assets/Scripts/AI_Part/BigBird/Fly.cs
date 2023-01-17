@@ -27,7 +27,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             Vector2 res =  Vector2.MoveTowards(body.position, target, Speed * Time.fixedDeltaTime);
             body.MovePosition(res);
           
-            Debug.Log(body.position.y);
+            //Debug.Log(body.position.y);
            if (body.position.y == -2f)
            {
                animator.ResetTrigger("Fly_Up");
