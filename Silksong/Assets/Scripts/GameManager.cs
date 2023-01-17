@@ -55,15 +55,15 @@ public class GameManager : MonoBehaviour
 
         //以下代码代表玩家从菜单进入游戏场景的初始化，临时使用
 
-        //gamingUI = Instantiate(gamingUI);
-        //DontDestroyOnLoad(gamingUI);
+        gamingUI = Instantiate(gamingUI);
+        DontDestroyOnLoad(gamingUI);
 
         CreateCamera();
         creatPlayer();
         GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
 
-        mapPack = Instantiate(mapPack);
-        DontDestroyOnLoad(mapPack);
+        // mapPack = Instantiate(mapPack);
+        // DontDestroyOnLoad(mapPack);
         uint bankid;
         AkSoundEngine.LoadBank("General",out bankid);
 
