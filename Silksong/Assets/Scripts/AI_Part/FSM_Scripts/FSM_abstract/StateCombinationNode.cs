@@ -11,18 +11,18 @@ public class StateCombinationNode :EnemyFSMBaseState
         Random = 2
 
     }
-    //×´Ì¬Ö´ÐÐ·½Ê½
-    [Tooltip("×¢Òâ£ºÍ¨¹ýSOÎÄ¼þÌí¼ÓµÄ×´Ì¬£¬Æä×ÔÉítrigger list½«Ê§Ð§£¬ÓÉ½ÚµãµÄtrigger list½Ó¹Ü¿ØÖÆ\n" +
-        "Sequence:Ë³ÐòÖ´ÐÐ£¬trigger listÎªÉÏÏÂStateÇÐ»»µÄÌõ¼þ" +
-        "Èç£ºµÚtrigger1Îªstate1ÇÐ»»µÄÌõ¼þ" +
-        "Ò²¾ÍÊÇËµ£¬½ÚµãÍË³öµÄÌõ¼þÎª×îºóÒ»¸östateËù¶ÔÓ¦µÄtriggerµÄÌõ¼þ\n" +
-        "Parallel£ºÑÏ¸ñ²¢ÐÐÖ´ÐÐ£¬Òª±£Ö¤²¢ÐÐµÄËùÓÐ×´Ì¬²»´æÔÚ¶¯»­»òÎ»ÒÆµÄ³åÍ»¡£trigger list Îª½ÚµãÍË³öÌõ¼þ\n" +
-        "Random£ºËæ»úÖ´ÐÐ¡£ trigger listÎª½ÚµãÍË³öÌõ¼þ")]
+    //×´Ì¬Ö´ï¿½Ð·ï¿½Ê½
+    [Tooltip("×¢ï¿½â£ºÍ¨ï¿½ï¿½SOï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Óµï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½trigger listï¿½ï¿½Ê§Ð§ï¿½ï¿½ï¿½É½Úµï¿½ï¿½trigger listï¿½Ó¹Ü¿ï¿½ï¿½ï¿½\n" +
+        "Sequence:Ë³ï¿½ï¿½Ö´ï¿½Ð£ï¿½trigger listÎªï¿½ï¿½ï¿½ï¿½Stateï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" +
+        "ï¿½ç£ºï¿½ï¿½trigger1Îªstate1ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" +
+        "Ò²ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½Úµï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ò»ï¿½ï¿½stateï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½triggerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n" +
+        "Parallelï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½Ö´ï¿½Ð£ï¿½Òªï¿½ï¿½Ö¤ï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ÆµÄ³ï¿½Í»ï¿½ï¿½trigger list Îªï¿½Úµï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½\n" +
+        "Randomï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð¡ï¿½ trigger listÎªï¿½Úµï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½")]
     public StateExecuteWay executeWay;
-    //×´Ì¬SOÅäÖÃlist
+    //×´Ì¬SOï¿½ï¿½ï¿½ï¿½list
     public List<Enemy_State_SO_Config> stateConfigs;
 
-    //×´Ì¬ÊµÀýlist
+    //×´Ì¬Êµï¿½ï¿½list
     private List<EnemyFSMBaseState> states;
 
     private int currSequenceIndex;
@@ -65,16 +65,16 @@ public class StateCombinationNode :EnemyFSMBaseState
         }
     }
 
-    public override void FixAct_State(EnemyFSMManager enemyFSM)
+    public override void FixAct_State_next(EnemyFSMManager enemyFSM)
     {
-        base.FixAct_State(enemyFSM);
+        base.FixAct_State_next(enemyFSM);
         if(executeWay!=StateExecuteWay.Parallel)
-            currActingState.FixAct_State(enemyFSM);
+            currActingState.FixAct_State_next(enemyFSM);
         else
         {
             foreach (var state in states)
             {
-                state.FixAct_State(enemyFSM);
+                state.FixAct_State_next(enemyFSM);
             }
         }
     }
@@ -162,7 +162,7 @@ public class StateCombinationNode :EnemyFSMBaseState
             }
         }
     }
-    //Ö»¼ÓÔØÐÐÎª£¬²»¼ÓÔØtrigger list¡£
+    //Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½trigger listï¿½ï¿½
     private void InitStateList(EnemyFSMManager enemyFSM)
     {
         for(int i=0;i<stateConfigs.Count;i++)

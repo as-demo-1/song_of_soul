@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
 
         gamingUI = Instantiate(gamingUI);
         DontDestroyOnLoad(gamingUI);
+        gamingUI.GetComponent<UIManager>().ShowGameUI();
 
         CreateCamera();
         creatPlayer();

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// Ìí¼ÓStatesÊ±Îñ±Ø¼ÓÉÏĞòºÅ¡£
+/// ï¿½ï¿½ï¿½ï¿½StatesÊ±ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½Å¡ï¿½
 /// </summary>
 public enum EnemyStates
 {
@@ -31,7 +31,7 @@ public enum EnemyStates
     BigMonster_Die=19
 }
 /// <summary>
-/// Ìí¼ÓTriggerÊ±Îñ±Ø¼ÓÉÏĞòºÅ¡£
+/// ï¿½ï¿½ï¿½ï¿½TriggerÊ±ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½Å¡ï¿½
 /// </summary>
 public enum EnemyTriggers
 {

@@ -32,7 +32,36 @@ MonoBehaviour:
         stateType: 11
         defaultAnimationName: Boss00_Chase
         chaseSpeed: 10
-        isFaceWithSpeed: 0
+        isFaceWithSpeed: 1
+        isFlying: 0
+        lock_x_move: 0
+        lock_y_move: 0
+        isMoveWithCurve: 0
+        curveCycle: 0
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -40,6 +69,8 @@ MonoBehaviour:
         targetState: Boss00_Part1_FarAway
         checkNearRadius: 0
         checkFarRadius: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000002:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -47,6 +78,8 @@ MonoBehaviour:
         targetState: Boss00_Part1_Attack
         checkNearRadius: 0
         checkFarRadius: 5
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -54,3 +87,5 @@ MonoBehaviour:
         targetState: Boss00_Part1_FarAway
         checkNearRadius: 30
         checkFarRadius: 100000
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0

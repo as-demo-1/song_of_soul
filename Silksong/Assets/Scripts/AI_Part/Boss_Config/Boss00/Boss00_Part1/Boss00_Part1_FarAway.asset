@@ -36,6 +36,14 @@ MonoBehaviour:
         isFlying: 0
         lock_x_move: 0
         lock_y_move: 0
+        isMoveWithCurve: 0
+        curveCycle: 0
+        curve:
+          serializedVersion: 2
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
     00000001:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -43,8 +51,8 @@ MonoBehaviour:
         targetState: Boss00_Part1_Chase
         checkNearRadius: 0
         checkFarRadius: 0
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000002:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -52,14 +60,14 @@ MonoBehaviour:
         targetState: Boss00_Part1_Shoot
         checkNearRadius: 25
         checkFarRadius: 10000
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
         targetState: Boss00_Part1_Chase
         checkNearRadius: 0
-        checkFarRadius: 10
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        checkFarRadius: 25
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0

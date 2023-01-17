@@ -37,9 +37,9 @@ MonoBehaviour:
         triggerType: 2
         targetState: Boss00_Part1_Chase
         checkNearRadius: 0
-        checkFarRadius: 20
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        checkFarRadius: 15
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000002:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -47,8 +47,8 @@ MonoBehaviour:
         targetState: Boss00_Part1_FarAway
         checkNearRadius: 15
         checkFarRadius: 2000
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000003:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -56,5 +56,5 @@ MonoBehaviour:
         targetState: Boss00_Part1_Chase
         checkNearRadius: 0
         checkFarRadius: 15
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
