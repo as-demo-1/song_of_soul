@@ -195,11 +195,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("UnderWater"))
         {
             IsUnderWater = true;
-            //入水时慢慢将速度减为0    
             float smooth = 100f;
-            //float exitWaterTime = Time.time;
-            //RB.velocity = Vector2.Lerp(RB.velocity, new Vector2(RB.velocity.x, 0), (Time.time - exitWaterTime) * smooth);
-            // RB.gravityScale = playerInfo.normalGravityScale / 5;
             RB.gravityScale = playerInfo.gravityUnderWater;
         }
     }
@@ -238,16 +234,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //public GameObject normalAttackPrefab;
     public GameObject lightningChainPrefab;
-    //private PlayerNormalAtk _normalAttack;
     private LightningChain _lightningChain;
-    //public PlayerInfomation playerInfomation;
     public void init()
     {
-        //_normalAttack = Instantiate(normalAttackPrefab).GetComponent<PlayerNormalAtk>();
-        //_normalAttack.transform.SetParent(transform); 
-        //_normalAttack.transform.localPosition = new Vector3(0, 0, 0);
 
         _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
         _lightningChain.gameObject.SetActive(false);
@@ -308,13 +298,6 @@ public class PlayerController : MonoBehaviour
         //Interact();
     }
 
-    //public void TickNormalAtk()
-    //{
-    //    if (PlayerInput.Instance.normalAttack.IsValid)
-    //    {
-    //        _normalAttack.TiggerAtkEvent();
-    //    }
-    //}
 
     public void TickLightningChain()
     {
