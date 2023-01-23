@@ -2,29 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSwim : PlayerAction
-{
-    public PlayerSwim(PlayerController playerController) : base(playerController) { }
-
-    public override void StateUpdate()
-    {
-        playerController.SwimUnderWater();
-    }
-    public override void StateStart(EPlayerState oldState)
-    {
-        playerController.IsUnderWater = true;
-        //��ˮ��0.2s�ڽ�ֹ����
-        //setRigidGravityScale(playerInfo.normalGravityScale/2);
-    }
-    public override void StateEnd(EPlayerState newState)
-    {
-        playerController.m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
-        playerController.IsUnderWater = false;
-        //setRigidGravityScaleToNormal();
-    }
-}
-
-
 public class PlayerSprintInWater : PlayerAction
 {
     public PlayerSprintInWater(PlayerController playerController) : base(playerController) { }
@@ -59,7 +36,6 @@ public class PlayerSprintInWater : PlayerAction
         playerController.gravityLock = false;
         if (!playerController.IsUnderWater)
         {
-            //���ˮ����������
             playerController.setRigidGravityScaleToNormal();
         }
         else

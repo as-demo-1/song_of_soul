@@ -344,7 +344,7 @@ public class PlayerController : MonoBehaviour
         RecordLastInputDir();
 
         float desireSpeed = lastHorizontalInputDir * playerInfo.getMoveSpeed();
-        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
+        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0 && PlayerAnimatorParamsMapping.HasControl,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
         void RecordLastInputDir()
@@ -457,57 +457,7 @@ public class PlayerController : MonoBehaviour
     {
         IsUnderWater = underWaterCheckCollider.IsTouchingLayers(underwaterLayerMask);
     }
-    public void SwimMove()
-    {
-        RB.velocity = new Vector2(PlayerInput.Instance.horizontal.Value, PlayerInput.Instance.vertical.Value) * playerInfo.swimSpeed;
-    }
-    public void SwimUnderWater()
-    {
-        if (PlayerInput.Instance.horizontal.Value == -1f && PlayerInput.Instance.vertical.Value == 1f)     //左上
-        {
-            m_Transform.localRotation = Quaternion.Euler(0, 0, 45);
-            m_Transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (PlayerInput.Instance.horizontal.Value == 1f && PlayerInput.Instance.vertical.Value == 1f)    //右上
-        {
-            m_Transform.localRotation = Quaternion.Euler(0, 0, -45);
-            m_Transform.localScale = new Vector3(1, 1, 1);
-        }
-        else if (PlayerInput.Instance.horizontal.Value == -1f && PlayerInput.Instance.vertical.Value == -1f)    //左下
-        {
-            m_Transform.localRotation = Quaternion.Euler(0, 0, 135);
-            m_Transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (PlayerInput.Instance.horizontal.Value == 1f && PlayerInput.Instance.vertical.Value == -1f)    //右下
-        {
-            m_Transform.localRotation = Quaternion.Euler(0, 0, -135);
-            m_Transform.localScale = new Vector3(1, 1, 1);
-        }
-        else
-        {
-            if (PlayerInput.Instance.vertical.Value == 1f)                                //上
-            {
-                m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
-                RB.velocity = new Vector2(0, 1) * playerInfo.getMoveSpeed();
-            }
-            if (PlayerInput.Instance.vertical.Value == -1f)                                //下
-            {
-                m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
-                RB.velocity = new Vector2(0, -1) * playerInfo.getMoveSpeed();
-            }
-            if (PlayerInput.Instance.horizontal.Value == -1f)                              //左
-            {
-                m_Transform.localRotation = Quaternion.Euler(0, 0, 90);
-                m_Transform.localScale = new Vector3(-1, 1, 1);
-            }
-            if (PlayerInput.Instance.horizontal.Value == 1f)                                //右
-            {
-                m_Transform.localRotation = Quaternion.Euler(0, 0, -90);
-                m_Transform.localScale = new Vector3(1, 1, 1);
-            }
-        }
-        if (IsUnderWater) SwimMove();
-    }
+
 
     public void CalDistanceToGround()
     {

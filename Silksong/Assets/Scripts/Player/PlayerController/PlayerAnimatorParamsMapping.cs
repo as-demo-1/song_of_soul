@@ -128,12 +128,3 @@ public class PlayerAnimatorParamsMapping
     
 }
 
-/*public abstract class AnimatorParamsMapping
-{
-    protected Animator m_Animator;
-    public AnimatorParamsMapping(AnimatorStatesControl animatorStatesManager)
-    {
-        this.m_Animator = animatorStatesManager.Animator;
-    }
-    public abstract void ParamsUpdate();
-}*/

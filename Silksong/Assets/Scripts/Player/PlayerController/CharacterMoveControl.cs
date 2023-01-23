@@ -58,7 +58,7 @@ public class CharacterMoveControl
     {
         this.m_AccelerationTimeAmount = accelerationTimeAmount == 0 ? Mathf.Infinity : accelerationTimeAmount;
 
-        this.AccelerationTimeLeft = accelerationTimeAmount;
+        this.AccelerationTimeLeft = accelerationTimeAmount;//when it is 0,acce is over
 
         this.m_GroundAccelerationTimeReduceFactor = groundAccelerationTimeReduceFactor;
         this.m_GroundDecelerationTimeReduceFactor = groundDeccelerationTimeReduceFactor;
@@ -89,15 +89,17 @@ public class CharacterMoveControl
     public float AccelSpeedUpdate(bool characterIsAccelerating, bool isGrounded, float characterSpeed)
     {
         CharacterAccelerating(characterIsAccelerating, isGrounded);
-
-        return SetCharacterBaseSpeed(characterSpeed, AccelerationTimeLeft);
+        LerpedSpeed = Mathf.Lerp(characterSpeed, 0, AccelerationTimeLeft / m_AccelerationTimeAmount);
+        float finalSpeed=LerpedSpeed * SpeedRate;
+        //Debug.Log(finalSpeed);
+        return finalSpeed;
     }
 
-    protected virtual float SetCharacterBaseSpeed(float characterSpeed, float accelerationTimeLeft)
+  /*  protected virtual float SetCharacterBaseSpeed(float characterSpeed, float accelerationTimeLeft)
     {
         LerpedSpeed = Mathf.Lerp(characterSpeed, 0, accelerationTimeLeft / m_AccelerationTimeAmount);
         return LerpedSpeed * SpeedRate;
-    }
+    }*/
 
     void CharacterAccelerating(bool isCharacterAccelerating, bool isGrounded)
     {
