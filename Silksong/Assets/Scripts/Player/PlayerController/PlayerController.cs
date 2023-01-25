@@ -538,6 +538,15 @@ public class PlayerController : MonoBehaviour
        
         PlayerAnimator.SetBool(animatorParamsMapping.HasWallForClimbParamHash,checkHitWall(checkRightSide));
     }
+
+
+    public void checkMaxFallSpeed()
+    {
+        if (RB.velocity.y < -Constants.PlayerMaxFallSpeed)
+        {
+           RB.velocity= new Vector2(RB.velocity.x, -Constants.PlayerMaxFallSpeed);
+        }
+    }
 }
 
 public class PlayerGroundedCheck

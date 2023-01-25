@@ -17,5 +17,6 @@ public class PlayerNormalAttack : PlayerAction
     public override void StateUpdate()
     {
         playerController.CheckHorizontalMove(0.5f);
+        playerController.checkMaxFallSpeed();
     }
 }

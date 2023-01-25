@@ -66,7 +66,7 @@ public class GameObjectTeleporter : MonoBehaviour
 
         CameraController.Instance.AfterChangeScene();
         virtualCamera = CameraController.Instance.mMainVirtualCamera;
-        if (virtualCamera)
+        if (virtualCamera && PlayerInput.Instance)
             virtualCamera.Follow = PlayerInput.Instance.transform;
         mSecondVirtualCamera = CameraController.Instance.mSecondVirtualCamera;
         if (mSecondVirtualCamera)

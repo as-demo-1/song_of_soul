@@ -44,7 +44,7 @@ public class PlayerClimbJump : PlayerAction
         bool hasActiveSlowDown = false;//player active stop
         bool hasNormalSlowDown = false;//passive stop
         bool isFixedJumping = true;
-        bool isContinueJumping = false;
+        //bool isContinueJumping = false;
         float jumpStartYPos = playerController.transform.position.y;
 
 
@@ -52,7 +52,7 @@ public class PlayerClimbJump : PlayerAction
         while (true)
         {
             yield return null;
-            if (playerController.getRigidVelocity().y < 0.01f)//跳跃上升过程结束
+            if (playerController.getRigidVelocity().y < 0.01f)//jumpup end
             {
                 playerController.setRigidGravityScaleToNormal();
                 break;
@@ -60,23 +60,24 @@ public class PlayerClimbJump : PlayerAction
             timer += Time.deltaTime;
             float jumpHeight = playerController.transform.position.y - jumpStartYPos;
 
-            if (timer >= Constants.PlayerClimbJumpFixedTime)
+            if (timer >= Constants.PlayerClimbJumpFixedTime)//the climb jump is a fixedDistance jump add a free jump ,here judge if the fixedJump is over  
             {
                 if (isFixedJumping)
                 {
                     isFixedJumping = false;
-                    isContinueJumping = true;
+                    //isContinueJumping = true;
                     canMove = true;
                 }
 
             }
             else if (!canMove)
             {
-
+                //fixedjump horizontal move
                 Vector2 t = playerController.getRigidVelocity();
                 t.x -= Time.deltaTime * fixedJumpAcce;
                 playerController.setRigidVelocity(t);
 
+                //when the fixedJump start ,player can not horizontal move for a short time  if player hope to move toward wall,he can move earlyer before fixedjump over
                 if (((PlayerInput.Instance.horizontal.Value == 1) ? fixedJumpAcce < 0 : fixedJumpAcce > 0) && timer > Constants.PlayerClimbJumpCanMoveTime)
                 {
                     canMove = true;
@@ -86,29 +87,28 @@ public class PlayerClimbJump : PlayerAction
 
             if (!hasActiveSlowDown && PlayerInput.Instance.jump.Held == false)
             {
-                hasActiveSlowDown = true;
-                if (isFixedJumping)
+                hasActiveSlowDown = true;//player dont hold the jump,jump stop
+
+                if (isFixedJumping && Constants.PlayerClimbJumpFixedHeight - jumpHeight>0)
                 {
                     float speed = 2f * (Constants.PlayerClimbJumpFixedHeight - jumpHeight) / (Constants.PlayerClimbJumpFixedTime - timer);
                     playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x, speed));
                     (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).stopJumpInTime(Constants.PlayerClimbJumpFixedTime - timer);
 
                 }
-                if (isContinueJumping)
+                else
                 {
                     (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).stopJumpInTime(Constants.JumpUpStopTime);
                 }
 
             }
-            if (!hasNormalSlowDown && !hasActiveSlowDown && timer > Constants.PlayerClimbJumpTotalTime - Constants.PlayerClimbJumpNormalSlowDownTime)//
+            if (!hasNormalSlowDown && !hasActiveSlowDown && timer > Constants.PlayerClimbJumpTotalTime - Constants.PlayerClimbJumpNormalSlowDownTime)
             {
                 hasNormalSlowDown = true;
                 (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).stopJumpInTime(Constants.PlayerClimbJumpNormalSlowDownTime);
             }
 
         }
-
-
     }
 
 }

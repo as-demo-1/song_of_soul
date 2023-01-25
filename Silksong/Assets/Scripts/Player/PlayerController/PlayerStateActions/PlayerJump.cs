@@ -70,8 +70,7 @@ public class PlayerJump : PlayerAction
         while (true)
         {
             yield return null;//每次update后循环一次
-            //EPlayerState state = playerController.PlayerAnimatorStatesControl.CurrentPlayerState;
-            if (playerController.getRigidVelocity().y < 0.01f)//跳跃上升过程结束
+            if (playerController.getRigidVelocity().y < 0.01f)//跳跃上升过程结束  maybe not right..
             {
                 playerController.setRigidGravityScaleToNormal();
                 break;
@@ -97,11 +96,16 @@ public class PlayerJump : PlayerAction
 
     }
 
+    /// <summary>
+    /// make player's y speed to zero after stopTime ,by reset the gravityScale
+    /// </summary>
+    /// <param name="stopTime"></param>
     public void stopJumpInTime(float stopTime)
     {
+        if (playerController.getRigidVelocity().y <= 0 || stopTime <= 0) return;
         float acce = playerController.getRigidVelocity().y / stopTime;
+
         float gScale = -acce / Physics2D.gravity.y;
-        // Debug.Log(gScale);
         playerController.setRigidGravityScale(gScale);
     }
 

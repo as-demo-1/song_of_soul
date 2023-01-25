@@ -10,14 +10,8 @@ public class PlayerFall : PlayerAction
     {
         playerController.CheckFlipPlayer(1f);
         playerController.CheckHorizontalMove(0.5f);
-        checkMaxFallSpeed();
+        playerController.checkMaxFallSpeed();
     }
 
-    public void checkMaxFallSpeed()
-    {
-        if (playerController.getRigidVelocity().y < -Constants.PlayerMaxFallSpeed)
-        {
-            playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x, -Constants.PlayerMaxFallSpeed));
-        }
-    }
+
 }
