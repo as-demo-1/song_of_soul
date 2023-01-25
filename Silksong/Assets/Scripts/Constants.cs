@@ -63,6 +63,7 @@ public static class Constants
     public const int PlayerMaxDoubleJumpCount = 2;
     public const float JumpUpSlowDownTime = 0.3f;//
     public const float JumpUpStopTime = 0.05f;//
+
     #endregion
 
     #region about player break moon
@@ -70,6 +71,10 @@ public static class Constants
     public const float BreakMoonAfterDistance=2f;//ÀÈ‘¬ª∫≥Âæ‡¿Î
     public const float BreakMoonPrePareTime = 0.278f;
     public const float BreakMoonAvgSpeed = 12f;
+    #endregion
+
+    #region about player plunge
+    public const float PlayerPlungeSpeed = 16f;
     #endregion
 
     public const float PlayerBaseHealTime = 2f;

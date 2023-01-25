@@ -11,20 +11,13 @@ public class PlayerPlunge : PlayerAction
 
     public int plungeStrength;
 
-    public bool hasPlunged;
     public override void StateStart(EPlayerState oldState)
     {
-        //if (hasPlunged)
-        //{
-        //    return;
-        //}
-        //hasPlunged = true;
-        //Debug.Log("start plunging" + Time.time);
 
         // 竖直下落
         playerController.setRigidGravityScale(0f);
         playerController.gravityLock = true;
-        playerController.setRigidVelocity(new Vector2(0, -1 * playerController.playerInfo.plungeSpeed));
+        playerController.setRigidVelocity(new Vector2(0, -1 * Constants.PlayerPlungeSpeed));
 
 
         plungeStrength = 0;
@@ -57,20 +50,10 @@ public class PlayerPlunge : PlayerAction
         playerController.setRigidGravityScaleToNormal();
 
 
-
-        //if (plungeDistance > 2.57f || (plungeDistance < 2.53f && plungeDistance > 0.01f))
-        //{
-
-        //    Debug.Log("下砸结束");
-        //    
-        //}
-        //    hasPlunged= false;
-
         if (plungeStrength == 3)
         {
             playerController.plunge.Play();
         }
-
 
         Debug.Log("Landed! Plunge strength:" + plungeStrength + "Distance:" + plungeDistance);
         plungeStrength = 0;

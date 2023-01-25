@@ -26,7 +26,7 @@ public class PlayerAnimatorParamsMapping
     public int IsGroundedParamHash { get; } = Animator.StringToHash("IsGrounded");
     public int HorizontalSpeedParamHash { get; } = Animator.StringToHash("HorizontalSpeed");
     public int VerticalSpeedParamHash { get; } = Animator.StringToHash("VerticalSpeed");
-    //public int CanMoveParamHash { get; } = Animator.StringToHash("CanMove");
+    public int CanRunParamHash { get; } = Animator.StringToHash("CanRun");
     public int CanJumpParamHash { get; } = Animator.StringToHash("CanJump");
     public int CanNormalAttackParamHash { get; } = Animator.StringToHash("CanNormalAttack");
 

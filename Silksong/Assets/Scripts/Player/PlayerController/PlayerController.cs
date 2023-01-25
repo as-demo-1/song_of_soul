@@ -15,7 +15,6 @@ public struct PlayerInfo
 
     public AnimationCurve breakMoonPositionCurve;
     //climb
-    public float normalGravityScale;
 
     public bool playerFacingRight;
     //swim
@@ -23,15 +22,13 @@ public struct PlayerInfo
 
     public float gravityUnderWater;
 
-    // plunge
-    public float plungeSpeed;
 
     public void init(PlayerController playerController)
     {
         this.playerController = playerController;
 
         sprintSpeed = Constants.PlayerSprintDistance / Constants.SprintTime;
-        gravityUnderWater = normalGravityScale / 5;
+        gravityUnderWater = Constants.PlayerNormalGravityScale / 5;
     }
 
     public float getMoveSpeed()
@@ -207,7 +204,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("UnderWater"))
         {
             IsUnderWater = false;
-            RB.gravityScale = playerInfo.normalGravityScale;
+            RB.gravityScale = Constants.PlayerNormalGravityScale;
             RB.velocity += new Vector2(0, 5);       //添加一个出水速度
         }
     }
@@ -261,7 +258,7 @@ public class PlayerController : MonoBehaviour
     {
         playerInfo.init(this);
         // _saveSystem.TestSaveGuid(_guid);
-        RB.gravityScale = playerInfo.normalGravityScale;
+        RB.gravityScale = Constants.PlayerNormalGravityScale;
         m_Transform = GetComponent<Transform>();
 
         WhenStartSetLastHorizontalInputDirByFacing();
@@ -422,7 +419,7 @@ public class PlayerController : MonoBehaviour
 
     public void setRigidGravityScaleToNormal()
     {
-        setRigidGravityScale(playerInfo.normalGravityScale);
+        setRigidGravityScale(Constants.PlayerNormalGravityScale);
     }
 
     public void rigidMovePosition(Vector2 target)
@@ -499,11 +496,12 @@ public class PlayerController : MonoBehaviour
     public bool checkHitWall(bool checkRightSide)
     {
         Vector2 t = transform.position;
-        t.y -= 0.5f;
+        t.y += 0.5f;//at player head
+
         Vector2 frontPoint;
         frontPoint = new Vector2(t.x + (checkRightSide?1:-1) * boxCollider.size.x * 0.5f , t.y);
 
-        if (Physics2D.OverlapArea(frontPoint, t, 1 << LayerMask.NameToLayer("Ground")) != null)
+        if (Physics2D.OverlapArea(frontPoint, transform.position, 1 << LayerMask.NameToLayer("Ground")) != null)
         {
             return true;
         }
@@ -764,7 +762,7 @@ public class PlayerToCatAndHuman
 
         playerController.PlayerAnimator.Play("CatToHumanExtraJump");
         Debug.Log("extra jump");
-        float speed = Mathf.Sqrt(Physics2D.gravity.y * -1 * playerController.playerInfo.normalGravityScale * 2 * Constants.PlayerCatToHumanExtraJumpHeight);
+        float speed = Mathf.Sqrt(Physics2D.gravity.y * -1 * Constants.PlayerNormalGravityScale * 2 * Constants.PlayerCatToHumanExtraJumpHeight);
         playerController.setRigidVelocity(new Vector2( playerController.getRigidVelocity().x, speed));
     }
     

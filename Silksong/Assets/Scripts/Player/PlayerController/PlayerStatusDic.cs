@@ -6,7 +6,7 @@ using UnityEngine;
 public enum EPlayerStatus : int
 {
     None = 0,
-   // CanMove = 1,
+    CanRun = 1,
     CanJump = 2,
     CanNormalAttack = 4,
     CanSprint = 8,
@@ -31,7 +31,7 @@ public class PlayerStatusDic
         this.playerController = playerController;
         m_StatusDic = new Dictionary<EPlayerStatus, PlayerStatusFlag>
         {
-           // {EPlayerStatus.CanMove, new PlayerStatusFlag() },
+            {EPlayerStatus.CanRun, new PlayerStatusFlag(animatorParamsMapping.CanRunParamHash) },
             {EPlayerStatus.CanJump, new PlayerStatusFlag(animatorParamsMapping.CanJumpParamHash) },
             {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag(animatorParamsMapping.CanNormalAttackParamHash) },
             {EPlayerStatus.CanSprint, new PlayerStatusFlag(animatorParamsMapping.CanSprintParamHash)},

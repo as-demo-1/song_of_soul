@@ -15,7 +15,7 @@ public class PlayerClimbIdle : PlayerAction
     }
     public override void StateEnd(EPlayerState newState)
     {
-        playerController.setRigidGravityScale(playerController.playerInfo.normalGravityScale);
+        playerController.setRigidGravityScale(Constants.PlayerNormalGravityScale);
         (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).CurrentJumpCountLeft--;
     }
 

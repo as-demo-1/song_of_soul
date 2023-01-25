@@ -57,7 +57,7 @@ public class DestructiblePlatform : MonoBehaviour
 
     public void BreakThisPlatform() {
         collider2d.enabled = false;
-        playerController.setRigidVelocity(new Vector2(0, -1 * playerController.playerInfo.plungeSpeed));
+        playerController.setRigidVelocity(new Vector2(0, -1 * Constants.PlayerPlungeSpeed));
 
         _saveSystem.AddDestructiblePlatformGUID(_guid);
         
