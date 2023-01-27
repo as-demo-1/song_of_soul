@@ -98,7 +98,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4518769045790887235
 Transform:
   m_ObjectHideFlags: 0
@@ -179,18 +179,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
-  playerAttackCanGainSoul: 0
+  playerAttackCanGainSoul: 1
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
   takeDamageAudio: {fileID: 0}
+  takeDamageSfxSO: {fileID: 0}
   maxHp: 2000
   currentHp: 2000
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  dieAudio: {fileID: 0}
+  hurt: {fileID: 0}
 --- !u!50 &4518769045790887232
 Rigidbody2D:
   serializedVersion: 4
