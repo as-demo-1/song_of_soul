@@ -23,11 +23,13 @@ public class CircleBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
-        Debug.LogError("idel update"); 
+        Debug.Log("idel update"); 
         monsterInfo = animator.GetComponent<MonsterInformation>();
         if (monsterInfo == null)
         {
-            Debug.LogError("no monster info");
+            return;
+            Debug.Log("no monster info");
+           
         }
         var endPos = monsterInfo.GetTargetPos();
         var pos = Vector2.Lerp(monsterInfo.transform.position, endPos, 0.3f);

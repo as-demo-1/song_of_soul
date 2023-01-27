@@ -6,14 +6,11 @@ using UnityEditor;
 using UnityEngine.Events;
 using Cinemachine.Utility;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-/// <summary>
-/// 
-/// ӵ������ֵ����ط�����damable 
-/// </summary>���ߣ����
+
 public class HpDamable :Damable
 {
     [SerializeField]
-    private int maxHp ;//�������ֵ
+    private int maxHp ;
     public int MaxHp
     {
         get { return maxHp; }
@@ -21,7 +18,7 @@ public class HpDamable :Damable
     }
 
     [SerializeField]
-    private int currentHp;//��ǰhp
+    private int currentHp;
     public int CurrentHp
     {
         get { return currentHp; }
@@ -58,7 +55,6 @@ public class HpDamable :Damable
             Destroy(Instantiate(hurt, transform), 3.0f);
         }
 
-        takeDamageEvent.Invoke(damager, this);
         base.takeDamage(damager);
         addHp(-damager.getDamage(this),damager);
         
@@ -91,7 +87,7 @@ public class HpDamable :Damable
         }
     }
 
-    public void addHp(int number,DamagerBase damager)//���ܵ��˺� number<0
+    public void addHp(int number,DamagerBase damager)
     {
         setCurrentHp(currentHp + number,damager);
     }
@@ -100,8 +96,8 @@ public class HpDamable :Damable
     {
         onDieEvent.Invoke(damager,this);
 
-        if(gameObject.tag!="Player")//reborn player for  test
-        Destroy(gameObject, 0.8f);//δ����
+        if(gameObject.tag!="Player")
+        Destroy(gameObject);
 
         Debug.Log(gameObject.name+" die");
 

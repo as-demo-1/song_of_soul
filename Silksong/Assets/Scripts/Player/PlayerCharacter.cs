@@ -99,7 +99,10 @@ public class PlayerCharacter : MonoBehaviour
 
     public int getAttackGainManaNumber()
     {
-        return Constants.playerAttackGainSoul + CharmListSO.CharmAttackGainSoul;
+        int ret=Constants.playerAttackGainSoul;
+        if (CharmListSO)
+            ret += CharmListSO.CharmAttackGainSoul;
+        return ret;
     }
     public int getHurtGainManaNumber()
     {

@@ -192,7 +192,6 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.CompareTag("UnderWater"))
         {
             IsUnderWater = true;
-            float smooth = 100f;
             RB.gravityScale = playerInfo.gravityUnderWater;
         }
     }
