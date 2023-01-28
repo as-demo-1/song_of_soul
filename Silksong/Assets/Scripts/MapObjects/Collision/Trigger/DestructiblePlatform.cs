@@ -30,8 +30,9 @@ public class DestructiblePlatform : MonoBehaviour
     protected void Start() {
         if (_saveSystem.ContainDestructiblePlatformGUID(_guid))
         {
-            Destroy(this.gameObject);
+            //  Destroy(this.gameObject);
             //gameObject.SetActive(false);
+            collider2d = GetComponent<Collider2D>();
         }
         else
         {
@@ -40,15 +41,12 @@ public class DestructiblePlatform : MonoBehaviour
     }
 
     protected void OnTriggerEnter2D(Collider2D collision) {
-        if (canWork && targetLayer.Contains(collision.gameObject)) {
+        if (canWork && collision.gameObject.tag=="PlayerGroundCheck") {
 
-            playerController = collision.GetComponent<PlayerController>();
-
+            playerController = collision.GetComponentInParent<PlayerController>();
             playerPlungeStrength = (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Plunge] as PlayerPlunge).plungeStrength;
-
-            // Debug.Log("PlungeStrength:" + playerPlungeStrength + " PlatformStrength:" + strengthToBreak);
-
-            if(/*playerController.animatorParamsMapping.CurrentStatesParamHash == 130 &&*/ playerPlungeStrength >= strengthToBreak) {
+            //Debug.Log(playerPlungeStrength);
+            if( playerPlungeStrength >= strengthToBreak) {
                 BreakThisPlatform();
             }
         }

@@ -25,6 +25,7 @@ public enum EPlayerState
     CatIdle = 210,
     ToHuman = 220,
     CatToHumanExtraJump = 230,
+
     SprintInWater = 240,
 }
 public abstract class PlayerAction
@@ -49,11 +50,12 @@ public abstract class PlayerAction
 }
 public class PlayerStatesBehaviour
 {
-    public Dictionary<EPlayerState,PlayerAction> StateActionsDic=new Dictionary<EPlayerState, PlayerAction>();
+    public Dictionary<EPlayerState, PlayerAction> StateActionsDic = new Dictionary<EPlayerState, PlayerAction>();
     public PlayerController playerController;
 
     public void init()
     {
+        StateActionsDic.Add(EPlayerState.None, new NoneAction(playerController));
         StateActionsDic.Add(EPlayerState.Idle, new PlayerIdle(playerController));
         StateActionsDic.Add(EPlayerState.Run, new PlayerRun(playerController));
         StateActionsDic.Add(EPlayerState.NormalAttack, new PlayerNormalAttack(playerController));
@@ -97,6 +99,26 @@ public class PlayerStatesBehaviour
     public void StatesExitBehaviour(EPlayerState exitState, EPlayerState newState)
     {
         StateActionsDic[exitState].StateEnd(newState);
+    }
+
+
+    public class NoneAction:PlayerAction
+    {
+        public NoneAction(PlayerController playerController) : base(playerController) { }
+        public override void StateEnd(EPlayerState newState)
+        {
+            base.StateEnd(newState);
+        }
+
+        public override void StateStart(EPlayerState oldState)
+        {
+            base.StateStart(oldState);
+        }
+
+        public override void StateUpdate()
+        {
+            base.StateUpdate();
+        }
     }
 
 

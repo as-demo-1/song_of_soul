@@ -11,7 +11,6 @@ public class PlayerHurt : PlayerAction
         playerController.setRigidVelocity(Vector2.zero);
         PlayerAnimatorParamsMapping.SetControl(false);
         playerController.hurt.Play();
-        Debug.Log("hurt action");
     }
     public override void StateEnd(EPlayerState newState)
     {

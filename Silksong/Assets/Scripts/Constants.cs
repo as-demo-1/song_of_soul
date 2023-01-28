@@ -74,7 +74,13 @@ public static class Constants
     #endregion
 
     #region about player plunge
-    public const float PlayerPlungeSpeed = 16f;
+    public const float PlayerPlungeSpeed = 15f;
+    public const float canPlungeHeight = 3f;
+    public const float PlungeingGroundCheckBoxYOff = -2f;
+    public const float PlungeingGroudCheckBoxYSize = 0.3f;
+
+    public const float plungeWaterCheckColliderOffsetY = -0.8f;
+    public const float plungeWaterCheckColliderOffsetX = 0f;
     #endregion
 
     public const float PlayerBaseHealTime = 2f;
@@ -92,9 +98,16 @@ public static class Constants
     public const float playerCatBoxColliderWidth = 0.5f;
     public const float playerCatBoxColliderHeight = 0.75f;
 
-    public const float playerGroundCheckColliderOffsetY = -0.80f;
+    public const float playerGroundCheckColliderOffsetY = -0.75f;
+    public const float playerGroundCheckColliderOffsetX = -0.005f;
+
     public const float playerCatGroundCheckColliderOffsetY = -0.13f;
-    public const float playerGroundColliderXSizeSmall = 0.01f;
+
+    public const float playerGroundCheckColliderSizeX = 0.23f;//the groudcheck is smaller than player collider on the faceSide to avoid air touch wall ground check problem
+    public const float playerGroundCheckColliderSizeY = 0.1f;// 
+
+    public const float playerWaterCheckColliderOffsetY = 0.4f;
+    public const float playerWaterCheckColliderOffsetX = 0f;
 
     #endregion
 

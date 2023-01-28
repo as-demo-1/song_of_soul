@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class PlayerPlunge : PlayerAction
 {
-    public PlayerPlunge(PlayerController playerController) : base(playerController) { }
+    public PlayerPlunge(PlayerController playerController) : base(playerController) 
+    {
+        groudCheck = playerController.groundCheckCollider;
+        waterCheck = playerController.underWaterCheckCollider;
+    }
 
     private float plungeStartPositionY;
     private float plungeDistance;
 
     public int plungeStrength;
+    BoxCollider2D groudCheck;
+    Collider2D waterCheck;
 
     public override void StateStart(EPlayerState oldState)
     {
@@ -24,6 +30,13 @@ public class PlayerPlunge : PlayerAction
 
         plungeDistance = 0.0f;
         plungeStartPositionY = playerController.transform.position.y;
+        PlayerAnimatorParamsMapping.HasControl = false;
+
+ 
+        groudCheck.offset = new Vector2(groudCheck.offset.x, Constants.PlungeingGroundCheckBoxYOff);
+        groudCheck.size = new Vector2(Constants.playerGroundCheckColliderSizeX, Constants.PlungeingGroudCheckBoxYSize);
+
+        waterCheck.offset = new Vector2(Constants.plungeWaterCheckColliderOffsetX, Constants.plungeWaterCheckColliderOffsetY);
     }
 
     public override void StateUpdate()
@@ -35,31 +48,41 @@ public class PlayerPlunge : PlayerAction
         int i = plungeStrength;
         while (i < playerController.plungeStrengthArr.Length - 1 && plungeDistance > playerController.plungeStrengthArr[i + 1])
         {
-            // Debug.Log(plungeStrength);
             i++;
         }
         plungeStrength = i;
-
-        // 在 DestructiblePlatform 组件更新 willBreakGround，在此更新animator param
-        // playerController.PlayerAnimator.SetBool(playerController.animatorParamsMapping.WillBreakGroundParamHash, willBreakGround);
     }
 
     public override void StateEnd(EPlayerState newState)
     {
+
+        //Debug.Log("Landed! Plunge strength:" + plungeStrength + "Distance:" + plungeDistance);
         playerController.gravityLock = false;
         playerController.setRigidGravityScaleToNormal();
+        int strength = plungeStrength;
+        plungeStrength = 0;
+        plungeDistance = 0.0f;
+
+        PlayerAnimatorParamsMapping.HasControl = true;
+        groudCheck.offset = new Vector2(Constants.playerGroundCheckColliderOffsetX, Constants.playerGroundCheckColliderOffsetY);
+        groudCheck.size = new Vector2(Constants.playerGroundCheckColliderSizeX, Constants.playerGroundCheckColliderSizeY);
+
+        waterCheck.offset = new Vector2(Constants.playerWaterCheckColliderOffsetX, Constants.playerWaterCheckColliderOffsetY);
+
+        if (newState == EPlayerState.Hurt) return;
 
 
-        if (plungeStrength == 3)
+        if (strength == 3)
         {
             playerController.plunge.Play();
         }
 
-        Debug.Log("Landed! Plunge strength:" + plungeStrength + "Distance:" + plungeDistance);
-        plungeStrength = 0;
-        plungeDistance = 0.0f;
+  
+        RaycastHit2D raycastHit = Physics2D.Raycast(playerController.transform.position, Vector2.down, 10, 1 << LayerMask.NameToLayer("Ground"));
+        float downDistance = raycastHit.distance - Constants.playerBoxColliderHeight / 2;
+        playerController.transform.position = new Vector2(playerController.transform.position.x, playerController.transform.position.y - downDistance);
 
-
+        
     }
 
 }

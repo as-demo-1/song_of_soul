@@ -26,11 +26,6 @@ public class PlayerAnimatorStatesControl
         PlayerSMBEvents.Initialise(this.Animator,PlayerController);
     }
 
-    //public void Initialize(StatusBehaviour behaviour)
-    //{
-
-    //}
-
 
     public void ParamsUpdate() => this.CharacterAnimatorParamsMapping.ParamsUpdate();
 
@@ -48,11 +43,3 @@ public class PlayerAnimatorStatesControl
 
     }
 }
-
-/*public abstract class AnimatorStatesControl
-{
-    public abstract Animator Animator { get; }
-    public abstract StatesBehaviour CharacterStatesBehaviour { get; set; }
-    public abstract AnimatorParamsMapping CharacterAnimatorParamsMapping { get; }
-
-}*/

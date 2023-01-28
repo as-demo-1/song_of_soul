@@ -9,7 +9,6 @@ public class SMBStateData : SMBEventTimeStamp
     public override void EventActive(MonoBehaviour mono)
     {
       //  Debug.Log("event " + this.GetType());
-      if(newState!=0)
         PlayerController.Instance.playerAnimatorStatesControl.ChangePlayerState(newState);
     }
 }
