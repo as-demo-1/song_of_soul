@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
 
     public SaveSystem saveSystem;
 
+    public GamingSaveSO gamingSave;
+
 
     void Awake()
     {

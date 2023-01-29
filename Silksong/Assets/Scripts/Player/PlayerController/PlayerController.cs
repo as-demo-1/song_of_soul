@@ -131,7 +131,6 @@ public class PlayerController : MonoBehaviour
     /// Only Demo Code for save
     /// </summary>
     [SerializeField] private string _guid;
-    [SerializeField] private SaveSystem _saveSystem;
     [SerializeField] public InventoryManager _backpack;
     public GameObject _itemToAdd = null;
     public GameObject _savePoint = null;
@@ -222,7 +221,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_savePoint)
             {
-                _saveSystem.SaveDataToDisk();
+                GameManager.Instance.saveSystem.SaveDataToDisk();
             }
         }
     }

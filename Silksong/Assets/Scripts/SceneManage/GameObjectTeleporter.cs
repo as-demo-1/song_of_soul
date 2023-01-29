@@ -11,6 +11,7 @@ public class GameObjectTeleporter : MonoBehaviour
     {
         get
         {
+            
            // Debug.Log("get");
             if (instance != null)
                 return instance;
