@@ -80,7 +80,7 @@ namespace Spine.Unity.Editor {
 				var foundSkeletonRenderer = follower.GetComponentInParent<SkeletonRenderer>();
 				if (foundSkeletonRenderer != null)
 					Debug.Log("BoundingBoxFollower automatically assigned: " + foundSkeletonRenderer.gameObject.name);
-				else if (Event.current.type == EventType.Repaint)
+				else if (Event.current.type == UnityEngine.EventType.Repaint)
 					Debug.Log("No Spine GameObject detected. Make sure to set this GameObject as a child of the Spine GameObject; or set BoundingBoxFollower's 'Skeleton Renderer' field in the inspector.");
 
 				skeletonRenderer.objectReferenceValue = foundSkeletonRenderer;
@@ -172,7 +172,7 @@ namespace Spine.Unity.Editor {
 			}
 
 
-			if (Event.current.type == EventType.Repaint) {
+			if (Event.current.type == UnityEngine.EventType.Repaint) {
 				if (addBoneFollower) {
 					var boneFollower = follower.gameObject.AddComponent<BoneFollower>();
 					boneFollower.skeletonRenderer = skeletonRendererValue;

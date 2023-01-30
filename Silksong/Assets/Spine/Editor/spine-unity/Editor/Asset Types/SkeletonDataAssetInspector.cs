@@ -29,9 +29,10 @@
 
 #define SPINE_SKELETON_MECANIM
 
- #if (UNITY_2017_4 || UNITY_2018_1_OR_NEWER )
- #define SPINE_UNITY_2018_PREVIEW_API
- #endif
+#if (UNITY_2017_4 || UNITY_2018_1_OR_NEWER)
+#define SPINE_UNITY_2018_PREVIEW_API
+#endif
+
 
 
 using System;
@@ -855,7 +856,7 @@ namespace Spine.Unity.Editor {
 		}
 
 		public void HandleInteractivePreviewGUI (Rect r, GUIStyle background) {
-			if (Event.current.type == EventType.Repaint) {
+			if (Event.current.type == UnityEngine.EventType.Repaint) {
 				if (requiresRefresh) {
 					previewRenderUtility.BeginPreview(r, background);
 					DoRenderPreview(true);
@@ -969,7 +970,7 @@ namespace Spine.Unity.Editor {
 			Event current = Event.current;
 			int controlID = GUIUtility.GetControlID(SliderHash, FocusType.Passive);
 			switch (current.GetTypeForControl(controlID)) {
-				case EventType.ScrollWheel:
+				case UnityEngine.EventType.ScrollWheel:
 					if (position.Contains(current.mousePosition)) {
 						cameraOrthoGoal += current.delta.y * 0.06f;
 						cameraOrthoGoal = Mathf.Max(0.01f, cameraOrthoGoal);
@@ -1152,7 +1153,7 @@ namespace Spine.Unity.Editor {
 					GUI.DrawTexture(evRect, userEventIcon);
 
 					Event ev = Event.current;
-					if (ev.type == EventType.Repaint) {
+					if (ev.type == UnityEngine.EventType.Repaint) {
 						if (evRect.Contains(ev.mousePosition)) {
 							string eventName = currentAnimationEvents[i].Data.Name;
 							Rect tooltipRect = new Rect(evRect) {

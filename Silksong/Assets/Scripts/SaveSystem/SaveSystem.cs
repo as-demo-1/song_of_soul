@@ -14,6 +14,15 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 	public string backupSaveFilename = "save.asoul.bak";
 	private Save saveData = new Save();
 
+	public bool haveSoulJump()
+    {
+		return saveData.haveSoulJump;
+    }
+
+	public void getSoulJump()
+    {
+		saveData.haveSoulJump = true;
+    }
 	public bool ContainBossGUID(string GUID)
 	{
 		return saveData._bossGUID.Contains(GUID);
@@ -24,14 +33,14 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 		saveData._bossGUID.Add(GUID);
 	}
 
-	public bool ContainDestructiblePlatformGUID(string GUID)
-    {
-		return saveData._destructiblePlatformGuid.Contains(GUID);
+
+	public bool ContainDestroyedGameObj(string GUID)
+	{
+		return saveData._destroyedGameObjs.Contains(GUID);
 	}
-	
-	public void AddDestructiblePlatformGUID(string GUID)
-    {
-		saveData._destructiblePlatformGuid.Add(GUID);
+	public void AddDestroyedGameObj(string GUID)
+	{
+		saveData._destroyedGameObjs.Add(GUID);
 	}
 
 	/// <summary>
@@ -105,6 +114,7 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 	//Read save data from FileManager
 	public bool LoadSaveDataFromDisk()
 	{
+		Debug.Log("LoadSave");
 #if UNITY_EDITOR
 		if (FileManager.LoadFromFile(saveFilename, out var json))
 		{

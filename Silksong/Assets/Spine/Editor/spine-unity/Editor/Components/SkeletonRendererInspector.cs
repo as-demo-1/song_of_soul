@@ -183,7 +183,7 @@ namespace Spine.Unity.Editor {
 
 		protected virtual void DrawInspectorGUI (bool multi) {
 			// Initialize.
-			if (Event.current.type == EventType.Layout) {
+			if (Event.current.type == UnityEngine.EventType.Layout) {
 				if (forceReloadQueued) {
 					forceReloadQueued = false;
 					foreach (var c in targets) {
@@ -520,7 +520,7 @@ namespace Spine.Unity.Editor {
 		}
 
 		void HandleSkinChange() {
-			if (!Application.isPlaying && Event.current.type == EventType.Layout && !initialSkinName.hasMultipleDifferentValues) {
+			if (!Application.isPlaying && Event.current.type == UnityEngine.EventType.Layout && !initialSkinName.hasMultipleDifferentValues) {
 				bool mismatchDetected = false;
 				string newSkinName = initialSkinName.stringValue;
 				foreach (var o in targets) {

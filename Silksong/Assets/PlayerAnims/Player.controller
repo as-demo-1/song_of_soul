@@ -35,11 +35,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.030511051
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.8953907
+  m_ExitTime: 1
   m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -99,11 +99,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.57142854
+  m_ExitTime: 1
   m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -313,7 +313,19 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 16
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 256
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 1
       statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.9
+      playerStatus: 1
+      statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList:
@@ -591,7 +603,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SMBStateData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 130
   m_SMBStatusData:
     m_SMBEventList: []
   m_SMBWwiseData:
@@ -653,38 +667,10 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
---- !u!1101 &-7043249687994559529
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 7
-    m_ConditionEvent: HorizontalInput
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: IsGrounded
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 2559521184380175098}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.02908194
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9002905
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1101 &-7022896281247127953
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -770,39 +756,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SMBStateData:
-    m_SMBEventList:
-    - timeNormalized: 0
-      newState: 130
+    m_SMBEventList: []
   m_SMBStatusData:
-    m_SMBEventList:
-    - timeNormalized: 0
-      playerStatus: 2
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
-      playerStatus: 4
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
-      playerStatus: 8
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
-      playerStatus: 16
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
-      playerStatus: 32
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
-      playerStatus: 64
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
-      playerStatus: 128
-      statusIsActive: 0
-      wayOfChangingFlag: 0
+    m_SMBEventList: []
   m_SMBWwiseData:
     m_SMBEventList: []
 --- !u!1101 &-6379522566979178129
@@ -902,9 +858,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: SprintIsValid
     m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: SprintReady
-    m_EventTreshold: 0
   - m_ConditionMode: 3
     m_ConditionEvent: AirSprintLeftCount
     m_EventTreshold: 0
@@ -914,17 +867,20 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: IsUnderWater
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: SprintReady
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5452763654425502649}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.013167143
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
@@ -986,10 +942,9 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sprint
-  m_Speed: 1.5
+  m_Speed: 2.1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: -7043249687994559529}
   - {fileID: -8852992290040624666}
   m_StateMachineBehaviours:
   - {fileID: -8100480177636979217}
@@ -1177,11 +1132,14 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: PlungeIsValid
     m_EventTreshold: 0
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 130
   - m_ConditionMode: 1
     m_ConditionEvent: HasHeightToPlunge
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: IsCat
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: IsUnderWater
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 854309444521284188}
@@ -1189,14 +1147,14 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.049898926
-  m_TransitionOffset: 0.044739954
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
   m_ExitTime: 0.02464651
   m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
+  m_CanTransitionToSelf: 0
 --- !u!1102 &-4936280048169180988
 AnimatorState:
   serializedVersion: 6
@@ -1210,7 +1168,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: -6379522566979178129}
   m_StateMachineBehaviours:
-  - {fileID: 1584853502914679429}
+  - {fileID: 8100109273749451277}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1221,7 +1179,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 11248e98233619f45b15f8a729c1a053, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: HorizontalSpeed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -1277,7 +1235,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
@@ -1305,7 +1263,7 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 256
-      statusIsActive: 0
+      statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 4
@@ -1537,9 +1495,9 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.40000004
+  m_ExitTime: 0
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -1649,7 +1607,7 @@ AnimatorStateTransition:
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
+  m_CanTransitionToSelf: 0
 --- !u!1107 &-3766518182066111007
 AnimatorStateMachine:
   serializedVersion: 6
@@ -1727,23 +1685,11 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: IsGrounded
     m_EventTreshold: 0
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 30
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 50
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 60
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 70
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 40
   - m_ConditionMode: 2
     m_ConditionEvent: IsCat
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: CanRun
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2559521184380175098}
@@ -1755,7 +1701,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
@@ -1857,6 +1803,14 @@ MonoBehaviour:
     - timeNormalized: 0.1
       playerStatus: 16
       statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 256
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 0
       wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList:
@@ -1961,19 +1915,31 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
-      playerStatus: 4
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0.589
-      playerStatus: 4
-      statusIsActive: 1
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
       playerStatus: 8
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 16
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 256
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.5
+      playerStatus: 1
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 4
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.4
+      playerStatus: 4
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
@@ -2111,6 +2077,26 @@ MonoBehaviour:
       playerStatus: 256
       statusIsActive: 1
       wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 8
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 2
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 16
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 512
+      statusIsActive: 1
+      wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList: []
 --- !u!114 &-2496319268684918498
@@ -2138,7 +2124,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hurt
-  m_Speed: 1
+  m_Speed: 1.41
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8716153101050761243}
@@ -2298,9 +2284,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.050031357
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.94996864
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
@@ -2348,6 +2334,8 @@ MonoBehaviour:
     m_SMBEventList:
     - timeNormalized: 0
       newState: 50
+    - timeNormalized: 0
+      newState: 0
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -2365,6 +2353,14 @@ MonoBehaviour:
     - timeNormalized: 0
       playerStatus: 16
       statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 256
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 0
       wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList:
@@ -2470,7 +2466,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Fall
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7531057800556324977}
@@ -2555,7 +2551,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: climb_JumpUp
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4005218460564836423}
@@ -2607,6 +2603,10 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 16
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 256
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
@@ -2688,8 +2688,16 @@ MonoBehaviour:
       playerStatus: 4
       statusIsActive: 0
       wayOfChangingFlag: 0
-    - timeNormalized: 0.426
+    - timeNormalized: 0.3
       playerStatus: 4
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.5
+      playerStatus: 1
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
@@ -2915,6 +2923,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: CanRun
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -3007,8 +3021,16 @@ MonoBehaviour:
       playerStatus: 4
       statusIsActive: 0
       wayOfChangingFlag: 0
-    - timeNormalized: 1
+    - timeNormalized: 0.6
       playerStatus: 4
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.5
+      playerStatus: 1
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
@@ -3065,6 +3087,10 @@ MonoBehaviour:
       playerStatus: 512
       statusIsActive: 1
       wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 1
+      wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList: []
 --- !u!114 &348917670620703221
@@ -3119,7 +3145,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BreakMoonStart
-  m_Speed: 1.5
+  m_Speed: 3
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2106016055090009263}
@@ -3251,30 +3277,10 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
---- !u!114 &1584853502914679429
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SMBStateData:
-    m_SMBEventList: []
-  m_SMBStatusData:
-    m_SMBEventList: []
-  m_SMBWwiseData:
-    m_SMBEventList:
-    - timeNormalized: 0
-      EventName: PlayerPlungeEnd
 --- !u!1102 &1683462972816609308
 AnimatorState:
   serializedVersion: 6
@@ -3825,7 +3831,11 @@ MonoBehaviour:
     - timeNormalized: 0
       newState: 10
   m_SMBStatusData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 1
+      wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -3897,11 +3907,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.13880995
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.1
+  m_ExitTime: 1
   m_HasExitTime: 1
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -3969,7 +3979,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -3990,11 +4000,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.058619782
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.34507847
+  m_ExitTime: 0
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -4206,13 +4216,13 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 854309444521284188}
-    m_Position: {x: 290, y: -20, z: 0}
+    m_Position: {x: 290, y: -40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8634024228397799038}
     m_Position: {x: 290, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4936280048169180988}
-    m_Position: {x: 290, y: 140, z: 0}
+    m_Position: {x: 290, y: 150, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -4500,13 +4510,13 @@ AnimatorStateMachine:
     m_Position: {x: 720, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1045871781774062944}
-    m_Position: {x: 800, y: 0, z: 0}
+    m_Position: {x: 870, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2537825165225357710}
-    m_Position: {x: 670, y: 140, z: 0}
+    m_Position: {x: 690, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2559521184380175098}
-    m_Position: {x: 440, y: 130, z: 0}
+    m_Position: {x: 450, y: 140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5452763654425502649}
     m_Position: {x: 90, y: 60, z: 0}
@@ -4524,13 +4534,13 @@ AnimatorStateMachine:
     m_Position: {x: 640, y: 390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5993393181599732604}
-    m_Position: {x: 750, y: 310, z: 0}
+    m_Position: {x: 750, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -906338886830567065}
     m_Position: {x: 120, y: 180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5049360347512891573}
-    m_Position: {x: 460, y: -170, z: 0}
+    m_Position: {x: 470, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7751837547020251998}
     m_Position: {x: 960, y: 100, z: 0}
@@ -4800,6 +4810,26 @@ MonoBehaviour:
   m_FirstFrameHappened: 0
   m_LastFrameHappened: 0
   m_PlayerStatusInfosList: []
+--- !u!114 &8100109273749451277
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SMBStateData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 0
+  m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBWwiseData:
+    m_SMBEventList: []
 --- !u!1107 &8181287400361687636
 AnimatorStateMachine:
   serializedVersion: 6

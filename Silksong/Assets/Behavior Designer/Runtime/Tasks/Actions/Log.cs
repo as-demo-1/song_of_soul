@@ -15,7 +15,6 @@ namespace BehaviorDesigner.Runtime.Tasks
         
         public override TaskStatus OnUpdate()
         {
-            
             // Log the text and return success
             if (logError.Value) {
                 Debug.LogError(logTime.Value ? string.Format("{0}: {1}", Time.time, text) : text);

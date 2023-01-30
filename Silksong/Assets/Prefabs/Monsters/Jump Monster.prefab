@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 8540629282759375300}
   - component: {fileID: 8540629282759375322}
   - component: {fileID: 8540629282759375323}
+  - component: {fileID: 8746349222803604351}
+  - component: {fileID: 7194571652991022223}
   m_Layer: 15
   m_Name: Jump Monster
   m_TagString: Untagged
@@ -102,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
-  playerAttackCanGainSoul: 0
+  playerAttackCanGainSoul: 1
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -114,7 +116,7 @@ MonoBehaviour:
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  dieAudio: {fileID: 0}
+  hurt: {fileID: 0}
 --- !u!61 &8540629282759375301
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -212,6 +214,31 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8746349222803604351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8540629282759375321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bbc2c1e63e98543830eec78d976795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: 
+--- !u!114 &7194571652991022223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8540629282759375321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37515e1153b5439498a24fba46b7966d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8540629283843244744
 GameObject:
   m_ObjectHideFlags: 0

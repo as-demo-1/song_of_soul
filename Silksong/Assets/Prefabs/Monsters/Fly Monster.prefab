@@ -92,13 +92,15 @@ GameObject:
   - component: {fileID: 4518769045790887239}
   - component: {fileID: 4518769045790887237}
   - component: {fileID: 4518769045790887238}
+  - component: {fileID: 7261235181482897647}
+  - component: {fileID: 6892609784616403681}
   m_Layer: 15
   m_Name: Fly Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4518769045790887235
 Transform:
   m_ObjectHideFlags: 0
@@ -179,18 +181,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
-  playerAttackCanGainSoul: 0
+  playerAttackCanGainSoul: 1
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
   takeDamageAudio: {fileID: 0}
+  takeDamageSfxSO: {fileID: 0}
   maxHp: 2000
   currentHp: 2000
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  dieAudio: {fileID: 0}
+  hurt: {fileID: 0}
 --- !u!50 &4518769045790887232
 Rigidbody2D:
   serializedVersion: 4
@@ -277,3 +280,28 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7261235181482897647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4518769045790887236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bbc2c1e63e98543830eec78d976795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: 
+--- !u!114 &6892609784616403681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4518769045790887236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37515e1153b5439498a24fba46b7966d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

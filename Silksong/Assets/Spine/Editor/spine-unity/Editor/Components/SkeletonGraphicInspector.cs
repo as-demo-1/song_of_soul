@@ -36,7 +36,7 @@ using UnityEditor;
 
 namespace Spine.Unity.Editor {
 	using Icons = SpineEditorUtilities.Icons;
-
+	using EventType = UnityEngine.EventType;
 	[CustomEditor(typeof(SkeletonGraphic))]
 	[CanEditMultipleObjects]
 	public class SkeletonGraphicInspector : UnityEditor.Editor {

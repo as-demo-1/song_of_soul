@@ -142,7 +142,7 @@ namespace Spine.Unity.Editor {
 			}
 			EditorGUILayout.Space();
 
-			if (!string.IsNullOrEmpty(skinToBake) && UnityEngine.Event.current.type == EventType.Repaint)
+			if (!string.IsNullOrEmpty(skinToBake) && UnityEngine.Event.current.type == UnityEngine.EventType.Repaint)
 				bakeSkin = skeletonData.FindSkin(skinToBake) ?? skeletonData.DefaultSkin;
 
 			var prefabIcon = EditorGUIUtility.FindTexture("PrefabModel Icon");

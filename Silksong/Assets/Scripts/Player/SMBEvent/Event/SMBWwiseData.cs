@@ -8,7 +8,7 @@ public class SMBWwiseData : SMBEventTimeStamp
     public string EventName;
     public override void EventActive(MonoBehaviour mono)
     {
-        Debug.Log(EventName +"  "+ mono.name);
+        //Debug.Log(EventName +"  "+ mono.name);
         AkSoundEngine.PostEvent(EventName,mono.gameObject);
     }
 }

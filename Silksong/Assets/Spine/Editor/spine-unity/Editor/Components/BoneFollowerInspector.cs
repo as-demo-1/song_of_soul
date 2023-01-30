@@ -137,7 +137,7 @@ namespace Spine.Unity.Editor {
 				return;
 			}
 
-			if (needsReset && Event.current.type == EventType.Layout) {
+			if (needsReset && Event.current.type == UnityEngine.EventType.Layout) {
 				targetBoneFollower.Initialize();
 				targetBoneFollower.LateUpdate();
 				needsReset = false;
@@ -195,7 +195,7 @@ namespace Spine.Unity.Editor {
 			}
 
 			var current = Event.current;
-			bool wasUndo = (current.type == EventType.ValidateCommand && current.commandName == "UndoRedoPerformed");
+			bool wasUndo = (current.type == UnityEngine.EventType.ValidateCommand && current.commandName == "UndoRedoPerformed");
 			if (wasUndo)
 				targetBoneFollower.Initialize();
 

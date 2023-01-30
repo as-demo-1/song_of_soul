@@ -242,7 +242,7 @@ namespace Spine.Unity.Examples {
 				partsRendererInitRequired = false;
 			}
 
-			if (slotsReapplyRequired && UnityEngine.Event.current.type == EventType.Repaint) {
+			if (slotsReapplyRequired && UnityEngine.Event.current.type == UnityEngine.EventType.Repaint) {
 				component.SkeletonRenderer.ReapplySeparatorSlotNames();
 				component.SkeletonRenderer.LateUpdate();
 				SceneView.RepaintAll();

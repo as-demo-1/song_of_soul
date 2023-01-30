@@ -48,6 +48,7 @@ public class SceneController : MonoBehaviour
     /// <param name="transitionPoint"></param>
     public static void TransitionToScene(SceneTransitionPoint transitionPoint)
     {
+        CameraController.Instance.BeforeChangeScene();
         Instance.StartCoroutine(Instance.Transition(transitionPoint.newSceneName, transitionPoint, transitionPoint.resetInputValuesOnTransition));
     }
 

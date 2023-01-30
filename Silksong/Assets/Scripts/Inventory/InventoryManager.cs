@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class InventoryManager : MonoSingleton<InventoryManager>
+public class InventoryManager : MonoBehaviour
 {
 
 	[SerializeField] public InventorySO _currentInventory = default;

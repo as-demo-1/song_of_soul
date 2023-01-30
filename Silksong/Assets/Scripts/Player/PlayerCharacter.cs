@@ -15,8 +15,8 @@ public class PlayerCharacter : MonoBehaviour
         {
             maxHp = value;
             playerDamable.MaxHp = maxHp;
-            hpUI.setRepresentedDamable(playerDamable);
-            hpUI.ChangeHitPointUI(playerDamable);
+            statuMenu.setRepresentedDamable(playerDamable);
+            statuMenu.ChangeHitPointUI(playerDamable);
         }
     }
 
@@ -58,9 +58,7 @@ public class PlayerCharacter : MonoBehaviour
     }
 
     public HpDamable playerDamable;
-    private PlayerHpUI hpUI;
-    private Image ManaBall;
-
+    private PlayerStatusMenu statuMenu;
     
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
     //private PlayerController playerController;
@@ -79,27 +77,32 @@ public class PlayerCharacter : MonoBehaviour
     }
     public void playerInit()
     { 
-
         playerDamable.MaxHp = maxHp;
-        hpUI.setRepresentedDamable(playerDamable);
+        statuMenu.setRepresentedDamable(playerDamable);
         playerDamable.setCurrentHp(maxHp);
-        Mana = 40;
+        MaxMana = Constants.playerInitialMaxMana;
+        Mana = MaxMana;
     }
     void Start()
     {
-        GameObject gamingUI = GameObject.FindGameObjectWithTag("GamingUI");
+        GameObject gamingUI = GameObject.FindGameObjectWithTag("UIMenu_PlayerStatus");
         if (gamingUI == null) return;
 
-        hpUI = gamingUI.GetComponentInChildren<PlayerHpUI>();
-        ManaBall = gamingUI.transform.Find("ManaBall").GetComponent<Image>();
+        statuMenu = gamingUI.GetComponentInChildren<PlayerStatusMenu>();
         onManaChangeEvent.AddListener(changeManaBall);
 
         playerInit();
-    }
 
+        statuMenu.ChangeManaMax(this);
+        statuMenu.ChangeManaValue(this);
+    }
+    // mana-----------------------------------------------------------------------------
     public int getAttackGainManaNumber()
     {
-        return Constants.playerAttackGainSoul + CharmListSO.CharmAttackGainSoul;
+        int ret=Constants.playerAttackGainSoul;
+        if (CharmListSO)
+            ret += CharmListSO.CharmAttackGainSoul;
+        return ret;
     }
     public int getHurtGainManaNumber()
     {
@@ -113,9 +116,8 @@ public class PlayerCharacter : MonoBehaviour
             addMana(getAttackGainManaNumber());
         }
     }
-    
     /// <summary>
-    /// 受伤时获得能量
+    /// get mana when hurt
     /// </summary>
     /// <param name="damager"></param>
     /// <param name="damageable"></param>
@@ -126,23 +128,26 @@ public class PlayerCharacter : MonoBehaviour
             addMana(getHurtGainManaNumber());
         }
     }
-    
     public void addMana(int number)
     {
         Mana+=number;
     }
+    public void CostMana(int cost)
+    {
+        Mana -= cost;
+    }
 
     private void changeManaBall(PlayerCharacter playerCharacter)
     {
-        ManaBall.fillAmount = (float)playerCharacter.Mana / playerCharacter.MaxMana;
+        statuMenu.ChangeManaValue(playerCharacter);
     }
-   // -----------------------------------------------------------------------------
+   // hp-----------------------------------------------------------------------------
     protected void addMaxHp(int number)
     {
         MaxHp += number;
     }
 
-
+    // cold-----------------------------------------------------------------------------
     private int coldValue;
 
     public void reduceColdValue(int value){

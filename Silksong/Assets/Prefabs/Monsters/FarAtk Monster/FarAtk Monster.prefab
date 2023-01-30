@@ -50,7 +50,8 @@ MonoBehaviour:
     shootMethod: 0
     shotDir: 1
     target: {fileID: 0}
-    createPos: 0
+    createPos: {fileID: 0}
+    bulletDelayTime: 0
     bulletSpeed: 7
     shootOffsetAngle: 0
 --- !u!1 &5477057758251293359
@@ -68,13 +69,15 @@ GameObject:
   - component: {fileID: 5477057758251293522}
   - component: {fileID: 5477057758251293520}
   - component: {fileID: 1048657740}
+  - component: {fileID: 3119616267429058534}
+  - component: {fileID: 6583289755054096824}
   m_Layer: 15
   m_Name: FarAtk Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5477057758251293526
 Transform:
   m_ObjectHideFlags: 0
@@ -156,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
-  playerAttackCanGainSoul: 0
+  playerAttackCanGainSoul: 1
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -168,7 +171,7 @@ MonoBehaviour:
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  dieAudio: {fileID: 0}
+  hurt: {fileID: 0}
 --- !u!50 &5477057758251293523
 Rigidbody2D:
   serializedVersion: 4
@@ -268,6 +271,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 3.5}
   m_EdgeRadius: 0
+--- !u!114 &3119616267429058534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5477057758251293359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bbc2c1e63e98543830eec78d976795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: 
+--- !u!114 &6583289755054096824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5477057758251293359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37515e1153b5439498a24fba46b7966d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5477057759048893265
 GameObject:
   m_ObjectHideFlags: 0

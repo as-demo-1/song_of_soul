@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor;
 using UnityEngine.Events;
-/// <summary>
-/// 
-/// 拥有生命值及相关方法的damable 
-/// </summary>作者：青瓜
+using Cinemachine.Utility;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+
 public class HpDamable :Damable
 {
     [SerializeField]
-    private int maxHp ;//最大生命值
+    private int maxHp ;
     public int MaxHp
     {
         get { return maxHp; }
@@ -18,7 +18,7 @@ public class HpDamable :Damable
     }
 
     [SerializeField]
-    private int currentHp;//当前hp
+    private int currentHp;
     public int CurrentHp
     {
         get { return currentHp; }
@@ -39,19 +39,41 @@ public class HpDamable :Damable
 
     public setHpEvent onHpChange=new setHpEvent();
 
-    public AudioCue dieAudio;//在audiomanager中有绑定怪物hpdamable默认《受击》音效的效果
+    public ParticleSystem hurt = default;
+    
 
 
     public override void takeDamage(DamagerBase damager)
     {
+
         if ( currentHp <= 0)
         {
            // return;
         }
+        if (hurt)
+        {
+            Destroy(Instantiate(hurt, transform), 3.0f);
+        }
 
         base.takeDamage(damager);
         addHp(-damager.getDamage(this),damager);
+        
+        
+    }
 
+    public void takeDamage(int number)
+    {
+        if (currentHp <= 0)
+        {
+            // return;
+        }
+        if (hurt)
+        {
+            Destroy(Instantiate(hurt, transform), 3.0f);
+        }
+        takeDamageEvent.Invoke(null, this);
+
+        setCurrentHp(currentHp - number);
     }
 
 
@@ -65,7 +87,7 @@ public class HpDamable :Damable
         }
     }
 
-    public void addHp(int number,DamagerBase damager)//如受到伤害 number<0
+    public void addHp(int number,DamagerBase damager)
     {
         setCurrentHp(currentHp + number,damager);
     }
@@ -74,17 +96,17 @@ public class HpDamable :Damable
     {
         onDieEvent.Invoke(damager,this);
 
-        if(gameObject.tag!="Player")//reborn player for  test
-        Destroy(gameObject);//未完善
+        if(gameObject.tag!="Player")
+        Destroy(gameObject);
 
         Debug.Log(gameObject.name+" die");
-        if (dieAudio)
+
+        GamingSaveObj<bool> gamingSave;
+        if (TryGetComponent(out gamingSave))
         {
-            dieAudio.PlayAudioCue();
+            gamingSave.saveGamingData(true);
         }
 
     }
-
-
 
 }

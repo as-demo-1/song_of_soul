@@ -8,8 +8,8 @@ public class Damable : DamageableBase
     }
     public override void takeDamage(DamagerBase damager)
     {
+        takeDamageEvent.Invoke(damager, this);
         damageDirection = damager.transform.position - transform.position;
-        takeDamageEvent.Invoke(damager,this);
 
         if(takeDamageAudio)
         {
