@@ -28,7 +28,7 @@ public class SwitchGate : Damable
             bool open = gamingSave.loadGamingData(out error);
             if (error) return;
             if (open)  Gate.position = targetPos.position;
-            //Debug.Log(6666);
+            ifopen = open;
         }
     }
 
