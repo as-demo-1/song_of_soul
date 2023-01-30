@@ -23,7 +23,8 @@ public class Trigger2D_GetSoulJump : Trigger2DBase
         if (Input.GetKeyDown(EnterKey))
         {
             GetComponent<Destroyed_StableSave>().saveGamingData(true);
-            SoulJump.ifGetSoulJump = true;
+            //SoulJump.ifGetSoulJump = true;
+            GameManager.Instance.saveSystem.getSoulJump();
             Destroy(gameObject);
             
         }

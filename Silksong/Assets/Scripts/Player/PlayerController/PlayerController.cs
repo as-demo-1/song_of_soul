@@ -65,8 +65,8 @@ public struct PlayerInfo
     }
 }
 
+
 [RequireComponent(typeof(Rigidbody2D))]
-//[RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; set; }

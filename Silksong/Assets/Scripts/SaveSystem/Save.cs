@@ -22,6 +22,8 @@ public class Save
     //public List<string> _destructiblePlatformGuid = new List<string>();
     public List<string> _destroyedGameObjs = new List<string>();
 
+    public bool haveSoulJump;
+
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

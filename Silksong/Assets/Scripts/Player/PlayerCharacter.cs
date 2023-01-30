@@ -15,8 +15,8 @@ public class PlayerCharacter : MonoBehaviour
         {
             maxHp = value;
             playerDamable.MaxHp = maxHp;
-            hpUI.setRepresentedDamable(playerDamable);
-            hpUI.ChangeHitPointUI(playerDamable);
+            statuMenu.setRepresentedDamable(playerDamable);
+            statuMenu.ChangeHitPointUI(playerDamable);
         }
     }
 
@@ -58,7 +58,7 @@ public class PlayerCharacter : MonoBehaviour
     }
 
     public HpDamable playerDamable;
-    private PlayerStatusMenu hpUI;
+    private PlayerStatusMenu statuMenu;
     
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
     //private PlayerController playerController;
@@ -78,7 +78,7 @@ public class PlayerCharacter : MonoBehaviour
     public void playerInit()
     { 
         playerDamable.MaxHp = maxHp;
-        hpUI.setRepresentedDamable(playerDamable);
+        statuMenu.setRepresentedDamable(playerDamable);
         playerDamable.setCurrentHp(maxHp);
         MaxMana = Constants.playerInitialMaxMana;
         Mana = MaxMana;
@@ -88,15 +88,15 @@ public class PlayerCharacter : MonoBehaviour
         GameObject gamingUI = GameObject.FindGameObjectWithTag("UIMenu_PlayerStatus");
         if (gamingUI == null) return;
 
-        hpUI = gamingUI.GetComponentInChildren<PlayerStatusMenu>();
+        statuMenu = gamingUI.GetComponentInChildren<PlayerStatusMenu>();
         onManaChangeEvent.AddListener(changeManaBall);
 
         playerInit();
 
-        hpUI.ChangeManaMax(this);
-        hpUI.ChangeManaValue(this);
+        statuMenu.ChangeManaMax(this);
+        statuMenu.ChangeManaValue(this);
     }
-
+    // mana-----------------------------------------------------------------------------
     public int getAttackGainManaNumber()
     {
         int ret=Constants.playerAttackGainSoul;
@@ -117,7 +117,7 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
     /// <summary>
-    /// 受伤时获得能量
+    /// get mana when hurt
     /// </summary>
     /// <param name="damager"></param>
     /// <param name="damageable"></param>
@@ -139,15 +139,15 @@ public class PlayerCharacter : MonoBehaviour
 
     private void changeManaBall(PlayerCharacter playerCharacter)
     {
-        hpUI.ChangeManaValue(playerCharacter);
+        statuMenu.ChangeManaValue(playerCharacter);
     }
-   // -----------------------------------------------------------------------------
+   // hp-----------------------------------------------------------------------------
     protected void addMaxHp(int number)
     {
         MaxHp += number;
     }
 
-
+    // cold-----------------------------------------------------------------------------
     private int coldValue;
 
     public void reduceColdValue(int value){

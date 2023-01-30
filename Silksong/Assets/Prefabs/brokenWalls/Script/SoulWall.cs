@@ -9,7 +9,7 @@ public class SoulWall : Trigger2DBase
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-        if(!SoulJump.ifGetSoulJump)
+        if(!GameManager.Instance.saveSystem.haveSoulJump())
             GetComponent<Collider2D>().isTrigger = false;
         else
         {
