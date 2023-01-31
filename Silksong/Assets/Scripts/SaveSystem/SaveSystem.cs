@@ -14,6 +14,7 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 	public string backupSaveFilename = "save.asoul.bak";
 	private Save saveData = new Save();
 
+	//player-------------------------------------------------------
 	public bool haveSoulJump()
     {
 		return saveData.haveSoulJump;
@@ -23,6 +24,60 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
     {
 		saveData.haveSoulJump = true;
     }
+
+	public bool haveDoubleJump()
+	{
+		return saveData.haveDoubleJump;
+	}
+
+	public void getDoubleJump()
+	{
+		saveData.haveDoubleJump = true;
+	}
+
+	public int GetHealthMax()
+	{
+		return saveData._healthMax;
+	}
+
+	public void SetHealthMax(int healthMax)
+	{
+		saveData._healthMax = healthMax;
+	}
+
+	public uint GetGoldAmount()
+	{
+		return saveData._goldAmount;
+	}
+
+	public void SetGoldAmount(uint goldamount)
+	{
+		saveData._goldAmount = goldamount;
+	}
+	public uint GetWeaponLevel()
+	{
+		return saveData._weaponLevel;
+	}
+
+	public void SetWeaponLevel(uint weaponLevel)
+	{
+		saveData._weaponLevel = weaponLevel;
+	}
+	
+	public void learnSkill(EPlayerStatus skill)
+    {
+		if (saveData.learnedSkills.ContainsKey(skill) == false)
+			saveData.learnedSkills.Add(skill, true);
+		saveData.learnedSkills[skill] = true;
+    }
+
+	public bool getLearnedSkill(EPlayerStatus skill)
+    {
+		if (saveData.learnedSkills.ContainsKey(skill) == false) return false;
+		return saveData.learnedSkills[skill];
+    }
+
+	//mapObject-------------------------------------------------------------
 	public bool ContainBossGUID(string GUID)
 	{
 		return saveData._bossGUID.Contains(GUID);
@@ -75,34 +130,7 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 
 	}
 
-	public int GetHealthMax()
-	{
-		return saveData._healthMax;
-	}
-
-	public void SetHealthMax(int healthMax)
-	{
-		saveData._healthMax = healthMax;
-	}
 	
-	public uint GetGoldAmount()
-	{
-		return saveData._goldAmount;
-	}
-
-	public void SetGoldAmount(uint goldamount)
-	{
-		saveData._goldAmount = goldamount;
-	}
-	public uint GetWeaponLevel()
-	{
-		return saveData._weaponLevel;
-	}
-
-	public void SetWeaponLevel(uint weaponLevel)
-	{
-		saveData._weaponLevel = weaponLevel;
-	}
 
 	public void TestSaveGuid(string Guid)
 	{
@@ -118,7 +146,8 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 #if UNITY_EDITOR
 		if (FileManager.LoadFromFile(saveFilename, out var json))
 		{
-			saveData.LoadFromJson(json);
+			//saveData.LoadFromJson(json);
+			saveData = saveData.LoadFromJson(json);
 		}
 		else return false;
 		foreach (var serializedItemStack in saveData._itemStacks)
@@ -147,7 +176,10 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 		// {
 		// 	saveData._storeStacks.Add(new SerializedItemStack(storeStack.Item.Guid, storeStack.Amount));
 		// }
-		if (FileManager.MoveFile(saveFilename, backupSaveFilename))
+		bool noCurrentSave;
+		bool moveOk;
+		moveOk=FileManager.MoveFile(saveFilename, backupSaveFilename, out noCurrentSave);//move current save to back,then save new data
+		if(noCurrentSave || moveOk)
 		{
 			if (FileManager.WriteToFile(saveFilename, saveData.ToJson()))
 			{

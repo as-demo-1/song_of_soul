@@ -35,12 +35,12 @@ public class PlayerSwim : PlayerAction
             if (PlayerInput.Instance.vertical.Value == 1f)                                //上
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 0);
-                playerController.setRigidVelocity(new Vector2(0, 1) * playerController.playerInfo.getMoveSpeed());
+                playerController.setRigidVelocity(new Vector2(0, 1) * playerController.playerCharacter.getMoveSpeed());
             }
             if (PlayerInput.Instance.vertical.Value == -1f)                                //下
             {
                 m_Transform.localRotation = Quaternion.Euler(0, 0, 180);
-                playerController.setRigidVelocity(new Vector2(0, -1) * playerController.playerInfo.getMoveSpeed());
+                playerController.setRigidVelocity(new Vector2(0, -1) * playerController.playerCharacter.getMoveSpeed());
             }
             if (PlayerInput.Instance.horizontal.Value == -1f)                              //左
             {

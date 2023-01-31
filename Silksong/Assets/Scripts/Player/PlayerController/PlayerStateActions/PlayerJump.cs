@@ -19,11 +19,11 @@ public class PlayerJump : PlayerAction
         }
     }
 
-    public void resetJumpCount() => CurrentJumpCountLeft = playerController.playerInfo.getJumpCount();
+    public void resetJumpCount() => CurrentJumpCountLeft = playerController.getJumpCount();
 
     public void resetDoubleJump()
     {
-        if (playerController.playerInfo.hasDoubleJump == false) return;
+        if (GameManager.Instance.saveSystem.haveDoubleJump() == false) return;
         CurrentJumpCountLeft = Constants.PlayerMaxDoubleJumpCount - Constants.PlayerMaxJumpCount;
     }
 

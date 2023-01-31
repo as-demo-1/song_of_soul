@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum EPlayerStatus : int
 {
-    None = 0,
+    //None = 0,
     CanRun = 1,
     CanJump = 2,
     CanNormalAttack = 4,
@@ -31,12 +31,12 @@ public class PlayerStatusDic
         this.playerController = playerController;
         m_StatusDic = new Dictionary<EPlayerStatus, PlayerStatusFlag>
         {
-            {EPlayerStatus.CanRun, new PlayerStatusFlag(animatorParamsMapping.CanRunParamHash) },
-            {EPlayerStatus.CanJump, new PlayerStatusFlag(animatorParamsMapping.CanJumpParamHash) },
-            {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag(animatorParamsMapping.CanNormalAttackParamHash) },
+            {EPlayerStatus.CanRun, new PlayerStatusFlag(animatorParamsMapping.CanRunParamHash,true) },
+            {EPlayerStatus.CanJump, new PlayerStatusFlag(animatorParamsMapping.CanJumpParamHash,true) },
+            {EPlayerStatus.CanNormalAttack, new PlayerStatusFlag(animatorParamsMapping.CanNormalAttackParamHash,true) },
             {EPlayerStatus.CanSprint, new PlayerStatusFlag(animatorParamsMapping.CanSprintParamHash)},
             {EPlayerStatus.CanBreakMoon, new PlayerStatusFlag(animatorParamsMapping.CanBreakMoonParamHash)},
-            {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter)},
+            {EPlayerStatus.CanHeal, new PlayerStatusFlagWithMana(animatorParamsMapping.CanHealParamHas,Constants.playerHealCostMana,playerController.playerCharacter,true)},
             {EPlayerStatus.CanToCat, new PlayerStatusFlag(animatorParamsMapping.CanToCatParamHas)},
             {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, 0, playerController.playerCharacter)},
             {EPlayerStatus.CanPlunge, new PlayerStatusFlag(animatorParamsMapping.CanPlungeParamHash) },
@@ -77,11 +77,11 @@ public class PlayerStatusDic
             }
         }
 
-        public PlayerStatusFlag(int param)
+        public PlayerStatusFlag(int param,bool bornLearned=false)
         {
             animatorParam = param;
             BuffFlag = true;
-            LearnFlag = true;
+            LearnFlag = bornLearned;
         }
 
         public void SetFlag(bool newFlag, WayOfChangingFlag setFlagType)
@@ -123,7 +123,7 @@ public class PlayerStatusDic
     {
         protected int manaCost;
         protected bool manaIsEnough=true;
-        public PlayerStatusFlagWithMana(int param,int manaCost,PlayerCharacter playerCharacter) :base(param)
+        public PlayerStatusFlagWithMana(int param,int manaCost,PlayerCharacter playerCharacter,bool bornLearned=false) :base(param,bornLearned)
         {
            this.manaCost = manaCost;
            playerCharacter.onManaChangeEvent.AddListener(calcuteMana);
@@ -138,6 +138,21 @@ public class PlayerStatusDic
         {
             manaIsEnough = playerCharacter.Mana >= manaCost;
             calcuteFlag();
+        }
+    }
+
+
+    public void learnSkill(EPlayerStatus skill)
+    {
+        SetPlayerStatusFlag(skill, true, PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
+        GameManager.Instance.saveSystem.learnSkill(skill);
+    }
+
+    public void loadLearnedSkills()
+    {
+        foreach(EPlayerStatus skillName in Enum.GetValues(typeof(EPlayerStatus)))
+        {
+            SetPlayerStatusFlag(skillName, GameManager.Instance.saveSystem.getLearnedSkill(skillName),PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
         }
     }
 

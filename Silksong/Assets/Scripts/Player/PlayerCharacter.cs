@@ -5,33 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 public class PlayerCharacter : MonoBehaviour
 {
-
-    [SerializeField]
-    private int maxHp;
-    public int MaxHp
-    {
-        get { return maxHp; }
-        set
-        {
-            maxHp = value;
-            playerDamable.MaxHp = maxHp;
-            statuMenu.setRepresentedDamable(playerDamable);
-            statuMenu.ChangeHitPointUI(playerDamable);
-        }
-    }
-
-
-    [SerializeField]
-    private int maxMana;
-    public int MaxMana
-    {
-        get { return maxMana; }
-        set
-        {
-            maxMana = value;
-        }
-    }
-
+    //hp is on the damable Component
+    public HpDamable playerDamable;
 
     [SerializeField]
     private int mana;
@@ -40,11 +15,10 @@ public class PlayerCharacter : MonoBehaviour
         get { return mana; }
         set
         {
-            mana = Mathf.Clamp(value, 0, maxMana);
+            mana = Mathf.Clamp(value, 0,getMaxMana());
             onManaChangeEvent.Invoke(this);
         }
     }
-
 
     [SerializeField]
     private int money;
@@ -57,11 +31,10 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
-    public HpDamable playerDamable;
     private PlayerStatusMenu statuMenu;
     
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
-    //private PlayerController playerController;
+    private PlayerController playerController;
 
     public int gluedCount;
 
@@ -72,16 +45,17 @@ public class PlayerCharacter : MonoBehaviour
     private void Awake()
     {
         playerDamable = GetComponent<HpDamable>();
-
-        //playerController = GetComponent<PlayerController>();
+        playerController = GetComponent<PlayerController>();
     }
-    public void playerInit()
-    { 
-        playerDamable.MaxHp = maxHp;
-        statuMenu.setRepresentedDamable(playerDamable);
-        playerDamable.setCurrentHp(maxHp);
-        MaxMana = Constants.playerInitialMaxMana;
-        Mana = MaxMana;
+    public void playerInit()//load players data,such as maxHp,money..
+    {
+        refreshMaxHp();
+        refreshMaxMana();
+
+        /* GameManager.Instance.saveSystem.learnSkill(EPlayerStatus.CanBreakMoon);
+         GameManager.Instance.saveSystem.SaveDataToDisk();*/
+
+        playerController.playerStatusDic.loadLearnedSkills();
     }
     void Start()
     {
@@ -92,10 +66,43 @@ public class PlayerCharacter : MonoBehaviour
         onManaChangeEvent.AddListener(changeManaBall);
 
         playerInit();
+    }
 
+
+    // maxHp-----------------------------------------------------------------------------
+
+    public void refreshMaxHp(bool recoverAllHp = true)
+    {
+        int maxHp = getMaxHp();
+        playerDamable.MaxHp = maxHp;
+        if (recoverAllHp) playerDamable.setCurrentHp(maxHp);
+        //ui
+        statuMenu.setRepresentedDamable(playerDamable);
+        statuMenu.ChangeHitPointUI(playerDamable);
+    }
+    public int getMaxHp()
+    {
+        int ret = Constants.playerInitialMaxHp;
+        //toadd:charm,hpUp
+        return ret;
+    }
+    // maxMana-----------------------------------------------------------------------------
+    public void refreshMaxMana(bool recoverAllMana = false)
+    {
+        int maxMana = getMaxMana();
+        if (recoverAllMana) Mana = maxMana;
+        //ui
         statuMenu.ChangeManaMax(this);
         statuMenu.ChangeManaValue(this);
     }
+
+    public int getMaxMana()
+    {
+        int ret = Constants.playerInitialMaxMana;
+        //toadd:charm,manaUp
+        return ret;
+    }
+
     // mana-----------------------------------------------------------------------------
     public int getAttackGainManaNumber()
     {
@@ -116,12 +123,7 @@ public class PlayerCharacter : MonoBehaviour
             addMana(getAttackGainManaNumber());
         }
     }
-    /// <summary>
-    /// get mana when hurt
-    /// </summary>
-    /// <param name="damager"></param>
-    /// <param name="damageable"></param>
-    public void HurtGainMana(DamagerBase damager, DamageableBase damageable)
+    public void HurtGainMana(DamagerBase damager, DamageableBase damageable)//not used now
     {
         if (true)
         {
@@ -141,11 +143,29 @@ public class PlayerCharacter : MonoBehaviour
     {
         statuMenu.ChangeManaValue(playerCharacter);
     }
-   // hp-----------------------------------------------------------------------------
-    protected void addMaxHp(int number)
+
+
+    // speed-----------------------------------------------------------------------------
+    public float getMoveSpeed()
     {
-        MaxHp += number;
+        float finalSpeed;
+        if (playerController.playerToCat.IsCat)
+        {
+            if (playerController.playerToCat.isFastMoving)
+                finalSpeed=Constants.PlayerCatFastMoveSpeed;
+            else finalSpeed = Constants.PlayerCatMoveSpeed;
+        }
+        else if (playerController.playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.NormalAttack)
+        {
+            finalSpeed = Constants.AttackingMoveSpeed;
+        }
+        else finalSpeed = Constants.PlayerMoveSpeed;
+
+        //if have 护符  finalSpeed加上护符的属性
+
+        return finalSpeed;
     }
+
 
     // cold-----------------------------------------------------------------------------
     private int coldValue;

@@ -11,7 +11,6 @@ public struct PlayerInfo
     private PlayerController playerController;
     public float sprintSpeed { get; private set; }
 
-    public bool hasDoubleJump;
 
     public AnimationCurve breakMoonPositionCurve;
     //climb
@@ -31,20 +30,6 @@ public struct PlayerInfo
         gravityUnderWater = Constants.PlayerNormalGravityScale / 5;
     }
 
-    public float getMoveSpeed()
-    {
-        if (playerController.playerToCat.IsCat)
-        {
-            if (playerController.playerToCat.isFastMoving)
-                return Constants.PlayerCatFastMoveSpeed;
-            else return Constants.PlayerCatMoveSpeed;
-        }
-        else if(playerController.playerAnimatorStatesControl.CurrentPlayerState==EPlayerState.NormalAttack)
-        {
-            return Constants.AttackingMoveSpeed;
-        }
-        else return Constants.PlayerMoveSpeed;
-    }
 
     public float getJumpUpSpeed()
     {
@@ -58,11 +43,6 @@ public struct PlayerInfo
         else return Constants.PlayerJumpMaxHeight;
     }
 
-    public int getJumpCount()
-    {
-        if (hasDoubleJump) return Constants.PlayerMaxDoubleJumpCount;
-        else return Constants.PlayerMaxJumpCount;
-    }
 }
 
 
@@ -335,7 +315,7 @@ public class PlayerController : MonoBehaviour
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
 
-        float desireSpeed = lastHorizontalInputDir * playerInfo.getMoveSpeed();
+        float desireSpeed = lastHorizontalInputDir * playerCharacter.getMoveSpeed();
         float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0 && PlayerAnimatorParamsMapping.HasControl,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
@@ -374,7 +354,11 @@ public class PlayerController : MonoBehaviour
     {
         return playerGroundedCheck.IsGrounded;
     }
-
+    public int getJumpCount()
+    {
+        if (GameManager.Instance.saveSystem.haveDoubleJump()) return Constants.PlayerMaxDoubleJumpCount;
+        else return Constants.PlayerMaxJumpCount;
+    }
     public void CheckFlipPlayer(float setAccelerationNormalizedTime)
     {
         if (PlayerInput.Instance.horizontal.ValueBuffer == 1f & !playerInfo.playerFacingRight ||
