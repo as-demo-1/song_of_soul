@@ -55,7 +55,9 @@ public class PlayerCharacter : MonoBehaviour
         /* GameManager.Instance.saveSystem.learnSkill(EPlayerStatus.CanBreakMoon);
          GameManager.Instance.saveSystem.SaveDataToDisk();*/
 
+#if UNITY_STANDALONE
         playerController.playerStatusDic.loadLearnedSkills();
+#endif
     }
     void Start()
     {

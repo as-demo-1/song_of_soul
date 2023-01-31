@@ -28,6 +28,20 @@ public struct PlayerInfo
 
         sprintSpeed = Constants.PlayerSprintDistance / Constants.SprintTime;
         gravityUnderWater = Constants.PlayerNormalGravityScale / 5;
+
+        //----------------------for test-----------------------------
+#if UNITY_EDITOR
+        if(learnAttack) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanNormalAttack);
+        if (learnSprint) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSprint);
+        if (learnBreakMoon) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanBreakMoon);
+        if (learnCastSkill) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanCastSkill);
+        if (learnToCat) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanToCat);
+        if (learnPlunge) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanPlunge);
+        if (learnClimb) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanClimbIdle);
+
+        if (haveDoubleJump) GameManager.Instance.saveSystem.getDoubleJump();
+        if (haveSoulJump) GameManager.Instance.saveSystem.getSoulJump();
+#endif 
     }
 
 
@@ -42,6 +56,21 @@ public struct PlayerInfo
         if (playerController.playerToCat.IsCat) return Constants.PlayerCatJumpHeight;
         else return Constants.PlayerJumpMaxHeight;
     }
+
+
+    //----------------------for test-----------------------------
+#if UNITY_EDITOR
+    public bool learnAttack;
+    public bool learnSprint;
+    public bool learnBreakMoon;
+    public bool learnCastSkill;
+    public bool learnToCat;
+    public bool learnPlunge;
+    public bool learnClimb;
+
+    public bool haveSoulJump;
+    public bool haveDoubleJump;
+#endif
 
 }
 

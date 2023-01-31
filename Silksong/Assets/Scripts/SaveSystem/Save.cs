@@ -31,7 +31,7 @@ public class Save
         { EPlayerStatus.CanClimbIdle,false},
         { EPlayerStatus.CanHeal,true},
         { EPlayerStatus.CanJump,true},
-        { EPlayerStatus.CanNormalAttack,true},
+        { EPlayerStatus.CanNormalAttack,false},
         { EPlayerStatus.CanPlunge,false},
         { EPlayerStatus.CanRun,true},
         { EPlayerStatus.CanSprint,false},
