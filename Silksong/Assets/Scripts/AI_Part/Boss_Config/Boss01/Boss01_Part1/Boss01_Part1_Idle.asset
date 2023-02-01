@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Boss01_Part1_Idle
   m_EditorClassIdentifier: 
   lastStateID: 1
-  lastTriggerID: 0
+  lastTriggerID: 1
   StateName: Boss01_Part1_Idle
   StateType: 1
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 1
   triggerConfig:
     id: 1
   triggerList:
@@ -33,16 +33,14 @@ MonoBehaviour:
         isflying: 0
         flyingMinHight: 0
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: Boss01_Part1_Attack
-        maxTime: 0.5
-        timer: 0
+        triggerType: 1
+        targetState: 
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Boss01_Part1_Attack
+        targetState: Boss01_Part1_Dash
         maxTime: 0.5
         timer: 0

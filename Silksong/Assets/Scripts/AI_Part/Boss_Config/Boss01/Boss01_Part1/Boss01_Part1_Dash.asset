@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Boss01_Part1_Dash
   m_EditorClassIdentifier: 
   lastStateID: 9
-  lastTriggerID: 1
+  lastTriggerID: 5
   StateName: Boss01_Part1_Dash
   StateType: 9
   stateConfig:
     id: 0
-  TriggerType: 1
+  TriggerType: 5
   triggerConfig:
     id: 1
   triggerList:
@@ -39,10 +39,12 @@ MonoBehaviour:
         bumpAnimation: Dash
         brakeAnimation: Charge
     00000001:
-      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: SelfHPTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 1
-        targetState: Boss01_Part1_Idle
+        triggerType: 5
+        targetState: 
+        Percent: 0
+        isLower: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:

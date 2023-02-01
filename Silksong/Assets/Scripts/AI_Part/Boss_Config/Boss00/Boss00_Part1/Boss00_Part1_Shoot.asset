@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Boss00_Part1_Shoot
   m_EditorClassIdentifier: 
   lastStateID: 13
-  lastTriggerID: 3
+  lastTriggerID: 2
   StateName: Boss00_Part1_Shoot
   StateType: 13
   stateConfig:
     id: 0
-  TriggerType: 3
+  TriggerType: 2
   triggerConfig:
     id: 1
   triggerList:
@@ -30,20 +30,20 @@ MonoBehaviour:
       data:
         stateType: 13
         defaultAnimationName: Boss00_Shoot1
-        animationEvents:
-          m_PersistentCalls:
-            m_Calls: []
         isflying: 0
         flyingMinHight: 0
         shootSequence:
         - normalShoot
         index: 0
     00000001:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
-        targetState: Boss00_Part1_Idle
-        checkAnimationName: 
+        triggerType: 2
+        targetState: 
+        checkNearRadius: 0
+        checkFarRadius: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
