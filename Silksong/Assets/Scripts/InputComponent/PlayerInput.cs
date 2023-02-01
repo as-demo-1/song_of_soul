@@ -33,6 +33,7 @@ public class PlayerInput : InputComponent
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
     public InputButton soulSkill = new InputButton(KeyCode.R, XboxControllerButtons.None);
+    public InputButton sing = new InputButton(KeyCode.Z, XboxControllerButtons.None);
     ////TODO:xbox button mapping
     public InputButton showMap = new InputButton(KeyCode.M, XboxControllerButtons.None);
     ////TODO:xbox button mapping
@@ -68,6 +69,7 @@ public class PlayerInput : InputComponent
             showMap,
             quickMap,
             plunge,
+            sing,
         });
     }
 
@@ -110,9 +112,6 @@ public class PlayerInput : InputComponent
 
 
 
-    /// <summary>
-    /// �������е����룬������ɫ��ϵͳ��һ�㲻ʹ��
-    /// </summary>
     public override void ReleaseControls(bool resetValues = true)
     {
         Debug.Log("releaseCtrl");

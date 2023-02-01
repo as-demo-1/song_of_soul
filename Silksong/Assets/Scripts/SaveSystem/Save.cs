@@ -36,6 +36,7 @@ public class Save
         { EPlayerStatus.CanRun,true},
         { EPlayerStatus.CanSprint,false},
         { EPlayerStatus.CanToCat,false},
+        { EPlayerStatus.CanSing,false},
 
     };
 

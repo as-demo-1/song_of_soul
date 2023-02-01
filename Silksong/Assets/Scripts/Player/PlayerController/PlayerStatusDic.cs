@@ -16,7 +16,7 @@ public enum EPlayerStatus : int
     CanToCat =128,
     CanPlunge = 256,
     CanClimbIdle=512,
-
+    CanSing=520,
 
 }
 
@@ -41,6 +41,7 @@ public class PlayerStatusDic
             {EPlayerStatus.CanCastSkill, new PlayerStatusFlagWithMana(animatorParamsMapping.CanCastSkillParamHash, 0, playerController.playerCharacter)},
             {EPlayerStatus.CanPlunge, new PlayerStatusFlag(animatorParamsMapping.CanPlungeParamHash) },
             {EPlayerStatus.CanClimbIdle, new PlayerStatusFlag(animatorParamsMapping.CanClimbParamHash) },
+            {EPlayerStatus.CanSing, new PlayerStatusFlag(animatorParamsMapping.CanSingParamHash) },
 
         };
     }

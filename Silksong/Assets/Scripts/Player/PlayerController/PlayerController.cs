@@ -38,6 +38,7 @@ public struct PlayerInfo
         if (learnToCat) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanToCat);
         if (learnPlunge) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanPlunge);
         if (learnClimb) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanClimbIdle);
+        if (learnSing) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSing);
 
         if (haveDoubleJump) GameManager.Instance.saveSystem.getDoubleJump();
         if (haveSoulJump) GameManager.Instance.saveSystem.getSoulJump();
@@ -67,6 +68,7 @@ public struct PlayerInfo
     public bool learnToCat;
     public bool learnPlunge;
     public bool learnClimb;
+    public bool learnSing;
 
     public bool haveSoulJump;
     public bool haveDoubleJump;

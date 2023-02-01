@@ -20,6 +20,7 @@ public enum EPlayerState
     Plunge = 130,
     ClimbIdle=140,
     ClimbJump=150,
+    Sing=160,
 
     ToCat = 200,
     CatIdle = 210,
@@ -63,6 +64,7 @@ public class PlayerStatesBehaviour
         StateActionsDic.Add(EPlayerState.Hurt, new PlayerHurt(playerController));
         StateActionsDic.Add(EPlayerState.Jump, new PlayerJump(playerController));
         StateActionsDic.Add(EPlayerState.Fall, new PlayerFall(playerController));
+        StateActionsDic.Add(EPlayerState.Sing, new PlayerSing(playerController));
 
         StateActionsDic.Add(EPlayerState.Sprint, new PlayerSprint(playerController));
         StateActionsDic.Add(EPlayerState.BreakMoon, new PlayerBreakMoon(playerController));

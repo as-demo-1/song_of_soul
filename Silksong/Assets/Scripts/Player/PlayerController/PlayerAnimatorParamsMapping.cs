@@ -68,6 +68,10 @@ public class PlayerAnimatorParamsMapping
 
     public int CanClimbParamHash { get; } = Animator.StringToHash("CanClimb");
 
+    public int CanSingParamHash { get; } = Animator.StringToHash("CanSing");
+
+    public int IsSingHeldParamHash { get; } = Animator.StringToHash("IsSingHeld");
+
     public void ParamsUpdate()
     {
         if(HasControl)
@@ -90,6 +94,8 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(PlungeIsValidParamHash, PlayerInput.Instance.plunge.IsValid);
 
+            m_Animator.SetBool(IsSingHeldParamHash, PlayerInput.Instance.sing.Held);
+
         }
         else
         {
@@ -110,6 +116,8 @@ public class PlayerAnimatorParamsMapping
             m_Animator.SetBool(CastSkillIsValidParamHash, false);
 
             m_Animator.SetBool(PlungeIsValidParamHash, false);
+
+            m_Animator.SetBool(IsSingHeldParamHash, false);
 
         }
 
