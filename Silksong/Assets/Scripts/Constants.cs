@@ -83,6 +83,13 @@ public static class Constants
     public const float plungeWaterCheckColliderOffsetX = 0f;
     #endregion
 
+    #region about player In Water
+    public const float PlayerIntoWaterLinearDarg = 10f;
+    public const float PlayerMinIntoWaterDistance = 0.5f;
+
+    public const float PlayerDiveSpeed = 4f;
+    #endregion
+
     public const float PlayerBaseHealTime = 2f;
 
     public const float PlayerCatToHumanExtraJumpHeight = 2.9f;

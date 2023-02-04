@@ -40,7 +40,7 @@ public class PlayerSprintInWater : PlayerAction
         }
         else
         {
-            playerController.setRigidGravityScale(playerController.playerInfo.gravityUnderWater);
+          //  playerController.setRigidGravityScale(playerController.playerInfo.gravityUnderWater);
         }
         playerController.setRigidVelocity(Vector2.zero);
         playerController.StartCoroutine(sprintCdCount());

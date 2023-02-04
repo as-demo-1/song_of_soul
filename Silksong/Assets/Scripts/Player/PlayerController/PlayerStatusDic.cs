@@ -17,6 +17,9 @@ public enum EPlayerStatus : int
     CanPlunge = 256,
     CanClimbIdle=512,
     CanSing=520,
+    CanDive=530,
+    CanWaterSprint=540,
+    CanSwim=550,
 
 }
 
@@ -42,6 +45,9 @@ public class PlayerStatusDic
             {EPlayerStatus.CanPlunge, new PlayerStatusFlag(animatorParamsMapping.CanPlungeParamHash) },
             {EPlayerStatus.CanClimbIdle, new PlayerStatusFlag(animatorParamsMapping.CanClimbParamHash) },
             {EPlayerStatus.CanSing, new PlayerStatusFlag(animatorParamsMapping.CanSingParamHash) },
+            {EPlayerStatus.CanDive, new PlayerStatusFlag(animatorParamsMapping.CanDiveParamHash) },
+            {EPlayerStatus.CanWaterSprint, new PlayerStatusFlag(animatorParamsMapping.CanWaterSprintParamHash) },
+            {EPlayerStatus.CanSwim, new PlayerStatusFlag(animatorParamsMapping.CanSwimParamHash) },
 
         };
     }
@@ -49,6 +55,7 @@ public class PlayerStatusDic
     public void SetPlayerStatusFlag(EPlayerStatus playerStatus, bool newFlag, PlayerStatusFlag.WayOfChangingFlag calcuteFlagType = PlayerStatusFlag.WayOfChangingFlag.OverrideStatuFlag)
     {
         //Debug.Log(playerStatus);
+        if (m_StatusDic.ContainsKey(playerStatus) == false) return;
         PlayerStatusFlag flag = m_StatusDic[playerStatus];
         flag.SetFlag(newFlag, calcuteFlagType);
     }

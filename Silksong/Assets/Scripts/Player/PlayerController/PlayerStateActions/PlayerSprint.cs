@@ -61,7 +61,10 @@ public class PlayerSprint : PlayerAction
         playerController.gravityLock = false;
 
         playerController.setRigidGravityScaleToNormal();
+
+        if(newState!=EPlayerState.IntoWater)
         playerController.setRigidVelocity(Vector2.zero);
+
         playerController.StartCoroutine(sprintCdCount());
     }
 

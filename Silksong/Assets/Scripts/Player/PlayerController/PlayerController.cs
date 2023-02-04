@@ -17,17 +17,12 @@ public struct PlayerInfo
 
     public bool playerFacingRight;
     //swim
-    public float swimSpeed;
-
-    public float gravityUnderWater;
-
 
     public void init(PlayerController playerController)
     {
         this.playerController = playerController;
 
         sprintSpeed = Constants.PlayerSprintDistance / Constants.SprintTime;
-        gravityUnderWater = Constants.PlayerNormalGravityScale / 5;
 
         //----------------------for test-----------------------------
 #if UNITY_EDITOR
@@ -39,6 +34,8 @@ public struct PlayerInfo
         if (learnPlunge) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanPlunge);
         if (learnClimb) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanClimbIdle);
         if (learnSing) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSing);
+        if (learnDive) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDive);
+        if (learnWaterSprint) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanWaterSprint);
 
         if (haveDoubleJump) GameManager.Instance.saveSystem.getDoubleJump();
         if (haveSoulJump) GameManager.Instance.saveSystem.getSoulJump();
@@ -69,6 +66,8 @@ public struct PlayerInfo
     public bool learnPlunge;
     public bool learnClimb;
     public bool learnSing;
+    public bool learnDive;
+    public bool learnWaterSprint;
 
     public bool haveSoulJump;
     public bool haveDoubleJump;
@@ -103,7 +102,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
     public Transform m_Transform { get; set; }
-    [SerializeField] private LayerMask underwaterLayerMask;
+    //[SerializeField] private LayerMask underwaterLayerMask;
     [DisplayOnly]
     public BoxCollider2D boxCollider;
 
@@ -141,7 +140,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Only Demo Code for save
     /// </summary>
-    [SerializeField] private string _guid;
+    //[SerializeField] private string _guid;
     [SerializeField] public InventoryManager _backpack;
     public GameObject _itemToAdd = null;
     public GameObject _savePoint = null;
@@ -149,7 +148,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnValidate()
     {
-        _guid = GUID;
+        //_guid = GUID;
     }
     /// <summary>
     /// Demo code Ends
@@ -196,23 +195,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Colide with SavePoint");
             _savePoint = other.gameObject;
         }
-        if(other.gameObject.CompareTag("UnderWater"))
-        {
-            IsUnderWater = true;
-            RB.gravityScale = playerInfo.gravityUnderWater;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
         _savePoint = null;
-        if (other.gameObject.CompareTag("UnderWater"))
-        {
-            IsUnderWater = false;
-            RB.gravityScale = Constants.PlayerNormalGravityScale;
-            RB.velocity += new Vector2(0, 5);       //添加一个出水速度
-        }
     }
 
     public void CheckAddItem()
@@ -282,7 +270,7 @@ public class PlayerController : MonoBehaviour
         CheckHasWallToClimb();
         
 
-        CalDistanceToGround(); // 计算离地距离
+        CalDistanceToGround(); 
         CheckHasHeightToPlunge();
 
         TickLightningChain();
@@ -299,6 +287,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         //Interact();
+       // Debug.Log(RB.velocity);
     }
 
 
@@ -402,6 +391,7 @@ public class PlayerController : MonoBehaviour
 
     public void setRigidVelocity(Vector2 newVelocity)
     {
+        Debug.Log("set"+" "+newVelocity);
         RB.velocity = newVelocity;
     }
 
@@ -430,6 +420,11 @@ public class PlayerController : MonoBehaviour
     {
         RB.MovePosition(target);
     }
+
+    public void setRigidLinearDrag(float linearDarg)
+    {
+        RB.drag = linearDarg;
+    }
     public void WhenStartSetLastHorizontalInputDirByFacing() => lastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
 
     public void Flip()
@@ -456,14 +451,12 @@ public class PlayerController : MonoBehaviour
 
     public void CheckUnderWater()
     {
-        IsUnderWater = underWaterCheckCollider.IsTouchingLayers(underwaterLayerMask);
+        IsUnderWater = underWaterCheckCollider.IsTouchingLayers(1<<LayerMask.NameToLayer("GameWater"));
     }
 
 
     public void CalDistanceToGround()
     {
-
-        if (IsUnderWater) return;
 
         Vector2 groundCheckPos = groundCheckCollider.transform.position;
         groundCheckPos = groundCheckPos + groundCheckCollider.offset;

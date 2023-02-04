@@ -72,6 +72,14 @@ public class PlayerAnimatorParamsMapping
 
     public int IsSingHeldParamHash { get; } = Animator.StringToHash("IsSingHeld");
 
+    public int CanDiveParamHash { get; } = Animator.StringToHash("CanDive");
+
+    public int CanSwimParamHash { get; } = Animator.StringToHash("CanSwim");
+
+    public int CanWaterSprintParamHash { get; } = Animator.StringToHash("CanWaterSprint");
+
+    public int AbsSpeedParamHash { get; } = Animator.StringToHash("AbsSpeed");
+
     public void ParamsUpdate()
     {
         if(HasControl)
@@ -127,6 +135,7 @@ public class PlayerAnimatorParamsMapping
 
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().x);
         m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().y);
+        m_Animator.SetFloat(AbsSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().magnitude);
 
         m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
 

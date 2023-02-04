@@ -37,6 +37,9 @@ public class Save
         { EPlayerStatus.CanSprint,false},
         { EPlayerStatus.CanToCat,false},
         { EPlayerStatus.CanSing,false},
+        { EPlayerStatus.CanSwim,true},
+        { EPlayerStatus.CanDive,false},
+        { EPlayerStatus.CanWaterSprint,false},
 
     };
 
