@@ -9,8 +9,8 @@ public abstract class CharmSO: ScriptableObject
     /// <summary>
     /// 护符名称
     /// </summary>
-    [SerializeField] string charmName;
-    public string Name { get => charmName; }
+    [SerializeField] string charmName = "护符";
+    public string CharmName { get => charmName; }
 
     /// <summary>
     /// 是否已获得该护符
@@ -40,20 +40,25 @@ public abstract class CharmSO: ScriptableObject
     /// </summary>
     [Tooltip("护符效果文字描述")]
     [SerializeField]
+    [TextArea(2,2)]
     public string effectText;
 
     /// <summary>
     /// 护符图片
     /// </summary>
     [SerializeField]
-    Sprite charmImage;
+    public Sprite charmImage;
 
     /// <summary>
     /// 是否是易碎护符
     /// </summary>
     [SerializeField]
+    [Tooltip("是否为易碎护符")]
     private bool isFragile;
 
+    /// <summary>
+    /// 引用护符列表，护符触发效果需要改变列表中的变量
+    /// </summary>
     [SerializeField]
     protected CharmListSO CharmListSO = default;
 
@@ -64,10 +69,10 @@ public abstract class CharmSO: ScriptableObject
     //public CharmEffect CharmEffect { get => charmEffect; }
     
     [SerializeField]
-    private EffectTrigger EffectTrigger;
+    protected EffectTrigger EffectTrigger;
 
     [SerializeField]
-    private EffectType EffectType;
+    protected EffectType EffectType;
 
     /// <summary>
     /// 效果参数
@@ -111,7 +116,7 @@ public enum EffectType
 {
     [Tooltip("回复能量")]
     ENERGY,
-    [Tooltip("回复血量")]
+    [Tooltip("基础生命值")]
     HEALTH,
     [Tooltip("临时血量")]
     EXTRAHEALTH,
@@ -123,13 +128,7 @@ public enum EffectType
     RANGE,
     [Tooltip("加速回血")]
     HEALSPEED,
+    [Tooltip("回复血量")]
+    HEAL,
 
 }
-
-//public class CharmEffect
-//{
-//    public void OnEquip()
-//    {
-
-//    }
-//}
