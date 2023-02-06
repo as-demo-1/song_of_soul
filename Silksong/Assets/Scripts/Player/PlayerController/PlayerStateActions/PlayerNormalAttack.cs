@@ -10,9 +10,7 @@ public class PlayerNormalAttack : PlayerAction
     {
 
         playerController.CheckFlipPlayer(1f);
-
-
-
+        playerController.setRigidVelocity(Vector2.zero);
     }
     public override void StateUpdate()
     {

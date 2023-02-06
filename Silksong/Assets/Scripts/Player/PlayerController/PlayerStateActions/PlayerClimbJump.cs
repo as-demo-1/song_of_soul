@@ -8,7 +8,7 @@ public class PlayerClimbJump : PlayerAction
 
     private bool canMove = false;//能否水平移动
     private float fixedJumpAcce = 0;//水平减速度
-
+    private Coroutine jumpingCoro;
 
     public override void StateStart(EPlayerState oldState)
     {
@@ -23,8 +23,12 @@ public class PlayerClimbJump : PlayerAction
         playerController.setRigidVelocity(speed);
         playerController.setRigidGravityScale(0);
 
-        playerController.StopCoroutine(IEClimbJumping());
-        playerController.StartCoroutine(IEClimbJumping());
+        if (jumpingCoro != null)
+            playerController.StopCoroutine(jumpingCoro);
+
+        jumpingCoro = playerController.StartCoroutine(IEClimbJumping());
+
+
         playerController.climp.Play();
         playerController.climpLight.Play();
     }
@@ -36,6 +40,13 @@ public class PlayerClimbJump : PlayerAction
             playerController.CheckFlipPlayer(1f);
             playerController.CheckHorizontalMove(0.5f);
         }
+    }
+
+    public void EndJump()
+    {
+        if (jumpingCoro != null)
+            playerController.StopCoroutine(jumpingCoro);
+        playerController.setRigidGravityScaleToNormal();
     }
 
     public IEnumerator IEClimbJumping()

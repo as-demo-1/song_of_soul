@@ -11,6 +11,8 @@ public struct PlayerInfo
     private PlayerController playerController;
     public float sprintSpeed { get; private set; }
 
+    public float waterSprintSpeed;
+
 
     public AnimationCurve breakMoonPositionCurve;
     //climb
@@ -23,10 +25,11 @@ public struct PlayerInfo
         this.playerController = playerController;
 
         sprintSpeed = Constants.PlayerSprintDistance / Constants.SprintTime;
+        waterSprintSpeed= Constants.PlayerWaterSprintDistance / Constants.WaterSprintTime;
 
         //----------------------for test-----------------------------
 #if UNITY_EDITOR
-        if(learnAttack) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanNormalAttack);
+        if (learnAttack) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanNormalAttack);
         if (learnSprint) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSprint);
         if (learnBreakMoon) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanBreakMoon);
         if (learnCastSkill) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanCastSkill);
@@ -268,6 +271,7 @@ public class PlayerController : MonoBehaviour
         CheckIsGrounded();
         CheckUnderWater();
         CheckHasWallToClimb();
+        //checkWaterSurface();
         
 
         CalDistanceToGround(); 
@@ -379,7 +383,7 @@ public class PlayerController : MonoBehaviour
         if (GameManager.Instance.saveSystem.haveDoubleJump()) return Constants.PlayerMaxDoubleJumpCount;
         else return Constants.PlayerMaxJumpCount;
     }
-    public void CheckFlipPlayer(float setAccelerationNormalizedTime)
+    public void CheckFlipPlayer(float setAccelerationNormalizedTime=1f)
     {
         if (PlayerInput.Instance.horizontal.ValueBuffer == 1f & !playerInfo.playerFacingRight ||
                 PlayerInput.Instance.horizontal.ValueBuffer == -1f & playerInfo.playerFacingRight)
@@ -391,7 +395,7 @@ public class PlayerController : MonoBehaviour
 
     public void setRigidVelocity(Vector2 newVelocity)
     {
-        Debug.Log("set"+" "+newVelocity);
+        //Debug.Log("set"+" "+newVelocity);
         RB.velocity = newVelocity;
     }
 
@@ -507,6 +511,24 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public bool checkWaterSurface()//only callded when used in player actions
+    {
+
+        Vector2 t = transform.position;
+        t.y += 0.1f;//when water below this height,return true
+
+        Vector2 upPoint = new Vector2(t.x+0.1f,t.y+0.1f);
+       // Debug.DrawLine(t, upPoint,Color.red);
+        bool ret = false;
+        if (Physics2D.OverlapArea(upPoint, t, 1 << LayerMask.NameToLayer("GameWater")) == null)
+        {
+            ret=true;
+        }
+        PlayerAnimator.SetBool(animatorParamsMapping.WaterSurfaceParamHash, ret);
+        return ret;
+
+    }
+
     private void CheckHasWallToClimb()
     {
         bool checkRightSide;
@@ -567,7 +589,7 @@ public class PlayerGroundedCheck
             if (value)//设为真
             {
 
-                ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetJumpCount();
+                ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetAllJumpCount();
                 ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
                 bufferTimer = Constants.IsGroundedBufferFrame;
             }

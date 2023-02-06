@@ -6,6 +6,11 @@ public class PlayerIdle : PlayerAction
 {
     public PlayerIdle(PlayerController playerController) : base(playerController) { }
 
+    public override void StateStart(EPlayerState oldState)
+    {
+        playerController.setRigidGravityScaleToNormal();
+    }
+
     public override void StateUpdate()
     {
         playerController.CheckAddItem();

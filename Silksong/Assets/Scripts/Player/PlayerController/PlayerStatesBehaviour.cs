@@ -32,6 +32,7 @@ public enum EPlayerState
     Dive=320,
     WatreSprint=330,
     IntoWater=340,
+    FloatUp=350,
 }
 public abstract class PlayerAction
 {
@@ -79,6 +80,8 @@ public class PlayerStatesBehaviour
         StateActionsDic.Add(EPlayerState.WatreSprint, new PlayerSprintInWater(playerController));
         StateActionsDic.Add(EPlayerState.WaterIdle, new PlayerWaterIdle(playerController));
         StateActionsDic.Add(EPlayerState.IntoWater, new PlayerIntoWater(playerController));
+        StateActionsDic.Add(EPlayerState.FloatUp, new PlayerFloatUp(playerController));
+        StateActionsDic.Add(EPlayerState.Swim, new PlayerSwim(playerController));
 
         StateActionsDic.Add(EPlayerState.CastSkill, new PlayerCastSkill(playerController));
 

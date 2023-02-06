@@ -35,6 +35,7 @@ public class PlayerSprint : PlayerAction
 
     public override void StateStart(EPlayerState oldState)
     {
+        SprintReady = false;
         playerController.setRigidGravityScale(0);
         if (oldState == EPlayerState.ClimbIdle)
         {
@@ -70,7 +71,7 @@ public class PlayerSprint : PlayerAction
 
     public IEnumerator sprintCdCount()
     {
-        SprintReady = false;
+   
         yield return new WaitForSeconds(Constants.SprintCd);
         SprintReady = true;
     }

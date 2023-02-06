@@ -21,9 +21,9 @@ public class PlayerJump : PlayerAction
         }
     }
 
-    public void resetJumpCount() => CurrentJumpCountLeft = playerController.getJumpCount();
+    public void resetAllJumpCount() => CurrentJumpCountLeft = playerController.getJumpCount();
 
-    public void resetDoubleJump()
+    public void justResetDoubleJump()
     {
         if (GameManager.Instance.saveSystem.haveDoubleJump() == false) return;
         CurrentJumpCountLeft = Constants.PlayerMaxDoubleJumpCount - Constants.PlayerMaxJumpCount;
@@ -48,6 +48,11 @@ public class PlayerJump : PlayerAction
         if (CurrentJumpCountLeft == 0)
         {
             playerController.jump.Play();
+        }
+
+        if(oldState==EPlayerState.Swim)
+        {
+            playerController.underWaterCheckCollider.enabled = false;
         }
 
     }
@@ -88,6 +93,7 @@ public class PlayerJump : PlayerAction
 
             if (jumpHeight > Constants.PlayerJumpMinHeight - 0.5f)//达到最小高度后才能停下
             {
+                playerController.underWaterCheckCollider.enabled = true;
 
                 if (hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false)//急刹
                 {
@@ -115,6 +121,11 @@ public class PlayerJump : PlayerAction
 
         float gScale = -acce / Physics2D.gravity.y;
         playerController.setRigidGravityScale(gScale);
+    }
+
+    public override void StateEnd(EPlayerState newState)
+    {
+        playerController.underWaterCheckCollider.enabled = true;
     }
 
 }

@@ -7,7 +7,7 @@ public class PlayerWaterIdle : PlayerAction
 
     public override void StateStart(EPlayerState oldState)
     {
-        Debug.Log("into waterIdle");
+        //Debug.Log("into waterIdle");
         playerController.setRigidVelocity(Vector2.zero);
     }
 

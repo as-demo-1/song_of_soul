@@ -16,40 +16,76 @@ public class PlayerSprintInWater : PlayerAction
         }
     }
 
+    private bool outWater;
+
+    Vector2 startPos;
+
     public override void StateStart(EPlayerState oldState)
     {
+        SprintReady = false;
         playerController.setRigidGravityScale(0);
-        int x = playerController.playerInfo.playerFacingRight ? 1 : -1;
-        int y = 0;
+        playerController.CheckFlipPlayer();
+
+        Vector2 dir=Vector2.zero;
+
+        dir.x = playerController.playerInfo.playerFacingRight ? 1 : -1;
+
         if (PlayerInput.Instance.vertical.Value != 0)
         {
-            y = PlayerInput.Instance.vertical.Value > 0 ? 1 : -1;
+           int y = PlayerInput.Instance.vertical.Value > 0 ? 1 : -1;
+            dir = new Vector2(0, y);
         }
-        playerController.setRigidVelocity(new Vector2(playerController.playerInfo.sprintSpeed * x, playerController.playerInfo.sprintSpeed * y));
+
+        playerController.setRigidVelocity(dir*playerController.playerInfo.waterSprintSpeed);
         playerController.gravityLock = true;
-        playerController.IsUnderWater = false;
+        outWater = false;
+        startPos = playerController.transform.position;
+    }
+
+    public override void StateUpdate()
+    {
+        if (playerController.IsUnderWater == false && !outWater)
+        {
+            outWater = true;
+            Vector2 v = playerController.getRigidVelocity();
+            playerController.setRigidVelocity(v * 1.5f);
+        }
+        else if(outWater)
+        {
+            float dis = Vector2.Distance(playerController.transform.position, startPos);
+            if(dis>=(Constants.PlayerWaterSprintDistance+Constants.PlayWaterSprintPlusDis) || playerController.getRigidVelocity().magnitude<0.1f)
+            {
+                Debug.Log(dis);
+                playerController.PlayerAnimator.SetTrigger(playerController.animatorParamsMapping.WaterSprintPlusEndParamHash);
+            }
+        }
     }
 
     public override void StateEnd(EPlayerState newState)
     {
-        Debug.Log(playerController.IsUnderWater);
+      
         playerController.gravityLock = false;
+
         if (!playerController.IsUnderWater)
         {
             playerController.setRigidGravityScaleToNormal();
         }
-        else
+
+        if(newState!=EPlayerState.IntoWater)
         {
-          //  playerController.setRigidGravityScale(playerController.playerInfo.gravityUnderWater);
+            Vector2 v = new Vector2(0, playerController.getRigidVelocity().y);
+            if (v.y > 0) v.y = 0;
+            playerController.setRigidVelocity(v);//
         }
-        playerController.setRigidVelocity(Vector2.zero);
+
+
         playerController.StartCoroutine(sprintCdCount());
     }
 
 
     public IEnumerator sprintCdCount()
     {
-        SprintReady = false;
+
         yield return new WaitForSeconds(Constants.SprintCd);
         SprintReady = true;
     }

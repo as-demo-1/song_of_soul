@@ -120,7 +120,7 @@ public class PlayerBreakMoon : PlayerAction
                 hasBreakTheMoon = true;
                 PlayerAnimatorParamsMapping.SetControl(true);
                 (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
-                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).resetDoubleJump();
+                (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).justResetDoubleJump();
                 currentTarget.atBreakMoonPoint();
             }
         }

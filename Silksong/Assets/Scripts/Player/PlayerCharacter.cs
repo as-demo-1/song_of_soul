@@ -161,6 +161,10 @@ public class PlayerCharacter : MonoBehaviour
         {
             finalSpeed = Constants.AttackingMoveSpeed;
         }
+        else if(playerController.playerAnimatorStatesControl.CurrentPlayerState==EPlayerState.Swim)
+        {
+            finalSpeed = Constants.PlayerSwimSpeed;
+        }
         else finalSpeed = Constants.PlayerMoveSpeed;
 
         //if have 护符  finalSpeed加上护符的属性

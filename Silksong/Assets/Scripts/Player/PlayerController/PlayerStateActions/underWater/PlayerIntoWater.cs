@@ -18,17 +18,25 @@ public class PlayerIntoWater : PlayerAction
         {
            // Debug.Log("endJump");
             (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).EndJump();
+        
         }
-         
+
+        if (oldState == EPlayerState.ClimbJump)
+        {
+            // Debug.Log("endJump");
+            (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.ClimbJump] as PlayerClimbJump).EndJump();
+
+        }
+            
+
 
         float v = playerController.getRigidVelocity().magnitude;
         if (v < 1)
         {
             Vector2 speed = playerController.getRigidVelocity();
+            speed += new Vector2(0.5f, 0.5f);
             Debug.Log(speed);
-            playerController.setRigidVelocity(speed + new Vector2(0.5f, 0.5f));
-            playerController.setRigidVelocity(playerController.getRigidVelocity() * 2 / v);
-            Debug.Log(playerController.getRigidVelocity());
+            playerController.setRigidVelocity(speed* 2 );
         }
         }
 
@@ -36,7 +44,7 @@ public class PlayerIntoWater : PlayerAction
     {
         if(Vector2.Distance(inPos,playerController.transform.position)>Constants.PlayerMinIntoWaterDistance )
         {
-            Debug.Log("slow down");
+            //Debug.Log("slow down");
             playerController.setRigidLinearDrag(Constants.PlayerIntoWaterLinearDarg);
         }
 
