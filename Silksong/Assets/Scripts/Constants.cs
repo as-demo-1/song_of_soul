@@ -87,7 +87,7 @@ public static class Constants
     #endregion
 
     #region about player In Water
-    public const float PlayerIntoWaterLinearDarg = 20f;
+    public const float PlayerIntoWaterLinearDarg = 12f;
     public const float PlayerMinIntoWaterDistance = 0.5f;
 
     public const float PlayerDiveSpeed = 4f;

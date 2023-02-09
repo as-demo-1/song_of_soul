@@ -29,19 +29,19 @@ public struct PlayerInfo
 
         //----------------------for test-----------------------------
 #if UNITY_EDITOR
-        if (learnAttack) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanNormalAttack);
-        if (learnSprint) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSprint);
-        if (learnBreakMoon) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanBreakMoon);
-        if (learnCastSkill) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanCastSkill);
-        if (learnToCat) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanToCat);
-        if (learnPlunge) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanPlunge);
-        if (learnClimb) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanClimbIdle);
-        if (learnSing) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSing);
-        if (learnDive) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDive);
-        if (learnWaterSprint) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanWaterSprint);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanNormalAttack, learnAttack);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSprint,learnSprint);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanBreakMoon,learnBreakMoon);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanCastSkill,learnCastSkill);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanToCat,learnToCat);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanPlunge,learnPlunge);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanClimbIdle,learnClimb);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSing,learnSing);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDive,learnDive);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanWaterSprint, learnWaterSprint);
 
-        if (haveDoubleJump) GameManager.Instance.saveSystem.getDoubleJump();
-        if (haveSoulJump) GameManager.Instance.saveSystem.getSoulJump();
+        GameManager.Instance.saveSystem.setDoubleJump(haveDoubleJump);
+        GameManager.Instance.saveSystem.setSoulJump(haveSoulJump);
 #endif 
     }
 
@@ -116,7 +116,20 @@ public class PlayerController : MonoBehaviour
 
     [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
-    public bool IsUnderWater;
+    private bool isUnderWater;
+    public bool IsUnderWater
+    {
+        get { return isUnderWater; }
+        set 
+        {
+            if(!isUnderWater && value)
+            {
+                PlayerAnimator.SetTrigger(animatorParamsMapping.IntoWaterParamHash);
+            }
+            isUnderWater = value;
+        }
+    }
+    
 
     public Collider2D underWaterCheckCollider;
     public BoxCollider2D groundCheckCollider;
@@ -515,7 +528,7 @@ public class PlayerController : MonoBehaviour
     {
 
         Vector2 t = transform.position;
-        t.y += 0.1f;//when water below this height,return true
+        t.y += 0.4f;//when water below this height,return true
 
         Vector2 upPoint = new Vector2(t.x+0.1f,t.y+0.1f);
        // Debug.DrawLine(t, upPoint,Color.red);
@@ -586,7 +599,7 @@ public class PlayerGroundedCheck
 
         set//每次update都会调用
         {
-            if (value)//设为真
+            if (value && playerController.IsUnderWater==false)//设为真
             {
 
                 ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetAllJumpCount();
@@ -615,7 +628,7 @@ public class PlayerGroundedCheck
         set
         {      
 
-            if (isGroundedBuffer &&!value)//从真设为假
+            if (isGroundedBuffer &&!value && playerController.IsUnderWater == false)//从真设为假
             {
                 (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).CurrentJumpCountLeft--;
             }

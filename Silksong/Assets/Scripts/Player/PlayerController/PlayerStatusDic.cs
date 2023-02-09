@@ -150,10 +150,10 @@ public class PlayerStatusDic
     }
 
 
-    public void learnSkill(EPlayerStatus skill)
+    public void learnSkill(EPlayerStatus skill,bool v)
     {
         SetPlayerStatusFlag(skill, true, PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
-        GameManager.Instance.saveSystem.learnSkill(skill);
+        GameManager.Instance.saveSystem.learnSkill(skill,v);
     }
 
     public void loadLearnedSkills()

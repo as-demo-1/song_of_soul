@@ -84,6 +84,8 @@ public class PlayerAnimatorParamsMapping
 
     public int WaterSprintPlusEndParamHash { get; } = Animator.StringToHash("WaterSprintPlusEnd");
 
+    public int IntoWaterParamHash { get; } = Animator.StringToHash("IntoWater");
+
     public void ParamsUpdate()
     {
         if(HasControl)

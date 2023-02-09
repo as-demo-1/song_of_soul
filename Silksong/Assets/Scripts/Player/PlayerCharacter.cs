@@ -36,6 +36,7 @@ public class PlayerCharacter : MonoBehaviour
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
     private PlayerController playerController;
 
+    [HideInInspector]
     public int gluedCount;
 
     [SerializeField]

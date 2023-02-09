@@ -20,9 +20,9 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 		return saveData.haveSoulJump;
     }
 
-	public void getSoulJump()
+	public void setSoulJump(bool v)
     {
-		saveData.haveSoulJump = true;
+		saveData.haveSoulJump =v;
     }
 
 	public bool haveDoubleJump()
@@ -30,9 +30,9 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 		return saveData.haveDoubleJump;
 	}
 
-	public void getDoubleJump()
+	public void setDoubleJump(bool v)
 	{
-		saveData.haveDoubleJump = true;
+		saveData.haveDoubleJump = v;
 	}
 
 	public int GetHealthMax()
@@ -64,11 +64,11 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 		saveData._weaponLevel = weaponLevel;
 	}
 	
-	public void learnSkill(EPlayerStatus skill)
+	public void learnSkill(EPlayerStatus skill,bool v)
     {
 		if (saveData.learnedSkills.ContainsKey(skill) == false)
-			saveData.learnedSkills.Add(skill, true);
-		saveData.learnedSkills[skill] = true;
+			saveData.learnedSkills.Add(skill, v);
+		saveData.learnedSkills[skill] = v;
     }
 
 	public bool getLearnedSkill(EPlayerStatus skill)
