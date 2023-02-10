@@ -305,7 +305,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.23
 --- !u!1 &448765874
@@ -817,6 +817,16 @@ MonoBehaviour:
     key: 114
     controllerButton: 0
     m_Enabled: 1
+  sing:
+    NotNeedGainAndReleaseControl: 0
+    key: 122
+    controllerButton: 0
+    m_Enabled: 1
+  heartSword:
+    NotNeedGainAndReleaseControl: 0
+    key: 117
+    controllerButton: 0
+    m_Enabled: 1
   showMap:
     NotNeedGainAndReleaseControl: 0
     key: 109
@@ -839,11 +849,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9912943845aa4db488c102a390b6aca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
-  maxMana: 100
+  playerDamable: {fileID: 0}
   mana: 100
   money: 0
-  playerDamable: {fileID: 0}
   onManaChangeEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -863,7 +871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacter: {fileID: 0}
   playerInfo:
-    hasDoubleJump: 1
+    waterSprintSpeed: 0
     breakMoonPositionCurve:
       serializedVersion: 2
       m_Curve:
@@ -889,15 +897,22 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     playerFacingRight: 1
-    swimSpeed: 10
-    gravityUnderWater: 0
+    learnAttack: 1
+    learnSprint: 1
+    learnBreakMoon: 1
+    learnCastSkill: 1
+    learnToCat: 1
+    learnPlunge: 1
+    learnClimb: 1
+    learnSing: 1
+    learnDive: 1
+    learnWaterSprint: 1
+    learnHeartSword: 1
+    haveSoulJump: 1
+    haveDoubleJump: 1
   PlayerAnimator: {fileID: 448765876}
-  underwaterLayerMask:
-    serializedVersion: 2
-    m_Bits: 512
   boxCollider: {fileID: 0}
   gravityLock: 0
-  IsUnderWater: 0
   underWaterCheckCollider: {fileID: 303103795}
   groundCheckCollider: {fileID: 619636124}
   plungeStrengthArr:
@@ -912,8 +927,6 @@ MonoBehaviour:
   plunge: {fileID: 1847350850031918144}
   hurt: {fileID: 5432216113006806226}
   lighting: {fileID: 4052345826682590289}
-  _guid: d4b573af-0d76-403d-b577-4af512c0ab85
-  _saveSystem: {fileID: 0}
   _backpack: {fileID: 0}
   _itemToAdd: {fileID: 0}
   _savePoint: {fileID: 0}

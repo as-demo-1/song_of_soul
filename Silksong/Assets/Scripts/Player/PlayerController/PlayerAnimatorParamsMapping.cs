@@ -68,6 +68,28 @@ public class PlayerAnimatorParamsMapping
 
     public int CanClimbParamHash { get; } = Animator.StringToHash("CanClimb");
 
+    public int CanSingParamHash { get; } = Animator.StringToHash("CanSing");
+
+    public int IsSingHeldParamHash { get; } = Animator.StringToHash("IsSingHeld");
+
+    public int CanDiveParamHash { get; } = Animator.StringToHash("CanDive");
+
+    public int CanSwimParamHash { get; } = Animator.StringToHash("CanSwim");
+
+    public int CanWaterSprintParamHash { get; } = Animator.StringToHash("CanWaterSprint");
+
+    public int AbsSpeedParamHash { get; } = Animator.StringToHash("AbsSpeed");
+
+    public int WaterSurfaceParamHash { get; } = Animator.StringToHash("OnWaterSurface");
+
+    public int WaterSprintPlusEndParamHash { get; } = Animator.StringToHash("WaterSprintPlusEnd");
+
+    public int IntoWaterParamHash { get; } = Animator.StringToHash("IntoWater");
+
+    public int CanHeartSwordParamHash { get; } = Animator.StringToHash("CanHeartSword");
+
+    public int HeartSwordIsValidParamHash { get; } = Animator.StringToHash("HeartSwordIsValid");
+
     public void ParamsUpdate()
     {
         if(HasControl)
@@ -90,6 +112,10 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(PlungeIsValidParamHash, PlayerInput.Instance.plunge.IsValid);
 
+            m_Animator.SetBool(IsSingHeldParamHash, PlayerInput.Instance.sing.Held);
+
+            m_Animator.SetBool(HeartSwordIsValidParamHash, PlayerInput.Instance.heartSword.IsValid);
+
         }
         else
         {
@@ -111,6 +137,11 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(PlungeIsValidParamHash, false);
 
+            m_Animator.SetBool(IsSingHeldParamHash, false);
+
+
+            m_Animator.SetBool(HeartSwordIsValidParamHash, false);
+
         }
 
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
@@ -119,6 +150,7 @@ public class PlayerAnimatorParamsMapping
 
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().x);
         m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().y);
+        m_Animator.SetFloat(AbsSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().magnitude);
 
         m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
 

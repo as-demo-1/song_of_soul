@@ -42,11 +42,14 @@ public class PlayerToCatAndHuman
 
         IsCat = true;
         playerController.gameObject.layer = LayerMask.NameToLayer("PlayerCat");
+
         playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerCatBoxColliderOffsetY);
         playerController.boxCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, Constants.playerCatBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerCatGroundCheckColliderOffsetY);
         playerController.groundCheckCollider.size = new Vector2(Constants.playerGroundCheckColliderSizeX, playerController.groundCheckCollider.size.y);
+
+        playerController.GetComponentInChildren<SpriteRenderer>().transform.localPosition = new Vector3(0, 0.85f, 0);
     }
 
     public void colliderToHuman()
@@ -77,6 +80,8 @@ public class PlayerToCatAndHuman
         IsCat = false;
         isFastMoving = false;
         playerController.gameObject.layer = LayerMask.NameToLayer("Player");
+
+        playerController.GetComponentInChildren<SpriteRenderer>().transform.localPosition = new Vector3(0, 1.26f, 0);
     }
     public void toHuman()
     {
@@ -84,6 +89,7 @@ public class PlayerToCatAndHuman
         colliderToHuman();
         stateToHuman();
     }
+    //------------------------------------------------------------------
     public void catUpdate()
     {
         if (!IsCat) return;

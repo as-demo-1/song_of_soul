@@ -24,7 +24,7 @@ public class Trigger2D_GetSoulJump : Trigger2DBase
         {
             GetComponent<Destroyed_StableSave>().saveGamingData(true);
             //SoulJump.ifGetSoulJump = true;
-            GameManager.Instance.saveSystem.getSoulJump();
+            GameManager.Instance.saveSystem.setSoulJump(true);
             Destroy(gameObject);
             
         }

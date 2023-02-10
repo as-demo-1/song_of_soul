@@ -11,40 +11,41 @@ public struct PlayerInfo
     private PlayerController playerController;
     public float sprintSpeed { get; private set; }
 
-    public bool hasDoubleJump;
+    public float waterSprintSpeed;
+
 
     public AnimationCurve breakMoonPositionCurve;
     //climb
 
     public bool playerFacingRight;
     //swim
-    public float swimSpeed;
-
-    public float gravityUnderWater;
-
 
     public void init(PlayerController playerController)
     {
         this.playerController = playerController;
 
         sprintSpeed = Constants.PlayerSprintDistance / Constants.SprintTime;
-        gravityUnderWater = Constants.PlayerNormalGravityScale / 5;
+        waterSprintSpeed= Constants.PlayerWaterSprintDistance / Constants.WaterSprintTime;
+
+        //----------------------for test-----------------------------
+#if UNITY_EDITOR
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanNormalAttack, learnAttack);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSprint,learnSprint);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanBreakMoon,learnBreakMoon);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanCastSkill,learnCastSkill);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanToCat,learnToCat);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanPlunge,learnPlunge);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanClimbIdle,learnClimb);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSing,learnSing);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDive,learnDive);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanWaterSprint, learnWaterSprint);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanHeartSword,learnHeartSword);
+
+        GameManager.Instance.saveSystem.setDoubleJump(haveDoubleJump);
+        GameManager.Instance.saveSystem.setSoulJump(haveSoulJump);
+#endif 
     }
 
-    public float getMoveSpeed()
-    {
-        if (playerController.playerToCat.IsCat)
-        {
-            if (playerController.playerToCat.isFastMoving)
-                return Constants.PlayerCatFastMoveSpeed;
-            else return Constants.PlayerCatMoveSpeed;
-        }
-        else if(playerController.playerAnimatorStatesControl.CurrentPlayerState==EPlayerState.NormalAttack)
-        {
-            return Constants.AttackingMoveSpeed;
-        }
-        else return Constants.PlayerMoveSpeed;
-    }
 
     public float getJumpUpSpeed()
     {
@@ -58,11 +59,25 @@ public struct PlayerInfo
         else return Constants.PlayerJumpMaxHeight;
     }
 
-    public int getJumpCount()
-    {
-        if (hasDoubleJump) return Constants.PlayerMaxDoubleJumpCount;
-        else return Constants.PlayerMaxJumpCount;
-    }
+
+    //----------------------for test-----------------------------
+#if UNITY_EDITOR
+    public bool learnAttack;
+    public bool learnSprint;
+    public bool learnBreakMoon;
+    public bool learnCastSkill;
+    public bool learnToCat;
+    public bool learnPlunge;
+    public bool learnClimb;
+    public bool learnSing;
+    public bool learnDive;
+    public bool learnWaterSprint;
+    public bool learnHeartSword;
+
+    public bool haveSoulJump;
+    public bool haveDoubleJump;
+#endif
+
 }
 
 
@@ -92,7 +107,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D RB;//外部访问刚体时，应通过setRigidGravityScale等封装后的方法
 
     public Transform m_Transform { get; set; }
-    [SerializeField] private LayerMask underwaterLayerMask;
+    //[SerializeField] private LayerMask underwaterLayerMask;
     [DisplayOnly]
     public BoxCollider2D boxCollider;
 
@@ -103,7 +118,20 @@ public class PlayerController : MonoBehaviour
 
     [DisplayOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
-    public bool IsUnderWater;
+    private bool isUnderWater;
+    public bool IsUnderWater
+    {
+        get { return isUnderWater; }
+        set 
+        {
+            if(!isUnderWater && value)
+            {
+                PlayerAnimator.SetTrigger(animatorParamsMapping.IntoWaterParamHash);
+            }
+            isUnderWater = value;
+        }
+    }
+    
 
     public Collider2D underWaterCheckCollider;
     public BoxCollider2D groundCheckCollider;
@@ -130,7 +158,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Only Demo Code for save
     /// </summary>
-    [SerializeField] private string _guid;
+    //[SerializeField] private string _guid;
     [SerializeField] public InventoryManager _backpack;
     public GameObject _itemToAdd = null;
     public GameObject _savePoint = null;
@@ -138,7 +166,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnValidate()
     {
-        _guid = GUID;
+        //_guid = GUID;
     }
     /// <summary>
     /// Demo code Ends
@@ -185,23 +213,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Colide with SavePoint");
             _savePoint = other.gameObject;
         }
-        if(other.gameObject.CompareTag("UnderWater"))
-        {
-            IsUnderWater = true;
-            RB.gravityScale = playerInfo.gravityUnderWater;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         _itemToAdd = null;
         _savePoint = null;
-        if (other.gameObject.CompareTag("UnderWater"))
-        {
-            IsUnderWater = false;
-            RB.gravityScale = Constants.PlayerNormalGravityScale;
-            RB.velocity += new Vector2(0, 5);       //添加一个出水速度
-        }
     }
 
     public void CheckAddItem()
@@ -269,9 +286,10 @@ public class PlayerController : MonoBehaviour
         CheckIsGrounded();
         CheckUnderWater();
         CheckHasWallToClimb();
+        //checkWaterSurface();
         
 
-        CalDistanceToGround(); // 计算离地距离
+        CalDistanceToGround(); 
         CheckHasHeightToPlunge();
 
         TickLightningChain();
@@ -288,6 +306,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         //Interact();
+       // Debug.Log(RB.velocity);
     }
 
 
@@ -335,7 +354,7 @@ public class PlayerController : MonoBehaviour
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
 
-        float desireSpeed = lastHorizontalInputDir * playerInfo.getMoveSpeed();
+        float desireSpeed = lastHorizontalInputDir * playerCharacter.getMoveSpeed();
         float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0 && PlayerAnimatorParamsMapping.HasControl,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
@@ -374,8 +393,12 @@ public class PlayerController : MonoBehaviour
     {
         return playerGroundedCheck.IsGrounded;
     }
-
-    public void CheckFlipPlayer(float setAccelerationNormalizedTime)
+    public int getJumpCount()
+    {
+        if (GameManager.Instance.saveSystem.haveDoubleJump()) return Constants.PlayerMaxDoubleJumpCount;
+        else return Constants.PlayerMaxJumpCount;
+    }
+    public void CheckFlipPlayer(float setAccelerationNormalizedTime=1f)
     {
         if (PlayerInput.Instance.horizontal.ValueBuffer == 1f & !playerInfo.playerFacingRight ||
                 PlayerInput.Instance.horizontal.ValueBuffer == -1f & playerInfo.playerFacingRight)
@@ -387,6 +410,7 @@ public class PlayerController : MonoBehaviour
 
     public void setRigidVelocity(Vector2 newVelocity)
     {
+        //Debug.Log("set"+" "+newVelocity);
         RB.velocity = newVelocity;
     }
 
@@ -415,6 +439,11 @@ public class PlayerController : MonoBehaviour
     {
         RB.MovePosition(target);
     }
+
+    public void setRigidLinearDrag(float linearDarg)
+    {
+        RB.drag = linearDarg;
+    }
     public void WhenStartSetLastHorizontalInputDirByFacing() => lastHorizontalInputDir = playerInfo.playerFacingRight ? 1 : -1;
 
     public void Flip()
@@ -441,14 +470,12 @@ public class PlayerController : MonoBehaviour
 
     public void CheckUnderWater()
     {
-        IsUnderWater = underWaterCheckCollider.IsTouchingLayers(underwaterLayerMask);
+        IsUnderWater = underWaterCheckCollider.IsTouchingLayers(1<<LayerMask.NameToLayer("GameWater"));
     }
 
 
     public void CalDistanceToGround()
     {
-
-        if (IsUnderWater) return;
 
         Vector2 groundCheckPos = groundCheckCollider.transform.position;
         groundCheckPos = groundCheckPos + groundCheckCollider.offset;
@@ -496,6 +523,24 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+
+    }
+
+    public bool checkWaterSurface()//only callded when used in player actions
+    {
+
+        Vector2 t = transform.position;
+        t.y += 0.4f;//when water below this height,return true
+
+        Vector2 upPoint = new Vector2(t.x+0.1f,t.y+0.1f);
+       // Debug.DrawLine(t, upPoint,Color.red);
+        bool ret = false;
+        if (Physics2D.OverlapArea(upPoint, t, 1 << LayerMask.NameToLayer("GameWater")) == null)
+        {
+            ret=true;
+        }
+        PlayerAnimator.SetBool(animatorParamsMapping.WaterSurfaceParamHash, ret);
+        return ret;
 
     }
 
@@ -556,10 +601,10 @@ public class PlayerGroundedCheck
 
         set//每次update都会调用
         {
-            if (value)//设为真
+            if (value && playerController.IsUnderWater==false)//设为真
             {
 
-                ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetJumpCount();
+                ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetAllJumpCount();
                 ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
                 bufferTimer = Constants.IsGroundedBufferFrame;
             }
@@ -585,7 +630,7 @@ public class PlayerGroundedCheck
         set
         {      
 
-            if (isGroundedBuffer &&!value)//从真设为假
+            if (isGroundedBuffer &&!value && playerController.IsUnderWater == false)//从真设为假
             {
                 (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).CurrentJumpCountLeft--;
             }

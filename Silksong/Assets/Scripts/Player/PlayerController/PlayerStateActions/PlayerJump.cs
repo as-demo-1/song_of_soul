@@ -9,6 +9,8 @@ public class PlayerJump : PlayerAction
     private float jumpStartHeight;
 
     private int currentJumpCountLeft;
+
+    private Coroutine jumpingCoro;
     public int CurrentJumpCountLeft
     {
         get { return currentJumpCountLeft; }
@@ -19,32 +21,37 @@ public class PlayerJump : PlayerAction
         }
     }
 
-    public void resetJumpCount() => CurrentJumpCountLeft = playerController.playerInfo.getJumpCount();
+    public void resetAllJumpCount() => CurrentJumpCountLeft = playerController.getJumpCount();
 
-    public void resetDoubleJump()
+    public void justResetDoubleJump()
     {
-        if (playerController.playerInfo.hasDoubleJump == false) return;
+        if (GameManager.Instance.saveSystem.haveDoubleJump() == false) return;
         CurrentJumpCountLeft = Constants.PlayerMaxDoubleJumpCount - Constants.PlayerMaxJumpCount;
     }
+
+    public void ClearAllJumpCount() => CurrentJumpCountLeft = 0;
 
     public override void StateStart(EPlayerState oldState)
     {
         playerController.setRigidGravityScale(0);
 
-        if (playerController.isGroundedBuffer() == false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
+        if (playerController.isGroundedBuffer() == false)//here only change the jumpCount when in air, the change on ground is done in the isGround's set method
             --CurrentJumpCountLeft;
 
         playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.getJumpUpSpeed()));
         jumpStartHeight = playerController.transform.position.y;
 
-        playerController.StopCoroutine(JumpUpCheck());
-        playerController.StartCoroutine(JumpUpCheck());
+        if(jumpingCoro!=null)
+        playerController.StopCoroutine(jumpingCoro);
+
+        jumpingCoro= playerController.StartCoroutine(JumpUpCheck());
 
         //Debug.Log("跳跃参数：" + CurrentJumpCountLeft);
-        if (CurrentJumpCountLeft == 0)
+        if (CurrentJumpCountLeft == 0 && GameManager.Instance.saveSystem.haveDoubleJump())
         {
             playerController.jump.Play();
         }
+
 
     }
 
@@ -57,7 +64,8 @@ public class PlayerJump : PlayerAction
 
     public void EndJump()
     {
-        playerController.StopCoroutine(JumpUpCheck());
+        if (jumpingCoro != null)
+            playerController.StopCoroutine(jumpingCoro);
         playerController.setRigidGravityScaleToNormal();
     }
 
@@ -65,13 +73,16 @@ public class PlayerJump : PlayerAction
     {
         bool hasQuickSlowDown = false;
         bool hasNormalSlowDown = false;
+        //Debug.Log("new Jumpie");
 
         float normalSlowDistance = 0.5f * playerController.playerInfo.getJumpUpSpeed() * Constants.JumpUpSlowDownTime;//s=0.5*velocity*time
         while (true)
         {
+            //Debug.Log("jumping");
             yield return null;//每次update后循环一次
             if (playerController.getRigidVelocity().y < 0.01f)//跳跃上升过程结束  maybe not right..
             {
+               // Debug.Log("JumpEnd");
                 playerController.setRigidGravityScaleToNormal();
                 break;
             }
@@ -107,6 +118,11 @@ public class PlayerJump : PlayerAction
 
         float gScale = -acce / Physics2D.gravity.y;
         playerController.setRigidGravityScale(gScale);
+    }
+
+    public override void StateEnd(EPlayerState newState)
+    {
+
     }
 
 }

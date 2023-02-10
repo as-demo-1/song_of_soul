@@ -23,10 +23,13 @@ public static class Constants
     #endregion
 
     #region about player sprint
-    public const float PlayerSprintDistance = 4f;
+    public const float PlayerSprintDistance = 4.1f;
     public const int PlayerMaxAirSprintCount = 1;
     public const float SprintCd = 0.3f;//从冲刺结束后算起
-    public const float SprintTime = 0.248f;//此值应与实际动画的时长相同
+    public const float SprintTime = 0.25f;//此值应与实际动画的时长相同
+
+    public const float PlayerWaterSprintDistance = 4.1f;
+    public const float WaterSprintTime = 0.28f;//此值应与实际动画的时长相同
     #endregion
 
     #region about player input
@@ -81,6 +84,15 @@ public static class Constants
 
     public const float plungeWaterCheckColliderOffsetY = -0.8f;
     public const float plungeWaterCheckColliderOffsetX = 0f;
+    #endregion
+
+    #region about player In Water
+    public const float PlayerIntoWaterLinearDarg = 12f;
+    public const float PlayerMinIntoWaterDistance = 0.5f;
+
+    public const float PlayerDiveSpeed = 4f;
+    public const float PlayerSwimSpeed = 4f;
+    public const float PlayWaterSprintPlusDis = 2f;
     #endregion
 
     public const float PlayerBaseHealTime = 2f;
