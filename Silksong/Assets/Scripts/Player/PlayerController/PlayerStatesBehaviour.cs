@@ -21,6 +21,7 @@ public enum EPlayerState
     ClimbIdle=140,
     ClimbJump=150,
     Sing=160,
+    HeartSword=170,
 
     ToCat = 200,
     CatIdle = 210,
@@ -75,6 +76,7 @@ public class PlayerStatesBehaviour
         StateActionsDic.Add(EPlayerState.ClimbJump, new PlayerClimbJump(playerController));
         StateActionsDic.Add(EPlayerState.Sprint, new PlayerSprint(playerController));
         StateActionsDic.Add(EPlayerState.BreakMoon, new PlayerBreakMoon(playerController));
+        StateActionsDic.Add(EPlayerState.HeartSword, new PlayerHeartSword(playerController));
 
         StateActionsDic.Add(EPlayerState.Dive, new PlayerDive(playerController));
         StateActionsDic.Add(EPlayerState.WatreSprint, new PlayerSprintInWater(playerController));

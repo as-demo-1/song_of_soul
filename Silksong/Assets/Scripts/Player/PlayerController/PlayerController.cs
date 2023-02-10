@@ -39,6 +39,7 @@ public struct PlayerInfo
         playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSing,learnSing);
         playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDive,learnDive);
         playerController.playerStatusDic.learnSkill(EPlayerStatus.CanWaterSprint, learnWaterSprint);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanHeartSword,learnHeartSword);
 
         GameManager.Instance.saveSystem.setDoubleJump(haveDoubleJump);
         GameManager.Instance.saveSystem.setSoulJump(haveSoulJump);
@@ -71,6 +72,7 @@ public struct PlayerInfo
     public bool learnSing;
     public bool learnDive;
     public bool learnWaterSprint;
+    public bool learnHeartSword;
 
     public bool haveSoulJump;
     public bool haveDoubleJump;
