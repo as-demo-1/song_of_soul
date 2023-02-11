@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Meet_State
+  m_Name: ShootLoop_State
   m_EditorClassIdentifier: 
-  lastStateID: 13
+  lastStateID: 20
   lastTriggerID: 3
-  StateName: Meet_State
-  StateType: 13
+  StateName: ShootLoop_State
+  StateType: 20
   stateConfig:
     id: 0
   TriggerType: 3
@@ -26,22 +26,20 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Meet_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_ShootLoop_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 13
-        defaultAnimationName: meet
-        animationEvents:
-          m_PersistentCalls:
-            m_Calls: []
+        stateType: 20
+        defaultAnimationName: summon_bullets_loop
+        shootType: normal
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: 
+        targetState: ShootEnd_State
         checkAnimationName: 
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: TurnShoot_State
+        targetState: ShootEnd_State
         checkAnimationName: 

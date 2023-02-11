@@ -33,9 +33,6 @@ MonoBehaviour:
       data:
         stateType: 2
         defaultAnimationName: move
-        animationEvents:
-          m_PersistentCalls:
-            m_Calls: []
         moveSpeed: {x: 1.5, y: 0, z: 0}
         noTurnState: 0
     00000001:
@@ -56,11 +53,11 @@ MonoBehaviour:
       type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 2
-        targetState: Meet_State
+        targetState: Shoot_State
         checkNearRadius: 0
         checkFarRadius: 10
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000004:
       type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
       data:
