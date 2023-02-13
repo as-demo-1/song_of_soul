@@ -32,6 +32,9 @@ public enum EnemyStates
 
     Boss_ShootLoop_State = 20,
     Boss_ShootEnd_State = 21,
+    Boss_Fireball_State = 22,
+    Boss_FireballLoop_State = 23,
+    Boss_FireballEnd_State = 24,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
