@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
     
 
     public Collider2D underWaterCheckCollider;
-    public BoxCollider2D groundCheckCollider;
+    public CapsuleCollider2D groundCheckCollider;
 
     // plunge
     public float[] plungeStrengthArr = { 0.0f, 1.0f, 3.0f };  // plunge经过了PlungeStrength[i]的距离，达到强度级别i。可配置
@@ -355,7 +355,7 @@ public class PlayerController : MonoBehaviour
         RecordLastInputDir();
 
         float desireSpeed = lastHorizontalInputDir * playerCharacter.getMoveSpeed();
-        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0 && PlayerAnimatorParamsMapping.HasControl,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
+        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0 && PlayerAnimatorParamsMapping.HaveControl(),playerGroundedCheck.IsGroundedBuffer, desireSpeed);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
         void RecordLastInputDir()
@@ -479,8 +479,8 @@ public class PlayerController : MonoBehaviour
 
         Vector2 groundCheckPos = groundCheckCollider.transform.position;
         groundCheckPos = groundCheckPos + groundCheckCollider.offset;
-        Vector2 offset = new Vector2(0, -groundCheckCollider.size.y / 2);
-        // Debug.DrawRay(groundCheckPos + offset, Vector2.down, Color.red, 0.2f);
+        Vector2 offset = new Vector2(0, -groundCheckCollider.bounds.size.y / 2);
+         //Debug.DrawRay(groundCheckPos + offset, Vector2.down, Color.red, 0.2f);
 
         int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
 

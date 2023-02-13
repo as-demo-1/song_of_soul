@@ -110,12 +110,12 @@ public static class Constants
     public const float playerCatBoxColliderWidth = 0.5f;
     public const float playerCatBoxColliderHeight = 0.75f;
 
-    public const float playerGroundCheckColliderOffsetY = -0.75f;
-    public const float playerGroundCheckColliderOffsetX = -0.005f;
+    public const float playerGroundCheckColliderOffsetY = -0.76f;
+    public const float playerGroundCheckColliderOffsetX = 0f;
 
-    public const float playerCatGroundCheckColliderOffsetY = -0.13f;
+    public const float playerCatGroundCheckColliderOffsetY = -0.131f;
 
-    public const float playerGroundCheckColliderSizeX = 0.23f;//the groudcheck is smaller than player collider on the faceSide to avoid air touch wall ground check problem
+    public const float playerGroundCheckColliderSizeX = 0.24f;//
     public const float playerGroundCheckColliderSizeY = 0.1f;// 
 
     public const float playerWaterCheckColliderOffsetY = 0.4f;

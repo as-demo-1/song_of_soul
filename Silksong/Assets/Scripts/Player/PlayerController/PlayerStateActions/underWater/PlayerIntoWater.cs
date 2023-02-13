@@ -9,7 +9,7 @@ public class PlayerIntoWater : PlayerAction
     public override void StateStart(EPlayerState oldState)//need a min into water distance to make sure player into water corretly/totaly
     {
         base.StateStart(oldState);
-        PlayerAnimatorParamsMapping.HasControl = false;
+        PlayerAnimatorParamsMapping.SetControl(false);
         playerController.setRigidGravityScale(0);
         playerController.gravityLock = true;
         inPos = playerController.transform.position;
@@ -62,7 +62,7 @@ public class PlayerIntoWater : PlayerAction
 
     public override void StateEnd(EPlayerState newState)
     {
-        PlayerAnimatorParamsMapping.HasControl = true;
+        PlayerAnimatorParamsMapping.SetControl(true);
         playerController.setRigidLinearDrag(0);
         playerController.gravityLock = false;
         if ((int)newState >= 300)
