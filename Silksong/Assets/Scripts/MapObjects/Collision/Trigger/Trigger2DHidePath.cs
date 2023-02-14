@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 // todo 修改相机镜头时，如果此时已经有镜头了，那么执行一次exit
 /// <summary>
@@ -23,6 +24,10 @@ public class Trigger2DHidePath : Trigger2DBase
     [Header("此处相机锁上下移动, 如果想锁主相机, 则将CM vcam1/Body/Dead Zone Height拉到最大"), SerializeField]
     private bool mLockCameraY = false;
 
+    [Header("是否让相机跟着角色前方（Player身上的LookAtPoint的position）"), SerializeField]
+    private bool mIsLookForward = false;
+    
+
     private Transform cameraPack;
     private CameraController cameraController;
 
@@ -44,7 +49,6 @@ public class Trigger2DHidePath : Trigger2DBase
 
     void Start()
     {
-        preBoundary = GetComponent<PolygonCollider2D>();
         cameraPack = GameObject.Find("CameraPack").transform;
         if (cameraPack == null)
         {
@@ -63,6 +67,8 @@ public class Trigger2DHidePath : Trigger2DBase
         }
         mCinemachineConfiner = vcam.GetComponent<CinemachineConfiner>();
         mCinemachineVirtualCamera = vcam.GetComponent<CinemachineVirtualCamera>();
+        preBoundary = cameraPack.Find("Boundary").GetComponent<PolygonCollider2D>();
+
     }
 
     protected override void enterEvent()
@@ -71,9 +77,20 @@ public class Trigger2DHidePath : Trigger2DBase
         {
             cameraController.BeforeEnterBound(this);
             print($"进入相机区域 {transform.name}");
-            _KillTween();
+            // _KillTween();
             float target0 = 0.01f;
             float target1 = 1;
+
+            if (mIsLookForward)
+                mCinemachineVirtualCamera.Follow = PlayerController.Instance.transform.Find("CameraCheckComponents")
+                    .Find("CameraLookAtPoint").transform;
+
+
+            //mMixingCamera.SetWeight(0,1);
+            //mMixingCamera.SetWeight(1,0.01f);
+
+
+            
             mCinemachineConfiner.m_BoundingShape2D = boundary;
             mSwitchTween0 = DOTween.To(
                 () => mMixingCamera.GetWeight(0),
@@ -128,7 +145,7 @@ public class Trigger2DHidePath : Trigger2DBase
         {
             cameraController.BeforeExitBound(this);
             print($"退出相机区域 {transform.name} {force}");
-            _KillTween();
+            // _KillTween();
             if (!force)
             {
                 float target0 = 1;
@@ -142,7 +159,8 @@ public class Trigger2DHidePath : Trigger2DBase
 
                 mSwitchTween0 = DOTween.To(() => mMixingCamera.GetWeight(0), x => mMixingCamera.SetWeight(0, x), target0, mSwitchTime);
                 mSwitchTween1 = DOTween.To(() => mMixingCamera.GetWeight(1), x => mMixingCamera.SetWeight(1, x), target1, mSwitchTime);
-                mSwitchTween1.onComplete = _ClearBoundary;
+                // mSwitchTween1.onComplete = _ClearBoundary;
+                _ClearBoundary();
             }
             //else
             //{
