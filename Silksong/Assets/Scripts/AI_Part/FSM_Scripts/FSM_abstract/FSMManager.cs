@@ -255,7 +255,6 @@ public class EnemyFSMManager : FSMManager<EnemyStates, EnemyTriggers>
     public Enemy_State_SO_Config anyStateConfig;
     public GameObject player;
     public bool FaceLeftFirstOriginal;//原图是否朝向左
-    public float beatBackRatio = 0;//0表示不被击退
 #if UNITY_EDITOR 
     [DisplayOnly]
 #endif

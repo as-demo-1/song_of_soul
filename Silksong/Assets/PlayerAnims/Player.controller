@@ -1441,6 +1441,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: IsUnderWater
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: NormalAttackReady
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7149420758045392465}
   m_Solo: 0
@@ -1761,6 +1764,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: NormalAttackIsValid
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: NormalAttackReady
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8476691923782576037}
@@ -2330,14 +2336,6 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
-      playerStatus: 4
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0.4
-      playerStatus: 4
-      statusIsActive: 1
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
       playerStatus: 530
       statusIsActive: 0
       wayOfChangingFlag: 0
@@ -2708,6 +2706,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: CanNormalAttack
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: NormalAttackReady
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2315642899718805873}
   m_Solo: 0
@@ -2786,8 +2787,6 @@ MonoBehaviour:
     m_SMBEventList:
     - timeNormalized: 0
       newState: 50
-    - timeNormalized: 0
-      newState: 0
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -3206,7 +3205,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SMBStateData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 50
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -3215,14 +3216,6 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0.33
       playerStatus: 2
-      statusIsActive: 1
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
-      playerStatus: 4
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0.3
-      playerStatus: 4
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
@@ -3406,6 +3399,12 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: NormalAttackReady
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 0}
   - m_Name: SprintIsValid
     m_Type: 4
@@ -3653,7 +3652,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SMBStateData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 50
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -3662,14 +3663,6 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0.312
       playerStatus: 2
-      statusIsActive: 1
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
-      playerStatus: 4
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0.6
-      playerStatus: 4
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
@@ -6466,6 +6459,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: IsUnderWater
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: NormalAttackReady
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 77240976764668773}

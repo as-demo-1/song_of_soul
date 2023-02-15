@@ -31,6 +31,7 @@ public class PlayerAnimatorParamsMapping
     public int CanJumpParamHash { get; } = Animator.StringToHash("CanJump");
     public int CanNormalAttackParamHash { get; } = Animator.StringToHash("CanNormalAttack");
 
+    public int NormalAttackReadyParamHash { get; } = Animator.StringToHash("NormalAttackReady");
     public int CurrentStatesParamHash { get; } = Animator.StringToHash("CurrentStates");
     public int CanSprintParamHash { get; } = Animator.StringToHash("CanSprint");
     public int SprintIsValidParamHash { get; } = Animator.StringToHash("SprintIsValid");

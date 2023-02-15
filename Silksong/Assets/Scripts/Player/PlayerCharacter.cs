@@ -55,6 +55,7 @@ public class PlayerCharacter : MonoBehaviour
 
         /* GameManager.Instance.saveSystem.learnSkill(EPlayerStatus.CanBreakMoon);
          GameManager.Instance.saveSystem.SaveDataToDisk();*/
+        //playerDamable.addTempHp(3,null);
 
 #if UNITY_STANDALONE
         playerController.playerStatusDic.loadLearnedSkills();
@@ -173,7 +174,37 @@ public class PlayerCharacter : MonoBehaviour
         return finalSpeed;
     }
 
+    // normalAttack-----------------------------------------------------------------------------
+    public float getNormalAttackCd()
+    {
+        float ret=0;
+        PlayerNormalAttack playerNormalAttack = (PlayerNormalAttack)playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.NormalAttack];
+        if(playerNormalAttack.currentAttackStage==EPlayerNormalAttackStage.First)
+        {
+            ret = Constants.AttackCd_First;
+        }
+        else if(playerNormalAttack.currentAttackStage==EPlayerNormalAttackStage.Second)
+        {
+            ret = Constants.AttackCd_Second;
+        }
+        else if(playerNormalAttack.currentAttackStage==EPlayerNormalAttackStage.Thrid)
+        {
+            ret = Constants.AttackCd_Third;
+        }
+        else
+        {
+            ret = Constants.AttackCd_Up;
+        }
 
+        return ret;
+    }
+    // sprint-----------------------------------------------------------------------------
+    public float getSprintCd()
+    {
+        float ret=Constants.SprintCd;
+
+        return ret;
+    }
     // cold-----------------------------------------------------------------------------
     private int coldValue;
 

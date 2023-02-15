@@ -50,6 +50,10 @@ public static class Constants
 
     #region about player attack
     public const float AttackingMoveSpeed = 1f;
+    public const float AttackCd_First = 0.3f;//the time player can not attack again after first normal attack,we have total 3 normal attack
+    public const float AttackCd_Second = 0.3f;
+    public const float AttackCd_Third = 0.5f;
+    public const float AttackCd_Up = 0.35f;
     #endregion
 
     #region about player jump

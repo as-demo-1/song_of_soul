@@ -104,11 +104,11 @@ public class LightningChain : SoulSkill
 
     public void SpeedUp(bool needApply)
     {
-        if(needApply) _playerInfomation.SpeedUp(extraSpeedPercent);
+       /* if(needApply) _playerInfomation.SpeedUp(extraSpeedPercent);
         else
         {
             _playerInfomation.SpeedUpReset();
-        }
+        }*/
     }
     
     protected override bool IsAtkSuccess(Hittable target)
