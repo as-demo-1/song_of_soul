@@ -71,8 +71,7 @@ public class PlayerSprint : PlayerAction
 
     public IEnumerator sprintCdCount()
     {
-   
-        yield return new WaitForSeconds(Constants.SprintCd);
+        yield return new WaitForSeconds(playerController.playerCharacter.GetSprintCd());
         SprintReady = true;
     }
 

@@ -18,6 +18,9 @@ public class ItemTableSystem
     // 存放所有数据的列表
     private List<ItemInfo> _itemList = new List<ItemInfo>();
 
+#if UNITY_EDITOR
+    
+
     private ItemTableSystem()
     {
         string path = "Assets/Scripts/ItemTableSystem/items";
@@ -44,7 +47,7 @@ public class ItemTableSystem
             }
         }
     }
-
+#endif
     // 初始化，将所有道具加载到内存
     public void Init()
     {

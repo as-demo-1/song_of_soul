@@ -707,6 +707,7 @@ GameObject:
   - component: {fileID: 4061423512895920214}
   - component: {fileID: 462374528}
   - component: {fileID: 8431473157400537811}
+  - component: {fileID: 4956274903834550138}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -851,7 +852,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   gluedCount: 0
-  CharmListSO: {fileID: 0}
+  buffManager: {fileID: 4956274903834550138}
 --- !u!114 &484977951162521058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1074,6 +1075,57 @@ MonoBehaviour:
   pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
   UnlockedSkillContainer: {fileID: 0}
   equippingSkillText: {fileID: 0}
+--- !u!114 &4956274903834550138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca492ad61dab63c4fa20a4e8b6ce59c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: BuffPropDic
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[BuffProperty, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[BuffProperty, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  charmListSO: {fileID: 11400000, guid: f7259b60333668b48a2e35c041ea9a2b, type: 2}
+  playerCharacter: {fileID: 484977951751258056}
+  playerController: {fileID: 484977951162521058}
+  coinCollecterPrefab: {fileID: 0}
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,14 +1654,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ebd8a3d2884e5541abaee8e44e4cbc7, type: 3}
---- !u!198 &177705277045230735 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4513598022080300494, guid: 6ebd8a3d2884e5541abaee8e44e4cbc7, type: 3}
-  m_PrefabInstance: {fileID: 4383360878242613569}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &177705277045230729 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4513598022080300488, guid: 6ebd8a3d2884e5541abaee8e44e4cbc7, type: 3}
+  m_PrefabInstance: {fileID: 4383360878242613569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &177705277045230735 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4513598022080300494, guid: 6ebd8a3d2884e5541abaee8e44e4cbc7, type: 3}
   m_PrefabInstance: {fileID: 4383360878242613569}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4789028644691385894
@@ -1940,14 +1992,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0de336f241c3aa43a67abd2090c2687, type: 3}
---- !u!4 &1847350850031918146 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6857765122955875371, guid: d0de336f241c3aa43a67abd2090c2687, type: 3}
-  m_PrefabInstance: {fileID: 5082513136401123433}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &1847350850031918144 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 6857765122955875369, guid: d0de336f241c3aa43a67abd2090c2687, type: 3}
+  m_PrefabInstance: {fileID: 5082513136401123433}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1847350850031918146 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6857765122955875371, guid: d0de336f241c3aa43a67abd2090c2687, type: 3}
   m_PrefabInstance: {fileID: 5082513136401123433}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5890053227762800426
