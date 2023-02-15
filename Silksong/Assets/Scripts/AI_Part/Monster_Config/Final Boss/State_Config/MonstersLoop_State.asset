@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Shoot_State
+  m_Name: MonstersLoop_State
   m_EditorClassIdentifier: 
-  lastStateID: 8
+  lastStateID: 26
   lastTriggerID: 3
-  StateName: Shoot_State
-  StateType: 8
+  StateName: MonstersLoop_State
+  StateType: 26
   stateConfig:
     id: 0
   TriggerType: 3
@@ -26,20 +26,20 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Shoot_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_MonstersLoop_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 8
-        defaultAnimationName: summon_bullets
-        shootType: 
+        stateType: 26
+        defaultAnimationName: summon_monsters_loop
+        shootType: monsters
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: ShootLoop_State
+        targetState: MonstersEnd_State
         checkAnimationName: 
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: ShootLoop_State
+        targetState: MonstersEnd_State
         checkAnimationName: 

@@ -80,7 +80,7 @@ public class ShootSystem : MonoBehaviour
         {
             case ShootMethod.ShootOnce: ShootOnce(Param); break;
             case ShootMethod.ShootOneByOne: StartCoroutine(ShootOneByOne(Param)); break;
-            case ShootMethod.ShootRandomly: ShootRandomly(Param); break;
+            case ShootMethod.ShootRandomly: StartCoroutine(ShootRandomly(Param)); break;
             case ShootMethod.ShootTogether: ShootTogether(Param); break;
         }
        
@@ -125,9 +125,13 @@ public class ShootSystem : MonoBehaviour
     }
 
 
-    private void ShootRandomly(shootParam Param)
+    private IEnumerator ShootRandomly(shootParam Param)
     {
-
+        for (int i = 0; i < UnityEngine.Random.Range(5, 10); i++)
+        {
+            ShootOnce(Param);
+            yield return new WaitForSeconds(Param.bulletDelayTime + 0.2f);
+        }
     }
 
     private void Update()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_FireballEnd_State :EnemyFSMBaseState
+public class Boss_MonstersEnd_State :EnemyFSMBaseState
 {
     public override void Act_State(EnemyFSMManager fSM_Manager)
     {
