@@ -23,6 +23,12 @@ public class HpDamable :Damable
     {
         get { return currentHp; }
     }
+
+    private int tempHp;
+    public int TempHp
+    {
+        get { return tempHp; }
+    }
     
 
     public bool resetHealthOnSceneReload;
@@ -56,12 +62,22 @@ public class HpDamable :Damable
         }
 
         base.takeDamage(damager);
-        addHp(-damager.getDamage(this),damager);
-        
-        
+
+        countDamageNumber(damager);
     }
 
-    public void takeDamage(int number)
+    private void countDamageNumber(DamagerBase damager)
+    {
+        int damage = damager.getDamage(this);
+        int damageForTempHp = Mathf.Clamp(damage, 0, tempHp);
+        int damageForCurrentHp = damage - damageForTempHp;
+
+        addTempHp(-damageForTempHp,damager);
+        addCurrentHp(-damageForCurrentHp, damager);
+
+    }
+
+   /* public void takeDamage(int number)
     {
         if (currentHp <= 0)
         {
@@ -75,21 +91,57 @@ public class HpDamable :Damable
 
         setCurrentHp(currentHp - number);
     }
-
-
-    public void setCurrentHp(int hp,DamagerBase damager=null)
+   */
+    public void setCurrentHp(int val,DamagerBase damager=null)
     {
-        currentHp = Mathf.Clamp(hp,0,MaxHp);
+        currentHp = Mathf.Clamp(val,0,MaxHp);
+
         onHpChange.Invoke(this);
-        if (currentHp == 0)
+
+        if (isDead())
         {
             die(damager);
         }
     }
 
-    public void addHp(int number,DamagerBase damager)
+    /// <summary>
+    /// use this to change currentHp,number can be negative to reduce currentHp
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="damager"></param>
+    public void addCurrentHp(int number, DamagerBase damager)
     {
-        setCurrentHp(currentHp + number,damager);
+        if (number == 0) return;
+        setCurrentHp(currentHp + number, damager);
+    }
+
+    public void setTempHp(int val, DamagerBase damager=null)
+    {
+        if (val< 0) val = 0;
+        tempHp = val;
+
+        onHpChange.Invoke(this);
+
+        if (isDead())
+        {
+            die(damager);
+        }
+    }
+
+    /// <summary>
+    /// use this to change tempHp,number can be negative to reduce tempHp
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="damager"></param>
+    public void addTempHp(int number, DamagerBase damager)
+    {
+        if (number == 0) return;
+        setTempHp(tempHp + number,damager);
+    }
+
+    public bool isDead()
+    {
+        return CurrentHp <= 0 && TempHp <= 0;
     }
 
     protected virtual void die(DamagerBase damager)

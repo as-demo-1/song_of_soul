@@ -14,7 +14,7 @@ public class PlayerPlunge : PlayerAction
     private float plungeDistance;
 
     public int plungeStrength;
-    BoxCollider2D groudCheck;
+    CapsuleCollider2D groudCheck;
     Collider2D waterCheck;
 
     public override void StateStart(EPlayerState oldState)
@@ -30,11 +30,10 @@ public class PlayerPlunge : PlayerAction
 
         plungeDistance = 0.0f;
         plungeStartPositionY = playerController.transform.position.y;
-        PlayerAnimatorParamsMapping.HasControl = false;
-
+        PlayerAnimatorParamsMapping.SetControl(false);
  
-        groudCheck.offset = new Vector2(groudCheck.offset.x, Constants.PlungeingGroundCheckBoxYOff);
-        groudCheck.size = new Vector2(Constants.playerGroundCheckColliderSizeX, Constants.PlungeingGroudCheckBoxYSize);
+        groudCheck.offset = new Vector2(0, Constants.PlungeingGroundCheckBoxYOff);
+        groudCheck.size = new Vector2(Constants.playerBoxColliderWidth, Constants.PlungeingGroudCheckBoxYSize);
 
         waterCheck.offset = new Vector2(Constants.plungeWaterCheckColliderOffsetX, Constants.plungeWaterCheckColliderOffsetY);
     }
@@ -63,7 +62,7 @@ public class PlayerPlunge : PlayerAction
         plungeStrength = 0;
         plungeDistance = 0.0f;
 
-        PlayerAnimatorParamsMapping.HasControl = true;
+        PlayerAnimatorParamsMapping.SetControl(true);
         groudCheck.offset = new Vector2(Constants.playerGroundCheckColliderOffsetX, Constants.playerGroundCheckColliderOffsetY);
         groudCheck.size = new Vector2(Constants.playerGroundCheckColliderSizeX, Constants.playerGroundCheckColliderSizeY);
 

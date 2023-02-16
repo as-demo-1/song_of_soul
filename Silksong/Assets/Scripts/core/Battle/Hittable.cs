@@ -44,9 +44,9 @@ public class Hittable : MonoBehaviour
         Hitter hitter_ = (Hitter)hitter;
         switch (hitter_.m_eventType)
         {
-            case BattleEventType.PlayerNormalAtk:
+          /*  case BattleEventType.PlayerNormalAtk:
                 TickNormalAtkEffect((PlayerNormalAtk)hitter);
-                break;
+                break;*/
             case BattleEventType.LightningChainAtk:
                 TickLightningChainAtkEffect((LightningChain)hitter);
                 break;
@@ -59,14 +59,14 @@ public class Hittable : MonoBehaviour
     }
     
     private const string beHitTrigger = "beHit";
-    void TickNormalAtkEffect(PlayerNormalAtk playerNormalAtk)
+   /* void TickNormalAtkEffect(PlayerNormalAtk playerNormalAtk)
     {
         if (playerNormalAtk.AtkPerTarget(this))
         {
             Debug.LogError("set beHitTrigger");
             _animator.SetTrigger(beHitTrigger);
         }
-    }
+    }*/
     void TickLightningChainAtkEffect(LightningChain lightningChain)
     {
         if (lightningChain.AtkPerTarget(this))
@@ -87,7 +87,7 @@ public class Hittable : MonoBehaviour
 
     public void GetDamage(int atk)
     {
-        hpDamable.takeDamage(atk);              
+       // hpDamable.takeDamage(atk);              
     }
 
     public void GetRepel(float backDistance)

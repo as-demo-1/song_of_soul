@@ -25,7 +25,7 @@ public class PlayerHeal : PlayerAction
         playerController.playerCharacter.Mana = (int)Mathf.Lerp(healStartMana, (healStartMana - Constants.playerHealCostMana), rate);
         if (rate >= 1)
         {
-            playerController.playerCharacter.playerDamable.addHp(Constants.playerHealBaseValue, null);
+            playerController.playerCharacter.playerDamable.addCurrentHp(Constants.playerHealBaseValue, null);
             playerController.PlayerAnimator.Play("Idle");
         }
     }

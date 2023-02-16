@@ -23,7 +23,7 @@ public abstract class SoulSkill : Hitter
     public int constPerSec = 1;
     public int constPerAttack = 0;
 
-    protected PlayerInfomation _playerInfomation;
+    //protected PlayerInfomation _playerInfomation;
     protected PlayerCharacter _playerCharacter;
 
     //protected SoulSkill()
