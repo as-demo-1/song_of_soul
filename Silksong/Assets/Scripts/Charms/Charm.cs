@@ -70,6 +70,7 @@ public class Charm
     [Tooltip("是否为易碎护符")]
     private bool isFragile;
 
+    [TableColumnWidth(90)]
     public List<CharmEffect> effects = new List<CharmEffect>();
     
 

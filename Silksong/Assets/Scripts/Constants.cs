@@ -49,6 +49,8 @@ public static class Constants
     #endregion
 
     #region about player attack
+    public const float AttackDamage = 1f;
+    public const float AttackRange = 2f;
     public const float AttackingMoveSpeed = 1f;
     #endregion
 

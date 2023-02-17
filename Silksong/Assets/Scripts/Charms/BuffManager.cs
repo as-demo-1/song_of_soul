@@ -5,90 +5,9 @@ using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public enum BuffProperty
-{
-    /// <summary>
-    /// 固定攻击力
-    /// </summary>
-    ATTACK,
-    
-    
-    /// <summary>
-    /// 攻击距离
-    /// </summary>
-    ATTACK_RANG,
-    
-    /// <summary>
-    /// 攻击回能
-    /// </summary>
-    ATTACK_MANA,
-    
-    ATTACK_SPEED,
-    
-    ATTACK_RANGE,
-    
-    /// <summary>
-    /// 受伤回能
-    /// </summary>
-    HURT_MANA,
-    
-    /// <summary>
-    /// 格挡回能
-    /// </summary>
-    BLOCK_MANA,
-    
-    /// <summary>
-    /// 额外生命值
-    /// </summary>
-    EXTRA_HEALTH,
-    
-    /// <summary>
-    /// 最大生命值
-    /// </summary>
-    [Tooltip("最大生命值")]
-    MAX_HEALTH,
-    
-    MOVE_SPEED,
-    
-    /// <summary>
-    /// 冲刺冷却
-    /// </summary>
-    SPRINT_CD,
-    
 
-    
-    /// <summary>
-    /// 回血速度
-    /// </summary>
-    HEAL_SPEED,
-    
-    /// <summary>
-    /// 回血量
-    /// </summary>
-    HEAL_AMOUNT,
-    
-    /// <summary>
-    /// 脱战回血
-    /// </summary>
-    LEAVE_HEAL,
-    
-    COLLECT_COIN,
-    
-    MAX_MANA,
-    
-    /// <summary>
-    /// 血怒效果
-    /// </summary>
-    BLOOD_ANGER,
-}
 
-public enum PcProperty
-{
-    /// <summary>
-    /// 百分比攻击力
-    /// </summary>
-    ATTACK_PC,
-}
+
 public class BuffManager : SerializedMonoBehaviour
 {
     [InlineEditor]
@@ -102,10 +21,31 @@ public class BuffManager : SerializedMonoBehaviour
 
     public GameObject coinCollecterPrefab;
 
+    /// <summary>
+    /// 固定增益属性buff
+    /// </summary>
     public Dictionary<BuffProperty, float> BuffPropDic = new Dictionary<BuffProperty, float>();
+
+    // TODO: 不应该从buff系统直接引用玩家的组件
+    /// <summary>
+    /// 引用角色的攻击判定框
+    /// </summary>
+    [SerializeField]
+    private List<TwoTargetDamager> atkDamagers = new List<TwoTargetDamager>();
+
+    /// <summary>
+    /// 需要触发回调的buff
+    /// </summary>
+    private Dictionary<BuffProperty, Action> buffActionDic = new Dictionary<BuffProperty, Action>();
 
     public void Init()
     {
+        buffActionDic[BuffProperty.COLLECT_COIN] = GenCoinCollect;
+        buffActionDic[BuffProperty.ATTACK] = SetAtkDamage;
+        buffActionDic[BuffProperty.ATTACK_PC] = SetAtkDamage;
+        buffActionDic[BuffProperty.ATTACK_RANG] = SetAtkRange;
+        buffActionDic[BuffProperty.ATTACK_RANG_PC] = SetAtkRange;
+        
         charmListSO.Init(this);
     }
 
@@ -118,11 +58,6 @@ public class BuffManager : SerializedMonoBehaviour
     /// <param name="_val">属性变化参数</param>
     public void AddBuff(BuffProperty _property, float _val)
     {
-        if (_property.Equals(BuffProperty.COLLECT_COIN))
-        {
-            // 生成金币收集器
-            return;
-        }
         if (BuffPropDic.ContainsKey(_property))
         {
             BuffPropDic[_property] += _val;
@@ -131,6 +66,12 @@ public class BuffManager : SerializedMonoBehaviour
         {
             BuffPropDic.Add(_property, _val);
         }  
+        
+        if (buffActionDic.ContainsKey(_property))
+        {
+            // 触发特殊buff的回调
+            buffActionDic[_property].Invoke();
+        }
     }
 
     /// <summary>
@@ -140,20 +81,19 @@ public class BuffManager : SerializedMonoBehaviour
     /// <param name="_val">属性变化参数</param>
     public void DecreaseBuff(BuffProperty _property, float _val)
     {
-        if (_property.Equals(BuffProperty.COLLECT_COIN))
-        {
-            // 销毁金币收集器
-            return;
-        }
-        
         if (!BuffPropDic.ContainsKey(_property))
         {
             Debug.LogError("buff"+_property.ToString() +" not active");
             return;
         }
-        
-        
+
         BuffPropDic[_property] -= _val;
+        
+        if (buffActionDic.ContainsKey(_property))
+        {
+            // 触发特殊buff的回调
+            buffActionDic[_property].Invoke();
+        }
   
     }
 
@@ -164,14 +104,31 @@ public class BuffManager : SerializedMonoBehaviour
     /// <returns></returns>
     public float GetBuffProperty(BuffProperty _buffProperty)
     {
-        if (BuffPropDic.ContainsKey(_buffProperty))
+        return BuffPropDic.ContainsKey(_buffProperty) ? BuffPropDic[_buffProperty] : 0.0f;
+    }
+
+
+
+    private void SetAtkDamage()
+    {
+        foreach (var atkDamager in atkDamagers)
         {
-            return BuffPropDic[_buffProperty];
+            atkDamager.damage = 
+                (int) (Constants.AttackDamage * (1.0f + GetBuffProperty(BuffProperty.ATTACK_PC)) 
+                                                  + GetBuffProperty(BuffProperty.ATTACK));
         }
-        else
+    }
+
+    public void SetAtkRange()
+    {
+        foreach (var atkDamager in atkDamagers)
         {
-            return 0.0f;
+            float size = (Constants.AttackRange * (1.0f + GetBuffProperty(BuffProperty.ATTACK_RANG_PC))
+                          + GetBuffProperty(BuffProperty.ATTACK_RANG));
+            atkDamager.transform.localScale = new Vector3(size, size, 1.0f);
         }
     }
     
+    public void GenCoinCollect()
+    {}
 }
