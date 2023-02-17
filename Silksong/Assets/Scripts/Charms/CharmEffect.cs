@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-public class TestCharm : MonoBehaviour
+[System.Serializable]
+public class CharmEffect
 {
-    public BuffManager buffManager;
-    public string testCharmBuffID;
-    public string testBuffVal;
-
-    public CharmBuff charmBuff;
+    public BuffProperty Property;
+    public float val;
     // Start is called before the first frame update
     void Start()
     {
-        buffManager.AddBuff(testCharmBuffID, testBuffVal);
         
     }
 

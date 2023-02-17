@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class DestructiblePlatform : MonoBehaviour
@@ -15,7 +16,7 @@ public class DestructiblePlatform : MonoBehaviour
 
     public int strengthToBreak;
 
-    [DisplayOnly]
+
     public int playerPlungeStrength;
 
 

@@ -25,7 +25,7 @@ public static class Constants
     #region about player sprint
     public const float PlayerSprintDistance = 4.1f;
     public const int PlayerMaxAirSprintCount = 1;
-    public const float SprintCd = 0.3f;//从冲刺结束后算起
+    public const float SprintCd = 0.8f;//从冲刺结束后算起
     public const float SprintTime = 0.25f;//此值应与实际动画的时长相同
 
     public const float PlayerWaterSprintDistance = 4.1f;
@@ -49,6 +49,8 @@ public static class Constants
     #endregion
 
     #region about player attack
+    public const float AttackDamage = 1f;
+    public const float AttackRange = 2f;
     public const float AttackingMoveSpeed = 1f;
     #endregion
 

@@ -9,7 +9,7 @@ public class PlayerHeal : PlayerAction
     private float healStartMana;
     public override void StateStart(EPlayerState oldState)
     {
-        healTotalTime = Constants.PlayerBaseHealTime;
+        healTotalTime = playerController.playerCharacter.GetHealTime();
         healTimer = 0;
         healStartMana = playerController.playerCharacter.Mana;
     }
@@ -25,7 +25,7 @@ public class PlayerHeal : PlayerAction
         playerController.playerCharacter.Mana = (int)Mathf.Lerp(healStartMana, (healStartMana - Constants.playerHealCostMana), rate);
         if (rate >= 1)
         {
-            playerController.playerCharacter.playerDamable.addHp(Constants.playerHealBaseValue, null);
+            playerController.playerCharacter.playerDamable.addHp(playerController.playerCharacter.GetHealValue(), null);
             playerController.PlayerAnimator.Play("Idle");
         }
     }

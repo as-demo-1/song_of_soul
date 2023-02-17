@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 /// <summary>
 /// 通过SO存储所有的护符列表，并且存储玩家的获得情况与装备情况
 /// </summary> 作者：次元
@@ -8,67 +9,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CharmList", menuName = "Charm/CharmList")]
 public class CharmListSO : ScriptableObject
 {
-    [SerializeField] public List<CharmSO> Charms = new List<CharmSO>();
+    [TableList(ShowIndexLabels = true)]
+    [SerializeField] public List<Charm> Charms = new List<Charm>();
 
-
-    [SerializeField]
-    [Tooltip("攻击回能加成")]
-    private int charmAttackGainSoul;
-    /// <summary>
-    /// 护符攻击回能改变值
-    /// </summary>
-    public int CharmAttackGainSoul { get => charmAttackGainSoul; set => charmAttackGainSoul = value; }
-
-    [SerializeField]
-    [Tooltip("受伤回能加成")]
-    private int charmHurtGainSoul;
-    /// <summary>
-    /// 护符受伤回能改变值
-    /// </summary>
-    public int CharmHurtGainSoul { get => charmHurtGainSoul; set => charmHurtGainSoul = value; }
-
-    [SerializeField]
-    [Tooltip("格挡回能加成")]
-    private int charmBlockGainSoul;
-    /// <summary>
-    /// 护符格挡回能改变值
-    /// </summary>
-    public int CharmBlockGainSoul { get => charmBlockGainSoul; set => charmBlockGainSoul = value; }
-
-
-    [Tooltip("临时血量")]
-    /// <summary>
-    /// 护符提供的临时血量
-    /// </summary>
-    public int CharmExtraHealth;
-
-    [Tooltip("攻击范围加成")]
-    /// <summary>
-    /// 护符提供的攻击范围
-    /// </summary>
-    public float CharmAttackRange;
-
-    [Tooltip("攻击速度加成")]
-    /// <summary>
-    /// 护符提供的攻击速度
-    /// </summary>
-    public float CharmAttackSpeed;
-
-    [Tooltip("移动速度加成")]
-    /// <summary>
-    /// 护符提供的移动速度
-    /// </summary>
-    public float CharmMoveSpeed;
-
-    [Tooltip("攻击伤害加成")]
-    /// <summary>
-    /// 护符提供的攻击伤害
-    /// </summary>
-    public float CharmAttackDamage;
-
-    public void InitRef()
+    private BuffManager bm;
+    public void Init(BuffManager _bm)
     {
-        //ActiveAllEquipedCharms();        
+        bm = _bm;
+        foreach (var charm in Charms)
+        {
+            charm.InitCharm(bm);
+        }
     }
 
     /// <summary>
@@ -102,7 +53,7 @@ public class CharmListSO : ScriptableObject
             if (!charm.HasEquiped && name.Equals(charm.CharmName))
             {
                 charm.HasEquiped = true;
-                charm.OnEquip();
+                //charm.OnEquip();
                 return true;
             }
         }
@@ -115,7 +66,7 @@ public class CharmListSO : ScriptableObject
             if (!charm.HasEquiped && _charmSO.Equals(charm))
             {
                 charm.HasEquiped = true;
-                charm.OnEquip();
+                //charm.OnEquip();
                 return true;
             }
         }
@@ -129,12 +80,12 @@ public class CharmListSO : ScriptableObject
     /// <returns></returns>
     public bool DisEquipCharm(string name)
     {
-        foreach (CharmSO charm in Charms)
+        foreach (var charm in Charms)
         {
             if (charm.HasEquiped && name.Equals(charm.CharmName))
             {
                 charm.HasEquiped = false;
-                charm.OnDisEquip();
+                //charm.OnDisEquip();
                 return true;
             }
         }
@@ -142,12 +93,12 @@ public class CharmListSO : ScriptableObject
     }
     public bool DisEquipCharm(CharmSO _charmSO)
     {
-        foreach (CharmSO charm in Charms)
+        foreach (var charm in Charms)
         {
             if (charm.HasEquiped && _charmSO.Equals(charm))
             {
                 charm.HasEquiped = false;
-                charm.OnDisEquip();
+                //charm.OnDisEquip();
                 return true;
             }
         }
@@ -164,7 +115,7 @@ public class CharmListSO : ScriptableObject
         {
             if (charm.HasEquiped)
             {
-                charm.OnEquip();
+                //charm.OnEquip();
             }
         }
     }

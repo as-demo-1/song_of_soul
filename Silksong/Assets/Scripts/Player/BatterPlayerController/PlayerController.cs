@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Inventory;
-using UnityEditor;
+using Unity.Collections;
 using UnityEngine;
 
 namespace BatterGame
@@ -23,7 +19,7 @@ namespace BatterGame
         public GameObject lightningChainPrefab;
 
 
-        [DisplayOnly] private OnGroundChecker _onGroundChecker;
+        [ReadOnly] private OnGroundChecker _onGroundChecker;
 
         private int lastHorizontalInputDir;
         

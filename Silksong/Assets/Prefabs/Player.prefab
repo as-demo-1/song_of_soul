@@ -707,6 +707,7 @@ GameObject:
   - component: {fileID: 4061423512895920214}
   - component: {fileID: 462374528}
   - component: {fileID: 8431473157400537811}
+  - component: {fileID: 4956274903834550138}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -852,7 +853,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   gluedCount: 0
-  CharmListSO: {fileID: 0}
+  buffManager: {fileID: 4956274903834550138}
 --- !u!114 &484977951162521058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,6 +1076,61 @@ MonoBehaviour:
   pfUnlockedSkillButton: {fileID: 5121183950504748462, guid: 99ad2f8f5972cac4fad843eafe613055, type: 3}
   UnlockedSkillContainer: {fileID: 0}
   equippingSkillText: {fileID: 0}
+--- !u!114 &4956274903834550138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca492ad61dab63c4fa20a4e8b6ce59c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: BuffPropDic
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[BuffProperty, Assembly-CSharp],[System.Single,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[BuffProperty, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  charmListSO: {fileID: 11400000, guid: f7259b60333668b48a2e35c041ea9a2b, type: 2}
+  playerController: {fileID: 484977951162521058}
+  coinCollecterPrefab: {fileID: 0}
+  atkDamagers:
+  - {fileID: 1439625707}
+  - {fileID: 2013861696}
+  - {fileID: 225317966}
+  - {fileID: 132305942}
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
