@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     public CinemachineVirtualCamera mMainVirtualCamera;
     [Header("这个是用于切换的摄像机")]
     public CinemachineVirtualCamera mSecondVirtualCamera;
-    public CinemachineVirtualCamera mThirdVirtualCamera;
+
     public Trigger2DHidePath mCurHidePath = null;
     private CinemachineVirtualCamera mCurVCamera
     {
@@ -59,7 +59,6 @@ public class CameraController : MonoBehaviour
         _instance = this;
     }
 
-  
     public void AfterChangeScene()
     {
         GameObject mainCameraBoundary = GameObject.Find("MainCameraBoundary");
