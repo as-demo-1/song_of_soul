@@ -39,14 +39,15 @@ public class PlayerCharacter : MonoBehaviour
     [HideInInspector]
     public int gluedCount;
 
-    [SerializeField]
-    private CharmListSO CharmListSO = default;
+    public BuffManager buffManager;
 
   
     private void Awake()
     {
         playerDamable = GetComponent<HpDamable>();
         playerController = GetComponent<PlayerController>();
+        buffManager = GetComponent<BuffManager>();
+        
     }
     public void playerInit()//load players data,such as maxHp,money..
     {
@@ -70,6 +71,7 @@ public class PlayerCharacter : MonoBehaviour
         onManaChangeEvent.AddListener(changeManaBall);
 
         playerInit();
+        buffManager.Init();
     }
 
 
@@ -88,6 +90,15 @@ public class PlayerCharacter : MonoBehaviour
     {
         int ret = Constants.playerInitialMaxHp;
         //toadd:charm,hpUp
+        ret += (int)buffManager.GetBuffProperty(BuffProperty.MAX_HEALTH);
+        return ret;
+    }
+
+    public int getExtraHP()
+    {
+        int ret = 0;
+        //toadd:charm,hpUp
+        ret += (int)buffManager.GetBuffProperty(BuffProperty.EXTRA_HEALTH);
         return ret;
     }
     // maxMana-----------------------------------------------------------------------------
@@ -99,11 +110,12 @@ public class PlayerCharacter : MonoBehaviour
         statuMenu.ChangeManaMax(this);
         statuMenu.ChangeManaValue(this);
     }
-
+    
     public int getMaxMana()
     {
         int ret = Constants.playerInitialMaxMana;
         //toadd:charm,manaUp
+        ret += (int)buffManager.GetBuffProperty(BuffProperty.MAX_HEALTH);
         return ret;
     }
 
@@ -111,13 +123,20 @@ public class PlayerCharacter : MonoBehaviour
     public int getAttackGainManaNumber()
     {
         int ret=Constants.playerAttackGainSoul;
-        if (CharmListSO)
-            ret += CharmListSO.CharmAttackGainSoul;
+        ret += (int)buffManager.GetBuffProperty(BuffProperty.ATTACK_MANA);
         return ret;
     }
     public int getHurtGainManaNumber()
     {
-        return CharmListSO.CharmHurtGainSoul;
+        int ret = 0;
+        ret += (int)buffManager.GetBuffProperty(BuffProperty.ATTACK_MANA);
+        return ret; 
+    }
+    public int getBlockGainManaNumber()
+    {
+        int ret = 0;
+        ret += (int)buffManager.GetBuffProperty(BuffProperty.BLOCK_MANA);
+        return ret; 
     }
 
     public void AttackGainMana(DamagerBase damager,DamageableBase damageable)
@@ -127,11 +146,29 @@ public class PlayerCharacter : MonoBehaviour
             addMana(getAttackGainManaNumber());
         }
     }
+    /// <summary>
+    /// 鍙椾激鍥炶兘
+    /// </summary>
+    /// <param name="damager"></param>
+    /// <param name="damageable"></param>
     public void HurtGainMana(DamagerBase damager, DamageableBase damageable)//not used now
     {
         if (true)
         {
             addMana(getHurtGainManaNumber());
+        }
+    }
+    
+    /// <summary>
+    /// 鏍兼尅鍥炶兘
+    /// </summary>
+    /// <param name="damager"></param>
+    /// <param name="damageable"></param>
+    public void BlockGainMana(DamagerBase damager, DamageableBase damageable)//not used now
+    {
+        if (true)
+        {
+            addMana(getBlockGainManaNumber());
         }
     }
     public void addMana(int number)
@@ -169,7 +206,8 @@ public class PlayerCharacter : MonoBehaviour
         }
         else finalSpeed = Constants.PlayerMoveSpeed;
 
-        //if have 护符  finalSpeed加上护符的属性
+        //charm
+        finalSpeed += buffManager.GetBuffProperty(BuffProperty.MOVE_SPEED);
 
         return finalSpeed;
     }
@@ -210,6 +248,32 @@ public class PlayerCharacter : MonoBehaviour
 
     public void reduceColdValue(int value){
         coldValue -= value;
+    }
+    
+    // cd---------------
+
+    public float GetSprintCd()
+    {
+        float finalCd;
+        finalCd = Constants.SprintCd +
+                  buffManager.GetBuffProperty(BuffProperty.SPRINT_CD);
+        return finalCd;
+    }
+
+    // Heal------------------
+    public int GetHealValue()
+    {
+        int finalVal;
+        finalVal = Constants.playerHealBaseValue +
+                   (int)buffManager.GetBuffProperty(BuffProperty.HEAL_AMOUNT);
+        return finalVal;
+    }
+    public float GetHealTime()
+    {
+        float finalTime;
+        finalTime = Constants.PlayerBaseHealTime +
+                    buffManager.GetBuffProperty(BuffProperty.HEAL_SPEED);
+        return finalTime;
     }
 
 }

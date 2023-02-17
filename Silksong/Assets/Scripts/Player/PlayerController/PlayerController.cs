@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Inventory;
+using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -108,15 +109,15 @@ public class PlayerController : MonoBehaviour
 
     public Transform m_Transform { get; set; }
     //[SerializeField] private LayerMask underwaterLayerMask;
-    [DisplayOnly]
+    [ReadOnly]
     public BoxCollider2D boxCollider;
 
     private PlayerGroundedCheck playerGroundedCheck;
 
-    [DisplayOnly]
+    [ReadOnly]
     public PlayerToCatAndHuman playerToCat;
 
-    [DisplayOnly]
+    [ReadOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
     private bool isUnderWater;
     public bool IsUnderWater
@@ -153,6 +154,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     InvulnerableDamable damable;
+
+    
 
     //Teleport
     /// <summary>
@@ -247,12 +250,6 @@ public class PlayerController : MonoBehaviour
     private LightningChain _lightningChain;
     public void init()
     {
-
-        _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
-        _lightningChain.gameObject.SetActive(false);
-        _lightningChain.transform.SetParent(transform);
-        _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
-
         RB = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         playerCharacter = GetComponent<PlayerCharacter>();
@@ -263,6 +260,11 @@ public class PlayerController : MonoBehaviour
         animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
         playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
+        
+        _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
+        _lightningChain.gameObject.SetActive(false);
+        _lightningChain.transform.SetParent(transform);
+        _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
     }
     
     
@@ -315,6 +317,7 @@ public class PlayerController : MonoBehaviour
         if (playerCharacter.Mana <= 0)
         {
             _lightningChain.gameObject.SetActive(false);
+            playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
         }
         if (PlayerInput.Instance.soulSkill.IsValid)
         {
@@ -337,6 +340,7 @@ public class PlayerController : MonoBehaviour
                 {
                     Debug.LogError("cast skill");
                     _lightningChain.gameObject.SetActive(true);
+                    playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
                     _lightningChain.enabled = true;
                 }
             }
