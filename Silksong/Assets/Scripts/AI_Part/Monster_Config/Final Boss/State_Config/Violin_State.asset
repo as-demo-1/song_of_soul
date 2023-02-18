@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: FireballEnd_State
+  m_Name: Violin_State
   m_EditorClassIdentifier: 
-  lastStateID: 20
+  lastStateID: 29
   lastTriggerID: 3
-  StateName: FireballEnd_State
-  StateType: 20
+  StateName: Violin_State
+  StateType: 29
   stateConfig:
     id: 0
   TriggerType: 3
@@ -26,20 +26,20 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Boss_ShootLoop_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_Violin_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 20
-        defaultAnimationName: summon_fireball_end
+        stateType: 29
+        defaultAnimationName: summon_fireball
         shootType: normal
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: Idle_State
+        targetState: ViolinLoop_State
         checkAnimationName: 
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: Idle_State
+        targetState: ViolinLoop_State
         checkAnimationName: 

@@ -37,7 +37,11 @@ public enum EnemyStates
     Boss_FireballEnd_State = 24,
     Boss_Monsters_State = 25,
     Boss_MonstersLoop_State = 26,
-    Boss_MonstersEnd_State = 27
+    Boss_MonstersEnd_State = 27,
+    Boss_Start_State = 28,
+    Boss_Violin_State = 29,
+    Boss_ViolinLoop_State = 30,
+    Boss_ViolinEnd_Sate = 31
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
