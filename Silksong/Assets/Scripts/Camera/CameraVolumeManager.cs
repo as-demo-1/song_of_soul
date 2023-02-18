@@ -122,6 +122,7 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
 
     public void TriggerEnterVolume(Transform triggerTransform)
     {
+
         Trigger2DHidePath trig2D = triggerTransform.GetComponent<Trigger2DHidePath>();
         //当前没有在任何体积内
         if (inVolumeList.Count == 0)
@@ -135,12 +136,12 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
         {
             //TODO:从A进入B
             Debug.Log("从低优先级进入高优先级");
+            FromVolumeAEnterVolumeB(triggerTransform);
         }
         //添加进List
         inVolumeList.Add(trig2D);
-        
+
     }
-    //TODO: 这个记得让HidePath调用
     public void TriggerExitVolume(Transform triggerTransform)
     {
         Trigger2DHidePath trig2D = triggerTransform.GetComponent<Trigger2DHidePath>();
@@ -156,13 +157,155 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
         {
             //TODO: 从当前容器到最高的Priority容器
             Debug.Log("体积A换到体积B");
+            
+            FromVolumeAEnterVolumeB(inVolumeList[HighestPriorityPos].transform);
         }
         else
         {
-            //TODO: 没东西了，直接跳回主镜头
+            //没东西了，直接跳回主镜头
             ExitVolume(triggerTransform);
         }
 
+    }
+
+    private void FromVolumeAEnterVolumeB(Transform transTo)
+    {
+        Trigger2DHidePath triggerHidePath = transTo.GetComponent<Trigger2DHidePath>();
+        Debug.Log($"从容量A进入容量B {transTo.name}");
+        bool isUsingCam2 = isOnUseList[_vcam2];
+
+
+        //是否看向前方
+        if (triggerHidePath.isLookForward)
+        {
+            Transform cameraCheckComponents;
+            cameraCheckComponents = PlayerController.Instance.transform.Find("CameraCheckComponents");
+            if (cameraCheckComponents == null)
+            {
+                Debug.LogError("找不到CameraPack的CameraCheckComponents");
+                return;
+            }
+
+            Transform lookAtPoint = cameraCheckComponents.Find("CameraLookAtPoint");
+            if (lookAtPoint == null)
+            {
+                Debug.LogError("找不到CameraPack的lookAtPoint");
+                return;
+            }
+
+            if (isUsingCam2)
+            {
+                _vcam2CM.Follow = lookAtPoint.transform;
+
+            }
+            else
+            {
+                _vcam3CM.Follow = lookAtPoint.transform;
+
+            }
+        }
+
+        if (!isUsingCam2)
+        {
+            _vcam2CMConfiner.m_BoundingShape2D = triggerHidePath.boundary;
+            //将1,2,3摄像机比重从 1,0,0设置为0,1,0
+            cam1WeightSwitchTween = DOTween.To(
+                () => _MixingCamera.GetWeight(0),
+                x => _MixingCamera.SetWeight(0, x),
+                target0, triggerHidePath.switchTime);
+            cam2WeightSwitchTween = DOTween.To(
+                () => _MixingCamera.GetWeight(1),
+                x => _MixingCamera.SetWeight(1, x),
+                target1, triggerHidePath.switchTime);
+            cam3WeightSwitchTween = DOTween.To(
+                () => _MixingCamera.GetWeight(2),
+                x => _MixingCamera.SetWeight(2, x),
+                target0, triggerHidePath.switchTime);
+            // orthographicSizeSwitchTween = DOTween.To(
+            //     () => _vcam2CM.m_Lens.OrthographicSize,
+            //     x => _vcam2CM.m_Lens.OrthographicSize = x,
+            //     triggerHidePath.orthographicSize, triggerHidePath.switchTime);
+            _vcam2CM.m_Lens.OrthographicSize = triggerHidePath.orthographicSize;
+            CinemachineFramingTransposer composer =
+                _vcam2CM.GetCinemachineComponent<CinemachineFramingTransposer>();
+            if (triggerHidePath.lockCameraX)
+            {
+                composer.m_DeadZoneWidth = 2;
+                composer.m_SoftZoneWidth = 2;
+            }
+            else
+            {
+                composer.m_DeadZoneWidth = 0.2f;
+                composer.m_SoftZoneWidth = 0.8f;
+            }
+
+            if (triggerHidePath.lockCameraY)
+            {
+                composer.m_DeadZoneHeight = 2;
+                composer.m_SoftZoneHeight = 2;
+            }
+            else
+            {
+                composer.m_DeadZoneHeight = 0.2f;
+                composer.m_SoftZoneHeight = 0.8f;
+            }
+            isOnUseList[_vcam2] = true;
+            isOnUseList[_vcam3] = false;
+
+        }
+        else
+        {
+            Debug.Log("to cam 3");
+            _vcam3CMConfiner.m_BoundingShape2D = triggerHidePath.boundary;
+            cam1WeightSwitchTween = DOTween.To(
+                () => _MixingCamera.GetWeight(0),
+                x => _MixingCamera.SetWeight(0, x),
+                target0, triggerHidePath.switchTime);
+            cam2WeightSwitchTween = DOTween.To(
+                () => _MixingCamera.GetWeight(1),
+                x => _MixingCamera.SetWeight(1, x),
+                target0, triggerHidePath.switchTime);
+            cam3WeightSwitchTween = DOTween.To(
+                () => _MixingCamera.GetWeight(2),
+                x => _MixingCamera.SetWeight(2, x),
+                target1, triggerHidePath.switchTime);
+            // orthographicSizeSwitchTween = DOTween.To(
+            //     () => _vcam3CM.m_Lens.OrthographicSize,
+            //     x => _vcam3CM.m_Lens.OrthographicSize = x,
+            //     triggerHidePath.orthographicSize, triggerHidePath.switchTime);
+            _vcam3CM.m_Lens.OrthographicSize = triggerHidePath.orthographicSize;
+            CinemachineFramingTransposer composer =
+                _vcam3CM.GetCinemachineComponent<CinemachineFramingTransposer>();
+            if (triggerHidePath.lockCameraX)
+            {
+                composer.m_DeadZoneWidth = 2;
+                composer.m_SoftZoneWidth = 2;
+            }
+            else
+            {
+                composer.m_DeadZoneWidth = 0.2f;
+                composer.m_SoftZoneWidth = 0.8f;
+            }
+
+            if (triggerHidePath.lockCameraY)
+            {
+                composer.m_DeadZoneHeight = 2;
+                composer.m_SoftZoneHeight = 2;
+            }
+            else
+            {
+                composer.m_DeadZoneHeight = 0.2f;
+                composer.m_SoftZoneHeight = 0.8f;
+            }
+
+            isOnUseList[_vcam2] = false;
+            isOnUseList[_vcam3] = true;
+        }
+        
+        
+        isOnUseList[_mainVCam] = false;
+
+        
     }
     
     
@@ -264,9 +407,19 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
 
         // cameraController.BeforeExitBound(this);
         Debug.Log($"进入相机区域 {triggerTransform.name}");
+
+        CinemachineFramingTransposer composer;
+        if (isOnUseList[_vcam2])
+        {
+            composer =
+                _vcam2CM.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+        else
+        {
+            composer =
+                _vcam3CM.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
         
-        CinemachineFramingTransposer composer =
-            _vcam2CM.GetCinemachineComponent<CinemachineFramingTransposer>();
         composer.m_DeadZoneWidth = 0.2f;
         composer.m_SoftZoneWidth = 0.8f;
         composer.m_DeadZoneHeight = 0.2f;
@@ -285,7 +438,9 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
             x => _MixingCamera.SetWeight(2, x),
             target0, triggerHidePath.switchTime);
 
-        
+        _vcam2CM.Follow = PlayerController.Instance.transform;
+        _vcam3CM.Follow = PlayerController.Instance.transform;
+
         isOnUseList[_mainVCam] = true;
         isOnUseList[_vcam2] = false;
         isOnUseList[_vcam3] = false;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 /// <summary>
-/// ¸ºÔðÓÎÏ·ÎïÌåÔÚ³¡¾°ÄÚµÄ´«ËÍ µ¥Àý
+/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½ÚµÄ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 /// </summary>
 public class GameObjectTeleporter : MonoBehaviour
 {
@@ -30,11 +30,13 @@ public class GameObjectTeleporter : MonoBehaviour
 
     protected static GameObjectTeleporter instance;
 
-    public Vector3 playerRebornPoint;//Íæ¼Ò×îÐÂµÄÖØÉúµã
+    public Vector3 playerRebornPoint;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     public bool Transitioning;
 
     public CinemachineVirtualCamera virtualCamera;
     public CinemachineVirtualCamera mSecondVirtualCamera;
+    public CinemachineVirtualCamera mThirdVirtualCamera;
+
     void Awake()
     {
         if (Instance != this)
@@ -55,14 +57,14 @@ public class GameObjectTeleporter : MonoBehaviour
     public void playerEnterSceneEntance(SceneEntrance.EntranceTag entranceTag,Vector3 relativePos)
     {
         SceneEntrance entrance = SceneEntrance.GetDestination(entranceTag);
-        if (entrance == null)//¸Ã³¡¾°Ã»ÓÐÈë¿Ú ²»ÊÇÓÐÍæ¼ÒµÄÓÎÏ·³¡¾° 
+        if (entrance == null)//ï¿½Ã³ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ 
         {
             return;
         }
         Vector3 enterPos = entrance.transform.position;
         enterPos += relativePos; 
 
-        //playerInput.transform.localScale = new Vector3();½ÇÉ«³¯Ïò ÔÝÎ´¿¼ÂÇ
+        //playerInput.transform.localScale = new Vector3();ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
         playerRebornPoint = enterPos;
 
         CameraController.Instance.AfterChangeScene();
@@ -72,12 +74,14 @@ public class GameObjectTeleporter : MonoBehaviour
         mSecondVirtualCamera = CameraController.Instance.mSecondVirtualCamera;
         if (mSecondVirtualCamera)
             mSecondVirtualCamera.Follow = PlayerInput.Instance.transform;
-
+        mThirdVirtualCamera = CameraController.Instance.mThirdVirtualCamera;
+        if (mThirdVirtualCamera)
+            mThirdVirtualCamera.Follow = PlayerInput.Instance.transform;
         GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
 
         Teleport(PlayerInput.Instance.gameObject, enterPos);
     }
-    public void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//ÔÚÍæ¼Ò½øÈëÐÂ³¡¾°Ê±µ÷ÓÃ¸Ã·½·¨
+    public void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ï¿½Â³ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ã¸Ã·ï¿½ï¿½ï¿½
     {
         Vector3 enterPos = Vector3.zero;
         if(transitionPoint is  SceneTransitionPointKeepPos keepPos)
@@ -102,7 +106,7 @@ public class GameObjectTeleporter : MonoBehaviour
         }
 
         /*  if (fade)
-              yield return StartCoroutine(ScreenFader.FadeSceneOut());*///³¡¾°¹ý¶É¼ÓÔØÔÝ²»¿¼ÂÇ ÔÝÓÃyield return null´úÌæ·ÀÖ¹Ã»ÓÐ·µ»ØÖµ
+              yield return StartCoroutine(ScreenFader.FadeSceneOut());*///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½yield return nullï¿½ï¿½ï¿½ï¿½ï¿½Ö¹Ã»ï¿½Ð·ï¿½ï¿½ï¿½Öµ
         transitioningGameObject.transform.position = destinationPosition;
         yield return null;
 
