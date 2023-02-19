@@ -58,7 +58,7 @@ public class HpDamable :Damable
         }
         if (hurt)
         {
-            Destroy(Instantiate(hurt, transform), 3.0f);
+            Destroy(Instantiate(hurt, transform).gameObject, 1.0f);
         }
 
         base.takeDamage(damager);

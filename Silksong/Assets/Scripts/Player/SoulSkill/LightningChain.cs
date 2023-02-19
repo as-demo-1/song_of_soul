@@ -19,7 +19,7 @@ public class LightningChain : SoulSkill
 
     Hittable preTarget;
 
-
+    public float moveSpeedUp;
     private void Awake()
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();

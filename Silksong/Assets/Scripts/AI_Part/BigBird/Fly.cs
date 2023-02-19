@@ -7,10 +7,13 @@ namespace BehaviorDesigner.Runtime.Tasks
         public float Speed = 5;
         private Animator animator;
         public Rigidbody2D body;
+        
+        public SharedVector3 basePos;
         public override void OnStart()
         {
             body = gameObject.GetComponentInChildren<Rigidbody2D>();
             animator = gameObject.GetComponentInChildren<Animator>();
+            basePos = transform.position;
             if (!body)
             {
                 Debug.Log("NULL");
