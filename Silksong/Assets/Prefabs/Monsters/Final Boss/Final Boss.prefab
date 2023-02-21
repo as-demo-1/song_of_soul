@@ -76,8 +76,8 @@ MonoBehaviour:
   shootModes:
   - shootModeName: normal
     bullet: {fileID: 3364640303672543083, guid: 084344acfa3e4f94893fd9d51d4732d7, type: 3}
-    bulletNum: 0
-    shootMethod: 0
+    bulletNum: 100
+    shootMethod: 3
     shotDir: 1
     target: {fileID: 0}
     createPos: {fileID: 5477057758251293526}
@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 5477057758251293522}
   - component: {fileID: 5477057758251293520}
   - component: {fileID: 1048657740}
+  - component: {fileID: 1456046610}
   m_Layer: 15
   m_Name: Final Boss
   m_TagString: Untagged
@@ -259,7 +260,7 @@ MonoBehaviour:
   rigidbody2d: {fileID: 0}
   damageable: {fileID: 0}
   currentStateName: 
-  defaultStateName: Idle_State
+  defaultStateName: Start_State
   stateConfigs:
   - {fileID: 11400000, guid: ec15539a127b9d243ba2aa2dbc630971, type: 2}
   - {fileID: 11400000, guid: a2d72de250d8ca54598daba3f0896ff1, type: 2}
@@ -268,12 +269,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5633834909a8f8943937f62a3f8eff72, type: 2}
   - {fileID: 11400000, guid: aac88da757964dd4ab5770e9ed718c73, type: 2}
   - {fileID: 11400000, guid: 98be6089fe12b8b4989b0b0e0bc83ab4, type: 2}
-  - {fileID: 11400000, guid: e5a54e026d36fe042bf82a01f1938569, type: 2}
-  - {fileID: 11400000, guid: b5bdafd420327b0489397baac208f1af, type: 2}
-  - {fileID: 11400000, guid: 0c999e02ea8a4f4498b815e7f6e83d70, type: 2}
+  - {fileID: 11400000, guid: ed65b107bc7732745bd9f6e437ac79fa, type: 2}
+  - {fileID: 11400000, guid: 00458f08db2b99f4399e7b61a4dfc665, type: 2}
+  - {fileID: 11400000, guid: 74d25021b2fd2094dad5a464b854fbcd, type: 2}
   - {fileID: 11400000, guid: 378e9cc531eb12c459ee586d9dbd3d05, type: 2}
   - {fileID: 11400000, guid: 21747db74e4286d43b505d8cf2512f1b, type: 2}
   - {fileID: 11400000, guid: 3e53ec5d56cc3dd4fbcc9ea8d3d434b2, type: 2}
+  - {fileID: 11400000, guid: ee9113459ccb0ae469d7e8cc856ddb1e, type: 2}
+  - {fileID: 11400000, guid: 227edfb0bfa77224abca85582996add6, type: 2}
   anyStateConfig: {fileID: 11400000, guid: 88e75c29467bc414bbd679300940208e, type: 2}
   player: {fileID: 0}
   FaceLeftFirstOriginal: 0
@@ -325,6 +328,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.345825, y: 4.99971}
   m_EdgeRadius: 0
+--- !u!114 &1456046610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5477057758251293359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7809e3520a3992f449f80a2a743945a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5477057759048893265
 GameObject:
   m_ObjectHideFlags: 0

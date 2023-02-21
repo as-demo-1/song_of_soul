@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: ViolinEnd_State
+  m_Name: Piano_State
   m_EditorClassIdentifier: 
-  lastStateID: 31
+  lastStateID: 32
   lastTriggerID: 3
-  StateName: ViolinEnd_State
-  StateType: 31
+  StateName: Piano_State
+  StateType: 32
   stateConfig:
     id: 0
   TriggerType: 3
@@ -26,20 +26,20 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Boss_ShootLoop_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_Piano_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 20
-        defaultAnimationName: summon_fireball_end
-        shootType: normal
+        stateType: 32
+        defaultAnimationName: summon_monsters
+        boss: {fileID: 5477057758251293359, guid: 392e58c392c5ada45aed1e48c405f17f, type: 3}
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: PIano_State
+        targetState: 
         checkAnimationName: 
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: Piano_State
+        targetState: PianoLoop_State
         checkAnimationName: 
