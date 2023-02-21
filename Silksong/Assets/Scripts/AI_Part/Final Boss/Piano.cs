@@ -22,7 +22,7 @@ public class Piano : MonoBehaviour
         numCols = chart.Length;
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         float cameraHeight = mainCamera.orthographicSize;
-        float cameraWidth = 2f * cameraHeight * mainCamera.aspect;
+        float cameraWidth = cameraHeight * (1 + mainCamera.aspect);
         float cameraX = mainCamera.transform.position.x;
         float cameraY = mainCamera.transform.position.y;
 
@@ -31,10 +31,10 @@ public class Piano : MonoBehaviour
 
         for (int col = 0; col < numCols; col++)
         {
-            // 计算单元格的中心坐标
-            float x = cameraX - cameraWidth / 2 + cellWidth * col + cellWidth / 2;
+            // 计算单元格的中心坐标 1.28 magic number why?
+            float x = cameraX - cameraWidth / 2 * 1.28f + cellWidth * (col + 0.5f) * 1.28f;
             float y = cameraY;
-            Vector2 cellPosition = new Vector2(x, y);
+            Vector3 cellPosition = new Vector3(x, y, 0f);
 
             // 实例化 Prefab
             GameObject cellObject = Instantiate(key, transform);
