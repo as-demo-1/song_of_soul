@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: PianoEnd_State
+  m_Name: ClarinetLoop_State
   m_EditorClassIdentifier: 
-  lastStateID: 34
-  lastTriggerID: 3
-  StateName: PianoEnd_State
-  StateType: 34
+  lastStateID: 36
+  lastTriggerID: 0
+  StateName: ClarinetLoop_State
+  StateType: 36
   stateConfig:
     id: 0
-  TriggerType: 3
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList:
@@ -26,20 +26,22 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Boss_PianoEnd_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_ClarinetLoop_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 34
-        defaultAnimationName: summon_monsters_end
+        stateType: 36
+        defaultAnimationName: summon_monsters_loop
         boss: {fileID: 5477057758251293359, guid: 392e58c392c5ada45aed1e48c405f17f, type: 3}
     00000001:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
-        targetState: Idle_State
-        checkAnimationName: 
+        triggerType: 0
+        targetState: PianoEnd_State
+        maxTime: 10
+        timer: 0
     00000002:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
-        targetState: Clarinet_State
-        checkAnimationName: 
+        triggerType: 0
+        targetState: ClarinetEnd_State
+        maxTime: 5
+        timer: 0

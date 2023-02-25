@@ -6,6 +6,7 @@ public class BossController : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject piano;
+    private GameObject clarinet;
     void Start()
     {
     }
@@ -17,8 +18,8 @@ public class BossController : MonoBehaviour
 
     public void PianoGenerate()
     {
-        piano = GameObject.Find("Piano");
-        piano.GetComponent<Piano>().Generate("101");
+        clarinet = GameObject.Find("Piano");
+        clarinet.GetComponent<Piano>().Generate("10010");
     }
 
     public void PianoAttack()
@@ -31,5 +32,23 @@ public class BossController : MonoBehaviour
     {
         piano = GameObject.Find("Piano");
         piano.GetComponent<Piano>().End();
+    }
+
+    public void ClarinetGenerate()
+    {
+        clarinet = GameObject.Find("Clarinet");
+        clarinet.GetComponent<Clarinet>().Generate();
+    }
+
+    public void ClarinetAttack()
+    {
+        clarinet = GameObject.Find("Clarinet");
+        clarinet.GetComponent<Clarinet>().Attack();
+    }
+
+    public void ClarinetAttackEnd()
+    {
+        clarinet = GameObject.Find("Clarinet");
+        clarinet.GetComponent<Clarinet>().End();
     }
 }

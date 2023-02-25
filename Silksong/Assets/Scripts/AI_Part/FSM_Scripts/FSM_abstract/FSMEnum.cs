@@ -44,7 +44,10 @@ public enum EnemyStates
     Boss_ViolinEnd_Sate = 31,
     Boss_Piano_State = 32,
     Boss_PianoLoop_State = 33,
-    Boss_PianoEnd_State = 34
+    Boss_PianoEnd_State = 34,
+    Boss_Clarinet_State = 35,
+    Boss_ClarinetLoop_State = 36,
+    Boss_ClarinetEnd_State = 37,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
