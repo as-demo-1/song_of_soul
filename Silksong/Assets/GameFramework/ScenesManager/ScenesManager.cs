@@ -32,6 +32,7 @@ public class ScenesManager : Singleton<ScenesManager>
     private IEnumerator LoadScenesAsynIE (string sceneName,UnityAction action)
     {
         AsyncOperation ao = SceneManager.LoadSceneAsync(sceneName); // 这个是真的异步
+        
         while(!ao.isDone) // 如果ao操作没有完成
         {
             EventCenter<String>.Instance.TiggerEvent("loading", ao.progress); // 向事件中心分发事件
