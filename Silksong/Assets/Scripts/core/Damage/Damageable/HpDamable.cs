@@ -154,7 +154,7 @@ public class HpDamable :Damable
         Debug.Log(gameObject.name+" die");
 
         GamingSaveObj<bool> gamingSave;
-        if (TryGetComponent(out gamingSave))
+        if (TryGetComponent(out gamingSave) && !gamingSave.ban)
         {
             gamingSave.saveGamingData(true);
         }
