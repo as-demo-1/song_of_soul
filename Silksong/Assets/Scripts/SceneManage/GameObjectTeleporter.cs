@@ -75,6 +75,8 @@ public class GameObjectTeleporter : MonoBehaviour
 
         GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
 
+       // SceneController.Instance.PreLoadScenes();
+
         Teleport(PlayerInput.Instance.gameObject, enterPos,fade,releaseControl);
     }
     public void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//在玩家进入新场景时调用该方法
