@@ -43,13 +43,13 @@ public class PlayerToCatAndHuman
         IsCat = true;
         playerController.gameObject.layer = LayerMask.NameToLayer("PlayerCat");
 
-        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerCatBoxColliderOffsetY);
+        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, playerController.boxCollider.offset.y);
         playerController.boxCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, Constants.playerCatBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerCatGroundCheckColliderOffsetY);
-        playerController.groundCheckCollider.size = new Vector2(Constants.playerGroundCheckColliderSizeX, playerController.groundCheckCollider.size.y);
+        playerController.groundCheckCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, playerController.groundCheckCollider.size.y);
 
-        playerController.GetComponentInChildren<SpriteRenderer>().transform.localPosition = new Vector3(0, 0.85f, 0);
+        playerController.underWaterCheckCollider.radius = Constants.playerWaterCheckColliderRadiusCat;
     }
 
     public void colliderToHuman()
@@ -66,11 +66,13 @@ public class PlayerToCatAndHuman
         if (!IsCat) return;
 
         checkIfNeedMoveAwayFromGround();
-        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerBoxColliderOffsetY);
+        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, playerController.boxCollider.offset.y);
         playerController.boxCollider.size = new Vector2(Constants.playerBoxColliderWidth, Constants.playerBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerGroundCheckColliderOffsetY);
         playerController.groundCheckCollider.size = new Vector2(Constants.playerGroundCheckColliderSizeX, playerController.groundCheckCollider.size.y);
+
+        playerController.underWaterCheckCollider.radius = Constants.playerWaterCheckColliderRadius;
     }
 
     public void stateToHuman()
@@ -81,7 +83,6 @@ public class PlayerToCatAndHuman
         isFastMoving = false;
         playerController.gameObject.layer = LayerMask.NameToLayer("Player");
 
-        playerController.GetComponentInChildren<SpriteRenderer>().transform.localPosition = new Vector3(0, 1.26f, 0);
     }
     public void toHuman()
     {

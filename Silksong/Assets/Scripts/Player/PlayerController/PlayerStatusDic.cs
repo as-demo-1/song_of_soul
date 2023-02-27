@@ -153,7 +153,7 @@ public class PlayerStatusDic
 
     public void learnSkill(EPlayerStatus skill,bool v)
     {
-        SetPlayerStatusFlag(skill, true, PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
+        SetPlayerStatusFlag(skill, v, PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
         GameManager.Instance.saveSystem.learnSkill(skill,v);
     }
 

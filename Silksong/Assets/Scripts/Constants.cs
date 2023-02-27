@@ -108,25 +108,24 @@ public static class Constants
     public const int VlunerableAfterDamageTime = 1;//
 
     #region player collider settings
-    public const float playerBoxColliderOffsetY=0f;
     public const float playerBoxColliderWidth = 0.24f;
     public const float playerBoxColliderHeight = 1.6f;
 
-    public const float playerCatBoxColliderOffsetY = 0.2f;
-    public const float playerCatBoxColliderWidth = 0.5f;
-    public const float playerCatBoxColliderHeight = 0.75f;
+    public const float playerCatBoxColliderWidth = 0.6f;
+    public const float playerCatBoxColliderHeight = 0.55f;
 
     public const float playerGroundCheckColliderOffsetY = -0.76f;
     public const float playerGroundCheckColliderOffsetX = 0f;
 
-    public const float playerCatGroundCheckColliderOffsetY = -0.131f;
+    public const float playerCatGroundCheckColliderOffsetY = -0.25f;
 
     public const float playerGroundCheckColliderSizeX = 0.24f;//
     public const float playerGroundCheckColliderSizeY = 0.1f;// 
 
     public const float playerWaterCheckColliderOffsetY = 0.4f;
     public const float playerWaterCheckColliderOffsetX = 0f;
-
+    public const float playerWaterCheckColliderRadius = 0.23f;
+    public const float playerWaterCheckColliderRadiusCat = 0.4f;
     #endregion
 
 

@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
     }
     
 
-    public Collider2D underWaterCheckCollider;
+    public CircleCollider2D underWaterCheckCollider;
     public CapsuleCollider2D groundCheckCollider;
 
     // plunge
