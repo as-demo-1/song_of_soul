@@ -27,8 +27,8 @@ public class Drum : MonoBehaviour
     void Generate(int idx)
     {
         GameObject pos = transform.GetChild(idx).gameObject;
-        GameObject temp = Instantiate(circle, pos.transform);
-        temp.transform.position = pos.transform.position;
-        temp.transform.parent = pos.transform;
+        GameObject word = Instantiate(circle, pos.transform);
+        word.transform.position = pos.transform.position;
+        word.transform.parent = pos.transform;
     }
 }
