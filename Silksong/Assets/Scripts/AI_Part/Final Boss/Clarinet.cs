@@ -15,37 +15,13 @@ public class Clarinet : MonoBehaviour
     void Start()
     {
         //transform.SetParent(null);
-        numCols = 8;
+        numCols = 5;
         animator = GetComponent<Animator>();
+        _chart = "10111";
     }
 
     public void Generate()
     {
-        /*
-        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        float cameraHeight = mainCamera.orthographicSize;
-        float cameraWidth = cameraHeight * (1 + mainCamera.aspect);
-        float cameraX = mainCamera.transform.position.x;
-        float cameraY = mainCamera.transform.position.y;
-
-        float cellWidth = cameraWidth / numCols;
-        float cellHeight = cameraHeight;
-
-        for (int col = 0; col < numCols; col++)
-        {
-            // 计算单元格的中心坐标 1.28 magic number why?
-            float x = cameraX - cameraWidth / 2 * 1.28f + cellWidth * (col + 0.5f) * 1.28f;
-            float y = cameraY;
-            Vector3 cellPosition = new Vector3(x, y, 0f);
-
-            // 实例化 Prefab
-            GameObject cellObject = Instantiate(spike, transform);
-            // 修改实例化后的物体名称
-            cellObject.name = "Key " + col;
-            cellObject.transform.position = cellPosition;
-            cellObject.transform.parent = transform;
-        }
-        */
     }
 
     // Update is called once per frame
@@ -62,8 +38,17 @@ public class Clarinet : MonoBehaviour
         for (int col = 0; col < numCols; ++col)
         {
             GameObject cellObject = transform.GetChild(col).gameObject;
+            if (_chart[col] == '1')
+            {
+                cellObject.SetActive(true);
+            }else
+            {
+                cellObject.SetActive(false);
+            }
         }
+        Debug.Log("before");
         animator.Play("up");
+        Debug.Log("after");
     }
 
     public void End()

@@ -9,11 +9,12 @@ public class Piano : MonoBehaviour
     //private float screenHeight;
     public string _chart;
     public GameObject key;
+    public GameObject leftup;
+    public GameObject rightdown;
     private Camera mainCamera;
     private int numCols; 
     void Start()
     {
-        //transform.SetParent(null);
     }
 
     public void Generate(string chart)
@@ -21,18 +22,18 @@ public class Piano : MonoBehaviour
         _chart = chart;
         numCols = chart.Length;
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        float cameraHeight = mainCamera.orthographicSize;
-        float cameraWidth = cameraHeight * (1 + mainCamera.aspect);
-        float cameraX = mainCamera.transform.position.x;
-        float cameraY = mainCamera.transform.position.y;
+        float height = leftup.transform.localPosition.y - rightdown.transform.localPosition.y;
+        float width = rightdown.transform.localPosition.x - leftup.transform.localPosition.x;
+        float cameraX = transform.position.x;
+        float cameraY = transform.position.y;
 
-        float cellWidth = cameraWidth / numCols;
-        float cellHeight = cameraHeight;
+        float cellWidth = width / numCols;
+        float cellHeight = height;
 
         for (int col = 0; col < numCols; col++)
         {
             // 计算单元格的中心坐标 1.28 magic number why?
-            float x = cameraX - cameraWidth / 2 * 1.28f + cellWidth * (col + 0.5f) * 1.28f;
+            float x = cameraX - width / 2 * 1.28f + cellWidth * (col + 0.5f) * 1.28f;
             float y = cameraY;
             Vector3 cellPosition = new Vector3(x, y, 0f);
 
@@ -79,7 +80,7 @@ public class Piano : MonoBehaviour
         }
         for (int col = 0; col < numCols; ++col)
         {
-            GameObject cellObject = transform.GetChild(col).gameObject;
+            GameObject cellObject = transform.GetChild(col+2).gameObject;
             SpriteRenderer spriteRenderer = cellObject.GetComponent<SpriteRenderer>();
             BoxCollider2D boxCollider = cellObject.GetComponent<BoxCollider2D>();
             spriteRenderer.color += new Color(0, 0, 0, 0.5f);
@@ -95,7 +96,7 @@ public class Piano : MonoBehaviour
     {
         for (int i = 0; i < numCols; ++i)
         {
-            Destroy(transform.GetChild(i).gameObject);
+            Destroy(transform.GetChild(i+2).gameObject);
         }
     }
 }

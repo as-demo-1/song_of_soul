@@ -48,6 +48,9 @@ public enum EnemyStates
     Boss_Clarinet_State = 35,
     Boss_ClarinetLoop_State = 36,
     Boss_ClarinetEnd_State = 37,
+    Boss_Drum_State = 38,
+    Boss_DrumLoop_State = 39,
+    Boss_DrumEnd_State = 40
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。

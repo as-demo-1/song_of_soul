@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: ClarinetEnd_State
+  m_Name: Drum_State
   m_EditorClassIdentifier: 
-  lastStateID: 37
+  lastStateID: 38
   lastTriggerID: 3
-  StateName: ClarinetEnd_State
-  StateType: 37
+  StateName: Drum_State
+  StateType: 38
   stateConfig:
     id: 0
   TriggerType: 3
@@ -26,20 +26,19 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Boss_ClarinetEnd_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_Drum_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 37
-        defaultAnimationName: summon_monsters_end
-        boss: {fileID: 5477057758251293359, guid: 392e58c392c5ada45aed1e48c405f17f, type: 3}
+        stateType: 38
+        defaultAnimationName: summon_monsters
     00000001:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: Idle_State
+        targetState: MonstersLoop_State
         checkAnimationName: 
     00000002:
       type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 3
-        targetState: Violin_State
+        targetState: DrumLoop_State
         checkAnimationName: 

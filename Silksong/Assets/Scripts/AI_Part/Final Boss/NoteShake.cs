@@ -12,7 +12,7 @@ public class NoteShake : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.frameCount % 10 ==0)
-            GetComponent<Rigidbody2D>().velocity += new Vector2(0, UnityEngine.Random.Range(-2f, 2f));
+        GetComponent<Rigidbody2D>().velocity += new Vector2(0, UnityEngine.Random.Range(-2f, 2f) * Time.deltaTime);
+        transform.Rotate(0, 0, UnityEngine.Random.Range(-30f, 30f) * Time.deltaTime);
     }
 }

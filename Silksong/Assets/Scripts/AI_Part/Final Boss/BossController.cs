@@ -7,6 +7,7 @@ public class BossController : MonoBehaviour
     // Start is called before the first frame update
     private GameObject piano;
     private GameObject clarinet;
+    private GameObject drum;
     void Start()
     {
     }
@@ -50,5 +51,11 @@ public class BossController : MonoBehaviour
     {
         clarinet = GameObject.Find("Clarinet");
         clarinet.GetComponent<Clarinet>().End();
+    }
+
+    public void DrumGenerate()
+    {
+        drum = GameObject.Find("Drum");
+        drum.GetComponent<Drum>().Generate();
     }
 }
