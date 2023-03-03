@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Word : MonoBehaviour
 {
+    [SerializeField]
+    private string type;
     // Start is called before the first frame update
     void Start()
     {

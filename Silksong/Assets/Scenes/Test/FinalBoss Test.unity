@@ -123,6 +123,36 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &5529628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5529629}
+  m_Layer: 15
+  m_Name: pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5529629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5529628}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2107383050}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9759735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,6 +1302,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circle: {fileID: 4384250778171808477, guid: 256af891735dfde4b9208c7e54f151f1, type: 3}
+--- !u!1 &983401488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5477057758251293359, guid: 392e58c392c5ada45aed1e48c405f17f, type: 3}
+  m_PrefabInstance: {fileID: 1747840029}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1019145559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,9 +1797,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 1052540173}
     m_Modifications:
     - target: {fileID: 645694479, guid: 392e58c392c5ada45aed1e48c405f17f, type: 3}
+      propertyPath: shootModes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 645694479, guid: 392e58c392c5ada45aed1e48c405f17f, type: 3}
       propertyPath: shootModes.Array.data[0].bullet
       value: 
       objectReference: {fileID: 3364640303672543083, guid: 69be283e5f94c9b47bfa168f495db094, type: 3}
+    - target: {fileID: 645694479, guid: 392e58c392c5ada45aed1e48c405f17f, type: 3}
+      propertyPath: shootModes.Array.data[3].shootModeName
+      value: chase
+      objectReference: {fileID: 0}
     - target: {fileID: 1456046610, guid: 392e58c392c5ada45aed1e48c405f17f, type: 3}
       propertyPath: piano
       value: 
@@ -1934,6 +1977,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1815377683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1815377684}
+  m_Layer: 15
+  m_Name: pos (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1815377684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815377683}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.93, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2107383050}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1999676322
 GameObject:
@@ -2141,6 +2214,7 @@ Transform:
   - {fileID: 271098550}
   - {fileID: 834232548}
   - {fileID: 338401323}
+  - {fileID: 2107383050}
   m_Father: {fileID: 1052540173}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2156,12 +2230,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633f6b8eea99c5a44b242ebc3cadb518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boss: {fileID: 983401488}
   sprites:
   - {fileID: 21300000, guid: 0e0cb89563d540a408f6c4b48e75c4fc, type: 3}
   damager: {fileID: 1411756968}
   fallPos: {fileID: 271098549}
   leftPos: {fileID: 834232547}
   rightPos: {fileID: 338401322}
+  emergePos: {fileID: 2107383049}
+--- !u!1 &2107383049
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2107383050}
+  m_Layer: 15
+  m_Name: emergePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2107383050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107383049}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5529629}
+  - {fileID: 1815377684}
+  m_Father: {fileID: 2067674896}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2120171991 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5685663862181948533, guid: c2dd4a0f6b0c05840b609159dd6a458a, type: 3}
