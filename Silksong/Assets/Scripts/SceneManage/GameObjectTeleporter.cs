@@ -73,7 +73,7 @@ public class GameObjectTeleporter : MonoBehaviour
         if (mSecondVirtualCamera)
             mSecondVirtualCamera.Follow = PlayerInput.Instance.transform;
 
-        GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
+       // GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
 
        // SceneController.Instance.PreLoadScenes();
 

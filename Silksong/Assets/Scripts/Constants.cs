@@ -130,7 +130,7 @@ public static class Constants
 
 
     #region 玩家有关属性
-    public const int playerInitialMaxHp=5;
+    public const int playerInitialMaxHp=15;
     public const int playerInitialMaxMana = 100;
     public const int playerInitialMoney =0;
 
@@ -141,7 +141,7 @@ public static class Constants
 
     #endregion
 
-    public const float monsterBeatBackTime = 0.15f;
+    public const float beatBackTime = 0.2f;
 
 
 

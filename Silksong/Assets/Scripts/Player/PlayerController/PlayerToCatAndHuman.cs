@@ -57,9 +57,26 @@ public class PlayerToCatAndHuman
         void checkIfNeedMoveAwayFromGround()//to prevent player from dropped in ground
         {
             Vector2 t = playerController.transform.position;
-
-            if (playerController.checkHitWall(true))
-                playerController.transform.position = new Vector2(t.x - 0.25f, t.y);
+            RaycastHit2D hit = Physics2D.Raycast(t, Vector2.down, 100.0f, 1<<LayerMask.NameToLayer("Ground"));
+            //Debug.Log(hit.distance);
+            if (hit.distance>0.5f || hit.collider==null )
+            {
+                RaycastHit2D hitLeft = Physics2D.Raycast(t, new Vector2(-1,-1), 100.0f, 1 << LayerMask.NameToLayer("Ground"));
+                RaycastHit2D hitRight = Physics2D.Raycast(t, new Vector2(1, -1), 100.0f, 1 << LayerMask.NameToLayer("Ground"));
+     
+                if(hitLeft.distance > 0.5f || hitLeft.collider == null)
+                {
+                   // Debug.Log("c to h left");//to do
+                    playerController.transform.position = new Vector2(t.x + 0.3f , t.y + 0.4f);
+                }
+                else if(hitRight.distance > 0.5f || hitRight.collider == null)
+                {
+                    //Debug.Log("c to h right");//to do
+                    playerController.transform.position = new Vector2(t.x -0.3f , t.y + 0.4f);
+                }
+                
+            }
+               
         }
 
 

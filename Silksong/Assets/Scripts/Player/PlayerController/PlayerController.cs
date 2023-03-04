@@ -353,6 +353,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void endJumpByUpAttack()
+    {
+        (playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).EndJump();
+        setRigidVelocity(Vector2.zero);
+        //print("end");
+    }
+
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
@@ -463,7 +470,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
         playerToCat.toHuman();
-        Debug.Log("受伤");
+        //Debug.Log("受伤");
     
     }
 

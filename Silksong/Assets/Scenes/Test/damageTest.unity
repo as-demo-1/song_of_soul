@@ -334,14 +334,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NearAttack Monster
       objectReference: {fileID: 0}
-    - target: {fileID: 4784448708260076404, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4784448708260076408, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
-      propertyPath: takeDamageSfxSO
-      value: 
-      objectReference: {fileID: 11400000, guid: d25acefb1695ac041a2a319bc1756a09, type: 2}
     - target: {fileID: 4784448708260076410, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -385,6 +377,10 @@ PrefabInstance:
     - target: {fileID: 4784448708260076410, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5231329138824269615, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7446311965716889026, guid: 9bba868c29be6b44787767b7e3472c00, type: 3}
       propertyPath: serializedGuid.Array.size
@@ -9952,11 +9948,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 488800945394466640, guid: 2da2cdf608842824eac87a2cdf9e4015, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.2
+      value: 47.9
       objectReference: {fileID: 0}
     - target: {fileID: 488800945394466640, guid: 2da2cdf608842824eac87a2cdf9e4015, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.7
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 488800945394466640, guid: 2da2cdf608842824eac87a2cdf9e4015, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10328,7 +10324,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8182521444875297677}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 43.04, y: -2.57, z: 0}
+  m_LocalPosition: {x: 43.04, y: 1.5, z: 0}
   m_LocalScale: {x: -0.20301832, y: 0.46668372, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -10634,7 +10630,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -10735,13 +10731,15 @@ MonoBehaviour:
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
   playerAttackCanGainSoul: 0
+  beatBackRate: 0
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
   takeDamageAudio: {fileID: 0}
   takeDamageSfxSO: {fileID: 0}
-  maxHp: 3
-  currentHp: 3
+  maxHp: 3300
+  currentHp: 3000
+  notDestroyWhenDie: 0
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
