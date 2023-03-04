@@ -14,6 +14,9 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
     [SerializeField] private string _cam1Name = "CM vcam1";
     [SerializeField] private string _cam2Name = "CM vcam2";
     [SerializeField] private string _cam3Name = "CM vcam3";
+    
+    [SerializeField] private float lookUpDownSpeed = 3f;
+
 
 
     //摄像机父物体
@@ -43,8 +46,8 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
     private Tween cam1WeightSwitchTween = null;
     private Tween cam2WeightSwitchTween = null;
     private Tween cam3WeightSwitchTween = null;
-
     private Tween orthographicSizeSwitchTween = null;
+    private Tween forwardPointTween = null;
 
     private Dictionary<Transform, bool> isOnUseList;
     private List<Trigger2DHidePath> inVolumeList;
@@ -118,8 +121,13 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
         isOnUseList.Add(_vcam3,false);
 
         inVolumeList = new List<Trigger2DHidePath>();
+        
+        checkComponents = PlayerController.Instance.transform.Find("CameraCheckComponents");
+        lookAtPoint = checkComponents.Find("CameraLookAtPoint");
     }
 
+    private Transform checkComponents;
+    private Transform lookAtPoint;
     public void TriggerEnterVolume(Transform triggerTransform)
     {
 
@@ -175,35 +183,29 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
         bool isUsingCam2 = isOnUseList[_vcam2];
 
 
-        //是否看向前方
-        if (triggerHidePath.isLookForward)
-        {
-            Transform cameraCheckComponents;
-            cameraCheckComponents = PlayerController.Instance.transform.Find("CameraCheckComponents");
-            if (cameraCheckComponents == null)
-            {
-                Debug.LogError("找不到CameraPack的CameraCheckComponents");
-                return;
-            }
 
-            Transform lookAtPoint = cameraCheckComponents.Find("CameraLookAtPoint");
-            if (lookAtPoint == null)
-            {
-                Debug.LogError("找不到CameraPack的lookAtPoint");
-                return;
-            }
 
-            if (isUsingCam2)
+            if (!isUsingCam2)
             {
-                _vcam2CM.Follow = lookAtPoint.transform;
-
+                _vcam2CM.Follow = lookAtPoint;
             }
             else
             {
-                _vcam3CM.Follow = lookAtPoint.transform;
-
+                _vcam3CM.Follow = lookAtPoint;
             }
-        }
+            //是否看向前方
+            if (triggerHidePath.isLookForward)
+            {
+                forwardPointTween = 
+                    DOTween.To(() => lookAtPoint.localPosition,
+                        x => lookAtPoint.localPosition = x,
+                        triggerHidePath.lookForwardVector, triggerHidePath.switchTime);
+            }
+ 
+        
+        
+        
+
 
         if (!isUsingCam2)
         {
@@ -221,41 +223,25 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
                 () => _MixingCamera.GetWeight(2),
                 x => _MixingCamera.SetWeight(2, x),
                 target0, triggerHidePath.switchTime);
-            // orthographicSizeSwitchTween = DOTween.To(
-            //     () => _vcam2CM.m_Lens.OrthographicSize,
-            //     x => _vcam2CM.m_Lens.OrthographicSize = x,
-            //     triggerHidePath.orthographicSize, triggerHidePath.switchTime);
-            _vcam2CM.m_Lens.OrthographicSize = triggerHidePath.orthographicSize;
+            orthographicSizeSwitchTween = DOTween.To(
+                () => _vcam2CM.m_Lens.OrthographicSize,
+                x => _vcam2CM.m_Lens.OrthographicSize = x,
+                triggerHidePath.orthographicSize, triggerHidePath.switchTime);
+            orthographicSizeSwitchTween = DOTween.To(
+                () => _vcam3CM.m_Lens.OrthographicSize,
+                x => _vcam3CM.m_Lens.OrthographicSize = x,
+                _mainVcamCM.m_Lens.OrthographicSize, triggerHidePath.switchTime);     
             CinemachineFramingTransposer composer =
                 _vcam2CM.GetCinemachineComponent<CinemachineFramingTransposer>();
-            if (triggerHidePath.lockCameraX)
-            {
-                composer.m_DeadZoneWidth = 2;
-                composer.m_SoftZoneWidth = 2;
-            }
-            else
-            {
-                composer.m_DeadZoneWidth = 0.2f;
-                composer.m_SoftZoneWidth = 0.8f;
-            }
-
-            if (triggerHidePath.lockCameraY)
-            {
-                composer.m_DeadZoneHeight = 2;
-                composer.m_SoftZoneHeight = 2;
-            }
-            else
-            {
-                composer.m_DeadZoneHeight = 0.2f;
-                composer.m_SoftZoneHeight = 0.8f;
-            }
+            LockX(triggerHidePath.lockCameraX, composer);
+            LockY(triggerHidePath.lockCameraY,composer);
             isOnUseList[_vcam2] = true;
             isOnUseList[_vcam3] = false;
 
         }
         else
         {
-            Debug.Log("to cam 3");
+            //从B转到C
             _vcam3CMConfiner.m_BoundingShape2D = triggerHidePath.boundary;
             cam1WeightSwitchTween = DOTween.To(
                 () => _MixingCamera.GetWeight(0),
@@ -269,37 +255,22 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
                 () => _MixingCamera.GetWeight(2),
                 x => _MixingCamera.SetWeight(2, x),
                 target1, triggerHidePath.switchTime);
-            // orthographicSizeSwitchTween = DOTween.To(
-            //     () => _vcam3CM.m_Lens.OrthographicSize,
-            //     x => _vcam3CM.m_Lens.OrthographicSize = x,
-            //     triggerHidePath.orthographicSize, triggerHidePath.switchTime);
-            _vcam3CM.m_Lens.OrthographicSize = triggerHidePath.orthographicSize;
+            orthographicSizeSwitchTween = DOTween.To(
+                () => _vcam3CM.m_Lens.OrthographicSize,
+                x => _vcam3CM.m_Lens.OrthographicSize = x,
+                triggerHidePath.orthographicSize, triggerHidePath.switchTime);
+            orthographicSizeSwitchTween = DOTween.To(
+                () => _vcam2CM.m_Lens.OrthographicSize,
+                x => _vcam2CM.m_Lens.OrthographicSize = x,
+                _mainVcamCM.m_Lens.OrthographicSize, triggerHidePath.switchTime);           
             CinemachineFramingTransposer composer =
                 _vcam3CM.GetCinemachineComponent<CinemachineFramingTransposer>();
-            if (triggerHidePath.lockCameraX)
-            {
-                composer.m_DeadZoneWidth = 2;
-                composer.m_SoftZoneWidth = 2;
-            }
-            else
-            {
-                composer.m_DeadZoneWidth = 0.2f;
-                composer.m_SoftZoneWidth = 0.8f;
-            }
-
-            if (triggerHidePath.lockCameraY)
-            {
-                composer.m_DeadZoneHeight = 2;
-                composer.m_SoftZoneHeight = 2;
-            }
-            else
-            {
-                composer.m_DeadZoneHeight = 0.2f;
-                composer.m_SoftZoneHeight = 0.8f;
-            }
+            LockX(triggerHidePath.lockCameraX, composer);
+            LockY(triggerHidePath.lockCameraY,composer);
 
             isOnUseList[_vcam2] = false;
             isOnUseList[_vcam3] = true;
+
         }
         
         
@@ -323,25 +294,16 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
         //cameraController.BeforeEnterBound(this);
         Debug.Log($"进入相机区域 {triggerTransform.name}");
 
+
+        _vcam2CM.Follow = lookAtPoint;
         //是否看向前方
         if (triggerHidePath.isLookForward)
         {
-            Transform cameraCheckComponents;
-            cameraCheckComponents = PlayerController.Instance.transform.Find("CameraCheckComponents");
-            if (cameraCheckComponents == null)
+            lookAtPoint.localPosition = triggerHidePath.lookForwardVector;
+            if (forwardPointTween != null)
             {
-                Debug.LogError("找不到CameraPack的CameraCheckComponents");
-                return;
+                if(forwardPointTween.IsPlaying()) forwardPointTween.Kill();
             }
-
-            Transform lookAtPoint = cameraCheckComponents.Find("CameraLookAtPoint");
-            if (lookAtPoint == null)
-            {
-                Debug.LogError("找不到CameraPack的lookAtPoint");
-                return;
-            }
-
-            _vcam2CM.Follow = lookAtPoint.transform;
         }
 
 
@@ -366,27 +328,9 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
             triggerHidePath.orthographicSize, triggerHidePath.switchTime);
         CinemachineFramingTransposer composer =
             _vcam2CM.GetCinemachineComponent<CinemachineFramingTransposer>();
-        if (triggerHidePath.lockCameraX)
-        {
-            composer.m_DeadZoneWidth = 2;
-            composer.m_SoftZoneWidth = 2;
-        }
-        else
-        {
-            composer.m_DeadZoneWidth = 0.2f;
-            composer.m_SoftZoneWidth = 0.8f;
-        }
-
-        if (triggerHidePath.lockCameraY)
-        {
-            composer.m_DeadZoneHeight = 2;
-            composer.m_SoftZoneHeight = 2;
-        }
-        else
-        {
-            composer.m_DeadZoneHeight = 0.2f;
-            composer.m_SoftZoneHeight = 0.8f;
-        }
+        //
+        LockX(triggerHidePath.lockCameraX, composer);
+        LockY(triggerHidePath.lockCameraY,composer);
 
         //isSwitched = true;
         isOnUseList[_mainVCam] = false;
@@ -437,12 +381,77 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
             () => _MixingCamera.GetWeight(2),
             x => _MixingCamera.SetWeight(2, x),
             target0, triggerHidePath.switchTime);
+        orthographicSizeSwitchTween = DOTween.To(
+            () => _vcam2CM.m_Lens.OrthographicSize,
+            x => _vcam2CM.m_Lens.OrthographicSize = x,
+            _mainVcamCM.m_Lens.OrthographicSize, triggerHidePath.switchTime);
+        orthographicSizeSwitchTween = DOTween.To(
+            () => _vcam3CM.m_Lens.OrthographicSize,
+            x => _vcam3CM.m_Lens.OrthographicSize = x,
+            _mainVcamCM.m_Lens.OrthographicSize, triggerHidePath.switchTime);
+        
+        forwardPointTween = 
+        DOTween.To(() => lookAtPoint.localPosition,
+            x => lookAtPoint.localPosition = x,
+            Vector3.zero, triggerHidePath.switchTime);
 
-        _vcam2CM.Follow = PlayerController.Instance.transform;
-        _vcam3CM.Follow = PlayerController.Instance.transform;
 
         isOnUseList[_mainVCam] = true;
         isOnUseList[_vcam2] = false;
         isOnUseList[_vcam3] = false;
+    }
+
+    private void LockX(bool isLock,CinemachineFramingTransposer composer)
+    {
+        if (isLock)
+        {
+            composer.m_DeadZoneWidth = 2;
+            composer.m_SoftZoneWidth = 2;
+        }
+        else
+        {
+            composer.m_DeadZoneWidth = 0.2f;
+            composer.m_SoftZoneWidth = 0.8f;
+        }
+    }
+    private void LockY(bool isLock,CinemachineFramingTransposer composer)
+    {
+        if (isLock)
+        {
+            composer.m_DeadZoneHeight = 2;
+            composer.m_SoftZoneHeight = 2;
+        }
+        else
+        {
+            composer.m_DeadZoneHeight = 0.2f;
+            composer.m_SoftZoneHeight = 0.8f;
+        }
+    }
+
+    private Vector3 prePos;
+    private void Update()
+    {
+        
+        if (inVolumeList.Count != 0)
+        {
+            float inputY = PlayerInput.Instance.vertical.Value;
+            // if (inputY > 0.01f)
+            // {
+            //     prePos = lookAtPoint.localPosition;
+            //     lookAtPoint.localPosition = new Vector3(lookAtPoint.localPosition.x, lookAtPoint.localPosition.y + inputY * lookUpDownDistance,
+            //         lookAtPoint.localPosition.z);
+            // }else if (inputY < 0.01f)
+            // {
+            //     lookAtPoint.localPosition = new Vector3(lookAtPoint.localPosition.x, lookAtPoint.localPosition.y - inputY * lookUpDownDistance,
+            //         lookAtPoint.localPosition.z);
+            // }
+            lookAtPoint.localPosition += new Vector3(0, inputY * Time.deltaTime *  lookUpDownSpeed, 0);
+            float topPoint = inVolumeList[HighestPriorityPos].boundary.bounds.max.y;
+            if (lookAtPoint.position.y > inVolumeList[HighestPriorityPos].boundary.bounds.max.y || 
+                lookAtPoint.position.y < inVolumeList[HighestPriorityPos].boundary.bounds.min.y)
+            {
+                lookAtPoint.position -= new Vector3(0, inputY * Time.deltaTime *  lookUpDownSpeed, 0);
+            }
+        }
     }
 }

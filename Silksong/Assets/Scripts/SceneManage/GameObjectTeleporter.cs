@@ -67,6 +67,7 @@ public class GameObjectTeleporter : MonoBehaviour
         //playerInput.transform.localScale = new Vector3();��ɫ���� ��δ����
         playerRebornPoint = enterPos;
 
+        //TODO:  look at lookAtPoint
         CameraController.Instance.AfterChangeScene();
         virtualCamera = CameraController.Instance.mMainVirtualCamera;
         if (virtualCamera && PlayerInput.Instance)

@@ -29,6 +29,8 @@ public class Trigger2DHidePath : Trigger2DBase
     [Header("是否让相机跟着角色前方（Player身上的LookAtPoint的position）")]
     public bool isLookForward = false;
 
+    public Vector3 lookForwardVector;
+
     [Header("优先级，0为优先级最低，INT_MAX 为优先级最高")] 
     public int priority = 0;
 
