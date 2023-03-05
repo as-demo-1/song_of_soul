@@ -28,7 +28,7 @@ public class Trigger2D_HideArea : Trigger2DBase
     {
          animator.Play("hide");
         GamingSaveObj<bool> gamingSave;
-        if (TryGetComponent(out gamingSave))
+        if (TryGetComponent(out gamingSave) &&!gamingSave.ban)
         {
             gamingSave.saveGamingData(true);
         }

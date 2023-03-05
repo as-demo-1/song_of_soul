@@ -69,7 +69,7 @@ public class Lift : MonoBehaviour
         liftFloorDistance += floorCollider.bounds.extents.y;
 
         IntGamingSave gamingSave;
-        if (TryGetComponent(out gamingSave))
+        if (TryGetComponent(out gamingSave) &&!gamingSave.ban)
         {
             bool error;
             int savedFloor = gamingSave.loadGamingData(out error);
@@ -101,7 +101,7 @@ public class Lift : MonoBehaviour
                 // Debug.Log("lift arrive a floor");
                 currentFloor = midTargetFloor;//到达了某一层
                 IntGamingSave gamingSave;
-                if (TryGetComponent(out gamingSave))
+                if (TryGetComponent(out gamingSave) && !gamingSave.ban)
                 {
                     gamingSave.saveGamingData(midTargetFloor);
                 }

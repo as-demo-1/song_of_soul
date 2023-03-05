@@ -11,7 +11,7 @@ public class SpikeDropTrigger : Trigger2DBase
         {
             spike.drop();
             Destroyed_GamingSave gamingSave;
-            if (TryGetComponent(out gamingSave))
+            if (TryGetComponent(out gamingSave) &&!gamingSave.ban)
             {
                 gamingSave.saveGamingData(true);
             }

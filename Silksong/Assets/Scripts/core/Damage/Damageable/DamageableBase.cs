@@ -13,6 +13,8 @@ public abstract class DamageableBase : MonoBehaviour
 
     public bool playerAttackCanGainSoul;
 
+    public float beatBackRate;
+
     public abstract void takeDamage(DamagerBase damager);
 
     [Serializable]
