@@ -29,7 +29,9 @@ public class HpDamable :Damable
     {
         get { return tempHp; }
     }
-    
+
+
+    public bool notDestroyWhenDie;
 
     public bool resetHealthOnSceneReload;
 
@@ -148,13 +150,13 @@ public class HpDamable :Damable
     {
         onDieEvent.Invoke(damager,this);
 
-        if(gameObject.tag!="Player")
+        if(!notDestroyWhenDie)
         Destroy(gameObject);
 
         Debug.Log(gameObject.name+" die");
 
         GamingSaveObj<bool> gamingSave;
-        if (TryGetComponent(out gamingSave))
+        if (TryGetComponent(out gamingSave) && !gamingSave.ban)
         {
             gamingSave.saveGamingData(true);
         }

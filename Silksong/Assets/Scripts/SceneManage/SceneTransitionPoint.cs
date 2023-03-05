@@ -10,6 +10,6 @@ public class SceneTransitionPoint : Trigger2DBase
 
     protected override void enterEvent()
     {        
-        SceneController.TransitionToScene(this);
+       SceneController.TransitionToScene(this);
     }
 }

@@ -105,7 +105,7 @@ namespace Spine.Unity.Editor {
 		}
 
 		public static bool UndoRedoPerformed (UnityEngine.Event current) {
-			return current.type == UnityEngine.EventType.ValidateCommand && current.commandName == "UndoRedoPerformed";
+			return current.type == EventType.ValidateCommand && current.commandName == "UndoRedoPerformed";
 		}
 
 		public static Texture2D UnityIcon<T>() {

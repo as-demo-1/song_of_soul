@@ -29,7 +29,7 @@ public class PlayerNormalAttack : PlayerAction
     public override void StateStart(EPlayerState oldState)
     {
         playerController.CheckFlipPlayer(1f);
-        playerController.setRigidVelocity(Vector2.zero);
+       // playerController.setRigidVelocity(Vector2.zero);
 
         AnimatorStateInfo stateInfo=playerController.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
         if(stateInfo.IsName("NormalAtk_1"))

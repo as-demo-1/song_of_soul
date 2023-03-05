@@ -130,13 +130,14 @@ MonoBehaviour:
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
   playerAttackCanGainSoul: 1
+  beatBackRate: 1
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
   takeDamageAudio: {fileID: 0}
-  takeDamageSfxSO: {fileID: 0}
-  maxHp: 100
-  currentHp: 100
+  takeDamageSfxSO: {fileID: 11400000, guid: d25acefb1695ac041a2a319bc1756a09, type: 2}
+  maxHp: 1000
+  currentHp: 1000
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
@@ -218,7 +219,6 @@ MonoBehaviour:
   anyStateConfig: {fileID: 0}
   player: {fileID: 0}
   FaceLeftFirstOriginal: 0
-  beatBackRatio: 0.5
   hasInvokedAnimationEvent: 0
   isInvokingAnimationEvent: 0
 --- !u!114 &7446311965716889026
@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37515e1153b5439498a24fba46b7966d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ban: 0
 --- !u!1 &4784448708440573212
 GameObject:
   m_ObjectHideFlags: 0
