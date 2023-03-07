@@ -37,7 +37,7 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
     private float moveTotalTime;
     private int AvgPlatformNumberPerCreate;
     private float PlafromHorizonDistance=6f;
-    public float PlafromHorizonDistanceBear;
+    public float MinPlafromPostionXGap;
 
     public GameObject FirstPlatform;
     public GameObject FirstPlatform2;
@@ -132,7 +132,7 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         while(true)
         {
             createPlatformsAndClouds(AvgPlatformNumberPerCreate);
-            yield return new WaitForSeconds(Random.Range(0.8f,1.2f)*AvgplatformsCreateCd);
+            yield return new WaitForSeconds(AvgplatformsCreateCd);
         }
     }
 
@@ -143,19 +143,19 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         bool haveCloud = false;*/
         float horizonBase = roomLeftDownPoint.x;
         float preX=-200;
-        for(int i=0;i<num;i++)
+        for (int i=0;i<num;i++)
         {
             float x;
             x = Random.Range(0f, 2f) + horizonBase + i * PlafromHorizonDistance;
             if (preX!=-200)
             {
-                while(x-preX<=PlafromHorizonDistance-PlafromHorizonDistanceBear)
+                if(x-preX<=MinPlafromPostionXGap)
                 {
-                    x += 0.2f;
+                    x = preX + MinPlafromPostionXGap;
                 }
             }
             preX = x;
-            Vector2 pos = new Vector2(x, createHigher+roomRightUpPoint.y+ Random.Range(-0.5f, 0.5f));
+            Vector2 pos = new Vector2(x, createHigher+roomRightUpPoint.y+ Random.Range(-0.3f, 0.3f));
             float a = Random.Range(0f, 1f);
             if (a > cloudRate )//||(!havePlatform && i==num-1))
             {
