@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CharmImage : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class CharmImage : MonoBehaviour, ISelectHandler
 {
     // [SerializeField]
     // private GameObject equipIcon;
@@ -15,11 +15,7 @@ public class CharmImage : MonoBehaviour, ISelectHandler, IDeselectHandler
     // private GameObject selectIcon;
     [SerializeField]
     private Image charmSprite;
-    //
-    // public CharmSO charmSO;
-    // public Charm charm;
-    // public CharmListSO charmListSO;
-    //
+
     private CharmUIPanel charmUIPanel;
 
     private bool isSelected;
@@ -37,80 +33,21 @@ public class CharmImage : MonoBehaviour, ISelectHandler, IDeselectHandler
     // Start is called before the first frame update
     void Start()
     {
-        // if (CharmUIState == CharmUIState.ICON)
-        // {
-        //     GetComponent<Image>().sprite = charmSO.charmImage;
-        // }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //PlayerInput.Instance.normalAttack.Down
-        // if (isSelected && Input.GetKeyDown(KeyCode.J))
-        // {
-        //     if (CharmUIState == CharmUIState.ICON && charmSO.HasCollected && !charmSO.HasEquiped)
-        //     {
-        //         charmUIPanel.TryEquipCharm(gameObject);
-        //     }
-        //     else if (CharmUIState == CharmUIState.SLOT && !SlotEmpty)
-        //     {
-        //         charmUIPanel.TryDisEquipCharm(gameObject);
-        //     }
-        //     
-        // }
+
     }
-    // public void CharmLockDisplay()
-    // {
-    //     equipIcon.SetActive(false);
-    //     lockIcon.SetActive(true);
-    // }
-    // public void CharmEquipDisplay()
-    // {
-    //     equipIcon.SetActive(true);
-    //     lockIcon.SetActive(false);
-    // }
-    // public void CharmCollectDisplay()
-    // {
-    //     equipIcon.SetActive(false);
-    //     lockIcon.SetActive(false);
-    // }
-    // public void CharmSlotDisplay(bool _option)
-    // {
-    //     if (_option)
-    //     {
-    //         charmSprite.sprite = charmSO.charmImage;
-    //         charmSprite.gameObject.SetActive(true);
-    //     }
-    //     else
-    //     {
-    //         charmSprite.sprite = null;
-    //         charmSprite.gameObject.SetActive(false);
-    //     }
-    // }
-    //
+    
     public void OnSelect(BaseEventData eventData)
     {
+        Debug.Log("select");
         charmUIPanel.ChangeSelect(this);
         //isSelected = true;
     }
-    public void OnDeselect(BaseEventData eventData)
-    {
-        // selectIcon.SetActive(false);
-        //isSelected = false;
-    }
-    // public void SetSOData( CharmSO _charmSO, CharmListSO _charmListSO, CharmUIPanel _charmUIPanel)
-    // {
-    //     charmSO = _charmSO;
-    //     charmListSO = _charmListSO;
-    //     charmUIPanel = _charmUIPanel;
-    // }
-    // public void SetData( Charm _charm, CharmListSO _charmListSO, CharmUIPanel _charmUIPanel)
-    // {
-    //     charm = _charm;
-    //     charmListSO = _charmListSO;
-    //     charmUIPanel = _charmUIPanel;
-    // }
     public void Init(Charm _charm, CharmUIPanel _charmUIPanel)
     {
         charm = _charm;
@@ -119,7 +56,3 @@ public class CharmImage : MonoBehaviour, ISelectHandler, IDeselectHandler
     }
 }
 
-// enum CharmUIState
-// {
-//     ICON, SLOT
-// }

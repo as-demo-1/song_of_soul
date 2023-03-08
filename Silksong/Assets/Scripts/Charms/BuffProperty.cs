@@ -82,4 +82,30 @@ public enum BuffProperty
     /// 血怒效果
     /// </summary>
     BLOOD_ANGER,
+    
+    /// <summary>
+    /// 闪电链
+    /// </summary>
+    LIGHTNING,
+    
+    /// <summary>
+    /// 烈焰斩
+    /// </summary>
+    FIRE,
+    
+    /// <summary>
+    /// 影
+    /// </summary>
+    SHADOW,
+    
+    /// <summary>
+    /// 冲击波
+    /// </summary>
+    WAVE,
+    
+    /// <summary>
+    /// 冰霜
+    /// </summary>
+    ICE,
+    
 }
