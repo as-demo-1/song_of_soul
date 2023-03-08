@@ -5,19 +5,14 @@ using UnityEngine;
 public class Clarinet : MonoBehaviour
 {
     // Start is called before the first frame update
-    //private float screenWidth;
-    //private float screenHeight;
-    private Animator animator;
-    public string _chart;
+    [SerializeField] private string[] chartList;
+    [SerializeField] private int currentChart;
     public GameObject spike;
+    private Animator animator;
     private Camera mainCamera;
-    private int numCols; 
     void Start()
     {
-        //transform.SetParent(null);
-        numCols = 5;
         animator = GetComponent<Animator>();
-        _chart = "10111";
     }
 
     public void Generate()
@@ -30,15 +25,10 @@ public class Clarinet : MonoBehaviour
     }
     public void Attack()
     {
-        //this.gameObject.SetActive(true);
-        if (this.transform.childCount <= 0)
-        {
-            //Generate(numCols);
-        }
-        for (int col = 0; col < numCols; ++col)
+        for (int col = 0; col < transform.childCount; ++col)
         {
             GameObject cellObject = transform.GetChild(col).gameObject;
-            if (_chart[col] == '1')
+            if (chartList[currentChart][col] == '1')
             {
                 cellObject.SetActive(true);
             }else
@@ -46,13 +36,12 @@ public class Clarinet : MonoBehaviour
                 cellObject.SetActive(false);
             }
         }
-        Debug.Log("before");
         animator.Play("up");
-        Debug.Log("after");
     }
 
     public void End()
     {
         animator.Play("down");
+        currentChart = (currentChart + 1) % chartList.Length;
     }
 }

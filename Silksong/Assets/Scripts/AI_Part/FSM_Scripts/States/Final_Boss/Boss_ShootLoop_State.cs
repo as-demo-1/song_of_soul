@@ -24,7 +24,6 @@ public class Boss_ShootLoop_State : EnemyFSMBaseState
         enemyFSM.rigidbody2d.velocity = Vector2.zero;
         dir = enemyFSM.getTargetDir(true).normalized;
         enemyFSM.rigidbody2d.DORotate(Mathf.Asin(dir.y), 0.5f);
-        invokeAnimationEvent();
     }
     public override void ExitState(EnemyFSMManager enemyFSM)
     {

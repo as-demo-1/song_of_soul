@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Idle_State
+  m_Name: Second_State
   m_EditorClassIdentifier: 
-  lastStateID: 1
-  lastTriggerID: 2
-  StateName: Idle_State
-  StateType: 1
+  lastStateID: 42
+  lastTriggerID: 0
+  StateName: Second_State
+  StateType: 42
   stateConfig:
     id: 0
-  TriggerType: 2
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList:
@@ -26,25 +26,20 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_Second_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 1
-        defaultAnimationName: idle_A
-        isflying: 0
-        flyingMinHight: 0
+        stateType: 42
+        defaultAnimationName: summon_monsters
     00000001:
-      type: {class: PlayerDistanceTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        triggerType: 2
-        targetState: 
-        checkNearRadius: 0
-        checkFarRadius: 0
-        isReturnTrueBetweenNearAndFar: 1
-        isRayDetect: 0
-    00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Patrol_State
+        targetState: SecondPatrol_State
         maxTime: 2
         timer: 0
+    00000002:
+      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 3
+        targetState: SecondPatrol_State
+        checkAnimationName: 

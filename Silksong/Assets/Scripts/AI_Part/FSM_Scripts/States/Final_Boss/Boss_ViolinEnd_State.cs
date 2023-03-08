@@ -6,15 +6,12 @@ using DG.Tweening;
 
 public class Boss_ViolinEnd_State : EnemyFSMBaseState
 {
-    public string shootType;
-    private ShootSystem ShotPoint;
+
     private Vector2 dir;
     public override void InitState(EnemyFSMManager fSM_Manager)
     {
         base.InitState(fSM_Manager);
         fsmManager = fSM_Manager;
-        ShotPoint = fSM_Manager.gameObject.transform.GetChild(1).gameObject.GetComponent<ShootSystem>();
-        animationEvents.AddListener(()=> { ShotPoint.Shoot(shootType); });
 
     }
 
@@ -30,15 +27,10 @@ public class Boss_ViolinEnd_State : EnemyFSMBaseState
     {
         base.ExitState(enemyFSM);
         enemyFSM.rigidbody2d.DORotate(-Mathf.Asin(dir.y), 1f);
+        enemyFSM.gameObject.transform.GetChild(1).gameObject.SetActive(false);
     }
     public override void invokeAnimationEvent()
     {
-        for (int i = 0; i < ShotPoint.shootModes.Count; i++)
-        {
-            ShootSystem.shootParam p = ShotPoint.shootModes[i];
-            p.target = fsmManager.player.gameObject;
-            ShotPoint.shootModes[i] = p;
-        }
         base.invokeAnimationEvent();
        // Debug.Log("");
     }

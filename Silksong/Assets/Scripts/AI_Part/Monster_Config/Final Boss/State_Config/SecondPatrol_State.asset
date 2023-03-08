@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Patrol_State
+  m_Name: SecondPatrol_State
   m_EditorClassIdentifier: 
-  lastStateID: 2
+  lastStateID: 43
   lastTriggerID: 6
-  StateName: Patrol_State
-  StateType: 2
+  StateName: SecondPatrol_State
+  StateType: 43
   stateConfig:
     id: 0
   TriggerType: 6
@@ -28,10 +28,10 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Patrol_State, ns: , asm: Assembly-CSharp}
+      type: {class: Boss_SecondPatrol_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 2
-        defaultAnimationName: move
+        stateType: 43
+        defaultAnimationName: idle_A
         moveSpeed: {x: 1.5, y: 0, z: 0}
         noTurnState: 0
     00000001:
@@ -45,8 +45,8 @@ MonoBehaviour:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Attack_State
-        maxTime: 3
+        targetState: Second_State
+        maxTime: 5
         timer: 0
     00000003:
       type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}

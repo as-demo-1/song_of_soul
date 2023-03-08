@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Start_State
   m_EditorClassIdentifier: 
   lastStateID: 28
-  lastTriggerID: 3
+  lastTriggerID: 0
   StateName: Start_State
   StateType: 28
   stateConfig:
     id: 0
-  TriggerType: 3
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList:
@@ -29,16 +29,18 @@ MonoBehaviour:
       type: {class: Boss_Start_State, ns: , asm: Assembly-CSharp}
       data:
         stateType: 28
-        defaultAnimationName: idle_A
+        defaultAnimationName: emerge
     00000001:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
+        triggerType: 0
         targetState: Idle_State
-        checkAnimationName: 
+        maxTime: 5
+        timer: 0
     00000002:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
+        triggerType: 0
         targetState: Idle_State
-        checkAnimationName: 
+        maxTime: 5
+        timer: 0

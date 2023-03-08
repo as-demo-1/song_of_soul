@@ -6,7 +6,6 @@ using DG.Tweening;
 
 public class Boss_Piano_State : EnemyFSMBaseState
 {
-    public GameObject boss;
     public override void InitState(EnemyFSMManager fSM_Manager)
     {
         base.InitState(fSM_Manager);
@@ -26,7 +25,7 @@ public class Boss_Piano_State : EnemyFSMBaseState
     }
     public override void invokeAnimationEvent()
     {
-        boss.GetComponent<BossController>().PianoGenerate();
+        fsmManager.GetComponent<BossController>().PianoGenerate();
         base.invokeAnimationEvent();
        // Debug.Log("");
     }

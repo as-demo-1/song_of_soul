@@ -5,22 +5,20 @@ using UnityEngine;
 public class Piano : MonoBehaviour
 {
     // Start is called before the first frame update
-    //private float screenWidth;
-    //private float screenHeight;
-    public string _chart;
-    public GameObject key;
-    public GameObject leftup;
-    public GameObject rightdown;
+    [SerializeField] private string[] chartList;
+    [SerializeField] private GameObject key;
+    [SerializeField] private GameObject leftup;
+    [SerializeField] private GameObject rightdown;
+    [SerializeField] private int currentChart;
     private Camera mainCamera;
     private int numCols; 
     void Start()
     {
     }
 
-    public void Generate(string chart)
+    public void Generate()
     {
-        _chart = chart;
-        numCols = chart.Length;
+        numCols = chartList[currentChart].Length;
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         float height = leftup.transform.localPosition.y - rightdown.transform.localPosition.y;
         float width = rightdown.transform.localPosition.x - leftup.transform.localPosition.x;
@@ -47,7 +45,7 @@ public class Piano : MonoBehaviour
             // 添加一个SpriteRenderer组件
             SpriteRenderer spriteRenderer = cellObject.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = Sprite.Create(Texture2D.whiteTexture, new Rect(0f, 0f, 1f, 1f), new Vector2(0.5f, 0.5f));
-            if (chart[col] == '0')
+            if (chartList[currentChart][col] == '0')
             {
                 spriteRenderer.color = Color.white;
                 spriteRenderer.color += new Color(0, 0, 0, -1);
@@ -74,9 +72,9 @@ public class Piano : MonoBehaviour
     public void Attack()
     {
         //this.gameObject.SetActive(true);
-        if (this.transform.childCount <= 0)
+        if (this.transform.childCount <= 2)
         {
-            Generate(_chart);
+            Generate();
         }
         for (int col = 0; col < numCols; ++col)
         {
@@ -84,7 +82,7 @@ public class Piano : MonoBehaviour
             SpriteRenderer spriteRenderer = cellObject.GetComponent<SpriteRenderer>();
             BoxCollider2D boxCollider = cellObject.GetComponent<BoxCollider2D>();
             spriteRenderer.color += new Color(0, 0, 0, 0.5f);
-            if (_chart[col] == '1')
+            if (chartList[currentChart][col] == '1')
             {
                 boxCollider.enabled = true;
                 boxCollider.size = spriteRenderer.size;
@@ -98,5 +96,6 @@ public class Piano : MonoBehaviour
         {
             Destroy(transform.GetChild(i+2).gameObject);
         }
+        currentChart = (currentChart + 1) % chartList.Length;
     }
 }

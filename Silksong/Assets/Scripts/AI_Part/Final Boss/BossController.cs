@@ -8,6 +8,7 @@ public class BossController : MonoBehaviour
     private GameObject piano;
     private GameObject clarinet;
     private GameObject drum;
+    private GameObject words;
     void Start()
     {
     }
@@ -15,12 +16,13 @@ public class BossController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
     }
 
     public void PianoGenerate()
     {
         clarinet = GameObject.Find("Piano");
-        clarinet.GetComponent<Piano>().Generate("10010");
+        clarinet.GetComponent<Piano>().Generate();
     }
 
     public void PianoAttack()
@@ -57,5 +59,11 @@ public class BossController : MonoBehaviour
     {
         drum = GameObject.Find("Drum");
         drum.GetComponent<Drum>().Generate();
+    }
+
+    public void WordAttack()
+    {
+        words = GameObject.Find("Words");
+        words.GetComponent<Words>().Attack();
     }
 }

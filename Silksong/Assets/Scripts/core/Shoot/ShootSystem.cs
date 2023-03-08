@@ -27,7 +27,7 @@ public class ShootSystem : MonoBehaviour
         fromThisPos = 0,
         toTarget = 1,
         Random = 2,
-        fromSky = 3
+        horizon = 3
     }
     [Serializable]
     public struct shootParam
@@ -105,7 +105,7 @@ public class ShootSystem : MonoBehaviour
             case ShootDir.toTarget: mainDir = (Param.target.transform.position - Param.createPos.position).normalized; break;
             case ShootDir.fromThisPos: mainDir = (Param.createPos.position - transform.position).normalized; break;
             case ShootDir.Random: mainDir = UnityEngine.Random.insideUnitCircle; break;
-            case ShootDir.fromSky: mainDir = new Vector2(0, -1); Param.createPos.position += new Vector3(UnityEngine.Random.Range(-10.0f, 10.0f), 0, 0); break;
+            case ShootDir.horizon: mainDir = new Vector2(Param.target.transform.position.x - Param.createPos.transform.position.x, 0); break;
         }
         mainDir = AddOffset(mainDir, Param.shootOffsetAngle);
         CreateBullet(Param.bullet, Param.createPos.position, mainDir * Param.bulletSpeed);
@@ -124,15 +124,15 @@ public class ShootSystem : MonoBehaviour
         }
     }
 
-
     private IEnumerator ShootRandomly(shootParam Param)
     {
         for (int i = 0; i < UnityEngine.Random.Range(5, 10); i++)
         {
             ShootOnce(Param);
-            yield return new WaitForSeconds(Param.bulletDelayTime + UnityEngine.Random.Range(0.1f, 0.5f));
+            yield return new WaitForSeconds(Param.bulletDelayTime + UnityEngine.Random.Range(0.5f, 1f));
         }
     }
+
 
     private void Update()
     {

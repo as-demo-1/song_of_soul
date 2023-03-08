@@ -41,7 +41,7 @@ public enum EnemyStates
     Boss_Start_State = 28,
     Boss_Violin_State = 29,
     Boss_ViolinLoop_State = 30,
-    Boss_ViolinEnd_Sate = 31,
+    Boss_ViolinEnd_State = 31,
     Boss_Piano_State = 32,
     Boss_PianoLoop_State = 33,
     Boss_PianoEnd_State = 34,
@@ -50,7 +50,10 @@ public enum EnemyStates
     Boss_ClarinetEnd_State = 37,
     Boss_Drum_State = 38,
     Boss_DrumLoop_State = 39,
-    Boss_DrumEnd_State = 40
+    Boss_DrumEnd_State = 40,
+    Boss_Attack_State = 41,
+    Boss_Second_State = 42,
+    Boss_SecondPatrol_State = 43,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
@@ -67,6 +70,7 @@ public enum EnemyTriggers
     TargetTurnTrigger=7,
     RandomTrigger = 8,
     TouchLayerTrigger=9,
+    InTurnTrigger = 10,
 }
 
 
