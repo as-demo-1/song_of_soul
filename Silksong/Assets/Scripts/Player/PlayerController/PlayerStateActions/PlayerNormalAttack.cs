@@ -7,6 +7,7 @@ public enum EPlayerNormalAttackStage
     First,
     Second,
     Thrid,
+
     UpAttack,
 }
 public class PlayerNormalAttack : PlayerAction

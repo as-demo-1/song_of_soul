@@ -3,23 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public enum SkillName
-{
-    FlameGeyser,
-    ShadowBlade,
-
-    [Tooltip("闪电链")]
-    LightningChain,
-
-    ArcaneBlast,
-    IceStorm
-}
 
 [Serializable]
 public abstract class SoulSkill : Hitter
 {
-    public SkillName skillName;
+    public EPlayerAttackType skillName;
     public int constPerSec = 1;
     public int constPerAttack = 0;
 

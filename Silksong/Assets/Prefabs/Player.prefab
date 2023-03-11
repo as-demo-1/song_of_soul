@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 132305942}
   - component: {fileID: 132305941}
   - component: {fileID: 132305940}
+  - component: {fileID: 7722970313077647377}
   m_Layer: 20
   m_Name: upAttack
   m_TagString: Untagged
@@ -80,18 +81,6 @@ MonoBehaviour:
   makeDamageEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 484977951751258056}
-        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainMana
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 484977951162521058}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: endJumpByUpAttack
@@ -143,6 +132,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   shakeForce: 0.4
+--- !u!114 &7722970313077647377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132305938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720a5b83b8e162e438380cb4d16e0c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackType: 0
 --- !u!1 &225317964
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +161,7 @@ GameObject:
   - component: {fileID: 225317966}
   - component: {fileID: 1070999867074059910}
   - component: {fileID: 8990337930585326302}
+  - component: {fileID: 4935405161569474045}
   m_Layer: 20
   m_Name: normalAttack03
   m_TagString: Untagged
@@ -222,19 +228,7 @@ MonoBehaviour:
   beatBackVector: {x: 1, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 484977951751258056}
-        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainMana
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   hittableLayers2:
     serializedVersion: 2
     m_Bits: 32768
@@ -274,6 +268,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   shakeForce: 1
+--- !u!114 &4935405161569474045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225317964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720a5b83b8e162e438380cb4d16e0c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackType: 0
 --- !u!1 &303103793
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,6 +450,7 @@ GameObject:
   - component: {fileID: 1439625707}
   - component: {fileID: 382070772}
   - component: {fileID: 726703202540393355}
+  - component: {fileID: 8384401113741749811}
   m_Layer: 20
   m_Name: normalAttack01
   m_TagString: Untagged
@@ -506,31 +517,7 @@ MonoBehaviour:
   beatBackVector: {x: 0.5, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 484977951751258056}
-        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainMana
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5028014397498827743}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   hittableLayers2:
     serializedVersion: 2
     m_Bits: 32768
@@ -550,7 +537,7 @@ MonoBehaviour:
   damageTiming: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 0
   timeScale: 0
   frameCounts: 5
 --- !u!114 &726703202540393355
@@ -568,8 +555,24 @@ MonoBehaviour:
   damageTiming: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 0
   shakeForce: 0.5
+--- !u!114 &8384401113741749811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439625705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720a5b83b8e162e438380cb4d16e0c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackType: 0
 --- !u!1 &2013861694
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,6 +586,7 @@ GameObject:
   - component: {fileID: 2013861696}
   - component: {fileID: 422644798683982066}
   - component: {fileID: 7859442036644120042}
+  - component: {fileID: 4889697827813385179}
   m_Layer: 20
   m_Name: normalAttack02
   m_TagString: Untagged
@@ -649,19 +653,7 @@ MonoBehaviour:
   beatBackVector: {x: 0.5, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 484977951751258056}
-        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainMana
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   hittableLayers2:
     serializedVersion: 2
     m_Bits: 32768
@@ -683,7 +675,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   timeScale: 0
-  frameCounts: 4
+  frameCounts: 1
 --- !u!114 &7859442036644120042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,6 +693,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   shakeForce: 0.4
+--- !u!114 &4889697827813385179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013861694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 720a5b83b8e162e438380cb4d16e0c93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackType: 0
 --- !u!1 &484977951162521061
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,6 +1016,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hurt: {fileID: 0}
+  electricMarkPref: {fileID: 0}
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 1
 --- !u!114 &1048344337554074644
@@ -1043,7 +1052,7 @@ MonoBehaviour:
   damageTiming: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 12582912
+    m_Bits: 12582913
   shakeForce: 1.5
 --- !u!61 &462374528
 BoxCollider2D:
@@ -1304,11 +1313,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2a98818b199958478773a8f207280ee, type: 3}
---- !u!1 &5028014397498827743 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6459152157928512962, guid: c2a98818b199958478773a8f207280ee, type: 3}
-  m_PrefabInstance: {fileID: 2045932608498531869}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4064516479038447263 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2597606038634995842, guid: c2a98818b199958478773a8f207280ee, type: 3}
