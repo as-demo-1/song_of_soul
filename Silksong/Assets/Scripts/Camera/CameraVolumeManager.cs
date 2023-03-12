@@ -15,7 +15,7 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
     [SerializeField] private string _cam2Name = "CM vcam2";
     [SerializeField] private string _cam3Name = "CM vcam3";
     
-    [SerializeField] private float lookUpDownSpeed = 3f;
+    [SerializeField] private float lookUpDownDuration = 1f;
 
 
 
@@ -429,28 +429,69 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
     }
 
     private Vector3 prePos;
+    private bool isLookingUpDown = false;
+    private Tween lookUpDownTween;
     private void Update()
     {
         
         if (inVolumeList.Count != 0)
         {
             float inputY = PlayerInput.Instance.vertical.Value;
-            // if (inputY > 0.01f)
-            // {
-            //     prePos = lookAtPoint.localPosition;
-            //     lookAtPoint.localPosition = new Vector3(lookAtPoint.localPosition.x, lookAtPoint.localPosition.y + inputY * lookUpDownDistance,
-            //         lookAtPoint.localPosition.z);
-            // }else if (inputY < 0.01f)
-            // {
-            //     lookAtPoint.localPosition = new Vector3(lookAtPoint.localPosition.x, lookAtPoint.localPosition.y - inputY * lookUpDownDistance,
-            //         lookAtPoint.localPosition.z);
-            // }
-            lookAtPoint.localPosition += new Vector3(0, inputY * Time.deltaTime *  lookUpDownSpeed, 0);
-            float topPoint = inVolumeList[HighestPriorityPos].boundary.bounds.max.y;
-            if (lookAtPoint.position.y > inVolumeList[HighestPriorityPos].boundary.bounds.max.y || 
-                lookAtPoint.position.y < inVolumeList[HighestPriorityPos].boundary.bounds.min.y)
+
+
+
+            //判断是否在Idle状态
+            if (PlayerController.Instance.playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.Idle)
             {
-                lookAtPoint.position -= new Vector3(0, inputY * Time.deltaTime *  lookUpDownSpeed, 0);
+                if (inputY > 0.01f || inputY < -0.01f)
+                {
+                    //是否正在看
+                    if (!isLookingUpDown)
+                    {
+                        prePos = lookAtPoint.position;
+                        isLookingUpDown = true;
+                        float offset;
+                        if (inputY < 0.01f)
+                        {
+                            offset = inVolumeList[HighestPriorityPos].boundary.bounds.min.y - prePos.y;
+                        }
+                        else
+                        {
+                            offset = inVolumeList[HighestPriorityPos].boundary.bounds.max.y - prePos.y;
+
+                        }
+
+
+                        if (lookUpDownTween != null)
+                        {
+                            if (lookUpDownTween.IsPlaying()) lookUpDownTween.Kill();
+                        }
+
+                        lookUpDownTween = DOTween.To(
+                            () => lookAtPoint.position.y,
+                            x => lookAtPoint.position = new Vector3(prePos.x, x, prePos.z),
+                            prePos.y + offset, lookUpDownDuration);
+
+                    }
+                }
+                else
+                {
+                    if (isLookingUpDown)
+                    {
+                        isLookingUpDown = false;
+                        if (lookUpDownTween != null)
+                        {
+                            if (lookUpDownTween.IsPlaying()) lookUpDownTween.Kill();
+                        }
+
+                        lookUpDownTween = DOTween.To(
+                                () => lookAtPoint.position.y,
+                                x => lookAtPoint.position = new Vector3(prePos.x, x, prePos.z),
+                                prePos.y, lookUpDownDuration);
+                        
+                    }
+                    
+                }
             }
         }
     }

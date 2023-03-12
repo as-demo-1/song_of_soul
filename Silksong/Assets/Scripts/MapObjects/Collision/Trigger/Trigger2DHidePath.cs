@@ -34,7 +34,7 @@ public class Trigger2DHidePath : Trigger2DBase
     [Header("优先级，0为优先级最低，INT_MAX 为优先级最高")] 
     public int priority = 0;
 
-  
+    
 
     void Start()
     {
