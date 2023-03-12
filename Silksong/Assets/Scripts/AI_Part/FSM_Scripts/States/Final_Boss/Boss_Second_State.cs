@@ -12,7 +12,8 @@ public class Boss_Second_State : EnemyFSMBaseState
     public override void EnterState(EnemyFSMManager fSM_Manager)
     {
         base.EnterState(fSM_Manager);
-        fSM_Manager.GetComponent<BossController>().WordAttack(); ;
+        fsmManager.GetComponent<BossController>().ToSecond();
+        fSM_Manager.GetComponent<BossController>().WordAttack();
         fsmManager.rigidbody2d.velocity = Vector2.zero;
     }
     public override void InitState(EnemyFSMManager fSM_Manager)

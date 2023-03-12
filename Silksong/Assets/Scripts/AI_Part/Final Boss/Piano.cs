@@ -92,7 +92,7 @@ public class Piano : MonoBehaviour
 
     public void End()
     {
-        for (int i = 0; i < numCols; ++i)
+        for (int i = 0; i < transform.childCount - 2; ++i)
         {
             Destroy(transform.GetChild(i+2).gameObject);
         }

@@ -35,11 +35,12 @@ MonoBehaviour:
       data:
         triggerType: 0
         targetState: SecondPatrol_State
-        maxTime: 2
+        maxTime: 10
         timer: 0
     00000002:
-      type: {class: AnimationPlayOverTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 3
+        triggerType: 0
         targetState: SecondPatrol_State
-        checkAnimationName: 
+        maxTime: 1
+        timer: 0

@@ -129,7 +129,7 @@ public class ShootSystem : MonoBehaviour
         for (int i = 0; i < UnityEngine.Random.Range(5, 10); i++)
         {
             ShootOnce(Param);
-            yield return new WaitForSeconds(Param.bulletDelayTime + UnityEngine.Random.Range(0.5f, 1f));
+            yield return new WaitForSeconds(Param.bulletDelayTime + UnityEngine.Random.Range(0.8f, 1.2f));
         }
     }
 

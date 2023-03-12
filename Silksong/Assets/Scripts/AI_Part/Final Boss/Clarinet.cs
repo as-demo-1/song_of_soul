@@ -39,9 +39,24 @@ public class Clarinet : MonoBehaviour
         animator.Play("up");
     }
 
+    IEnumerator PlayDownAfter()
+    {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        while (stateInfo.IsName("up")) {
+            yield return null;
+        }
+        animator.Play("down");
+    }
     public void End()
     {
-        animator.Play("down");
         currentChart = (currentChart + 1) % chartList.Length;
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName("up"))
+        {
+            StartCoroutine(PlayDownAfter());
+        } else if (stateInfo.IsName("idle"))
+        {
+            animator.Play("down");
+        }
     }
 }

@@ -13,18 +13,16 @@ MonoBehaviour:
   m_Name: SecondPatrol_State
   m_EditorClassIdentifier: 
   lastStateID: 43
-  lastTriggerID: 6
+  lastTriggerID: 0
   StateName: SecondPatrol_State
   StateType: 43
   stateConfig:
     id: 0
-  TriggerType: 6
+  TriggerType: 0
   triggerConfig:
     id: 1
   triggerList:
   - id: 2
-  - id: 3
-  - id: 4
   references:
     version: 1
     00000000:
@@ -35,28 +33,16 @@ MonoBehaviour:
         moveSpeed: {x: 1.5, y: 0, z: 0}
         noTurnState: 0
     00000001:
-      type: {class: NearPlatformBorderTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 6
-        targetState: 
-        checkDir: 0
-        returnFalseWhenBorder: 0
+        triggerType: 0
+        targetState: Second_State
+        maxTime: 10
+        timer: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
         targetState: Second_State
-        maxTime: 5
+        maxTime: 10
         timer: 0
-    00000003:
-      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        triggerType: 1
-        targetState: TurnPatrol_State
-    00000004:
-      type: {class: NearPlatformBorderTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        triggerType: 6
-        targetState: TurnPatrol_State
-        checkDir: 0
-        returnFalseWhenBorder: 0

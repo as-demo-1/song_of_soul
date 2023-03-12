@@ -17,6 +17,9 @@ public class Words : MonoBehaviour
     [SerializeField] private GameObject emergePos;
     [SerializeField] private string[] emergeChart;
     [SerializeField] private int currentEmerge;
+    [SerializeField] private int numOfChase;
+    [SerializeField] private ArrayList chaseList;
+    private int currentWord;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,7 @@ public class Words : MonoBehaviour
         //string[] names = { "¾øÍû", "¾øÍû" };
         //StartCoroutine(EmergeGenerate(names));
         //GenerateChase("juew");
+        chaseList = new ArrayList();
     }
 
     // Update is called once per frame
@@ -34,17 +38,21 @@ public class Words : MonoBehaviour
     {
     }
 
-    GameObject GenerateWord(int idx)
+    GameObject GenerateWord()
     {
+        int idx = Random.Range(0, sprites.Count);
         string name = sprites[idx].name;
         GameObject word = new GameObject(name);
         word.layer = 8;
         word.tag = "word";
         word.AddComponent<SpriteRenderer>();
         word.AddComponent<Word>();
+        word.AddComponent<BulletCollision>();
+        word.GetComponent<BulletCollision>().timeBeforeAutodestruct = 7;
 
         SpriteRenderer spriteRenderer = word.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprites[idx];
+        spriteRenderer.sortingOrder = 1;
         word.transform.parent = this.transform;
         return word;
     }
@@ -54,14 +62,10 @@ public class Words : MonoBehaviour
         word.AddComponent<PolygonCollider2D>();
         word.AddComponent<Rigidbody2D>();
         GameObject d = Instantiate(damager, word.transform);
+        Destroy(d.GetComponent<BoxCollider2D>());
         UnityEditorInternal.ComponentUtility.CopyComponent(word.GetComponent<PolygonCollider2D>());
         UnityEditorInternal.ComponentUtility.PasteComponentAsNew(d);
         d.GetComponent<PolygonCollider2D>().isTrigger = true;
-    }
-
-    void SetChase(GameObject word)
-    {
-
     }
 
     void SetDamagerStatic(GameObject word)
@@ -86,32 +90,38 @@ public class Words : MonoBehaviour
 
     public void HorizonAttack()
     {
-        /*
         for (int i = 0; i < horizonChart[currentHorizon].Length; ++i)
         {
-            //StartCoroutine(HorizonGenerate(Random.Range(0, sprites.Count)));
+            StartCoroutine(LeftGenerate(horizonChart[currentHorizon][i]-'0'));
+            StartCoroutine(RightGenerate(horizonChart[currentHorizon][i]-'0'));
         }
-        */
     }
 
-    public void ChaseAttack()
+    IEnumerator ChaseAttack()
     {
-        for (int i = 0; i < 2; ++i)
+        for (int i = 0; i < numOfChase; ++i)
         {
-            //StartCoroutine(FallGenerate(Random.Range(0, sprites.Count)));
+            ChaseGenerate();
+            yield return new WaitForSeconds(2f);
         }
     }
 
-    public void EmergeAttack()
+    IEnumerator EmergeAttack()
     {
         for (int i = 0; i < emergeChart[currentEmerge].Length; ++i)
         {
-            //StartCoroutine(EmergeGenerate(Random.Range(0, sprites.Count)));
+            StartCoroutine(EmergeGenerate(emergeChart[currentEmerge][i]-'0'));
+            yield return new WaitForSeconds(1f);
         }
+        foreach(GameObject w in chaseList)
+        {
+            w.GetComponent<BulletCollision>().timeBeforeAutodestruct = 3;
+        }
+        chaseList.Clear();
     }
     IEnumerator FallGenerate(int idx)
     {
-        GameObject word = GenerateWord(Random.Range(0, sprites.Count));
+        GameObject word = GenerateWord();
         word.transform.position = fallPos.transform.GetChild(idx).transform.position;
         yield return new WaitForSeconds(2f);
         SetDamager(word);
@@ -119,8 +129,11 @@ public class Words : MonoBehaviour
     
     IEnumerator LeftGenerate(int idx)
     {
-        GameObject word = GenerateWord(idx);
-        word.transform.localPosition = leftPos.transform.localPosition;
+        GameObject word = GenerateWord();
+        word.transform.position = leftPos.transform.GetChild(idx).transform.position;
+        Vector3 w = word.transform.position;
+        Vector3 l = leftPos.transform.GetChild(idx).transform.position;
+        Vector3 a = new Vector3();
         yield return new WaitForSeconds(1f);
         SetDamager(word);
 
@@ -129,59 +142,61 @@ public class Words : MonoBehaviour
     
     IEnumerator RightGenerate(int idx)
     {
-        GameObject word = GenerateWord(idx);
-        word.transform.localPosition = rightPos.transform.localPosition;
+        GameObject word = GenerateWord();
+        word.transform.position = rightPos.transform.GetChild(idx).transform.position;
         yield return new WaitForSeconds(1f);
         SetDamager(word);
 
         word.GetComponent<Rigidbody2D>().AddForce(new Vector3(-1, 0, 0) * 15, ForceMode2D.Impulse);
     }
 
-    IEnumerator EmergeGenerate(int[] idxs)
+    IEnumerator EmergeGenerate(int idx)
     {
-        for (int i = 0; i < idxs.Length; ++i)
-        {
-            GameObject word = GenerateWord(idxs[i]);
-            GameObject pos = emergePos.transform.GetChild(i).gameObject;
-            word.transform.localPosition = pos.transform.localPosition;
-            Color c = word.GetComponent<SpriteRenderer>().color;
-            c.a = 0.5f;
-            word.GetComponent<SpriteRenderer>().color = c;
-            yield return new WaitForSeconds(1f);
-            c.a = 1f;
-            word.GetComponent<SpriteRenderer>().color = c;
-            SetDamagerStatic(word);
-        }
+        GameObject word = GenerateWord();
+        word.GetComponent<BulletCollision>().timeBeforeAutodestruct = -1;
+        chaseList.Add(word);
+        GameObject pos = emergePos.transform.GetChild(idx).gameObject;
+        word.transform.localPosition = pos.transform.localPosition;
+        Color c = word.GetComponent<SpriteRenderer>().color;
+        c.a = 0.2f;
+        word.GetComponent<SpriteRenderer>().color = c;
+        yield return new WaitForSeconds(1.5f);
+        c.a = 1f;
+        word.GetComponent<SpriteRenderer>().color = c;
+        SetDamagerStatic(word);
     }
 
-    void GenerateChase(int idx)
+    void ChaseGenerate()
     {
-        GameObject word = GenerateWord(idx);
+        GameObject word = GenerateWord();
         word.transform.localPosition = boss.transform.localPosition;
+        word.transform.localScale /= 2;
+        word.AddComponent<HpDamable>();
+        word.GetComponent<HpDamable>().MaxHp = 10;
+        word.GetComponent<HpDamable>().playerAttackCanGainSoul = true;
         SetDamager(word);
-        word.AddComponent<ChasePlayer>();
+        word.GetComponent<Word>().Chase();
     }
 
     public void Attack()
     {
-        //int attack = Random.Range(0, 3);
-        int attack = 0;
-        if (attack == 0)
+        if (currentWord == 0)
         {
             StartCoroutine(FallAttack());
         }
-        else if (attack == 1)
+        else if (currentWord == 1)
         {
             HorizonAttack();
         }
-        else if (attack == 2)
+        else if (currentWord == 2)
         {
-            ChaseAttack();
+            StartCoroutine(ChaseAttack());
         }
         else
         {
-            EmergeAttack();
+            StartCoroutine(EmergeAttack());
         }
+        currentWord = (currentWord + 1) % 4;
     }
 }
    

@@ -66,4 +66,10 @@ public class BossController : MonoBehaviour
         words = GameObject.Find("Words");
         words.GetComponent<Words>().Attack();
     }
+
+    public void ToSecond()
+    {
+        PianoAttackEnd();
+        ClarinetAttackEnd();
+    }
 }
