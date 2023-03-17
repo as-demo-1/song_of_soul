@@ -1,0 +1,238 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!64 &8027130909404286602
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037865767125816522}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3471180023992003951, guid: c74af5afc64b4b7489c7a063c3760f0d, type: 3}
+--- !u!95 &8027130909404286605
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037865767125816522}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5408807b8cc45fd44b3ceaa55d224604, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &8027130908015466737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8027130908015466736}
+  - component: {fileID: 8027130908015466741}
+  - component: {fileID: 4584415025414636474}
+  - component: {fileID: 8027130908015466739}
+  - component: {fileID: 5144071172017416926}
+  m_Layer: 0
+  m_Name: GateDoor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8027130908015466736
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8027130908015466737}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 46.55, y: 0.864, z: -13.051}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3034491318393923289}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8027130908015466741
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8027130908015466737}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 3, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4584415025414636474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8027130908015466737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176215d6f5dc7d6439ae4e5225cbd075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_InteractorLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsInteractable: 1
+  m_AutoInteract: 0
+  m_2D: 1
+  m_3D: 1
+  m_OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDeselect:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8027130908015466739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8027130908015466737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fad7120bd794d846a6afcfb03b9cb17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DeactivateOnInteract: 0
+  m_ScheduleReactivationTime: -1
+  m_SelectIndicators: []
+  m_GateKey:
+    m_Name: Gate Key
+    m_ItemDefinition: {fileID: 11400000, guid: 3679a168ae23bbb4e8bda8f6da7fdd70, type: 2}
+  m_Animator: {fileID: 8027130909404286605}
+  m_TextPanel: {fileID: 0}
+  m_TextIfNoKey: You need the Gate Key to open the gate. You might find one in a
+    chest near the gate
+  m_TextHasKey: You opened the gate with the "Gate Key"
+  m_TextDisplayTime: 5
+--- !u!114 &5144071172017416926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8027130908015466737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37e0033ac8a44bb96f5b75b6c335d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &8027130909385412035
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8027130908015466736}
+    m_Modifications:
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.005
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d7e7595be24db449ab000dea3b56fdc, type: 2}
+    - target: {fileID: -927199367670048503, guid: 0394248a24211c542986fda8a82806f1,
+        type: 3}
+      propertyPath: m_Name
+      value: GateDoor
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0394248a24211c542986fda8a82806f1, type: 3}
+--- !u!1 &2037865767125816522 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 0394248a24211c542986fda8a82806f1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8027130909385412035}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3034491318393923289 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 0394248a24211c542986fda8a82806f1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8027130909385412035}
+  m_PrefabAsset: {fileID: 0}
