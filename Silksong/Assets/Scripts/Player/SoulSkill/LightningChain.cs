@@ -17,14 +17,13 @@ public class LightningChain : SoulSkill
     [Range(0,1)]
     public float extraDamagePercent = 1;
 
-    Hittable preTarget;
+    HpDamable preTarget;
 
     public float moveSpeedUp;
     private void Awake()
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
         _playerCharacter = GetComponentInParent<PlayerCharacter>();
-        m_eventType = BattleEventType.LightningChainAtk;
     }
 
     void Start()
@@ -53,16 +52,15 @@ public class LightningChain : SoulSkill
         if (eventVariant is null)
         {
             eventVariant = Clone();
-            eventVariant.m_eventType = BattleEventType.LightningAddElectricMarkEvent;
             eventVariant.gameObject.SetActive(false);
         }
         EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
     }
     
-    public override bool AtkPerTarget(Hittable target)
+    public override bool AtkPerTarget(HpDamable target)
     {
         if (!IsAtkSuccess(target)||!target.HaveBuff(BuffType.ElectricMark)) return false;
-        target.GetDamage(Damage());
+        //target.GetDamage(Damage());
         target.RemoveBuff(BuffType.ElectricMark);
         if (chainsRoot != null)
         {
@@ -72,7 +70,7 @@ public class LightningChain : SoulSkill
         return true;
     }
 
-    public bool AddElectricMark(Hittable target)
+    public bool AddElectricMark(HpDamable target)
     {
         if (!IsAddElectricMarkSuccess(target)||!target.CanGetBuff(BuffType.ElectricMark)) return false;
         target.GetBuff(BuffType.ElectricMark);
@@ -83,7 +81,6 @@ public class LightningChain : SoulSkill
     {
         if(ElectricMark.targets.Count < 2) return;
         bool needInitFirstTarget = true;
-        ;
         int index = 0;
         foreach (var target in ElectricMark.targets)
         {
@@ -102,22 +99,14 @@ public class LightningChain : SoulSkill
         }
     }
 
-    public void SpeedUp(bool needApply)
-    {
-        if(needApply) _playerInfomation.SpeedUp(extraSpeedPercent);
-        else
-        {
-            _playerInfomation.SpeedUpReset();
-        }
-    }
     
-    protected override bool IsAtkSuccess(Hittable target)
+    protected override bool IsAtkSuccess(HpDamable target)
     {
         return true;
     }
 
     // TODO:实现挂载闪电标记的逻辑
-    private bool IsAddElectricMarkSuccess(Hittable target)
+    private bool IsAddElectricMarkSuccess(HpDamable target)
     {
         if (target == null)
         {

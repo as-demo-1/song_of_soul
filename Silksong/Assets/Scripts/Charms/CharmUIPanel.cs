@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,10 +23,13 @@ public class CharmUIPanel : SerializedMonoBehaviour
     private CharmListSO CharmListSO = default;
 
     [SerializeField]
-    private Transform charmCollectionGrid;
+    private GridLayoutGroup charmCollectionGrid;
     
-
-    private List<Transform> charmTransforms = new List<Transform>();
+    [SerializeField]
+    private GridLayoutGroup orangeCharmGrid;
+    
+    private List<CharmImage> charmImages = new List<CharmImage>();
+    private List<CharmImage> orangeCharmImages = new List<CharmImage>();
 
     [SerializeField]
     private GameObject charmPrefab;
@@ -36,8 +40,7 @@ public class CharmUIPanel : SerializedMonoBehaviour
     [SerializeField]
     private Text charmDescription;
 
-    [SerializeField]
-    private EventSystem EventSystem;
+
 
     // 三种护符槽
     // [SerializeField]
@@ -51,49 +54,79 @@ public class CharmUIPanel : SerializedMonoBehaviour
 
     //private Dictionary<CharmQuality, List<GameObject>> slotDic = new Dictionary<CharmQuality, List<GameObject>>();
 
+    /// <summary>
+    /// 护符槽字典
+    /// </summary>
     [SerializeField]
     private Dictionary<CharmQuality, List<CharmSlot>> slotDic =
         new Dictionary<CharmQuality, List<CharmSlot>>(); 
     //public List<Button> btns;
 
+    /// <summary>
+    /// 选择框
+    /// </summary>
     public RectTransform selecter;
+
+    [SerializeField]
+    private float selecterSize = 15.0f;
+    
+    /// <summary>
+    /// 当前选中的护符
+    /// </summary>
     public CharmImage selectCharm;
 
     private void Awake()
     {
-        Init();
+
     }
     // Start is called before the first frame update
     void Start()
     {
-        // EventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
-        // foreach (var item in CharmListSO.Charms)
-        // {
-        //     GameObject charm = Instantiate(charmPrefab, charmCollectionGrid);
-        //     charmObjects.Add(charm);
-        //     CharmImage charmImage = charm.GetComponent<CharmImage>();
-        //     //charmImage.SetData(item, CharmListSO, this);
-        //     if (item.HasEquiped)
-        //     {
-        //         //TryEquipCharm(charm);
-        //     }
-        // }
-        //RefreshIcon();
+        
     }
 
     public void Init()
     {
-        EventSystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
         foreach (Charm charm in CharmListSO.Charms)
         {
-            CharmImage charmImage = Instantiate(charmPrefab, charmCollectionGrid).GetComponent<CharmImage>();
+            if (!charm.HasCollected) continue;
+
+            CharmImage charmImage = Instantiate(charmPrefab, charmCollectionGrid.transform).GetComponent<CharmImage>();
+            if (charm.CharmQuality.Equals(CharmQuality.ORANGE))
+            {
+                charmImage.transform.SetParent(orangeCharmGrid.transform);
+                charmImage.GetComponent<RectTransform>().sizeDelta  = orangeCharmGrid.cellSize; 
+                orangeCharmImages.Add(charmImage);
+            }
+            else
+            {
+                charmImages.Add(charmImage);
+            }
+            
             charmImage.Init(charm, this);
-            charmTransforms.Add(charmImage.transform);
+            
             if (charm.HasEquiped)
             {
                 CharmToSlot(charmImage);
             }
         }
+        Debug.Log("护符初始化完成");
+        
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log(charmImages.Count);
+        if (charmImages.Count <= 0) return;
+
+        OnTabChange();
+        //GameObject.Find("EventSystem(Clone)").GetComponent<EventSystem>()?.SetSelectedGameObject(charmImages[0].gameObject);
+        PlayerInput.Instance.ReleaseControls();
+    }
+
+    private void OnDisable()
+    {
+        //PlayerInput.Instance.GainControls();
     }
 
     // Update is called once per frame
@@ -128,10 +161,14 @@ public class CharmUIPanel : SerializedMonoBehaviour
                 _charmImage.slot = slot;
                 slot.isEmpty = false;
                 _charmImage.charm.HasEquiped = true;
+                
+                ChangeSelect(_charmImage);
+                
                 return;
             }
         }
 
+        // 装配失败，图标抖动
         _charmImage.transform.DOShakePosition(0.5f, 10.0f);
     }
 
@@ -140,16 +177,25 @@ public class CharmUIPanel : SerializedMonoBehaviour
         selectCharm.slot.isEmpty = true;
         selectCharm.slot = null;
         selectCharm.charm.HasEquiped = false;
-        selectCharm.transform.SetParent(charmCollectionGrid);
+        if (selectCharm.charm.CharmQuality.Equals(CharmQuality.ORANGE))
+        {
+            selectCharm.transform.SetParent(orangeCharmGrid.transform);
+        }
+        else
+        {
+            selectCharm.transform.SetParent(charmCollectionGrid.transform);
+        }
+        //ChangeSelect(selectCharm);
         //selectCharm.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.InOutCubic);
     }
 
     public void ChangeSelect(CharmImage _charmImage)
     {
-        if (selectCharm && selectCharm.Equals(_charmImage)) return;
-
         selectCharm = _charmImage;
-        selecter.DOMove(selectCharm.transform.position, 0.5f).SetEase(Ease.InOutCubic);
+        selecter.transform.SetParent(_charmImage.transform);
+        //selecter.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.InOutCubic);
+        selecter.offsetMin = -selecterSize * Vector2.one;
+        selecter.offsetMax = selecterSize * Vector2.one;
         if (_charmImage==null)
         {
             charmName.text = "";
@@ -161,62 +207,35 @@ public class CharmUIPanel : SerializedMonoBehaviour
             charmDescription.text = _charmImage.charm.effectText;
         }
     }
-    // public void RefreshIcon()
-    // {
-    //     foreach (var item in charmObjects)
-    //     {
-    //         CharmImage charmImage = item.GetComponent<CharmImage>();
-    //         if (charmImage.charmSO.HasEquiped)
-    //         {
-    //             charmImage.CharmEquipDisplay();
-    //         }
-    //         else if (charmImage.charmSO.HasCollected)
-    //         {
-    //             charmImage.CharmCollectDisplay();
-    //         }
-    //         else
-    //         {
-    //             charmImage.CharmLockDisplay();
-    //         }
-    //     }
-    // }
-    // public bool TryEquipCharm(GameObject _icon)
-    // {
-    //     if (!AbleEquipCharm)
-    //     {
-    //         return false;
-    //     }
-    //
-    //     CharmSO _charmSO = _icon.GetComponent<CharmImage>().charmSO;
-    //     foreach (var slot in slotDic[_charmSO.CharmQuality])
-    //     {
-    //         CharmImage slotImage = slot.GetComponent<CharmImage>();
-    //         if (slotImage.SlotEmpty)
-    //         {
-    //             CharmListSO.EquipCharm(_charmSO);
-    //             slotImage.charmSO = _charmSO;
-    //             slotImage.CharmSlotDisplay(true);
-    //             slotImage.SlotEmpty = false;
-    //
-    //             _icon.GetComponent<CharmImage>().CharmEquipDisplay();
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-    // public bool TryDisEquipCharm(GameObject _slot)
-    // {
-    //     if (!AbleEquipCharm)
-    //     {
-    //         return false;
-    //     }
-    //     CharmImage slotImage = _slot.GetComponent<CharmImage>();
-    //     CharmListSO.DisEquipCharm(slotImage.charmSO);
-    //     slotImage.CharmSlotDisplay(false);
-    //     slotImage.SlotEmpty = true;
-    //     slotImage.charmSO = null;
-    //     RefreshIcon();
-    //     return true;
-    // }
+
+    public void OnTabChange()
+    {
+        if (orangeCharmGrid.gameObject.activeInHierarchy)
+        {
+            if (orangeCharmImages.Count > 0)
+            {
+                GameObject.Find("EventSystem(Clone)").GetComponent<EventSystem>()?.
+                    SetSelectedGameObject(orangeCharmImages[0].gameObject);
+                ChangeSelect(orangeCharmImages[0]);
+            }
+            else
+            {
+                selectCharm = null;
+            }
+        }
+        else if(charmCollectionGrid.gameObject.activeInHierarchy)
+        {
+            if (charmImages.Count > 0)
+            {
+                GameObject.Find("EventSystem(Clone)").GetComponent<EventSystem>()?.
+                    SetSelectedGameObject(charmImages[0].gameObject);
+                ChangeSelect(charmImages[0]);
+            }
+            else
+            {
+                selectCharm = null;
+            }
+        }
+    }
 
 }

@@ -36,7 +36,7 @@ using UnityEditor;
 
 namespace Spine.Unity.Editor {
 	using Icons = SpineEditorUtilities.Icons;
-	using EventType = UnityEngine.EventType;
+
 	[CustomEditor(typeof(SkeletonGraphic))]
 	[CanEditMultipleObjects]
 	public class SkeletonGraphicInspector : UnityEditor.Editor {
@@ -160,6 +160,12 @@ namespace Spine.Unity.Editor {
 				serializedObject.ApplyModifiedProperties();
 				serializedObject.Update();
 				return;
+			}
+
+			string errorMessage = null;
+			if (SpineEditorUtilities.Preferences.componentMaterialWarning &&
+				MaterialChecks.IsMaterialSetupProblematic(thisSkeletonGraphic, ref errorMessage)) {
+				EditorGUILayout.HelpBox(errorMessage, MessageType.Error, true);
 			}
 
 			bool isSingleRendererOnly = (!allowMultipleCanvasRenderers.hasMultipleDifferentValues && allowMultipleCanvasRenderers.boolValue == false);

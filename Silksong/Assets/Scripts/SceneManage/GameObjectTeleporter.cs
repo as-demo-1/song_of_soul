@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 /// <summary>
-/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½Ú³ï¿½ï¿½ï¿½ï¿½ÚµÄ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+/// ¸ºÔðÓÎÏ·ÎïÌåÔÚ³¡¾°ÄÚµÄ´«ËÍ µ¥Àý
 /// </summary>
 public class GameObjectTeleporter : MonoBehaviour
 {
@@ -30,13 +30,11 @@ public class GameObjectTeleporter : MonoBehaviour
 
     protected static GameObjectTeleporter instance;
 
-    public Vector3 playerRebornPoint;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public Vector3 playerRebornPoint;//Íæ¼Ò×îÐÂµÄÖØÉúµã
     public bool Transitioning;
 
     public CinemachineVirtualCamera virtualCamera;
     public CinemachineVirtualCamera mSecondVirtualCamera;
-    public CinemachineVirtualCamera mThirdVirtualCamera;
-
     void Awake()
     {
         if (Instance != this)
@@ -52,22 +50,21 @@ public class GameObjectTeleporter : MonoBehaviour
     public static void playerReborn()
     {
         //Instance.playerInput.transform.localScale = new Vector3(1, 0, 0);
-        Teleport(PlayerInput.Instance.gameObject,Instance.playerRebornPoint);
+        Teleport(PlayerInput.Instance.gameObject,Instance.playerRebornPoint,true,true);
     }
-    public void playerEnterSceneEntance(SceneEntrance.EntranceTag entranceTag,Vector3 relativePos)
+    public void playerEnterSceneEntance(SceneEntrance.EntranceTag entranceTag,Vector3 relativePos,bool fade=false,bool releaseControl = false)
     {
         SceneEntrance entrance = SceneEntrance.GetDestination(entranceTag);
-        if (entrance == null)//ï¿½Ã³ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ 
+        if (entrance == null)//¸Ã³¡¾°Ã»ÓÐÈë¿Ú ²»ÊÇÓÐÍæ¼ÒµÄÓÎÏ·³¡¾° 
         {
             return;
         }
         Vector3 enterPos = entrance.transform.position;
         enterPos += relativePos; 
 
-        //playerInput.transform.localScale = new Vector3();ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½
+        //playerInput.transform.localScale = new Vector3();½ÇÉ«³¯Ïò ÔÝÎ´¿¼ÂÇ
         playerRebornPoint = enterPos;
 
-        //TODO:  look at lookAtPoint
         CameraController.Instance.AfterChangeScene();
         virtualCamera = CameraController.Instance.mMainVirtualCamera;
         if (virtualCamera && PlayerInput.Instance)
@@ -75,14 +72,14 @@ public class GameObjectTeleporter : MonoBehaviour
         mSecondVirtualCamera = CameraController.Instance.mSecondVirtualCamera;
         if (mSecondVirtualCamera)
             mSecondVirtualCamera.Follow = PlayerInput.Instance.transform;
-        mThirdVirtualCamera = CameraController.Instance.mThirdVirtualCamera;
-        if (mThirdVirtualCamera)
-            mThirdVirtualCamera.Follow = PlayerInput.Instance.transform;
-        GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
 
-        Teleport(PlayerInput.Instance.gameObject, enterPos);
+       // GameManager.Instance.audioManager.setMonstersDefaultHittedAudio();
+
+       // SceneController.Instance.PreLoadScenes();
+
+        Teleport(PlayerInput.Instance.gameObject, enterPos,fade,releaseControl);
     }
-    public void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//ï¿½ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ï¿½Â³ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ã¸Ã·ï¿½ï¿½ï¿½
+    public void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//ÔÚÍæ¼Ò½øÈëÐÂ³¡¾°Ê±µ÷ÓÃ¸Ã·½·¨
     {
         Vector3 enterPos = Vector3.zero;
         if(transitionPoint is  SceneTransitionPointKeepPos keepPos)
@@ -91,13 +88,16 @@ public class GameObjectTeleporter : MonoBehaviour
         }
         playerEnterSceneEntance(transitionPoint.entranceTag, enterPos);
     }
-    public static void Teleport(GameObject transitioningGameObject, Vector3 destinationPosition)
+    public static void Teleport(GameObject transitioningGameObject, Vector3 destinationPosition,bool fade,bool releaseControl)
     {
-        Instance.StartCoroutine(Instance.Transition(transitioningGameObject, false, false, destinationPosition, false));
+        Instance.StartCoroutine(Instance.Transition(transitioningGameObject, destinationPosition,fade,releaseControl));
     }
 
-    protected IEnumerator Transition(GameObject transitioningGameObject, bool releaseControl, bool resetInputValues, Vector3 destinationPosition, bool fade)
+    protected IEnumerator Transition(GameObject transitioningGameObject, Vector3 destinationPosition, bool fade, bool releaseControl, bool resetInputValues = false)
     {
+
+        if (Transitioning) yield break;
+
         Transitioning = true;
 
 
@@ -106,15 +106,13 @@ public class GameObjectTeleporter : MonoBehaviour
             PlayerAnimatorParamsMapping.SetControl(false);
         }
 
-        /*  if (fade)
-              yield return StartCoroutine(ScreenFader.FadeSceneOut());*///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½yield return nullï¿½ï¿½ï¿½ï¿½ï¿½Ö¹Ã»ï¿½Ð·ï¿½ï¿½ï¿½Öµ
+        if (fade)
+            yield return StartCoroutine(ScreenFader.Instance.FadeSceneOut(ScreenFader.TeleportFadeOutTime));
+
         transitioningGameObject.transform.position = destinationPosition;
-        yield return null;
 
-   
-
-       /* if (fade)
-            yield return StartCoroutine(ScreenFader.FadeSceneIn());*/
+        if (fade)
+            yield return StartCoroutine(ScreenFader.Instance.FadeSceneIn(ScreenFader.TeleportFadeInTime));
 
         if (releaseControl)
         {

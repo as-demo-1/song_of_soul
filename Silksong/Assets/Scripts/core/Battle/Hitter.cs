@@ -22,6 +22,6 @@ public abstract class Hitter : MonoBehaviour
     {
         EventCenter<BattleEventType>.Instance.TiggerEvent(m_eventType, this);
     }
-    public abstract bool AtkPerTarget(Hittable target);
-    protected abstract bool IsAtkSuccess(Hittable target);
+    public abstract bool AtkPerTarget(HpDamable target);
+    protected abstract bool IsAtkSuccess(HpDamable target);
 }

@@ -40,6 +40,7 @@ public class Save
         { EPlayerStatus.CanSwim,true},
         { EPlayerStatus.CanDive,false},
         { EPlayerStatus.CanWaterSprint,false},
+        { EPlayerStatus.CanHeartSword,false},
 
     };
 

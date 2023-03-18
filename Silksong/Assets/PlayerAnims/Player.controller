@@ -1,5 +1,27 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1101 &-9204202372123260657
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -8286212808760954768}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!114 &-8872694133334404041
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,6 +308,34 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &-8286212808760954768
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HeartSword
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: 1806071283111855394}
+  m_StateMachineBehaviours:
+  - {fileID: 3352073502829936183}
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 19fecdd9dd81d9c49830acc1d0465a63, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!114 &-8178115396449500545
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -505,9 +555,7 @@ MonoBehaviour:
     m_SMBEventList: []
   m_SMBWwiseData:
     m_SMBEventList:
-    - timeNormalized: 0.176
-      EventName: PlayerHeal
-    - timeNormalized: 0.176
+    - timeNormalized: 0.5
       EventName: PlayerHeal
 --- !u!1101 &-7531057800556324977
 AnimatorStateTransition:
@@ -685,6 +733,10 @@ MonoBehaviour:
     - timeNormalized: 0
       playerStatus: 16
       statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 4
+      statusIsActive: 0
       wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList: []
@@ -1387,6 +1439,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: IsUnderWater
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: NormalAttackReady
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7149420758045392465}
   m_Solo: 0
@@ -1708,6 +1763,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: NormalAttackIsValid
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: NormalAttackReady
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8476691923782576037}
   m_Solo: 0
@@ -1852,6 +1910,31 @@ AnimatorStateTransition:
   m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.8846154
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &-3929281191471636964
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: IntoWater
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2659688401225235700}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2095,6 +2178,14 @@ MonoBehaviour:
       playerStatus: 1
       statusIsActive: 0
       wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 530
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 8
+      statusIsActive: 0
+      wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -2224,7 +2315,7 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 8
-      statusIsActive: 1
+      statusIsActive: 0
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 16
@@ -2243,19 +2334,15 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
-      playerStatus: 4
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0.4
-      playerStatus: 4
-      statusIsActive: 1
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
       playerStatus: 530
       statusIsActive: 0
       wayOfChangingFlag: 0
     - timeNormalized: 0.5
       playerStatus: 530
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.4
+      playerStatus: 8
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
@@ -2487,6 +2574,10 @@ MonoBehaviour:
       playerStatus: 540
       statusIsActive: 1
       wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 4
+      statusIsActive: 1
+      wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList: []
 --- !u!114 &-2496319268684918498
@@ -2613,6 +2704,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: CanNormalAttack
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: NormalAttackReady
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2315642899718805873}
   m_Solo: 0
@@ -2691,8 +2785,6 @@ MonoBehaviour:
     m_SMBEventList:
     - timeNormalized: 0
       newState: 50
-    - timeNormalized: 0
-      newState: 0
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -2748,7 +2840,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.875
   m_HasExitTime: 0
-  m_HasFixedDuration: 1
+  m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -3111,7 +3203,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SMBStateData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 50
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -3123,14 +3217,6 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
-      playerStatus: 4
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0.3
-      playerStatus: 4
-      statusIsActive: 1
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
       playerStatus: 1
       statusIsActive: 0
       wayOfChangingFlag: 0
@@ -3144,12 +3230,51 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0.5
       playerStatus: 530
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 8
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.5
+      playerStatus: 8
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList:
     - timeNormalized: 0
       EventName: PlayerAttackB
+--- !u!1101 &-83926862644685888
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: CanHeartSword
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: HeartSwordIsValid
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: IsGrounded
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 1960214325097603318}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.8846154
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -3272,6 +3397,12 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: NormalAttackReady
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 9100000}
   - m_Name: SprintIsValid
     m_Type: 4
@@ -3423,6 +3554,24 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: IntoWater
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: CanHeartSword
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: HeartSwordIsValid
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -3501,7 +3650,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SMBStateData:
-    m_SMBEventList: []
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 50
   m_SMBStatusData:
     m_SMBEventList:
     - timeNormalized: 0
@@ -3513,14 +3664,6 @@ MonoBehaviour:
       statusIsActive: 1
       wayOfChangingFlag: 0
     - timeNormalized: 0
-      playerStatus: 4
-      statusIsActive: 0
-      wayOfChangingFlag: 0
-    - timeNormalized: 0.6
-      playerStatus: 4
-      statusIsActive: 1
-      wayOfChangingFlag: 0
-    - timeNormalized: 0
       playerStatus: 1
       statusIsActive: 0
       wayOfChangingFlag: 0
@@ -3534,6 +3677,14 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0.7
       playerStatus: 530
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 8
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0.7
+      playerStatus: 8
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
@@ -3646,6 +3797,18 @@ MonoBehaviour:
       wayOfChangingFlag: 0
     - timeNormalized: 0
       playerStatus: 520
+      statusIsActive: 1
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 530
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 540
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 560
       statusIsActive: 1
       wayOfChangingFlag: 0
   m_SMBWwiseData:
@@ -3813,6 +3976,7 @@ AnimatorState:
   - {fileID: 3962963484469596371}
   - {fileID: -6953548216673991477}
   - {fileID: -3693986428836223751}
+  - {fileID: -83926862644685888}
   m_StateMachineBehaviours:
   - {fileID: 337923171764513045}
   m_Position: {x: 50, y: 50, z: 0}
@@ -3926,7 +4090,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ToCat
-  m_Speed: 1
+  m_Speed: 8
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 663727259550681544}
@@ -4049,6 +4213,28 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &1806071283111855394
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 880180642144292202}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &1935062195925015371
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4071,6 +4257,34 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &1960214325097603318
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HeartSwordReady
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -9204202372123260657}
+  m_StateMachineBehaviours:
+  - {fileID: 6158618624523155968}
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 921a7b7cc37382347954749706c0eb45, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &1990763288857698293
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4515,6 +4729,38 @@ MonoBehaviour:
     - timeNormalized: 0
       playerStatus: 4
       statusIsActive: 1
+      wayOfChangingFlag: 0
+  m_SMBWwiseData:
+    m_SMBEventList: []
+--- !u!114 &3352073502829936183
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SMBStateData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 170
+  m_SMBStatusData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      playerStatus: 1
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 2
+      statusIsActive: 0
+      wayOfChangingFlag: 0
+    - timeNormalized: 0
+      playerStatus: 8
+      statusIsActive: 0
       wayOfChangingFlag: 0
   m_SMBWwiseData:
     m_SMBEventList: []
@@ -5097,55 +5343,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
---- !u!1101 &5231513791619986327
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: IsUnderWater
-    m_EventTreshold: 0
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 50
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 310
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 320
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 330
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 300
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 340
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 350
-  - m_ConditionMode: 7
-    m_ConditionEvent: CurrentStates
-    m_EventTreshold: 70
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 2659688401225235700}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 0
 --- !u!1107 &5488033401910668986
 AnimatorStateMachine:
   serializedVersion: 6
@@ -5233,6 +5430,26 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &6158618624523155968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35fc4700e317924ca4e49d9a9dfcaee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SMBStateData:
+    m_SMBEventList:
+    - timeNormalized: 0
+      newState: 10
+  m_SMBStatusData:
+    m_SMBEventList: []
+  m_SMBWwiseData:
+    m_SMBEventList: []
 --- !u!206 &6177516066097308562
 BlendTree:
   m_ObjectHideFlags: 1
@@ -5302,6 +5519,31 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 810, y: 20, z: 0}
   m_DefaultState: {fileID: 77240976764668773}
+--- !u!1107 &6288645433332283383
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HeartSword
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: 1960214325097603318}
+    m_Position: {x: 310, y: 20, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8286212808760954768}
+    m_Position: {x: 330, y: 100, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: 1960214325097603318}
 --- !u!1101 &6290396812942961554
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -5590,7 +5832,7 @@ AnimatorStateMachine:
     m_Position: {x: 470, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6776124775273733410}
-    m_Position: {x: 730, y: 230, z: 0}
+    m_Position: {x: 730, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1683462972816609308}
     m_Position: {x: 640, y: 390, z: 0}
@@ -5609,7 +5851,7 @@ AnimatorStateMachine:
     m_Position: {x: 220, y: 350, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 4999696119152625418}
-    m_Position: {x: 630, y: 470, z: 0}
+    m_Position: {x: 690, y: 480, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 5488033401910668986}
     m_Position: {x: 100, y: 270, z: 0}
@@ -5624,7 +5866,10 @@ AnimatorStateMachine:
     m_Position: {x: 850, y: 390, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 6547983140568956312}
-    m_Position: {x: 250, y: 470, z: 0}
+    m_Position: {x: 250, y: 480, z: 0}
+  - serializedVersion: 1
+    m_StateMachine: {fileID: 6288645433332283383}
+    m_Position: {x: 470, y: 490, z: 0}
   m_AnyStateTransitions:
   - {fileID: 4855944608845973763}
   - {fileID: -2249529467917012809}
@@ -5641,11 +5886,11 @@ AnimatorStateMachine:
   - {fileID: 5043654387782595934}
   - {fileID: -4990191564549024734}
   - {fileID: -3527850689456317863}
-  - {fileID: 5231513791619986327}
   - {fileID: 8918602942216374535}
   - {fileID: 6532935348606711976}
   - {fileID: -8849812444101495960}
   - {fileID: 1391871607158549761}
+  - {fileID: -3929281191471636964}
   m_EntryTransitions: []
   m_StateMachineTransitions:
   - first: {fileID: 5488033401910668986}
@@ -6212,6 +6457,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: IsUnderWater
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: NormalAttackReady
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 77240976764668773}

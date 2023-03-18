@@ -30,19 +30,20 @@ public struct PlayerInfo
 
         //----------------------for test-----------------------------
 #if UNITY_EDITOR
-        if (learnAttack) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanNormalAttack);
-        if (learnSprint) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSprint);
-        if (learnBreakMoon) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanBreakMoon);
-        if (learnCastSkill) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanCastSkill);
-        if (learnToCat) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanToCat);
-        if (learnPlunge) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanPlunge);
-        if (learnClimb) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanClimbIdle);
-        if (learnSing) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSing);
-        if (learnDive) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDive);
-        if (learnWaterSprint) playerController.playerStatusDic.learnSkill(EPlayerStatus.CanWaterSprint);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanNormalAttack, learnAttack);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSprint,learnSprint);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanBreakMoon,learnBreakMoon);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanCastSkill,learnCastSkill);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanToCat,learnToCat);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanPlunge,learnPlunge);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanClimbIdle,learnClimb);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSing,learnSing);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDive,learnDive);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanWaterSprint, learnWaterSprint);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanHeartSword,learnHeartSword);
 
-        if (haveDoubleJump) GameManager.Instance.saveSystem.getDoubleJump();
-        if (haveSoulJump) GameManager.Instance.saveSystem.getSoulJump();
+        GameManager.Instance.saveSystem.setDoubleJump(haveDoubleJump);
+        GameManager.Instance.saveSystem.setSoulJump(haveSoulJump);
 #endif 
     }
 
@@ -72,6 +73,7 @@ public struct PlayerInfo
     public bool learnSing;
     public bool learnDive;
     public bool learnWaterSprint;
+    public bool learnHeartSword;
 
     public bool haveSoulJump;
     public bool haveDoubleJump;
@@ -117,10 +119,23 @@ public class PlayerController : MonoBehaviour
 
     [ReadOnly]
     public bool gravityLock;//为ture时，不允许gravityScale改变
-    public bool IsUnderWater;
+    private bool isUnderWater;
+    public bool IsUnderWater
+    {
+        get { return isUnderWater; }
+        set 
+        {
+            if(!isUnderWater && value)
+            {
+                PlayerAnimator.SetTrigger(animatorParamsMapping.IntoWaterParamHash);
+            }
+            isUnderWater = value;
+        }
+    }
+    
 
-    public Collider2D underWaterCheckCollider;
-    public BoxCollider2D groundCheckCollider;
+    public CircleCollider2D underWaterCheckCollider;
+    public CapsuleCollider2D groundCheckCollider;
 
     // plunge
     public float[] plungeStrengthArr = { 0.0f, 1.0f, 3.0f };  // plunge经过了PlungeStrength[i]的距离，达到强度级别i。可配置
@@ -338,13 +353,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void endJumpByUpAttack()
+    {
+        (playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).EndJump();
+        setRigidVelocity(Vector2.zero);
+        //print("end");
+    }
+
     public void CheckHorizontalMove(float setAccelerationNormalizedTime)
     {
         PlayerHorizontalMoveControl.SetAccelerationLeftTimeNormalized(setAccelerationNormalizedTime);
         RecordLastInputDir();
 
         float desireSpeed = lastHorizontalInputDir * playerCharacter.getMoveSpeed();
-        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0 && PlayerAnimatorParamsMapping.HasControl,playerGroundedCheck.IsGroundedBuffer, desireSpeed);
+        float acce = PlayerHorizontalMoveControl.AccelSpeedUpdate(PlayerInput.Instance.horizontal.Value != 0 && PlayerAnimatorParamsMapping.HaveControl(),playerGroundedCheck.IsGroundedBuffer, desireSpeed);
         RB.velocity = new Vector2(acce, RB.velocity.y);
 
         void RecordLastInputDir()
@@ -448,7 +470,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerAnimator.SetTrigger(animatorParamsMapping.HurtParamHas);
         playerToCat.toHuman();
-        Debug.Log("受伤");
+        //Debug.Log("受伤");
     
     }
 
@@ -468,8 +490,8 @@ public class PlayerController : MonoBehaviour
 
         Vector2 groundCheckPos = groundCheckCollider.transform.position;
         groundCheckPos = groundCheckPos + groundCheckCollider.offset;
-        Vector2 offset = new Vector2(0, -groundCheckCollider.size.y / 2);
-        // Debug.DrawRay(groundCheckPos + offset, Vector2.down, Color.red, 0.2f);
+        Vector2 offset = new Vector2(0, -groundCheckCollider.bounds.size.y / 2);
+         //Debug.DrawRay(groundCheckPos + offset, Vector2.down, Color.red, 0.2f);
 
         int groundLayerMask = 1 << LayerMask.NameToLayer("Ground");
 
@@ -519,7 +541,7 @@ public class PlayerController : MonoBehaviour
     {
 
         Vector2 t = transform.position;
-        t.y += 0.1f;//when water below this height,return true
+        t.y += 0.4f;//when water below this height,return true
 
         Vector2 upPoint = new Vector2(t.x+0.1f,t.y+0.1f);
        // Debug.DrawLine(t, upPoint,Color.red);
@@ -590,7 +612,7 @@ public class PlayerGroundedCheck
 
         set//每次update都会调用
         {
-            if (value)//设为真
+            if (value && playerController.IsUnderWater==false)//设为真
             {
 
                 ( playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump) .resetAllJumpCount();
@@ -619,7 +641,7 @@ public class PlayerGroundedCheck
         set
         {      
 
-            if (isGroundedBuffer &&!value)//从真设为假
+            if (isGroundedBuffer &&!value && playerController.IsUnderWater == false)//从真设为假
             {
                 (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).CurrentJumpCountLeft--;
             }

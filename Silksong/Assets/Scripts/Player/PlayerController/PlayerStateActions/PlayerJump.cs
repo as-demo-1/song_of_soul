@@ -29,11 +29,13 @@ public class PlayerJump : PlayerAction
         CurrentJumpCountLeft = Constants.PlayerMaxDoubleJumpCount - Constants.PlayerMaxJumpCount;
     }
 
+    public void ClearAllJumpCount() => CurrentJumpCountLeft = 0;
+
     public override void StateStart(EPlayerState oldState)
     {
         playerController.setRigidGravityScale(0);
 
-        if (playerController.isGroundedBuffer() == false)//只有空中跳跃减跳跃次数，地上跳跃次数由IsGround set方法减去
+        if (playerController.isGroundedBuffer() == false)//here only change the jumpCount when in air, the change on ground is done in the isGround's set method
             --CurrentJumpCountLeft;
 
         playerController.setRigidVelocity(new Vector2(playerController.getRigidVelocity().x, playerController.playerInfo.getJumpUpSpeed()));
@@ -45,15 +47,11 @@ public class PlayerJump : PlayerAction
         jumpingCoro= playerController.StartCoroutine(JumpUpCheck());
 
         //Debug.Log("跳跃参数：" + CurrentJumpCountLeft);
-        if (CurrentJumpCountLeft == 0)
+        if (CurrentJumpCountLeft == 0 && GameManager.Instance.saveSystem.haveDoubleJump())
         {
             playerController.jump.Play();
         }
 
-        if(oldState==EPlayerState.Swim)
-        {
-            playerController.underWaterCheckCollider.enabled = false;
-        }
 
     }
 
@@ -93,7 +91,6 @@ public class PlayerJump : PlayerAction
 
             if (jumpHeight > Constants.PlayerJumpMinHeight - 0.5f)//达到最小高度后才能停下
             {
-                playerController.underWaterCheckCollider.enabled = true;
 
                 if (hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false)//急刹
                 {
@@ -125,7 +122,7 @@ public class PlayerJump : PlayerAction
 
     public override void StateEnd(EPlayerState newState)
     {
-        playerController.underWaterCheckCollider.enabled = true;
+
     }
 
 }

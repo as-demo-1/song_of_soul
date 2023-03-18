@@ -7,6 +7,7 @@ public class Destroyed_GamingSave : GamingSaveObj<bool>
 {
     private void Awake()
     {
+        if (ban) return;
         bool ifError;
         loadGamingData(out ifError);
     }

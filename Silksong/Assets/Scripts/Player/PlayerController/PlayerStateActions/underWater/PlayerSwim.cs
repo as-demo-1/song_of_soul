@@ -17,4 +17,15 @@ public class PlayerSwim : PlayerAction
         playerController.CheckFlipPlayer(1f);
         playerController.CheckHorizontalMove(0.4f);
     }
+
+    public override void StateEnd(EPlayerState newState)
+    {
+        if (newState != EPlayerState.Jump)
+        {
+            PlayerJump pj = (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump);
+            pj.ClearAllJumpCount();
+            pj.justResetDoubleJump();
+        }
+ 
+    }
 }

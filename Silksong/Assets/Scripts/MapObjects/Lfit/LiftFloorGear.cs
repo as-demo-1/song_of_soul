@@ -7,6 +7,8 @@ using UnityEngine;
 public class LiftFloorGear : Damable
 {
     public int floor;
+
+    [HideInInspector]
     public Lift lift;
 
 #if UNITY_EDITOR 
@@ -23,6 +25,7 @@ public class LiftFloorGear : Damable
     {
     
     }
+
     public override void takeDamage(DamagerBase damager)
     {
         base.takeDamage(damager);

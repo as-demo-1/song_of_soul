@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimatorParamsMapping 
+public class PlayerAnimatorParamsMapping
 {
     protected Animator m_Animator;
     PlayerAnimatorStatesControl m_PlayerAnimatorStatesControl;
 
-    public static bool HasControl=true;
+    private static bool HasControl = true;
 
-    public static void SetControl(bool val) { HasControl = val; }
+    public static void SetControl(bool val) { HasControl = val;  }
+    public static bool HaveControl() { return HasControl; }
 
     public PlayerAnimatorParamsMapping(PlayerAnimatorStatesControl playerAnimatorStatesControl) 
     {
@@ -30,6 +31,7 @@ public class PlayerAnimatorParamsMapping
     public int CanJumpParamHash { get; } = Animator.StringToHash("CanJump");
     public int CanNormalAttackParamHash { get; } = Animator.StringToHash("CanNormalAttack");
 
+    public int NormalAttackReadyParamHash { get; } = Animator.StringToHash("NormalAttackReady");
     public int CurrentStatesParamHash { get; } = Animator.StringToHash("CurrentStates");
     public int CanSprintParamHash { get; } = Animator.StringToHash("CanSprint");
     public int SprintIsValidParamHash { get; } = Animator.StringToHash("SprintIsValid");
@@ -84,9 +86,15 @@ public class PlayerAnimatorParamsMapping
 
     public int WaterSprintPlusEndParamHash { get; } = Animator.StringToHash("WaterSprintPlusEnd");
 
+    public int IntoWaterParamHash { get; } = Animator.StringToHash("IntoWater");
+
+    public int CanHeartSwordParamHash { get; } = Animator.StringToHash("CanHeartSword");
+
+    public int HeartSwordIsValidParamHash { get; } = Animator.StringToHash("HeartSwordIsValid");
+
     public void ParamsUpdate()
     {
-        if(HasControl)
+        if(HaveControl())
         {
             m_Animator.SetInteger(HorizontalInputParamHash, (int)PlayerInput.Instance.horizontal.Value);
             m_Animator.SetInteger(VerticalInputParamHash, (int)PlayerInput.Instance.vertical.Value);
@@ -107,6 +115,8 @@ public class PlayerAnimatorParamsMapping
             m_Animator.SetBool(PlungeIsValidParamHash, PlayerInput.Instance.plunge.IsValid);
 
             m_Animator.SetBool(IsSingHeldParamHash, PlayerInput.Instance.sing.Held);
+
+            m_Animator.SetBool(HeartSwordIsValidParamHash, PlayerInput.Instance.heartSword.IsValid);
 
         }
         else
@@ -130,6 +140,9 @@ public class PlayerAnimatorParamsMapping
             m_Animator.SetBool(PlungeIsValidParamHash, false);
 
             m_Animator.SetBool(IsSingHeldParamHash, false);
+
+
+            m_Animator.SetBool(HeartSwordIsValidParamHash, false);
 
         }
 

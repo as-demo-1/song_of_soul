@@ -20,6 +20,7 @@ public enum EPlayerStatus : int
     CanDive=530,
     CanWaterSprint=540,
     CanSwim=550,
+    CanHeartSword=560,
 
 }
 
@@ -48,7 +49,7 @@ public class PlayerStatusDic
             {EPlayerStatus.CanDive, new PlayerStatusFlag(animatorParamsMapping.CanDiveParamHash) },
             {EPlayerStatus.CanWaterSprint, new PlayerStatusFlag(animatorParamsMapping.CanWaterSprintParamHash) },
             {EPlayerStatus.CanSwim, new PlayerStatusFlag(animatorParamsMapping.CanSwimParamHash) },
-
+            {EPlayerStatus.CanHeartSword, new PlayerStatusFlag(animatorParamsMapping.CanHeartSwordParamHash) },
         };
     }
 
@@ -150,10 +151,10 @@ public class PlayerStatusDic
     }
 
 
-    public void learnSkill(EPlayerStatus skill)
+    public void learnSkill(EPlayerStatus skill,bool v)
     {
-        SetPlayerStatusFlag(skill, true, PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
-        GameManager.Instance.saveSystem.learnSkill(skill);
+        SetPlayerStatusFlag(skill, v, PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
+        GameManager.Instance.saveSystem.learnSkill(skill,v);
     }
 
     public void loadLearnedSkills()

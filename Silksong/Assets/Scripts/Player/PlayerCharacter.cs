@@ -36,6 +36,7 @@ public class PlayerCharacter : MonoBehaviour
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
     private PlayerController playerController;
 
+    [HideInInspector]
     public int gluedCount;
 
     public BuffManager buffManager;
@@ -55,6 +56,7 @@ public class PlayerCharacter : MonoBehaviour
 
         /* GameManager.Instance.saveSystem.learnSkill(EPlayerStatus.CanBreakMoon);
          GameManager.Instance.saveSystem.SaveDataToDisk();*/
+        //playerDamable.addTempHp(3,null);
 
 #if UNITY_STANDALONE
         playerController.playerStatusDic.loadLearnedSkills();
@@ -118,9 +120,9 @@ public class PlayerCharacter : MonoBehaviour
     }
 
     // mana-----------------------------------------------------------------------------
-    public int getAttackGainManaNumber()
+    public int getAttackGainManaNumber(int baseGainValue)
     {
-        int ret=Constants.playerAttackGainSoul;
+        int ret=baseGainValue;
         ret += (int)buffManager.GetBuffProperty(BuffProperty.ATTACK_MANA);
         return ret;
     }
@@ -137,13 +139,6 @@ public class PlayerCharacter : MonoBehaviour
         return ret; 
     }
 
-    public void AttackGainMana(DamagerBase damager,DamageableBase damageable)
-    {
-        if(damageable.playerAttackCanGainSoul)
-        {
-            addMana(getAttackGainManaNumber());
-        }
-    }
     /// <summary>
     /// 受伤回能
     /// </summary>
@@ -210,7 +205,37 @@ public class PlayerCharacter : MonoBehaviour
         return finalSpeed;
     }
 
+    // normalAttack-----------------------------------------------------------------------------
+    public float getNormalAttackCd()
+    {
+        float ret=0;
+        PlayerNormalAttack playerNormalAttack = (PlayerNormalAttack)playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.NormalAttack];
+        if(playerNormalAttack.currentAttackStage==EPlayerNormalAttackStage.First)
+        {
+            ret = Constants.AttackCd_First;
+        }
+        else if(playerNormalAttack.currentAttackStage==EPlayerNormalAttackStage.Second)
+        {
+            ret = Constants.AttackCd_Second;
+        }
+        else if(playerNormalAttack.currentAttackStage==EPlayerNormalAttackStage.Thrid)
+        {
+            ret = Constants.AttackCd_Third;
+        }
+        else
+        {
+            ret = Constants.AttackCd_Up;
+        }
 
+        return ret;
+    }
+    // sprint-----------------------------------------------------------------------------
+    public float getSprintCd()
+    {
+        float ret=Constants.SprintCd;
+
+        return ret;
+    }
     // cold-----------------------------------------------------------------------------
     private int coldValue;
 

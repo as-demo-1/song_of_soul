@@ -22,7 +22,7 @@ public class SwitchGate : Damable
         anim = GetComponent<Animator>();
 
         BoolGamingSave gamingSave;
-        if (TryGetComponent(out gamingSave))
+        if (TryGetComponent(out gamingSave) && !gamingSave.ban)
         {
             bool error;
             bool open = gamingSave.loadGamingData(out error);
@@ -46,7 +46,7 @@ public class SwitchGate : Damable
             StartCoroutine(MoveGate(startPos));
         }
         BoolGamingSave gamingSave;
-        if (TryGetComponent(out gamingSave))
+        if (TryGetComponent(out gamingSave) &&!gamingSave.ban)
         {
             gamingSave.saveGamingData(ifopen);
         }

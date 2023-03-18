@@ -44,7 +44,12 @@ public class SoulWall : Trigger2DBase
         {
             yield return null;
         }
-        GetComponent<Destroyed_StableSave>().saveGamingData(true);
+        Destroyed_StableSave stableSave;
+        if(TryGetComponent(out stableSave) &&!stableSave.ban)
+        {
+            GetComponent<Destroyed_StableSave>().saveGamingData(true);
+        }
+     
         Destroy(gameObject);
     }
 }

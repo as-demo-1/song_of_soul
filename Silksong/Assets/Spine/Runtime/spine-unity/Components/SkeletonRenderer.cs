@@ -39,6 +39,10 @@
 #define BUILT_IN_SPRITE_MASK_COMPONENT
 #endif
 
+#if UNITY_2019_3_OR_NEWER
+#define CONFIGURABLE_ENTER_PLAY_MODE
+#endif
+
 #define SPINE_OPTIONAL_RENDEROVERRIDE
 #define SPINE_OPTIONAL_MATERIALOVERRIDE
 
@@ -78,7 +82,7 @@ namespace Spine.Unity {
 
 		/// <summary>Update mode to optionally limit updates to e.g. only apply animations but not update the mesh.</summary>
 		public UpdateMode UpdateMode { get { return updateMode; } set { updateMode = value; } }
-		[SerializeField] protected UpdateMode updateMode = UpdateMode.FullUpdate;
+		protected UpdateMode updateMode = UpdateMode.FullUpdate;
 
 		/// <summary>Update mode used when the MeshRenderer becomes invisible
 		/// (when <c>OnBecameInvisible()</c> is called). Update mode is automatically
@@ -182,14 +186,16 @@ namespace Spine.Unity {
 				generateMeshOverride += value;
 				if (disableRenderingOnOverride && generateMeshOverride != null) {
 					Initialize(false);
-					meshRenderer.enabled = false;
+					if (meshRenderer)
+						meshRenderer.enabled = false;
 				}
 			}
 			remove {
 				generateMeshOverride -= value;
 				if (disableRenderingOnOverride && generateMeshOverride == null) {
 					Initialize(false);
-					meshRenderer.enabled = true;
+					if (meshRenderer)
+						meshRenderer.enabled = true;
 				}
 			}
 		}
@@ -243,17 +249,17 @@ namespace Spine.Unity {
 		public SkeletonDataAsset SkeletonDataAsset { get { return skeletonDataAsset; } } // ISkeletonComponent
 
 		#region Runtime Instantiation
-		public static T NewSpineGameObject<T> (SkeletonDataAsset skeletonDataAsset) where T : SkeletonRenderer {
-			return SkeletonRenderer.AddSpineComponent<T>(new GameObject("New Spine GameObject"), skeletonDataAsset);
+		public static T NewSpineGameObject<T> (SkeletonDataAsset skeletonDataAsset, bool quiet = false) where T : SkeletonRenderer {
+			return SkeletonRenderer.AddSpineComponent<T>(new GameObject("New Spine GameObject"), skeletonDataAsset, quiet);
 		}
 
 		/// <summary>Add and prepare a Spine component that derives from SkeletonRenderer to a GameObject at runtime.</summary>
 		/// <typeparam name="T">T should be SkeletonRenderer or any of its derived classes.</typeparam>
-		public static T AddSpineComponent<T> (GameObject gameObject, SkeletonDataAsset skeletonDataAsset) where T : SkeletonRenderer {
+		public static T AddSpineComponent<T> (GameObject gameObject, SkeletonDataAsset skeletonDataAsset, bool quiet = false) where T : SkeletonRenderer {
 			var c = gameObject.AddComponent<T>();
 			if (skeletonDataAsset != null) {
 				c.skeletonDataAsset = skeletonDataAsset;
-				c.Initialize(false);
+				c.Initialize(false, quiet);
 			}
 			return c;
 		}
@@ -275,6 +281,12 @@ namespace Spine.Unity {
 		public virtual void Awake () {
 			Initialize(false);
 		}
+
+	#if UNITY_EDITOR && CONFIGURABLE_ENTER_PLAY_MODE
+		public virtual void Start () {
+			Initialize(false);
+		}
+	#endif
 
 		void OnDisable () {
 			if (clearStateOnDisable && valid)
@@ -305,7 +317,7 @@ namespace Spine.Unity {
 		/// <summary>
 		/// Initialize this component. Attempts to load the SkeletonData and creates the internal Skeleton object and buffers.</summary>
 		/// <param name="overwrite">If set to <c>true</c>, it will overwrite internal objects if they were already generated. Otherwise, the initialized component will ignore subsequent calls to initialize.</param>
-		public virtual void Initialize (bool overwrite) {
+		public virtual void Initialize (bool overwrite, bool quiet = false) {
 			if (valid && !overwrite)
 				return;
 
@@ -351,7 +363,7 @@ namespace Spine.Unity {
 			#if UNITY_EDITOR
 			if (!Application.isPlaying) {
 				string errorMessage = null;
-				if (MaterialChecks.IsMaterialSetupProblematic(this, ref errorMessage))
+				if (!quiet && MaterialChecks.IsMaterialSetupProblematic(this, ref errorMessage))
 					Debug.LogWarningFormat(this, "Problematic material setup at {0}: {1}", this.name, errorMessage);
 			}
 			#endif
@@ -371,7 +383,7 @@ namespace Spine.Unity {
 			}
 			#endif
 
-			if (updateMode <= UpdateMode.EverythingExceptMesh) return;
+			if (updateMode != UpdateMode.FullUpdate) return;
 
 			#if SPINE_OPTIONAL_RENDEROVERRIDE
 			bool doMeshOverride = generateMeshOverride != null;

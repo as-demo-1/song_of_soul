@@ -34,6 +34,7 @@ public class PlayerInput : InputComponent
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
     public InputButton soulSkill = new InputButton(KeyCode.R, XboxControllerButtons.None);
     public InputButton sing = new InputButton(KeyCode.Z, XboxControllerButtons.None);
+    public InputButton heartSword = new InputButton(KeyCode.U, XboxControllerButtons.None);
     ////TODO:xbox button mapping
     public InputButton showMap = new InputButton(KeyCode.M, XboxControllerButtons.None);
     ////TODO:xbox button mapping
@@ -70,6 +71,7 @@ public class PlayerInput : InputComponent
             quickMap,
             plunge,
             sing,
+            heartSword,
         });
     }
 

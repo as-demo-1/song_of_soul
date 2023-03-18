@@ -9,7 +9,7 @@ public class PlayerIntoWater : PlayerAction
     public override void StateStart(EPlayerState oldState)//need a min into water distance to make sure player into water corretly/totaly
     {
         base.StateStart(oldState);
-        PlayerAnimatorParamsMapping.HasControl = false;
+        PlayerAnimatorParamsMapping.SetControl(false);
         playerController.setRigidGravityScale(0);
         playerController.gravityLock = true;
         inPos = playerController.transform.position;
@@ -38,7 +38,16 @@ public class PlayerIntoWater : PlayerAction
             Debug.Log(speed);
             playerController.setRigidVelocity(speed* 2 );
         }
-        }
+
+        playerController.playerToCat.toHuman();
+
+        PlayerJump pj = (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump);
+        pj.ClearAllJumpCount();
+        pj.justResetDoubleJump();
+
+        PlayerSprint ps = (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint);
+        ps.resetAirSprintLeftCount();
+    }
 
     public override void StateUpdate()
     {
@@ -53,11 +62,18 @@ public class PlayerIntoWater : PlayerAction
 
     public override void StateEnd(EPlayerState newState)
     {
-        base.StateEnd(newState);
-        PlayerAnimatorParamsMapping.HasControl = true;
+        PlayerAnimatorParamsMapping.SetControl(true);
         playerController.setRigidLinearDrag(0);
         playerController.gravityLock = false;
-        playerController.setRigidVelocity(Vector2.zero);
+        if ((int)newState >= 300)
+        {
+            playerController.setRigidVelocity(Vector2.zero);
+        }
+        else
+        {
+            playerController.setRigidGravityScaleToNormal();
+        }
+
     }
 }
 

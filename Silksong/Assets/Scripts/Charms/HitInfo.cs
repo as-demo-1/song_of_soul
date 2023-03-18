@@ -25,6 +25,7 @@ public class HitInfo : MonoBehaviour
         text.transform.localPosition = Vector3.zero;;
         text.GetComponentInChildren<Text>().text = damagerBase.damage.ToString();
         text.transform.DOLocalMove(new Vector3(Random.Range(-1.0f,1.0f), 3.0f, 0.0f), 0.5f);
+        Debug.Log(damagerBase.damage.ToString());
         Destroy(text, 1.0f);
     }
 }

@@ -42,11 +42,14 @@ public class PlayerToCatAndHuman
 
         IsCat = true;
         playerController.gameObject.layer = LayerMask.NameToLayer("PlayerCat");
-        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerCatBoxColliderOffsetY);
+
+        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, playerController.boxCollider.offset.y);
         playerController.boxCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, Constants.playerCatBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerCatGroundCheckColliderOffsetY);
-        playerController.groundCheckCollider.size = new Vector2(Constants.playerGroundCheckColliderSizeX, playerController.groundCheckCollider.size.y);
+        playerController.groundCheckCollider.size = new Vector2(Constants.playerCatBoxColliderWidth, playerController.groundCheckCollider.size.y);
+
+        playerController.underWaterCheckCollider.radius = Constants.playerWaterCheckColliderRadiusCat;
     }
 
     public void colliderToHuman()
@@ -54,20 +57,39 @@ public class PlayerToCatAndHuman
         void checkIfNeedMoveAwayFromGround()//to prevent player from dropped in ground
         {
             Vector2 t = playerController.transform.position;
-
-            if (playerController.checkHitWall(true))
-                playerController.transform.position = new Vector2(t.x - 0.25f, t.y);
+            RaycastHit2D hit = Physics2D.Raycast(t, Vector2.down, 100.0f, 1<<LayerMask.NameToLayer("Ground"));
+            //Debug.Log(hit.distance);
+            if (hit.distance>0.5f || hit.collider==null )
+            {
+                RaycastHit2D hitLeft = Physics2D.Raycast(t, new Vector2(-1,-1), 100.0f, 1 << LayerMask.NameToLayer("Ground"));
+                RaycastHit2D hitRight = Physics2D.Raycast(t, new Vector2(1, -1), 100.0f, 1 << LayerMask.NameToLayer("Ground"));
+     
+                if(hitLeft.distance > 0.5f || hitLeft.collider == null)
+                {
+                   // Debug.Log("c to h left");//to do
+                    playerController.transform.position = new Vector2(t.x + 0.3f , t.y + 0.4f);
+                }
+                else if(hitRight.distance > 0.5f || hitRight.collider == null)
+                {
+                    //Debug.Log("c to h right");//to do
+                    playerController.transform.position = new Vector2(t.x -0.3f , t.y + 0.4f);
+                }
+                
+            }
+               
         }
 
 
         if (!IsCat) return;
 
         checkIfNeedMoveAwayFromGround();
-        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, Constants.playerBoxColliderOffsetY);
+        playerController.boxCollider.offset = new Vector2(playerController.boxCollider.offset.x, playerController.boxCollider.offset.y);
         playerController.boxCollider.size = new Vector2(Constants.playerBoxColliderWidth, Constants.playerBoxColliderHeight);
 
         playerController.groundCheckCollider.offset = new Vector2(playerController.groundCheckCollider.offset.x, Constants.playerGroundCheckColliderOffsetY);
         playerController.groundCheckCollider.size = new Vector2(Constants.playerGroundCheckColliderSizeX, playerController.groundCheckCollider.size.y);
+
+        playerController.underWaterCheckCollider.radius = Constants.playerWaterCheckColliderRadius;
     }
 
     public void stateToHuman()
@@ -77,6 +99,7 @@ public class PlayerToCatAndHuman
         IsCat = false;
         isFastMoving = false;
         playerController.gameObject.layer = LayerMask.NameToLayer("Player");
+
     }
     public void toHuman()
     {
@@ -84,6 +107,7 @@ public class PlayerToCatAndHuman
         colliderToHuman();
         stateToHuman();
     }
+    //------------------------------------------------------------------
     public void catUpdate()
     {
         if (!IsCat) return;
