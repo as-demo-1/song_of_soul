@@ -18,7 +18,7 @@ public class ElectricMark : Buff
 {
     
     public static uint counter = 0;
-    public static Dictionary<uint, Hittable> targets = new Dictionary<uint, Hittable>();
+    public static Dictionary<uint, HpDamable> targets = new Dictionary<uint, HpDamable>();
     private static uint currentIndex = 0;
     
     private int layers;
@@ -62,7 +62,7 @@ public class ElectricMark : Buff
         electricMarkPrefeb.SetActive(false);
     }
 
-    public static void AddTarget(uint index, Hittable target)
+    public static void AddTarget(uint index, HpDamable target)
     {
         targets.Add(index, target);
         counter++;

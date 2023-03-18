@@ -36,8 +36,8 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
     public float AvgPlatformSpeed;
     private float moveTotalTime;
     private int AvgPlatformNumberPerCreate;
-    private float PlafromHorizonDistance=6f;
-    public float PlafromHorizonDistanceBear;
+    private float PlafromHorizonDistance=7f;
+    public float MinPlafromPostionXGap;
 
     public GameObject FirstPlatform;
     public GameObject FirstPlatform2;
@@ -63,6 +63,8 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
     public float iceRainWaveTime;
     public int iceNumberPerWave;
     public float iceSpeed;
+
+
 
     void Start()
     {
@@ -127,35 +129,49 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         resetVomitSkillCdTimer();
     }
 
-    private IEnumerator moveingPlatforms()
+    private IEnumerator moveingPlatforms()//0  -1  +1*2  -1*2  +1*2 ....
     {
-        while(true)
+        int currentPlatformOffset=0;
+        createPlatformsAndClouds(AvgPlatformNumberPerCreate, currentPlatformOffset);
+        yield return new WaitForSeconds(AvgplatformsCreateCd);
+        currentPlatformOffset--;
+        createPlatformsAndClouds(AvgPlatformNumberPerCreate, currentPlatformOffset);
+        yield return new WaitForSeconds(AvgplatformsCreateCd);
+
+        int flag = 0;
+        while (true)
         {
-            createPlatformsAndClouds(AvgPlatformNumberPerCreate);
-            yield return new WaitForSeconds(Random.Range(0.8f,1.2f)*AvgplatformsCreateCd);
+            if (flag < 2) currentPlatformOffset++;
+            else currentPlatformOffset--;
+
+            createPlatformsAndClouds(AvgPlatformNumberPerCreate,currentPlatformOffset);
+            yield return new WaitForSeconds(AvgplatformsCreateCd);
+            flag++;
+            flag %= 4;
         }
     }
 
-    private void createPlatformsAndClouds(int num)
+    private void createPlatformsAndClouds(int num,int offset)
     {
         /*
         bool havePlatform = false;
         bool haveCloud = false;*/
         float horizonBase = roomLeftDownPoint.x;
         float preX=-200;
-        for(int i=0;i<num;i++)
+        for (int i=0;i<num;i++)
         {
             float x;
-            x = Random.Range(0f, 2f) + horizonBase + i * PlafromHorizonDistance;
-            if (preX!=-200)
+            //x = Random.Range(0f, 2f) + horizonBase + i * PlafromHorizonDistance+offset*3.5f;
+            x = 2+ horizonBase + i * PlafromHorizonDistance + offset * 3.5f;
+            /*if (preX!=-200)
             {
-                while(x-preX<=PlafromHorizonDistance-PlafromHorizonDistanceBear)
+                if(x-preX<=MinPlafromPostionXGap)
                 {
-                    x += 0.2f;
+                    x = preX + MinPlafromPostionXGap;
                 }
             }
-            preX = x;
-            Vector2 pos = new Vector2(x, createHigher+roomRightUpPoint.y+ Random.Range(-0.5f, 0.5f));
+            preX = x;*/
+            Vector2 pos = new Vector2(x, createHigher+roomRightUpPoint.y+ Random.Range(-0.3f, 0.3f));
             float a = Random.Range(0f, 1f);
             if (a > cloudRate )//||(!havePlatform && i==num-1))
             {

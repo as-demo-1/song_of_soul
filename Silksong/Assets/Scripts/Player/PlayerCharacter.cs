@@ -120,9 +120,9 @@ public class PlayerCharacter : MonoBehaviour
     }
 
     // mana-----------------------------------------------------------------------------
-    public int getAttackGainManaNumber()
+    public int getAttackGainManaNumber(int baseGainValue)
     {
-        int ret=Constants.playerAttackGainSoul;
+        int ret=baseGainValue;
         ret += (int)buffManager.GetBuffProperty(BuffProperty.ATTACK_MANA);
         return ret;
     }
@@ -139,13 +139,6 @@ public class PlayerCharacter : MonoBehaviour
         return ret; 
     }
 
-    public void AttackGainMana(DamagerBase damager,DamageableBase damageable)
-    {
-        if(damageable.playerAttackCanGainSoul)
-        {
-            addMana(getAttackGainManaNumber());
-        }
-    }
     /// <summary>
     /// 受伤回能
     /// </summary>
