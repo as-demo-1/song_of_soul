@@ -79,10 +79,10 @@ MonoBehaviour:
   makeDamageEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 484977951751258056}
-        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainMana
-        m_Mode: 0
+      - m_Target: {fileID: 484977951162521058}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: endJumpByUpAttack
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -91,6 +91,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  killDamableEvent:
+    m_PersistentCalls:
+      m_Calls: []
   hittableLayers2:
     serializedVersion: 2
     m_Bits: 32768
@@ -209,19 +212,10 @@ MonoBehaviour:
   beatBackVector: {x: 0.5, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 484977951751258056}
-        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainMana
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  killDamableEvent:
+    m_PersistentCalls:
+      m_Calls: []
   hittableLayers2:
     serializedVersion: 2
     m_Bits: 32768
@@ -493,31 +487,10 @@ MonoBehaviour:
   beatBackVector: {x: 0.25, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 484977951751258056}
-        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainMana
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5028014397498827743}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
+  killDamableEvent:
+    m_PersistentCalls:
+      m_Calls: []
   hittableLayers2:
     serializedVersion: 2
     m_Bits: 32768
@@ -636,19 +609,10 @@ MonoBehaviour:
   beatBackVector: {x: 0.25, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 484977951751258056}
-        m_TargetAssemblyTypeName: PlayerCharacter, Assembly-CSharp
-        m_MethodName: AttackGainMana
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  killDamableEvent:
+    m_PersistentCalls:
+      m_Calls: []
   hittableLayers2:
     serializedVersion: 2
     m_Bits: 32768
@@ -824,6 +788,11 @@ MonoBehaviour:
     key: 122
     controllerButton: 0
     m_Enabled: 1
+  heartSword:
+    NotNeedGainAndReleaseControl: 0
+    key: 117
+    controllerButton: 0
+    m_Enabled: 1
   showMap:
     NotNeedGainAndReleaseControl: 0
     key: 109
@@ -904,12 +873,12 @@ MonoBehaviour:
     learnSing: 1
     learnDive: 1
     learnWaterSprint: 1
+    learnHeartSword: 0
     haveSoulJump: 1
     haveDoubleJump: 1
   PlayerAnimator: {fileID: 448765876}
   boxCollider: {fileID: 0}
   gravityLock: 0
-  IsUnderWater: 0
   underWaterCheckCollider: {fileID: 303103795}
   groundCheckCollider: {fileID: 619636124}
   plungeStrengthArr:
@@ -977,6 +946,7 @@ MonoBehaviour:
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
   playerAttackCanGainSoul: 0
+  beatBackRate: 1
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -984,11 +954,13 @@ MonoBehaviour:
   takeDamageSfxSO: {fileID: 0}
   maxHp: 5
   currentHp: 5
+  notDestroyWhenDie: 1
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
   hurt: {fileID: 0}
+  electricMarkPref: {fileID: 0}
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 1
 --- !u!114 &1048344337554074644
@@ -1445,11 +1417,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2a98818b199958478773a8f207280ee, type: 3}
---- !u!1 &5028014397498827743 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6459152157928512962, guid: c2a98818b199958478773a8f207280ee, type: 3}
-  m_PrefabInstance: {fileID: 2045932608498531869}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4064516479038447263 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2597606038634995842, guid: c2a98818b199958478773a8f207280ee, type: 3}
@@ -1980,14 +1947,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea07f02514f64554cb9a9e32a6e47c93, type: 3}
---- !u!198 &6422061770453481797 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1975306768376325987, guid: ea07f02514f64554cb9a9e32a6e47c93, type: 3}
-  m_PrefabInstance: {fileID: 4789028644691385894}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6422061770453481795 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1975306768376325989, guid: ea07f02514f64554cb9a9e32a6e47c93, type: 3}
+  m_PrefabInstance: {fileID: 4789028644691385894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6422061770453481797 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1975306768376325987, guid: ea07f02514f64554cb9a9e32a6e47c93, type: 3}
   m_PrefabInstance: {fileID: 4789028644691385894}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5082513136401123433
@@ -2147,14 +2114,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0de336f241c3aa43a67abd2090c2687, type: 3}
---- !u!198 &1847350850031918144 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6857765122955875369, guid: d0de336f241c3aa43a67abd2090c2687, type: 3}
-  m_PrefabInstance: {fileID: 5082513136401123433}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1847350850031918146 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6857765122955875371, guid: d0de336f241c3aa43a67abd2090c2687, type: 3}
+  m_PrefabInstance: {fileID: 5082513136401123433}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1847350850031918144 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6857765122955875369, guid: d0de336f241c3aa43a67abd2090c2687, type: 3}
   m_PrefabInstance: {fileID: 5082513136401123433}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5890053227762800426
