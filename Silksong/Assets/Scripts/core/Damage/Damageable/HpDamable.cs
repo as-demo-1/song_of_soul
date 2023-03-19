@@ -35,20 +35,22 @@ public class HpDamable :Damable
 
     public bool resetHealthOnSceneReload;
 
-    [Serializable]
-    public class dieEvent : UnityEvent<DamagerBase, DamageableBase>
-    { }
-
     //[Serializable]
     public class setHpEvent : UnityEvent<HpDamable>
     { }
 
-    public dieEvent onDieEvent;
+    public DamageEvent onDieEvent;
 
     public setHpEvent onHpChange=new setHpEvent();
 
     public ParticleSystem hurt = default;
-    
+
+    private Dictionary<BuffType, Buff> _buffs = new Dictionary<BuffType, Buff>();
+
+    public GameObject electricMarkPref = default; // …¡µÁ±Íº«
+
+    private uint buffindex;
+
 
 
     public override void takeDamage(DamagerBase damager)
@@ -148,12 +150,13 @@ public class HpDamable :Damable
 
     protected virtual void die(DamagerBase damager)
     {
-        onDieEvent.Invoke(damager,this);
+        onDieEvent.Invoke(damager, this);
+        damager.killDamableEvent.Invoke(damager, this);
 
-        if(!notDestroyWhenDie)
-        Destroy(gameObject);
+        if (!notDestroyWhenDie)
+            Destroy(gameObject);
 
-        Debug.Log(gameObject.name+" die");
+        Debug.Log(gameObject.name + " die");
 
         GamingSaveObj<bool> gamingSave;
         if (TryGetComponent(out gamingSave) && !gamingSave.ban)
@@ -161,6 +164,74 @@ public class HpDamable :Damable
             gamingSave.saveGamingData(true);
         }
 
+    }
+
+
+    public void GetBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                eBuff.AddOneLayer();
+                buffindex = ElectricMark.GetCurrentIndex();
+                ElectricMark.AddTarget(buffindex, this);
+                ElectricMark.counter++;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void RemoveBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                eBuff.ResetLayer();
+                eBuff.HidePerformance();
+                ElectricMark.RemoveTarget(buffindex);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public bool CanGetBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                if (_buffs.ContainsKey(BuffType.ElectricMark))
+                {
+                    ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                    return eBuff.GetLayerNum() < 1;
+                }
+                else
+                {
+                    _buffs.Add(BuffType.ElectricMark, new ElectricMark());
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
+    public bool HaveBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                if (_buffs.ContainsKey(BuffType.ElectricMark))
+                {
+                    ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                    return eBuff.GetLayerNum() > 0;
+                }
+                return false;
+            default:
+                return false;
+        }
     }
 
 }
