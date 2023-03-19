@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 7206712167715262290}
   - component: {fileID: 771774763837474573}
   - component: {fileID: 714960467267114786}
-  - component: {fileID: 3716951776477565401}
   - component: {fileID: 8389461391975610035}
   - component: {fileID: -5133174554031197032}
   - component: {fileID: -4036680221766712832}
+  - component: {fileID: 704982611189805298}
   m_Layer: 6
-  m_Name: 1x3_BreakWall 1
+  m_Name: 1x3_CrossScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 3332955412125389320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 113.22, y: -38.06, z: 0}
-  m_LocalScale: {x: -0.20301832, y: 0.46668372, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 7d1a9275432902d449376cba3be29ea2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7726e8f1ba773ef4aa3db7ba4f239e1c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,18 +101,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -1.000351, y: 0.011064529}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.8, y: 6.4}
+    oldSize: {x: 3, y: 4}
     newSize: {x: 4.8, y: 6.4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.8, y: 6.4}
+  m_Size: {x: 1.0728455, y: 3.9873848}
   m_EdgeRadius: 0
 --- !u!114 &714960467267114786
 MonoBehaviour:
@@ -127,36 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializedGuid: 
---- !u!114 &3716951776477565401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3332955412125389320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcfea57fe97ec324e9ed50670a7ca1ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  invulnerable: 0
-  damageDirection: {x: 0, y: 0}
-  playerAttackCanGainSoul: 0
-  beatBackRate: 0
-  takeDamageEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  takeDamageAudio: {fileID: 0}
-  takeDamageSfxSO: {fileID: 0}
-  maxHp: 3
-  currentHp: 3
-  notDestroyWhenDie: 0
-  resetHealthOnSceneReload: 0
-  onDieEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  hurt: {fileID: 0}
-  animator: {fileID: 8389461391975610035}
 --- !u!95 &8389461391975610035
 Animator:
   serializedVersion: 3
@@ -201,5 +171,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da5d17cba7ffd74797849505447f3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pairLiftGuid: 
+  pairGuid: 
   Guid: 00000000-0000-0000-0000-000000000000
+--- !u!114 &704982611189805298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3332955412125389320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad4f6f9262c6a164ab200c3403a6b03b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invulnerable: 0
+  damageDirection: {x: 0, y: 0}
+  playerAttackCanGainSoul: 0
+  beatBackRate: 0
+  takeDamageEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 704982611189805298}
+        m_TargetAssemblyTypeName: BrokenWall_OneSide, Assembly-CSharp
+        m_MethodName: ChangeSprite
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  takeDamageAudio: {fileID: 0}
+  takeDamageSfxSO: {fileID: 0}
+  maxHp: 3
+  currentHp: 3
+  notDestroyWhenDie: 0
+  resetHealthOnSceneReload: 0
+  onDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hurt: {fileID: 0}
+  leftInvulnerable: 0
+  animator: {fileID: 8389461391975610035}
+  sprites:
+  - {fileID: 21300000, guid: f6c75a3625af0bd4da6a64ded5cd3fbf, type: 3}
+  - {fileID: 21300000, guid: f6c75a3625af0bd4da6a64ded5cd3fbf, type: 3}
+  - {fileID: 21300000, guid: 07abe3a3fbfedb34ab9d43448ca29e72, type: 3}
+  - {fileID: 21300000, guid: 7726e8f1ba773ef4aa3db7ba4f239e1c, type: 3}

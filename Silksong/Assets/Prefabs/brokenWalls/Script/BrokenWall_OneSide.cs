@@ -5,10 +5,15 @@ using UnityEngine;
 public class BrokenWall_OneSide : OneDirectDamable
 {
     public Animator animator;
+    public List<Sprite> sprites;
     protected override void die(DamagerBase damager)
     {
         animator.Play("die");
         StartCoroutine(StartBroke(damager));
+    }
+    public void ChangeSprite()
+    {
+        GetComponent<SpriteRenderer>().sprite = sprites[CurrentHp-1];
     }
     IEnumerator StartBroke(DamagerBase damager)
     {

@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 419195267
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 3bb19abc01d14d441a05c839fbfeb526, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bce5a945c7b7211408024a470cab87db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -163,7 +163,19 @@ MonoBehaviour:
   beatBackRate: 0
   takeDamageEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7368121713652712402}
+        m_TargetAssemblyTypeName: BrokenWall_OneSide, Assembly-CSharp
+        m_MethodName: ChangeSprite
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   takeDamageAudio: {fileID: 0}
   takeDamageSfxSO: {fileID: 0}
   maxHp: 3
@@ -176,6 +188,11 @@ MonoBehaviour:
   hurt: {fileID: 0}
   leftInvulnerable: 0
   animator: {fileID: 4940828148308850346}
+  sprites:
+  - {fileID: 21300000, guid: b328a0a9a4789f74896d7df801e359ff, type: 3}
+  - {fileID: 21300000, guid: b328a0a9a4789f74896d7df801e359ff, type: 3}
+  - {fileID: 21300000, guid: a648b228082808042b7428cc13232212, type: 3}
+  - {fileID: 21300000, guid: bce5a945c7b7211408024a470cab87db, type: 3}
 --- !u!114 &-2416773044371550071
 MonoBehaviour:
   m_ObjectHideFlags: 0
