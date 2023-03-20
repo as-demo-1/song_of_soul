@@ -14,6 +14,7 @@ public class BrokenPlatform : Trigger2DBase
 
     IEnumerator platfromBroke()
     {
+        GetComponent<Animator>()?.Play("broken");
         yield return new WaitForSeconds(brokeTime);
         hide();
         yield return new WaitForSeconds(recreatTime);
