@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Patrol_State
+  m_EditorClassIdentifier: 
+  lastStateID: 2
+  lastTriggerID: 6
+  StateName: Patrol_State
+  StateType: 2
+  stateConfig:
+    id: 0
+  TriggerType: 6
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  - id: 3
+  - id: 4
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_Patrol_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 2
+        defaultAnimationName: move
+        moveSpeed: {x: 1.5, y: 0, z: 0}
+        noTurnState: 0
+    00000001:
+      type: {class: NearPlatformBorderTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 6
+        targetState: 
+        checkDir: 0
+        returnFalseWhenBorder: 0
+    00000002:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Attack_State
+        maxTime: 3
+        timer: 0
+    00000003:
+      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 1
+        targetState: TurnPatrol_State
+    00000004:
+      type: {class: NearPlatformBorderTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 6
+        targetState: TurnPatrol_State
+        checkDir: 0
+        returnFalseWhenBorder: 0

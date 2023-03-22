@@ -28,7 +28,32 @@ public enum EnemyStates
     Enemy_Circle_State = 16,
     Enemy_Die_State=17,
     LittleMonster_Die=18,
-    BigMonster_Die=19
+    BigMonster_Die=19,
+
+    Boss_ShootLoop_State = 20,
+    Boss_ShootEnd_State = 21,
+    Boss_Fireball_State = 22,
+    Boss_FireballLoop_State = 23,
+    Boss_FireballEnd_State = 24,
+    Boss_Monsters_State = 25,
+    Boss_MonstersLoop_State = 26,
+    Boss_MonstersEnd_State = 27,
+    Boss_Start_State = 28,
+    Boss_Violin_State = 29,
+    Boss_ViolinLoop_State = 30,
+    Boss_ViolinEnd_State = 31,
+    Boss_Piano_State = 32,
+    Boss_PianoLoop_State = 33,
+    Boss_PianoEnd_State = 34,
+    Boss_Clarinet_State = 35,
+    Boss_ClarinetLoop_State = 36,
+    Boss_ClarinetEnd_State = 37,
+    Boss_Drum_State = 38,
+    Boss_DrumLoop_State = 39,
+    Boss_DrumEnd_State = 40,
+    Boss_Attack_State = 41,
+    Boss_Second_State = 42,
+    Boss_SecondPatrol_State = 43,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
@@ -45,6 +70,7 @@ public enum EnemyTriggers
     TargetTurnTrigger=7,
     RandomTrigger = 8,
     TouchLayerTrigger=9,
+    InTurnTrigger = 10,
 }
 
 
