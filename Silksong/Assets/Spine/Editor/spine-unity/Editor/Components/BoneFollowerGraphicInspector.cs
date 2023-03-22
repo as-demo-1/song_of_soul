@@ -39,7 +39,8 @@ namespace Spine.Unity.Editor {
 	[CustomEditor(typeof(BoneFollowerGraphic)), CanEditMultipleObjects]
 	public class BoneFollowerGraphicInspector : Editor {
 
-		SerializedProperty boneName, skeletonGraphic, followXYPosition, followZPosition, followBoneRotation, followLocalScale, followSkeletonFlip;
+		SerializedProperty boneName, skeletonGraphic, followXYPosition, followZPosition, followBoneRotation,
+			followLocalScale, followSkeletonFlip, maintainedAxisOrientation;
 		BoneFollowerGraphic targetBoneFollower;
 		bool needsReset;
 
@@ -77,6 +78,7 @@ namespace Spine.Unity.Editor {
 			followZPosition = serializedObject.FindProperty("followZPosition");
 			followLocalScale = serializedObject.FindProperty("followLocalScale");
 			followSkeletonFlip = serializedObject.FindProperty("followSkeletonFlip");
+			maintainedAxisOrientation = serializedObject.FindProperty("maintainedAxisOrientation");
 
 			targetBoneFollower = (BoneFollowerGraphic)target;
 			if (targetBoneFollower.SkeletonGraphic != null)
@@ -131,7 +133,7 @@ namespace Spine.Unity.Editor {
 				return;
 			}
 
-			if (needsReset && Event.current.type == UnityEngine.EventType.Layout) {
+			if (needsReset && Event.current.type == EventType.Layout) {
 				targetBoneFollower.Initialize();
 				targetBoneFollower.LateUpdate();
 				needsReset = false;
@@ -171,6 +173,11 @@ namespace Spine.Unity.Editor {
 				EditorGUILayout.PropertyField(followZPosition);
 				EditorGUILayout.PropertyField(followLocalScale);
 				EditorGUILayout.PropertyField(followSkeletonFlip);
+				if ((followSkeletonFlip.hasMultipleDifferentValues || followSkeletonFlip.boolValue == false) &&
+					(followBoneRotation.hasMultipleDifferentValues || followBoneRotation.boolValue == true)) {
+					using (new SpineInspectorUtility.IndentScope())
+						EditorGUILayout.PropertyField(maintainedAxisOrientation);
+				}
 
 				//BoneFollowerInspector.RecommendRigidbodyButton(targetBoneFollower);
 			} else {
@@ -189,7 +196,7 @@ namespace Spine.Unity.Editor {
 			}
 
 			var current = Event.current;
-			bool wasUndo = (current.type == UnityEngine.EventType.ValidateCommand && current.commandName == "UndoRedoPerformed");
+			bool wasUndo = (current.type == EventType.ValidateCommand && current.commandName == "UndoRedoPerformed");
 			if (wasUndo)
 				targetBoneFollower.Initialize();
 

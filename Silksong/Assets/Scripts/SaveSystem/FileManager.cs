@@ -41,22 +41,26 @@ public static class FileManager
         }
     }
 
-    public static bool MoveFile(string fileName, string newFileName)
+    public static bool MoveFile(string fileName, string newFileName,out bool noCurrentSave)
     {
         var fullPath = Path.Combine(Application.persistentDataPath, fileName);
         var newFullPath = Path.Combine(Application.persistentDataPath, newFileName);
-
+        noCurrentSave = false;
         try
         {
+            if (!File.Exists(fullPath))
+            {
+                noCurrentSave = true;
+                return false;
+            }
+
+
             if (File.Exists(newFullPath))
             {
                 File.Delete(newFullPath);
             }
 
-            // if (!File.Exists(fullPath))
-            // {
-            //     return false;
-            // }
+      
 			
             File.Move(fullPath, newFullPath);
         }

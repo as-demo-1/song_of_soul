@@ -16,17 +16,24 @@ public enum EPlayerState
     Heal = 90,
     Hurt = 100,
     CastSkill = 110,
-    Swim = 120,
+
     Plunge = 130,
     ClimbIdle=140,
     ClimbJump=150,
+    Sing=160,
+    HeartSword=170,
 
     ToCat = 200,
     CatIdle = 210,
     ToHuman = 220,
     CatToHumanExtraJump = 230,
 
-    SprintInWater = 240,
+    WaterIdle = 300,
+    Swim=310,
+    Dive=320,
+    WatreSprint=330,
+    IntoWater=340,
+    FloatUp=350,
 }
 public abstract class PlayerAction
 {
@@ -63,24 +70,29 @@ public class PlayerStatesBehaviour
         StateActionsDic.Add(EPlayerState.Hurt, new PlayerHurt(playerController));
         StateActionsDic.Add(EPlayerState.Jump, new PlayerJump(playerController));
         StateActionsDic.Add(EPlayerState.Fall, new PlayerFall(playerController));
-
+        StateActionsDic.Add(EPlayerState.Sing, new PlayerSing(playerController));
+        StateActionsDic.Add(EPlayerState.Plunge, new PlayerPlunge(playerController));
+        StateActionsDic.Add(EPlayerState.ClimbIdle, new PlayerClimbIdle(playerController));
+        StateActionsDic.Add(EPlayerState.ClimbJump, new PlayerClimbJump(playerController));
         StateActionsDic.Add(EPlayerState.Sprint, new PlayerSprint(playerController));
         StateActionsDic.Add(EPlayerState.BreakMoon, new PlayerBreakMoon(playerController));
+        StateActionsDic.Add(EPlayerState.HeartSword, new PlayerHeartSword(playerController));
 
+        StateActionsDic.Add(EPlayerState.Dive, new PlayerDive(playerController));
+        StateActionsDic.Add(EPlayerState.WatreSprint, new PlayerSprintInWater(playerController));
+        StateActionsDic.Add(EPlayerState.WaterIdle, new PlayerWaterIdle(playerController));
+        StateActionsDic.Add(EPlayerState.IntoWater, new PlayerIntoWater(playerController));
+        StateActionsDic.Add(EPlayerState.FloatUp, new PlayerFloatUp(playerController));
         StateActionsDic.Add(EPlayerState.Swim, new PlayerSwim(playerController));
-        StateActionsDic.Add(EPlayerState.SprintInWater, new PlayerSprintInWater(playerController));
 
         StateActionsDic.Add(EPlayerState.CastSkill, new PlayerCastSkill(playerController));
 
-        StateActionsDic.Add(EPlayerState.Plunge, new PlayerPlunge(playerController));
-
-        StateActionsDic.Add(EPlayerState.ClimbIdle, new PlayerClimbIdle(playerController));
-        StateActionsDic.Add(EPlayerState.ClimbJump, new PlayerClimbJump(playerController));
 
         StateActionsDic.Add(EPlayerState.CatIdle, new PlayerCatIdle(playerController));
         StateActionsDic.Add(EPlayerState.ToCat, new PlayerToCat(playerController));
         StateActionsDic.Add(EPlayerState.ToHuman, new PlayerToHuman(playerController));
         StateActionsDic.Add(EPlayerState.CatToHumanExtraJump, new PlayerCatToHumanExtraJump(playerController));
+        
     }
 
     public PlayerStatesBehaviour(PlayerController playerController)

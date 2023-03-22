@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -44,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     public GamingSaveSO gamingSave;
 
+    public GameObject Loading_BlackScreen;
+
 
     void Awake()
     {
@@ -57,22 +60,34 @@ public class GameManager : MonoBehaviour
 
         GameInitialize();
 
-        //以下代码代表玩家从菜单进入游戏场景的初始化，临时使用
+        Loading_BlackScreen = Instantiate(Loading_BlackScreen);
+        DontDestroyOnLoad(Loading_BlackScreen);
+
+
+        //以下代码代表玩家从菜单进入游戏场景的初始化，最终应通过开始游戏ui调用
+        startGaming();
+    }
+
+    private void Start()
+    {
+        GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);
+    }
+
+    public void startGaming()
+    {
         CreateCamera();
 
         // 临时初始化UI
         UIManager.Instance.ShowGameUI();
 
+        //before create the player, you need to load save data so the player can run init correctly  but at now we do not load save yet
         creatPlayer();
-        GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A,Vector3.zero);
 
         eventSystem = Instantiate(eventSystem);
         DontDestroyOnLoad(eventSystem);
         uint bankid;
-        AkSoundEngine.LoadBank("General",out bankid);
-
+        AkSoundEngine.LoadBank("General", out bankid);
     }
-
     /// <summary>
     /// 进入游戏场景时生成玩家
     /// </summary>

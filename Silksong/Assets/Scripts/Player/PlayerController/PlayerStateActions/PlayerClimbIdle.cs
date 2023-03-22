@@ -10,7 +10,7 @@ public class PlayerClimbIdle : PlayerAction
     {
         playerController.setRigidGravityScale(0);
         playerController.setRigidVelocity(new Vector2(0, -Constants.PlayerClimbIdleFallSpeed));
-        (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).resetJumpCount();
+        (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Jump] as PlayerJump).resetAllJumpCount();
         (playerController.playerStatesBehaviour.StateActionsDic[EPlayerState.Sprint] as PlayerSprint).resetAirSprintLeftCount();
     }
     public override void StateEnd(EPlayerState newState)

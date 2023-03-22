@@ -35,6 +35,7 @@ public class PlayerSprint : PlayerAction
 
     public override void StateStart(EPlayerState oldState)
     {
+        SprintReady = false;
         playerController.setRigidGravityScale(0);
         if (oldState == EPlayerState.ClimbIdle)
         {
@@ -61,14 +62,16 @@ public class PlayerSprint : PlayerAction
         playerController.gravityLock = false;
 
         playerController.setRigidGravityScaleToNormal();
+
+        if(newState!=EPlayerState.IntoWater)
         playerController.setRigidVelocity(Vector2.zero);
+
         playerController.StartCoroutine(sprintCdCount());
     }
 
     public IEnumerator sprintCdCount()
     {
-        SprintReady = false;
-        yield return new WaitForSeconds(Constants.SprintCd);
+        yield return new WaitForSeconds(playerController.playerCharacter.GetSprintCd());
         SprintReady = true;
     }
 

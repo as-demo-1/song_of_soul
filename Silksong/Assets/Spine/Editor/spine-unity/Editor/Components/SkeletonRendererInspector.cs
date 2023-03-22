@@ -183,7 +183,7 @@ namespace Spine.Unity.Editor {
 
 		protected virtual void DrawInspectorGUI (bool multi) {
 			// Initialize.
-			if (Event.current.type == UnityEngine.EventType.Layout) {
+			if (Event.current.type == EventType.Layout) {
 				if (forceReloadQueued) {
 					forceReloadQueued = false;
 					foreach (var c in targets) {
@@ -289,7 +289,8 @@ namespace Spine.Unity.Editor {
 				return;
 
 			string errorMessage = null;
-			if (MaterialChecks.IsMaterialSetupProblematic((SkeletonRenderer)this.target, ref errorMessage)) {
+			if (SpineEditorUtilities.Preferences.componentMaterialWarning &&
+				MaterialChecks.IsMaterialSetupProblematic((SkeletonRenderer)this.target, ref errorMessage)) {
 				EditorGUILayout.HelpBox(errorMessage, MessageType.Error, true);
 			}
 
@@ -520,7 +521,7 @@ namespace Spine.Unity.Editor {
 		}
 
 		void HandleSkinChange() {
-			if (!Application.isPlaying && Event.current.type == UnityEngine.EventType.Layout && !initialSkinName.hasMultipleDifferentValues) {
+			if (!Application.isPlaying && Event.current.type == EventType.Layout && !initialSkinName.hasMultipleDifferentValues) {
 				bool mismatchDetected = false;
 				string newSkinName = initialSkinName.stringValue;
 				foreach (var o in targets) {
@@ -529,7 +530,7 @@ namespace Spine.Unity.Editor {
 
 				if (mismatchDetected) {
 					mismatchDetected = false;
-					SceneView.RepaintAll();
+					UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
 				}
 			}
 		}

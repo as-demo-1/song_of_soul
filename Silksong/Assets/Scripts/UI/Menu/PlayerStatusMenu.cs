@@ -97,14 +97,14 @@ public class PlayerStatusMenu : MonoBehaviour
     # region Mana
     public void ChangeManaValue(PlayerCharacter playerCharacter)
     {
-        gProgressBar.max = (double)playerCharacter.MaxMana;
+        gProgressBar.max = (double)playerCharacter.getMaxMana();
         gProgressBar.min = 0;
         gProgressBar.TweenValue((double)playerCharacter.Mana, 0.5f);
     }
 
     public void ChangeManaMax(PlayerCharacter playerCharacter)
     {
-        gProgressBar.max = (double)playerCharacter.MaxMana;
+        gProgressBar.max = (double)playerCharacter.getMaxMana();
         gProgressBar.min = 0;
         gProgressBar.TweenValue((double)playerCharacter.Mana, 0.5f);
     }

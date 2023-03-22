@@ -3594,7 +3594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5963911916295008504, guid: 8348818fa7513c14c8e43792ac16eb95, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -36
+      value: -39
       objectReference: {fileID: 0}
     - target: {fileID: 5963911916295008504, guid: 8348818fa7513c14c8e43792ac16eb95, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3652,6 +3652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 11400000, guid: 5b717fe1ebc463e408b8b156b539f1d0, type: 2}
+  pool: {fileID: 0}
 --- !u!1 &2107383049
 GameObject:
   m_ObjectHideFlags: 0
@@ -16577,6 +16578,9 @@ MonoBehaviour:
   makeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
+  killDamableEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &5477057758375571279
 Transform:
   m_ObjectHideFlags: 0
@@ -16680,6 +16684,7 @@ MonoBehaviour:
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
   playerAttackCanGainSoul: 1
+  beatBackRate: 0
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -16687,11 +16692,13 @@ MonoBehaviour:
   takeDamageSfxSO: {fileID: 0}
   maxHp: 2000
   currentHp: 2000
+  notDestroyWhenDie: 0
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
   hurt: {fileID: 0}
+  electricMarkPref: {fileID: 0}
 --- !u!4 &5477057758655182667
 Transform:
   m_ObjectHideFlags: 0
@@ -16790,7 +16797,6 @@ MonoBehaviour:
   anyStateConfig: {fileID: 11400000, guid: cf136a71d2393744bb0808fa71d1f1c6, type: 2}
   player: {fileID: 0}
   FaceLeftFirstOriginal: 0
-  beatBackRatio: 1
   hasInvokedAnimationEvent: 0
   isInvokingAnimationEvent: 0
 --- !u!1001 &6108644937628685203

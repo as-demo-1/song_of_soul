@@ -5,16 +5,27 @@ using UnityEngine;
 public class SoulWall : Trigger2DBase
 {
     public Animator animator;
+    private bool breakBySprint;
 
+    private void Start()
+    {
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        breakBySprint = collider.size.x > collider.size.y ? false : true;
+    }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-        if(!GameManager.Instance.saveSystem.haveSoulJump())
-            GetComponent<Collider2D>().isTrigger = false;
-        else
+        
+        if (GameManager.Instance.saveSystem.haveSoulJump())
         {
-            die();
+            if ((breakBySprint && PlayerController.Instance.playerAnimatorStatesControl.CurrentPlayerState==EPlayerState.Sprint
+                ) || (!breakBySprint && PlayerController.Instance.playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.Jump))
+            {
+                die();
+                return;
+            }
         }
+        GetComponent<Collider2D>().isTrigger = false;
     }
     
     private void OnCollisionExit2D(Collision2D collision)
@@ -33,7 +44,12 @@ public class SoulWall : Trigger2DBase
         {
             yield return null;
         }
-        GetComponent<Destroyed_StableSave>().saveGamingData(true);
+        Destroyed_StableSave stableSave;
+        if(TryGetComponent(out stableSave) &&!stableSave.ban)
+        {
+            GetComponent<Destroyed_StableSave>().saveGamingData(true);
+        }
+     
         Destroy(gameObject);
     }
 }

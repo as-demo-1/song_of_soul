@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/GamingSave", order = 2)]
 public class GamingSaveSO : ScriptableObject
@@ -11,8 +12,9 @@ public class GamingSaveSO : ScriptableObject
 
     public void clearAllData()
     {
-        //destroyedGameObjs.Clear();
+        destroyedGameObjs.Clear();
         intGamingDic.Clear();
+        boolGamingDic.Clear();
     }
     public bool addDestroyedGameObj(string guid)
     {
@@ -62,3 +64,22 @@ public class GamingSaveSO : ScriptableObject
     }
 
 }
+
+
+#if UNITY_EDITOR
+
+[CustomEditor(typeof(GamingSaveSO))]
+public class GamingSaveEdior : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        GamingSaveSO config = target as GamingSaveSO;
+       
+        if (GUILayout.Button("clear all data"))
+        {
+            config.clearAllData();
+        }
+    }
+}
+#endif

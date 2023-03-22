@@ -24,11 +24,9 @@ public abstract class DamagerBase : MonoBehaviour
     public int damage;//伤害数值
     public Vector2 beatBackVector = Vector2.zero;
 
-    [Serializable]
-    public class DamableEvent : UnityEvent<DamagerBase, DamageableBase>
-    { }
 
-    public DamableEvent makeDamageEvent;
+    public DamageEvent makeDamageEvent;
+    public DamageEvent killDamableEvent;
 
 
     public virtual int getDamage(DamageableBase target)//获得造成的具体伤害数值

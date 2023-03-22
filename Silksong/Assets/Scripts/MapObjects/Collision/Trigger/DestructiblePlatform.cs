@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public class DestructiblePlatform : MonoBehaviour
@@ -15,7 +16,7 @@ public class DestructiblePlatform : MonoBehaviour
 
     public int strengthToBreak;
 
-    [DisplayOnly]
+
     public int playerPlungeStrength;
 
 
@@ -42,7 +43,7 @@ public class DestructiblePlatform : MonoBehaviour
         collider2d.enabled = false;
         playerController.setRigidVelocity(new Vector2(0, -1 * Constants.PlayerPlungeSpeed));
         Destroyed_StableSave stableSave;
-        if (TryGetComponent(out stableSave))
+        if (TryGetComponent(out stableSave) && !stableSave.ban)
         {
             stableSave.saveGamingData(true);
         }

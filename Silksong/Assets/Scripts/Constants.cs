@@ -23,10 +23,13 @@ public static class Constants
     #endregion
 
     #region about player sprint
-    public const float PlayerSprintDistance = 4f;
+    public const float PlayerSprintDistance = 4.1f;
     public const int PlayerMaxAirSprintCount = 1;
-    public const float SprintCd = 0.3f;//从冲刺结束后算起
-    public const float SprintTime = 0.248f;//此值应与实际动画的时长相同
+    public const float SprintCd = 0.8f;//从冲刺结束后算起
+    public const float SprintTime = 0.25f;//此值应与实际动画的时长相同
+
+    public const float PlayerWaterSprintDistance = 4.1f;
+    public const float WaterSprintTime = 0.28f;//此值应与实际动画的时长相同
     #endregion
 
     #region about player input
@@ -46,7 +49,13 @@ public static class Constants
     #endregion
 
     #region about player attack
+    public const float AttackDamage = 1f;
+    public const float AttackRange = 2f;
     public const float AttackingMoveSpeed = 1f;
+    public const float AttackCd_First = 0.3f;//the time player can not attack again after first normal attack,we have total 3 normal attack
+    public const float AttackCd_Second = 0.3f;
+    public const float AttackCd_Third = 0.5f;
+    public const float AttackCd_Up = 0.35f;
     #endregion
 
     #region about player jump
@@ -83,6 +92,15 @@ public static class Constants
     public const float plungeWaterCheckColliderOffsetX = 0f;
     #endregion
 
+    #region about player In Water
+    public const float PlayerIntoWaterLinearDarg = 12f;
+    public const float PlayerMinIntoWaterDistance = 0.5f;
+
+    public const float PlayerDiveSpeed = 4f;
+    public const float PlayerSwimSpeed = 4f;
+    public const float PlayWaterSprintPlusDis = 2f;
+    #endregion
+
     public const float PlayerBaseHealTime = 2f;
 
     public const float PlayerCatToHumanExtraJumpHeight = 2.9f;
@@ -90,30 +108,29 @@ public static class Constants
     public const int VlunerableAfterDamageTime = 1;//
 
     #region player collider settings
-    public const float playerBoxColliderOffsetY=0f;
     public const float playerBoxColliderWidth = 0.24f;
     public const float playerBoxColliderHeight = 1.6f;
 
-    public const float playerCatBoxColliderOffsetY = 0.2f;
-    public const float playerCatBoxColliderWidth = 0.5f;
-    public const float playerCatBoxColliderHeight = 0.75f;
+    public const float playerCatBoxColliderWidth = 0.6f;
+    public const float playerCatBoxColliderHeight = 0.55f;
 
-    public const float playerGroundCheckColliderOffsetY = -0.75f;
-    public const float playerGroundCheckColliderOffsetX = -0.005f;
+    public const float playerGroundCheckColliderOffsetY = -0.76f;
+    public const float playerGroundCheckColliderOffsetX = 0f;
 
-    public const float playerCatGroundCheckColliderOffsetY = -0.13f;
+    public const float playerCatGroundCheckColliderOffsetY = -0.25f;
 
-    public const float playerGroundCheckColliderSizeX = 0.23f;//the groudcheck is smaller than player collider on the faceSide to avoid air touch wall ground check problem
+    public const float playerGroundCheckColliderSizeX = 0.24f;//
     public const float playerGroundCheckColliderSizeY = 0.1f;// 
 
     public const float playerWaterCheckColliderOffsetY = 0.4f;
     public const float playerWaterCheckColliderOffsetX = 0f;
-
+    public const float playerWaterCheckColliderRadius = 0.23f;
+    public const float playerWaterCheckColliderRadiusCat = 0.4f;
     #endregion
 
 
     #region 玩家有关属性
-    public const int playerInitialMaxHp=5;
+    public const int playerInitialMaxHp=15;
     public const int playerInitialMaxMana = 100;
     public const int playerInitialMoney =0;
 
@@ -124,7 +141,7 @@ public static class Constants
 
     #endregion
 
-    public const float monsterBeatBackTime = 0.15f;
+    public const float beatBackTime = 0.2f;
 
 
 
