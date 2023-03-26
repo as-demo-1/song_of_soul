@@ -13,7 +13,7 @@ public class DiffLayer : MonoBehaviour
 
     private Transform cameraTransform;
 
-    [SerializeField,Tooltip("指定一个相机位置，此位置下物体没有相对移动,当相机偏离此位置时，物体开始相对移动")]
+    //[SerializeField,Tooltip("指定一个相机位置，此位置下物体没有相对移动,当相机偏离此位置时，物体开始相对移动")]
     Vector3 absCameraPos;
 
     private Vector3 startPos;
@@ -25,8 +25,11 @@ public class DiffLayer : MonoBehaviour
 
     void SetupStartPositions()
     {
-        cameraTransform = Camera.main.transform;
+         cameraTransform = Camera.main.transform;
+       // cameraTransform = GameObject.Find("Main Camera").transform;
+        //print(cameraTransform.parent.name);
         startPos = transform.position;
+        absCameraPos = transform.position;
     }
 
     void LateUpdate()
