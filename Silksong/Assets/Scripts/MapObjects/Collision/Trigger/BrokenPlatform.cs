@@ -6,7 +6,7 @@ public class BrokenPlatform : Trigger2DBase
 {
     public float brokeTime;
     public float recreatTime;
-
+    public Animator anim;
     protected override void enterEvent()
     {
         StartCoroutine(platfromBroke());
@@ -14,7 +14,11 @@ public class BrokenPlatform : Trigger2DBase
 
     IEnumerator platfromBroke()
     {
-        GetComponent<Animator>()?.Play("broken");
+        if (anim != null)
+        {
+            anim.Play("broken");
+            anim.speed = (0.5f/ brokeTime);
+        }
         yield return new WaitForSeconds(brokeTime);
         hide();
         yield return new WaitForSeconds(recreatTime);

@@ -18,10 +18,12 @@ public class BrokenWall_OneSide : OneDirectDamable
     IEnumerator StartBroke(DamagerBase damager)
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-        while (info.normalizedTime <= 0.99)
+        GetComponent<Collider2D>().enabled = false;
+        while (!info.IsName("die") || info.normalizedTime <= 0.99)
         {
+            info = animator.GetCurrentAnimatorStateInfo(0);
             yield return null;
         }
         base.die(damager);
     }
-}
+}//

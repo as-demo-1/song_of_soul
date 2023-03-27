@@ -10,16 +10,17 @@ public class SoulWall : Trigger2DBase
     private void Start()
     {
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        //判断是横向的墙还是纵向的墙
         breakBySprint = collider.size.x > collider.size.y ? false : true;
     }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-        
+        Debug.Log(GameManager.Instance.saveSystem.haveSoulJump());
         if (GameManager.Instance.saveSystem.haveSoulJump())
         {
             if ((breakBySprint && PlayerController.Instance.playerAnimatorStatesControl.CurrentPlayerState==EPlayerState.Sprint
-                ) || (!breakBySprint && PlayerController.Instance.playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.Jump))
+             ) || (!breakBySprint && PlayerController.Instance.playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.Jump))
             {
                 die();
                 return;
@@ -40,8 +41,10 @@ public class SoulWall : Trigger2DBase
     IEnumerator StartBroke()
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-        while (info.normalizedTime <= 0.99)
+        GetComponent<Collider2D>().enabled = false;
+        while (!info.IsName("die") || info.normalizedTime <= 0.99)
         {
+            info = animator.GetCurrentAnimatorStateInfo(0);
             yield return null;
         }
         Destroyed_StableSave stableSave;
