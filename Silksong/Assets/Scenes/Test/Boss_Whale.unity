@@ -905,7 +905,6 @@ MonoBehaviour:
   iceRainWaveTime: 3
   iceNumberPerWave: 7
   iceSpeed: 7
-  test: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!4 &1087577040
 Transform:
   m_ObjectHideFlags: 0
@@ -2263,6 +2262,8 @@ GameObject:
   - component: {fileID: 1844763614}
   - component: {fileID: 1844763613}
   - component: {fileID: 1844763611}
+  - component: {fileID: 1844763616}
+  - component: {fileID: 1844763617}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -2342,7 +2343,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d77b82077a2e31648b1617de17cfd68d, type: 2}
+  - {fileID: 2100000, guid: 810ed7b1cacab50418b39d5d350a8367, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2391,6 +2392,37 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1844763616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844763610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26947ae098a8447408d80c0c86e35b48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonRenderer: {fileID: 1844763611}
+  customSlotMaterials: []
+  customMaterialOverrides:
+  - overrideDisabled: 0
+    originalMaterial: {fileID: 2100000, guid: d77b82077a2e31648b1617de17cfd68d, type: 2}
+    replacementMaterial: {fileID: 2100000, guid: 810ed7b1cacab50418b39d5d350a8367, type: 2}
+--- !u!114 &1844763617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844763610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a1ae95065c81b4aa136161908f3964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  otherMaterial: {fileID: 2100000, guid: 810ed7b1cacab50418b39d5d350a8367, type: 2}
 --- !u!1001 &1862943459
 PrefabInstance:
   m_ObjectHideFlags: 0
