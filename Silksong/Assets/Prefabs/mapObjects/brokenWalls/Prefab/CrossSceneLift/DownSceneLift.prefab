@@ -100,6 +100,7 @@ MonoBehaviour:
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
   playerAttackCanGainSoul: 0
+  beatBackRate: 0
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -135,7 +136,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1090628696994836045}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -292,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8f6595a015da794c9031dc810642ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ban: 0
 --- !u!114 &1090628697780728650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,13 +307,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorList:
-  - {fileID: 1090628697224024803}
-  - {fileID: 8784777701891124472}
-  - {fileID: 8784777702587780525}
+  - {fileID: 3650435000863058130}
+  - {fileID: 4927939140596848329}
+  - {fileID: 4927939138625124252}
   moveSpeed: 10
   currentFloor: 0
   UpLift: 0
   pairLiftGuid: 
+  Guid: 00000000-0000-0000-0000-000000000000
 --- !u!1 &1090628698100518462
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,6 +462,7 @@ MonoBehaviour:
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
   playerAttackCanGainSoul: 0
+  beatBackRate: 0
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls:
@@ -774,6 +778,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1090628697780728646}
     m_Modifications:
+    - target: {fileID: 229103770276196752, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 229103770276196755, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -820,7 +828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 229103770276196759, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
       propertyPath: m_Name
-      value: liftGear1
+      value: "\u4E0B\u5C42\u7535\u68AF_\u5E95\u90E8"
       objectReference: {fileID: 0}
     - target: {fileID: 229103770276196760, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
       propertyPath: lift
@@ -833,15 +841,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 229103770276196755, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
   m_PrefabInstance: {fileID: 868985476267205499}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1090628697224024803 stripped
+--- !u!114 &3650435000863058130 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 229103770276196760, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4514773848582327209, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
   m_PrefabInstance: {fileID: 868985476267205499}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: accb2d5cb5afdd7409874ab75950950e, type: 3}
+  m_Script: {fileID: 11500000, guid: 25103f4a0bbd78e4b83739058688aeb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8846262005125332021
@@ -897,7 +905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 229103770276196759, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
       propertyPath: m_Name
-      value: liftGear1 (2)
+      value: "\u4E0B\u5C42\u7535\u68AF_\u51FA\u53E3"
       objectReference: {fileID: 0}
     - target: {fileID: 229103770276196760, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
       propertyPath: lift
@@ -910,15 +918,15 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 229103770276196755, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
   m_PrefabInstance: {fileID: 8846262005125332021}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8784777702587780525 stripped
+--- !u!114 &4927939138625124252 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 229103770276196760, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4514773848582327209, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
   m_PrefabInstance: {fileID: 8846262005125332021}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: accb2d5cb5afdd7409874ab75950950e, type: 3}
+  m_Script: {fileID: 11500000, guid: 25103f4a0bbd78e4b83739058688aeb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8846262006441696608
@@ -974,7 +982,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 229103770276196759, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
       propertyPath: m_Name
-      value: liftGear1 (1)
+      value: "\u4E0B\u5C42\u7535\u68AF_\u5165\u53E3"
       objectReference: {fileID: 0}
     - target: {fileID: 229103770276196760, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
       propertyPath: lift
@@ -987,14 +995,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 229103770276196755, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
   m_PrefabInstance: {fileID: 8846262006441696608}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8784777701891124472 stripped
+--- !u!114 &4927939140596848329 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 229103770276196760, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4514773848582327209, guid: 09526ba4c2fc5444f8024a3d8def3cf4, type: 3}
   m_PrefabInstance: {fileID: 8846262006441696608}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: accb2d5cb5afdd7409874ab75950950e, type: 3}
+  m_Script: {fileID: 11500000, guid: 25103f4a0bbd78e4b83739058688aeb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

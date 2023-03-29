@@ -1,3 +1,4 @@
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,8 @@ public class SaveLift : MonoBehaviour
 {
     public List<SaveLiftFloor> floorList;
     public float moveSpeed;
-    [HideInInspector]public int currentFloor;
-    bool ifMoving;
+    public int currentFloor;
+    protected bool ifMoving;
     protected SaveSystem _saveSystem;
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class SaveLift : MonoBehaviour
             transform.position =new Vector2(transform.position.x, floorList[currentFloor].transform.position.y);
         }
     }
+     
     public void MoveToFloor(int n)
     {
         if (!ifMoving)
@@ -51,11 +53,12 @@ public class SaveLift : MonoBehaviour
         while(Mathf.Abs(transform.position.y-target.y) > 0.05)
         {
             transform.position = Vector2.MoveTowards(transform.position,
-                moveTarget, moveSpeed * Time.deltaTime);
+                moveTarget, moveSpeed * Time.fixedDeltaTime);
             yield return new WaitForFixedUpdate();  
         }
         ifMoving=false;
     }
+    
     public virtual void MovingUp()
     {
         if (currentFloor + 1 < floorList.Count)
