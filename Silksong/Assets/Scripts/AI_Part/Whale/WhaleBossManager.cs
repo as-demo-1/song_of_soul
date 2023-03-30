@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum bossBattleStage
+public enum EBossBattleStage
 {
     Prepare,
     StageOne,
@@ -12,7 +12,7 @@ public enum bossBattleStage
 
 public class WhaleBossManager : MonoSingleton<WhaleBossManager>
 {
-    public bossBattleStage stage=bossBattleStage.Prepare;
+    public EBossBattleStage stage=EBossBattleStage.Prepare;
 
 
     public Transform roomLeftDown;
@@ -83,12 +83,14 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         createHigher = 1;
         whaleHp = battleAgent.GetComponent<HpDamable>();
 
+        MonsterSMBEvents.Initialise(battleAgent.animator,battleAgent);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(stage==bossBattleStage.Prepare)
+        if(stage==EBossBattleStage.Prepare)
         {
             CameraShakeManager.Instance.cameraShake(1f);
         }
@@ -118,7 +120,7 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
 
     public void BattleStart()
     {
-        stage = bossBattleStage.StageOne;
+        stage = EBossBattleStage.StageOne;
         PlayerAnimatorParamsMapping.SetControl(true);
         StartCoroutine(moveingPlatforms());
         FirstCloud.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -AvgPlatformSpeed);

@@ -16,14 +16,6 @@ public class SetAnotherSkeletonMat : MonoBehaviour
         GetComponent<MeshRenderer>().GetSharedMaterials(temp);
         originMaterial = temp[0];
 
-        setMat(true);
-        //setMat(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void setMat(bool other)

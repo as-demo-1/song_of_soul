@@ -7,7 +7,7 @@ public class ChooseBump : BattleConditional
 {
     public override TaskStatus OnUpdate()
     {
-        if (WhaleBossManager.Instance.stage == bossBattleStage.StageOne)
+        if (WhaleBossManager.Instance.stage == EBossBattleStage.StageOne)
         {
             float yTarget = target.Value.transform.position.y;
             float ySelf = transform.position.y;
