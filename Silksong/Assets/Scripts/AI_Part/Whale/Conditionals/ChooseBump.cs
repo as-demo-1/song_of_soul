@@ -28,6 +28,19 @@ public class ChooseBump : BattleConditional
                 return TaskStatus.Success;
             }
         }
-        else return TaskStatus.Success;
+        else if(WhaleBossManager.Instance.stage==EBossBattleStage.StageTwo)
+        {
+            float a = Random.Range(0f,1f);
+            if(a<=0.5f)
+            {
+                return TaskStatus.Success;
+            }
+            else
+            {
+                return TaskStatus.Failure;
+            }
+        }
+
+        return TaskStatus.Success;
     }
 }

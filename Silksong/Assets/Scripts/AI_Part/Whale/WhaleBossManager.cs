@@ -30,6 +30,7 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
 
     public GameObject platform;
     public GameObject cloud;
+    public GameObject brokenPlatform;
     private float createHigher;
     public float AvgplatformsCreateCd;
     public float cloudRate;
@@ -238,10 +239,16 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         float timer = 0;
         while(timer<iceRainTotalTime)
         {
-            createIceRainWave(iceNumberPerWave);
+            createIceRainWave(getIceNumberPerWave());
             timer += iceRainWaveTime;
             yield return new WaitForSeconds(iceRainWaveTime);
         }
+    }
+
+    private int getIceNumberPerWave()
+    {
+        if (stage == EBossBattleStage.StageOne) return iceNumberPerWave;
+        else return (int)(iceNumberPerWave * 1.5f);
     }
 
     private void createIceRainWave(int num)
