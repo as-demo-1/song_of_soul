@@ -60,6 +60,7 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
 
     public BattleAgent battleAgent;
     private HpDamable whaleHp;
+    public int StageTwoHp;
 
     public GameObject ice;
     public GameObject iceParent;
@@ -90,7 +91,21 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         whaleHp = battleAgent.GetComponent<HpDamable>();
 
         MonsterSMBEvents.Initialise(battleAgent.animator,battleAgent);
+        whaleHp.onHpChange.AddListener(checkChangeStage);
+    }
 
+    private void checkChangeStage(HpDamable self)
+    {
+        if(stage==EBossBattleStage.StageOne && self.CurrentHp<=StageTwoHp)
+        {
+            WhaleBossManager.Instance.stage = EBossBattleStage.StageTwo;
+
+            GameObject effect = battleAgent.transform.Find("Effects").Find("changeStage").gameObject;
+            effect.SetActive(true);
+            effect.GetComponent<ParticleSystem>().Play();
+
+            battleAgent.GetComponentInChildren<SetAnotherSkeletonMat>().setMat(true);
+        }
     }
 
     // Update is called once per frame
