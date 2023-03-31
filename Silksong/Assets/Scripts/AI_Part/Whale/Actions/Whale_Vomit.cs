@@ -17,7 +17,7 @@ public class Whale_Vomit : AnimationOverAction
     public override void OnEnd()
     {
         base.OnEnd();
-        WhaleBossManager.Instance.resetVomitSkillCdTimer();
+        WhaleBossManager.Instance.resetBorderSkillCdTimer();
         animator.SetBool("vomiting", false);
     }
 

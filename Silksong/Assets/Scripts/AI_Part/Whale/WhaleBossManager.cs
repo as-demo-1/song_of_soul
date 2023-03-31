@@ -46,11 +46,14 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
     public Transform PlatformParent;
 
     public float borderSkillCd;
-    public float normalSkillCd;
+    public float iceRainSkillCd;
+    public float smokeSkillCd;
     [HideInInspector]
     public float borderSkillCdTimer;
     [HideInInspector]
-    public float normalSkillCdTimer;
+    public float iceRainSkillCdTimer;
+    [HideInInspector]
+    public float smokeSkillCdTimer;
 
     public float rightBorderX;
     public float leftBorderX;
@@ -64,6 +67,8 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
     public float iceRainWaveTime;
     public int iceNumberPerWave;
     public float iceSpeed;
+
+    public GameObject smoke;
 
 
 
@@ -97,24 +102,32 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         }
         else
         {
-            if (normalSkillCdTimer > 0)
+            if (iceRainSkillCdTimer > 0)
             {
-                normalSkillCdTimer -= Time.deltaTime;
+                iceRainSkillCdTimer -= Time.deltaTime;
             }
             if (borderSkillCdTimer > 0)
             {
                 borderSkillCdTimer -= Time.deltaTime;
             }
+            if (stage==EBossBattleStage.StageTwo &&  smokeSkillCdTimer> 0)
+            {
+                smokeSkillCdTimer -= Time.deltaTime;
+            }
         }
 
     }
 
-    public void resetNormalSkillCdTimer()
+    public void resetIceRainCdTimer()
     {
-        normalSkillCdTimer = normalSkillCd;
+        iceRainSkillCdTimer = iceRainSkillCd;
+    }
+    public void resetSmokeCdTimer()
+    {
+        smokeSkillCdTimer = smokeSkillCd;
     }
 
-    public void resetVomitSkillCdTimer()
+    public void resetBorderSkillCdTimer()
     {
         borderSkillCdTimer = borderSkillCd;
     }
@@ -128,8 +141,9 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         FirstPlatform.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -AvgPlatformSpeed);
         FirstPlatform2.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -AvgPlatformSpeed);
 
-        resetNormalSkillCdTimer();
-        resetVomitSkillCdTimer();
+        resetIceRainCdTimer();
+        resetBorderSkillCdTimer();
+        resetSmokeCdTimer();
     }
 
     private IEnumerator moveingPlatforms()//0  -1  +1*2  -1*2  +1*2 ....

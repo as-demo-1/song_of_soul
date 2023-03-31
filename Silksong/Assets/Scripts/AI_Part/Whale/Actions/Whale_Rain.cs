@@ -15,6 +15,6 @@ public class Whale_Rain : Whale_Howl
     public override void OnEnd()
     {
         base.OnEnd();
-        WhaleBossManager.Instance.resetNormalSkillCdTimer();
+        WhaleBossManager.Instance.resetIceRainCdTimer();
     }
 }

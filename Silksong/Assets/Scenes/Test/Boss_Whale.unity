@@ -6078,10 +6078,12 @@ MonoBehaviour:
   FirstPlatform2: {fileID: 286794174}
   FirstCloud: {fileID: 446807349}
   PlatformParent: {fileID: 1115055357}
-  borderSkillCd: 1
-  normalSkillCd: 10
+  borderSkillCd: 10
+  iceRainSkillCd: 30
+  smokeSkillCd: 15
   borderSkillCdTimer: 0
-  normalSkillCdTimer: 0
+  iceRainSkillCdTimer: 0
+  smokeSkillCdTimer: 0
   rightBorderX: 12
   leftBorderX: -22
   battleAgent: {fileID: 706213434}
@@ -6091,6 +6093,7 @@ MonoBehaviour:
   iceRainWaveTime: 3
   iceNumberPerWave: 7
   iceSpeed: 7
+  smoke: {fileID: 7134010985482281540, guid: ac3e6967a0d6e434cb536ad3ba293644, type: 3}
 --- !u!4 &1087577040
 Transform:
   m_ObjectHideFlags: 0
@@ -6189,7 +6192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7134010985482281543, guid: ac3e6967a0d6e434cb536ad3ba293644, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.79
       objectReference: {fileID: 0}
     - target: {fileID: 7134010985482281543, guid: ac3e6967a0d6e434cb536ad3ba293644, type: 3}
       propertyPath: m_LocalPosition.y
