@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 public enum SkillName
@@ -25,6 +26,17 @@ public abstract class SoulSkill : Hitter
 
     //protected PlayerInfomation _playerInfomation;
     protected PlayerCharacter _playerCharacter;
+    protected PlayerController _playerController;
+
+    /// <summary>
+    /// 技能开启事件
+    /// </summary>
+    public UnityEvent SkillStart;
+    
+    /// <summary>
+    /// 技能结束事件
+    /// </summary>
+    public UnityEvent SkillEnd;
 
     //protected SoulSkill()
     //{
@@ -59,4 +71,6 @@ public abstract class SoulSkill : Hitter
         //Debug.LogError("!!!!!!!!! soul skill ticking" + debugCnt);
         debugCnt++;
     }
+    
+  
 }
