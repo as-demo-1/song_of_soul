@@ -21,7 +21,7 @@ public class Whale_Bump : BattleAction
     public override void OnEnd()
     {
         base.OnEnd();
-        WhaleBossManager.Instance.resetVomitSkillCdTimer();
+        WhaleBossManager.Instance.resetBorderSkillCdTimer();
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         transform.Find("Damager_Bump").gameObject.SetActive(false);
         transform.Find("Damager").gameObject.SetActive(true);
