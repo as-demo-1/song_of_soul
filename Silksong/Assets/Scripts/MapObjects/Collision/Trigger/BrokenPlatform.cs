@@ -6,7 +6,8 @@ public class BrokenPlatform : Trigger2DBase
 {
     public float brokeTime;
     public float recreatTime;
-    public Animator anim;
+    public bool notRecreat;
+
     protected override void enterEvent()
     {
         StartCoroutine(platfromBroke());
@@ -14,11 +15,6 @@ public class BrokenPlatform : Trigger2DBase
 
     IEnumerator platfromBroke()
     {
-        if (anim != null)
-        {
-            anim.Play("broken");
-            anim.speed = (0.5f/ brokeTime);
-        }
         yield return new WaitForSeconds(brokeTime);
         hide();
         yield return new WaitForSeconds(recreatTime);
@@ -37,6 +33,7 @@ public class BrokenPlatform : Trigger2DBase
 
     void show()
     {
+        if (notRecreat) return;
         GetComponent<SpriteRenderer>().enabled = true;
         foreach (var c in GetComponents<Collider2D>())
         {

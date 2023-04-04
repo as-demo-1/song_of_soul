@@ -7,10 +7,12 @@ public class BattleAgent: MonoBehaviour
     // Start is called before the first frame update
     private Rigidbody2D rb;
     public bool faceLeftOrigin;
+    public Animator animator;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
