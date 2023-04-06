@@ -27,12 +27,10 @@ public class LaserBullect : MonoBehaviour
     {
         this.ShootDir = Dir;
         transform.eulerAngles = new Vector3(0, 0, GetAngleFromVectorFloat(Dir));
-       // startloc = GameObject.FindGameObjectWithTag("Monster").transform.position;
-        //transform.position = startloc;
+      
         Destroy(gameObject,7f);
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         float movespeed = 1f;
@@ -43,6 +41,7 @@ public class LaserBullect : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            //TODO::接入伤害系统
             Debug.Log("Damage");
         }
     }

@@ -45,6 +45,7 @@ public class CameraController : MonoBehaviour
 
     void Awake()
     {
+        print(gameObject.name);
         if (_instance != null)
         {
             GameObject bound = transform.Find("Boundary").gameObject;

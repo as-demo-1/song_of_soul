@@ -6,6 +6,7 @@ public class BrokenPlatform : Trigger2DBase
 {
     public float brokeTime;
     public float recreatTime;
+    public bool notRecreat;
 
     protected override void enterEvent()
     {
@@ -32,6 +33,7 @@ public class BrokenPlatform : Trigger2DBase
 
     void show()
     {
+        if (notRecreat) return;
         GetComponent<SpriteRenderer>().enabled = true;
         foreach (var c in GetComponents<Collider2D>())
         {
