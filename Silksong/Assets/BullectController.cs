@@ -8,24 +8,27 @@ public class BullectController : MonoBehaviour
 {
     private LaserBullect _bullect;
     public GameObject BullectPrefab;
-    
+    public GameObject BullectPrefabForSecFinal;
     public float timer = 0f;
     private float timecount = 0f;
 
     private bool shouldend = false;
 
     private bool startf = false;
+
+    private bool rotate;
     // Start is called before the first frame update
     void Start()
     {
         _bullect = BullectPrefab.GetComponent<LaserBullect>();
     }
 
-    public void start()
+    public void start(bool shouldrotate)
     {
         startf = true;
         shouldend = false;
         timecount = 0f;
+        rotate = shouldrotate;
     }
     void Func()
     {
@@ -35,11 +38,17 @@ public class BullectController : MonoBehaviour
         {
             GameObject.Instantiate(BullectPrefab,transform.position,quaternion.identity); 
         }
-      
-        //GameObject.Instantiate(BullectPrefab,transform.position,quaternion.identity); 
-       // GameObject.Instantiate(BullectPrefab,transform.position,quaternion.identity); 
-        //_bullect.Setup(new Vector3(x,y,0));
-            //  Debug.Log("每2秒执行一次");
+ 
+    }
+    
+    void Func2()
+    {
+        int x = Random.Range(-10, 10);
+        int y = Random.Range(-10, 10);
+        for (int i = 0; i < Random.Range(8, 11); i++)
+        {
+            GameObject.Instantiate(BullectPrefab,transform.position,quaternion.identity); 
+        }
     }
     // Update is called once per frame
     void Update()
@@ -49,17 +58,33 @@ public class BullectController : MonoBehaviour
             timer += Time.deltaTime;
 
             timecount += Time.deltaTime;
-            if (timer >= 1 && !shouldend)
+            if (rotate)
             {
-                Func();
-                timer = 0f; // 定时2秒
+                if (timer >= 1 && !shouldend)
+                {
+                    Func();
+                    timer = 0f; // 定时2秒
+                }
+                else if (timecount >= 15)
+                {
+                    shouldend = true;
+                }
             }
-            else if (timecount >= 15)
+            else
             {
-                shouldend = true;
+                if (timer >= 1 && !shouldend)
+                {
+                    Func2();
+                    timer = 0f; // 定时2秒
+                }
+                else if (timecount >= 15)
+                {
+                    shouldend = true;
+                }
             }
         }
     }
+    
 
 
 }
