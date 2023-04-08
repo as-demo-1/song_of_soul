@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimatorParamsMapping 
+public class PlayerAnimatorParamsMapping
 {
     protected Animator m_Animator;
     PlayerAnimatorStatesControl m_PlayerAnimatorStatesControl;
 
-    public static bool HasControl=true;
+    private static bool HasControl = true;
 
-    public static void SetControl(bool val) { HasControl = val; }
+    public static void SetControl(bool val) { HasControl = val;  }
+    public static bool HaveControl() { return HasControl; }
 
     public PlayerAnimatorParamsMapping(PlayerAnimatorStatesControl playerAnimatorStatesControl) 
     {
@@ -26,10 +27,11 @@ public class PlayerAnimatorParamsMapping
     public int IsGroundedParamHash { get; } = Animator.StringToHash("IsGrounded");
     public int HorizontalSpeedParamHash { get; } = Animator.StringToHash("HorizontalSpeed");
     public int VerticalSpeedParamHash { get; } = Animator.StringToHash("VerticalSpeed");
-    //public int CanMoveParamHash { get; } = Animator.StringToHash("CanMove");
+    public int CanRunParamHash { get; } = Animator.StringToHash("CanRun");
     public int CanJumpParamHash { get; } = Animator.StringToHash("CanJump");
     public int CanNormalAttackParamHash { get; } = Animator.StringToHash("CanNormalAttack");
 
+    public int NormalAttackReadyParamHash { get; } = Animator.StringToHash("NormalAttackReady");
     public int CurrentStatesParamHash { get; } = Animator.StringToHash("CurrentStates");
     public int CanSprintParamHash { get; } = Animator.StringToHash("CanSprint");
     public int SprintIsValidParamHash { get; } = Animator.StringToHash("SprintIsValid");
@@ -68,9 +70,31 @@ public class PlayerAnimatorParamsMapping
 
     public int CanClimbParamHash { get; } = Animator.StringToHash("CanClimb");
 
+    public int CanSingParamHash { get; } = Animator.StringToHash("CanSing");
+
+    public int IsSingHeldParamHash { get; } = Animator.StringToHash("IsSingHeld");
+
+    public int CanDiveParamHash { get; } = Animator.StringToHash("CanDive");
+
+    public int CanSwimParamHash { get; } = Animator.StringToHash("CanSwim");
+
+    public int CanWaterSprintParamHash { get; } = Animator.StringToHash("CanWaterSprint");
+
+    public int AbsSpeedParamHash { get; } = Animator.StringToHash("AbsSpeed");
+
+    public int WaterSurfaceParamHash { get; } = Animator.StringToHash("OnWaterSurface");
+
+    public int WaterSprintPlusEndParamHash { get; } = Animator.StringToHash("WaterSprintPlusEnd");
+
+    public int IntoWaterParamHash { get; } = Animator.StringToHash("IntoWater");
+
+    public int CanHeartSwordParamHash { get; } = Animator.StringToHash("CanHeartSword");
+
+    public int HeartSwordIsValidParamHash { get; } = Animator.StringToHash("HeartSwordIsValid");
+
     public void ParamsUpdate()
     {
-        if(HasControl)
+        if(HaveControl())
         {
             m_Animator.SetInteger(HorizontalInputParamHash, (int)PlayerInput.Instance.horizontal.Value);
             m_Animator.SetInteger(VerticalInputParamHash, (int)PlayerInput.Instance.vertical.Value);
@@ -89,6 +113,10 @@ public class PlayerAnimatorParamsMapping
             m_Animator.SetBool(CastSkillIsValidParamHash, PlayerInput.Instance.castSkill.IsValid);
 
             m_Animator.SetBool(PlungeIsValidParamHash, PlayerInput.Instance.plunge.IsValid);
+
+            m_Animator.SetBool(IsSingHeldParamHash, PlayerInput.Instance.sing.Held);
+
+            m_Animator.SetBool(HeartSwordIsValidParamHash, PlayerInput.Instance.heartSword.IsValid);
 
         }
         else
@@ -111,6 +139,11 @@ public class PlayerAnimatorParamsMapping
 
             m_Animator.SetBool(PlungeIsValidParamHash, false);
 
+            m_Animator.SetBool(IsSingHeldParamHash, false);
+
+
+            m_Animator.SetBool(HeartSwordIsValidParamHash, false);
+
         }
 
         m_Animator.SetBool(IsGroundedParamHash, m_PlayerAnimatorStatesControl.PlayerController.isGroundedBuffer());
@@ -119,6 +152,7 @@ public class PlayerAnimatorParamsMapping
 
         m_Animator.SetFloat(HorizontalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().x);
         m_Animator.SetFloat(VerticalSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().y);
+        m_Animator.SetFloat(AbsSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().magnitude);
 
         m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
 
@@ -128,12 +162,3 @@ public class PlayerAnimatorParamsMapping
     
 }
 
-/*public abstract class AnimatorParamsMapping
-{
-    protected Animator m_Animator;
-    public AnimatorParamsMapping(AnimatorStatesControl animatorStatesManager)
-    {
-        this.m_Animator = animatorStatesManager.Animator;
-    }
-    public abstract void ParamsUpdate();
-}*/

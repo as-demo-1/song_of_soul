@@ -90,6 +90,8 @@ GameObject:
   - component: {fileID: 4784448708260076415}
   - component: {fileID: 4784448708260076414}
   - component: {fileID: 5231329138824269615}
+  - component: {fileID: 7446311965716889026}
+  - component: {fileID: 8640729432445959401}
   m_Layer: 15
   m_Name: NearAttack Monster
   m_TagString: Untagged
@@ -128,18 +130,19 @@ MonoBehaviour:
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
   playerAttackCanGainSoul: 1
+  beatBackRate: 1
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
   takeDamageAudio: {fileID: 0}
-  takeDamageSfxSO: {fileID: 0}
-  maxHp: 20
-  currentHp: 20
+  takeDamageSfxSO: {fileID: 11400000, guid: d25acefb1695ac041a2a319bc1756a09, type: 2}
+  maxHp: 1000
+  currentHp: 1000
   resetHealthOnSceneReload: 0
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  dieAudio: {fileID: 0}
+  hurt: {fileID: 0}
 --- !u!61 &4784448708260076415
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -216,9 +219,34 @@ MonoBehaviour:
   anyStateConfig: {fileID: 0}
   player: {fileID: 0}
   FaceLeftFirstOriginal: 0
-  beatBackRatio: 0.5
   hasInvokedAnimationEvent: 0
   isInvokingAnimationEvent: 0
+--- !u!114 &7446311965716889026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4784448708260076404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bbc2c1e63e98543830eec78d976795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: 
+--- !u!114 &8640729432445959401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4784448708260076404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37515e1153b5439498a24fba46b7966d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ban: 0
 --- !u!1 &4784448708440573212
 GameObject:
   m_ObjectHideFlags: 0

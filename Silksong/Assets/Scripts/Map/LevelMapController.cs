@@ -8,20 +8,18 @@ public class LevelMapController : MonoBehaviour
     private bool interactable;
     private float speed;
     private Dictionary<string, GameObject> mapIMGs = new Dictionary<string, GameObject>();
-    private Transform canvas;
     private GameObject sceneBound, mapBound, playerMarker;
     private string currentLevel;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         speed = 50.0f;
         interactable = false;
-        canvas = transform.Find("Canvas");
-        playerMarker = canvas.Find("PlayerMarker").gameObject;
+        playerMarker = transform.Find("PlayerMarker").gameObject;
 
-        mapIMGs.Add("Level1", canvas.Find("Region1").gameObject);
-        mapIMGs.Add("Level3", canvas.Find("Region2").gameObject);
+        mapIMGs.Add("Level1", transform.Find("Region1").gameObject);
+        mapIMGs.Add("Level3", transform.Find("Region2").gameObject);
     }
 
     // Update is called once per frame

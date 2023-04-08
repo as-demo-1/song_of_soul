@@ -16,7 +16,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             
             Player = GameObject.FindGameObjectWithTag("Player");
            // BirdController = Player.GetComponentInChildren<Boss_BigBird>();
-           Health = GameObject.FindGameObjectWithTag("Boss").GetComponent<BigBirdController>().GetHealth();
+           Health = GameObject.FindGameObjectWithTag("Boss").GetComponentInChildren<BigBirdController>().GetHealth();
         }
         
         

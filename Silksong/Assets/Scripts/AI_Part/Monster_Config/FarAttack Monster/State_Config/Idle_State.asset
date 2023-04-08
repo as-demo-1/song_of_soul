@@ -31,9 +31,6 @@ MonoBehaviour:
       data:
         stateType: 1
         defaultAnimationName: idle
-        animationEvents:
-          m_PersistentCalls:
-            m_Calls: []
         isflying: 0
         flyingMinHight: 0
     00000001:
@@ -43,8 +40,8 @@ MonoBehaviour:
         targetState: Monster04_Shoot_State
         checkNearRadius: 0
         checkFarRadius: 0
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
@@ -59,5 +56,5 @@ MonoBehaviour:
         targetState: Meet_State
         checkNearRadius: 0
         checkFarRadius: 10
-        addYBlockCheck: 0
-        returnTrueWhenYBlock: 0
+        isReturnTrueBetweenNearAndFar: 1
+        isRayDetect: 0

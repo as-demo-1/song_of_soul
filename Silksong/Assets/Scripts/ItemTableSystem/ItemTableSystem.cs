@@ -18,25 +18,36 @@ public class ItemTableSystem
     // 存放所有数据的列表
     private List<ItemInfo> _itemList = new List<ItemInfo>();
 
+#if UNITY_EDITOR
+    
+
     private ItemTableSystem()
     {
-        string path = "ScriptableObjects/items";
-        var all = Resources.LoadAll<ItemTableSO>(path);
-
-        foreach (var item in all)
+        string path = "Assets/Scripts/ItemTableSystem/items";
+        if (Directory.Exists(path))
         {
-            _itemDic[item.ID] = new ItemInfo(item.ID, item.NameSid, item.DescSid, item.BuffID, item.BuffVal, item.Icon, item.ItemSO);
-            _itemList.Add(_itemDic[item.ID]);
-
-            if (!_typeDic.ContainsKey(item.TypeID))
+            DirectoryInfo direction = new DirectoryInfo(path);
+            FileInfo[] files = direction.GetFiles("*");
+            for (int i = 0; i < files.Length; ++i)
             {
-                _typeDic[item.TypeID] = new List<ItemInfo>();
-            }
+                if (files[i].Name.EndsWith(".meta"))
+                    continue;
 
-            _typeDic[item.TypeID].Add(_itemDic[item.ID]);
+                ItemTableScriptableObject item = AssetDatabase.LoadAssetAtPath<ItemTableScriptableObject>(path + "/" + files[i].Name);
+
+                _itemDic[item.ID] = new ItemInfo(item.ID, item.NameSid, item.DescSid, item.BuffID, item.BuffVal, item.Icon);
+                _itemList.Add(_itemDic[item.ID]);
+
+                if (!_typeDic.ContainsKey(item.TypeID))
+                {
+                    _typeDic[item.TypeID] = new List<ItemInfo>();
+                }
+
+                _typeDic[item.TypeID].Add(_itemDic[item.ID]);
+            }
         }
     }
-
+#endif
     // 初始化，将所有道具加载到内存
     public void Init()
     {
@@ -52,29 +63,24 @@ public class ItemTableSystem
     // 获取获取某一类别的道具
     public List<ItemInfo> GetItemsByType(string TypeID)
     {
-        if (_typeDic.ContainsKey(TypeID))
-        {
-            return _typeDic[TypeID];
-        }
-        else
+        List<ItemInfo> ret = _typeDic[TypeID];
+        if (ret == null)
         {
             Debug.LogError("分类为" + TypeID + "的道具类型不存在，请检查道具表以及输入TypeID");
-            return default;
         }
+
+        return ret;
     }
 
     // 获取某一种道具
     public ItemInfo GetOneItemByID(string id)
     {
-        if (_itemDic.ContainsKey(id))
-        {
-            return _itemDic[id];
-        }
-        else
+        ItemInfo ret = _itemDic[id];
+        if (ret == null)
         {
             Debug.LogError("id为" + id + "的道具不存在，请检查道具表以及输入id");
-            return default;
         }
+        return ret;
     }
 
     private static ItemTableSystem _instance;
@@ -94,13 +100,12 @@ public class ItemTableSystem
 
 public class ItemInfo
 {
-    private string _id;                 // 物品id    id
-    private string _nameSid;            // 物品名称  item name
-    private string _descSid;            // 物品说明  item desc
-    private string _buffId;             // 效果id    the id of buff
-    private string _buffVal;            // 效果数值  buff effect
-    private Sprite _icon = default;     // 图标     icon asset
-    private ItemSO _itemSO = default;   // 物品so   itemso
+    private string _id;             // 物品id   id
+    private string _nameSid;        // 物品名称  item name
+    private string _descSid;        // 物品说明  item desc
+    private string _buffId;         // 效果id   the id of buff
+    private string _buffVal;        // 效果数值  buff effect
+    private Sprite _icon = default; // 图标     icon asset
 
     public string ID => _id;
     public string NameSid => _nameSid;
@@ -108,9 +113,8 @@ public class ItemInfo
     public string BuffID => _buffId;
     public string BuffVal => _buffVal;
     public Sprite Icon => _icon;
-    public ItemSO ItemSO => _itemSO;
 
-    public ItemInfo(string id, string nameSid, string descSid, string buffId, string buffVal, Sprite icon, ItemSO itemSO)
+    public ItemInfo(string id, string nameSid, string descSid, string buffId, string buffVal, Sprite icon)
     {
         _id = id;
         _nameSid = nameSid;
@@ -118,6 +122,5 @@ public class ItemInfo
         _buffId = buffId;
         _buffVal = buffVal;
         _icon = icon;
-        _itemSO = itemSO;
     }
 }

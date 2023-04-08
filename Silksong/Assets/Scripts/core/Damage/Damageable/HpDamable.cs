@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor;
 using UnityEngine.Events;
-/// <summary>
-/// 
-/// 拥有生命值及相关方法的damable 
-/// </summary>作者：青瓜
+using Cinemachine.Utility;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+
 public class HpDamable :Damable
 {
     [SerializeField]
-    private int maxHp ;//最大生命值
+    private int maxHp ;
     public int MaxHp
     {
         get { return maxHp; }
@@ -18,73 +18,220 @@ public class HpDamable :Damable
     }
 
     [SerializeField]
-    private int currentHp;//当前hp
+    private int currentHp;
     public int CurrentHp
     {
         get { return currentHp; }
     }
-    
+
+    private int tempHp;
+    public int TempHp
+    {
+        get { return tempHp; }
+    }
+
+
+    public bool notDestroyWhenDie;
 
     public bool resetHealthOnSceneReload;
-
-    [Serializable]
-    public class dieEvent : UnityEvent<DamagerBase, DamageableBase>
-    { }
 
     //[Serializable]
     public class setHpEvent : UnityEvent<HpDamable>
     { }
 
-    public dieEvent onDieEvent;
+    public DamageEvent onDieEvent;
 
     public setHpEvent onHpChange=new setHpEvent();
 
-    public AudioCue dieAudio;//在audiomanager中有绑定怪物hpdamable默认《受击》音效的效果
+    public ParticleSystem hurt = default;
+
+    private Dictionary<BuffType, Buff> _buffs = new Dictionary<BuffType, Buff>();
+
+    public GameObject electricMarkPref = default; // ������
+
+    private uint buffindex;
+
 
 
     public override void takeDamage(DamagerBase damager)
     {
+
         if ( currentHp <= 0)
         {
            // return;
         }
+        if (hurt)
+        {
+            Destroy(Instantiate(hurt, transform).gameObject, 1.0f);
+        }
 
         base.takeDamage(damager);
-        addHp(-damager.getDamage(this),damager);
+
+        countDamageNumber(damager);
+    }
+
+    private void countDamageNumber(DamagerBase damager)
+    {
+        int damage = damager.getDamage(this);
+        int damageForTempHp = Mathf.Clamp(damage, 0, tempHp);
+        int damageForCurrentHp = damage - damageForTempHp;
+
+        addTempHp(-damageForTempHp,damager);
+        addCurrentHp(-damageForCurrentHp, damager);
 
     }
 
-
-    public void setCurrentHp(int hp,DamagerBase damager=null)
+   /* public void takeDamage(int number)
     {
-        currentHp = Mathf.Clamp(hp,0,MaxHp);
+        if (currentHp <= 0)
+        {
+            // return;
+        }
+        if (hurt)
+        {
+            Destroy(Instantiate(hurt, transform), 3.0f);
+        }
+        takeDamageEvent.Invoke(null, this);
+
+        setCurrentHp(currentHp - number);
+    }
+   */
+    public void setCurrentHp(int val,DamagerBase damager=null)
+    {
+        currentHp = Mathf.Clamp(val,0,MaxHp);
+
         onHpChange.Invoke(this);
-        if (currentHp == 0)
+
+        if (isDead())
         {
             die(damager);
         }
     }
 
-    public void addHp(int number,DamagerBase damager)//如受到伤害 number<0
+    /// <summary>
+    /// use this to change currentHp,number can be negative to reduce currentHp
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="damager"></param>
+    public void addCurrentHp(int number, DamagerBase damager)
     {
-        setCurrentHp(currentHp + number,damager);
+        if (number == 0) return;
+        setCurrentHp(currentHp + number, damager);
+    }
+
+    public void setTempHp(int val, DamagerBase damager=null)
+    {
+        if (val< 0) val = 0;
+        tempHp = val;
+
+        onHpChange.Invoke(this);
+
+        if (isDead())
+        {
+            die(damager);
+        }
+    }
+
+    /// <summary>
+    /// use this to change tempHp,number can be negative to reduce tempHp
+    /// </summary>
+    /// <param name="number"></param>
+    /// <param name="damager"></param>
+    public void addTempHp(int number, DamagerBase damager)
+    {
+        if (number == 0) return;
+        setTempHp(tempHp + number,damager);
+    }
+
+    public bool isDead()
+    {
+        return CurrentHp <= 0 && TempHp <= 0;
     }
 
     protected virtual void die(DamagerBase damager)
     {
-        onDieEvent.Invoke(damager,this);
+        onDieEvent.Invoke(damager, this);
+        damager.killDamableEvent.Invoke(damager, this);
 
-        if(gameObject.tag!="Player")//reborn player for  test
-        Destroy(gameObject);//未完善
+        if (!notDestroyWhenDie)
+            Destroy(gameObject);
 
-        Debug.Log(gameObject.name+" die");
-        if (dieAudio)
+        Debug.Log(gameObject.name + " die");
+
+        GamingSaveObj<bool> gamingSave;
+        if (TryGetComponent(out gamingSave) && !gamingSave.ban)
         {
-            dieAudio.PlayAudioCue();
+            gamingSave.saveGamingData(true);
         }
 
     }
 
 
+    public void GetBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                eBuff.AddOneLayer();
+                buffindex = ElectricMark.GetCurrentIndex();
+                ElectricMark.AddTarget(buffindex, this);
+                ElectricMark.counter++;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void RemoveBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                eBuff.ResetLayer();
+                eBuff.HidePerformance();
+                ElectricMark.RemoveTarget(buffindex);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public bool CanGetBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                if (_buffs.ContainsKey(BuffType.ElectricMark))
+                {
+                    ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                    return eBuff.GetLayerNum() < 1;
+                }
+                else
+                {
+                    _buffs.Add(BuffType.ElectricMark, new ElectricMark());
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
+    public bool HaveBuff(BuffType buffType)
+    {
+        switch (buffType)
+        {
+            case BuffType.ElectricMark:
+                if (_buffs.ContainsKey(BuffType.ElectricMark))
+                {
+                    ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
+                    return eBuff.GetLayerNum() > 0;
+                }
+                return false;
+            default:
+                return false;
+        }
+    }
 
 }

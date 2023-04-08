@@ -23,14 +23,17 @@ public static class Constants
     #endregion
 
     #region about player sprint
-    public const float PlayerSprintDistance = 4f;
+    public const float PlayerSprintDistance = 4.1f;
     public const int PlayerMaxAirSprintCount = 1;
-    public const float SprintCd = 0.3f;//ä»å†²åˆºç»“æŸåç®—èµ·
-    public const float SprintTime = 0.248f;//æ­¤å€¼åº”ä¸å®é™…åŠ¨ç”»çš„æ—¶é•¿ç›¸åŒ
+    public const float SprintCd = 0.8f;//´Ó³å´Ì½áÊøºóËãÆğ
+    public const float SprintTime = 0.25f;//´ËÖµÓ¦ÓëÊµ¼Ê¶¯»­µÄÊ±³¤ÏàÍ¬
+
+    public const float PlayerWaterSprintDistance = 4.1f;
+    public const float WaterSprintTime = 0.28f;//´ËÖµÓ¦ÓëÊµ¼Ê¶¯»­µÄÊ±³¤ÏàÍ¬
     #endregion
 
     #region about player input
-    public const int BufferFrameTime = 5;//è¾“å…¥ç¼“å­˜å¸§
+    public const int BufferFrameTime = 5;//ÊäÈë»º´æÖ¡
     public const int IsGroundedBufferFrame = 10;
     #endregion
 
@@ -46,7 +49,13 @@ public static class Constants
     #endregion
 
     #region about player attack
+    public const float AttackDamage = 1f;
+    public const float AttackRange = 2f;
     public const float AttackingMoveSpeed = 1f;
+    public const float AttackCd_First = 0.3f;//the time player can not attack again after first normal attack,we have total 3 normal attack
+    public const float AttackCd_Second = 0.3f;
+    public const float AttackCd_Third = 0.5f;
+    public const float AttackCd_Up = 0.35f;
     #endregion
 
     #region about player jump
@@ -63,13 +72,33 @@ public static class Constants
     public const int PlayerMaxDoubleJumpCount = 2;
     public const float JumpUpSlowDownTime = 0.3f;//
     public const float JumpUpStopTime = 0.05f;//
+
     #endregion
 
     #region about player break moon
     public const float BreakMoonPointCd = 3f;
-    public const float BreakMoonAfterDistance=2f;//ç¢æœˆç¼“å†²è·ç¦»
+    public const float BreakMoonAfterDistance=2f;//ËéÔÂ»º³å¾àÀë
     public const float BreakMoonPrePareTime = 0.278f;
     public const float BreakMoonAvgSpeed = 12f;
+    #endregion
+
+    #region about player plunge
+    public const float PlayerPlungeSpeed = 15f;
+    public const float canPlungeHeight = 3f;
+    public const float PlungeingGroundCheckBoxYOff = -2f;
+    public const float PlungeingGroudCheckBoxYSize = 0.3f;
+
+    public const float plungeWaterCheckColliderOffsetY = -0.8f;
+    public const float plungeWaterCheckColliderOffsetX = 0f;
+    #endregion
+
+    #region about player In Water
+    public const float PlayerIntoWaterLinearDarg = 12f;
+    public const float PlayerMinIntoWaterDistance = 0.5f;
+
+    public const float PlayerDiveSpeed = 4f;
+    public const float PlayerSwimSpeed = 4f;
+    public const float PlayWaterSprintPlusDis = 2f;
     #endregion
 
     public const float PlayerBaseHealTime = 2f;
@@ -79,23 +108,29 @@ public static class Constants
     public const int VlunerableAfterDamageTime = 1;//
 
     #region player collider settings
-    public const float playerBoxColliderOffsetY=0f;
     public const float playerBoxColliderWidth = 0.24f;
     public const float playerBoxColliderHeight = 1.6f;
 
-    public const float playerCatBoxColliderOffsetY = 0.2f;
-    public const float playerCatBoxColliderWidth = 0.5f;
-    public const float playerCatBoxColliderHeight = 0.75f;
+    public const float playerCatBoxColliderWidth = 0.6f;
+    public const float playerCatBoxColliderHeight = 0.55f;
 
-    public const float playerGroundCheckColliderOffsetY = -0.80f;
-    public const float playerCatGroundCheckColliderOffsetY = -0.13f;
-    public const float playerGroundColliderXSizeSmall = 0.01f;
+    public const float playerGroundCheckColliderOffsetY = -0.76f;
+    public const float playerGroundCheckColliderOffsetX = 0f;
 
+    public const float playerCatGroundCheckColliderOffsetY = -0.25f;
+
+    public const float playerGroundCheckColliderSizeX = 0.24f;//
+    public const float playerGroundCheckColliderSizeY = 0.1f;// 
+
+    public const float playerWaterCheckColliderOffsetY = 0.4f;
+    public const float playerWaterCheckColliderOffsetX = 0f;
+    public const float playerWaterCheckColliderRadius = 0.23f;
+    public const float playerWaterCheckColliderRadiusCat = 0.4f;
     #endregion
 
 
-    #region ç©å®¶æœ‰å…³å±æ€§
-    public const int playerInitialMaxHp=5;
+    #region Íæ¼ÒÓĞ¹ØÊôĞÔ
+    public const int playerInitialMaxHp=15;
     public const int playerInitialMaxMana = 100;
     public const int playerInitialMoney =0;
 
@@ -106,9 +141,7 @@ public static class Constants
 
     #endregion
 
-    public const float lookUpDownDistance = 10.0f;
-
-    public const float monsterBeatBackTime = 0.15f;
+    public const float beatBackTime = 0.2f;
 
 
 

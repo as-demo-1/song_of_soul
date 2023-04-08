@@ -6,10 +6,10 @@ namespace BehaviorDesigner.Runtime.Tasks
 {
     public class SpawnStones :Action
     {
-        public List<GameObject> Locations;
+        //public List<GameObject> Locations;
 
         public GameObject Prefabs;
-
+        public SharedVector3 basePos;
         public override void OnStart()
         {
             base.OnStart();
@@ -18,10 +18,14 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         public void SpawnStone()
         {
-            foreach (var stone in Locations)
+            for (int i = 0; i < 5; i++)
             {
-                GameObject.Instantiate(Prefabs, stone.transform.position, Quaternion.identity);
+                GameObject.Instantiate(Prefabs, new Vector3(
+                    -20.0f + 5.0f*i + basePos.Value.x, 
+                    basePos.Value.y, 
+                    0.0f), Quaternion.identity);
             }
+
         }
         
     }

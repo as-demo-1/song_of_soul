@@ -13,9 +13,9 @@ public enum EventType
     onMoneyChange,
     onKeyChange,//
 
-    // store
-    onOpenStore,
-    onCloseStore
+    Repaint,
+    Layout,
+
 }
 
 public class EventDate

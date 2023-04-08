@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Newtonsoft.Json;
 /// <summary>
 /// This class contains all the variables that will be serialized and saved to a file.<br/>
 /// Can be considered as a save file structure or format.
@@ -19,15 +19,42 @@ public class Save
     public List<string> _bossGUID = new List<string>();
     public List<SerializedItemStack> _itemStacks = new List<SerializedItemStack>();
     public List<SerializedItemStack> _storeStacks = new List<SerializedItemStack>();
-    public List<string> _destructiblePlatformGuid = new List<string>();
+    public List<string> _destroyedGameObjs = new List<string>();
+
+    //about player-----------------------------------------------------------------------------
+    public bool haveSoulJump;
+    public bool haveDoubleJump;
+
+    public Dictionary<EPlayerStatus, bool> learnedSkills = new Dictionary<EPlayerStatus, bool>
+    {   { EPlayerStatus.CanBreakMoon,false},
+        { EPlayerStatus.CanCastSkill,false},
+        { EPlayerStatus.CanClimbIdle,false},
+        { EPlayerStatus.CanHeal,true},
+        { EPlayerStatus.CanJump,true},
+        { EPlayerStatus.CanNormalAttack,false},
+        { EPlayerStatus.CanPlunge,false},
+        { EPlayerStatus.CanRun,true},
+        { EPlayerStatus.CanSprint,false},
+        { EPlayerStatus.CanToCat,false},
+        { EPlayerStatus.CanSing,false},
+        { EPlayerStatus.CanSwim,true},
+        { EPlayerStatus.CanDive,false},
+        { EPlayerStatus.CanWaterSprint,false},
+        { EPlayerStatus.CanHeartSword,false},
+
+    };
+
 
     public string ToJson()
     {
-        return JsonUtility.ToJson(this);
+        string jsonData = JsonConvert.SerializeObject(this, Formatting.Indented);
+        return jsonData;
+       // return JsonUtility.ToJson(this);
     }
 
-    public void LoadFromJson(string json)
+    public Save LoadFromJson(string json)
     {
-        JsonUtility.FromJsonOverwrite(json, this);
+        // JsonUtility.FromJsonOverwrite(json, this);
+        return  JsonConvert.DeserializeObject<Save>(json);
     }
 }

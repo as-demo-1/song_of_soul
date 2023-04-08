@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: whale
+  m_EditorClassIdentifier: 
+  mBehaviorSource:
+    behaviorName: Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(485,27)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-5,117)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-601.333252,112)","Comment":"die"},"ID":2,"Name":"Sequence","Instant":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"HpBelowOrEqual","NodeData":{"Offset":"(-140,130)"},"ID":3,"Name":"Hp
+        Below Or Equal","Instant":true,"Int32val":0},{"Type":"DeathAction","NodeData":{"Offset":"(18.61425,126)"},"ID":4,"Name":"Death
+        Action","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(0.54180336,149.869568)","Comment":"alive"},"ID":5,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-322.429,130.181839)","Comment":"stage
+        show"},"ID":6,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"GoToPosition","NodeData":{"Offset":"(-155.714264,130)"},"ID":7,"Name":"Go
+        To Position","Instant":true,"SharedVector2targetPos":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"OutPoint","IsShared":true,"Vector2mValue":"(0,0)"},"SinglearriveDistance":0,"Singlespeed":20},{"Type":"Whale_Howl","NodeData":{"Offset":"(-40,130)"},"ID":8,"Name":"Whale  
+        Howl","Instant":true,"SingleanimationSpeed":1,"StringanimationName":"howl"},{"Type":"BattleStart","NodeData":{"Offset":"(87.61904,129.583344)"},"ID":9,"Name":"Battle
+        Start","Instant":true},{"Type":"FindTarget","NodeData":{"Offset":"(211.518982,129.095245)"},"ID":10,"Name":"Find
+        Target","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(153.221085,202.499969)"},"ID":11,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-200.408173,179.387741)","Comment":"change
+        stage","Collapsed":true},"ID":12,"Name":"Sequence","Instant":true,"Disabled":true,"AbortTypeabortType":"LowerPriority","Children":[{"Type":"CanChangeToStageTwo","NodeData":{"Offset":"(-120,110)"},"ID":13,"Name":"Can
+        Change To Stage Two","Instant":true,"Int32val":100},{"Type":"BehaviorDesigner.Runtime.Tasks.ReturnFailure","NodeData":{"Offset":"(68.89996,111)"},"ID":14,"Name":"Return
+        Failure","Instant":true,"Children":[{"Type":"ChangeStage","NodeData":{"Offset":"(0,120)"},"ID":15,"Name":"Change
+        Stage","Instant":true,"StringeffectName":"changeStage"}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(42.85714,170)","Comment":"fighting"},"ID":16,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-3.80951881,170)"},"ID":17,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(2.16210747,150.540527)","Comment":"wander"},"ID":18,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Self","Children":[{"Type":"SkillNotReady","NodeData":{"Offset":"(-270.3,126)"},"ID":19,"Name":"Skill
+        Not Ready","Instant":true},{"Type":"FindWanderPos","NodeData":{"Offset":"(-119.742607,128.566086)"},"ID":20,"Name":"Find
+        Wander Pos","Instant":true,"SharedVector2pos":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"WanderPoint","IsShared":true,"Vector2mValue":"(0,0)"}},{"Type":"GoToPosition","NodeData":{"Offset":"(5.22065067,129.154343)"},"ID":21,"Name":"Go
+        To Position","Instant":true,"SharedVector2targetPos":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"WanderPoint","IsShared":true,"Vector2mValue":"(0,0)"},"SinglearriveDistance":0,"Singlespeed":10},{"Type":"TurnAction","NodeData":{"Offset":"(145.0737,134.976791)"},"ID":22,"Name":"Turn
+        Action","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(446.37735,138.648819)","Comment":"skill"},"ID":23,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-127.392441,105.286133)"},"ID":24,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BorderSkillReady","NodeData":{"Offset":"(-167.773682,157.904755)"},"ID":25,"Name":"Border
+        Skill Ready","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(10.6516285,165.664185)"},"ID":26,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-236.225952,115.353012)"},"ID":27,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ChooseBump","NodeData":{"Offset":"(-179.782974,129)"},"ID":28,"Name":"Choose
+        Bump","Instant":true},{"Type":"BehaviorDesigner.Runtime.Tasks.ReturnSuccess","NodeData":{"Offset":"(-15.3001251,133.530716)"},"ID":29,"Name":"Return
+        Success","Instant":true,"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(1.61390209,116.585373)"},"ID":30,"Name":"Sequence","Instant":true,"AbortTypeabortType":"Self","Children":[{"Type":"NotOutCamera","NodeData":{"Offset":"(-174.102554,130)"},"ID":31,"Name":"Not
+        Out Camera","Instant":true},{"Type":"RedEyeEffect","NodeData":{"Offset":"(-25.04088,144.512253)"},"ID":32,"Name":"Red
+        Eye Effect","Instant":true,"StringeffectName":"redEye"},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(91.6258545,135.53833)"},"ID":33,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"Whale_Bump","NodeData":{"Offset":"(221.5298,142.820511)"},"ID":34,"Name":"Whale  
+        Bump","Instant":true,"Singlespeed":10}]}]},{"Type":"TurnAction","NodeData":{"Offset":"(119.131653,128.599091)"},"ID":35,"Name":"Turn
+        Action","Instant":true}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(36.7595749,206.906982)"},"ID":36,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"RedEyeEffect","NodeData":{"Offset":"(-60,150)"},"ID":37,"Name":"Red
+        Eye Effect","Instant":true,"StringeffectName":"redEye"},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(70,150)"},"ID":38,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"Whale_Vomit","NodeData":{"Offset":"(208.7234,151.2766)"},"ID":39,"Name":"Whale  
+        Vomit","Instant":true,"SinglemoveSpeed":2,"SingleanimationSpeed":1,"StringanimationName":"attack2"}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(216.2413,127.42894)"},"ID":40,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-43.30712,213.488144)"},"ID":41,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ChooseSmoke","NodeData":{"Offset":"(-92.4064941,139.185547)"},"ID":42,"Name":"Choose
+        Smoke","Instant":true},{"Type":"RedEyeEffect","NodeData":{"Offset":"(37.69226,143.589615)"},"ID":43,"Name":"Red
+        Eye Effect","Instant":true,"StringeffectName":"redEye"},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(167.692551,143.589325)"},"ID":44,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":0.5},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"Whale_Smoke","NodeData":{"Offset":"(300.8999,136)"},"ID":45,"Name":"Whale  
+        Smoke","Instant":true}]},{"Type":"Whale_Rain","NodeData":{"Offset":"(466.6261,350)"},"ID":46,"Name":"Whale  
+        Rain","Instant":true,"SingleanimationSpeed":0.5,"StringanimationName":"howl"}]}]}]}]}]}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Target","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"OutPoint","IsShared":true,"Vector2mValue":"(0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"WanderPoint","IsShared":true,"Vector2mValue":"(0,0)"}]}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.4

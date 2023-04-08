@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 
-public static class LayerMaskExtensions//layerMaskÔö¼Ócontains·½·¨ ÅĞ¶ÏgameObjectÊÇ·ñÔÚlayerMaskÖĞ
+public static class LayerMaskExtensions//layerMaskå¢åŠ containsæ–¹æ³• åˆ¤æ–­gameObjectæ˜¯å¦åœ¨layerMaskä¸­
 {
     public static bool Contains(this LayerMask layers, GameObject gameObject)
     {
@@ -14,37 +14,35 @@ public static class LayerMaskExtensions//layerMaskÔö¼Ócontains·½·¨ ÅĞ¶ÏgameObjec
 
 /// <summary>
 /// 
-/// damagerµÄ³éÏó»ùÀà 
-/// </summary>×÷Õß£ºÇà¹Ï
+/// damagerçš„æŠ½è±¡åŸºç±» 
+/// </summary>ä½œè€…ï¼šé’ç“œ
 
 public abstract class DamagerBase : MonoBehaviour
 {
-    public bool ignoreInvincibility = false;//ÎŞÊÓÎŞµĞ
+    public bool ignoreInvincibility = false;//æ— è§†æ— æ•Œ
     public bool canDamage = true;
-    public int damage;//ÉËº¦ÊıÖµ
+    public int damage;//ä¼¤å®³æ•°å€¼
     public Vector2 beatBackVector = Vector2.zero;
 
-    [Serializable]
-    public class DamableEvent : UnityEvent<DamagerBase, DamageableBase>
-    { }
 
-    public DamableEvent makeDamageEvent;
+    public DamageEvent makeDamageEvent;
+    public DamageEvent killDamableEvent;
 
 
-    public virtual int getDamage(DamageableBase target)//»ñµÃÔì³ÉµÄ¾ßÌåÉËº¦ÊıÖµ
+    public virtual int getDamage(DamageableBase target)//è·å¾—é€ æˆçš„å…·ä½“ä¼¤å®³æ•°å€¼
     {
         return damage;
     }
  
-    protected abstract void makeDamage(DamageableBase target);//Ôì³ÉÉËº¦ºóµÄĞ§¹û
+    protected abstract void makeDamage(DamageableBase target);//é€ æˆä¼¤å®³åçš„æ•ˆæœ
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)//¸ù¾İgameobjrectµÄlayerºÍproject setting È·¶¨ÄÄĞ©layer²ÎÓëÅö×²
+    protected virtual void OnTriggerEnter2D(Collider2D collision)//æ ¹æ®gameobjrectçš„layerå’Œproject setting ç¡®å®šå“ªäº›layerå‚ä¸ç¢°æ’
     {
         if(!canDamage)
         {
             return;
         }
-        DamageableBase damageable = collision.GetComponent<DamageableBase>();//Ö»ÓĞÓµÓĞDamageable×é¼şµÄcolliderÊÜ¹¥»÷
+        DamageableBase damageable = collision.GetComponent<DamageableBase>();//åªæœ‰æ‹¥æœ‰Damageableç»„ä»¶çš„colliderå—æ”»å‡»
         if (damageable )
         {
             //Debug.Log(damageable.gameObject.name + " ontrigger");

@@ -32,11 +32,13 @@ public class PlayerInput : InputComponent
     public InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
+    public InputButton soulSkill = new InputButton(KeyCode.R, XboxControllerButtons.None);
+    public InputButton sing = new InputButton(KeyCode.Z, XboxControllerButtons.None);
+    public InputButton heartSword = new InputButton(KeyCode.U, XboxControllerButtons.None);
     ////TODO:xbox button mapping
     public InputButton showMap = new InputButton(KeyCode.M, XboxControllerButtons.None);
     ////TODO:xbox button mapping
     public InputButton quickMap = new InputButton(KeyCode.Tab, XboxControllerButtons.None);
-    public InputButton inGameMenu = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu);
     [HideInInspector]
 
     protected bool m_HaveControl = true;
@@ -57,6 +59,7 @@ public class PlayerInput : InputComponent
             jump,
             interact,
             normalAttack,
+            soulSkill,
             sprint,
             teleport,
             Pick,
@@ -67,7 +70,8 @@ public class PlayerInput : InputComponent
             showMap,
             quickMap,
             plunge,
-            inGameMenu,
+            sing,
+            heartSword,
         });
     }
 
@@ -110,9 +114,6 @@ public class PlayerInput : InputComponent
 
 
 
-    /// <summary>
-    /// �������е����룬������ɫ��ϵͳ��һ�㲻ʹ��
-    /// </summary>
     public override void ReleaseControls(bool resetValues = true)
     {
         Debug.Log("releaseCtrl");

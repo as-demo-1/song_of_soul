@@ -38,9 +38,6 @@ public class PlayerSkillManager : MonoBehaviour
     [SerializeField] Transform UnlockedSkillContainer;
     [SerializeField] Text equippingSkillText;
 
-    [SerializeField]
-    private CharmListSO CharmListSO;
-
 
     private void Start()
     {

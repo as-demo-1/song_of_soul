@@ -49,6 +49,12 @@ public class Lift : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         floorCollider = GetComponent<BoxCollider2D>();
 
+        foreach (var gear in GetComponentsInChildren<LiftFloorGear>())
+        {
+            gear.lift = this;
+            gears[gear.floor - 1] = gear;
+        }
+
     }
     void Start()
     {
@@ -61,12 +67,21 @@ public class Lift : MonoBehaviour
         arriveDistance = speed * Time.fixedDeltaTime;
         liftFloorDistance = floorCollider.offset.y;
         liftFloorDistance += floorCollider.bounds.extents.y;
+
+        IntGamingSave gamingSave;
+        if (TryGetComponent(out gamingSave) &&!gamingSave.ban)
+        {
+            bool error;
+            int savedFloor = gamingSave.loadGamingData(out error);
+            if (error) return;
+            //Debug.Log(savedFloor);
+            float targetFloorHeight = gears[savedFloor - 1].floorHeight;
+            float distance = getFloorPosition() - targetFloorHeight;
+            rigid.MovePosition(new Vector3(transform.position.x, transform.position.y - distance, transform.position.z));
+            currentFloor = savedFloor;
+        }
     }
 
-    public void setFloorGear(LiftFloorGear gear)
-    {
-        gears[gear.floor - 1] = gear;
-    }
 
     private float getFloorPosition()
     {
@@ -85,6 +100,11 @@ public class Lift : MonoBehaviour
             {
                 // Debug.Log("lift arrive a floor");
                 currentFloor = midTargetFloor;//到达了某一层
+                IntGamingSave gamingSave;
+                if (TryGetComponent(out gamingSave) && !gamingSave.ban)
+                {
+                    gamingSave.saveGamingData(midTargetFloor);
+                }
 
                 if (midTargetFloor == targetFloor)//到达目的层
                 {

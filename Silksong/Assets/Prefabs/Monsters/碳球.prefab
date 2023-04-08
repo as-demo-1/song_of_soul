@@ -92,13 +92,15 @@ GameObject:
   - component: {fileID: 6992661258279219809}
   - component: {fileID: 7779476596845454911}
   - component: {fileID: 7779476596845454896}
+  - component: {fileID: 373615227745712279}
+  - component: {fileID: 1102866697186808219}
   m_Layer: 15
   m_Name: "\u78B3\u7403"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6992661258279219813
 Transform:
   m_ObjectHideFlags: 0
@@ -179,7 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invulnerable: 0
   damageDirection: {x: 0, y: 0}
-  playerAttackCanGainSoul: 0
+  playerAttackCanGainSoul: 1
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -191,7 +193,7 @@ MonoBehaviour:
   onDieEvent:
     m_PersistentCalls:
       m_Calls: []
-  dieAudio: {fileID: 0}
+  hurt: {fileID: 0}
 --- !u!61 &6992661258279219808
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -284,3 +286,28 @@ MonoBehaviour:
   beatBackRatio: 1.5
   hasInvokedAnimationEvent: 0
   isInvokingAnimationEvent: 0
+--- !u!114 &373615227745712279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992661258279219819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bbc2c1e63e98543830eec78d976795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: 
+--- !u!114 &1102866697186808219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992661258279219819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37515e1153b5439498a24fba46b7966d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
