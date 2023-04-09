@@ -51,7 +51,7 @@ public class EasySlider : MonoBehaviour
         if (_withAnim)
         {
             
-            image.DOFillAmount(value,0.5f);
+            //image.DOFillAmount(value,0.5f);
         }
         else
         {

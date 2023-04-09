@@ -83,6 +83,7 @@ public class EasyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void ButtonDown()
     {
+        Debug.Log("EasyBtn Down");
         isHolding = true;
         OnBtnDown.Invoke();
         if (withAnim)

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// 队列选择功能
@@ -12,8 +14,14 @@ public class PanelView : MonoBehaviour
     public List<RectTransform> panelList = new List<RectTransform>();
 
     [Header("当前选中的索引")]
-    public int selectIndex;
+    private int selectIndex;
 
+    public int SelectIndex
+    {
+        get => selectIndex;
+    }
+
+    [FormerlySerializedAs("onPanelChange")] public UnityEvent OnPanelChange;
     /// <summary>
     /// 当前选中的面板
     /// </summary>
@@ -49,6 +57,7 @@ public class PanelView : MonoBehaviour
         if (selectIndex > 0)
         {
             selectIndex--;
+            OnPanelChange.Invoke();
             UpdatePanelPos();
         }
 
@@ -60,6 +69,7 @@ public class PanelView : MonoBehaviour
         if (selectIndex < panelList.Count-1)
         {
             selectIndex++;
+            OnPanelChange.Invoke();
             UpdatePanelPos();
         }
     }

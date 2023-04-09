@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour
 
     InvulnerableDamable damable;
 
-
+    public SoulSkillController SoulSkillController;
 
 
 
@@ -263,15 +263,7 @@ public class PlayerController : MonoBehaviour
         playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
 
-        #region 灵魂技能
-        _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
-        _lightningChain.Init(this, playerCharacter);
-        _lightningChain.gameObject.SetActive(false);
-        _lightningChain.transform.SetParent(transform);
-        _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
-        equpedSoulSkill = _lightningChain;
-
-        #endregion
+        SoulSkillController.SoulSkillInit(this);
     }
 
 
@@ -303,7 +295,7 @@ public class PlayerController : MonoBehaviour
 
         //TickLightningChain();// 按下R进入闪电链灵魂状态
         //TODO：改为按下R之后根据装配的护符开启对应状态
-        TickSoulSkill();
+        SoulSkillController.TickSoulSkill();
 
         playerAnimatorStatesControl.ParamsUpdate();
         playerToCat.catUpdate();
@@ -321,142 +313,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    #region 灵魂技能
-    
-    public SoulSkill equpedSoulSkill;
-    public SkillName soulSkillName;// 当前选择的灵魂技能
-    public bool inSoulModel;// 是否进入了灵魂状态
-    public GameObject lightningChainPrefab;
-    private LightningChain _lightningChain;
-    public GameObject flameGeyserBullet;
-    public GameObject flameGeyserPrefab;
-    private FlameGeyser _flameGeyser;
-    
-    public void TickLightningChain()
-    {
-        if (playerCharacter.Mana <= 0)
-        {
-            _lightningChain.gameObject.SetActive(false);
-            playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-        }
-        if (PlayerInput.Instance.soulSkill.IsValid) 
-        {
-            PlayerAnimator.SetTrigger("castSkill");
-            Debug.LogError("R is down");
-            if (_lightningChain.isActiveAndEnabled)
-            {
-                Debug.LogError("light chain is active");
-                _lightningChain.TiggerAtkEvent();
-                _lightningChain.gameObject.SetActive(false);
-                _lightningChain.enabled = false;
-            }
-            else
-            {
-                if (playerCharacter.Mana < _lightningChain.constPerSec)
-                {
-                    Debug.LogError("not enough mana");
-                }
-                else
-                {
-                    Debug.LogError("cast skill");
-                    _lightningChain.gameObject.SetActive(true);
-                    playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-                    _lightningChain.enabled = true;
-                }
-            }
-        }
-
-        if (_lightningChain.isActiveAndEnabled)
-        {
-            _lightningChain.TriggerAddElectricMarkEvent();
-            _lightningChain.UpdateTargetsLink();
-        }
-    }
-    public void TickSoulSkill()
-    {
-        if (playerCharacter.Mana <= 0 && inSoulModel)
-        {
-            equpedSoulSkill.SkillEnd.Invoke();//法力值为0时，自动退出灵魂状态
-        }
-        if (PlayerInput.Instance.soulSkill.IsValid)
-        {
-            // 按下R键切换灵魂状态
-            PlayerAnimator.SetTrigger("castSkill");
-            Debug.Log("R is down");
-            /*switch (soulSkillName)
-            {
-                case SkillName.FlameGeyser:
-                    equpedSoulSkill = _flameGeyser;
-                    break;
-                case SkillName.ShadowBlade:
-                    break;
-                case SkillName.LightningChain:
-                    equpedSoulSkill = _lightningChain;
-                    break;
-                case SkillName.ArcaneBlast:
-                    break;
-                case SkillName.IceStorm:
-                    break;
-                default:
-                    break;
-            }*/
-            
-            if (inSoulModel)// 如果处于灵魂状态则退出
-            {
-                Debug.Log(equpedSoulSkill.name + " is active");
-                //equpedSoulSkill.TiggerAtkEvent();
-                equpedSoulSkill.SkillEnd.Invoke();
-                equpedSoulSkill.gameObject.SetActive(false);
-                equpedSoulSkill.enabled = false;
-                inSoulModel = false;
-            }
-            else
-            {
-                if (playerCharacter.Mana < equpedSoulSkill.constPerSec)
-                {
-                    Debug.Log("not enough mana");
-                }
-                else
-                {
-                    Debug.Log("cast skill");
-                    equpedSoulSkill.gameObject.SetActive(true);
-                    equpedSoulSkill.enabled = true;
-                    equpedSoulSkill.SkillStart.Invoke();//进入灵魂状态，触发对应效果
-                    inSoulModel = true;
-                    //playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-                }
-            }
-        }
-    }
-    public void TriggerFlameGeyser(bool option)
-    {
-
-    }
-    public void TriggerLightningChain(bool option)
-    {
-
-    }
-    public void ShootBullet(string _bullet)
-    {
-        if (_bullet.Equals("FlameGeyser"))
-        {
-            GameObject go = Instantiate(flameGeyserBullet, transform);
-            go.transform.localPosition = Vector3.zero;
-            go.transform.SetParent(null);
-
-            /*
-            Quaternion.Euler(flameGeyserBullet.transform.rotation.x
-           , flameGeyserBullet.transform.localRotation.y
-           , PlayerController.Instance.playerInfo.playerFacingRight ? 0.0f : 180.0f));*/
-
-            Vector3 shootDirection = new Vector3(PlayerController.Instance.playerInfo.playerFacingRight ? 1 : -1, 0, 0);
-            go.GetComponent<Rigidbody2D>().AddForce(shootDirection * 15f, ForceMode2D.Impulse);
-
-            Destroy(go, 2f);
-        }
-    }
-
-    #endregion
+   
 
     public void endJumpByUpAttack()
     {

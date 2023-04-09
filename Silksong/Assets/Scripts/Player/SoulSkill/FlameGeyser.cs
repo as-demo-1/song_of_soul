@@ -5,17 +5,16 @@ using UnityEngine;
 public class FlameGeyser : SoulSkill
 {
     // Start is called before the first frame update
-    void Start()
+    
+    private void OnEnable()
     {
-        
+        base.OnEnable();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        base.OnDisable();
     }
-
     public override bool AtkPerTarget(Hittable target)
     {
         throw new System.NotImplementedException();

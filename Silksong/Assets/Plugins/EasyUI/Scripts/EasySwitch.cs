@@ -55,7 +55,7 @@ public class EasySwitch : MonoBehaviour
                     new Vector3(-btn.localPosition.x, btn.localPosition.y
                         , btn.localPosition.z), 0.5f)
                 .SetEase(Ease.InOutCubic);
-            btn.GetComponent<Image>().DOColor(State ? Color.green : Color.red, 0.5f);
+            //btn.GetComponent<Image>().DOColor(State ? Color.green : Color.red, 0.5f);
         }
     }
 }

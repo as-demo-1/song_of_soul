@@ -46,6 +46,6 @@ public class AnimEvent : MonoBehaviour
     /// </summary>
     public void CostFlameGeyser()
     {
-        PlayerController.Instance.ShootBullet("FlameGeyser");
+        PlayerController.Instance.SoulSkillController.ShootBullet("FlameGeyser");
     }
 }
