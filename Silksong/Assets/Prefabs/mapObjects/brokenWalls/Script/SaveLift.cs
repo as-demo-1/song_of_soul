@@ -58,10 +58,8 @@ public class SaveLift : MonoBehaviour
         ifMoving = true;
         Vector2 moveTarget= new Vector2(0, target.y-transform.position.y).normalized;
         rb.velocity = moveTarget * moveSpeed;
-        while(Mathf.Abs(transform.position.y-target.y) > 0.05)
+        while(Mathf.Abs(transform.position.y-target.y) > 0.1)
         {
-            //transform.position = Vector2.MoveTowards(transform.position,
-            //    moveTarget, moveSpeed * Time.fixedDeltaTime);
             yield return new WaitForFixedUpdate();  
         }
         rb.velocity = Vector2.zero;

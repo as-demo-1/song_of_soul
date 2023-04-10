@@ -54,6 +54,9 @@ public enum EnemyStates
     Boss_Attack_State = 41,
     Boss_Second_State = 42,
     Boss_SecondPatrol_State = 43,
+    Enemy_LightingChain_State=44,
+    Enemy_Tailafter_State=45,
+
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
