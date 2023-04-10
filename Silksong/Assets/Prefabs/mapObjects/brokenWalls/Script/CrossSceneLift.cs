@@ -67,14 +67,15 @@ public class CrossSceneLift : SaveLift
         Debug.Log("save "+nextFloor + "  " + time + "  ");
         Vector2 target = floorList[nextFloor].transform.position;
         ifMoving = true;
-        Vector2 moveTarget = new Vector2(transform.position.x, target.y);
+        Vector2 moveTarget = new Vector2(0, target.y - transform.position.y).normalized;
+        rb.velocity = moveTarget * moveSpeed;
         while (Mathf.Abs(transform.position.y - target.y) > 0.05)
         {
-            transform.position = Vector2.MoveTowards(transform.position,
-                moveTarget, moveSpeed * Time.fixedDeltaTime);
+            //transform.position = Vector2.MoveTowards(transform.position,
+            //    moveTarget, moveSpeed * Time.fixedDeltaTime);
             yield return new WaitForFixedUpdate();
         }
-        ifMoving = false;
+        rb.velocity = Vector2.zero;
         time--;
         if (time > 0)
         {
@@ -85,7 +86,7 @@ public class CrossSceneLift : SaveLift
 
     public void LoadFloor(int currentFloor,int pairFloor)
     {
-        if (UpLift)//如果是上层电梯
+        if (UpLift)//
         {
             if (pairFloor == 0)//如果下层电梯在第0层 说明下层根本没动，那么这个电梯也就设置在第0层（隐藏层）
             {

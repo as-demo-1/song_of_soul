@@ -14,6 +14,7 @@ public class SaveLift : MonoBehaviour
     public int currentFloor;
     protected bool ifMoving;
     protected SaveSystem _saveSystem;
+    public Rigidbody2D rb;
     private void Awake()
     {
         _saveSystem = GameManager.Instance.saveSystem;
@@ -27,7 +28,13 @@ public class SaveLift : MonoBehaviour
             transform.position =new Vector2(transform.position.x, floorList[currentFloor].transform.position.y);
         }
     }
-     
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Rigidbody2D rb2= collision.transform.GetComponent<Rigidbody2D>();
+        //Debug.Log(rb.velocity);
+        if(rb2 != null)
+            rb2.velocity =this.rb.velocity;
+    }
     public void MoveToFloor(int n)
     {
         if (!ifMoving)
@@ -49,13 +56,15 @@ public class SaveLift : MonoBehaviour
     IEnumerator Moving(Vector2 target)
     {
         ifMoving = true;
-        Vector2 moveTarget= new Vector2(transform.position.x, target.y);
+        Vector2 moveTarget= new Vector2(0, target.y-transform.position.y).normalized;
+        rb.velocity = moveTarget * moveSpeed;
         while(Mathf.Abs(transform.position.y-target.y) > 0.05)
         {
-            transform.position = Vector2.MoveTowards(transform.position,
-                moveTarget, moveSpeed * Time.fixedDeltaTime);
+            //transform.position = Vector2.MoveTowards(transform.position,
+            //    moveTarget, moveSpeed * Time.fixedDeltaTime);
             yield return new WaitForFixedUpdate();  
         }
+        rb.velocity = Vector2.zero;
         ifMoving=false;
     }
     

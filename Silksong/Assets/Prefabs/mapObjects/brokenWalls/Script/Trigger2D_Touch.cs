@@ -11,13 +11,12 @@ public class Trigger2D_Touch : Trigger2DBase
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
          base.OnTriggerEnter2D(collision);
-         
-        if (collision.gameObject == t)
+        if (t!=null&& collision.gameObject == t)
             WhenTriggerEnter?.Invoke();
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject == t)
+        else if (t == null)
+        {
             WhenTriggerEnter?.Invoke();
+        }
     }
+     
 }
