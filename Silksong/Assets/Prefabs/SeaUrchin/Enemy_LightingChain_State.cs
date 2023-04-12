@@ -30,16 +30,21 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
         base.InitState(enemyFSM);
         lightningChain=GameObject.Instantiate(lightningChain_Pre,enemyFSM.transform);
         lightningChain.transform.localPosition = Vector3.zero;
+        lightningChain.transform.up = enemyFSM.transform.up;
         parent = enemyFSM.transform.parent;
+        lightningChain.SetActive(false);
     }
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
+        enemyFSM.transform.up =    enemyFSM.transform.position- parent.transform.position;
+        lightningChain.transform.up = enemyFSM.transform.up;
         ifLightning = false;
     }
     public override void FixAct_State(EnemyFSMManager enemyFSM)
     {
         base.FixAct_State(enemyFSM);
+        //Debug.Log(Vector2.Distance(enemyFSM.transform.position, parent.position));
         if (Vector2.Distance(enemyFSM.transform.position, parent.position) < radius)
         {
             enemyFSM.rigidbody2d.velocity = enemyFSM.transform.up * moveSpeed;
@@ -47,7 +52,10 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
         else
         {
             enemyFSM.rigidbody2d.velocity = enemyFSM.transform.right * moveSpeed;
-        }
+            enemyFSM.transform.up = enemyFSM.transform.position - parent.transform.position;
+            lightningChain.transform.up = enemyFSM.transform.up;
+            lightningChain.SetActive(true);
+        }//
         if(t<lightningInterval)
             t+=Time.fixedDeltaTime;
         else 
@@ -57,8 +65,6 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
             if (hit2d.collider != null)
             {
                 t = 0;
-                //反正就是造成伤害啦
-                //hit2d.collider.GetComponent<HpDamable>().takeDamage()
             }
         }
     }
