@@ -469,13 +469,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1205793115}
     m_Modifications:
+    - target: {fileID: 3292690482193259924, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Size.x
+      value: 34.689255
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292690482193259924, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Size.y
+      value: 18.41331
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292690482193259924, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Offset.x
+      value: 9.344627
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292690482193259924, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Offset.y
+      value: 2.6726198
+      objectReference: {fileID: 0}
     - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
       propertyPath: priority
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: lockCameraX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: lockCameraY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: isLookForward
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
       propertyPath: orthographicSize
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4261852894047112035, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
       propertyPath: m_RootOrder
@@ -483,7 +511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4261852894047112035, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 121.79
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 4261852894047112035, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
       propertyPath: m_LocalPosition.y
@@ -528,6 +556,30 @@ PrefabInstance:
     - target: {fileID: 4261852894047112038, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924809914215174881, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924809914215174881, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924809914215174881, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].y
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924809914215174881, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924809914215174881, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4924809914215174881, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
+      value: -7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
@@ -661,7 +713,7 @@ MonoBehaviour:
   _cam1Name: CM vcam1
   _cam2Name: CM vcam2
   _cam3Name: CM vcam3
-  lookUpDownSpeed: 8
+  lookUpDownDuration: 1
 --- !u!4 &1205793115
 Transform:
   m_ObjectHideFlags: 0
@@ -793,8 +845,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1205793115}
     m_Modifications:
     - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: priority
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
       propertyPath: isLookForward
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
+      propertyPath: orthographicSize
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4261852894047112033, guid: fb95c03cd85eb7c48907f8a26d738080, type: 3}
       propertyPath: lookForwardVector.x
