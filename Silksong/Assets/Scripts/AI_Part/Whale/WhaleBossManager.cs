@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum bossBattleStage
+public enum EBossBattleStage
 {
     Prepare,
     StageOne,
@@ -12,7 +12,7 @@ public enum bossBattleStage
 
 public class WhaleBossManager : MonoSingleton<WhaleBossManager>
 {
-    public bossBattleStage stage=bossBattleStage.Prepare;
+    public EBossBattleStage stage=EBossBattleStage.Prepare;
 
 
     public Transform roomLeftDown;
@@ -30,14 +30,15 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
 
     public GameObject platform;
     public GameObject cloud;
+    public GameObject brokenPlatform;
     private float createHigher;
     public float AvgplatformsCreateCd;
     public float cloudRate;
     public float AvgPlatformSpeed;
     private float moveTotalTime;
     private int AvgPlatformNumberPerCreate;
-    private float PlafromHorizonDistance=6f;
-    public float PlafromHorizonDistanceBear;
+    private float PlafromHorizonDistance=7f;
+    public float MinPlafromPostionXGap;
 
     public GameObject FirstPlatform;
     public GameObject FirstPlatform2;
@@ -45,17 +46,21 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
     public Transform PlatformParent;
 
     public float borderSkillCd;
-    public float normalSkillCd;
+    public float iceRainSkillCd;
+    public float smokeSkillCd;
     [HideInInspector]
     public float borderSkillCdTimer;
     [HideInInspector]
-    public float normalSkillCdTimer;
+    public float iceRainSkillCdTimer;
+    [HideInInspector]
+    public float smokeSkillCdTimer;
 
     public float rightBorderX;
     public float leftBorderX;
 
     public BattleAgent battleAgent;
     private HpDamable whaleHp;
+    public int StageTwoHp;
 
     public GameObject ice;
     public GameObject iceParent;
@@ -63,6 +68,10 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
     public float iceRainWaveTime;
     public int iceNumberPerWave;
     public float iceSpeed;
+
+    public GameObject smoke;
+
+
 
     void Start()
     {
@@ -81,81 +90,120 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         createHigher = 1;
         whaleHp = battleAgent.GetComponent<HpDamable>();
 
+        MonsterSMBEvents.Initialise(battleAgent.animator,battleAgent);
+        whaleHp.onHpChange.AddListener(checkChangeStage);
+    }
+
+    private void checkChangeStage(HpDamable self)
+    {
+        if(stage==EBossBattleStage.StageOne && self.CurrentHp<=StageTwoHp)
+        {
+            WhaleBossManager.Instance.stage = EBossBattleStage.StageTwo;
+
+            GameObject effect = battleAgent.transform.Find("Effects").Find("changeStage").gameObject;
+            effect.SetActive(true);
+            effect.GetComponent<ParticleSystem>().Play();
+
+            battleAgent.GetComponentInChildren<SetAnotherSkeletonMat>().setMat(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(stage==bossBattleStage.Prepare)
+        if(stage==EBossBattleStage.Prepare)
         {
             CameraShakeManager.Instance.cameraShake(1f);
         }
         else
         {
-            if (normalSkillCdTimer > 0)
+            if (iceRainSkillCdTimer > 0)
             {
-                normalSkillCdTimer -= Time.deltaTime;
+                iceRainSkillCdTimer -= Time.deltaTime;
             }
             if (borderSkillCdTimer > 0)
             {
                 borderSkillCdTimer -= Time.deltaTime;
             }
+            if (stage==EBossBattleStage.StageTwo &&  smokeSkillCdTimer> 0)
+            {
+                smokeSkillCdTimer -= Time.deltaTime;
+            }
         }
 
     }
 
-    public void resetNormalSkillCdTimer()
+    public void resetIceRainCdTimer()
     {
-        normalSkillCdTimer = normalSkillCd;
+        iceRainSkillCdTimer = iceRainSkillCd;
+    }
+    public void resetSmokeCdTimer()
+    {
+        smokeSkillCdTimer = smokeSkillCd;
     }
 
-    public void resetVomitSkillCdTimer()
+    public void resetBorderSkillCdTimer()
     {
         borderSkillCdTimer = borderSkillCd;
     }
 
     public void BattleStart()
     {
-        stage = bossBattleStage.StageOne;
+        stage = EBossBattleStage.StageOne;
         PlayerAnimatorParamsMapping.SetControl(true);
         StartCoroutine(moveingPlatforms());
         FirstCloud.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -AvgPlatformSpeed);
         FirstPlatform.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -AvgPlatformSpeed);
         FirstPlatform2.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -AvgPlatformSpeed);
 
-        resetNormalSkillCdTimer();
-        resetVomitSkillCdTimer();
+        resetIceRainCdTimer();
+        resetBorderSkillCdTimer();
+        resetSmokeCdTimer();
     }
 
-    private IEnumerator moveingPlatforms()
+    private IEnumerator moveingPlatforms()//0  -1  +1*2  -1*2  +1*2 ....
     {
-        while(true)
+        int currentPlatformOffset=0;
+        createPlatformsAndClouds(AvgPlatformNumberPerCreate, currentPlatformOffset);
+        yield return new WaitForSeconds(AvgplatformsCreateCd);
+        currentPlatformOffset--;
+        createPlatformsAndClouds(AvgPlatformNumberPerCreate, currentPlatformOffset);
+        yield return new WaitForSeconds(AvgplatformsCreateCd);
+
+        int flag = 0;
+        while (true)
         {
-            createPlatformsAndClouds(AvgPlatformNumberPerCreate);
-            yield return new WaitForSeconds(Random.Range(0.8f,1.2f)*AvgplatformsCreateCd);
+            if (flag < 2) currentPlatformOffset++;
+            else currentPlatformOffset--;
+
+            createPlatformsAndClouds(AvgPlatformNumberPerCreate,currentPlatformOffset);
+            yield return new WaitForSeconds(AvgplatformsCreateCd);
+            flag++;
+            flag %= 4;
         }
     }
 
-    private void createPlatformsAndClouds(int num)
+    private void createPlatformsAndClouds(int num,int offset)
     {
         /*
         bool havePlatform = false;
         bool haveCloud = false;*/
         float horizonBase = roomLeftDownPoint.x;
         float preX=-200;
-        for(int i=0;i<num;i++)
+        for (int i=0;i<num;i++)
         {
             float x;
-            x = Random.Range(0f, 2f) + horizonBase + i * PlafromHorizonDistance;
-            if (preX!=-200)
+            //x = Random.Range(0f, 2f) + horizonBase + i * PlafromHorizonDistance+offset*3.5f;
+            x = 2+ horizonBase + i * PlafromHorizonDistance + offset * 3.5f;
+            /*if (preX!=-200)
             {
-                while(x-preX<=PlafromHorizonDistance-PlafromHorizonDistanceBear)
+                if(x-preX<=MinPlafromPostionXGap)
                 {
-                    x += 0.2f;
+                    x = preX + MinPlafromPostionXGap;
                 }
             }
-            preX = x;
-            Vector2 pos = new Vector2(x, createHigher+roomRightUpPoint.y+ Random.Range(-0.5f, 0.5f));
+            preX = x;*/
+            Vector2 pos = new Vector2(x, createHigher+roomRightUpPoint.y+ Random.Range(-0.3f, 0.3f));
             float a = Random.Range(0f, 1f);
             if (a > cloudRate )//||(!havePlatform && i==num-1))
             {
@@ -220,10 +268,16 @@ public class WhaleBossManager : MonoSingleton<WhaleBossManager>
         float timer = 0;
         while(timer<iceRainTotalTime)
         {
-            createIceRainWave(iceNumberPerWave);
+            createIceRainWave(getIceNumberPerWave());
             timer += iceRainWaveTime;
             yield return new WaitForSeconds(iceRainWaveTime);
         }
+    }
+
+    private int getIceNumberPerWave()
+    {
+        if (stage == EBossBattleStage.StageOne) return iceNumberPerWave;
+        else return (int)(iceNumberPerWave * 1.5f);
     }
 
     private void createIceRainWave(int num)

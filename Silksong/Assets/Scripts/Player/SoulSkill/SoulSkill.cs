@@ -5,23 +5,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 
-[Serializable]
-public enum SkillName
-{
-    FlameGeyser,
-    ShadowBlade,
-
-    [Tooltip("闪电链")]
-    LightningChain,
-
-    ArcaneBlast,
-    IceStorm
-}
 
 [Serializable]
 public abstract class SoulSkill : MonoBehaviour
 {
-    public SkillName skillName;
+    public EPlayerAttackType skillName;
     public int constPerSec = 1;
     public int constPerAttack = 0;
     public float henshinTime;

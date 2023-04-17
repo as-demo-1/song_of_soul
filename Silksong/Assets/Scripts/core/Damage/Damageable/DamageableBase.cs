@@ -4,6 +4,10 @@ using UnityEngine;
 using System;
 using UnityEngine.Events;
 
+[Serializable]
+public class DamageEvent : UnityEvent<DamagerBase, DamageableBase>
+{ }
+
 public abstract class DamageableBase : MonoBehaviour
 {
     public bool invulnerable;
@@ -17,9 +21,6 @@ public abstract class DamageableBase : MonoBehaviour
 
     public abstract void takeDamage(DamagerBase damager);
 
-    [Serializable]
-    public class DamageEvent : UnityEvent<DamagerBase, DamageableBase>
-    { }
 
     public DamageEvent takeDamageEvent = new DamageEvent();
 

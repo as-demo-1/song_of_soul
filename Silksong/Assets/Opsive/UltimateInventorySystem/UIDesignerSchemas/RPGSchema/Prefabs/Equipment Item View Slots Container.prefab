@@ -1,0 +1,182 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4560531330969055541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4560531330969055540}
+  - component: {fileID: 4560531330969055538}
+  - component: {fileID: 749471216824709623}
+  - component: {fileID: 4043343970075602464}
+  - component: {fileID: 5022225799541302389}
+  - component: {fileID: 4062453796355566522}
+  m_Layer: 5
+  m_Name: Equipment Item View Slots Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4560531330969055540
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560531330969055541}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8817353695379764232}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4560531330969055538
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560531330969055541}
+  m_CullTransparentMesh: 0
+--- !u!114 &749471216824709623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560531330969055541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778483cc5e5d4d29923f336dac473fe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ContainerName: Equipment
+  m_SlotCursor: {fileID: 0}
+  m_SlotCursorID: 1
+  m_Inventory: {fileID: 0}
+  m_DrawOnEnable: 0
+  m_DrawOnInventoryUpdate: 1
+  m_ItemViewDrawer: {fileID: 4062453796355566522}
+  m_SwapItemViewOnAssign: 1
+  m_Content: {fileID: 8817353695379764232}
+  m_ItemCollectionID:
+    m_Name: 
+    m_Purpose: 3
+  m_SetItemViewSlotRestrictions: 1
+  m_ItemSlotSet: {fileID: 0}
+  m_ItemSlotItemViewSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &4043343970075602464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560531330969055541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b118dcbe58b4b93a089576d0498f26e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ItemViewSlotCursorManager: {fileID: 0}
+  m_DisableDragOnEmptySlot: 1
+--- !u!114 &5022225799541302389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560531330969055541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dd3ab65f95847a0b0c491d5ca77be5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DebugPassedConditionIndex: 0
+  m_CursorManagerID: 1
+  m_ItemViewSlotCursorManager: {fileID: 0}
+  m_ItemViewSlotDropActionSet: {fileID: 11400000, guid: 45cd11b7a0a078540a456f1d3e4097c5,
+    type: 2}
+--- !u!114 &4062453796355566522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4560531330969055541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38749400304aac64db5ffea144cb4190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UseViewSlot: 1
+  m_DisableViewSlotImageComponent: 0
+  m_Content: {fileID: 8817353695379764232}
+  m_RemoveViewsOnInitialize: 0
+  m_DrawEmptyViewsOnInitialize: 1
+  m_CategoryItemViewSet: {fileID: 11400000, guid: f36f1317517d8674eace157c18c18f87,
+    type: 2}
+--- !u!1 &7026269756971878331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8817353695379764232}
+  - component: {fileID: 2952445969030332555}
+  m_Layer: 5
+  m_Name: Item View Slots Content
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8817353695379764232
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7026269756971878331}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4560531330969055540}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2952445969030332555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7026269756971878331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7b916e0ceabbf4f939d5fc49f4b38b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Disabled: 0
+  m_GridWrap: 0
