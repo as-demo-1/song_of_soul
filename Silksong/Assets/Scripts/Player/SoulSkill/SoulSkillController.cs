@@ -17,6 +17,8 @@ public class SoulSkillController : MonoBehaviour
     public GameObject flameGeyserBullet;
     public GameObject flameGeyserPrefab;
     private FlameGeyser _flameGeyser;
+    public GameObject shadowBladePrefab;
+    private ShadowBlade _shadowBlade;
 
     public void SoulSkillInit(PlayerController playerController)
     {
@@ -31,8 +33,15 @@ public class SoulSkillController : MonoBehaviour
 
         _flameGeyser = GameObject.Instantiate(flameGeyserPrefab,transform).GetComponent<FlameGeyser>();
         _flameGeyser.Init(playerController, playerController.playerCharacter);
+        flameGeyserBullet.GetComponent<TwoTargetDamager>().damage = _flameGeyser.baseDamage;
         _flameGeyser.gameObject.SetActive(false);
         _flameGeyser.transform.localPosition = new Vector3(0, 0, 0);
+        
+        _shadowBlade = GameObject.Instantiate(shadowBladePrefab,transform).GetComponent<ShadowBlade>();
+        _shadowBlade.Init(playerController, playerController.playerCharacter);
+        _shadowBlade.atkDamager.GetComponent<TwoTargetDamager>().damage = _shadowBlade.baseDamage;
+        _shadowBlade.gameObject.SetActive(false);
+        _shadowBlade.transform.localPosition = new Vector3(0, 0, 0);
         
         ChangeEquip(SkillName.FlameGeyser);
     }
@@ -51,7 +60,7 @@ public class SoulSkillController : MonoBehaviour
             if (_lightningChain.isActiveAndEnabled)
             {
                 Debug.LogError("light chain is active");
-                _lightningChain.TiggerAtkEvent();
+                //_lightningChain.TiggerAtkEvent();
                 _lightningChain.gameObject.SetActive(false);
                 _lightningChain.enabled = false;
             }
@@ -91,7 +100,7 @@ public class SoulSkillController : MonoBehaviour
         if (PlayerInput.Instance.soulSkill.IsValid)
         {
             // 按下R键切换灵魂状态
-            _playerAnimator.SetTrigger("castSkill");
+            
             Debug.Log("R is down");
 
             if (inSoulModel)// 如果处于灵魂状态则退出
@@ -146,6 +155,11 @@ public class SoulSkillController : MonoBehaviour
             Destroy(go, 2f);
         }
     }
+    
+    public void OpenSwingEffect(bool option)
+    {
+       equpedSoulSkill?.atkDamager.SetActive(option);
+    }
 
     public void ChangeEquip(SkillName skillName)
     {
@@ -161,6 +175,7 @@ public class SoulSkillController : MonoBehaviour
                 break;
             case SkillName.ShadowBlade:
                 _playerAnimator.SetBool("ShadowAttack", true);
+                equpedSoulSkill = _shadowBlade;
                 break;
             case SkillName.LightningChain:
                 equpedSoulSkill = _lightningChain;

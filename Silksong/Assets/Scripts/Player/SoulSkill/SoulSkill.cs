@@ -19,12 +19,13 @@ public enum SkillName
 }
 
 [Serializable]
-public abstract class SoulSkill : Hitter
+public abstract class SoulSkill : MonoBehaviour
 {
     public SkillName skillName;
     public int constPerSec = 1;
     public int constPerAttack = 0;
     public float henshinTime;
+    public int baseDamage;
     
 
     //protected PlayerInfomation _playerInfomation;
@@ -38,6 +39,8 @@ public abstract class SoulSkill : Hitter
     protected ParticleSystem henshin;
     [SerializeField]
     protected Material soulMode;
+    [SerializeField]
+    public GameObject atkDamager;// 挥击效果或伤害
 
     protected Material original;
     [SerializeField]
@@ -115,13 +118,14 @@ public abstract class SoulSkill : Hitter
         //debugCnt++;
     }
 
-    public void EnterSoulMode()
+    public virtual void EnterSoulMode()
     {
         Sequence sequence = DOTween.Sequence();
         sequence.AppendCallback(() =>
         {
             charge.gameObject.SetActive(true);
             _playerController.SoulSkillController.isHenshining = true;
+            _playerAnimator.SetBool("CastSkillIsValid", true);
         });
         sequence.AppendInterval(henshinTime);
         sequence.AppendCallback(() =>
@@ -144,16 +148,19 @@ public abstract class SoulSkill : Hitter
         {
             henshin.gameObject.SetActive(false);
             _playerController.SoulSkillController.isHenshining = false;
+            _playerAnimator.SetBool("CastSkillIsValid", false);
         });
     }
 
-    public void ExitSoulMode()
+    public virtual void ExitSoulMode()
     {
         _playerController.SoulSkillController.inSoulModel = false;
         _playerController.PlayerAnimator.SetBool("isSoul", false);
         _playerAnimator.GetComponent<SpriteRenderer>().material = original;// 更换材质
         SkillEnd.Invoke();
     }
+
+    
     
   
 }

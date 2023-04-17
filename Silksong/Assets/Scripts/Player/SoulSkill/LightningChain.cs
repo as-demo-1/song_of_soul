@@ -24,7 +24,7 @@ public class LightningChain : SoulSkill
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
         //_playerCharacter = GetComponentInParent<PlayerCharacter>();
-        m_eventType = BattleEventType.LightningChainAtk;
+        //m_eventType = BattleEventType.LightningChainAtk;
     }
 
     public void Init(PlayerController playerController, PlayerCharacter playerCharacter)
@@ -61,13 +61,13 @@ public class LightningChain : SoulSkill
         if (eventVariant is null)
         {
             eventVariant = Clone();
-            eventVariant.m_eventType = BattleEventType.LightningAddElectricMarkEvent;
+            //eventVariant.m_eventType = BattleEventType.LightningAddElectricMarkEvent;
             eventVariant.gameObject.SetActive(false);
         }
         EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
     }
     
-    public override bool AtkPerTarget(Hittable target)
+    public  bool AtkPerTarget(Hittable target)
     {
         if (!IsAtkSuccess(target)||!target.HaveBuff(BuffType.ElectricMark)) return false;
         target.GetDamage(Damage());
@@ -119,7 +119,7 @@ public class LightningChain : SoulSkill
         }
     }
     
-    protected override bool IsAtkSuccess(Hittable target)
+    protected bool IsAtkSuccess(Hittable target)
     {
         return true;
     }
@@ -131,7 +131,7 @@ public class LightningChain : SoulSkill
         {
             return false;
         }
-        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
+        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= range;
     }
 
     private int Damage()

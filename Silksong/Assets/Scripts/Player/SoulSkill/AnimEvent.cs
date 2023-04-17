@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public class AnimEvent : MonoBehaviour
 {
-   
+    private SoulSkillController _soulSkillController;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _soulSkillController = GetComponentInParent<SoulSkillController>();
     }
 
     // Update is called once per frame
@@ -20,12 +20,14 @@ public class AnimEvent : MonoBehaviour
         
     }
 
-    public void CostSoulSkill(int _skill)
+   
+
+    public void CostSkill(SkillName _skill)
     {
-        SkillName skillName = (SkillName)_skill;
-        switch (skillName)
+        switch (_skill)
         {
             case SkillName.FlameGeyser:
+                _soulSkillController.ShootBullet("FlameGeyser");
                 break;
             case SkillName.ShadowBlade:
                 break;
@@ -38,14 +40,14 @@ public class AnimEvent : MonoBehaviour
             default:
                 break;
         }
-
     }
 
-    /// <summary>
-    /// 烈焰刀 Animation Event
-    /// </summary>
-    public void CostFlameGeyser()
+    public void CostAtk()
     {
-        PlayerController.Instance.SoulSkillController.ShootBullet("FlameGeyser");
+        _soulSkillController.OpenSwingEffect(true);
+    }
+    public void EndAtk()
+    {
+        _soulSkillController.OpenSwingEffect(false);
     }
 }

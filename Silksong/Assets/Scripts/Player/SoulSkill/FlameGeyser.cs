@@ -15,13 +15,5 @@ public class FlameGeyser : SoulSkill
     {
         base.OnDisable();
     }
-    public override bool AtkPerTarget(Hittable target)
-    {
-        throw new System.NotImplementedException();
-    }
 
-    protected override bool IsAtkSuccess(Hittable target)
-    {
-        throw new System.NotImplementedException();
-    }
 }
