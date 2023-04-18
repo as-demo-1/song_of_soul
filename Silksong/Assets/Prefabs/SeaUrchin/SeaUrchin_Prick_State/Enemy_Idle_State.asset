@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
   m_Name: Enemy_Idle_State
   m_EditorClassIdentifier: 
-  lastStateID: 1
+  lastStateID: 48
   lastTriggerID: 0
   StateName: Enemy_Idle_State
-  StateType: 1
+  StateType: 48
   stateConfig:
     id: 0
   TriggerType: 0
@@ -26,23 +26,26 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_Idle_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_PrickIdle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 1
+        stateType: 48
         defaultAnimationName: 
-        isflying: 0
-        flyingMinHight: 0
+        dir: {x: 0, y: 1}
+        range: {x: 0, y: 0}
+        maxMoveRange: 1
+        maxMoveSpeed: 0.5
+        RotateSpeed: 10
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
         targetState: Enemy_TailAfter_State
-        maxTime: 1
+        maxTime: 5
         timer: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Enemy_Lighting_State
-        maxTime: 1
+        targetState: Enemy_LaserMove_State
+        maxTime: 5
         timer: 0

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Inventory;
 using Unity.Collections;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 
@@ -155,7 +156,9 @@ public class PlayerController : MonoBehaviour
 
     InvulnerableDamable damable;
 
-    
+    public SoulSkillController SoulSkillController;
+
+
 
     //Teleport
     /// <summary>
@@ -246,8 +249,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public GameObject lightningChainPrefab;
-    private LightningChain _lightningChain;
+    
     public void init()
     {
         RB = GetComponent<Rigidbody2D>();
@@ -260,14 +262,11 @@ public class PlayerController : MonoBehaviour
         animatorParamsMapping = playerAnimatorStatesControl.CharacterAnimatorParamsMapping;
         playerStatesBehaviour = playerAnimatorStatesControl.CharacterStatesBehaviour;
         playerStatusDic = playerAnimatorStatesControl.PlayerStatusDic;
-        
-        _lightningChain = GameObject.Instantiate(lightningChainPrefab).GetComponent<LightningChain>();
-        _lightningChain.gameObject.SetActive(false);
-        _lightningChain.transform.SetParent(transform);
-        _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
+
+        SoulSkillController.SoulSkillInit(this);
     }
-    
-    
+
+
     void Start()
     {
         playerInfo.init(this);
@@ -294,7 +293,9 @@ public class PlayerController : MonoBehaviour
         CalDistanceToGround(); 
         CheckHasHeightToPlunge();
 
-        TickLightningChain();
+        //TickLightningChain();// 按下R进入闪电链灵魂状态
+        //TODO：改为按下R之后根据装配的护符开启对应状态
+        SoulSkillController.TickSoulSkill();
 
         playerAnimatorStatesControl.ParamsUpdate();
         playerToCat.catUpdate();
@@ -312,46 +313,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void TickLightningChain()
-    {
-        if (playerCharacter.Mana <= 0)
-        {
-            _lightningChain.gameObject.SetActive(false);
-            playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-        }
-        if (PlayerInput.Instance.soulSkill.IsValid)
-        {
-            PlayerAnimator.SetTrigger("castSkill");
-            Debug.LogError("R is down");
-            if (_lightningChain.isActiveAndEnabled)
-            {
-                Debug.LogError("light chain is active");
-                _lightningChain.TiggerAtkEvent();
-                _lightningChain.gameObject.SetActive(false);
-                _lightningChain.enabled = false;
-            }
-            else
-            {
-                if (playerCharacter.Mana < _lightningChain.constPerSec)
-                {
-                    Debug.LogError("not enough mana");
-                }
-                else
-                {
-                    Debug.LogError("cast skill");
-                    _lightningChain.gameObject.SetActive(true);
-                    playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-                    _lightningChain.enabled = true;
-                }
-            }
-        }
-
-        if (_lightningChain.isActiveAndEnabled)
-        {
-            _lightningChain.TriggerAddElectricMarkEvent();
-            _lightningChain.UpdateTargetsLink();
-        }
-    }
+   
 
     public void endJumpByUpAttack()
     {

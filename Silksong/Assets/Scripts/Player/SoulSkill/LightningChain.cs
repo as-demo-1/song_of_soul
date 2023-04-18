@@ -23,7 +23,15 @@ public class LightningChain : SoulSkill
     private void Awake()
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        _playerCharacter = GetComponentInParent<PlayerCharacter>();
+        //_playerCharacter = GetComponentInParent<PlayerCharacter>();
+        //m_eventType = BattleEventType.LightningChainAtk;
+    }
+
+    public void Init(PlayerController playerController, PlayerCharacter playerCharacter)
+    {
+        this._playerController = playerController;
+        this._playerCharacter = playerCharacter;
+
     }
 
     void Start()
@@ -37,6 +45,8 @@ public class LightningChain : SoulSkill
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
         base.OnEnable();
+        if(!_playerCharacter)
+            _playerCharacter = GetComponentInParent<PlayerCharacter>();
         //SpeedUp(true);
     }
 
@@ -52,6 +62,8 @@ public class LightningChain : SoulSkill
         if (eventVariant is null)
         {
             eventVariant = Clone();
+            //eventVariant.m_eventType = BattleEventType.LightningAddElectricMarkEvent;
+
             eventVariant.gameObject.SetActive(false);
         }
         EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
@@ -99,7 +111,17 @@ public class LightningChain : SoulSkill
         }
     }
 
+
+    public void SpeedUp(bool needApply)
+    {
+        if(needApply) _playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
+        else
+        {
+            _playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
+        }
+    }
     
+
     protected override bool IsAtkSuccess(HpDamable target)
     {
         return true;
@@ -112,7 +134,7 @@ public class LightningChain : SoulSkill
         {
             return false;
         }
-        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
+        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= range;
     }
 
     private int Damage()
