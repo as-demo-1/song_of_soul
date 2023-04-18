@@ -1,0 +1,140 @@
+
+#header
+{
+    flex-shrink: 0;
+    border-width: 1px; 
+    border-bottom-width: 0px; 
+    border-top-left-radius: 3px; 
+    border-top-right-radius: 3px;
+    padding-left: 2px;
+}
+
+#body
+{
+    border-width: 1px; 
+    border-bottom-right-radius: 3px; 
+    border-bottom-left-radius: 3px; 
+    min-height: 20px;
+    padding-left: 2px;
+}
+
+.background-light
+{
+    background-color: rgb(225, 225, 225);
+	border-color: rgb(75, 75, 75);
+}
+
+.background-dark
+{
+    background-color: rgb(75, 75, 75);
+	border-color: rgb(45, 45, 45);
+}
+
+#list-item {
+    position: relative;
+	flex-direction: row;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: 0;    
+}
+
+.list-item-selected-light {
+    background-color: rgb(61, 128, 223);
+}
+
+.list-item-selected-dark {
+    background-color: rgb(62, 95, 150);
+}
+
+#knob
+{
+	width: 15px;
+	height: 15px;
+	margin-top: 2px;
+	margin-left: 2px;
+}
+
+#add-button
+{
+	width: 25px;
+    background-image: none;
+	margin-right: 0px;
+	padding-top: 2px;
+    border-top-width: 1px;
+    border-bottom-width: 1px; 
+    border-top-right-radius: 0px; 
+    border-top-left-radius: 0px; 
+	font-size: 17px;
+	-unity-font-style: bold;
+}
+
+#remove-button
+{
+	width: 25px;
+    background-image: none;
+	margin-left: 0px;
+	padding-top: 2px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-top-right-radius: 0px; 
+    border-top-left-radius: 0px; 
+	font-size: 17px;
+	-unity-font-style: bold;
+}
+
+.right-button-border
+{
+    border-right-width: 1px;
+    border-bottom-right-radius: 3px; 
+}
+
+.no-right-button-border
+{
+    border-right-width: 0px;
+    border-bottom-right-radius: 0px; 
+}
+
+.left-button-border
+{
+    border-left-width: 1px; 
+    border-bottom-left-radius: 3px; 
+}
+
+.no-left-button-border
+{
+    border-left-width: 0px;
+    border-bottom-left-radius: 0px; 
+}
+
+.button-border-light
+{
+	border-color: rgb(110, 110, 110);
+    border-top-color: rgb(190, 190, 190);
+}
+
+.button-border-dark
+{
+	border-color: rgb(35, 35, 35);
+    border-top-color: rgb(90, 90, 90);
+}
+
+.button-disabled-light
+{
+    color: rgb(133, 133, 133);
+}
+
+.button-disabled-dark
+{
+    color: rgb(107, 107, 107);
+}
+
+#footer
+{
+    flex-direction: row;
+    justify-content: flex-end;
+	margin-top: -2px;
+	margin-bottom: 1px;
+	height: 22px;
+	min-height: 22px;
+	padding-right: 5px;
+}

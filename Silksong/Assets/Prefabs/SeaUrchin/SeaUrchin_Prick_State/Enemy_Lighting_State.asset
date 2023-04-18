@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Enemy_Lighting_State
+  m_EditorClassIdentifier: 
+  lastStateID: 44
+  lastTriggerID: 0
+  StateName: Enemy_Lighting_State
+  StateType: 44
+  stateConfig:
+    id: 0
+  TriggerType: 0
+  triggerConfig:
+    id: 1
+  triggerList: []
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_LightingChain_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 44
+        defaultAnimationName: 
+        radius: 5
+        lightningChain_Pre: {fileID: 6031322278568760989, guid: 4b75a9b533bfead4787af35339bf7c29, type: 3}
+        lightningInterval: 1
+        moveSpeed: 5
+        rotateSpeed: 2
+        player:
+          serializedVersion: 2
+          m_Bits: 16384
+    00000001:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Enemy_Idle_State
+        maxTime: 10
+        timer: 0

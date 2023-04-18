@@ -1,0 +1,148 @@
+.horizontal-layout
+{
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.vertical-layout
+{
+	flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.flex-grow
+{
+    flex-grow: 1;
+	overflow: hidden;
+}
+
+.horizontal-layout-list
+{
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.flex-list
+{
+    flex-grow: 1;
+}
+
+#filter-window
+{
+	position: absolute;
+    border-width: 1px;
+    border-color: rgb(76, 76, 76);
+}
+
+#tab-toolbar
+{
+	flex-direction: row;
+	justify-content: center;
+	margin-bottom: 4px;
+    flex-shrink: 0;
+}
+
+.selected-dark-tab-button
+{
+	background-color: rgb(36, 36, 36);
+}
+
+.selected-light-tab-button
+{
+	background-color: rgb(222, 222, 222);
+}
+
+.right-justified-content
+{
+    justify-content: flex-end;
+}
+
+.list-item-focus-light
+{
+    background-color: rgb(61, 128, 223);
+}
+
+.list-item-focus-light:hover
+{
+    background-color: rgb(61, 128, 223);
+}
+
+.list-item-focus-dark
+{
+    background-color: rgb(62, 95, 150);
+}
+
+.list-item-focus-dark:hover
+{
+    background-color: rgb(62, 95, 150);
+}
+
+/* || Header || */
+.header-attribute{
+    -unity-font-style: bold;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 2px;
+}
+
+.header
+{
+    -unity-text-align: middle-center;
+    flex: 0 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+}
+
+.header-light
+{
+    background-color: rgb(170, 170, 170);
+    border-color: rgb(140, 140, 140);
+}
+
+.header-dark
+{
+    background-color: rgb(66, 66, 66);
+    border-color: rgb(36, 36, 36);
+}
+
+.header-text
+{
+    -unity-font-style: bold;
+    font-size: 15px;
+}
+
+.base-field
+{
+	margin-left: 3px;
+}
+
+#radio-checkmark
+{
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    align-self: center;
+}
+
+RadioToggle > VisualElement:checked > .dark-radio-checkmark
+{
+    background-image: url("../Icons/RadioButtonSelectedDark.png");
+}
+
+RadioToggle > VisualElement > .dark-radio-checkmark
+{
+    background-image: url("../Icons/RadioButtonDark.png");
+}
+
+RadioToggle > VisualElement:checked > .light-radio-checkmark
+{
+    background-image: url("../Icons/RadioButtonSelectedLight.png");
+}
+
+RadioToggle > VisualElement > .light-radio-checkmark
+{
+    background-image: url("../Icons/RadioButtonLight.png");
+}
