@@ -14,7 +14,7 @@ public class ChooseBump : BattleConditional
             float a = Random.Range(0f, 1f);
             if (Mathf.Abs(yTarget-ySelf)<5)
             {      
-                if(a>0.2f)
+                if(a>0.4f)
                 {
                     return TaskStatus.Failure;
                 }
