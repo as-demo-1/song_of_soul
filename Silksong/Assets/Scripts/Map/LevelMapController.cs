@@ -48,9 +48,14 @@ public class LevelMapController : MonoBehaviour
         if (sceneBound && mapBound) {
             Vector3 p = new Vector3();
             p = PlayerInput.Instance.transform.position - sceneBound.transform.position;
-            p.x *= mapBound.transform.GetComponent<RectTransform>().rect.width / sceneBound.transform.localScale.x / 2.0f;
-            p.y *= mapBound.transform.GetComponent<RectTransform>().rect.height / sceneBound.transform.localScale.y / 2.0f;
+
+            RectTransform mapBoundRectTrans = mapBound.transform.GetComponent<RectTransform>();
+            RectTransform sceneBoundRectTrans = sceneBound.transform.GetComponent<RectTransform>();
+            p.x *= mapBoundRectTrans.rect.width * mapBoundRectTrans.lossyScale.x / (sceneBoundRectTrans.rect.width * sceneBoundRectTrans.lossyScale.x);
+            p.y *= mapBoundRectTrans.rect.height * mapBoundRectTrans.lossyScale.y / (sceneBoundRectTrans.rect.height * sceneBoundRectTrans.lossyScale.y);
             playerMarker.transform.position = mapBound.transform.position + p;
+
+            Debug.Log("sceneBound" + sceneBound.transform.position + " mapBound" + mapBound.transform.position + " playerPos" + PlayerInput.Instance.transform.position + " p" + p + " sceneDim" + sceneBound.transform.localScale + " mapDim" + mapBoundRectTrans.rect);
         }
     }
 
