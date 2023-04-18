@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 448765875}
   - component: {fileID: 448765877}
   - component: {fileID: 448765876}
+  - component: {fileID: 3948331223346191308}
   m_Layer: 14
   m_Name: Animator
   m_TagString: Untagged
@@ -408,6 +409,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3948331223346191308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448765874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6aac3c72446b1143813c040c19d8501, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1439625705
 GameObject:
   m_ObjectHideFlags: 0
@@ -672,6 +685,7 @@ GameObject:
   - component: {fileID: 462374528}
   - component: {fileID: 8431473157400537811}
   - component: {fileID: 4956274903834550138}
+  - component: {fileID: 6179554475463286588}
   m_Layer: 14
   m_Name: Player
   m_TagString: Player
@@ -893,10 +907,10 @@ MonoBehaviour:
   plunge: {fileID: 1847350850031918144}
   hurt: {fileID: 5432216113006806226}
   lighting: {fileID: 4052345826682590289}
+  SoulSkillController: {fileID: 6179554475463286588}
   _backpack: {fileID: 0}
   _itemToAdd: {fileID: 0}
   _savePoint: {fileID: 0}
-  lightningChainPrefab: {fileID: 6990876809462232442, guid: 67cbf93986770704a877e67a86e8154b, type: 3}
 --- !u!50 &484977951162521062
 Rigidbody2D:
   serializedVersion: 4
@@ -1031,7 +1045,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484977951162521061}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a12c12a981433a4bb795750a36ebe97, type: 3}
   m_Name: 
@@ -1103,6 +1117,25 @@ MonoBehaviour:
   - {fileID: 2013861696}
   - {fileID: 225317966}
   - {fileID: 132305942}
+--- !u!114 &6179554475463286588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484977951162521061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee06497eae04dc5428f99b13f86483ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equpedSoulSkill: {fileID: 0}
+  inSoulModel: 0
+  isHenshining: 0
+  lightningChainPrefab: {fileID: 6990876809462232442, guid: 67cbf93986770704a877e67a86e8154b, type: 3}
+  flameGeyserBullet: {fileID: 124006113471580717, guid: e703a4948b6f5a741a74e50432405da5, type: 3}
+  flameGeyserPrefab: {fileID: 6990876809462232442, guid: 54dfa8044c9d11a4abd342fe3920840a, type: 3}
+  shadowBladePrefab: {fileID: 7565263580526926791, guid: 2c161483df1a0c147a497905d1af9983, type: 3}
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,6 +1437,10 @@ PrefabInstance:
     - target: {fileID: 2597606038805888546, guid: c2a98818b199958478773a8f207280ee, type: 3}
       propertyPath: playOnAwake
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6459152157928512962, guid: c2a98818b199958478773a8f207280ee, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2a98818b199958478773a8f207280ee, type: 3}
