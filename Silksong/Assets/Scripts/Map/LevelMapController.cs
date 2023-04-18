@@ -55,7 +55,7 @@ public class LevelMapController : MonoBehaviour
             p.y *= mapBoundRectTrans.rect.height * mapBoundRectTrans.lossyScale.y / (sceneBoundRectTrans.rect.height * sceneBoundRectTrans.lossyScale.y);
             playerMarker.transform.position = mapBound.transform.position + p;
 
-            Debug.Log("sceneBound" + sceneBound.transform.position + " mapBound" + mapBound.transform.position + " playerPos" + PlayerInput.Instance.transform.position + " p" + p + " sceneDim" + sceneBound.transform.localScale + " mapDim" + mapBoundRectTrans.rect);
+            // Debug.Log("sceneBound" + sceneBound.transform.position + " mapBound" + mapBound.transform.position + " playerPos" + PlayerInput.Instance.transform.position + " p" + p + " sceneDim" + sceneBound.transform.localScale + " mapDim" + mapBoundRectTrans.rect);
         }
     }
 
