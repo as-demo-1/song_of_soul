@@ -56,7 +56,9 @@ public enum EnemyStates
     Boss_SecondPatrol_State = 43,
     Enemy_LightingChain_State=44,
     Enemy_Tailafter_State=45,
-
+    Enemy_LaserMove_State =46,
+    Enemy_ReturnBack_State=47,
+    Enemy_PrickIdle_State=48,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
@@ -74,6 +76,7 @@ public enum EnemyTriggers
     RandomTrigger = 8,
     TouchLayerTrigger=9,
     InTurnTrigger = 10,
+    ArrivedPos_Trigger=11,
 }
 
 

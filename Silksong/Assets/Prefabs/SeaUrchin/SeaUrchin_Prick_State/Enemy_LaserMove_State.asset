@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Enemy_Idle_State
+  m_Name: Enemy_LaserMove_State
   m_EditorClassIdentifier: 
-  lastStateID: 48
-  lastTriggerID: 0
-  StateName: Enemy_Idle_State
-  StateType: 48
+  lastStateID: 46
+  lastTriggerID: 11
+  StateName: Enemy_LaserMove_State
+  StateType: 46
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 11
   triggerConfig:
     id: 1
   triggerList:
@@ -26,26 +26,27 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_PrickIdle_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_LaserMove_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 48
+        stateType: 46
         defaultAnimationName: 
-        dir: {x: 0, y: 1}
-        range: {x: 0, y: 0}
-        maxMoveRange: 1
-        maxMoveSpeed: 0.5
-        RotateSpeed: 10
+        moveDir: {x: 0, y: -1}
+        movePos: {x: -10, y: 6}
+        faceDir: {x: 1, y: 0}
+        maxDis: 20
+        moveSpeed: 2
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: ArrivedPos_Trigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: Enemy_TailAfter_State
-        maxTime: 5
-        timer: 0
+        triggerType: 11
+        targetState: Enemy_ReturnBack_State
+        localPos: 0
+        target: {x: -10, y: -14}
+        checkRange: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Enemy_LaserMove_State
-        maxTime: 5
+        targetState: Enemy_ReturnBack_State
+        maxTime: 10
         timer: 0
