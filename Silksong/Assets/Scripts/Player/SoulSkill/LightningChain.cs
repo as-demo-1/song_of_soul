@@ -69,7 +69,7 @@ public class LightningChain : SoulSkill
         EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
     }
     
-    public override bool AtkPerTarget(HpDamable target)
+    public bool AtkPerTarget(HpDamable target)
     {
         if (!IsAtkSuccess(target)||!target.HaveBuff(BuffType.ElectricMark)) return false;
         //target.GetDamage(Damage());
@@ -122,7 +122,7 @@ public class LightningChain : SoulSkill
     }
     
 
-    protected override bool IsAtkSuccess(HpDamable target)
+    protected bool IsAtkSuccess(HpDamable target)
     {
         return true;
     }

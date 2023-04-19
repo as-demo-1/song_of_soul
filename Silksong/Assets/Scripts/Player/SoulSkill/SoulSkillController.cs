@@ -6,6 +6,7 @@ public class SoulSkillController : MonoBehaviour
 {
     private PlayerCharacter _playerCharacter;
     private Animator _playerAnimator;
+    private PlayerController _playerController;
     #region 灵魂技能
     
     public SoulSkill equpedSoulSkill;
@@ -22,8 +23,10 @@ public class SoulSkillController : MonoBehaviour
 
     public void SoulSkillInit(PlayerController playerController)
     {
+        _playerController = playerController;
         _playerCharacter = playerController.playerCharacter;
         _playerAnimator = playerController.PlayerAnimator;
+        
         
         //初始化所有灵魂技能
         _lightningChain = GameObject.Instantiate(lightningChainPrefab,transform).GetComponent<LightningChain>();
@@ -46,46 +49,46 @@ public class SoulSkillController : MonoBehaviour
         ChangeEquip(SkillName.FlameGeyser);
     }
     
-    public void TickLightningChain()
-    {
-        if (_playerCharacter.Mana <= 0)
-        {
-            _lightningChain.gameObject.SetActive(false);
-            _playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-        }
-        if (PlayerInput.Instance.soulSkill.IsValid) 
-        {
-            _playerAnimator.SetTrigger("castSkill");
-            Debug.LogError("R is down");
-            if (_lightningChain.isActiveAndEnabled)
-            {
-                Debug.LogError("light chain is active");
-                //_lightningChain.TiggerAtkEvent();
-                _lightningChain.gameObject.SetActive(false);
-                _lightningChain.enabled = false;
-            }
-            else
-            {
-                if (_playerCharacter.Mana < _lightningChain.constPerSec)
-                {
-                    Debug.LogError("not enough mana");
-                }
-                else
-                {
-                    Debug.LogError("cast skill");
-                    _lightningChain.gameObject.SetActive(true);
-                    _playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-                    _lightningChain.enabled = true;
-                }
-            }
-        }
-
-        if (_lightningChain.isActiveAndEnabled)
-        {
-            _lightningChain.TriggerAddElectricMarkEvent();
-            _lightningChain.UpdateTargetsLink();
-        }
-    }
+    // public void TickLightningChain()
+    // {
+    //     if (_playerCharacter.Mana <= 0)
+    //     {
+    //         _lightningChain.gameObject.SetActive(false);
+    //         _playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
+    //     }
+    //     if (PlayerInput.Instance.soulSkill.IsValid) 
+    //     {
+    //         _playerAnimator.SetTrigger("castSkill");
+    //         Debug.LogError("R is down");
+    //         if (_lightningChain.isActiveAndEnabled)
+    //         {
+    //             Debug.LogError("light chain is active");
+    //             //_lightningChain.TiggerAtkEvent();
+    //             _lightningChain.gameObject.SetActive(false);
+    //             _lightningChain.enabled = false;
+    //         }
+    //         else
+    //         {
+    //             if (_playerCharacter.Mana < _lightningChain.constPerSec)
+    //             {
+    //                 Debug.LogError("not enough mana");
+    //             }
+    //             else
+    //             {
+    //                 Debug.LogError("cast skill");
+    //                 _lightningChain.gameObject.SetActive(true);
+    //                 _playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
+    //                 _lightningChain.enabled = true;
+    //             }
+    //         }
+    //     }
+    //
+    //     if (_lightningChain.isActiveAndEnabled)
+    //     {
+    //         _lightningChain.TriggerAddElectricMarkEvent();
+    //         _lightningChain.UpdateTargetsLink();
+    //     }
+    // }
     public void TickSoulSkill()
     {
         if(isHenshining) return;
@@ -128,14 +131,7 @@ public class SoulSkillController : MonoBehaviour
             }
         }
     }
-    public void TriggerFlameGeyser(bool option)
-    {
-
-    }
-    public void TriggerLightningChain(bool option)
-    {
-
-    }
+    
     public void ShootBullet(string _bullet)
     {
         if (_bullet.Equals("FlameGeyser"))
@@ -158,7 +154,22 @@ public class SoulSkillController : MonoBehaviour
     
     public void OpenSwingEffect(bool option)
     {
-       equpedSoulSkill?.atkDamager.SetActive(option);
+        if(equpedSoulSkill==null) return;
+        
+        // 修正特效旋转
+        if (!_playerController.playerInfo.playerFacingRight)
+        {
+            equpedSoulSkill.atkDamager.transform.localRotation =
+                Quaternion.Euler(0.0f, 180.0f, 0.0f);
+            equpedSoulSkill.atkDamager.transform.localScale = new Vector3(-1.0f, 1.0f, -1.0f);
+        }
+        else
+        {
+            equpedSoulSkill.atkDamager.transform.localRotation =
+                Quaternion.identity;
+            equpedSoulSkill.atkDamager.transform.localScale = Vector3.one;
+        }
+       equpedSoulSkill.atkDamager.SetActive(option);
     }
 
     public void ChangeEquip(SkillName skillName)
