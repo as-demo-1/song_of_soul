@@ -75,7 +75,7 @@ public abstract class SoulSkill : MonoBehaviour
     protected void Start()
     {
         //Debug.Log("START TIMER UPDATE");
-        _playerCharacter = GetComponentInParent<PlayerCharacter>();
+        //_playerCharacter = GetComponentInParent<PlayerCharacter>();
         
         //MonoManager.Instance.AddUpdateEvent(Timer.Instance.TimerUpdate);
     }
@@ -129,7 +129,7 @@ public abstract class SoulSkill : MonoBehaviour
             {
                 charge.transform.localRotation =
                     Quaternion.Euler(0.0f, 180.0f, 0.0f);
-                charge.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                charge.transform.localScale = new Vector3(-1.0f, 1.0f, -1.0f);
             }
             else
             {
