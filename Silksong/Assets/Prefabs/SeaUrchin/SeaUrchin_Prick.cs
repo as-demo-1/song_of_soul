@@ -30,5 +30,5 @@ public class SeaUrchin_Prick : Damable
         t += Time.fixedDeltaTime;
         rb.velocity = transform.up*SinMove(t);
         transform.RotateAround(seaUrchin.position, Vector3.forward, RotateSpeed * Time.fixedDeltaTime);
-    }
+    }//
 }

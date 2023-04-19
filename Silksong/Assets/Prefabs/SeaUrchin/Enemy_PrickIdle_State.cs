@@ -7,7 +7,7 @@ public class Enemy_PrickIdle_State : EnemyFSMBaseState
 {
      Transform seaUrchin;
     public Vector2 dir;
-    public Vector2 range;//¸¡¶¯·¶Î§
+    public Vector2 range; 
     public float maxMoveRange = 1;
     public float maxMoveSpeed;
     public float RotateSpeed;
@@ -27,7 +27,7 @@ public class Enemy_PrickIdle_State : EnemyFSMBaseState
         enemyFSM.transform.up = (enemyFSM.transform.position - seaUrchin.position).normalized;
         t += Time.fixedDeltaTime;
         rb.velocity = enemyFSM.transform.up * SinMove(t);
-        enemyFSM.transform.RotateAround(seaUrchin.position, Vector3.forward, RotateSpeed * Time.fixedDeltaTime);
+        //enemyFSM.transform.RotateAround(seaUrchin.position, Vector3.forward, RotateSpeed * Time.fixedDeltaTime);
     }
     public float SinMove(float t)
     {
@@ -35,4 +35,4 @@ public class Enemy_PrickIdle_State : EnemyFSMBaseState
         speed = Mathf.Sin(t * maxMoveSpeed) * maxMoveRange;
         return speed;
     }
-}
+}//

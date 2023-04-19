@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Enemy_Idle_State
+  m_Name: Enemy_Shrink_State
   m_EditorClassIdentifier: 
-  lastStateID: 48
+  lastStateID: 49
   lastTriggerID: 0
-  StateName: Enemy_Idle_State
-  StateType: 48
+  StateName: Enemy_Shrink_State
+  StateType: 49
   stateConfig:
     id: 0
   TriggerType: 0
@@ -26,26 +26,24 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_PrickIdle_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Shrink_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 48
+        stateType: 49
         defaultAnimationName: 
-        dir: {x: 0, y: 1}
-        range: {x: 0, y: 0}
-        maxMoveRange: 1
-        maxMoveSpeed: 0.5
-        RotateSpeed: 10
+        minDis: 2
+        shrinkSpeed: 20
+        rotateSpeed: 180
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Enemy_Shrink_State
-        maxTime: 5
+        targetState: Enemy_Idle_State
+        maxTime: 20
         timer: 0
     00000002:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Enemy_Shrink_State
-        maxTime: 5
+        targetState: Enemy_Idle_State
+        maxTime: 20
         timer: 0
