@@ -5,11 +5,24 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 
+public enum SkillName
+{
+    FlameGeyser,
+
+    ShadowBlade,
+
+    
+    LightningChain,
+
+    ArcaneBlast,
+
+    IceStorm
+}
 
 [Serializable]
 public abstract class SoulSkill : MonoBehaviour
 {
-    public EPlayerAttackType skillName;
+    public SkillName skillName;
     public int constPerSec = 1;
     public int constPerAttack = 0;
     public float henshinTime;
@@ -22,7 +35,7 @@ public abstract class SoulSkill : MonoBehaviour
     protected Animator _playerAnimator;
 
     [SerializeField]
-    protected ParticleSystem charge;
+    protected GameObject charge;
     [SerializeField]
     protected ParticleSystem henshin;
     [SerializeField]
@@ -61,15 +74,15 @@ public abstract class SoulSkill : MonoBehaviour
     }
     protected void Start()
     {
-        Debug.LogError("START TIMER UPDATE");
-        _playerCharacter = GetComponentInParent<PlayerCharacter>();
+        //Debug.Log("START TIMER UPDATE");
+        //_playerCharacter = GetComponentInParent<PlayerCharacter>();
         
         //MonoManager.Instance.AddUpdateEvent(Timer.Instance.TimerUpdate);
     }
 
     protected void OnEnable()
     {
-        Debug.LogError("test!!!!!!!!!!!");
+        //Debug.Log("test!!!!!!!!!!!");
         
         
         
@@ -79,7 +92,7 @@ public abstract class SoulSkill : MonoBehaviour
 
     protected void OnDisable()
     {
-        Debug.LogError("test disable!!!!!!!!!!!");
+        //Debug.Log("test disable!!!!!!!!!!!");
         //Timer.Instance.EndTickActionLoop("TickSoulStatus");
     }
 
@@ -111,6 +124,19 @@ public abstract class SoulSkill : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.AppendCallback(() =>
         {
+            // 修正特效旋转
+            if (!_playerController.playerInfo.playerFacingRight)
+            {
+                charge.transform.localRotation =
+                    Quaternion.Euler(0.0f, 180.0f, 0.0f);
+                charge.transform.localScale = new Vector3(-1.0f, 1.0f, -1.0f);
+            }
+            else
+            {
+                charge.transform.localRotation =
+                    Quaternion.identity;
+                charge.transform.localScale = Vector3.one;
+            }
             charge.gameObject.SetActive(true);
             _playerController.SoulSkillController.isHenshining = true;
             _playerAnimator.SetBool("CastSkillIsValid", true);

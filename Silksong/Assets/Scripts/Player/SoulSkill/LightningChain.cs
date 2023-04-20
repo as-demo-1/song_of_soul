@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 
 [Serializable]
@@ -20,40 +21,23 @@ public class LightningChain : SoulSkill
     HpDamable preTarget;
 
     public float moveSpeedUp;
+
+    public GameObject stateParticle;
     private void Awake()
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
         //_playerCharacter = GetComponentInParent<PlayerCharacter>();
         //m_eventType = BattleEventType.LightningChainAtk;
     }
+    
 
-    public void Init(PlayerController playerController, PlayerCharacter playerCharacter)
+
+
+
+    private void Update()
     {
-        this._playerController = playerController;
-        this._playerCharacter = playerCharacter;
-
-    }
-
-    void Start()
-    {
-        base.Start();
-        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        //RefreshAtk(_playerInfomation.atk);
-    }
-
-    private void OnEnable()
-    {
-        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        base.OnEnable();
-        if(!_playerCharacter)
-            _playerCharacter = GetComponentInParent<PlayerCharacter>();
-        //SpeedUp(true);
-    }
-
-    private void OnDisable()
-    {
-        base.OnDisable();
-        //SpeedUp(false);
+        //TriggerAddElectricMarkEvent();
+        UpdateTargetsLink();
     }
 
     private LightningChain eventVariant;
@@ -69,7 +53,7 @@ public class LightningChain : SoulSkill
         EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
     }
     
-    public override bool AtkPerTarget(HpDamable target)
+    public bool AtkPerTarget(HpDamable target)
     {
         if (!IsAtkSuccess(target)||!target.HaveBuff(BuffType.ElectricMark)) return false;
         //target.GetDamage(Damage());
@@ -122,7 +106,7 @@ public class LightningChain : SoulSkill
     }
     
 
-    protected override bool IsAtkSuccess(HpDamable target)
+    protected bool IsAtkSuccess(HpDamable target)
     {
         return true;
     }
@@ -229,5 +213,10 @@ public class LightningChain : SoulSkill
     {
         return (LightningChain)MemberwiseClone();
         return GameObject.Instantiate(this);
+    }
+    
+    public void ChangeState(bool _option)
+    {
+        stateParticle.gameObject.SetActive(_option);
     }
 }

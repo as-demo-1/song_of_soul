@@ -10,7 +10,7 @@ public enum EPlayerAttackType
 
     ShadowBlade,
 
-    [Tooltip("…¡µÁ¡¥")]
+    
     LightningChain,
 
     ArcaneBlast,
