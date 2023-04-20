@@ -60,6 +60,12 @@ public enum EnemyStates
     Enemy_ReturnBack_State=47,
     Enemy_PrickIdle_State=48,
     Enemy_Shrink_State=49,
+    SeaUrchin_Dash_State=50,
+    SeaUrchin_UseSkill_State=51,
+    SeaUrchin_Shoot_State=52,
+    SeaUrchin_Thunder_State=53,
+    SeaUrchin_Larser_State=54,
+    Enemy_Barb_State=55,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。

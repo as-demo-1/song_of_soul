@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Enemy_Lighting_State
+  m_Name: Enemy_Idle_State
   m_EditorClassIdentifier: 
-  lastStateID: 44
+  lastStateID: 48
   lastTriggerID: 0
-  StateName: Enemy_Lighting_State
-  StateType: 44
+  StateName: Enemy_Idle_State
+  StateType: 48
   stateConfig:
     id: 0
   TriggerType: 0
@@ -25,22 +25,19 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_LightingChain_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_PrickIdle_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 44
+        stateType: 48
         defaultAnimationName: 
-        radius: 5
-        lightningChain_Pre: {fileID: 6031322278568760989, guid: 4b75a9b533bfead4787af35339bf7c29, type: 3}
-        lightningInterval: 1
-        moveSpeed: 5
-        rotateSpeed: 2
-        player:
-          serializedVersion: 2
-          m_Bits: 16384
+        dir: {x: 0, y: 1}
+        range: {x: 0, y: 0}
+        maxMoveRange: 1
+        maxMoveSpeed: 0.5
+        RotateSpeed: 10
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Enemy_Idle_State
-        maxTime: 10
+        targetState: Enemy_Shrink_State
+        maxTime: 5
         timer: 0
