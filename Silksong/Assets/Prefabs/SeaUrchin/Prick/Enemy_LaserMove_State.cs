@@ -8,7 +8,6 @@ public class Enemy_LaserMove_State : EnemyFSMBaseState
     public Vector2 moveDir,movePos,faceDir ;
     public float maxDis,moveSpeed;
     Transform parent;
-    Vector2 startPos;
     public override void InitState(EnemyFSMManager enemyFSM)
     {
         base.InitState(enemyFSM);
@@ -18,8 +17,7 @@ public class Enemy_LaserMove_State : EnemyFSMBaseState
     {
         base.EnterState(enemyFSM);
         enemyFSM.transform.up = faceDir;
-        enemyFSM.transform.position = (Vector2)parent.transform.position + movePos;
-        startPos= enemyFSM.transform.position;
+        enemyFSM.transform.localPosition = movePos;
         enemyFSM.rigidbody2d.velocity = moveDir * moveSpeed;
     }
     public override void FixAct_State(EnemyFSMManager enemyFSM)

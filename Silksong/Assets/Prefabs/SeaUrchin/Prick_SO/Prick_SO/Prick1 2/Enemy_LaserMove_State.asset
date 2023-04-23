@@ -30,23 +30,24 @@ MonoBehaviour:
       data:
         stateType: 46
         defaultAnimationName: 
-        moveDir: {x: 0, y: -1}
+        moveDir: {x: 1, y: 0}
         movePos: {x: -10, y: 6}
-        faceDir: {x: 1, y: 0}
-        maxDis: 20
-        moveSpeed: 2
+        faceDir: {x: 0, y: -1}
+        maxDis: 40
+        moveSpeed: 4
     00000001:
       type: {class: ArrivedPos_Trigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 11
         targetState: Enemy_ReturnBack_State
-        localPos: 0
-        target: {x: -10, y: -14}
-        checkRange: 0
+        localPos: 1
+        target: {x: 10, y: 6}
+        checkRange: 0.1
     00000002:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: ArrivedPos_Trigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
+        triggerType: 11
         targetState: Enemy_ReturnBack_State
-        maxTime: 5
-        timer: 0
+        localPos: 1
+        target: {x: 10, y: 6}
+        checkRange: 0.1

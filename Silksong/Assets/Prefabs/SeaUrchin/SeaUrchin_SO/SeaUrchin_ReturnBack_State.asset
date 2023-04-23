@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Enemy_LaserMove_State
+  m_Name: SeaUrchin_ReturnBack_State
   m_EditorClassIdentifier: 
-  lastStateID: 46
+  lastStateID: 56
   lastTriggerID: 11
-  StateName: Enemy_LaserMove_State
-  StateType: 46
+  StateName: SeaUrchin_ReturnBack_State
+  StateType: 56
   stateConfig:
     id: 0
   TriggerType: 11
@@ -26,27 +26,29 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_LaserMove_State, ns: , asm: Assembly-CSharp}
+      type: {class: SeaUrchin_ReturnBack_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 46
+        stateType: 56
         defaultAnimationName: 
-        moveDir: {x: 0, y: -1}
-        movePos: {x: -10, y: 6}
-        faceDir: {x: 1, y: 0}
-        maxDis: 20
-        moveSpeed: 2
+        basePos: {x: 150, y: -27}
+        baseDir: {x: 0, y: 1}
+        moveSpeed: 10
+        rotateSpeed: 0
+        ifLocal: 0
+        prickState: Enemy_ReturnBack_State
     00000001:
       type: {class: ArrivedPos_Trigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 11
-        targetState: Enemy_ReturnBack_State
+        targetState: SeaUrchin_Idle_State
         localPos: 0
-        target: {x: -10, y: -14}
-        checkRange: 0
+        target: {x: 150, y: -27}
+        checkRange: 0.1
     00000002:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: ArrivedPos_Trigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: Enemy_ReturnBack_State
-        maxTime: 5
-        timer: 0
+        triggerType: 11
+        targetState: SeaUrchin_Idle_State
+        localPos: 0
+        target: {x: 150, y: -27}
+        checkRange: 0.1

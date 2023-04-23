@@ -66,6 +66,7 @@ public enum EnemyStates
     SeaUrchin_Thunder_State=53,
     SeaUrchin_Larser_State=54,
     Enemy_Barb_State=55,
+    SeaUrchin_ReturnBack_State=56,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。

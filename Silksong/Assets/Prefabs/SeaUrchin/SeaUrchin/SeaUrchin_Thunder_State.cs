@@ -18,7 +18,7 @@ public class SeaUrchin_Thunder_State : EnemyFSMBaseState
         {
             prick.ChangeState(prickState);
         }
-    }
+    } 
     public override void ExitState(EnemyFSMManager enemyFSM)
     {
         base.ExitState(enemyFSM);

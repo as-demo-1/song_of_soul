@@ -37,12 +37,12 @@ public class SeaUrchin_Shoot_State : EnemyFSMBaseState
         else if(index == seaUrchin.pricks.Count)
         {
             t += Time.deltaTime;
-            if (t > 2)
+            if (t > 5)
             {
                 enemyFSM.ChangeState(nextState);
                 index++;
             }
-        }
+        } 
     }
     public override void ExitState(EnemyFSMManager enemyFSM)
     {

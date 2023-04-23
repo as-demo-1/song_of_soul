@@ -29,13 +29,15 @@ MonoBehaviour:
       data:
         stateType: 49
         defaultAnimationName: 
-        minDis: 2
+        minDis: 1.5
         shrinkSpeed: 20
         rotateSpeed: 180
+        maxSpeed: 360
+        accelerate: 72
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Enemy_Idle_State
-        maxTime: 20
+        targetState: Enemy_ReturnBack_State
+        maxTime: 3
         timer: 0

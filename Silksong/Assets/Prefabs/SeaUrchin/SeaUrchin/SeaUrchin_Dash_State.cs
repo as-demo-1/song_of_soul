@@ -8,7 +8,7 @@ using UnityEngine;
 public class SeaUrchin_Dash_State : EnemyFSMBaseState
 {
      
-    public string prickIdleState,prickShrinkState;
+    public string prickShrinkState;
     public float waitTime;
     public float dashSpeed;
     SeaUrchin seaUrchin;
@@ -37,12 +37,12 @@ public class SeaUrchin_Dash_State : EnemyFSMBaseState
     {
         base.ExitState(enemyFSM);
         enemyFSM.rigidbody2d.velocity = Vector2.zero;
-        foreach (var prick in seaUrchin.pricks)
-            prick.ChangeState(prickIdleState);
     }
     IEnumerator DashMove(EnemyFSMManager enemyFSM)
     {
         yield return new WaitForSeconds(waitTime);
         enemyFSM.rigidbody2d.velocity = enemyFSM.getTargetDir().normalized*dashSpeed;
+        foreach (var prick in seaUrchin.pricks)
+            prick.rigidbody2d.velocity = enemyFSM.rigidbody2d.velocity;
     }
 }

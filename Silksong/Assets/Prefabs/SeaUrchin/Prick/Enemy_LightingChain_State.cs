@@ -37,23 +37,30 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
+        lightningChain.SetActive(true);
         enemyFSM.transform.up =    enemyFSM.transform.position- parent.transform.position;
-        lightningChain.transform.up = enemyFSM.transform.up;
+        lightningChain.transform.up = -enemyFSM.transform.up;
         ifLightning = false;
+    }//
+    public override void ExitState(EnemyFSMManager enemyFSM)
+    {
+        base.ExitState(enemyFSM);
+        lightningChain.SetActive(false);
     }
     public override void FixAct_State(EnemyFSMManager enemyFSM)
     {
         base.FixAct_State(enemyFSM);
         //Debug.Log(Vector2.Distance(enemyFSM.transform.position, parent.position));
-        if (Vector2.Distance(enemyFSM.transform.position, parent.position) < radius)
+        if (enemyFSM.transform.localPosition.magnitude < radius)
         {
             enemyFSM.rigidbody2d.velocity = enemyFSM.transform.up * moveSpeed;
         }
         else
         {
-            enemyFSM.rigidbody2d.velocity = enemyFSM.transform.right * moveSpeed;
-            enemyFSM.transform.up = enemyFSM.transform.position - parent.transform.position;
-            lightningChain.transform.up = enemyFSM.transform.up;
+             enemyFSM.rigidbody2d.velocity = Vector2.zero;
+            //enemyFSM.transform.up = enemyFSM.transform.position - parent.transform.position;
+            enemyFSM.transform.RotateAround(parent.transform.position, Vector3.forward, rotateSpeed * Time.fixedDeltaTime);
+            //lightningChain.transform.up = -enemyFSM.transform.up;
             lightningChain.SetActive(true);
         }//
         if(t<lightningInterval)

@@ -10,31 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Enemy_Idle_State
+  m_Name: SeaUrchin_Tunder_State
   m_EditorClassIdentifier: 
-  lastStateID: 48
+  lastStateID: 53
   lastTriggerID: 0
-  StateName: Enemy_Idle_State
-  StateType: 48
+  StateName: SeaUrchin_Tunder_State
+  StateType: 53
   stateConfig:
     id: 0
   TriggerType: 0
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
   references:
     version: 1
     00000000:
-      type: {class: Enemy_PrickIdle_State, ns: , asm: Assembly-CSharp}
+      type: {class: SeaUrchin_Thunder_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 48
+        stateType: 53
         defaultAnimationName: 
-        maxMoveRange: 8
-        maxMoveSpeed: 4
+        prickState: Enemy_Lighting_State
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: Enemy_Shrink_State
-        maxTime: 3
+        targetState: SeaUrchin_Idle_State
+        maxTime: 5
+        timer: 0
+    00000002:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: SeaUrchin_Idle_State
+        maxTime: 10
         timer: 0
