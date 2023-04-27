@@ -5,17 +5,21 @@ using UnityEngine;
 public class Piano : MonoBehaviour
 {
     // Start is called before the first frame update
+    public GameObject tmp_piano;
     [SerializeField] private string[] chartList;
     [SerializeField] private GameObject key;
     [SerializeField] private GameObject leftup;
     [SerializeField] private GameObject rightdown;
     [SerializeField] private int currentChart;
+    [SerializeField] private GameObject blackKey;
+    [SerializeField] private GameObject whiteKey;
     private Camera mainCamera;
     private int numCols; 
     void Start()
     {
     }
 
+    /*
     public void Generate()
     {
         numCols = chartList[currentChart].Length;
@@ -79,11 +83,13 @@ public class Piano : MonoBehaviour
             spriteRenderer.size = new Vector3(cellWidth, cellHeight, 1f);
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    */
+    public void Generate()
     {
+        tmp_piano.SetActive(true);
     }
+
+    /*
     public void Attack()
     {
         //this.gameObject.SetActive(true);
@@ -104,7 +110,13 @@ public class Piano : MonoBehaviour
             }
         }
     }
+    */
+    public void Attack()
+    {
+        tmp_piano.transform.GetChild(0).gameObject.SetActive(true);
+    }
 
+    /*
     public void End()
     {
         for (int i = 0; i < transform.childCount - 2; ++i)
@@ -112,5 +124,11 @@ public class Piano : MonoBehaviour
             Destroy(transform.GetChild(i+2).gameObject);
         }
         currentChart = (currentChart + 1) % chartList.Length;
+    }
+    */
+
+    public void End()
+    {
+        tmp_piano.SetActive(false);
     }
 }
