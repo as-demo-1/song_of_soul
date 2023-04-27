@@ -46,7 +46,7 @@ public class Whale_Vomit : AnimationOverAction
             float y = target.Value.transform.position.y - 1;
             float selfy = transform.position.y;
             moveDir = y > selfy ? 1 : -1;
-            Debug.Log(moveDir);
+            //Debug.Log(moveDir);
         }
 
         return base.OnUpdate();

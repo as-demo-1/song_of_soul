@@ -10,33 +10,36 @@ public class Damable : DamageableBase
     public override void takeDamage(DamagerBase damager)
     {
         takeDamageEvent.Invoke(damager, this);
-        damageDirection = damager.transform.position - transform.position;
-
-        Vector2 beatBack = damager.beatBackVector;
-        if(beatBack!=Vector2.zero && beatBackRate!=0)
+        if(damager!=null)
         {
-            beatBack *= beatBackRate;
-            if(damageDirection.x>0)
+            damageDirection = damager.transform.position - transform.position;
+            Vector2 beatBack = damager.beatBackVector;
+            if (beatBack != Vector2.zero && beatBackRate != 0)
             {
-                beatBack.x = beatBack.x * -1;
+                beatBack *= beatBackRate;
+                if (damageDirection.x > 0)
+                {
+                    beatBack.x = beatBack.x * -1;
+                }
+                StartCoroutine(beatenBack(beatBack));
             }
-            StartCoroutine(beatenBack(beatBack));
+
+            if (takeDamageSfxSO)
+            {
+                //Debug.Log("creat hitted sfx");
+                Vector2 hittedPosition = Vector2.zero;
+
+                hittedPosition = GetComponent<Collider2D>().bounds.ClosestPoint(damager.transform.position);
+
+                SfxManager.Instance.creatHittedSfx(hittedPosition, hittedPosition - (Vector2)transform.position, takeDamageSfxSO);
+            }
         }
 
-        if(takeDamageAudio)
+        if (takeDamageAudio)
         {
             takeDamageAudio.PlayAudioCue();
         }
 
-        if(takeDamageSfxSO)
-        {
-            //Debug.Log("creat hitted sfx");
-            Vector2 hittedPosition = Vector2.zero;
-
-            hittedPosition=GetComponent<Collider2D>().bounds.ClosestPoint(damager.transform.position);
-
-            SfxManager.Instance.creatHittedSfx(hittedPosition, hittedPosition-(Vector2)transform.position ,takeDamageSfxSO);
-        }
 
     }
 
