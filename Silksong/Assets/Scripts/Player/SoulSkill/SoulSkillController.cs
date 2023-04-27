@@ -1,25 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[System.Serializable]
+public class SoulSkillItem
+{
+    public SkillName SkillName;
+    public GameObject skillPrefab;
+    [FormerlySerializedAs("skill")] public SoulSkill soulSkill;
+}
 public class SoulSkillController : MonoBehaviour
 {
     private PlayerCharacter _playerCharacter;
     private Animator _playerAnimator;
     private PlayerController _playerController;
-    #region 灵魂技能
-    
-    public SoulSkill equpedSoulSkill;
-    //public SkillName soulSkillName;// 当前选择的灵魂技能
+
+    public SoulSkill equpedSoulSkill; // 当前选择的灵魂技能
     public bool inSoulModel;// 是否进入了灵魂状态
     public bool isHenshining;// 正在变身
-    public GameObject lightningChainPrefab;
-    private LightningChain _lightningChain;
-    public GameObject flameGeyserBullet;
-    public GameObject flameGeyserPrefab;
-    private FlameGeyser _flameGeyser;
-    public GameObject shadowBladePrefab;
-    private ShadowBlade _shadowBlade;
+    public GameObject flameGeyserBullet;//剑气子弹
+
+
+    [SerializeField]
+    public List<SoulSkillItem> soulSkillList = new List<SoulSkillItem>();
 
     public void SoulSkillInit(PlayerController playerController)
     {
@@ -29,23 +33,14 @@ public class SoulSkillController : MonoBehaviour
         
         
         //初始化所有灵魂技能
-        _lightningChain = GameObject.Instantiate(lightningChainPrefab,transform).GetComponent<LightningChain>();
-        _lightningChain.Init(playerController, playerController.playerCharacter);
-        _lightningChain.gameObject.SetActive(false);
-        _lightningChain.transform.localPosition = new Vector3(0, 0, 0);
+        foreach (var skill in soulSkillList)
+        {
+            skill.soulSkill = GameObject.Instantiate(skill.skillPrefab,transform).GetComponent<SoulSkill>();
+            skill.soulSkill.Init(playerController, playerController.playerCharacter);
+            skill.soulSkill.gameObject.SetActive(false);
+            skill.soulSkill.transform.localPosition = new Vector3(0, 0, 0);
+        }
 
-        _flameGeyser = GameObject.Instantiate(flameGeyserPrefab,transform).GetComponent<FlameGeyser>();
-        _flameGeyser.Init(playerController, playerController.playerCharacter);
-        flameGeyserBullet.GetComponent<TwoTargetDamager>().damage = _flameGeyser.baseDamage;
-        _flameGeyser.gameObject.SetActive(false);
-        _flameGeyser.transform.localPosition = new Vector3(0, 0, 0);
-        
-        _shadowBlade = GameObject.Instantiate(shadowBladePrefab,transform).GetComponent<ShadowBlade>();
-        _shadowBlade.Init(playerController, playerController.playerCharacter);
-        _shadowBlade.atkDamager.GetComponent<TwoTargetDamager>().damage = _shadowBlade.baseDamage;
-        _shadowBlade.gameObject.SetActive(false);
-        _shadowBlade.transform.localPosition = new Vector3(0, 0, 0);
-        
         ChangeEquip(SkillName.FlameGeyser);
     }
     
@@ -136,14 +131,10 @@ public class SoulSkillController : MonoBehaviour
     {
         if (_bullet.Equals("FlameGeyser"))
         {
-            GameObject go = Instantiate(flameGeyserBullet, transform);
+            FlameGeyser flameGeyser = (FlameGeyser)GetSoulSkill(SkillName.FlameGeyser);
+            GameObject go = Instantiate(flameGeyser.bullet.gameObject, transform);
             go.transform.localPosition = Vector3.zero;
             go.transform.SetParent(null);
-
-            /*
-            Quaternion.Euler(flameGeyserBullet.transform.rotation.x
-           , flameGeyserBullet.transform.localRotation.y
-           , PlayerController.Instance.playerInfo.playerFacingRight ? 0.0f : 180.0f));*/
 
             Vector3 shootDirection = new Vector3(PlayerController.Instance.playerInfo.playerFacingRight ? 1 : -1, 0, 0);
             go.GetComponent<Rigidbody2D>().AddForce(shootDirection * 15f, ForceMode2D.Impulse);
@@ -159,47 +150,37 @@ public class SoulSkillController : MonoBehaviour
         // 修正特效旋转
         if (!_playerController.playerInfo.playerFacingRight)
         {
-            equpedSoulSkill.atkDamager.transform.localRotation =
+            equpedSoulSkill.atkObject.transform.rotation =
                 Quaternion.Euler(0.0f, 180.0f, 0.0f);
-            equpedSoulSkill.atkDamager.transform.localScale = new Vector3(-1.0f, 1.0f, -1.0f);
+            equpedSoulSkill.atkObject.transform.localScale = new Vector3(-1.0f, 1.0f, -1.0f);
         }
         else
         {
-            equpedSoulSkill.atkDamager.transform.localRotation =
+            equpedSoulSkill.atkObject.transform.localRotation =
                 Quaternion.identity;
-            equpedSoulSkill.atkDamager.transform.localScale = Vector3.one;
+            equpedSoulSkill.atkObject.transform.localScale = Vector3.one;
         }
-       equpedSoulSkill.atkDamager.SetActive(option);
+       equpedSoulSkill.atkObject.SetActive(option);
+       _playerAnimator.SetBool("CanRun", !option);
     }
 
     public void ChangeEquip(SkillName skillName)
     {
-        _playerAnimator.SetBool("FireAttack", false);
-        _playerAnimator.SetBool("ShadowAttack", false);
-        _playerAnimator.SetBool("WaveAttack", false);
-        
-        switch (skillName)
-        {
-            case SkillName.FlameGeyser:
-                equpedSoulSkill = _flameGeyser;
-                _playerAnimator.SetBool("FireAttack", true);
-                break;
-            case SkillName.ShadowBlade:
-                _playerAnimator.SetBool("ShadowAttack", true);
-                equpedSoulSkill = _shadowBlade;
-                break;
-            case SkillName.LightningChain:
-                equpedSoulSkill = _lightningChain;
-                break;
-            case SkillName.ArcaneBlast:
-                break;
-            case SkillName.IceStorm:
-                break;
-            default:
-                break;
-        }
+        equpedSoulSkill = GetSoulSkill(skillName);
     }
-    #endregion
-    
-    
+
+    public SoulSkill GetSoulSkill(SkillName skillName)
+    {
+        foreach (var skill in soulSkillList)
+        {
+            if (skill.SkillName.Equals(skillName))
+            {
+                return skill.soulSkill;
+            }
+        }
+
+        return null;
+    }
+
+
 }

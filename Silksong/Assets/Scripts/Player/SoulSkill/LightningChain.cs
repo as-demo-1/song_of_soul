@@ -14,15 +14,20 @@ public class LightningChain : SoulSkill
     public float range = 1.0f;
     [Range(0,1)]
     public float extraSpeedPercent = 0;
-    public float baseDamage = 5;
+    //public float baseDamage = 5;
     [Range(0,1)]
     public float extraDamagePercent = 1;
 
     HpDamable preTarget;
 
     public float moveSpeedUp;
-
-    public GameObject stateParticle;
+    
+    public Material lightningChainMat;
+    public GameObject lightningChainPref;
+    private float width = 0.1f;
+    private Dictionary<int, GameObject> chains = new Dictionary<int, GameObject>();
+    private GameObject chainsRoot;
+    
     private void Awake()
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
@@ -40,18 +45,18 @@ public class LightningChain : SoulSkill
         UpdateTargetsLink();
     }
 
-    private LightningChain eventVariant;
-    public void TriggerAddElectricMarkEvent()
-    {
-        if (eventVariant is null)
-        {
-            eventVariant = Clone();
-            //eventVariant.m_eventType = BattleEventType.LightningAddElectricMarkEvent;
-
-            eventVariant.gameObject.SetActive(false);
-        }
-        EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
-    }
+    // private LightningChain eventVariant;
+    // public void TriggerAddElectricMarkEvent()
+    // {
+    //     if (eventVariant is null)
+    //     {
+    //         eventVariant = Clone();
+    //         //eventVariant.m_eventType = BattleEventType.LightningAddElectricMarkEvent;
+    //
+    //         eventVariant.gameObject.SetActive(false);
+    //     }
+    //     EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
+    // }
     
     public bool AtkPerTarget(HpDamable target)
     {
@@ -66,8 +71,19 @@ public class LightningChain : SoulSkill
         return true;
     }
 
+    /// <summary>
+    /// 攻击目标，对目标添加闪电标记
+    /// </summary>
+    /// <param name="damager"></param>
+    /// <param name="damageable"></param>
+    public void AtkTarget(DamagerBase damager, DamageableBase damageable)
+    {
+        AddElectricMark((HpDamable)damageable);
+    }
+
     public bool AddElectricMark(HpDamable target)
     {
+        Debug.Log("添加闪电标志");
         if (!IsAddElectricMarkSuccess(target)||!target.CanGetBuff(BuffType.ElectricMark)) return false;
         target.GetBuff(BuffType.ElectricMark);
         return true;
@@ -128,11 +144,7 @@ public class LightningChain : SoulSkill
         return (int)damage;
     }
 
-    public Material lightningChainMat;
-    public GameObject lightningChainPref;
-    private float width = 0.1f;
-    private Dictionary<int, GameObject> chains = new Dictionary<int, GameObject>();
-    private GameObject chainsRoot;
+
 
     private void LightningChainUpdate(Vector3 start, Vector3 end, int chainIndex)
     {

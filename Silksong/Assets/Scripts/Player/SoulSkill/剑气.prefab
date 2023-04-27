@@ -107,7 +107,8 @@ GameObject:
   - component: {fileID: 124006113471580719}
   - component: {fileID: 3225552912103927306}
   - component: {fileID: 2492114891940172688}
-  - component: {fileID: 6095281661127973571}
+  - component: {fileID: 4175541260854050825}
+  - component: {fileID: 3273096226323692093}
   m_Layer: 0
   m_Name: "\u5251\u6C14"
   m_TagString: Untagged
@@ -168,7 +169,18 @@ CircleCollider2D:
   m_Offset: {x: 1.37, y: 0}
   serializedVersion: 2
   m_Radius: 1.12
---- !u!114 &6095281661127973571
+--- !u!210 &4175541260854050825
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124006113471580717}
+  m_Enabled: 1
+  m_SortingLayerID: 432623041
+  m_SortingLayer: 3
+  m_SortingOrder: 25
+--- !u!114 &3273096226323692093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,20 +189,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 124006113471580717}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04c49877695c20044abc3ee41276ca77, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e5bd1a1b67117b42b48503bb9590b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ignoreInvincibility: 0
   canDamage: 1
   damage: 1
-  beatBackVector: {x: 0.5, y: 0}
+  beatBackVector: {x: 0, y: 0}
   makeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
-  hittableLayers2:
-    serializedVersion: 2
-    m_Bits: 32768
-  damage2: 10
+  killDamableEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &124006113274168979
 PrefabInstance:
   m_ObjectHideFlags: 0

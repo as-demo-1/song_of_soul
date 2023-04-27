@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class FlameGeyser : SoulSkill
 {
+    public PlayerSkillDamager bullet;
     // Start is called before the first frame update
-    
-    private void OnEnable()
-    {
-        base.OnEnable();
-    }
 
-    private void OnDisable()
+    public override void Init(PlayerController playerController, PlayerCharacter playerCharacter)
     {
-        base.OnDisable();
+        base.Init(playerController, playerCharacter);
+        bullet.damage = baseDamage;
     }
-
 }
