@@ -19,7 +19,7 @@ public class Piano : MonoBehaviour
     {
     }
 
-    /*
+    
     public void Generate()
     {
         numCols = chartList[currentChart].Length;
@@ -83,13 +83,13 @@ public class Piano : MonoBehaviour
             spriteRenderer.size = new Vector3(cellWidth, cellHeight, 1f);
         }
     }
-    */
+    /*
     public void Generate()
     {
         tmp_piano.SetActive(true);
-    }
+    }*/
 
-    /*
+    
     public void Attack()
     {
         //this.gameObject.SetActive(true);
@@ -110,13 +110,13 @@ public class Piano : MonoBehaviour
             }
         }
     }
-    */
+    /*
     public void Attack()
     {
         tmp_piano.transform.GetChild(0).gameObject.SetActive(true);
     }
-
-    /*
+    */
+    
     public void End()
     {
         for (int i = 0; i < transform.childCount - 2; ++i)
@@ -125,10 +125,10 @@ public class Piano : MonoBehaviour
         }
         currentChart = (currentChart + 1) % chartList.Length;
     }
-    */
+    /*
 
     public void End()
     {
         tmp_piano.SetActive(false);
-    }
+    }*/
 }
