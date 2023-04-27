@@ -14,7 +14,7 @@ public class ChooseBump : BattleConditional
             float a = Random.Range(0f, 1f);
             if (Mathf.Abs(yTarget-ySelf)<5)
             {      
-                if(a>0.2f)
+                if(a>0.4f)//the rate of bump
                 {
                     return TaskStatus.Failure;
                 }
@@ -31,6 +31,7 @@ public class ChooseBump : BattleConditional
         else if(WhaleBossManager.Instance.stage==EBossBattleStage.StageTwo)
         {
             float a = Random.Range(0f,1f);
+            //Debug.Log(a);
             if(a<=0.5f)
             {
                 return TaskStatus.Success;

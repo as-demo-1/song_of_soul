@@ -14,6 +14,7 @@ public class SelfHPTrigger :EnemyFSMBaseTrigger
     {
         base.InitTrigger(fsm_Manager);
         hpDamable = fsm_Manager.damageable as HpDamable;
+        Debug.Log(fsm_Manager.damageable);
     }
 
     public override bool IsTriggerReachInUpdate(EnemyFSMManager fsm_Manager)

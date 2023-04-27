@@ -7,12 +7,13 @@ using UnityEngine;
 public class FindWanderPos : BattleAction
 {
     public SharedVector2 pos;
+    public float yOff;
     public override void OnStart()
     {
         base.OnStart();
         float dis = WhaleBossManager.Instance.whaleOutCameraDistanceX;
         bool facingLeft = battleAgent.currentFacingLeft();
-        Vector2 wanderPos=new Vector2(0,Random.Range(WhaleBossManager.Instance.roomLeftDownPoint.y, WhaleBossManager.Instance.roomRightUpPoint.y));
+        Vector2 wanderPos=new Vector2(0,Random.Range(WhaleBossManager.Instance.roomLeftDownPoint.y+yOff, WhaleBossManager.Instance.roomRightUpPoint.y-yOff));
         if(facingLeft)
         {
             wanderPos.x = WhaleBossManager.Instance.roomLeftDownPoint.x - dis;

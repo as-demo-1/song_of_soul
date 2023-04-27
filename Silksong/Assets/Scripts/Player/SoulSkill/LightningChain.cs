@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 
 [Serializable]
@@ -20,30 +21,23 @@ public class LightningChain : SoulSkill
     HpDamable preTarget;
 
     public float moveSpeedUp;
+
+    public GameObject stateParticle;
     private void Awake()
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        _playerCharacter = GetComponentInParent<PlayerCharacter>();
+        //_playerCharacter = GetComponentInParent<PlayerCharacter>();
+        //m_eventType = BattleEventType.LightningChainAtk;
     }
+    
 
-    void Start()
-    {
-        base.Start();
-        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        //RefreshAtk(_playerInfomation.atk);
-    }
 
-    private void OnEnable()
-    {
-        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        base.OnEnable();
-        //SpeedUp(true);
-    }
 
-    private void OnDisable()
+
+    private void Update()
     {
-        base.OnDisable();
-        //SpeedUp(false);
+        //TriggerAddElectricMarkEvent();
+        UpdateTargetsLink();
     }
 
     private LightningChain eventVariant;
@@ -52,12 +46,14 @@ public class LightningChain : SoulSkill
         if (eventVariant is null)
         {
             eventVariant = Clone();
+            //eventVariant.m_eventType = BattleEventType.LightningAddElectricMarkEvent;
+
             eventVariant.gameObject.SetActive(false);
         }
         EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
     }
     
-    public override bool AtkPerTarget(HpDamable target)
+    public bool AtkPerTarget(HpDamable target)
     {
         if (!IsAtkSuccess(target)||!target.HaveBuff(BuffType.ElectricMark)) return false;
         //target.GetDamage(Damage());
@@ -99,8 +95,18 @@ public class LightningChain : SoulSkill
         }
     }
 
+
+    public void SpeedUp(bool needApply)
+    {
+        if(needApply) _playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
+        else
+        {
+            _playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
+        }
+    }
     
-    protected override bool IsAtkSuccess(HpDamable target)
+
+    protected bool IsAtkSuccess(HpDamable target)
     {
         return true;
     }
@@ -112,7 +118,7 @@ public class LightningChain : SoulSkill
         {
             return false;
         }
-        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
+        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= range;
     }
 
     private int Damage()
@@ -207,5 +213,10 @@ public class LightningChain : SoulSkill
     {
         return (LightningChain)MemberwiseClone();
         return GameObject.Instantiate(this);
+    }
+    
+    public void ChangeState(bool _option)
+    {
+        stateParticle.gameObject.SetActive(_option);
     }
 }
