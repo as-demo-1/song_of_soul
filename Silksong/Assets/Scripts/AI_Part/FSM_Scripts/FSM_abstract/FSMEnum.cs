@@ -59,6 +59,7 @@ public enum EnemyStates
     Enemy_LaserMove_State =46,
     Enemy_ReturnBack_State=47,
     Enemy_PrickIdle_State=48,
+    Boss_Hitted_State = 49,
 }
 /// <summary>
 /// 添加Trigger时务必加上序号。
