@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-namespace Inventory
-{
     public class SceneItem : MonoBehaviour
     {
         [SerializeField] private ItemSO _currentItemSO = default;
@@ -19,4 +17,3 @@ namespace Inventory
 
         }
     }
-}
