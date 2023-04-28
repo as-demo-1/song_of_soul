@@ -45,7 +45,7 @@ public abstract class SoulSkill : MonoBehaviour
     public GameObject atkObject;// 挥击效果或伤害
     public string animName;// 攻击动画变量名称
     public GameObject stateParticle; // 状态特效
-    public ParticleSystem hurtEffect;// 击中特效
+    public GameObject hurtEffectPrefab;// 击中特效
 
 
     protected Material original;
@@ -78,7 +78,8 @@ public abstract class SoulSkill : MonoBehaviour
 
         if (damager != null)
         {
-            damager.damage = baseDamage;
+            damager.damage = baseDamage;// set skill damage value
+            damager.makeDamageEvent.AddListener(PlayHurtEffect);// 绑定受伤特效
         }
         
     }
@@ -108,25 +109,13 @@ public abstract class SoulSkill : MonoBehaviour
 
     private void Update()
     {
-        if (timer < 0)
-        {
-            TickSoulStatus();
-            timer = timeCounter;
-        }
-        else
-        {
-            timer -= Time.deltaTime;
-        }
+
     }
 
     private int debugCnt = 0;
     protected void TickSoulStatus()
     {
-        //_playerInfomation.CostMana(constPerSec);
         _playerCharacter.CostMana(constPerSec);
-        //Debug.Log("!!!!!!!!! soul skill ticking cost mana"+constPerSec);
-        //Debug.LogError("!!!!!!!!! soul skill ticking" + debugCnt);
-        //debugCnt++;
     }
 
     public virtual void EnterSoulMode()
@@ -148,6 +137,8 @@ public abstract class SoulSkill : MonoBehaviour
             charge.gameObject.SetActive(true);
             _playerController.SoulSkillController.isHenshining = true;
             _playerAnimator.SetBool("CastSkillIsValid", true);
+            _playerController.GetComponent<InvulnerableDamable>().invulnerable = true;// 变身时无敌
+            PlayerAnimatorParamsMapping.SetControl(false);
         });
         sequence.AppendInterval(henshinTime);
         sequence.AppendCallback(() =>
@@ -181,6 +172,9 @@ public abstract class SoulSkill : MonoBehaviour
                 _playerAnimator.SetBool(animName, true);
                 _playerAnimator.SetBool("isSoul", true);
             }
+            PlayerAnimatorParamsMapping.SetControl(true);
+            _playerController.GetComponent<InvulnerableDamable>().invulnerable = false;
+            InvokeRepeating(nameof(TickSoulStatus), 0.0f, 1.0f);// 定时扣除能量
         });
     }
 
@@ -195,10 +189,18 @@ public abstract class SoulSkill : MonoBehaviour
         }
         if(animName!="")
             _playerAnimator.SetBool(animName, false);
+        
+        CancelInvoke(nameof(TickSoulStatus));// 停止扣除能量
+        
         SkillEnd.Invoke();
     }
-    
 
+    // 播放特殊受伤动画
+    public void PlayHurtEffect(DamagerBase damager, DamageableBase damageable)
+    {
+        Vector3 closestPoint = damageable.GetComponent<Collider2D>().ClosestPoint(damager.transform.position);
+        Destroy( Instantiate(hurtEffectPrefab, closestPoint, Quaternion.identity),1.5f);
+    }
 
     
     

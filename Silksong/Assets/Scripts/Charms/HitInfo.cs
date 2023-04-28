@@ -27,5 +27,17 @@ public class HitInfo : MonoBehaviour
         text.transform.DOLocalMove(new Vector3(Random.Range(-1.0f,1.0f), 3.0f, 0.0f), 0.5f);
         Debug.Log(damagerBase.damage.ToString());
         Destroy(text, 1.0f);
+        
+        // 闪白特效
+        Sequence sequence = DOTween.Sequence();
+        sequence.AppendCallback(() =>
+        {
+            GetComponent<SpriteRenderer>().material.SetFloat("_StrongTintFade", 1.0f);
+        });
+        sequence.AppendInterval(0.5f);
+        sequence.AppendCallback(() =>
+        {
+            GetComponent<SpriteRenderer>().material.SetFloat("_StrongTintFade", 0.0f);
+        });
     }
 }

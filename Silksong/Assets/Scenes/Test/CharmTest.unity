@@ -368,6 +368,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2262412264338392921, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 1618718319}
     - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
       propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -377,11 +381,23 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
       propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 184019300}
     - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 184019299}
+    - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
       propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
@@ -389,12 +405,24 @@ PrefabInstance:
       value: GenerateText
       objectReference: {fileID: 0}
     - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
       propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HitInfo, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: HitInfo, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
       propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2262412264338392922, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
+      propertyPath: takeDamageEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f515cdf3619591c4dace4e0b1e40803d, type: 3}
@@ -1422,6 +1450,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1428997082}
   m_CullTransparentMesh: 1
+--- !u!21 &1618718319
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Instanced Shader
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DecalTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    - _StrongTintContrast: 0
+    - _StrongTintFade: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+    - _StrongTintTint: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1741871500
 GameObject:
   m_ObjectHideFlags: 0

@@ -132,9 +132,10 @@ public class SoulSkillController : MonoBehaviour
         if (_bullet.Equals("FlameGeyser"))
         {
             FlameGeyser flameGeyser = (FlameGeyser)GetSoulSkill(SkillName.FlameGeyser);
-            GameObject go = Instantiate(flameGeyser.bullet.gameObject, transform);
+            GameObject go = Instantiate(flameGeyser.bulletPrefab.gameObject, transform);
             go.transform.localPosition = Vector3.zero;
             go.transform.SetParent(null);
+            go.GetComponent<PlayerSkillDamager>().makeDamageEvent.AddListener(flameGeyser.PlayHurtEffect);
 
             Vector3 shootDirection = new Vector3(PlayerController.Instance.playerInfo.playerFacingRight ? 1 : -1, 0, 0);
             go.GetComponent<Rigidbody2D>().AddForce(shootDirection * 15f, ForceMode2D.Impulse);
