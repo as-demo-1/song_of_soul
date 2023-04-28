@@ -6,10 +6,10 @@ public class InventorySO : ScriptableObject
 {
 	[Tooltip("The collection of items and their quantities.")]
 	[SerializeField]
-	private List<ItemStack> _items = new List<ItemStack>();
+	private List<ItemStacka> _items = new List<ItemStacka>();
 	[SerializeField]
-	private List<ItemStack> _defaultItems = new List<ItemStack>();
-	public List<ItemStack> Items => _items;
+	private List<ItemStacka> _defaultItems = new List<ItemStacka>();
+	public List<ItemStacka> Items => _items;
 
 	public void Add(ItemSO item, int count = 1)
 	{
@@ -18,7 +18,7 @@ public class InventorySO : ScriptableObject
 
 		for (int i = 0; i < _items.Count; i++)
 		{
-			ItemStack currentItemStack = _items[i];
+			ItemStacka currentItemStack = _items[i];
 			if (item == currentItemStack.Item)
 			{
 				//only add to the amount if the item is usable
@@ -27,7 +27,7 @@ public class InventorySO : ScriptableObject
 			}
 		}
 
-		_items.Add(new ItemStack(item, count));
+		_items.Add(new ItemStacka(item, count));
 	}
 
 	public void Remove(ItemSO item, int count = 1)
@@ -37,7 +37,7 @@ public class InventorySO : ScriptableObject
 
 		for (int i = 0; i < _items.Count; i++)
 		{
-			ItemStack currentItemStack = _items[i];
+			ItemStacka currentItemStack = _items[i];
 
 			if (currentItemStack.Item == item)
 			{
@@ -68,7 +68,7 @@ public class InventorySO : ScriptableObject
 	{
 		for (int i = 0; i < _items.Count; i++)
 		{
-			ItemStack currentItemStack = _items[i];
+			ItemStacka currentItemStack = _items[i];
 			if (item == currentItemStack.Item)
 			{
 				return currentItemStack.Amount;
@@ -79,7 +79,7 @@ public class InventorySO : ScriptableObject
 	}
 	public ItemSO Search(string id)
     {
-		foreach(ItemStack i in _items)
+		foreach(ItemStacka i in _items)
         {
 			if (i.Item.ID == id)
 				return i.Item;
@@ -91,12 +91,12 @@ public class InventorySO : ScriptableObject
 	{
 		if (_items == null)
 		{
-			_items = new List<ItemStack>();
+			_items = new List<ItemStacka>();
 		}
 		_items.Clear();
-		foreach (ItemStack item in _defaultItems)
+		foreach (ItemStacka item in _defaultItems)
 		{
-			_items.Add(new ItemStack(item));
+			_items.Add(new ItemStacka(item));
 
 		}
 	}

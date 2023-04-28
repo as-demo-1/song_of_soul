@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-
+	
 	[SerializeField] public InventorySO _currentInventory = default;
 	[SerializeField] private SaveSystem _saveSystem;
 	
@@ -15,7 +15,7 @@ public class InventoryManager : MonoBehaviour
 		_saveSystem.SaveDataToDisk();
 
 	}
-	public void AddItemStack(ItemStack itemStack)
+	public void AddItemStack(ItemStacka itemStack)
 	{
 		_currentInventory.Add(itemStack.Item, itemStack.Amount);
 		_saveSystem.SaveDataToDisk();
