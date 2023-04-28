@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using TMPro;
+using System.Security.Claims;
 
 /// <summary>
 /// 用于管理护符的UI交互
@@ -26,10 +28,14 @@ public class CharmUIPanel : SerializedMonoBehaviour
     private GridLayoutGroup charmCollectionGrid;
     
     [SerializeField]
-    private GridLayoutGroup orangeCharmGrid;
-    
-    private List<CharmImage> charmImages = new List<CharmImage>();
-    private List<CharmImage> orangeCharmImages = new List<CharmImage>();
+    private GridLayoutGroup purpleCharmGrid;
+
+	[SerializeField]
+	private GridLayoutGroup orangeCharmGrid;
+
+	private List<CharmImage> blueCharmImages = new List<CharmImage>();
+	private List<CharmImage> purpleCharmImages = new List<CharmImage>();
+	public List<Charm> orangeCharmImages = new List<Charm>();    
 
     [SerializeField]
     private GameObject charmPrefab;
@@ -38,26 +44,26 @@ public class CharmUIPanel : SerializedMonoBehaviour
     [SerializeField]
     private Text charmName;
     [SerializeField]
-    private Text charmDescription;
+    private TextMeshProUGUI charmDescription;
 
+    private int indexChram = 0;
 
+	// 三种护符槽
+	// [SerializeField]
+	// private List<GameObject> blueSlots = new List<GameObject>();
+	//
+	// [SerializeField]
+	// private List<GameObject> purpleSlots = new List<GameObject>();
+	//
+	// [SerializeField]
+	// private List<GameObject> orangeSlots = new List<GameObject>();
 
-    // 三种护符槽
-    // [SerializeField]
-    // private List<GameObject> blueSlots = new List<GameObject>();
-    //
-    // [SerializeField]
-    // private List<GameObject> purpleSlots = new List<GameObject>();
-    //
-    // [SerializeField]
-    // private List<GameObject> orangeSlots = new List<GameObject>();
+	//private Dictionary<CharmQuality, List<GameObject>> slotDic = new Dictionary<CharmQuality, List<GameObject>>();
 
-    //private Dictionary<CharmQuality, List<GameObject>> slotDic = new Dictionary<CharmQuality, List<GameObject>>();
-
-    /// <summary>
-    /// 护符槽字典
-    /// </summary>
-    [SerializeField]
+	/// <summary>
+	/// 护符槽字典
+	/// </summary>
+	[SerializeField]
     private Dictionary<CharmQuality, List<CharmSlot>> slotDic =
         new Dictionary<CharmQuality, List<CharmSlot>>(); 
     //public List<Button> btns;
@@ -68,58 +74,72 @@ public class CharmUIPanel : SerializedMonoBehaviour
     public RectTransform selecter;
 
     [SerializeField]
-    private float selecterSize = 15.0f;
+    private float selecterSize = 60.0f;
     
     /// <summary>
     /// 当前选中的护符
     /// </summary>
     public CharmImage selectCharm;
+    public CharmImage orangeCharmImage;
 
-    private void Awake()
+	private void Awake()
     {
 
     }
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
+        Init();
+	}
 
     public void Init()
     {
+        if (CharmListSO.Charms.Count <= 0)
+            return;
         foreach (Charm charm in CharmListSO.Charms)
         {
             if (!charm.HasCollected) continue;
-
-            CharmImage charmImage = Instantiate(charmPrefab, charmCollectionGrid.transform).GetComponent<CharmImage>();
             if (charm.CharmQuality.Equals(CharmQuality.ORANGE))
             {
-                charmImage.transform.SetParent(orangeCharmGrid.transform);
-                charmImage.GetComponent<RectTransform>().sizeDelta  = orangeCharmGrid.cellSize; 
-                orangeCharmImages.Add(charmImage);
+                orangeCharmImages.Add(charm);
             }
             else
             {
-                charmImages.Add(charmImage);
-            }
-            
-            charmImage.Init(charm, this);
-            
-            if (charm.HasEquiped)
-            {
-                CharmToSlot(charmImage);
+                CharmImage charmImage = Instantiate(charmPrefab, charmCollectionGrid.transform).GetComponent<CharmImage>();
+                if (charm.CharmQuality.Equals(CharmQuality.BLUE))
+                {
+                    blueCharmImages.Add(charmImage);
+                }
+                else if (charm.CharmQuality.Equals(CharmQuality.PURPLE))
+                {
+                    charmImage.transform.SetParent(purpleCharmGrid.transform);
+                    charmImage.GetComponent<RectTransform>().sizeDelta = purpleCharmGrid.cellSize;
+                    purpleCharmImages.Add(charmImage);
+                }
+                charmImage.Init(charm, this);
+
+                if (charm.HasEquiped)
+                {
+                    CharmToSlot(charmImage);
+                }
             }
         }
+        if(orangeCharmImages != null)
+        {
+			orangeCharmImage = Instantiate(charmPrefab, slotDic[orangeCharmImages[0].CharmQuality][0].transform).GetComponent<CharmImage>();
+			orangeCharmImage.GetComponent<RectTransform>().sizeDelta = slotDic[orangeCharmImages[0].CharmQuality][0].GetComponent<RectTransform>().sizeDelta;
+			orangeCharmImage.Init(orangeCharmImages[0], this);
+		}
         Debug.Log("护符初始化完成");
         
     }
 
     private void OnEnable()
     {
-        Debug.Log(charmImages.Count);
-        if (charmImages.Count <= 0) return;
+        Debug.Log(blueCharmImages.Count);
+        if (blueCharmImages.Count <= 0) return;
 
-        OnTabChange();
+        //OnTabChange();
         //GameObject.Find("EventSystem(Clone)").GetComponent<EventSystem>()?.SetSelectedGameObject(charmImages[0].gameObject);
         PlayerInput.Instance.ReleaseControls();
     }
@@ -135,6 +155,8 @@ public class CharmUIPanel : SerializedMonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z))
         {
             if (selectCharm == null) return;
+            if (selectCharm.charm.CharmQuality == CharmQuality.ORANGE) return;
+
             if (selectCharm.charm.HasEquiped)
             {
                 DisequipCharm();
@@ -177,14 +199,33 @@ public class CharmUIPanel : SerializedMonoBehaviour
         selectCharm.slot.isEmpty = true;
         selectCharm.slot = null;
         selectCharm.charm.HasEquiped = false;
-        if (selectCharm.charm.CharmQuality.Equals(CharmQuality.ORANGE))
+        if (selectCharm.charm.CharmQuality.Equals(CharmQuality.PURPLE))
         {
-            selectCharm.transform.SetParent(orangeCharmGrid.transform);
+            selectCharm.transform.SetParent(purpleCharmGrid.transform);
+            if(purpleCharmGrid.gameObject.activeSelf == false)
+            {
+				selectCharm=blueCharmImages[0];
+				EventSystem.current.SetSelectedGameObject(selectCharm.gameObject);
+			}
         }
         else
         {
             selectCharm.transform.SetParent(charmCollectionGrid.transform);
-        }
+
+			if (purpleCharmGrid.gameObject.activeSelf == true)
+			{
+				selectCharm=purpleCharmImages[0];
+				EventSystem.current.SetSelectedGameObject(selectCharm.gameObject);
+			}
+		}
+        /*if(purpleCharmGrid.gameObject.activeSelf)
+        {
+			ChangeSelect(purpleCharmImages[0]);
+		}
+        else
+        {
+			ChangeSelect(blueCharmImages[0]);
+		}*/
         //ChangeSelect(selectCharm);
         //selectCharm.transform.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.InOutCubic);
     }
@@ -193,7 +234,7 @@ public class CharmUIPanel : SerializedMonoBehaviour
     {
         selectCharm = _charmImage;
         selecter.transform.SetParent(_charmImage.transform);
-        //selecter.DOLocalMove(Vector3.zero, 0.5f).SetEase(Ease.InOutCubic);
+        //selecter.DOMove(selectCharm.transform.position, 0.5f).SetEase(Ease.InOutCubic);
         selecter.offsetMin = -selecterSize * Vector2.one;
         selecter.offsetMax = selecterSize * Vector2.one;
         if (_charmImage==null)
@@ -210,13 +251,13 @@ public class CharmUIPanel : SerializedMonoBehaviour
 
     public void OnTabChange()
     {
-        if (orangeCharmGrid.gameObject.activeInHierarchy)
+        if (purpleCharmGrid.gameObject.activeInHierarchy)
         {
-            if (orangeCharmImages.Count > 0)
+            if (purpleCharmImages.Count > 0)
             {
                 GameObject.Find("EventSystem(Clone)").GetComponent<EventSystem>()?.
-                    SetSelectedGameObject(orangeCharmImages[0].gameObject);
-                ChangeSelect(orangeCharmImages[0]);
+                    SetSelectedGameObject(purpleCharmImages[0].gameObject);
+                ChangeSelect(purpleCharmImages[0]);
             }
             else
             {
@@ -225,11 +266,11 @@ public class CharmUIPanel : SerializedMonoBehaviour
         }
         else if(charmCollectionGrid.gameObject.activeInHierarchy)
         {
-            if (charmImages.Count > 0)
+            if (blueCharmImages.Count > 0)
             {
                 GameObject.Find("EventSystem(Clone)").GetComponent<EventSystem>()?.
-                    SetSelectedGameObject(charmImages[0].gameObject);
-                ChangeSelect(charmImages[0]);
+                    SetSelectedGameObject(blueCharmImages[0].gameObject);
+                ChangeSelect(blueCharmImages[0]);
             }
             else
             {
@@ -237,5 +278,37 @@ public class CharmUIPanel : SerializedMonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 大护符的刷新
+    /// </summary>
+    public void RefreshUI()
+    {		
+        if (orangeCharmImages.Count == 0)
+            return;
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            indexChram++;
+            indexChram = indexChram < orangeCharmImages.Count ? indexChram : 0;
+            orangeCharmImage.Init(orangeCharmImages[indexChram], this);
+            if (selectCharm.charm.CharmQuality == CharmQuality.ORANGE)
+            {
+                ChangeSelect(orangeCharmImage);
+
+			}
+        }
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			indexChram--;
+			indexChram = indexChram >= 0 ? indexChram : orangeCharmImages.Count-1;
+            orangeCharmImage.Init(orangeCharmImages[indexChram], this);
+			if (selectCharm.charm.CharmQuality == CharmQuality.ORANGE)
+			{
+				ChangeSelect(orangeCharmImage);
+
+			}
+		}
+
+	}
 
 }

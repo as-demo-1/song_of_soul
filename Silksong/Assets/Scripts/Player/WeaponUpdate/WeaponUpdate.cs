@@ -7,7 +7,7 @@ using UnityEditor;
 public class WeaponUpdate : ScriptableObject
 {
     public int weaponLevel=0;
-    public InventorySO playerInventory;
+    //public InventorySO playerInventory;
     public WeaponUpgradeInfo[] weaponUpgradeInfoList;
     public bool checkResource()
     {
@@ -24,20 +24,20 @@ public class WeaponUpdate : ScriptableObject
         if (requiredItem == null)
             return false;
 
-        InventoryManager inventoryManager=new InventoryManager();
-        inventoryManager._currentInventory = playerInventory;
+        //InventoryManager inventoryManager=new InventoryManager();
+        //inventoryManager._currentInventory = playerInventory;
         foreach (RequiredMaterial i in requiredItem.requiredMaterial)
         {
-            ItemSO item = inventoryManager.SearchItem(i.id);
-            if (playerInventory.Count(item) < i.amonut)
-                return false;
+            //ItemSO item = inventoryManager.SearchItem(i.id);
+            //if (playerInventory.Count(item) < i.amonut)
+            //    return false;
             
         }
 
         foreach (RequiredMaterial i in requiredItem.requiredMaterial)
         {
-            ItemSO item = inventoryManager.SearchItem(i.id);
-            inventoryManager.RemoveItem(i.id,i.amonut);//¿Û³ý²ÄÁÏ
+            //ItemSO item = inventoryManager.SearchItem(i.id);
+            //inventoryManager.RemoveItem(i.id,i.amonut);//¿Û³ý²ÄÁÏ
         }
         return true;
     }
