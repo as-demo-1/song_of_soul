@@ -164,7 +164,8 @@ public class PlayerController : MonoBehaviour
     /// Only Demo Code for save
     /// </summary>
     //[SerializeField] private string _guid;
-    [SerializeField] public InventoryManager _backpack;
+    //[SerializeField] public InventoryManager _backpack;
+
     public GameObject _itemToAdd = null;
     public GameObject _savePoint = null;
     public string GUID => GetComponent<GuidComponent>().GetGuid().ToString();
@@ -185,8 +186,8 @@ public class PlayerController : MonoBehaviour
             throw new UnityException("There cannot be more than one PlayerController script.  The instances are " + Instance.name + " and " + name + ".");
         DontDestroyOnLoad(this.gameObject);
 
-        if(_backpack)
-            _backpack.LoadSave();
+        //if(_backpack)
+        //    _backpack.LoadSave();
 
         init();
     }
@@ -232,7 +233,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_itemToAdd)
             {
-                _backpack.AddItem(_itemToAdd.GetComponent<SceneItem>().GetItem());
+            //    _backpack.AddItem(_itemToAdd.GetComponent<SceneItem>().GetItem());
                 _itemToAdd.SetActive(false);
             }
         }

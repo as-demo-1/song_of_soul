@@ -8,8 +8,8 @@ using UnityEngine;
 
 public class SaveSystem : ScriptableObject//you can get SaveSystem instance from GameManager 
 {
-	[SerializeField] private InventorySO _playerInventory;
-	[SerializeField] private InventorySO _StoreInventory;
+	//[SerializeField] private InventorySO _playerInventory;
+	//[SerializeField] private InventorySO _StoreInventory;
 	public string saveFilename = "save.asoul";
 	public string backupSaveFilename = "save.asoul.bak";
 	private Save saveData = new Save();
@@ -150,12 +150,12 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 			saveData = saveData.LoadFromJson(json);
 		}
 		else return false;
-		foreach (var serializedItemStack in saveData._itemStacks)
+		/*foreach (var serializedItemStack in saveData._itemStacks)
 		{
 			string path = AssetDatabase.GUIDToAssetPath(serializedItemStack.itemGuid);
 			ItemSO tmp = AssetDatabase.LoadAssetAtPath(path,typeof(ItemSO)) as ItemSO;
 			_playerInventory.Add(tmp,serializedItemStack.amount);
-		}
+		}*/
 		return true;
 #endif
 
@@ -166,12 +166,12 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 	//Save data to file
 	public void SaveDataToDisk()
 	{
-		saveData._itemStacks.Clear();
-		foreach (var itemStack in _playerInventory.Items)
+		//saveData._itemStacks.Clear();
+		/*foreach (var itemStack in _playerInventory.Items)
 		{
 			saveData._itemStacks.Add(new SerializedItemStack(itemStack.Item.Guid, itemStack.Amount));
-		}
-		saveData._storeStacks.Clear();
+		}*/
+		//saveData._storeStacks.Clear();
 		// foreach (var storeStack in _StoreInventory.Items)
 		// {
 		// 	saveData._storeStacks.Add(new SerializedItemStack(storeStack.Item.Guid, storeStack.Amount));
