@@ -198,6 +198,10 @@ public abstract class SoulSkill : MonoBehaviour
     // 播放特殊受伤动画
     public void PlayHurtEffect(DamagerBase damager, DamageableBase damageable)
     {
+        if (hurtEffectPrefab==null)
+        {
+            return;
+        }
         Vector3 closestPoint = damageable.GetComponent<Collider2D>().ClosestPoint(damager.transform.position);
         Destroy( Instantiate(hurtEffectPrefab, closestPoint, Quaternion.identity),1.5f);
     }
