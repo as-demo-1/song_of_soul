@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: SeaUrchin_Laser_State
   m_EditorClassIdentifier: 
   lastStateID: 54
-  lastTriggerID: 0
+  lastTriggerID: 12
   StateName: SeaUrchin_Laser_State
   StateType: 54
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 12
   triggerConfig:
     id: 1
   triggerList:
@@ -32,16 +32,14 @@ MonoBehaviour:
         defaultAnimationName: 
         prickState: Enemy_LaserMove_State
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PrickArrivedTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
+        triggerType: 12
         targetState: SeaUrchin_Idle_State
-        maxTime: 5
-        timer: 0
+        targetName: Enemy_Stop_State
     00000002:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PrickArrivedTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
+        triggerType: 12
         targetState: SeaUrchin_Idle_State
-        maxTime: 20
-        timer: 0
+        targetName: Enemy_Stop_State

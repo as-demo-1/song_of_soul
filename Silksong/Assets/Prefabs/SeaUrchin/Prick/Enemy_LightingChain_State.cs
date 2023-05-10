@@ -6,6 +6,7 @@ using UnityEngine;
 
 /// <summary>
 /// 我的想法是，刺延申到最远位置，然后放出闪电,然后开始旋转
+/// 那么二阶段的写法就是 enter的时候放电，碰到墙以后放电，就不需要旋转了  
 /// </summary>
 public class Enemy_LightingChain_State : EnemyFSMBaseState
 {
@@ -23,6 +24,7 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
     public LayerMask player;
     GameObject lightningChain;
     Transform parent;
+    SeaUrchin seaUrchin;
     bool ifLightning;
     float t;
     public override void InitState(EnemyFSMManager enemyFSM)
@@ -32,15 +34,19 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
         lightningChain.transform.localPosition = Vector3.zero;
         lightningChain.transform.up = enemyFSM.transform.up;
         parent = enemyFSM.transform.parent;
+        seaUrchin=parent.GetComponent<SeaUrchin>();
         lightningChain.SetActive(false);
     }
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
-        lightningChain.SetActive(true);
-        enemyFSM.transform.up =    enemyFSM.transform.position- parent.transform.position;
-        lightningChain.transform.up = -enemyFSM.transform.up;
-        ifLightning = false;
+        if (!seaUrchin.ifInWater)
+        {
+            lightningChain.SetActive(true);
+            enemyFSM.transform.up = enemyFSM.transform.position - parent.transform.position;
+            lightningChain.transform.up = -enemyFSM.transform.up;
+            ifLightning = false;
+        }
     }//
     public override void ExitState(EnemyFSMManager enemyFSM)
     {
@@ -50,29 +56,33 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
     public override void FixAct_State(EnemyFSMManager enemyFSM)
     {
         base.FixAct_State(enemyFSM);
-        //Debug.Log(Vector2.Distance(enemyFSM.transform.position, parent.position));
-        if (enemyFSM.transform.localPosition.magnitude < radius)
+        if (!seaUrchin.ifInWater)
         {
-            enemyFSM.rigidbody2d.velocity = enemyFSM.transform.up * moveSpeed;
+            if (enemyFSM.transform.localPosition.magnitude < radius)
+            {
+                enemyFSM.rigidbody2d.velocity = enemyFSM.transform.up * moveSpeed;
+            }
+            else
+            {
+                enemyFSM.rigidbody2d.velocity = Vector2.zero;
+                enemyFSM.transform.RotateAround(parent.transform.position, Vector3.forward, rotateSpeed * Time.fixedDeltaTime);
+                lightningChain.SetActive(true);
+            }//
+            if (t < lightningInterval)
+                t += Time.fixedDeltaTime;
+            else
+            {
+                Vector2 dir = parent.transform.position - enemyFSM.transform.position;
+                RaycastHit2D hit2d = Physics2D.Raycast(enemyFSM.transform.position, dir, 100, player);
+                if (hit2d.collider != null)
+                {
+                    t = 0;
+                }
+            }
         }
         else
         {
-             enemyFSM.rigidbody2d.velocity = Vector2.zero;
-            //enemyFSM.transform.up = enemyFSM.transform.position - parent.transform.position;
-            enemyFSM.transform.RotateAround(parent.transform.position, Vector3.forward, rotateSpeed * Time.fixedDeltaTime);
-            //lightningChain.transform.up = -enemyFSM.transform.up;
-            lightningChain.SetActive(true);
-        }//
-        if(t<lightningInterval)
-            t+=Time.fixedDeltaTime;
-        else 
-        {
-            Vector2 dir = parent.transform.position - enemyFSM.transform.position;
-            RaycastHit2D hit2d = Physics2D.Raycast(enemyFSM.transform.position, dir, 100, player);
-            if (hit2d.collider != null)
-            {
-                t = 0;
-            }
+
         }
     }
 }

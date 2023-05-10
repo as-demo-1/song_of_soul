@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: SeaUrchin_Idle_State
   m_EditorClassIdentifier: 
   lastStateID: 1
-  lastTriggerID: 0
+  lastTriggerID: 12
   StateName: SeaUrchin_Idle_State
   StateType: 1
   stateConfig:
     id: 0
-  TriggerType: 0
+  TriggerType: 12
   triggerConfig:
     id: 1
   triggerList:
@@ -33,16 +33,14 @@ MonoBehaviour:
         isflying: 0
         flyingMinHight: 0
     00000001:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      type: {class: PrickArrivedTrigger, ns: , asm: Assembly-CSharp}
       data:
-        triggerType: 0
-        targetState: SeaUrchin_Dash_State
-        maxTime: 2
-        timer: 0
-    00000002:
-      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        triggerType: 0
+        triggerType: 12
         targetState: SeaUrchin_Skill_State
-        maxTime: 1.5
-        timer: 0
+        targetName: Enemy_Stop_State
+    00000002:
+      type: {class: PrickArrivedTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 12
+        targetState: SeaUrchin_Skill_State
+        targetName: Enemy_Stop_State

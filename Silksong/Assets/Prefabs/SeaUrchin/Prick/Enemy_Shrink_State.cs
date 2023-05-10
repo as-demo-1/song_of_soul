@@ -16,7 +16,6 @@ public class Enemy_Shrink_State : EnemyFSMBaseState
     {
         base.InitState(enemyFSM);
         parent = enemyFSM.transform.parent;
-        
     }
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
@@ -30,6 +29,7 @@ public class Enemy_Shrink_State : EnemyFSMBaseState
         if (ifRotate)
         {
             enemyFSM.transform.RotateAround(parent.position, Vector3.forward, rotateSpeed * Time.fixedDeltaTime);
+            
         }
     }
     IEnumerator Shrink(EnemyFSMManager enemyFSM)
@@ -48,7 +48,7 @@ public class Enemy_Shrink_State : EnemyFSMBaseState
         }
     }
     public override void ExitState(EnemyFSMManager enemyFSM)
-    { 
+    {
         base.ExitState(enemyFSM);
-    } 
-}
+    }
+}//

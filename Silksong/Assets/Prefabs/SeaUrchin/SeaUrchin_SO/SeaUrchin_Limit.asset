@@ -10,36 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: SeaUrchin_Skill_State
+  m_Name: SeaUrchin_Limit
   m_EditorClassIdentifier: 
-  lastStateID: 51
+  lastStateID: 57
   lastTriggerID: 0
-  StateName: SeaUrchin_Skill_State
-  StateType: 51
+  StateName: SeaUrchin_Limit
+  StateType: 57
   stateConfig:
     id: 0
   TriggerType: 0
   triggerConfig:
     id: 1
-  triggerList: []
+  triggerList:
+  - id: 2
   references:
     version: 1
     00000000:
-      type: {class: SeaUrchin_UseSkill_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_Limit, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 51
+        stateType: 57
         defaultAnimationName: 
-        targetState:
-        - SeaUrchin_Dash_State
-        - SeaUrchin_Tunder_State
-        - SeaUrchin_Laser_State
-        - SeaUrchin_Shoot_State
-        waitTime: 5
-        prickIdle: Enemy_Idle_State
+        lockPointNum: 12
+        wallLayer:
+          serializedVersion: 2
+          m_Bits: 64
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 0
-        targetState: 
-        maxTime: 0
+        targetState: SeaUrchin_Idle_State
+        maxTime: 5
+        timer: 0
+    00000002:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: SeaUrchin_Idle_State
+        maxTime: 5
         timer: 0

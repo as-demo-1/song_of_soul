@@ -22,6 +22,7 @@ public class Enemy_PrickIdle_State : EnemyFSMBaseState
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
+        t=0;
         enemyFSM.transform.up= (enemyFSM.transform.position-seaUrchin.position  ).normalized;
     }//
     public override void FixAct_State(EnemyFSMManager enemyFSM)

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SeaUrchin_ReturnBack_State : Enemy_ReturnBack_State
 {
     SeaUrchin seaUrchin;
-    public string prickState;
+    public string prickState;//
     public override void InitState(EnemyFSMManager enemyFSM)
     {
         base.InitState(enemyFSM);

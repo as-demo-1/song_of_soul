@@ -6,4 +6,5 @@ public class SeaUrchin : Enemy_FSM
 {
     public List<Enemy_FSM> pricks;
     public bool ifInWater;
+     
 }

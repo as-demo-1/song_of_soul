@@ -14,12 +14,13 @@ public class SeaUrchin_Shoot_State : EnemyFSMBaseState
     {
         base.InitState(enemyFSM);
         seaUrchin = enemyFSM as SeaUrchin;
-        index = 0;
-        t = 0;
-    }//
+        
+    }
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
+        index = 0;
+        t = 0;
     }
     public override void Act_State(EnemyFSMManager enemyFSM)
     {

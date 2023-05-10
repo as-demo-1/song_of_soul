@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// Ìí¼ÓStatesÊ±Îñ±Ø¼ÓÉÏÐòºÅ¡£
+/// ï¿½ï¿½ï¿½ï¿½StatesÊ±ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½Å¡ï¿½
 /// </summary>
 public enum EnemyStates
 {
@@ -67,9 +67,10 @@ public enum EnemyStates
     SeaUrchin_Larser_State=54,
     Enemy_Barb_State=55,
     SeaUrchin_ReturnBack_State=56,
+    Enemy_Limit=57,
 }
 /// <summary>
-/// Ìí¼ÓTriggerÊ±Îñ±Ø¼ÓÉÏÐòºÅ¡£
+/// ï¿½ï¿½ï¿½ï¿½TriggerÊ±ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½Å¡ï¿½
 /// </summary>
 public enum EnemyTriggers
 {
@@ -85,6 +86,7 @@ public enum EnemyTriggers
     TouchLayerTrigger=9,
     InTurnTrigger = 10,
     ArrivedPos_Trigger=11,
+    PrickArrivedTrigger=12
 }
 
 

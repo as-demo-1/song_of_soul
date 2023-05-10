@@ -16,9 +16,11 @@ public class SeaUrchin_UseSkill_State : EnemyFSMBaseState
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
-        enemyFSM.StartCoroutine(UseSkill(enemyFSM));
+        Debug.Log("Use Skill");
         foreach (var prick in seaUrchin.pricks)
             prick.ChangeState(prickIdle);
+        enemyFSM.StartCoroutine(UseSkill(enemyFSM));
+        
     }
     public override void ExitState(EnemyFSMManager enemyFSM)
     {
@@ -29,7 +31,7 @@ public class SeaUrchin_UseSkill_State : EnemyFSMBaseState
     {
         yield return new WaitForSeconds(waitTime);
         int index= Random.Range(0, targetState.Count);
-        Debug.Log("Ê¹ÓÃ " + targetState[index]);
+        Debug.Log("Ê¹ï¿½ï¿½ " + targetState[index]);
         enemyFSM.ChangeState(targetState[index]);
     }
 }
