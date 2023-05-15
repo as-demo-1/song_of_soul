@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy_Limit : EnemyFSMBaseState
 {
     //EnemyStates
+    SeaUrchin urchin;
     public int lockPointNum;
     public LayerMask wallLayer;
     float angleInterval;
@@ -12,16 +13,15 @@ public class Enemy_Limit : EnemyFSMBaseState
     public override void InitState(EnemyFSMManager enemyFSM)
     {
         base.InitState(enemyFSM);
-        //parent = enemyFSM.transform.parent;
         lockPoints_Up= new List<Vector2>();
         lockPoints_Down = new List<Vector2>();
         angleInterval = 360 / lockPointNum;
+        urchin = enemyFSM.GetComponent<SeaUrchin>();
     }
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
         LockingScene(enemyFSM);
-
     }
     public void LockingScene(EnemyFSMManager enemyFSM)
     {
@@ -37,20 +37,18 @@ public class Enemy_Limit : EnemyFSMBaseState
             else
                 lockPoints_Down.Add(hit2D.point);
         }
-        //for(int i = 0; i < lockPoints_Up.Count; i++)
-        //{
-        //    int j = Random.Range(0, lockPoints_Down.Count);
-        //    Debug.DrawLine()
-        //}
+        for (int i = 0; i < lockPoints_Up.Count; i++)
+        {
+            int j = Random.Range(0, lockPoints_Down.Count);
+            
+            urchin.chains[i].gameObject.SetActive(true);
+            urchin.chains[i].LockDown(lockPoints_Up[i], lockPoints_Down[i],5);
+             
+        }
     }
     public override void Act_State(EnemyFSMManager enemyFSM)
     {
         base.Act_State(enemyFSM);
-        for (int i = 0; i < lockPoints_Up.Count; i++)
-        {
-            int j = Random.Range(0, lockPoints_Down.Count);
-            Debug.DrawLine(lockPoints_Up[i], lockPoints_Down[j],Color.red);
-            Debug.Log(lockPoints_Up[i] + " " + lockPoints_Down[j]);
-        }
+         
     }
-}
+} 
