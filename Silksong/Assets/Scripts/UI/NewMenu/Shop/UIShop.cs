@@ -149,6 +149,10 @@ public class UIShop : MonoBehaviour
 		UIShopSuccess suc = go.GetComponent<UIShopSuccess>();
 		suc.SetSuccess(this);
 	}
+	private void OnDestroy()
+	{
+		PlayerInput.Instance.GainControls();
+	}
 }
 
 

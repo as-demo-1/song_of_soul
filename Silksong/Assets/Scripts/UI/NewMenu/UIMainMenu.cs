@@ -59,7 +59,7 @@ public class UIMainMenu : MonoBehaviour
 	{
 		StartCoroutine(NewGameIE());
 		/*Debug.Log("on click New Game");
-		//UIManager.Instance.Show<UIPlayerStatus>();
+		UIManager.Instance.Show<UIPlayerStatus>();
 		material.DOFade(0, 2);
 		uiSaveView.SetActive(true);
 		uiButtons.SetActive(false);
@@ -74,12 +74,14 @@ public class UIMainMenu : MonoBehaviour
 		yield return new WaitForSeconds(2.0f);
 		uiButtons.SetActive(false);
 	}
+
 	void ContinueGame()
 	{
+		/*
 		Debug.Log("on click continue game");
 		UIManager.Instance.Show<UIPlayerStatus>();
 		SceneManager.LoadScene("Level1-1");
-
+		*/
 	}
 
 	void ShowSettings()
@@ -95,9 +97,5 @@ public class UIMainMenu : MonoBehaviour
 	void ClickExit()
 	{
 		Debug.Log("on click exit");
-		/*onSureWindow = new OnSureWindow("", "确认退出游戏?", (() => {
-			Application.Quit();
-		}), (() => { onSureWindow.Hide(); }));
-		onSureWindow.Show();*/
 	}
 }

@@ -70,11 +70,11 @@ public class UIManager : MonoSingleton<UIManager>
 	public void Update()
 	{
 		//打开界面测试
-		if (Input.GetKeyDown(KeyCode.M))
+		if (PlayerInput.Instance.showMap.Down)
 		{
 			UIManager.Instance.Show<UIMenu_System>();
 		}
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (PlayerInput.Instance.quickMap.Down)
 		{
 			UIManager.Instance.Close<UIMenu_System>();
 		}
@@ -82,17 +82,10 @@ public class UIManager : MonoSingleton<UIManager>
 		{
 			UIManager.Instance.Close<UIShop>();
 		}
-		if (Input.GetKeyDown(KeyCode.B))
-		{
-			UIManager.Instance.Close<UIPlayerStatus>();
-		}
 		if (Input.GetKeyDown(KeyCode.O))
 		{
 			UIManager.Instance.Show<UIShop>();
 		}
-		if (Input.GetKeyDown(KeyCode.P))
-		{
-			UIManager.Instance.Show<UIPlayerStatus>();
-		}
+
 	}
 }
