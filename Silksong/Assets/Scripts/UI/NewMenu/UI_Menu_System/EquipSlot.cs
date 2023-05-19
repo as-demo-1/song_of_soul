@@ -14,7 +14,9 @@ public class EquipSlot : MonoBehaviour, ISelectHandler
     public Text itemName;
     public TextMeshProUGUI description;
 
-    private string name;
+    private UIEquipView uiEquipView;
+
+	private string name;
     private string descriptionText;
     
 	// Start is called before the first frame update
@@ -30,15 +32,20 @@ public class EquipSlot : MonoBehaviour, ISelectHandler
     }	
     
     public void OnSelect(BaseEventData eventData)
-	{    
+	{
+        if (uiEquipView != null)
+        {
+            uiEquipView.selectedEquip = this;
+        }
+
         itemName.text = name;
         description.text = descriptionText;
         selected.transform.DOMove(this.transform.position, 0.5f);
 	}
 
-    public void Init(Item item)
+    public void Init(Item item,UIEquipView UIEquipView)
     {
-
+        uiEquipView = UIEquipView;
 		item.TryGetAttributeValue<string>("NameSid", out var NameSid);
 		name = NameSid;
         item.TryGetAttributeValue<Sprite>("Icon", out var Icon);

@@ -13,6 +13,8 @@ using static AkMIDIEvent;
 using System.Runtime.InteropServices;
 using Opsive.UltimateInventorySystem.Core.AttributeSystem;
 using Opsive.UltimateInventorySystem.Exchange;
+using BehaviorDesigner.Runtime.Tasks;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 public class UIEquipView : MonoBehaviour
 {
@@ -29,6 +31,10 @@ public class UIEquipView : MonoBehaviour
 	public EquipSlot[] equipSlots;
 	public Dictionary<int, Opsive.UltimateInventorySystem.Core.DataStructures.ItemInfo[]> dic;
 	public List<ItemCategory> itemCategory;
+
+	public EquipSlot selectedEquip;
+	public Image selectedImage;
+
 	void Start()
     {
 		var currencyOwner = InventorySystemManager.GetInventoryIdentifier(1).CurrencyOwner;
@@ -72,8 +78,6 @@ public class UIEquipView : MonoBehaviour
 	/// </summary>
 	public void Init()
 	{
-
-
 		for(int i = 0;i<4;i++)
 		{		
 			Opsive.UltimateInventorySystem.Core.DataStructures.ItemInfo[] ccc = new Opsive.UltimateInventorySystem.Core.DataStructures.ItemInfo[] { };
@@ -89,11 +93,11 @@ public class UIEquipView : MonoBehaviour
 			{
 				if (dic[i][j].Item == null)
 					continue;
-				equipSlots[i * 20 + j].Init(dic[i][j].Item);
+				equipSlots[i * 20 + j].Init(dic[i][j].Item,this);
 			}
 		}
-		/*
-		foreach (ItemStack o in inventory.GetItemCollection("Main").GetAllItemStacks())
+
+		/*foreach (ItemStack o in inventory.GetItemCollection("Main").GetAllItemStacks())
 		{
 			if(o.Item.Category== itemCategory[0])
 			{
@@ -197,35 +201,17 @@ public class UIEquipView : MonoBehaviour
 
 		for (int j = 0; (j + 20 * index2) < count; j++)
 		{
-			equipSlots[j].Init(infos[j + 20 * index2].Item);
+			equipSlots[j].Init(infos[j + 20 * index2].Item,this);
 		}
 	}
+	public void UIClear()
+	{
 
+	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		//测试 背包添加物品	
-		if (Input.GetKeyDown(KeyCode.J))
-		{
-			inventory.AddItem("刀", 2);
 
-			int a = 0;
-			foreach (ItemStack o in inventory.GetItemCollection("Main").GetAllItemStacks())
-			{
-				equipSlots[a].Init(o.Item);
-				a++;
-			}			
-		}
-		if(Input.GetKeyDown(KeyCode.K))
-		{
-			SaveSystemManager.Load(0);
-			int a = 0;
-			foreach (ItemStack o in inventory.GetItemCollection("Main").GetAllItemStacks())
-			{
-				equipSlots[a].Init(o.Item);
-				a++;
-			}
-		}
 	}
 }

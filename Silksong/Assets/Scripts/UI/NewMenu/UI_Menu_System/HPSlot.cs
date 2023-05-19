@@ -10,6 +10,7 @@ public class HPSlot : MonoBehaviour
     public GameObject first;
     public GameObject second;
     public int HpAdd;
+	
 
     public void UpdateHpImg(int i)
     {

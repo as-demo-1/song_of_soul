@@ -8,6 +8,8 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using TMPro;
 using System.Security.Claims;
+using BehaviorDesigner.Runtime.Tasks;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 
 /// <summary>
 /// 用于管理护符的UI交互
@@ -81,6 +83,9 @@ public class CharmUIPanel : SerializedMonoBehaviour
     /// </summary>
     public CharmImage selectCharm;
     public CharmImage orangeCharmImage;
+
+	private bool isFirst = false;
+	private bool isSecond = false;
 
 	private void Awake()
     {
@@ -168,7 +173,46 @@ public class CharmUIPanel : SerializedMonoBehaviour
                 CharmToSlot(selectCharm);
             }
         }
-    }
+
+		if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+			if (!isSecond)
+			{
+				if (isFirst)
+				{
+					isSecond = true;
+				}
+				else
+				{
+					isFirst = true;
+				}
+			}
+		}
+
+		if (Input.GetKeyDown(KeyCode.Escape))
+        {
+			if (isFirst)
+			{
+                if (!isSecond)
+                {
+					isFirst = false;
+				}
+				else
+				{
+					isSecond = false;
+					charmName.text = "";
+					charmDescription.text = "";
+					selectCharm = null;
+					EventSystem.current.SetSelectedGameObject(null);
+				}
+			}
+		}
+
+		if (isSecond)
+		{
+            RefreshUI();
+		}
+	}
 
 
     public void CharmToSlot(CharmImage _charmImage)
