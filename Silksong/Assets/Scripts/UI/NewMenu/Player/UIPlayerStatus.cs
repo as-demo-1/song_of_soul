@@ -45,17 +45,19 @@ public class UIPlayerStatus : MonoBehaviour
     {
 		DontDestroyOnLoad(gameObject);
 		EventManager.Instance.Register<int>(EventType.onMoneyChange, ChangeMoneyNum);
-		inventory = InventorySystemManager.GetInventoryIdentifier(1).Inventory;
+		//in the damageTest Scene ,these code will be error
+
+		/*inventory = InventorySystemManager.GetInventoryIdentifier(1).Inventory; 
 		var currencyOwner = InventorySystemManager.GetInventoryIdentifier(1).CurrencyOwner;
 		ownerCurrencyCollection = currencyOwner.CurrencyAmount;
 		gold = InventorySystemManager.GetCurrency("ªÍ Ø");
 		moneyNum = ownerCurrencyCollection.GetAmountOf(gold);
-		TextCoin.text = moneyNum.ToString();
+		TextCoin.text = moneyNum.ToString();*/
 
 	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
     {
 		UpdateMoney();
 	}
