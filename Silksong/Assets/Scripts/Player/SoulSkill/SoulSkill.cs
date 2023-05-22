@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
+using UnityEngine.Serialization;
 
 public enum SkillName
 {
@@ -39,9 +40,13 @@ public abstract class SoulSkill : MonoBehaviour
     [SerializeField]
     protected ParticleSystem henshin;
     [SerializeField]
-    protected Material soulMode;
-    [SerializeField]
-    public GameObject atkDamager;// 挥击效果或伤害
+    protected Material soulMode = default;
+    [FormerlySerializedAs("atkDamager")] [SerializeField]
+    public GameObject atkObject;// 挥击效果或伤害
+    public string animName;// 攻击动画变量名称
+    public GameObject stateParticle; // 状态特效
+    public GameObject hurtEffectPrefab;// 击中特效
+
 
     protected Material original;
     [SerializeField]
@@ -56,21 +61,27 @@ public abstract class SoulSkill : MonoBehaviour
     /// 技能结束事件
     /// </summary>
     public UnityEvent SkillEnd;
-
-    //protected SoulSkill()
-    //{
-    //    _playerCharacter = GetComponentInParent<PlayerCharacter>();
-    //    //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-    //}
+    
 
     private float timer;
     private float timeCounter = 1.0f;
-    public void Init(PlayerController playerController, PlayerCharacter playerCharacter)
+
+    public PlayerSkillDamager damager;
+
+    
+    public virtual void Init(PlayerController playerController, PlayerCharacter playerCharacter)
     {
         this._playerController = playerController;
         this._playerCharacter = playerCharacter;
         this._playerAnimator = _playerController.PlayerAnimator;
         this.original = _playerAnimator.GetComponent<SpriteRenderer>().material;
+
+        if (damager != null)
+        {
+            damager.damage = baseDamage;// set skill damage value
+            damager.makeDamageEvent.AddListener(PlayHurtEffect);// 绑定受伤特效
+        }
+        
     }
     protected void Start()
     {
@@ -98,25 +109,13 @@ public abstract class SoulSkill : MonoBehaviour
 
     private void Update()
     {
-        if (timer < 0)
-        {
-            TickSoulStatus();
-            timer = timeCounter;
-        }
-        else
-        {
-            timer -= Time.deltaTime;
-        }
+
     }
 
     private int debugCnt = 0;
     protected void TickSoulStatus()
     {
-        //_playerInfomation.CostMana(constPerSec);
         _playerCharacter.CostMana(constPerSec);
-        //Debug.Log("!!!!!!!!! soul skill ticking cost mana"+constPerSec);
-        //Debug.LogError("!!!!!!!!! soul skill ticking" + debugCnt);
-        //debugCnt++;
     }
 
     public virtual void EnterSoulMode()
@@ -127,19 +126,19 @@ public abstract class SoulSkill : MonoBehaviour
             // 修正特效旋转
             if (!_playerController.playerInfo.playerFacingRight)
             {
-                charge.transform.localRotation =
-                    Quaternion.Euler(0.0f, 180.0f, 0.0f);
-                charge.transform.localScale = new Vector3(-1.0f, 1.0f, -1.0f);
+                charge.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                henshin.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
             }
             else
             {
-                charge.transform.localRotation =
-                    Quaternion.identity;
                 charge.transform.localScale = Vector3.one;
+                henshin.transform.localScale = Vector3.one;
             }
             charge.gameObject.SetActive(true);
             _playerController.SoulSkillController.isHenshining = true;
             _playerAnimator.SetBool("CastSkillIsValid", true);
+            _playerController.GetComponent<InvulnerableDamable>().invulnerable = true;// 变身时无敌
+            PlayerAnimatorParamsMapping.SetControl(false);
         });
         sequence.AppendInterval(henshinTime);
         sequence.AppendCallback(() =>
@@ -149,7 +148,7 @@ public abstract class SoulSkill : MonoBehaviour
             
      
             _playerController.SoulSkillController.inSoulModel = true;
-            _playerAnimator.SetBool("isSoul", true);
+            
             soulMode.SetFloat("_H", HSV.x);
             soulMode.SetFloat("_S", HSV.y);
             soulMode.SetFloat("_V", HSV.z);// 专属颜色
@@ -163,6 +162,19 @@ public abstract class SoulSkill : MonoBehaviour
             henshin.gameObject.SetActive(false);
             _playerController.SoulSkillController.isHenshining = false;
             _playerAnimator.SetBool("CastSkillIsValid", false);
+            if (stateParticle != null)
+            {
+                stateParticle.gameObject.SetActive(true);
+            }
+
+            if (animName != "")
+            {
+                _playerAnimator.SetBool(animName, true);
+                _playerAnimator.SetBool("isSoul", true);
+            }
+            PlayerAnimatorParamsMapping.SetControl(true);
+            _playerController.GetComponent<InvulnerableDamable>().invulnerable = false;
+            InvokeRepeating(nameof(TickSoulStatus), 0.0f, 1.0f);// 定时扣除能量
         });
     }
 
@@ -171,7 +183,27 @@ public abstract class SoulSkill : MonoBehaviour
         _playerController.SoulSkillController.inSoulModel = false;
         _playerController.PlayerAnimator.SetBool("isSoul", false);
         _playerAnimator.GetComponent<SpriteRenderer>().material = original;// 更换材质
+        if (stateParticle!=null)
+        {
+            stateParticle.gameObject.SetActive(false);
+        }
+        if(animName!="")
+            _playerAnimator.SetBool(animName, false);
+        
+        CancelInvoke(nameof(TickSoulStatus));// 停止扣除能量
+        
         SkillEnd.Invoke();
+    }
+
+    // 播放特殊受伤动画
+    public void PlayHurtEffect(DamagerBase damager, DamageableBase damageable)
+    {
+        if (hurtEffectPrefab==null)
+        {
+            return;
+        }
+        Vector3 closestPoint = damageable.GetComponent<Collider2D>().ClosestPoint(damager.transform.position);
+        Destroy( Instantiate(hurtEffectPrefab, closestPoint, Quaternion.identity),1.5f);
     }
 
     

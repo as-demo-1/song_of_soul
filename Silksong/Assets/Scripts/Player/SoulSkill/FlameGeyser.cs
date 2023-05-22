@@ -1,19 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FlameGeyser : SoulSkill
 {
+    [FormerlySerializedAs("bullet")] public PlayerSkillDamager bulletPrefab;
     // Start is called before the first frame update
-    
-    private void OnEnable()
-    {
-        base.OnEnable();
-    }
 
-    private void OnDisable()
+    public override void Init(PlayerController playerController, PlayerCharacter playerCharacter)
     {
-        base.OnDisable();
+        base.Init(playerController, playerCharacter);
+        bulletPrefab.damage = baseDamage;
     }
-
 }
