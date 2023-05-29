@@ -28,7 +28,7 @@ public class Word : MonoBehaviour
             this.GetComponent<Rigidbody2D>().velocity = (this.GetComponent<Rigidbody2D>().velocity + diff / 2).normalized * 2;
         }
 
-        if (timer > 0)
+        if (timer >= 0)
             {
                 timer += Time.deltaTime;
                 if (timer > lifeCycle)

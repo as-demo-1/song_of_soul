@@ -66,7 +66,7 @@ public class Words : MonoBehaviour
     void SetDamager(GameObject word)
     {
         word = word.transform.GetChild(0).gameObject;
-        word.AddComponent<PolygonCollider2D>();
+        word.AddComponent<BoxCollider2D>();
         word.AddComponent<Rigidbody2D>();
         GameObject d = Instantiate(damager, word.transform);
         Destroy(d.GetComponent<BoxCollider2D>());
@@ -194,7 +194,7 @@ public class Words : MonoBehaviour
 
     public void Attack()
     {
-        StartCoroutine(ChaseAttack());
+        StartCoroutine(FallAttack());
         /*
         if (currentWord == 0)
         {
