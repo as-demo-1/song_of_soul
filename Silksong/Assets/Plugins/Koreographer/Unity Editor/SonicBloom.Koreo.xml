@@ -1,0 +1,3053 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SonicBloom.Koreo</name>
+    </assembly>
+    <members>
+        <member name="T:SonicBloom.Koreo.IKoreographedPlayer">
+            <summary>
+            The Interface that Koreographer uses to get certain runtime information
+            about the state of audio.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.DeltaSlice">
+            <summary>
+            A slice of the unscaled delta time of a given frame.  This enables users to properly offset
+            logic based on where the current timing is.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.DeltaSlice.deltaOffset">
+            <summary>
+            The starting point of the current unscaled delta of this slice.  Range: [0,1].
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.DeltaSlice.deltaLength">
+            <summary>
+            The length in seconds that this slice "consumes" of the unscaled delta.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.TimingRecord">
+            <summary>
+            A Timing Record for delayed processing of Koreography.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.Koreographer">
+            <summary>
+                <para>The Koreographer is the object responsible for triggering events.  It takes the current music
+            point, querries the Koreography for events at those times, and then sends cues to "actors" that
+            are listening for directions.</para>
+                <para>This setup *does not* stop an "actor" from looking directly at a specific Koreography Track.
+            This is fully supported.  It just means that that actor will only get cues for the Tracks for
+            which it has registered.</para>
+                <para>The music is "reported" to the Koreographer.  In this sense, the Koreographer "Hears" the
+            music.</para>
+                <para>The Koreographer manages a list of Koreography.  These are considered "loaded" and any
+            time the associated music is played, their events are triggered.</para>
+                <para>When Koreography is loaded, the Koreographer finds-or-adds a string-&gt;EventObj mapping to a managed
+            list.  This allows the Koreographer to get notified when Koreography Events occur directly from the
+            triggered tracks.  The events are then automatically forwarded to those who registered for
+            such events with the Koreographer.</para>
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Koreographer.musicPlaybackController">
+            <summary>
+            A reference to the currently configured Music Playback Controller.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Koreographer.Instance">
+            <summary>
+            Returns the static Koreographer singleton instance.
+            </summary>
+            <value>The current singleton instance of Koreographer.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Koreographer.EventDelayInSeconds">
+            <summary>
+            Gets or sets the Event Delay In Seconds.
+            </summary>
+            <value>Time in seconds by which Koreography Event triggering should be delayed.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.ProcessChoreography(UnityEngine.AudioClip,System.Int32,System.Int32,SonicBloom.Koreo.DeltaSlice)">
+            <summary>
+            Process Koreography with <c>AudioClip</c><paramref name="clip" /> given the
+            specified timing information.
+            </summary>
+            <param name="clip">The <c>AudioClip</c> for which Koreography Events should
+            be triggered.</param>
+            <param name="startTime">The start time in samples of the range of time within
+            <paramref name="clip" />that should be processed.</param>
+            <param name="endTime">The end time in samples of the range of time within
+            <paramref name="clip" /> that should be processed.</param>
+            <param name="deltaSlice">Extra timing information to be passed to events about
+            the current processing pass.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.ProcessKoreography(System.String,System.Int32,System.Int32,SonicBloom.Koreo.DeltaSlice)">
+            <summary>
+            Process loaded Koreography associated with the audio data identified by <paramref name="clipName" />
+            using the specified timing information.
+            </summary>
+            <param name="clipName">The name of the audio data for which Koreography Events should
+            be triggered.</param>
+            <param name="startTime">The start time in samples of the range of time within the audio
+            <paramref name="clipName" /> that should be processed.</param>
+            <param name="endTime">The end time in samples of the range of time within the audio
+            <paramref name="clipName" /> that should be processed.</param>
+            <param name="deltaSlice">Extra timing information to be passed to events about
+            the current processing pass.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.FlushDelayQueue(SonicBloom.Koreo.Koreography)">
+            <summary>
+            Flushes timing information entries for a given <c>Koreography</c>.  This will stop any delayed events
+            and timing updates from reaching the event system and effectively "reset" the Koreography.
+            </summary>
+            <returns>
+                <c>true</c>, if the delay queue for the <paramref name="targetKoreography" /> was flushed,
+            <c>false</c> otherwise.</returns>
+            <param name="targetKoreography">The <c>Koreography</c> to target for clearing out the delay
+            queue.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.LoadKoreography(SonicBloom.Koreo.Koreography)">
+            <summary>
+            Loads <paramref name="koreo" /> into the Koreographer, making it available
+            for Koreography Event processing.  Koreography cannot be loaded more than
+            once.
+            </summary>
+            <param name="koreo">The Koreography to load.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.UnloadKoreography(SonicBloom.Koreo.Koreography)">
+            <summary>
+            Unloads <paramref name="koreo" /> from the Koreographer, removing it from
+            Koreography Event processing.
+            </summary>
+            <param name="koreo">The Koreography to unload.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.IsKoreographyLoaded(SonicBloom.Koreo.Koreography)">
+            <summary>
+            Determines whether <paramref name="koreo" /> is loaded or not.
+            </summary>
+            <returns>
+                <c>true</c> if <paramref name="koreo" /> is loaded; otherwise,
+            <c>false</c>.</returns>
+            <param name="koreo">The Koreography to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetNumLoadedKoreography">
+            <summary>
+            Gets the number of loaded Koreography.
+            </summary>
+            <returns>The number of loaded Koreography.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetKoreographyAtIndex(System.Int32)">
+            <summary>
+            Returns the Koreography currently loaded at the specified
+            <paramref name="index" />.
+            </summary>
+            <returns>The Koreography at the specified <paramref name="index" />.</returns>
+            <param name="index">The index of the Koreography to retrieve.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetAllLoadedKoreography(System.Collections.Generic.List{SonicBloom.Koreo.Koreography})">
+            <summary>
+            Adds all loaded Koreography into the passed in <paramref name="listToFill" />.
+            The internal list is not directly returned, although the returned order of
+            Koreography should match that of the internal List.  It should be noted that
+            <paramref name="listToFill" /> list is NOT cleared prior to adding Koreography.
+            </summary>
+            <param name="listToFill">The List container into which to add the loaded
+            Koreography.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.RegisterForEvents(System.String,SonicBloom.Koreo.KoreographyEventCallback)">
+            <summary>
+            Registers <paramref name="callback" /> with the internal event management
+            system, activating it for Koreography Events that occur from Koreography
+            Tracks identified by <paramref name="eventID" />.
+            </summary>
+            <param name="eventID">The Event ID of Koreography Tracks for which this
+            callback should be triggered.</param>
+            <param name="callback">The callback to register.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.RegisterForEventsWithTime(System.String,SonicBloom.Koreo.KoreographyEventCallbackWithTime)">
+            <summary>
+            Registers <paramref name="callback" /> with the internal event management
+            system, activating it for Koreography Events that occur from Koreography
+            Tracks identified by <paramref name="eventID" />.
+            </summary>
+            <param name="eventID">The Event ID of Koreography Tracks for which this
+            callback should be triggered.</param>
+            <param name="callback">The callback to register.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.UnregisterForEvents(System.String,SonicBloom.Koreo.KoreographyEventCallback)">
+            <summary>
+            Unregisters <paramref name="callback" /> with the internal event management
+            system, removing it from consideration for Koreography Event triggering for
+            Koreography Tracks identified by <paramref name="eventID" />.
+            </summary>
+            <param name="eventID">The Event ID of Koreography Tracks for which this
+            callback should be unregistered.</param>
+            <param name="callback">The callback to unregister.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.UnregisterForEvents(System.String,SonicBloom.Koreo.KoreographyEventCallbackWithTime)">
+            <summary>
+            Unregisters <paramref name="callback" /> with the internal event management
+            system, removing it from consideration for Koreography Event triggering for
+            Koreography Tracks identified by <paramref name="eventID" />.
+            </summary>
+            <param name="eventID">The Event ID of Koreography Tracks for which this
+            callback should be unregistered.</param>
+            <param name="callback">The callback to unregister.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.UnregisterForAllEvents(System.Object)">
+            <summary>
+            Unregisters any callbacks of <paramref name="obj" /> from consideration
+            for any and all Koreography Events, across all Event IDs.
+            </summary>
+            <param name="obj">The object whose callbacks will be unregistered.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.ClearEventRegister">
+            <summary>
+            Clears the Event Register, a system that maintains mappings between callbacks,
+            Event IDs, and Koreography Tracks.  This effectively unregisters ALL callbacks.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetAllEventsInRange(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+                <para>Searches loaded Koreography for instances configured with the audio clip specified by
+            <paramref name="clipName" />. It then filters by <paramref name="eventID" />, returning
+            all events encountered in the sample range defined by <paramref name="startPos" /> and
+            <paramref name="endPos" />.</para>
+                <para>This method is now implemented as a wrapper.</para>
+            </summary>
+            <returns>All of the events in the range found within any Koreography loaded
+            that references <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the audio clip to look up timing info on.</param>
+            <param name="eventID">The Event ID for events to look up.</param>
+            <param name="startPos">Start of the search range.</param>
+            <param name="endPos">End of the search range.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetAllEventsInRange(System.String,System.String,System.Int32,System.Int32,System.Collections.Generic.List{SonicBloom.Koreo.KoreographyEvent})">
+            <summary>
+            Searches loaded Koreography for instances configured with the audio clip specified by
+            <paramref name="clipName" />. It then filters by <paramref name="eventID" /> and adds
+            all events encountered in the sample range defined by <paramref name="startPos" /> and
+            <paramref name="endPos" /> to <paramref name="listToFill" />.  It should be noted that
+            <paramref name="listToFill" /> list is NOT cleared prior to adding Koreography Events.
+            </summary>
+            <param name="clipName">The name of the audio clip to look up timing info on.</param>
+            <param name="eventID">The Event ID for events to look up.</param>
+            <param name="startPos">Start of the search range.</param>
+            <param name="endPos">End of the search range.</param>
+            <param name="listToFill">The List container into which to add the located Koreography
+            Events.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicSampleRate(System.String)">
+            <summary>
+                <para>Returns the sample rate of the music specified by <paramref name="clipName" />.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The sample rate of the audio specified by <paramref name="clipName" />
+            or, if not specified, that of the currently playing audio.</returns>
+            <param name="clipName">The name of the audio of which to get the sample rate.  If not
+            specified, it will return a value for the currently playing music, if available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicSampleLength(System.String)">
+            <summary>
+                <para>Gets the total time in samples of the music specified by
+            <paramref name="clipName" />.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The total time in samples of the audio specified by
+            <paramref name="clipName" /> or, if not specified, that of the currently playing
+            audio.</returns>
+            <param name="clipName">The name of the audio from which to get the total sample time.
+            If not specified, it will return a value for the currently playing music, if
+            available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicSampleTime(System.String)">
+            <summary>
+                <para>Gets the playback time in samples of the music specified by
+            <paramref name="clipName" />.
+            </para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The playback time in samples of the audio specified by <paramref name="clipName" />
+            or, if not specified, that of the currently playing audio.</returns>
+            <param name="clipName">The name of the audio of which to check the playback time.  If not
+            specified, it will return a value for the currently playing music, if available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicSampleTimeDelta(System.String)">
+            <summary>
+                <para>Gets the delta time of the music in samples of the most recent Koreography processing
+            pass.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The delta time in samples of the current Koreography processing pass.</returns>
+            <param name="clipName">The name of the audio from which to get the delta time in samples.
+            If not specified, it will return a value for the currently playing music, if
+            available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicSecondsLength(System.String)">
+            <summary>
+                <para>Gets the total time in seconds of the music specified by
+            <paramref name="clipName" />.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The total time in seconds of the audio specified by
+            <paramref name="clipName" /> or, if not specified, that of the currently playing
+            audio.</returns>
+            <param name="clipName">The name of the audio from which to get the total time in seconds.
+            If not specified, it will return a value for the currently playing music, if
+            available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicSecondsTime(System.String)">
+            <summary>
+                <para>Gets the playback time in seconds of the music specified by
+            <paramref name="clipName" />.
+            </para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The playback time in seconds of the audio specified by <paramref name="clipName" />
+            or, if not specified, that of the currently playing audio.</returns>
+            <param name="clipName">The name of the audio of which to check the playback time.  If not
+            specified, it will return a value for the currently playing music, if available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicSecondsTimeDelta(System.String)">
+            <summary>
+                <para>Gets the delta time of the music in seconds of the most recent Koreography processing
+            pass.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The delta time in seconds of the current Koreography processing pass.</returns>
+            <param name="clipName">The name of the audio from which to get the delta time in seconds.
+            If not specified, it will return a value for the currently playing music, if
+            available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicBPM(System.String)">
+            <summary>
+                <para>Gets the current Beats Per Minute (BPM) of the music.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The current Beats Per Minute of the audio with the name
+            <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the audio from which to get the current BPM.
+            If not specified, it will return a value for the currently playing music, if
+            available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicBeatLength(System.String,System.Int32)">
+            <summary>
+                <para>Gets the total time in beats of the music specified by
+            <paramref name="clipName" />.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The total time in beats of the audio specified by
+            <paramref name="clipName" /> or, if not specified, that of the currently playing
+            audio.</returns>
+            <param name="clipName">The name of the audio from which to get the total beat time.
+            If not specified, it will return a value for the currently playing music, if
+            available.</param>
+            <param name="subdivisions">The number of subdivisions of a standard beat that
+            determine the beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicBeatTime(System.String,System.Int32)">
+            <summary>
+                <para>Gets the current time of the music in beats with the beat value specified by
+            <paramref name="subdivisions" />.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The current time in beats of audio with name <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the audio from which to get the current beat
+            time.  If not specified, it will return a value for the currently playing
+            music, if available.</param>
+            <param name="subdivisions">The number of subdivisions of a standard beat that
+            determine the beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicBeatTimeDelta(System.String,System.Int32)">
+            <summary>
+                <para>Gets the delta time of the music in beats of the most recent Koreography processing
+            pass, with the beat value specified by <paramref name="subdivisions" />.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The delta time in beats of the current Koreography processing pass.</returns>
+            <param name="clipName">The name of the audio from which to get the beat time delta.  If
+            not specified, it will return a value for the currently playing music, if available.</param>
+            <param name="subdivisions">The number of subdivisions of a standard beat that
+            determine the beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetMusicBeatTimeNormalized(System.String,System.Int32)">
+            <summary>
+                <para>Gets the percentage of the way between beats of the current music beat time in
+            the range [0,1), with the beat value specified by <paramref name="subdivisions" />.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The percentage of the way between beats the current beat time is in the range
+            [0,1).</returns>
+            <param name="clipName">The name of the audio from which to get the time information.  If
+            not specified, it will return a value for the currently playing music, if
+            available.</param>
+            <param name="subdivisions">The number of subdivisions of a standard beat that determine
+            the beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetSampleRate(System.String)">
+            <summary>
+                <para>Returns the sample rate of the music specified by <paramref name="clipName" />.
+            This method is merely a wrapper that uses the singleton (global)
+            <c>Koreographer.Instance</c>.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The sample rate of the audio specified by <paramref name="clipName" />
+            or, if not specified, that of the currently playing audio.</returns>
+            <param name="clipName">The name of the audio of which to get the sample rate.  If not
+            specified, it will return a value for the currently playing music, if available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetTotalSampleTime(System.String)">
+            <summary>
+                <para>Gets the total time in samples of the music specified by
+            <paramref name="clipName" />.  This method is merely a wrapper that uses the singleton
+            (global) <c>Koreographer.Instance</c>.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The total time in samples of the audio specified by
+            <paramref name="clipName" /> or, if not specified, that of the currently playing
+            audio.</returns>
+            <param name="clipName">The name of the audio from which to get the total sample time.
+            If not specified, it will return a value for the currently playing music, if
+            available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetSampleTime(System.String)">
+            <summary>
+                <para>Gets the playback time in samples of the music specified by
+            <paramref name="clipName" />.  This method is merely a wrapper that uses the singleton (global)
+            <c>Koreographer.Instance</c>.
+            </para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The playback time in samples of the audio specified by <paramref name="clipName" />
+            or, if not specified, that of the currently playing audio.</returns>
+            <param name="clipName">The name of the audio of which to check the playback time.  If not
+            specified, it will return a value for the currently playing music, if available.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetBeatTime(System.String,System.Int32)">
+            <summary>
+                <para>Gets the current time of the music in beats with the beat value specified by
+            <paramref name="subdivisions" />.  This method is merely a wrapper that uses the singleton
+            (global) <c>Koreographer.Instance</c>.  This version is less precise than using
+            <see cref="M:SonicBloom.Koreo.Koreographer.GetMusicBeatTime(System.String,System.Int32)" /> directly as it returns a <c>float</c> rather than the more
+            precise <c>double</c>.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The current time in beats of audio with name <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the audio from which to get the current beat
+            time.  If not specified, it will return a value for the currently playing
+            music, if available.</param>
+            <param name="subdivisions">The number of subdivisions of a standard beat that
+            determine the beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetBeatTimeDelta(System.String,System.Int32)">
+            <summary>
+                <para>Gets the delta time of the music in beats of the most recent Koreography processing
+            pass, with the beat value specified by <paramref name="subdivisions" />.  This method is
+            merely a wrapper that uses the singleton (global) <c>Koreographer.Instance</c>.  This
+            version is less precise than using <see cref="M:SonicBloom.Koreo.Koreographer.GetMusicBeatTimeDelta(System.String,System.Int32)" /> directly as it
+            returns a <c>float</c> rather than the more precise <c>double</c>.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The delta time in beats of the current Koreography processing pass.</returns>
+            <param name="clipName">The name of the audio from which to get the beat time delta.  If
+            not specified, it will return a value for the currently playing music, if available.</param>
+            <param name="subdivisions">The number of subdivisions of a standard beat that
+            determine the beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreographer.GetBeatTimeNormalized(System.String,System.Int32)">
+            <summary>
+                <para>Gets the percentage of the way between beats of the current music beat time in
+            the range [0,1), with the beat value specified by <paramref name="subdivisions" />.
+            This method is merely a wrapper that uses the singleton (global)
+            <c>Koreographer.Instance</c>.  This version is less precise than using
+            <see cref="M:SonicBloom.Koreo.Koreographer.GetMusicBeatTimeNormalized(System.String,System.Int32)" /> directly as it returns a <c>float</c> rather
+            than the more precise <c>double</c>.</para>
+                <para>[Note: This method is part of the Music Time API.]</para>
+            </summary>
+            <returns>The percentage of the way between beats the current beat time is in the range
+            [0,1).</returns>
+            <param name="clipName">The name of the audio from which to get the time information.  If
+            not specified, it will return a value for the currently playing music, if
+            available.</param>
+            <param name="subdivisions">The number of subdivisions of a standard beat that determine
+            the beat.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.EventObj">
+            <summary>
+            The glue object that maintains registration information between
+            callbacks and registrants.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.Koreography">
+            <summary>
+            A group of n-Koreography Track objects associated with a single AudioClip object.
+            Each track is uniquely tied to a single <c>AudioClip</c>.  Each Koreography
+            Track is uniquely (for the purposes of this Koreography) tied to a single
+            <c>string</c> Event ID.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Koreography.SourceClip">
+            <summary>
+                <para>Gets or sets the <c>AudioClip</c> associated with this Koreography.</para>
+                <para>Note: This will clear any previous SourceClipPath setting.</para>
+            </summary>
+            <value>The <c>AudioClip</c> object.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Koreography.SourceClipPath">
+            <summary>
+                <para>Gets or sets the Path for the Audio File associated with this Koreography.</para>
+                <para>Note: This will clear any previous SourceClip setting.</para>
+            </summary>
+            <value>The Path to the Audio File associated with this Koreography.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Koreography.SourceClipName">
+            <summary>
+            Gets the name of the source clip or audio file associated with this Koreography.
+            </summary>
+            <value>The name of the source <c>AudioClip</c> or audio file.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Koreography.SampleRate">
+            <summary>
+            Gets or sets the Sample Rate of the audio data that Koreography Tracks were authored against.
+            This may be different between Edit-time and Runtime.
+            </summary>
+            <value>The 'authored' sample rate.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Koreography.IgnoreLatencyOffset">
+            <summary>
+            Gets or sets a value indicating whether this Koreography should ignore any configured
+            latency or delay offsets.
+            </summary>
+            <value>
+                <c>true</c> if processing Koreography Events in Tracks within this
+            Koreography should ignore the configured latency/delay; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Koreography.Tracks">
+            <summary>
+            Returns a COPY of the internal list of Koreography Tracks.  This grants access to
+            configured tracks but does not allow for editing of the internal Track List itself.
+            </summary>
+            <value>A list of Koreography Tracks contained in this Koreography.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.CheckTrackListIntegrity">
+            <summary>
+            Checks the integrity of the internal Koreography Track list, removing any <c>null</c>
+            entries.
+            </summary>
+            <returns>
+                <c>true</c>, if there was a change to the list during this operation,
+            <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.CheckTempoSectionListIntegrity">
+            <summary>
+            Checks the integrity of the internal Tempo Section list, removing any <c>null</c>
+            entries.
+            </summary>
+            <returns>
+                <c>true</c>, if there was a change to the list during this operation,
+            <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.OverwriteTempoSections(System.Collections.Generic.List{SonicBloom.Koreo.TempoSectionDef})">
+            <summary>
+            Completely replaces the currently configured list of Tempo Sections with the
+            one passed in.
+            </summary>
+            <param name="newSections">The list of sections to overwrite the current list
+            with.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetIndexOfTempoSection(SonicBloom.Koreo.TempoSectionDef)">
+            <summary>
+            Gets the index of the given Tempo Section.
+            </summary>
+            <returns>The index of the Tempo Section, <c>-1</c> if not found.</returns>
+            <param name="sectionDef">The Tempo Section to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.InsertTempoSectionAtIndex(System.Int32)">
+            <summary>
+            Creates a new Tempo Section with default values at the given index and returns it.
+            </summary>
+            <returns>The newly created and added Tempo Section.</returns>
+            <param name="idxToInsert">The index location at which to insert.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.RemoveTempoSectionAtIndex(System.Int32)">
+            <summary>
+            Removes the TempoSection at the index provided.
+            </summary>
+            <returns>
+                <c>true</c>, if a Tempo Section was removed, <c>false</c> otherwise.</returns>
+            <param name="idxToRemove">The index at which to remove a Tempo Section.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.RemoveTempoSection(SonicBloom.Koreo.TempoSectionDef)">
+            <summary>
+            Removes the given Tempo Section from the Koreography.
+            </summary>
+            <returns>
+                <c>true</c>, if a Tempo Section was removed, <c>false</c> otherwise.</returns>
+            <param name="sectionDef">The Tempo Section to remove.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetTempoSectionNames">
+            <summary>
+            Get the name of all configured Tempo Sections.
+            </summary>
+            <returns>An array of strings containing the configured name, if any, of Tempo Sections
+            in the Koreography.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetTempoSectionAtIndex(System.Int32)">
+            <summary>
+            Get the Tempo Section at a given index.
+            </summary>
+            <returns>The Tempo Section found at the given index, if any.</returns>
+            <param name="sectionIdx">The index of the Tempo Section to retrieve.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetNumTempoSections">
+            <summary>
+            Gets the number of Tempo Sections in the Koreography.
+            </summary>
+            <returns>The total number of Tempo Sections.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.EnsureTempoSectionOrder">
+            <summary>
+            Sorts the Tempo Sections in the Koreography by configured <c>StartSample</c>,
+            ensuring proper order.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.CanAddTrack(SonicBloom.Koreo.KoreographyTrackBase)">
+            <summary>
+            Determines whether the <paramref name="track" /> can be added to the Koreography.
+            A Koreography Track cannot be added if another Koreography Track with the same
+            Event ID already exists in the Koreography.
+            </summary>
+            <returns>
+                <c>true</c> if the <paramref name="track" /> can be added; otherwise, <c>false</c>.</returns>
+            <param name="track">The Koreography Track to check with.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.AddTrack(SonicBloom.Koreo.KoreographyTrackBase)">
+            <summary>
+            Adds the <paramref name="track" /> to the Koreography.
+            </summary>
+            <returns>
+                <c>true</c>, if <paramref name="track" /> was added, <c>false</c> otherwise.</returns>
+            <param name="track">The Koreography Track to add.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.RemoveTrack(SonicBloom.Koreo.KoreographyTrackBase)">
+            <summary>
+            Removes the Koreography Track <paramref name="track" /> from the Koreography.
+            </summary>
+            <param name="track">The Koreography Track to remove.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.RemoveTrack(System.String)">
+            <summary>
+            Removes the Koreography Track an Event ID matching <paramref name="eventID" /> from the
+            Koreography.
+            </summary>
+            <param name="eventID">Event I.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetEventIDs">
+            <summary>
+            Returns a <c>string Array</c> that contains the Event IDs for all Koreography
+            Tracks in the Koreography.
+            </summary>
+            <returns>A <c> string Array</c> with Event IDs from configured Koreography
+            Tracks.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetTrackByID(System.String)">
+            <summary>
+            Returns the Koreography Track with Event ID matching <paramref name="eventID" />.
+            </summary>
+            <returns>The Koreography Track with Event ID matching <paramref name="eventID" />,
+            <c>null</c> otherwise.</returns>
+            <param name="eventID">The Event ID of the Koreography Track to retrieve.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetTrackAtIndex(System.Int32)">
+            <summary>
+            Gets the Koreography Track at <paramref name="trackIdx" />.
+            </summary>
+            <returns>The Koreography Track at <paramref name="trackIdx" /> if one exists,
+            <c>null</c> otherwise.</returns>
+            <param name="trackIdx">The index of the Koreography Track within the internal
+            Koreography Track list.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetIndexOfTrack(SonicBloom.Koreo.KoreographyTrackBase)">
+            <summary>
+            Gets the index of <paramref name="track" /> within the internal Koreography Track
+            list.
+            </summary>
+            <returns>The index of <paramref name="track" /> within the internal Koreography
+            Track list if it exists, <c>-1</c> otherwise.</returns>
+            <param name="track">The Koreography Track to get the index of.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.HasTrack(SonicBloom.Koreo.KoreographyTrackBase)">
+            <summary>
+            Determines whether <paramref name="track" /> exists within the Koreography.
+            </summary>
+            <returns>
+                <c>true</c> if <paramref name="track" /> exists within the Koreography;
+            otherwise, <c>false</c>.</returns>
+            <param name="track">The Koreography Track to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetNumTracks">
+            <summary>
+            Gets the number of Koreography Tracks in the Koreography.
+            </summary>
+            <returns>The number of Koreography Tracks in the Koreography.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.DoesTrackWithEventIDExist(System.String)">
+            <summary>
+            Checks whether a Koreography Track with the Event ID <paramref name="eventID" /> exists.
+            </summary>
+            <returns>
+                <c>true</c>, if a Koreography Track with Event ID <paramref name="eventID" /> exists,
+            <c>false</c> otherwise.</returns>
+            <param name="eventID">The Event ID to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.ResetTimings">
+            <summary>
+            Resets the internally tracked sample timings.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetBeatTimeDelta(System.Int32)">
+            <summary>
+            Gets the amount of time in Beats the current update pass represents.
+            </summary>
+            <returns>The amount of time in Beats the current update pass represents.</returns>
+            <param name="subdivisions">The number of subdivisions of a standard Beat that
+            determine the Beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetLatestSampleTime">
+            <summary>
+            Gets the time in samples of the current update pass.
+            </summary>
+            <returns>The time in samples for the current update pass.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetLatestSampleTimeDelta">
+            <summary>
+            Gets the amount of time in samples the current update pass represents.
+            </summary>
+            <returns>The amount of time in samples the current update pass represents.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetSampleTimeDelta">
+            <summary>
+            Gets the amount of time in samples the current update pass represents.
+            </summary>
+            <returns>The amount of time in samples the current update pass represents.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetBeatTimeFromSampleTimeLite(System.Int32,System.Int32)">
+            <summary>
+            This method is obsolete and will be removed in an upcoming version.  Please use
+            <c>GetBeatTimeFromSampleTime</c> instead.
+            </summary>
+            <returns>The Beat Time equivalent of <paramref name="sampleTime" />.</returns>
+            <param name="sampleTime">The time in samples.</param>
+            <param name="subdivisions">The number of subdivisions of a standard Beat that
+            determine the Beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetBeatTimeFromSampleTime(System.Int32,System.Int32)">
+            <summary>
+            Converts the <paramref name="sampleTime" /> from Sample Time into Beat Time with
+            the subdivision value specified by <paramref name="subdivisions" />.
+            </summary>
+            <returns>The Beat Time equivalent of <paramref name="sampleTime" />.</returns>
+            <param name="sampleTime">The time in samples.</param>
+            <param name="subdivisions">The number of subdivisions of a standard Beat that
+            determine the Beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetSampleTimeFromBeatTime(System.Double,System.Int32)">
+            <summary>
+            Converts the <paramref name="beatTime" /> from Beat Time into Sample Time with
+            the subdivision value specified by <paramref name="subdivisions" />.
+            </summary>
+            <returns>The Sample Time equivalent of <paramref name="beatTime" />.</returns>
+            <param name="beatTime">The time in beats.</param>
+            <param name="subdivisions">The number of subdivisions of a standard Beat that
+            determine the Beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetMeasureTimeFromSampleTime(System.Int32)">
+            <summary>
+            Converts the <paramref name="sampleTime" /> from Sample Time into Measure Time.
+            </summary>
+            <returns>The Measure Time equivalent of <paramref name="sampleTime" />.</returns>
+            <param name="sampleTime">The time in samples.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetSampleTimeFromMeasureTime(System.Double)">
+            <summary>
+            Converts the <paramref name="measureTime" /> from Measure Time into Sample Time.
+            </summary>
+            <returns>The Sample Time equivalent of <paramref name="measureTime" />.</returns>
+            <param name="measureTime">The time in measures.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetSampleTimeFromMeasureTime(System.Int32)">
+            <summary>
+            Converts the <paramref name="measure" /> from Measure Time into Sample Time.
+            </summary>
+            <returns>The Sample Time equivalent of <paramref name="measure" />.</returns>
+            <param name="measure">The time in measures.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetBeatCountInMeasureFromSampleTime(System.Int32)">
+            <summary>
+            Gets the Beat Time within the Measure represented by <paramref name="sampleTime" />.
+            </summary>
+            <returns>The Beat Time within the Measure represented by <paramref name="sampleTime" />.</returns>
+            <param name="sampleTime">The time in samples to convert.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetSamplesPerBeat(System.Int32,System.Int32)">
+            <summary>
+            Returns the number of samples within a beat at the location specified by
+            <paramref name="checkSample" />, with the beat value specified by <paramref name="subdivisions" />.
+            </summary>
+            <returns>The number of samples within a 'beat' at the location specified by
+            <paramref name="checkSample" />.</returns>
+            <param name="checkSample">The sample location within the audio to check.</param>
+            <param name="subdivisions">The number of subdivisions of a standard Beat that
+            determine the Beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetBPM(System.Int32)">
+            <summary>
+            Returns the Beats Per Minute at the location specified by <paramref name="checkSample" />.
+            </summary>
+            <returns>The Beats Per Minute at the location specified by
+            <paramref name="checkSample" />.</returns>
+            <param name="checkSample">The sample location within the audio to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetSampleOfNearestBeat(System.Int32,System.Int32)">
+            <summary>
+            Gets the sample location of the nearest beat to <paramref name="checkSample" />.
+            </summary>
+            <returns>The sample of the nearest beat to <paramref name="checkSample" />.</returns>
+            <param name="checkSample">The sample location to check.</param>
+            <param name="subdivisions">The number of subdivisions of a standard Beat that
+            determine the Beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetTempoSectionForSample(System.Int32)">
+            <summary>
+            Gets the Tempo Section that contains <paramref name="checkSample" />.
+            </summary>
+            <returns>The Tempo Section that contains <paramref name="checkSample" />,
+            <c>null</c> otherwise.</returns>
+            <param name="checkSample">The sample location to retrieve.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.GetTempoSectionIndexForSample(System.Int32)">
+            <summary>
+            Gets the index of the Tempo Section that contains <paramref name="checkSample" />
+            within the Tempo Section list.
+            </summary>
+            <returns>The index of the Tempo Section that contains <paramref name="checkSample" />;
+            <c>-1</c> otherwise.</returns>
+            <param name="checkSample">The sample location to retrieve.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Koreography.UpdateTrackTime(System.Int32,System.Int32,SonicBloom.Koreo.DeltaSlice)">
+            <summary>
+            Part of the Event Triggering process.  This will trigger all Koreography
+            Events that fall within the range specified by <paramref name="startTime" />
+            and <paramref name="endTime" /> across all configured Koreography Tracks,
+            inclusive.
+            </summary>
+            <param name="startTime">The start time in samples of the range to trigger.</param>
+            <param name="endTime">The end time in samples of the range to trigger.</param>
+            <param name="deltaSlice">The update timing information to pass to events in
+            callbacks with time.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.TempoSectionDef">
+            <summary>
+            An object that stores metadata necessary to properly define the tempo
+            for a part of a song.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.TempoSectionDef.SectionName">
+            <summary>
+            Gets or sets the name of the Tempo Section.
+            </summary>
+            <value>The name of the Tempo Section.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.TempoSectionDef.StartSample">
+            <summary>
+            Gets or sets the Start Sample position.  This is guaranteed to be
+            non-negative.
+            </summary>
+            <value>The start sample.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.TempoSectionDef.SamplesPerBeat">
+            <summary>
+            Gets or sets the number of samples in a beat for this Tempo
+            Section.  Guaranteed to be greater than zero.
+            </summary>
+            <value>The samples per beat.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.TempoSectionDef.BeatsPerMeasure">
+            <summary>
+            Gets or sets the Beats Per Measure for this Tempo Section.
+            Guaranteed to be greater than zero.
+            </summary>
+            <value>The beats per measure.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.TempoSectionDef.SamplesPerMeasure">
+            <summary>
+            Gets the Samples Per Measure for this Tempo Section.
+            Guaranteed to be greater than zero.
+            </summary>
+            <value>The samples per measure.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.TempoSectionDef.DoesStartNewMeasure">
+            <summary>
+            Gets or sets the flag indicating whether this Tempo Section forces the
+            start of a new measure in the beat timeline.
+            </summary>
+            <value>
+                <c>true</c> if does reset beat count; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.TempoSectionDef.CompareByStartSample(SonicBloom.Koreo.TempoSectionDef,SonicBloom.Koreo.TempoSectionDef)">
+            <summary>
+            Compares Tempo Sections by their Start Sample.  This is generally used by
+            sorting functions.
+            </summary>
+            <returns>
+                <c>-1</c> if the Start Sample of <paramref name="first" /> is lower than
+            that of <paramref name="second" />, <c>0</c> if they are equal, and <c>1</c>
+            otherwise.</returns>
+            <param name="first">The first Tempo Section to compare.</param>
+            <param name="second">The second Tempo Section to compare.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.TempoSectionDef.GetSamplesPerBeatSection(System.Int32)">
+            <summary>
+            Gets the Samples Per Beat of the Tempo Section, given the beat value
+            specified by <paramref name="subdivisions" />.
+            </summary>
+            <returns>The Samples Per Beat of the Tempo Section, given the beat value
+            specified by <paramref name="subdivisions" />.</returns>
+            <param name="subdivisions">The number of subdivisions of a standard Beat that
+            determine the Beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.TempoSectionDef.GetBeatTimeFromSampleTime(System.Int32,System.Int32)">
+            <summary>
+            Gets the amount of beat time this section contains at the specified
+            <paramref name="sampleTime" /> given the beat value specified by
+            <paramref name="subdivisions" />.
+            </summary>
+            <returns>The amount of beat time in this section at <paramref name="sampleTime" />.</returns>
+            <param name="sampleTime">The time in samples to convert to beat time.</param>
+            <param name="subdivisions">The number of subdivisions of a standard Beat that
+            determine the Beat.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.TempoSectionDef.GetMeasureTimeFromSampleTime(System.Int32)">
+            <summary>
+            Gets the amount of measure time this section contains at the specified
+            <paramref name="sampleTime" />.
+            </summary>
+            <returns>The amount of measure time in this section at <paramref name="sampleTime" />.
+            This value is 0-indexed!</returns>
+            <param name="sampleTime">The time in samples to convert to measure time.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.TempoSectionDef.GetBPM(System.Int32)">
+            <summary>
+            Gets the tempo of this section described in Beats Per Minute.
+            </summary>
+            <returns>The Beats Per Minute of this tempo section.</returns>
+            <param name="sampleRate">The Sample Rate for the data.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.IPayload">
+            <summary>
+            The Interface used to define Koreography Payloads.  This is currently used
+            mainly as a classifier but does provide functionality in Editor contexts.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.IPayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?). Undo
+            support is available but must be implemented in this method.
+            </summary>
+            <returns>
+                <c>true</c>, if the Payload was edited in the GUI, <c>false</c>
+            otherwise.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.IPayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.IPayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.KoreographyEvent">
+            <summary>
+            The base Koreography Event definition.  Each event instance can carry
+            a single Payload.  Events can span a range of samples or can be tied
+            to a single one.
+            Sample values (Start/End) are in "Sample Time" range, *NOT* absolute
+            sample position.  Be sure that querries/comparisons occur in TIME and
+            not DATA space.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.KoreographyEvent.StartSample">
+            <summary>
+            Gets or sets the start sample.
+            </summary>
+            <value>The start sample of the Koreography Event.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.KoreographyEvent.EndSample">
+            <summary>
+            Gets or sets the end sample.
+            </summary>
+            <value>The end sample of the Koreography Event.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.KoreographyEvent.Payload">
+            <summary>
+            Gets or sets the payload.
+            </summary>
+            <value>The payload of the Koreography Event.  Can be <c>null</c>.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyEvent.CompareByStartSample(SonicBloom.Koreo.KoreographyEvent,SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Compares two Koreography Events by their start sample.
+            </summary>
+            <returns>
+                <c>-1</c> if the <c>StartSample</c> of <paramref name="first" /> is earlier
+            than the <c>StartSample</c> of <paramref name="second" />, <c>0</c> if they are equal;
+            <c>-1</c> otherwise.</returns>
+            <param name="first">A first Koreography Event to compare.</param>
+            <param name="second">A second Koreography Event to compare.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyEvent.IsOneOff">
+            <summary>
+            Determines whether this Koreography Event is a OneOff or not.  OneOff events have a
+            range/span of 0 (their <c>EndSample</c> is the same as their <c>StartSample</c>).
+            </summary>
+            <returns>
+                <c>true</c> if this Koreography Event is a OneOff; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyEvent.GetEventDeltaAtSampleTime(System.Int32)">
+            <summary>
+            Gets the event delta at <paramref name="sampleTime" />.  The delta is clamped
+            to a range of [0,0, 1.0].  If <paramref name="sampleTime" /> is not within this
+            event's range, it returns <c>0</c> or <c>1</c> depending of if it comes
+            before or after, respectively.
+            </summary>
+            <returns>The delta within the range of the event represented by <paramref name="sampleTime" />.</returns>
+            <param name="sampleTime">The sample time to get the delta of.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.KoreographyTrack">
+            <summary>
+                <para>The built-in KoreographyTrack class, supporting KoreographyEvents that use
+            the default set of Payload types.</para>
+                <para>A single list of Koreography Events. This class attempts to guarantee that
+            all events in the track are stored in order by Start Sample position.</para>
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.KoreographyTrackBase">
+            <summary>
+            The base class for all Koreography Track classes. This allows more flexibility
+            for the user. Each Koreography Track is a single list of Koreography Events.
+            This class attempts to guarantee that all events in the track are stored in order
+            by Start Sample position.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.KoreographyTrackBase.TrackingCrumbs">
+            <summary>
+            An instance of this struct is required by the <c>GetEventsInRangeTracked</c> method.
+            It contains state information that helps optimize consecutive calls to the method.
+            Please use the SAME INSTANCE of this struct in consecutive calls within the same
+            logical process.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.KoreographyTrackBase.TrackingCrumbs.LastCheckedEndSample">
+            <summary>
+            Returns the last end sample position checked in the most recent lookup.
+            </summary>
+            <value>The last checked end sample position.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.KoreographyTrackBase.TrackingCrumbs.CheckHeadIndex">
+            <summary>
+            Gets the index of the first event to check against in the next lookup.
+            </summary>
+            <value>The index of the first event to check in the next lookup.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.TrackingCrumbs.Reset">
+            <summary>
+            Resets the state of the crumbs with the expectation that the tracking will
+            start at the beginning of the internal KoreographyEvent List.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.KoreographyTrackBase.EventID">
+            <summary>
+            Gets or sets the Event ID of the Koreography Track.
+            </summary>
+            <value>The <c>string</c> Event ID.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.CheckEventListIntegrity">
+            <summary>
+            Checks the integrity of the internal Koreography Event list, removing any <c>null</c>
+            entries.
+            </summary>
+            <returns>
+                <c>true</c>, if there was a change to the list during this operation,
+            <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetIDForEvent(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Returns the ID for a given Koreography Event.  The ID of a Koreography Event
+            is its current position within the Koreogrpahy Track list.
+            </summary>
+            <returns>The ID for the given Koreography Event.</returns>
+            <param name="e">The Koreography Event to retrieve the ID of.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.EnsureEventOrder">
+            <summary>
+            Ensures the order of Koreography Events in the event list (StartSample
+            position).
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetEventAtStartSample(System.Int32)">
+            <summary>
+            Returns the first Koreography Event found at the passed in sample position.
+            </summary>
+            <returns>The event, if any, with a StartSample at the given sample position.</returns>
+            <param name="sample">The sample position to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.AddEvent(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Adds a Koreography Event to the Koreography Track.  The event is inserted
+            in order by StartSample position. The event is NOT added if it is a OneOff
+            event and another OneOff event already exists with the same StartSample
+            position.
+            </summary>
+            <returns>
+                <c>true</c>, if the event was added, <c>false</c> otherwise.</returns>
+            <param name="addEvent">The Koreography Event to add.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.RemoveEvent(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Removes the given Koreography Event from the Koreography Track.
+            </summary>
+            <returns>
+                <c>true</c>, if the Koreography Event was found and removed,
+            <c>false</c> otherwise.</returns>
+            <param name="removeEvent">The Koreography Event to remove.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.RemoveAllEvents">
+            <summary>
+            Removes all Koreography Events from the Koreography Track.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetEventsInRange(System.Int32,System.Int32)">
+            <summary>
+                <para>Returns a list of events in the provided range.  The check includes events
+            that intersect the range and is inclusive of Start/End positions.</para>
+                <para>This method is now a wrapper.  Please use the other version of
+            <c>GetEventsInRange</c> directly.</para>
+            </summary>
+            <returns>The events defined within the given range.</returns>
+            <param name="startSample">First sample of the range to search.</param>
+            <param name="endSample">Last sample of the range to search.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetEventsInRange(System.Int32,System.Int32,System.Collections.Generic.List{SonicBloom.Koreo.KoreographyEvent})">
+            <summary>
+                <para>Adds events in the provided range to the specified list.  The check includes
+            events that intersect the range and is inclusive of Start/End positions.  The list
+            is NOT cleared prior to adding events.</para>
+                <para>This method works in O(n) time and is built for random access.</para>
+            </summary>
+            <param name="startSample">First sample of the range to search.</param>
+            <param name="endSample">Last sample of the range to search.</param>
+            <param name="listToFill">The List into which to add <c>KoreographyEvent</c>s.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetEventsInRangeTracked(System.Int32,System.Int32)">
+            <summary>
+                <para>Returns a list of events in the provided range.  This includes events that
+            intersect the range and is inclusive of Start/End positions!</para>
+                <para>This method is now a wrapper.  Please use the other version of
+            <c>GetEventsInRangeTracked</c> directly.  This will be removed in a future update.
+            It should be noted that use of this method may result in sub-optimal performance
+            for complex situations.</para>
+            </summary>
+            <returns>The events defined within the given range.</returns>
+            <param name="startSample">First sample of the range to search.</param>
+            <param name="endSample">Last sample of the range to search.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetEventsInRangeTracked(System.Int32,System.Int32,SonicBloom.Koreo.KoreographyTrackBase.TrackingCrumbs@,System.Collections.Generic.List{SonicBloom.Koreo.KoreographyEvent})">
+            <summary>
+                <para>Adds any events found within the provided range to the specified list.  This
+            includes events that intersect the range and is inclusive of Start/End
+            positions!  The list is NOT cleared prior to adding events.</para>
+                <para>Please note that the <c>TrackingCrumbs</c> parameter is a struct.  Proper use of
+            this method involves sending the SAME struct each time.  The contents of the struct are
+            modified internally in preparation for the next range check.  This is the Tracking
+            portion of the method.  If you only need a specific set of events and do not need to
+            track subsequent checks, please use <c>GetEventsInRange</c> instead.</para>
+            </summary>
+            <param name="startSample">First sample of the range to search.</param>
+            <param name="endSample">Last sample of the range to search.</param>
+            <param name="crumbs">The tracking information about where to begin looking.</param>
+            <param name="listToFill">The List into which to add <c>KoreographyEvent</c>s.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetAllEvents">
+            <summary>
+            Get a List of all Koreography Events in this Koreography Track.
+            </summary>
+            <returns>Returns a new List with all Koreography Events in the track.
+            Operations on this list do not affect the internally maintained list.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.CheckForEvents(System.Int32,System.Int32,SonicBloom.Koreo.DeltaSlice)">
+            <summary>
+                <para>Checks for Koreography Events within the current time range.  If events are found,
+            they are triggered.</para>
+                <para>Note that this <c>startTime</c> should NOT be the same as the previous call's
+            <c>endTime</c> as the check is inclusive of both <c>startTime</c> and <c>endTime</c>.
+            This means that if a OneOff were to fall on a boundary and this frame's <c>endTime</c>
+            became next frame's <c>startTime</c>, that event would be triggered twice.</para>
+            </summary>
+            <param name="startTime">Start time of the range in samples.</param>
+            <param name="endTime">End time of the range in samples.</param>
+            <param name="deltaSlice">The timing information to be passed to any triggered callbacks.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.OnBeforeSerialize">
+            <summary>
+            Koreography Tracks require special serialization marshalling.  This is for use
+            by Unity's serialization system only!  (From: ISerializationCallbackReceiver
+            interface.)
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.OnAfterDeserialize">
+            <summary>
+            Koreography Tracks require special serialization marshalling.  This is for use
+            by Unity's serialization system only!  (From: ISerializationCallbackReceiver
+            interface.)
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetFieldInfoOfListWithType(System.Type,System.Type,System.String)">
+            <summary>
+            Retrieves the <c>FieldInfo</c> object from a provided type that describes the field of a specific name.
+            </summary>
+            <param name="sourceType">The <c>System.Type</c> upon which to search for the target field.</param>
+            <param name="lookupType">The <c>System.Type</c> to look for.</param>
+            <param name="fieldName">The name of the list to look up.</param>
+            <returns>The <c>FieldInfo</c> object that identifies the requested List&lt;type&gt; field.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetFieldInfoOfListWithTypeString(System.Type,System.String,System.String)">
+            <summary>
+            Retrieves the <c>FieldInfo</c> object that describes the field of a specific name.
+            </summary>
+            <param name="sourceType">The <c>System.Type</c> upon which to find the specified field.</param>
+            <param name="typeStr">The fully qualified (i.e. namespace included) name of the type as a string.</param>
+            <param name="fieldName">The name of the list to look up.</param>
+            <returns>The <c>FieldInfo</c> object that identifies the requested List&lt;type&gt; field.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.IsGenericList(System.Type)">
+            <summary>
+            Determines whether the passed in <c>System.Type</c> describes a generic List&lt;&gt; container or not.
+            </summary>
+            <param name="type">The <c>System.Type</c> to check.</param>
+            <returns>
+                <c>True</c> if it is a generlic list, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.KoreographyTrackBase.GetFieldInfoFromName(System.Type,System.String)">
+            <summary>
+            Gets the <c>FieldInfo</c> for the field with name <paramref name="name" /> on the
+            provided class type <paramref name="sourceType" />.
+            </summary>
+            <returns>The <c>FieldInfo</c> object of the field with the given name on the provided type.</returns>
+            <param name="sourceType">The type on which to look up the field name.</param>
+            <param name="name">The name of the field to look up.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.IMIDIConvertible">
+            <summary>
+            The Interface used by the MIDI Converter to add custom MIDI Event
+            conversion capabilities to custom KoreographyTrack classes.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.IMIDIConvertible.ConvertMIDIEvents(System.Collections.Generic.List{SonicBloom.Koreo.KoreoMIDIEvent})">
+            <summary>
+            Receives a list of raw "Koreography MIDI Events" and processes them
+            for custom storage.
+            </summary>
+            <param name="events">Raw MIDI events in need of conversion.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.KoreoMIDIEvent">
+            <summary>
+            A simple structure to hold necessary fields for a basic MIDI event as
+            used with Koreographer.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.KoreoMIDIEvent.note">
+            <summary>
+            The MIDI note value; an integer in the range [0, 127].
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.KoreoMIDIEvent.velocity">
+            <summary>
+            The MIDI velocity value; an integer in the range [0, 127].
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.KoreoMIDIEvent.startSample">
+            <summary>
+            The start sample position of this event.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.KoreoMIDIEvent.endSample">
+            <summary>
+            The end sample position of this event.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.AssetPayloadEventExtensions">
+            <summary>
+            Extension Methods for the <see cref="T:SonicBloom.Koreo.KoreographyEvent" /> class that add
+            <see cref="T:SonicBloom.Koreo.AssetPayload" />-specific functionality.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.AssetPayloadEventExtensions.HasAssetPayload(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Determines if the payload is of type <see cref="T:SonicBloom.Koreo.AssetPayload" />.
+            </summary>
+            <returns>
+                <c>true</c> if the payload is of type <see cref="T:SonicBloom.Koreo.AssetPayload" />;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.AssetPayloadEventExtensions.GetAssetValue(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Returns the asset reference associated with the AssetPayload.  If the
+            Payload is not actually of type <see cref="T:SonicBloom.Koreo.AssetPayload" />, this will return
+            null.
+            </summary>
+            <returns>The <c>asset reference</c>.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.AssetPayload">
+            <summary>
+            The AssetPayload class allows Koreorgraphy Events to contain a reference to
+            an asset as a payload.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.AssetPayload.AssetVal">
+            <summary>
+            Gets or sets the asset reference value.
+            </summary>
+            <value>The asset reference value.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.AssetPayload.GetFriendlyName">
+            <summary>
+            This is used by the Koreography Editor to create the Payload type entry
+            in the UI dropdown.
+            </summary>
+            <returns>The friendly name of the class.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.AssetPayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?).  Undo is
+            supported.
+            </summary>
+            <returns>
+                <c>true</c>, if the Payload was edited in the GUI, <c>false</c>
+            otherwise.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.AssetPayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.AssetPayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.ColorPayloadEventExtensions">
+            <summary>
+            Extension Methods for the <see cref="T:SonicBloom.Koreo.KoreographyEvent" /> class that add
+            <see cref="T:SonicBloom.Koreo.ColorPayload" />-specific functionality.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.ColorPayloadEventExtensions.HasColorPayload(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Determines if the payload is of type <see cref="T:SonicBloom.Koreo.ColorPayload" />.
+            </summary>
+            <returns>
+                <c>true</c> if the payload is of type <see cref="T:SonicBloom.Koreo.ColorPayload" />;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.ColorPayloadEventExtensions.GetColorValue(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Returns the <c>Color</c> associated with the ColorPayload.  If the
+            Payload is not actually of type <see cref="T:SonicBloom.Koreo.ColorPayload" />, this
+            will return the default color, white.
+            </summary>
+            <returns>The <c>Color</c> value.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.ColorPayload">
+            <summary>
+            The ColorPayload class allows Koreorgraphy Events to contain a <c>Color</c> value
+            as a payload.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.ColorPayload.ColorVal">
+            <summary>
+            Gets or sets the <c>Color</c> value.
+            </summary>
+            <value>The <c>Color</c> value.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.ColorPayload.GetFriendlyName">
+            <summary>
+            This is used by the Koreography Editor to create the Payload type entry
+            in the UI dropdown.
+            </summary>
+            <returns>The friendly name of the class.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.ColorPayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?).  Undo is
+            supported.  Uses a version of the <c>ColorField</c> drawing methods that doesn't show
+            the color picker.
+            </summary>
+            <returns>
+                <c>true</c>, if the Payload was edited in the GUI, <c>false</c>
+            otherwise.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.ColorPayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.ColorPayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.CurvePayloadEventExtensions">
+            <summary>
+            Extension Methods for the <see cref="T:SonicBloom.Koreo.KoreographyEvent" /> class that add
+            <see cref="T:SonicBloom.Koreo.CurvePayload" />-specific functionality.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayloadEventExtensions.HasCurvePayload(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Determines if the payload is of type <see cref="T:SonicBloom.Koreo.CurvePayload" />.
+            </summary>
+            <returns>
+                <c>true</c> if the payload is of type <see cref="T:SonicBloom.Koreo.CurvePayload" />;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayloadEventExtensions.GetCurveValue(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Returns the curve data associated with the <c>CurvePayload</c>.  If the
+            Payload is not actually of type <see cref="T:SonicBloom.Koreo.CurvePayload" />, this will return
+            <c>null</c>.
+            </summary>
+            <returns>The curve data.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayloadEventExtensions.GetValueOfCurveAtTime(SonicBloom.Koreo.KoreographyEvent,System.Int32)">
+            <summary>
+            Gets the value of the curve at <paramref name="sampleTime" />.  Returns <c>0f</c> if the
+            Payload is not a CurvePayload.
+            </summary>
+            <returns>The float value of the curve at <paramref name="sampleTime" />.</returns>
+            <param name="koreoEvent">The 'this' <c>KoreographyEvent</c> for the extension method.</param>
+            <param name="sampleTime">The specified sample time.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.CurvePayload">
+            <summary>
+            The CurvePayload class allows Koreorgraphy Events to contain an <c>AnimationCurve</c>
+            as a payload.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayload.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SonicBloom.Koreo.CurvePayload" /> class.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.CurvePayload.CurveData">
+            <summary>
+            Gets or sets the <c>AnimationCurve</c> data.
+            </summary>
+            <value>The <c>AnimationCurve</c> data.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayload.GetFriendlyName">
+            <summary>
+            This is used by the Koreography Editor to create the Payload type entry
+            in the UI dropdown.
+            </summary>
+            <returns>The friendly name of the class.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayload.GetValueAtDelta(System.Single)">
+            <summary>
+            Gets the value of the curve at <paramref name="delta" /> (range <c>[0,1]</c>).
+            </summary>
+            <returns>The value at <paramref name="delta" />.</returns>
+            <param name="delta">A value in the range of <c>[0,1]</c>.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?).  Due to an
+            internal issue with Unity's handling of Curve serialization, Undo is NOT supported.
+            </summary>
+            <returns>
+                <c>true</c>, if the Payload was edited in the GUI, <c>false</c>
+            otherwise.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.CurvePayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.FloatPayloadEventExtensions">
+            <summary>
+            Extension Methods for the <see cref="T:SonicBloom.Koreo.KoreographyEvent" /> class that add
+            <see cref="T:SonicBloom.Koreo.FloatPayload" />-specific functionality.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.FloatPayloadEventExtensions.HasFloatPayload(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Determines if the payload is of type <see cref="T:SonicBloom.Koreo.FloatPayload" />.
+            </summary>
+            <returns>
+                <c>true</c> if the payload is of type <see cref="T:SonicBloom.Koreo.FloatPayload" />;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.FloatPayloadEventExtensions.GetFloatValue(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Returns the <c>float</c> associated with the FloatPayload.  If the
+            Payload is not actually of type <see cref="T:SonicBloom.Koreo.FloatPayload" />, this will return
+            <c>0f</c>.
+            </summary>
+            <returns>The <c>float</c> value.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.FloatPayload">
+            <summary>
+            The FloatPayload class allows Koreorgraphy Events to contain a <c>float</c> value
+            as a payload.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.FloatPayload.FloatVal">
+            <summary>
+            Gets or sets the <c>float</c> value.
+            </summary>
+            <value>The <c>float</c> value.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.FloatPayload.GetFriendlyName">
+            <summary>
+            This is used by the Koreography Editor to create the Payload type entry
+            in the UI dropdown.
+            </summary>
+            <returns>The friendly name of the class.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.FloatPayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?).  Undo is
+            supported.
+            </summary>
+            <returns>
+                <c>true</c>, if the Payload was edited in the GUI, <c>false</c>
+            otherwise.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.FloatPayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.FloatPayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.GradientPayloadEventExtensions">
+            <summary>
+            Extension Methods for the <see cref="T:SonicBloom.Koreo.KoreographyEvent" /> class that add
+            <see cref="T:SonicBloom.Koreo.GradientPayload" />-specific functionality.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.GradientPayloadEventExtensions.HasGradientPayload(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Determines if the payload is of type <see cref="T:SonicBloom.Koreo.GradientPayload" />.
+            </summary>
+            <returns>
+                <c>true</c> if the payload is of type <see cref="T:SonicBloom.Koreo.GradientPayload" />;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.GradientPayloadEventExtensions.GetGradientData(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Returns the gradient data associated with the GradientPayload.  If the
+            Payload is not actually of type <see cref="T:SonicBloom.Koreo.GradientPayload" />, this will return
+            <c>null</c>.
+            </summary>
+            <returns>The <c>Gradient</c> data.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.GradientPayloadEventExtensions.GetColorOfGradientAtTime(SonicBloom.Koreo.KoreographyEvent,System.Int32)">
+            <summary>
+            Gets the color of the gradient at <paramref name="sampleTime" />.  Returns the default
+            color (white) if the payload is not a <see cref="T:SonicBloom.Koreo.GradientPayload" />.
+            </summary>
+            <returns>The color of the gradient at <paramref name="sampleTime" />.</returns>
+            <param name="koreoEvent">The 'this' <c>KoreographyEvent</c> for the extension method.</param>
+            <param name="sampleTime">The specified sample time.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.GradientPayload">
+            <summary>
+            The GradientPayload class allows Koreorgraphy Events to contain a <c>Gradient</c>
+            as a payload.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.GradientPayload.GradientData">
+            <summary>
+            Gets or sets the <c>Gradient</c> data.
+            </summary>
+            <value>The <c>Gradient</c> data.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.GradientPayload.GetFriendlyName">
+            <summary>
+            This is used by the Koreography Editor to create the Payload type entry
+            in the UI dropdown.
+            </summary>
+            <returns>The friendly name of the class.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.GradientPayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?).  Undo is
+            supported.  In older Unity versions, uses a special version of the <c>GradientField</c>
+            drawing methods that isn't generally accessible due to an oversight at Unity.
+            </summary>
+            <returns>
+                <c>true</c>, if the Payload was edited in the GUI, <c>false</c>
+            otherwise.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.GradientPayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.GradientPayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.IntPayloadEventExtensions">
+            <summary>
+            Extension Methods for the <see cref="T:SonicBloom.Koreo.KoreographyEvent" /> class that add
+            <see cref="T:SonicBloom.Koreo.IntPayload" />-specific functionality.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.IntPayloadEventExtensions.HasIntPayload(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Determines if the payload is of type <see cref="T:SonicBloom.Koreo.IntPayload" />.
+            </summary>
+            <returns>
+                <c>true</c> if the payload is of type <see cref="T:SonicBloom.Koreo.IntPayload" />;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.IntPayloadEventExtensions.GetIntValue(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Returns the integer associated with the IntPayload.  If the
+            Payload is not actually of type <see cref="T:SonicBloom.Koreo.IntPayload" />, this will return
+            <c>0</c>.
+            </summary>
+            <returns>The <c>int</c> value.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.IntPayload">
+            <summary>
+            The IntPayload class allows Koreorgraphy Events to contain an <c>int</c> value
+            as a payload.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.IntPayload.IntVal">
+            <summary>
+            Gets or sets the <c>int</c> value.
+            </summary>
+            <value>The <c>int</c> value.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.IntPayload.GetFriendlyName">
+            <summary>
+            This is used by the Koreography Editor to create the Payload type entry
+            in the UI dropdown.
+            </summary>
+            <returns>The friendly name of the class.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.IntPayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?).  Undo is
+            supported.
+            </summary>
+            <returns>
+                <c>true</c>, if the Payload was edited in the GUI, <c>false</c>
+            otherwise.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.IntPayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.IntPayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.SpectrumPayloadEventExtensions">
+            <summary>
+            Extension Methods for the <see cref="T:SonicBloom.Koreo.KoreographyEvent" /> class that add
+            <see cref="T:SonicBloom.Koreo.SpectrumPayload" />-specific functionality.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.SpectrumPayloadEventExtensions.HasSpectrumPayload(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Determines if the payload is of type <see cref="T:SonicBloom.Koreo.SpectrumPayload" />.
+            </summary>
+            <returns>
+                <c>true</c> if the payload is of type <see cref="T:SonicBloom.Koreo.SpectrumPayload" />;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.SpectrumPayloadEventExtensions.GetSpectrumAtTime(SonicBloom.Koreo.KoreographyEvent,System.Int32,System.Single[]@,System.Int32)">
+            <summary>
+                <para>Fills the passed in <paramref name="spectrum" /> array with spectrum values.  The returned
+            values are interpolated between recorded spectrum entries.  If the <paramref name="spectrum" />
+            array is null or not the correct length, it will be overwritten with a newly created array of
+            the correct length.  The <paramref name="spectrum" /> array is not touched if the payload is
+            not a <see cref="T:SonicBloom.Koreo.SpectrumPayload" />.</para>
+                <para>If <paramref name="maxBinCount" /> is greater than zero, the number of bins return will be
+            clamped and the values averaged.  The averaging is equal: each bin will only affect a single returned
+            bin.  When this clamping occurs, the number of bins in the spectrum after the process completes will
+            likely be less than <paramref name="maxBinCount" />.</para>
+            </summary>
+            <param name="koreoEvent">The 'this' <c>KoreographyEvent</c> for the extension method.</param>
+            <param name="sampleTime">The specified sample time.</param>
+            <param name="spectrum">An array of <c>float</c> values into which spectrum data will be added.</param>
+            <param name="maxBinCount">The maximum number of bins to fit data into.  If this number is lower than
+            the number of bins available, bin-averaging will occur.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.SpectrumPayload">
+            <summary>
+            The SpectrumPayload class allows Koreorgraphy Events to contain a <c>Spectrum</c>
+            series as a payload.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.SpectrumPayload.SpectrumData">
+            <summary>
+            Gets or sets the <c>Spectrum</c> data.
+            </summary>
+            <value>The <c>Spectrum</c> data.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.SpectrumPayload.SpectrumDataInfo">
+            <summary>
+            Gets or sets the <c>SpectrumInfo</c> struct.
+            </summary>
+            <value>The <c>SpectrumInfo</c> data that describes the spectra.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.SpectrumPayload.SpectrumEntryCount">
+            <summary>
+            Gets the number of entries (bins) for each Spectrum.
+            </summary>
+            <value>The number of spectrum entries per spectrum.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.SpectrumPayload.GetFriendlyName">
+            <summary>
+            This is used by the Koreography Editor to create the Payload type entry
+            in the UI dropdown.
+            </summary>
+            <returns>The friendly name of the class.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.SpectrumPayload.GetSpectrumAtDelta(System.Single[]@,System.Single,System.Int32)">
+            <summary>
+                <para>Fills the passed in <paramref name="spectrum" /> array with spectrum values.  The returned
+            values are interpolated between spectrum entries based on <paramref name="delta" />.  If the
+            <paramref name="spectrum" /> array is null or not the correct length, it will be overwritten
+            with a newly created array of the correct length.</para>
+                <para>If <paramref name="maxBinCount" /> is greater than zero, the number of bins return will be
+            clamped and the values averaged.  The averaging is equal: each bin will only affect a single returned
+            bin.  When this clamping occurs, the number of bins in the spectrum after the process completes will
+            likely be less than <paramref name="maxBinCount" />.</para>
+            </summary>
+            <param name="spectrum">An array of <c>float</c> values into which spectrum data will be added.</param>
+            <param name="delta">The time at which to look up in the range [0,1].</param>
+            <param name="maxBinCount">The maximum number of bins to fit data into.  If this number is lower than
+            the number of bins available, bin-averaging will occur.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.SpectrumPayload.GetSpectrumAtSample(System.Single[]@,System.Int32,System.Int32)">
+            <summary>
+                <para>Fills the passed in <paramref name="spectrum" /> array with spectrum values.  The returned
+            values are interpolated between spectrum entries based on the <paramref name="sample" /> time.
+            If the <paramref name="spectrum" /> array is null or not the correct length, it will be
+            overwritten with a newly created array of the correct length.</para>
+                <para>If <paramref name="maxBinCount" /> is greater than zero, the number of bins return will be
+            clamped and the values averaged.  The averaging is equal: each bin will only affect a single returned
+            bin.  When this clamping occurs, the number of bins in the spectrum after the process completes will
+            likely be less than <paramref name="maxBinCount" />.</para>
+            </summary>
+            <param name="spectrum">An array of <c>float</c> values into which spectrum data will be added.</param>
+            <param name="sample">The sample position to check.</param>
+            <param name="maxBinCount">The maximum number of bins to fit data into.  If this number is lower than
+            the number of bins available, bin-averaging will occur.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.SpectrumPayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?).
+            </summary>
+            <returns>This always returns <c>false</c> as editing SpectrumPayloads is not currently
+            supported.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.SpectrumPayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.SpectrumPayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.TextPayloadEventExtensions">
+            <summary>
+            Extension Methods for the <see cref="T:SonicBloom.Koreo.KoreographyEvent" /> class that add
+            <see cref="T:SonicBloom.Koreo.TextPayload" />-specific functionality.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.TextPayloadEventExtensions.HasTextPayload(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Determines if the payload is of type <see cref="T:SonicBloom.Koreo.TextPayload" />.
+            </summary>
+            <returns>
+                <c>true</c> if the payload is of type <see cref="T:SonicBloom.Koreo.TextPayload" />;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.TextPayloadEventExtensions.GetTextValue(SonicBloom.Koreo.KoreographyEvent)">
+            <summary>
+            Returns the string associated with the TextPayload.  If the
+            Payload is not actually of type <see cref="T:SonicBloom.Koreo.TextPayload" />, this will return
+            the empty string.
+            </summary>
+            <returns>The <c>string</c>.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.TextPayload">
+            <summary>
+            The TextPayload class allows Koreorgraphy Events to contain a <c>string</c>
+            as a payload.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.TextPayload.TextVal">
+            <summary>
+            Gets or sets the <c>string</c> value.
+            </summary>
+            <value>The <c>string</c> value.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.TextPayload.GetFriendlyName">
+            <summary>
+            This is used by the Koreography Editor to create the Payload type entry
+            in the UI dropdown.
+            </summary>
+            <returns>The friendly name of the class.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.TextPayload.DoGUI(UnityEngine.Rect,SonicBloom.Koreo.KoreographyTrackBase,System.Boolean)">
+            <summary>
+            Used for drawing the GUI in the Editor Window (possibly scene overlay?).  Undo is
+            supported.
+            </summary>
+            <returns>
+                <c>true</c>, if the Payload was edited in the GUI, <c>false</c>
+            otherwise.</returns>
+            <param name="displayRect">The <c>Rect</c> within which to perform GUI drawing.</param>
+            <param name="track">The Koreography Track within which the Payload can be found.</param>
+            <param name="isSelected">Whether or not the Payload (or the Koreography Event that
+            contains the Payload) is selected in the GUI.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.TextPayload.GetDisplayWidth">
+            <summary>
+            Used to determine the Payload's desired width for rendering in certain contexts
+            (e.g. in Peek UI). Return <c>0</c> to indicate a default width.
+            </summary>
+            <returns>The desired width for UI rendering or <c>0</c> to use the default.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.TextPayload.GetCopy">
+            <summary>
+            Returns a copy of the current object, including the pertinent parts of
+            the payload.
+            </summary>
+            <returns>A copy of the Payload object.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.MultiMusicPlayer">
+            <summary>
+                <para>The <see cref="T:SonicBloom.Koreo.Players.MultiMusicPlayer" /> will attempt to play multiple synchronized layers
+            of audio.  These layers can be configured using raw <c>AudioClip</c> references
+            or with Koreography references.  The interface disallows setting both for
+            a single layer.</para>
+                <para>Under certain conditions, the layers may not all start at the same time.
+            This is usually due to heavy CPU load.  Use the SyncPlayDelay feature to
+            schedule the playback of audio in a synchronized fashion.</para>
+                <para>Internally, each layer requires an <c>AudioSource</c> component for playback of
+            the <c>AudioClip</c>.  It is possible to specify a specific <c>AudioSource</c> component
+            for a layer to use.  If no <c>AudioSource</c> is specified, the system will add
+            one to use automatically.</para>
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MultiMusicPlayer.Pitch">
+            <summary>
+            Gets or sets the pitch.
+            </summary>
+            <value>The pitch.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MultiMusicPlayer.Loop">
+            <summary>
+            Gets or sets a value indicating whether the audio should loop.
+            </summary>
+            <value>
+                <c>true</c> if the audio should loop; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MultiMusicPlayer.Volume">
+            <summary>
+            Sets the volume to all AudioSources at once.
+            </summary>
+            <value>The volume [0,1].</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MultiMusicPlayer.IsPlaying">
+            <summary>
+            Gets a value indicating whether the audio is playing or not (paused/stopped).
+            </summary>
+            <value>
+                <c>true</c> if the audio is playing; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.LoadSong(System.Collections.Generic.List{SonicBloom.Koreo.Players.MusicLayer},System.Int32,System.Boolean)">
+            <summary>
+                <para>Load a new song, as described by <paramref name="layers" />.</para>
+                <para>This will stop the currently playing song.</para>
+            </summary>
+            <param name="layers">A <c>List</c> of <c>MusicLayer</c>s that comprise the song.</param>
+            <param name="startSampleTime">The time within the layers at which playback should begin.</param>
+            <param name="autoPlay">If set to <c>true</c> auto play.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.Play">
+            <summary>
+            Plays the audio.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.Stop">
+            <summary>
+            Stops the audio.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.Pause">
+            <summary>
+            Pauses the audio.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.SeekToSample(System.Int32)">
+            <summary>
+            Seeks the audio to the target sample location.
+            </summary>
+            <param name="targetSample">The location to seek the audio to.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.SetVolumeForLayer(System.Int32,System.Single)">
+            <summary>
+            Sets the volume for the given layer.
+            </summary>
+            <param name="layerNum">The number of the layer to set the volume for.</param>
+            <param name="volume">The value to set the volume in the range of <c>[0,1]</c>.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.SetVolumeForLayer(System.String,System.Single)">
+            <summary>
+            Sets the volume for the given layer.
+            </summary>
+            <param name="layerName">The name of the layer to set the volume for.</param>
+            <param name="volume">The value to set the volume in the range of [0,1].</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.GetSampleTimeForClip(System.String)">
+            <summary>
+            Gets the current sample position of the <c>AudioClip</c> with name <paramref name="clipName" />.
+            </summary>
+            <returns>The current sample position of the <c>AudioClip</c> with name
+            <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.GetTotalSampleTimeForClip(System.String)">
+            <summary>
+            Gets the total sample time for <c>AudioClip</c> with name <paramref name="clipName" />.
+            This total time is not necessarily the same at runtime as it was at edit time.
+            </summary>
+            <returns>The total sample time for <c>AudioClip</c> with name <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.GetIsPlaying(System.String)">
+            <summary>
+            Determines whether the <c>AudioClip</c> with name <paramref name="clipName" /> is playing.
+            </summary>
+            <returns>
+                <c>true</c>, if <c>AudioClip</c> with name <paramref name="clipName" /> is
+            playing,<c>false</c> otherwise.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.GetPitch(System.String)">
+            <summary>
+            Gets the pitch.  The <paramref name="clipName" /> parameter is ignored.
+            </summary>
+            <returns>The pitch of the audio.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MultiMusicPlayer.GetCurrentClipName">
+            <summary>
+            Gets the name of the current <c>AudioClip</c>.
+            </summary>
+            <returns>The name of the <c>AudioClip</c> in the currently playing 'base'
+            <c>MusicLayer</c>, if any.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.MusicLayer">
+            <summary>
+            A single layer of the music.  Layers are played back simultaneously by
+            the MultiMusicPlayer.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MusicLayer.#ctor(SonicBloom.Koreo.Koreography,UnityEngine.AudioSource,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SonicBloom.Koreo.Players.MusicLayer" /> class.
+            </summary>
+            <param name="koreo">The Koreography to use.</param>
+            <param name="source">The <c>AudioSource</c> to use.</param>
+            <param name="layerName">The name of the layer.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MusicLayer.#ctor(UnityEngine.AudioClip,UnityEngine.AudioSource,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SonicBloom.Koreo.Players.MusicLayer" /> class.
+            </summary>
+            <param name="clip">The <c>AudioClip</c> to use.</param>
+            <param name="source">The <c>AudioSource</c> to use.</param>
+            <param name="layerName">The name of the layer.</param>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MusicLayer.KoreoData">
+            <summary>
+            Gets the Koreography.
+            </summary>
+            <value>The Koreography.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MusicLayer.Clip">
+            <summary>
+            Gets the <c>AudioClip</c> for this layer.
+            </summary>
+            <value>The <c>AudioClip</c>.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MusicLayer.ClipName">
+            <summary>
+            Gets the name of the <c>AudioClip</c> used by this layer.
+            </summary>
+            <value>The name of the <c>AudioClip</c> used by this layer.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MusicLayer.AudioSourceCom">
+            <summary>
+            Gets the <c>AudioSource</c> component this <c>MusicLayer</c> uses
+            for playback.
+            </summary>
+            <value>The configured <c>AudioSource</c> component.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MusicLayer.Visor">
+            <summary>
+            Gets the <c>AudioVisor</c> linked to this <c>MusicLayer</c>.
+            </summary>
+            <value>The linked <c>AudioVisor</c>.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.MusicLayer.Name">
+            <summary>
+            The string name configured for this <c>MusicLayer</c>.
+            </summary>
+            <value>The string name.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.MusicLayer.Init(UnityEngine.AudioSource,SonicBloom.Koreo.Koreographer)">
+            <summary>
+            Initializes the <c>MusicPlayer</c></summary>
+            <param name="source">An optional <c>AudioSource</c> that can be used to override a previously
+            configured <c>AudioSource</c>.</param>
+            <param name="targetKoreographer">An optional <c>Koreographer</c> to use for time reporting.
+            If not specified, the global Koreographer instance will be used.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.SimpleMusicPlayer">
+            <summary>
+            The SimpleMusicPlayer component plays audio using Koreography.  Instead of
+            taking an <c>AudioClip</c> reference, it takes a single Koreography reference.
+            At runtime, the Koreography is loaded into the static Koreographer Instance.
+            Adding this component will also add an <c>AudioSource</c> component, which is
+            used internally to control audio.  The SimpleMusicPlayer uses the <c>AudioClip</c>
+            reference in the referenced Koreography for audio playback.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.SimpleMusicPlayer.IsPlaying">
+            <summary>
+            Gets a value indicating whether the audio is playing or not (paused/stopped).
+            </summary>
+            <value>
+                <c>true</c> if the audio is playing; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.LoadSong(SonicBloom.Koreo.Koreography,System.Int32,System.Boolean)">
+            <summary>
+                <para>Loads the <paramref name="koreo" /> and begins playing its configured
+            <c>AudioClip</c> at time <paramref name="startSampleTime" />.
+            If <paramref name="autoPlay" /> is <c>true</c>, playback will begin
+            immediately.</para>
+                <para>This immediately unloads the Koreography for any previously playing
+            audio.</para>
+            </summary>
+            <param name="koreo">Koreo.</param>
+            <param name="startSampleTime">Start sample time.</param>
+            <param name="autoPlay">If set to <c>true</c> auto play.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.Play">
+            <summary>
+            Plays the loaded audio.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.Stop">
+            <summary>
+            Stop playback.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.Pause">
+            <summary>
+            Pauses playback.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.SeekToSample(System.Int32)">
+            <summary>
+            Seeks the audio playback to the target sample location.
+            </summary>
+            <param name="targetSample">The location to seek to.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.GetSampleTimeForClip(System.String)">
+            <summary>
+            Gets the current sample position of the <c>AudioClip</c> with name
+            <paramref name="clipName" />.
+            </summary>
+            <returns>The current sample position of the <c>AudioClip</c> with name
+            <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.GetTotalSampleTimeForClip(System.String)">
+            <summary>
+            Gets the total sample time for <c>AudioClip</c> with name <paramref name="clipName" />.
+            This total time is not necessarily the same at runtime as it was at edit time.
+            </summary>
+            <returns>The total sample time for <c>AudioClip</c> with name <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.GetIsPlaying(System.String)">
+            <summary>
+            Determines whether the <c>AudioClip</c> with name <paramref name="clipName" />
+            is playing.
+            </summary>
+            <returns>
+                <c>true</c>, if <c>AudioClip</c> with name <paramref name="clipName" />
+            is playing,<c>false</c> otherwise.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.GetPitch(System.String)">
+            <summary>
+            Gets the pitch.  The <paramref name="clipName" /> parameter is ignored.
+            </summary>
+            <returns>The pitch of the audio.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.  Currently ignored.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SimpleMusicPlayer.GetCurrentClipName">
+            <summary>
+            Gets the name of the current <c>AudioClip</c>.
+            </summary>
+            <returns>The name of the currently playing <c>AudioClip</c>.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.SampleSyncMusicPlayer">
+            <summary>
+            This audio player is EXPERIMENTAL.  This audio player guarantees that all configured
+            audio layers play back in a sample-synchronized fashion.  Currently this comes at a
+            tradeoff in memory as all layers must be fully loaded in order to play back.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.bus">
+            <summary>
+            The AudioBus component through which this audio player should play samples.
+            </summary>
+        </member>
+        <member name="E:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.MusicEnded">
+            <summary>
+            Occurs when playback ends.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.PlayMusic(SonicBloom.Koreo.Players.AudioGroup,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Plays the music in <paramref name="group" /> starting at sample time
+            <paramref name="startSampleOffset" /> for <paramref name="lengthInSamples" /> time.
+            If <paramref name="bReplaceIfExists" /> is <c>true</c>, the group will interrupt
+            current audio playback as well as any scheduled audio.
+            </summary>
+            <param name="group">The <c>AudioGroup</c> to play.</param>
+            <param name="startSampleOffset">The time in samples at which to begin playback
+            of <paramref name="group" />.</param>
+            <param name="lengthInSamples">The amount of audio in samples to play.</param>
+            <param name="bReplaceIfExists">If set to <c>true</c>, this operation will interrupt
+            playing or scheduled audio; if false it will fail with a warning in the case that
+            audio is already playing.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.ScheduleNextMusic(SonicBloom.Koreo.Players.AudioGroup,System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Schedules <paramref name="group" /> for playback, beginning at<paramref name="startSampleOffset" />
+            and set to continue for <paramref name="lengthInSamples" />.  The <paramref name="curMusicTransLoc" />
+            parameter allows you to schedule where in the playback of any currently
+            playing audio the transition should occur in sample time.  If the playhead
+            is beyond the specified location, the scheduling will fail.  If <paramref name="bReplaceIfExists" />
+            is <c>true</c>, the scheduling will override any previously scheduled audio.
+            </summary>
+            <param name="group">The <c>AudioGroup</c> to schedule.</param>
+            <param name="curMusicTransLoc">The sample location in the currently playing audio
+            at which to transition.</param>
+            <param name="startSampleOffset">The sample position in <paramref name="group" /> at which
+            to begin playing audio.</param>
+            <param name="lengthInSamples">The amount of <paramref name="group" /> to play back in
+            samples.</param>
+            <param name="bReplaceIfExists">If set to <c>true</c>, this operation will interrupt
+            playing or scheduled audio; if false it will fail with a warning in the case that
+            audio is already playing.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.Pause">
+            <summary>
+            Pause audio playback.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.Continue">
+            <summary>
+            Unpauses audio playback.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.Stop">
+            <summary>
+            Stops audio playback.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.GetSampleTimeForClip(System.String)">
+            <summary>
+            Gets the current sample position of the audio with name <paramref name="clipName" />.
+            </summary>
+            <returns>The current sample position of the audio with name <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.GetTotalSampleTimeForClip(System.String)">
+            <summary>
+            Gets the total sample time of the audio with the name <paramref name="clipName" />.
+            </summary>
+            <returns>The total sample time of the audio with the name <paramref name="clipName" />.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.GetIsPlaying(System.String)">
+            <summary>
+            Determines whether audio with name <paramref name="clipName" /> is playing.
+            </summary>
+            <returns>
+                <c>true</c>, if audio with name <paramref name="clipName" /> is
+            playing,<c>false</c> otherwise.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.GetPitch(System.String)">
+            <summary>
+            Gets the pitch of the audio with name <paramref name="clipName" />.
+            In this case, <paramref name="clipName" /> is ignored as pitch is a
+            global setting.
+            </summary>
+            <returns>The pitch of the audio.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.SampleSyncMusicPlayer.GetCurrentClipName">
+            <summary>
+            Gets the name of the current <c>AudioClip</c>.
+            </summary>
+            <returns>The name of the 'base' <c>AudioClip</c> of the currently playing
+            <c>AudioGroup</c>, if any.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.AudioBus">
+            <summary>
+            The <see cref="T:SonicBloom.Koreo.Players.AudioBus" /> manages the feeding of a specific buffer of audio
+            to the Audio System.  Samples are fed into the audio buffer when the underlying
+            audio system requests them.
+            </summary>
+        </member>
+        <member name="E:SonicBloom.Koreo.Players.AudioBus.AudioEnded">
+            <summary>
+            Occurs when Playback of an AudioGroup ends.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioBus.Pitch">
+            <summary>
+            Gets or sets the pitch.
+            </summary>
+            <value>The pitch.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.Init(UnityEngine.AudioSource,System.Int32,System.Int32)">
+            <summary>
+            Sets the internal <c>AudioSource</c> component with which to play audio.  Also initializes
+            an internal <c>AudioClip</c> with the specified channel count and frequency.
+            </summary>
+            <param name="com">The <c>AudioSource</c> component that this <see cref="T:SonicBloom.Koreo.Players.AudioBus" /> wraps.</param>
+            <param name="numChannels">The number of channels in the audio that will be played through the bus.</param>
+            <param name="frequency">The sample frequency of the audio that will be played through the bus.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.PlayAudio(SonicBloom.Koreo.Players.AudioGroup,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Begin playback of <paramref name="group" />.  If other audio is already scheduled to play, returns
+            <c>false</c>.
+            </summary>
+            <returns>
+                <c>true</c>, if <paramref name="group" /> was played, <c>false</c> otherwise.</returns>
+            <param name="group">The <see cref="T:SonicBloom.Koreo.Players.AudioGroup" /> to play.</param>
+            <param name="startSampleOffset">The number of samples to offset playback from.</param>
+            <param name="sampleLength">The number of samples to play, starting at
+            <paramref name="startSampleOffset" />.</param>
+            <param name="bReplaceIfExists">If set to <c>true</c>, this will override previously scheduled
+            audio to playback.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.PlayAudioScheduled(SonicBloom.Koreo.Players.AudioGroup,System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+                <para>Schedule's the provided Audio to be started at the sample location in the currently
+            playing track indicated in the curSongSampleTransLoc parameter.</para>
+                <para>If no song is currently playing, the playback occurs immediately.</para>
+                <para>If the currently playing song has already played (or been read) beyond the transition
+            point, this returns <c>false</c>.</para>
+            </summary>
+            <returns>
+                <c>true</c>, if audio was scheduled, <c>false</c> otherwise.</returns>
+            <param name="group">The audio group to schedule.</param>
+            <param name="curSongSampleTransLoc">The sample location in the currently playing song
+            to transition at.  A value of <c>0</c> means "when the current song ends".</param>
+            <param name="startSampleOffset">The start sample offset for the scheduled audio
+            group.</param>
+            <param name="sampleLength">The sample length of the audio to playback.  A value of
+            <c>0</c> means "until the end".</param>
+            <param name="bReplaceIfExists">If set to <c>true</c> any previously queued song will
+            be overwritten.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.Continue">
+            <summary>
+            Resumes playback of a Paused <c>AudioBus</c>.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.Pause">
+            <summary>
+            Pauses the <c>AudioBus</c>.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.Stop(System.Boolean)">
+            <summary>
+            Stops the <c>AudioBus</c>, optionally triggering the <see cref="E:SonicBloom.Koreo.Players.AudioBus.AudioEnded" /> callback.
+            </summary>
+            <param name="bDoCallback">If set to <c>true</c>, triggers the <see cref="E:SonicBloom.Koreo.Players.AudioBus.AudioEnded" /> callback.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.GetSampleTimeCurrentAudio">
+            <summary>
+            Returns the time in samples of the currently playing <c>AudioGroup</c>.
+            </summary>
+            <returns>The time in samples of the currently playing audio.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.GetSampleTimeOfAudio(SonicBloom.Koreo.Players.AudioGroup)">
+            <summary>
+            Returns the playback position in samples of <paramref name="group" />.
+            </summary>
+            <returns>The playback position in samples of <paramref name="group" />.</returns>
+            <param name="group">The <c>AudioGroup</c> to retrieve timing information about.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.IsAudioPlaying(SonicBloom.Koreo.Players.AudioGroup)">
+            <summary>
+            Determines whether <paramref name="group" /> currently playing.
+            </summary>
+            <returns>
+                <c>true</c> if audio data from <paramref name="group" /> is playing; otherwise,
+            <c>false</c>.</returns>
+            <param name="group">The <c>AudioGroup</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.IsPaused">
+            <summary>
+            Determines whether this <c>AudioBus</c> is paused.
+            </summary>
+            <returns>
+                <c>true</c> if this <c>AudioBus</c> is paused; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioBus.IsNextSongScheduled">
+            <summary>
+            Determines whether an <c>AudioGroup</c> is scheduled for playback.
+            </summary>
+            <returns>
+                <c>true</c> if an <c>AudioGroup</c> is scheduled; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.AudioGroup">
+            <summary>
+            This class collects several audio layers, or stems, into one logical "piece" of
+            audio.  The properties revealed by the class are all based on the base layer;
+            the <c>AudioLayer</c> at position 0 in the Audio Layers list.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioGroup.TotalSampleTime">
+            <summary>
+            Gets the total sample time of the <c>AudioGroup</c>.
+            </summary>
+            <value>The total sample time.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioGroup.Channels">
+            <summary>
+            Gets the number of audio channels used by the <c>AudioGroup</c>.
+            </summary>
+            <value>The number of audio channels.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioGroup.Frequency">
+            <summary>
+            Gets the frequency of the audio data (sample rate).
+            </summary>
+            <value>The frequency of the audio data.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioGroup.NumLayers">
+            <summary>
+            Gets the number <c>AudioLayer</c> layers.
+            </summary>
+            <value>The number layers.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.InitLayerData">
+            <summary>
+            Initializes the audio data of all <c>AudioLayer</c>s.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.ClearLayerData">
+            <summary>
+            Clears the audio data prepped by all <c>AudioLayer</c>s.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.RegisterKoreography">
+            <summary>
+            Registers any Koreography configured within <c>AudioLayer</c>s.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.UnregisterKoreography">
+            <summary>
+            Unregisters any Koreography configured within <c>AudioLayer</c>s.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.IsKoreographyRegistered">
+            <summary>
+            Determines whether any Koreography configured within <c>AudioLayer</c>s is
+            loaded.
+            </summary>
+            <returns>
+                <c>true</c> if Koreography is registered; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.IsReady">
+            <summary>
+            Determines whether all layers are ready for playback.
+            </summary>
+            <returns>
+                <c>true</c> if all layers are ready for playback; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.IsEmpty">
+            <summary>
+            Determines whether or not this <c>AudioGroup</c> has any configured layers.
+            </summary>
+            <returns>
+                <c>true</c> if this <c>AudioGroup</c> contains at least one layer;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.ContainsClip(System.String)">
+            <summary>
+            Checks to see whether the <c>AudioClip</c> with name <paramref name="clipName" />
+            is used in any layer.
+            </summary>
+            <returns>
+                <c>true</c>, if <paramref name="clipName" /> was used in a layer,
+            <c>false</c> otherwise.</returns>
+            <param name="clipName">The name of the <c>AudioClip</c> to check.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.GetBaseClip">
+            <summary>
+            Gets the <c>AudioClip</c> at position <c>0</c> in the <c>AudioLayer</c> list.
+            </summary>
+            <returns>The base clip.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.GetBaseClipName">
+            <summary>
+            Gets the name of the <c>AudioClip</c> at position <c>0</c> in the <c>AudioLayer</c> list.
+            </summary>
+            <returns>The name of the base clip.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.GetClipAtLayer(System.Int32)">
+            <summary>
+            Gets the the <c>AudioClip</c>, if any, of the <c>AudioLayer</c> at index
+            <paramref name="layerIdx" />.
+            </summary>
+            <returns>The <c>AudioClip</c> at layer <paramref name="layerIdx" />.</returns>
+            <param name="layerIdx">Layer index.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioGroup.GetAudioData(System.Int32,System.Single[],System.Int32,System.Int32)">
+            <summary>
+            Fills <paramref name="data" /> with audio data compiled across all <c>AudioLayer</c>s.
+            </summary>
+            <param name="sampleTime">The position in the audio from which to begin reading.</param>
+            <param name="data">The audio data array to fill.</param>
+            <param name="dataOffset">The position in <paramref name="data" /> to begin filling from.</param>
+            <param name="amountToRead">The number of samples to read.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.AudioLayer">
+            <summary>
+                <para>This class is a data supplier: it logically combines Koreography with an
+            <c>AudioClip</c> for playback purposes.</para>
+                <para>Note that EITHER the Koreography or the clip is sufficient to work.  This
+            is designed to allow non-choreographed layers in the audio system.  In the
+            case that both exist, the <c>AudioClip</c> specified by the user is
+            preferred.  WARNING: this will cause issues with the specified Koreography
+            if the clip is different.</para>
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioLayer.Clip">
+            <summary>
+            Gets the layer's <c>AudioClip</c>.
+            </summary>
+            <value>The <c>AudioClip</c>.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioLayer.ClipName">
+            <summary>
+            Gets the layer's <c>AudioClip</c>'s name.
+            </summary>
+            <value>The name of the <c>AudioClip</c>.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioLayer.Koreo">
+            <summary>
+            Gets the layer's Koreography.
+            </summary>
+            <value>The Koreography.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioLayer.TotalSampleTime">
+            <summary>
+            Gets the total sample time of the layer.
+            </summary>
+            <value>The total sample time.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioLayer.Channels">
+            <summary>
+            Gets the number of audio channels.
+            </summary>
+            <value>The number of audio channels.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioLayer.Frequency">
+            <summary>
+            Gets the audio data sample frequency (sample rate).
+            </summary>
+            <value>The audio data sample frequency.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioLayer.Volume">
+            <summary>
+            Gets or sets the volume of the layer.
+            </summary>
+            <value>The volume of the layer.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioLayer.TotalDataLength">
+            <summary>
+            Gets the total number of samples across all channels of audio data.
+            </summary>
+            <value>The total number of samples across all channels of audio data.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioLayer.InitData">
+            <summary>
+            Initializes the audio data, reading all samples into a set
+            of buffers.  This cannot be a single buffer as Mono's Garbage
+            Collection fails for very large arrays, never properly freeing
+            the memory.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioLayer.ClearData">
+            <summary>
+            Clears the audio buffers.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioLayer.IsReady">
+            <summary>
+            Determines whether this <c>AudioLayer</c> is ready for playback.
+            </summary>
+            <returns>
+                <c>true</c> if this <c>AudioLayer</c> is ready for playback;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioLayer.ReadLayerAudioData(System.Int32,System.Single[],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Reads <paramref name="amount" /> audio data from the buffers beginning at
+            <paramref name="sampleTimePos" /> into <paramref name="data" /> beginning at <paramref name="dataOffset" />.
+            If <paramref name="bAdditive" /> is <c>true</c>, the audio data is multiplied
+            into <paramref name="data" /> rather than overwritten.
+            </summary>
+            <param name="sampleTimePos">Time in samples to begin reading from.</param>
+            <param name="data">The array to fill with audio data.</param>
+            <param name="dataOffset">The offset into <paramref name="data" /> at which to
+            begin filling.</param>
+            <param name="amount">The amount of audio data to read into <paramref name="data" />.</param>
+            <param name="bAdditive">If set to <c>true</c>, samples will be multiplied (mixed)
+            into <paramref name="data" />; if set to <c>false</c> the samples will replace
+            anything in <paramref name="data" />.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.EventIDAttribute">
+            <summary>
+            The EventID Attribute allows you to mark a serializable or public <c>string</c>
+            field as being an EventID.  When this happens, the field gets special
+            consideration in the Inspector, showing a customizable field and a list of
+            Event ID options configured across Koreography Tracks found within the current
+            project.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.NoEditorCreateAttribute">
+            <summary>
+            The NoEditorCreate Attribute allows you to mark a class such that it cannot
+            be created using the standard tools in the Koreography Editor. Currently
+            works for Payloads and KoreographyTracks.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.AudioSourceVisor">
+            <summary>
+            The Audio Source Visor adds Koreographer event triggering support
+            to a single, targeted <c>AudioSource</c>.  Any audio played back
+            through the <c>AudioSource</c> will be reported to either the
+            default Koreographer or the <paramref name="targetKoreographer" />,
+            if specified.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioSourceVisor.targetKoreographer">
+            <summary>
+            An optional <c>Koreographer</c> component.  Set this to force targeting a specific Koreographer for
+            event driving.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioSourceVisor.ScheduledPlayTime">
+            <summary>
+            Gets or sets the scheduled play time of the associated AudioSource. This is required
+            for properly handling scheduled playback because Unity does not have a way to inspect
+            the scheduled state of an AudioClip in an AudioSource.
+            </summary>
+            <value>The DSP time at which audio playback is set to begin.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioSourceVisor.ResyncTimings(System.Int32)">
+            <summary>
+                <para>This method should be called when the <c>AudioSource</c> being watched is seeked to ensure
+            proper timing updates. Specify the seek position in samples with the
+            <paramref name="targetSampleTime" /> parameter.</para>
+                <para>This should also be used if the <c>AudioClip</c> loaded into the <c>AudioSource</c>
+            changes.</para>
+            </summary>
+            <param name="targetSampleTime">The sample position to which the <c>AudioSource</c> was seeked.
+            The value will be internally clamped between [0, totalSamplesInClip - 1).</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.AudioClipID">
+            <summary>
+            A struct to hold information that uniquely identifies an
+            <c>AudioClip</c>.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioClipID.instanceID">
+            <summary>
+            The Object.InstanceID associated with a specific AudioClip.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioClipID.name">
+            <summary>
+            The cached name of a specific AudioClip.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.AudioVisor">
+            <summary>
+            The AudioVisor is built on top of VisorBase, specifically adding support for
+            Unity's built-in audio system.  It is built around the <c>AudioSource</c>
+            component and sends timing information based on its intricacies.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.#ctor">
+            <summary>
+            Private default constructor means we require a different constructor.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.#ctor(UnityEngine.AudioSource,SonicBloom.Koreo.Koreographer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SonicBloom.Koreo.Players.AudioVisor" /> class.  This will
+            connect the AudioSource to a Koreographer.
+            </summary>
+            <param name="sourceCom">The AudioSource component to watch.</param>
+            <param name="targetKoreographer">If specified, updates are sent to this
+            Koreographer.  Otherwise they use the default global Koreographer.</param>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.AudioVisor.FrameStats">
+            <summary>
+            A struct to hold frame timing information.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.FrameStats.dspBufferCount">
+            <summary>
+            The total number of DSP buffers read for this frame.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.FrameStats.sourceSampleTime">
+            <summary>
+            The raw sample time as reported by the <c>AudioSource</c>
+            this frame.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.FrameStats.pitch">
+            <summary>
+            The pitch as reported by the <c>AudioSource</c> this
+            frame.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.S_EstimationWindowBufferCount">
+            <summary>
+            The number of buffers' worth of samples to which to restrict
+            estimations. This helps define how "sloppy" the estimations can be
+            relative to the [likely] actual playhead location.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.S_FuzzFactor">
+            <summary>
+            The number of buffers' worth of "fuzziness" to add to the seek check
+            window (both ends) and to the estimation window (both ends). As the
+            estimation system works by counting the number of audio buffers
+            being fed, it is possible (especially in scenarios with extremely
+            high frame rate) that the audio thread is "sampled" after a buffer
+            (or configured number of buffers) has been _read_ but _before_ that
+            buffer (those buffers) could be _refilled_. This "fuzz-factor" gives
+            a small amount of buffer-relative leeway to the estimation system,
+            taking a bit of pressure off of the expected audio thread update
+            frequency.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.S_OverEstimationPercent">
+            <summary>
+            How much to allow the timing system to "overestimate" the timing
+            position. Setting this to 0 will cause it to never estimate beyond
+            the reported values. Setting this to 1 will cause it to estimate to
+            a maximum of [the estimation window's buffer length] beyond the
+            reported audio time value. Setting it to 0.5 will keep things
+            balanced. Set this value to 0 to avoid estimating into positions
+            that never actually happen due to seeking.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.audioCom">
+            <summary>
+            The <c>AudioSource</c> component that this AudioVisor watches over.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.clipID">
+            <summary>
+            The ID of the <c>AudioClip</c> this AudioVisor is watching over.
+            If a change is detected, this should get updated.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.dspPlayStartTime">
+            <summary>
+            If AudioSource Scheduling features are used, this field will contain
+            the target start time according to the DSP clock.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.estimatedSamplePosition">
+            <summary>
+            The sample position of the <c>AudioSource</c>, estimated using
+            	<c>Time.unscaledDeltaTime</c>. This value is clamped to within one
+            half audio buffer's distance from the value reported by the
+            <c>AudioSource</c> itself.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.expectedSamplePosition">
+            <summary>
+            The expected sample position of the <c>AudioSource</c>, calculated
+            	each frame based on the progress of the Audio DSP clock. This value
+            is updated to be the same as that reported by the <c>AudioSource</c>
+            itself unless there is no update to the <c>AudioSource</c> between
+            frames.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.lastFrameStats">
+            <summary>
+            Timing and <c>AudioSource</c> state information useful for time
+            estimation.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.bDidLoop">
+            <summary>
+            Whether or not the AudioSource looped this frame.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.dspBufferSize">
+            <summary>
+            The audio system's current buffer size. This is used for estimation.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.dspBufferCount">
+            <summary>
+            The audio system's current buffer count. This is used for estimation.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.AudioVisor.outputSampleRate">
+            <summary>
+            The audio system's current output sample rate. This should almost
+            never change.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioVisor.EstimationWindowBufferCount">
+            <summary>
+            [ADVANCED] Gets or sets the number of audio buffers to use when
+            calculating the overall size of the Estimation Window. This
+            determines how "tightly" the estimation system should "track" the
+            audio position updates. Valid values are between 1 and twice the
+            number of buffers that make up the Audio (DSP) Ring Buffer.
+            </summary>
+            <value>The number of DSP buffers to use when calculating the
+            Estimation Window size.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioVisor.FuzzFactor">
+            <summary>
+            [ADVANCED] Gets or sets the amount of "fuzziness" to open up the
+            Estimation system's internal "Seek Check" and "Estimation" windows.
+            This value affects both the top and bottom ends of the Seek Check
+            Window, but only the top end of the Estimation Window. Valid values
+            are between 0 and 1.
+            </summary>
+            <value>The "fuzziness" of the estimation system in terms of the
+            size of a single DSP buffer.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioVisor.OverEstimationPercent">
+            <summary>
+            [ADVANCED] Gets or sets the percent of the Estimation Window to
+            allow as an "over-estimation" from the audio position reported by
+            the audio engine. A value of 0 will cause the Estimation Window to
+            disallow over-estimation. A value of 1 will cause the Estimation
+            Window to be 100% over-estimation. It is preferable to have as
+            little over-estimation as possible.
+            </summary>
+            <value>The percent of the Estimation Window to alot to over-
+            estimation.</value>
+        </member>
+        <member name="P:SonicBloom.Koreo.Players.AudioVisor.ScheduledPlayTime">
+            <summary>
+            Gets or sets the scheduled play time of the associated AudioSource. This is required
+            for properly handling scheduled playback because Unity does not have a way to inspect
+            the scheduled state of an AudioClip in an AudioSource.
+            </summary>
+            <value>The DSP time at which audio playback is set to begin.</value>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.ResyncTimings">
+            <summary>
+            This is used when the <c>AudioSource</c> has a clip change or a jump within the audio. The
+            <c>AudioVisor</c> attempts to catch "seeks" automatically, but can't guarantee perfect timing.
+            This forces the <c>AudioVisor</c> to resync to the sample time reported by the
+            <c>AudioSource</c> at time of call. Using this is far better than allowing the <c>AudioVisor</c>
+            to estimate the seeked position.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.ResyncTimings(System.Int32)">
+            <summary>
+            This is used when the <c>AudioSource</c> has a clip change or a jump within the audio. The
+            <c>AudioVisor</c> attempts to catch "seeks" automatically, but can't guarantee perfect timing.
+            This forces the <c>AudioVisor</c> to resync to the sample position supplied in the
+            <paramref name="targetSampleTime" /> parameter. Using this is far better than allowing the
+            <c>AudioVisor</c> to estimate the seeked position.
+            </summary>
+            <param name="targetSampleTime">The sample position to which the <c>AudioSource</c> was seeked.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.GetCurrentTimeInSamples">
+            <summary>
+            Gets the current time in samples.
+            </summary>
+            <returns>The current time in samples.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.UpdateAudioConfiguration(System.Boolean)">
+            <summary>
+            Updates the audio DSP settings used for estimation calculation and the like.
+            </summary>
+            <param name="deviceChanged">Whether a device change occurred or not.</param>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.GetBufferSampleLength(System.Single)">
+            <summary>
+            Calculates the length of an audio buffer in sample time at the given pitch.
+            </summary>
+            <param name="pitch">The pitch at which to calculate the buffer length</param>
+            <returns>The length in sample time of a single audio buffer.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.GetTotalDSPBufferCount(System.Double)">
+            <summary>
+            Returns the total number of buffers consumed by the global audio system. The
+            core DSP Time is pitch-invariant and only increments by steps in
+            <c>sizeof(dspBufferSize)</c>.
+            </summary>
+            <param name="atTime">An optional time to calculate. Uses <c>AudioSettings.dspTime</c>
+            if not provided.</param>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.GetFrameStats">
+            <summary>
+            Initializes and returns a FrameStats value.
+            </summary>
+            <returns>A FrameStats value with the latest data.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.AudioVisor.GetDeltaTimeInSamples">
+            <summary>
+            Convert this frame's delta time from solar time to sample time.  Note that this
+            does not respect <c>Time.timeScale</c>: that kind of math comes in with the audio pitch
+            settings.
+            </summary>
+            <returns>The delta time in samples.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.Players.VisorBase">
+            <summary>
+            The Visor is the glue that binds the Audio Player and the Koreographer component
+            together.  The Visor's sole responsibility is to provide the Koreographer
+            component with information with which it can process Koreography Events.  This
+            base class provides a common interface and set of core processing that handles
+            most potential audio update scenarios.  Override and fill in the blanks!
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.VisorBase.koreographerCom">
+            <summary>
+            The Koreographer to report audio time updates to.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.VisorBase.sampleTime">
+            <summary>
+            The current sample time, possibly estimated.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.Koreo.Players.VisorBase.sourceSampleTime">
+            <summary>
+            The most recently read sample time from the audio hardware (or equivalent).
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetAudioName">
+            <summary>
+            Gets the name of the audio currently playing back.  This is used to identify Koreography for
+            event triggering.
+            </summary>
+            <returns>The name of the currently playing audio.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetIsAudioPlaying">
+            <summary>
+            Gets whether or not the audio is currently playing back.
+            </summary>
+            <returns>
+                <c>true</c> if the audio is playing, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetIsAudioLooping">
+            <summary>
+            Gets whether the audio is set to loop or not.
+            </summary>
+            <returns>
+                <c>true</c> if audio should be looping, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetDidAudioLoop">
+            <summary>
+            Gets whether the audio looped this frame or not.
+            </summary>
+            <returns>
+                <c>true</c> if the audio looped, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetAudioSampleTime">
+            <summary>
+            Get the current time in samples of the current audio (the playhead position in samples).
+            </summary>
+            <returns>The current sample time.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetAudioStartSampleExtent">
+            <summary>
+            Gets the first *playable* sample position of the current audio.
+            </summary>
+            <returns>The first playable sample position.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetAudioEndSampleExtent">
+            <summary>
+            Get the last *playable* sample position of the current audio.
+            </summary>
+            <returns>The last playable sample position.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetDeltaTimeInSamples">
+            <summary>
+            Get the number of samples that were played in the last frame.  Be sure to consider current settings
+            and playback state.
+            </summary>
+            <returns>The delta time in samples.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.Update">
+            <summary>
+            Looks at the Audio System and determines how far the audio has moved.  It then
+            reports those results, if necessary, to the specified  Koreographer to trigger
+            any encountered Koreography Events.
+            This implementation is fairly robust in that it recognizes that some audio systems
+            will not report a change in sample position until more samples are requested (no
+            estimation).  In such cases it attempts to estimate the time spent.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetTotalPlaybackSamples">
+            <summary>
+            Gets the total number of samples that will be played back.
+            </summary>
+            <returns>The total number of samples in the audio that will be played back.</returns>
+        </member>
+        <member name="M:SonicBloom.Koreo.Players.VisorBase.GetRawFrameTime">
+            <summary>
+            Gets the deltaTime used to process the frame *without* modification from Time.timeScale.
+            </summary>
+            <returns>The raw frame time.</returns>
+        </member>
+        <member name="T:SonicBloom.Koreo.KoreographyEventCallback">
+            <summary>
+            The basic Koreography Event callback format.  Use this format when no specific
+            timing information is necessary.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.Koreo.KoreographyEventCallbackWithTime">
+            <summary>
+            The Koreography Event callback format that includes timing information.  Use
+            this format to gain access to specific information about the timing of the
+            event, both globally and within the current frame.
+            </summary>
+        </member>
+    </members>
+</doc>
