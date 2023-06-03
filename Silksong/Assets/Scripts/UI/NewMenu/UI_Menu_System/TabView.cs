@@ -15,7 +15,6 @@ public class TabView : MonoBehaviour
     public int index = -1;
 
 	public UIEquipView uiEquipView;
-	public CharmUIPanel charmUIPanel;
 
 
 	public bool isFirst;
@@ -30,7 +29,6 @@ public class TabView : MonoBehaviour
 	public KeyCode EnterKey;
 	[Header("返回上一级按键")]
 	public KeyCode ExitKey;
-
 
 	[Header("绑定按键上一个")]
 	public KeyCode Key1;
@@ -72,7 +70,7 @@ public class TabView : MonoBehaviour
 				{
 					isFirst = false;
 					isSecond = true;
-					SelectTab(0);
+					SelectTab(tabIndex);
 				}
 			}
 			else if (isSecond)
@@ -98,7 +96,6 @@ public class TabView : MonoBehaviour
 					isSecond = false;
 					tabButtons[tabIndex].ChangeBg(false);
 					tabview.isFirst = true;
-
 				}
 				if (Input.GetKeyDown(Key1))
 				{
@@ -121,11 +118,13 @@ public class TabView : MonoBehaviour
 					{
 						secondBtnImg.SetActive(false);
 					}
-					if (charmUIPanel != null)
+					if (uiEquipView != null)
 					{
-						charmUIPanel.selectCharm = null;
+						uiEquipView.selectedEquip.description.text = "";
+						uiEquipView.selectedEquip.itemName.text = "";
+						uiEquipView.selectedEquip = null;
+						EventSystem.current.SetSelectedGameObject(null);
 					}
-					EventSystem.current.SetSelectedGameObject(null);
 				}
 
 				if(uiEquipView != null)
@@ -144,10 +143,6 @@ public class TabView : MonoBehaviour
 					}
 				}
 
-				if (charmUIPanel != null)
-				{
-					charmUIPanel.RefreshUI();
-				}
 			}
 		}
 	}

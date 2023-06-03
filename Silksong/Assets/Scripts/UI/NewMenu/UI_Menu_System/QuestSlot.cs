@@ -10,28 +10,33 @@ using UnityEngine.UI;
 
 public class QuestSlot : MonoBehaviour, ISelectHandler
 {
-    public int index;
+	public int index;
 
-	public Image icon;
+	public Image iconImage;
 	public int Id;
+	public Text IdText;
 	public Text nameText;
+
 
 	private Item item;
 
 	public UIQuestView questView;
-	public string nameSid;
 	public Transform content;
+
+
+
+	public string nameSid;
+	public Sprite icon;
 
 	public bool unlockStatusFirst;
 	public bool unlockStatusSecond;
 	public bool unlockStatusThird;
 
-	public string unlockCondition;
-	public string unlockDescription;
+	public List<string> titles = new List<string> ();
+	public List<Sprite> images = new List<Sprite> ();
+	public List<string> descriptions = new List<string> ();
 
-	public string firstTitle;
-	public Sprite firstImage;
-	public string firstDescription;
+
 
 	public string secondTitle;
 	public Sprite secondImage;
@@ -42,14 +47,12 @@ public class QuestSlot : MonoBehaviour, ISelectHandler
 	public string thirdDescription;
 	// Start is called before the first frame update
 	void Start()
-    {
-
+	{
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-		
+	// Update is called once per frame
+	void Update()
+	{
 	}
 	/// <summary>
 	/// Î´Íê³É
@@ -58,55 +61,64 @@ public class QuestSlot : MonoBehaviour, ISelectHandler
 	/// <param name="QuestView"></param>
 	/// <param name="Index"></param>
 	/// <param name="transform"></param>
-    public void Init(Item Item, UIQuestView QuestView,int Index,Transform transform)
-    {
+	public void Init(Item Item, UIQuestView QuestView, int Index, Transform transform)
+	{
 		item = Item;
-		/*unlockStatus = (bool)item.GetAttribute("Unlock Status").GetOverrideValueAsObject();
-		unlockStatusFirst = (bool)item.GetAttribute("Unlock Status First").GetOverrideValueAsObject();
-		unlockStatusSecond = (bool)item.GetAttribute("Unlock Status Second").GetOverrideValueAsObject();
-		unlockStatusThird = (bool)item.GetAttribute("Unlock Status Third").GetOverrideValueAsObject();*/
 		questView = QuestView;
+		unlockStatusFirst = (bool)item.GetAttribute("UnlockStatusFirst").GetOverrideValueAsObject();
+		unlockStatusSecond = (bool)item.GetAttribute("UnlockStatusSecond").GetOverrideValueAsObject();
+		unlockStatusThird = (bool)item.GetAttribute("UnlockStatusThird").GetOverrideValueAsObject();
+
 		item.TryGetAttributeValue<string>("NameSid", out var NameSid);
 		nameSid = NameSid;
 		item.TryGetAttributeValue<Sprite>("Icon", out var Icon);
-		icon.sprite = Icon;
-
-		/*
+		icon = Icon;
 		item.TryGetAttributeValue<int>("NextId", out var NextId);
-		item.TryGetAttributeValue<string>("UnlockCondition", out var UnlockCondition);
-		unlockCondition = UnlockCondition;
-		item.TryGetAttributeValue<string>("UnlockDescription", out var UnlockDescription);
-		unlockDescription = UnlockDescription;
-		item.TryGetAttributeValue<string>("FirstTitle", out var FirstTitle);
-		firstTitle = FirstTitle;
-		item.TryGetAttributeValue<Sprite>("FirstImage", out var FirstImage);
-		firstImage = FirstImage;
-		item.TryGetAttributeValue<string>("FirstDescription", out var FirstDescription);
-		firstDescription = FirstDescription;
-		item.TryGetAttributeValue<string[]>("FirstItems", out var FirstItems);
-		item.TryGetAttributeValue<string>("SecondTitle", out var SecondTitle);
-		secondTitle = SecondTitle;
-		item.TryGetAttributeValue<Sprite>("SecondImage", out var SecondImage);
-		secondImage = SecondImage;
-		item.TryGetAttributeValue<string>("SecondDescription", out var SecondDescription);
-		secondDescription = SecondDescription;
-		item.TryGetAttributeValue<string[]>("SecondItems", out var SecondItems);
-		item.TryGetAttributeValue<string>("ThirdTitle", out var ThirdTitle);
-		thirdTitle = ThirdTitle;
-		item.TryGetAttributeValue<Sprite>("ThirdImage", out var ThirdImage);
-		thirdImage = ThirdImage;
-		item.TryGetAttributeValue<string>("ThirdDescription", out var ThirdDescription);
-		thirdDescription = ThirdDescription;
-		item.TryGetAttributeValue<string[]>("ThirdItems", out var ThirdItems);*/
+		item.TryGetAttributeValue<int>("ID", out var ID);
+		Id = ID;
 
-		nameText.text = nameSid;
+		item.TryGetAttributeValue<string>("FirstTitle", out var FirstTitle);
+		titles.Add(FirstTitle);
+		//titles[0] = FirstTitle;
+		item.TryGetAttributeValue<Sprite>("FirstImage", out var FirstImage);
+		images.Add(FirstImage);
+		//images[0] = FirstImage;
+		item.TryGetAttributeValue<string>("FirstDescription", out var FirstDescription);
+		descriptions.Add(FirstDescription);
+		//descriptions[0] = FirstDescription;
+
+		item.TryGetAttributeValue<string>("SecondTitle", out var SecondTitle);
+		titles.Add(SecondTitle);
+		//titles[1] = SecondTitle;
+		item.TryGetAttributeValue<Sprite>("SecondImage", out var SecondImage);
+		images.Add(SecondImage);
+		//images[1] = SecondImage;
+		item.TryGetAttributeValue<string>("SecondDescription", out var SecondDescription);
+		descriptions.Add(SecondDescription);
+		//descriptions[1] = SecondDescription;
+		item.TryGetAttributeValue<string>("ThirdTitle", out var ThirdTitle);
+		titles.Add(ThirdTitle);
+		//titles[2] = ThirdTitle;
+		item.TryGetAttributeValue<Sprite>("ThirdImage", out var ThirdImage);
+		images.Add(ThirdImage);
+		//images[2] = ThirdImage;
+		item.TryGetAttributeValue<string>("ThirdDescription", out var ThirdDescription);
+		descriptions.Add(ThirdDescription);
+		//descriptions[2] = ThirdDescription;
+		
 		content = transform;
 		index = Index;
+		if (unlockStatusFirst)
+		{
+			nameText.text = nameSid;
+			iconImage.sprite = icon;
+			IdText.text = "NO." + Id;
+		}
 	}
 	public void OnSelect(BaseEventData eventData)
 	{
 		questView.selectedQuest = this;
 		questView.content = content;
-		questView.Refesh(index);
+		questView.Refresh(index);
 	}
 }

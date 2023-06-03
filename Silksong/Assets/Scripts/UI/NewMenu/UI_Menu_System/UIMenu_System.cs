@@ -26,4 +26,9 @@ public class UIMenu_System : MonoBehaviour
     void Update()
     {
     }
+
+	private void OnDestroy()
+	{
+		PlayerInput.Instance.GainControls();
+	}
 }

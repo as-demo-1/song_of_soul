@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour
         //before create the player, you need to load save data so the player can run init correctly  but at now we do not load save yet
         creatPlayer();
 
+
+
         eventSystem = Instantiate(eventSystem);
         DontDestroyOnLoad(eventSystem);
         uint bankid;
