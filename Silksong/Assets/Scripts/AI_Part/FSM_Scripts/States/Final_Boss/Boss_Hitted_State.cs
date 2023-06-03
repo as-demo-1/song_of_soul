@@ -58,8 +58,8 @@ public class Boss_Hitted_State : EnemyFSMBaseState
     {
         base.ExitState(fSM_Manager);
         fsmManager.rigidbody2d.velocity = Vector2.zero;
-        fSM_Manager.GetComponent<BossController>().PianoAttackEnd();
-        fSM_Manager.GetComponent<BossController>().ClarinetAttackEnd();
+        //fSM_Manager.GetComponent<BossController>().PianoAttackEnd();
+        //fSM_Manager.GetComponent<BossController>().ClarinetAttackEnd();
     }
 
     /* public override void Act_State(EnemyFSMManager fSM_Manager)

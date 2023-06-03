@@ -7,7 +7,7 @@ public class Words : MonoBehaviour
     [SerializeField] private GameObject boss;
     public GameObject bulletSender;
     [SerializeField] private List<Sprite> sprites;
-    [SerializeField] private List<GameObject> wordList;
+    public GameObject wordPrefab;
     [SerializeField] private GameObject damager;
     [SerializeField] private GameObject fallPos;
     [SerializeField] private string[] fallChart;
@@ -40,29 +40,6 @@ public class Words : MonoBehaviour
     {
     }
 
-    GameObject GenerateWord()
-    {
-        int idx = Random.Range(0, wordList.Count);
-        return Instantiate(wordList[idx]);
-        /*
-        int idx = Random.Range(0, sprites.Count);
-        string name = sprites[idx].name;
-        GameObject word = new GameObject(name);
-        word.layer = 8;
-        word.tag = "word";
-        word.AddComponent<SpriteRenderer>();
-        word.AddComponent<Word>();
-        word.AddComponent<BulletCollision>();
-        word.GetComponent<BulletCollision>().timeBeforeAutodestruct = 7;
-
-        SpriteRenderer spriteRenderer = word.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprites[idx];
-        spriteRenderer.sortingOrder = 1;
-        word.transform.parent = this.transform;
-        return word;
-        */
-    }
-
     void SetDamager(GameObject word)
     {
         word = word.transform.GetChild(0).gameObject;
@@ -91,8 +68,9 @@ public class Words : MonoBehaviour
     {
         for (int i = 0; i < fallChart[currentFall].Length; ++i)
         {
-            StartCoroutine(FallGenerate(fallChart[currentFall][i]-'0'));
-            yield return new WaitForSeconds(1f);
+            GameObject word = Instantiate(wordPrefab);
+            word.transform.position = fallPos.transform.GetChild(fallChart[currentFall][i] - '0').transform.position;
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -110,7 +88,7 @@ public class Words : MonoBehaviour
         for (int i = 0; i < numOfChase; ++i)
         {
             ChaseGenerate();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -126,21 +104,14 @@ public class Words : MonoBehaviour
         {
             //float angle = Vector3.Angle(player.transform.position, this.transform.position);
             //w.transform.GetChild(0).GetComponent<BulletSender>().ChangeRotation(angle);
-            w.GetComponent<Word>().setLifeTime(3.0f);
+            //w.GetComponent<Word>().setLifeTime(3.0f);
         }
         chaseList.Clear();
-    }
-    IEnumerator FallGenerate(int idx)
-    {
-        GameObject word = GenerateWord();
-        word.transform.position = fallPos.transform.GetChild(idx).transform.position;
-        yield return new WaitForSeconds(2f);
-        SetDamager(word);
     }
     
     IEnumerator LeftGenerate(int idx)
     {
-        GameObject word = GenerateWord();
+        GameObject word = Instantiate(wordPrefab);
         word.transform.GetChild(0).gameObject.layer = 0;
         word.transform.position = leftPos.transform.GetChild(idx).transform.position;
         yield return new WaitForSeconds(1f);
@@ -151,7 +122,7 @@ public class Words : MonoBehaviour
     
     IEnumerator RightGenerate(int idx)
     {
-        GameObject word = GenerateWord();
+        GameObject word = Instantiate(wordPrefab);
         word.transform.GetChild(0).gameObject.layer = 0;
         word.transform.position = rightPos.transform.GetChild(idx).transform.position;
         yield return new WaitForSeconds(1f);
@@ -162,7 +133,7 @@ public class Words : MonoBehaviour
 
     IEnumerator EmergeGenerate(int idx)
     {
-        GameObject word = GenerateWord();
+        GameObject word = Instantiate(wordPrefab);
         //word.GetComponent<BulletCollision>().timeBeforeAutodestruct = -1;
         word.transform.localScale /= 2;
         //Instantiate(bulletSender, word.transform);
@@ -182,19 +153,19 @@ public class Words : MonoBehaviour
 
     void ChaseGenerate()
     {
-        GameObject word = GenerateWord();
+        GameObject word = Instantiate(wordPrefab);
         word.transform.position = boss.transform.position;
-        word.transform.localScale /= 3;
-        word.AddComponent<HpDamable>();
-        word.GetComponent<HpDamable>().MaxHp = 10;
-        word.GetComponent<HpDamable>().playerAttackCanGainSoul = true;
-        SetDamager(word);
-        word.GetComponent<Word>().Chase();
+        //word.transform.localScale /= 3;
+        //word.AddComponent<HpDamable>();
+        //word.GetComponent<HpDamable>().MaxHp = 10;
+        //word.GetComponent<HpDamable>().playerAttackCanGainSoul = true;
+        word.GetComponent<ParticleWord>().Chase();
     }
 
     public void Attack()
     {
-        StartCoroutine(FallAttack());
+        //StartCoroutine(FallAttack());
+        StartCoroutine(ChaseAttack());
         /*
         if (currentWord == 0)
         {
