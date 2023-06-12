@@ -21,8 +21,7 @@ MonoBehaviour:
   TriggerType: 1
   triggerConfig:
     id: 1
-  triggerList:
-  - id: 2
+  triggerList: []
   references:
     version: 1
     00000000:
@@ -30,17 +29,17 @@ MonoBehaviour:
       data:
         stateType: 50
         defaultAnimationName: 
-        prickIdleState: Enemy_ReturnBack_State
         prickShrinkState: Enemy_Shrink_State
-        waitTime: 5
+        waitTime: 1.5
         dashSpeed: 20
+        hookSpeed: 80
+        layer:
+          serializedVersion: 2
+          m_Bits: 64
+        targetState: SeaUrchin_ReturnBack_State
+        dashTime: 3
     00000001:
       type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 1
         targetState: SeaUrchin_Idle_State
-    00000002:
-      type: {class: HitWallTrigger, ns: , asm: Assembly-CSharp}
-      data:
-        triggerType: 1
-        targetState: SeaUrchin_ReturnBack_State

@@ -19,7 +19,7 @@ public class Enemy_ReturnBack_State : EnemyFSMBaseState
         else 
             dir = basePos - (Vector2)enemyFSM.transform.position;
         enemyFSM.rigidbody2d.velocity = dir.normalized*moveSpeed;
-    }//
+    }//应该也积累了一些可以聊的东西了
     public override void FixAct_State(EnemyFSMManager enemyFSM)
     {
 
@@ -28,6 +28,7 @@ public class Enemy_ReturnBack_State : EnemyFSMBaseState
             dir = basePos - (Vector2)enemyFSM.transform.localPosition;
         else
             dir = basePos - (Vector2)enemyFSM.transform.position;
+        //
         enemyFSM.rigidbody2d.velocity = dir.normalized * moveSpeed;
         if (Vector2.Angle(baseDir, enemyFSM.transform.up) > 1)
         {

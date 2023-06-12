@@ -29,9 +29,8 @@ public class Enemy_Shrink_State : EnemyFSMBaseState
         if (ifRotate)
         {
             enemyFSM.transform.RotateAround(parent.position, Vector3.forward, rotateSpeed * Time.fixedDeltaTime);
-            
         }
-    }
+    }//
     IEnumerator Shrink(EnemyFSMManager enemyFSM)
     {
         enemyFSM.rigidbody2d.velocity = (parent.position - enemyFSM.transform.position).normalized * shrinkSpeed;

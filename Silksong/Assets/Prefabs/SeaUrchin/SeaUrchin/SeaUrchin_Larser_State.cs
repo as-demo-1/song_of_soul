@@ -5,7 +5,8 @@ using UnityEngine;
 public class SeaUrchin_Larser_State : EnemyFSMBaseState
 {
     SeaUrchin seaUrchin;
-    public string prickState;//
+    public string prickState;
+    public float interval=5;
     public override void InitState(EnemyFSMManager enemyFSM)
     {
         base.InitState(enemyFSM);
@@ -14,13 +15,24 @@ public class SeaUrchin_Larser_State : EnemyFSMBaseState
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
+        if(seaUrchin.ifInWater){
         foreach (var prick in seaUrchin.pricks)
         {
             prick.ChangeState(prickState);
-        } 
+        }
+        }else{
+            enemyFSM.StartCoroutine(WaitTimeShoot());
+        }
     } 
     public override void ExitState(EnemyFSMManager enemyFSM)
     {
         base.ExitState(enemyFSM);
+    }
+    IEnumerator WaitTimeShoot(){
+        foreach (var prick in seaUrchin.pricks)
+        {
+            prick.ChangeState(prickState);
+            yield return new WaitForSeconds(interval);
+        } 
     }
 }

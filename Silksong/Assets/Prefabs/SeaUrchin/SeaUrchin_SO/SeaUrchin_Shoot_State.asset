@@ -33,6 +33,16 @@ MonoBehaviour:
         prickState: Enemy_TailAfter_State
         prickBackState: Enemy_Barb_State
         nextState: SeaUrchin_Idle_State
+        lockPointNum: 8
+        wallLayer:
+          serializedVersion: 2
+          m_Bits: 64
+        waitTime: 3
+        dirs:
+        - {x: 1, y: 1}
+        - {x: 1, y: -1}
+        - {x: -1, y: -1}
+        - {x: -1, y: 1}
     00000001:
       type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
       data:

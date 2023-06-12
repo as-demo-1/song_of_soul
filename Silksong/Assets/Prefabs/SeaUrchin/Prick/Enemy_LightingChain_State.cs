@@ -5,28 +5,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ÎÒµÄÏë·¨ÊÇ£¬´ÌÑÓÉêµ½×îÔ¶Î»ÖÃ£¬È»ºó·Å³öÉÁµç,È»ºó¿ªÊ¼Ðý×ª
-/// ÄÇÃ´¶þ½×¶ÎµÄÐ´·¨¾ÍÊÇ enterµÄÊ±ºò·Åµç£¬Åöµ½Ç½ÒÔºó·Åµç£¬¾Í²»ÐèÒªÐý×ªÁË  
+/// ï¿½Òµï¿½ï¿½ë·¨ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êµ½ï¿½ï¿½Ô¶Î»ï¿½Ã£ï¿½È»ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ï¿½,È»ï¿½ï¿½Ê¼ï¿½ï¿½×ª
+/// ï¿½ï¿½Ã´ï¿½ï¿½ï¿½×¶Îµï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ enterï¿½ï¿½Ê±ï¿½ï¿½Åµç£¬ï¿½ï¿½ï¿½ï¿½Ç½ï¿½Ôºï¿½Åµç£¬ï¿½Í²ï¿½ï¿½ï¿½Òªï¿½ï¿½×ªï¿½ï¿½  
 /// </summary>
 public class Enemy_LightingChain_State : EnemyFSMBaseState
 {
-    [LabelText("´ÌÑÓÉê°ë¾¶")]
+    [LabelText("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¾¶")]
     public float radius;
-    [LabelText("ÉÁµçÔ¤ÖÆÌå")]
+    [LabelText("ï¿½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ï¿½")]
     public GameObject lightningChain_Pre;
-    [LabelText("µç»÷¼ä¸ô")]
-    [InfoBox("¼ä¸ôÌ«¶ÌµÄ»°£¬¿ÉÄÜ±»Ò»Ö±µç")]
+    [LabelText("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")]
+    [InfoBox("ï¿½ï¿½ï¿½Ì«ï¿½ÌµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½Ò»Ö±ï¿½ï¿½")]
     public float lightningInterval;
-    [LabelText("ÑÓÉêËÙ¶È")]
+    [LabelText("ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½")]
     public float moveSpeed;
-    [LabelText("Ðý×ªËÙ¶È")]
+    [LabelText("ï¿½ï¿½×ªï¿½Ù¶ï¿½")]
     public float rotateSpeed;
-    public LayerMask player;
+    public LayerMask player,ground;
     GameObject lightningChain;
     Transform parent;
     SeaUrchin seaUrchin;
     bool ifLightning;
     float t;
+    Vector2 indexRange;
     public override void InitState(EnemyFSMManager enemyFSM)
     {
         base.InitState(enemyFSM);
@@ -46,6 +47,14 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
             enemyFSM.transform.up = enemyFSM.transform.position - parent.transform.position;
             lightningChain.transform.up = -enemyFSM.transform.up;
             ifLightning = false;
+        }else{
+            int i=seaUrchin.pricks.IndexOf(enemyFSM);
+            if(i<seaUrchin.pricks.Count/2){
+                indexRange=new Vector2(seaUrchin.pricks.Count/2,seaUrchin.pricks.Count);
+            }else{
+                indexRange=new Vector2(0,seaUrchin.pricks.Count/2);
+            }
+            Debug.Log(i+" "+indexRange);
         }
     }//
     public override void ExitState(EnemyFSMManager enemyFSM)
@@ -82,7 +91,24 @@ public class Enemy_LightingChain_State : EnemyFSMBaseState
         }
         else
         {
-
+            RaycastHit2D hit2d = Physics2D.Raycast(enemyFSM.transform.position, enemyFSM.transform.up, 100, ground);
+            if(!enemyFSM.rigidbody2d.IsTouchingLayers(ground)){
+                enemyFSM.rigidbody2d.velocity = enemyFSM.transform.up * moveSpeed;
+            }else{
+                enemyFSM.rigidbody2d.velocity =Vector2.zero;
+                if (t < lightningInterval){
+                    t += Time.fixedDeltaTime;
+                    if(t>lightningInterval*2/3){
+                        lightningChain.SetActive(false);
+                    }
+                }
+                 else{
+                     t=0;    
+                     int r=Random.Range((int)indexRange.x,(int)indexRange.y);
+                     lightningChain.SetActive(true);
+                     lightningChain.transform.up = seaUrchin.pricks[r].transform.position-enemyFSM.transform.position;
+                 }
+            }
         }
     }
 }

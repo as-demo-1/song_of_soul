@@ -11,6 +11,7 @@ public class ArrivedPos_Trigger : EnemyFSMBaseTrigger
     {
         if (localPos)
         {
+            //Debug.Log(Vector2.Distance(enemyFSM.transform.localPosition, target));
             return (Vector2.Distance(enemyFSM.transform.localPosition, target) < checkRange);
         }
         else

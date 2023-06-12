@@ -43,7 +43,6 @@ public class Enemy_Limit : EnemyFSMBaseState
             
             urchin.chains[i].gameObject.SetActive(true);
             urchin.chains[i].LockDown(lockPoints_Up[i], lockPoints_Down[i],5);
-             
         }
     }
     public override void Act_State(EnemyFSMManager enemyFSM)

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
-  m_Name: Enemy_ReturnBack_State
+  m_Name: Enemy_LaserMove_State
   m_EditorClassIdentifier: 
-  lastStateID: 47
+  lastStateID: 46
   lastTriggerID: 11
-  StateName: Enemy_ReturnBack_State
-  StateType: 47
+  StateName: Enemy_LaserMove_State
+  StateType: 46
   stateConfig:
     id: 0
   TriggerType: 11
@@ -26,28 +26,29 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: Enemy_ReturnBack_State, ns: , asm: Assembly-CSharp}
+      type: {class: Enemy_LaserMove_State, ns: , asm: Assembly-CSharp}
       data:
-        stateType: 47
+        stateType: 46
         defaultAnimationName: 
-        basePos: {x: -3, y: 0}
-        baseDir: {x: -1, y: 0}
-        moveSpeed: 5
-        rotateSpeed: 30
-        ifLocal: 1
+        moveDir: {x: 1, y: 0}
+        movePos: {x: -10, y: 6}
+        faceDir: {x: 0, y: -1}
+        maxDis: 40
+        moveSpeed: 4
+        laserLength: 20
     00000001:
       type: {class: ArrivedPos_Trigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 11
-        targetState: Enemy_Idle_State
+        targetState: Enemy_ReturnBack_State
         localPos: 1
-        target: {x: -3, y: 0}
+        target: {x: 10, y: 6}
         checkRange: 0.1
     00000002:
       type: {class: ArrivedPos_Trigger, ns: , asm: Assembly-CSharp}
       data:
         triggerType: 11
-        targetState: Enemy_Stop_State
+        targetState: Enemy_ReturnBack_State
         localPos: 1
-        target: {x: -3, y: 0}
+        target: {x: 10, y: 6}
         checkRange: 0.1

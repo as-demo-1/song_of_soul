@@ -15,6 +15,12 @@ public class Enemy_Barb_State : EnemyFSMBaseState
         enemyFSM.transform.up = enemyFSM.transform.parent.position - enemyFSM.transform.position;
         enemyFSM.rigidbody2d.velocity = enemyFSM.transform.up * Speed;
     }
+    public override void FixAct_State(EnemyFSMManager enemyFSM)
+    {
+        base.FixAct_State(enemyFSM);
+        enemyFSM.transform.up = enemyFSM.transform.parent.position - enemyFSM.transform.position;
+        enemyFSM.rigidbody2d.velocity = enemyFSM.transform.up * Speed;
+    }
     public override void ExitState(EnemyFSMManager enemyFSM)
     {
         base.ExitState(enemyFSM);
