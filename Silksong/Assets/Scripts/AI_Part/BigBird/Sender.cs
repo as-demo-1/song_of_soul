@@ -15,31 +15,41 @@ public class Sender : MonoBehaviour
     private float currenttime = 0;
 
     private DanmuBullect bh;
+
+    private bool fire;
     private void Awake()
     {
         CurrentAngle = BullectObject.InitRotation;
         currentAngulatVelo = BullectObject.AngularVelocity;
     }
 
+    public void Fire()
+    {
+        fire = true;
+    }
     private void FixedUpdate()
     {
-        currentAngulatVelo = Mathf.Clamp(currentAngulatVelo + BullectObject.AngularAccleration * Time.fixedDeltaTime,-BullectObject.SendMaxAngularv,BullectObject.SendMaxAngularv);
-        CurrentAngle += currentAngulatVelo * Time.fixedDeltaTime;
-
-        if (Mathf.Abs(CurrentAngle) > 720)
-            CurrentAngle -= Mathf.Sign(CurrentAngle) * 360f;
-         
-
-        currenttime += Time.fixedDeltaTime;
-
-        if (currenttime > BullectObject.SendInterval)
-        {
-            currenttime -= BullectObject.SendInterval;
-            Send(CurrentAngle);
-            
-        }
         
+            currentAngulatVelo =
+                Mathf.Clamp(currentAngulatVelo + BullectObject.AngularAccleration * Time.fixedDeltaTime,
+                    -BullectObject.SendMaxAngularv, BullectObject.SendMaxAngularv);
+            CurrentAngle += currentAngulatVelo * Time.fixedDeltaTime;
+
+            if (Mathf.Abs(CurrentAngle) > 720)
+                CurrentAngle -= Mathf.Sign(CurrentAngle) * 360f;
+
+
+            currenttime += Time.fixedDeltaTime;
+
+            if (currenttime > BullectObject.SendInterval)
+            {
+                currenttime -= BullectObject.SendInterval;
+                Send(CurrentAngle);
+
+            }
         
+
+
 
     }
 

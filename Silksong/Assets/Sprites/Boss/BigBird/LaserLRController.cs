@@ -24,7 +24,7 @@ public class LaserLRController : MonoBehaviour
     {
        DoFire();
        _collider = GetComponent<BoxCollider2D>();
-       
+       transform.DORotate(new Vector3(-150,0,0) ,3);
     }
 
     // Update is called once per frame
@@ -38,14 +38,19 @@ public class LaserLRController : MonoBehaviour
 
     public void DoFire() //执行激光转动逻辑
     {
-  
+        transform.DORotate(new Vector3(-150,0,0) ,3);
         PlayerLoc = GameObject.FindGameObjectWithTag("Player").transform.position;
-        
-        if(transform.position.x < PlayerLoc.x) 
-           transform.DORotate(new Vector3(0,0,-150f) ,2);
-        
-        if(transform.position.x < PlayerLoc.x)
-            transform.DORotate(new Vector3(0,0,150f) ,2);
+
+        var boss = GameObject.FindGameObjectWithTag("Boss").transform.position;
+        if (boss.x < PlayerLoc.x)
+        {
+            transform.DORotate(new Vector3(-150,0,0) ,2);
+        }
+
+        if (boss.x < PlayerLoc.x)
+        {
+            transform.DORotate(new Vector3(150, 0, 0), 2);
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D col)
