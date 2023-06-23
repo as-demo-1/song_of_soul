@@ -2,19 +2,14 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 8
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: "\u95EA\u7535\u73AF\u7C97"
   m_Shader: {fileID: 4800000, guid: 3b8d180d5977ba14081c9fc889028922, type: 3}
-  m_ValidKeywords:
-  - _DEBLACKBG_ON
-  - _DISSOLVEMODE_MATERIAL
-  - _FRESNEL2_ADD
-  - _TURBULENCEDIRECTION_UV
-  m_InvalidKeywords: []
+  m_ShaderKeywords: _DEBLACKBG_ON _DISSOLVEMODE_MATERIAL _FRESNEL2_ADD _TURBULENCEDIRECTION_UV
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -76,9 +71,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
     m_Floats:
+    - Break_Seed: 1.322
+    - Break_Size: 5.714
+    - Break_Value: -0.139
     - _BumpScale: 1
+    - _ColorMask: 15
     - _CullMode: 0
     - _Cutoff: 0.5
     - _DeBlackBG: 1
@@ -111,8 +109,14 @@ Material:
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpriteFade: 1
     - _Src: 5
     - _SrcBlend: 1
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
     - _TurbulenceDirection: 0
     - _TurbulenceStrength: 0.1
     - _TurbulenceTexPannerX: -3

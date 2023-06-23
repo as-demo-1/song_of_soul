@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6606377411503709907
+--- !u!1 &667650563257533767
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,72 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3140772792113086223}
-  - component: {fileID: 4066138076142573205}
-  - component: {fileID: 3754717940874573674}
-  m_Layer: 0
-  m_Name: Damager
+  - component: {fileID: 6313788344782754478}
+  - component: {fileID: 3813233499574630522}
+  - component: {fileID: 6473949282546608002}
+  m_Layer: 20
+  m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &3140772792113086223
+--- !u!4 &6313788344782754478
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6606377411503709907}
+  m_GameObject: {fileID: 667650563257533767}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8314470864453554071}
+  - {fileID: 8164326042105097000}
   m_Father: {fileID: 7740958244910200201}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4066138076142573205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6606377411503709907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e5bd1a1b67117b42b48503bb9590b68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ignoreInvincibility: 0
-  canDamage: 1
-  damage: 0
-  beatBackVector: {x: 0, y: 0}
-  makeDamageEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7980154431316859202}
-        m_TargetAssemblyTypeName: LightningChain, Assembly-CSharp
-        m_MethodName: AtkTarget
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  killDamableEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!58 &3754717940874573674
+--- !u!58 &3813233499574630522
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6606377411503709907}
+  m_GameObject: {fileID: 667650563257533767}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -82,7 +49,22 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5
+--- !u!114 &6473949282546608002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667650563257533767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf94d637784977e45a063e0d36b97bf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  makeLightningEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6990876809462232442
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,6 +75,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7740958244910200201}
   - component: {fileID: 7980154431316859202}
+  - component: {fileID: 4923803537224692186}
   m_Layer: 20
   m_Name: LightningChain
   m_TagString: Untagged
@@ -113,7 +96,7 @@ Transform:
   m_Children:
   - {fileID: 2905115829241728960}
   - {fileID: 6954091406688819156}
-  - {fileID: 3140772792113086223}
+  - {fileID: 6313788344782754478}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -139,7 +122,7 @@ MonoBehaviour:
   soulMode: {fileID: 2100000, guid: c402698ca72c65044b8f0a5f4c4b6933, type: 2}
   atkObject: {fileID: 0}
   animName: 
-  stateParticle: {fileID: 6606377411503709907}
+  stateParticle: {fileID: 0}
   hurtEffectPrefab: {fileID: 0}
   HSV: {x: 0.56, y: 0.35, z: 2}
   SkillStart:
@@ -172,13 +155,41 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  damager: {fileID: 4066138076142573205}
+  damager: {fileID: 4923803537224692186}
   range: 3
-  extraSpeedPercent: 1
-  extraDamagePercent: 1
+  extraDamage: 1
   moveSpeedUp: 10
-  lightningChainMat: {fileID: 2100000, guid: 58358ca48c0d75946b3d2ae308db0ea0, type: 2}
-  lightningChainPref: {fileID: 929292399323914541, guid: d5251614b33481e468665796819735b5, type: 3}
+  chainList: []
+  chainPrefab: {fileID: 5162188485337901916, guid: cdb87057e960b0a4fb981275b5bfd68b, type: 3}
+  chainsRoot: {fileID: 0}
+  enemyList: []
+  effectList: []
+  sparkEffectPrefab: {fileID: 3111835817491373260, guid: b9754c567bb45954db2f814865f4dbac, type: 3}
+  explodeEffect: {fileID: 8626092514251317567, guid: 66955b45e0546414fafc21accdb885d1, type: 3}
+  lightningTrigger: {fileID: 6473949282546608002}
+  lightningLevelNum: 020000000400000006000000
+--- !u!114 &4923803537224692186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6990876809462232442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e5bd1a1b67117b42b48503bb9590b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ignoreInvincibility: 0
+  canDamage: 1
+  damage: 0
+  beatBackVector: {x: 0, y: 0}
+  makeDamageEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  killDamableEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9022694350020825592
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +221,68 @@ Transform:
   m_Father: {fileID: 7740958244910200201}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &666676661612331237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6313788344782754478}
+    m_Modifications:
+    - target: {fileID: 8650572260338789312, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_Name
+      value: "\u95EA\u7535\u73AF\uFF08\u7C97\uFF09\u4E0D\u786E\u5B9A\u5148\u7528\u7740\u8BD5\u8BD5"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+--- !u!4 &8164326042105097000 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8650572260338789325, guid: ae923b7b5886f054d8e11c0b64aacbee, type: 3}
+  m_PrefabInstance: {fileID: 666676661612331237}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5887177431597927771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -326,11 +399,15 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 3140772792113086223}
+    m_TransformParent: {fileID: 6313788344782754478}
     m_Modifications:
     - target: {fileID: 3111835817491373260, guid: b9754c567bb45954db2f814865f4dbac, type: 3}
       propertyPath: m_Name
       value: "\u9759\u7535\uFF08\u5F00\u542F\u9B42\u7075\u72B6\u6001\u540E\u6302\u4EBA\u7269\u8EAB\u4E0A\uFF09"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3111835817491373260, guid: b9754c567bb45954db2f814865f4dbac, type: 3}
+      propertyPath: m_Layer
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3111835817491373260, guid: b9754c567bb45954db2f814865f4dbac, type: 3}
       propertyPath: m_IsActive

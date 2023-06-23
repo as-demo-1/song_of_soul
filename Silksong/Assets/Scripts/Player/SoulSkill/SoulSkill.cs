@@ -83,34 +83,7 @@ public abstract class SoulSkill : MonoBehaviour
         }
         
     }
-    protected void Start()
-    {
-        //Debug.Log("START TIMER UPDATE");
-        //_playerCharacter = GetComponentInParent<PlayerCharacter>();
-        
-        //MonoManager.Instance.AddUpdateEvent(Timer.Instance.TimerUpdate);
-    }
-
-    protected void OnEnable()
-    {
-        //Debug.Log("test!!!!!!!!!!!");
-        
-        
-        
-        // 使用定时器定时结算灵魂状态的const
-        //Timer.Instance.StartTickActionLoop("TickSoulStatus", 0, 10, TickSoulStatus);
-    }
-
-    protected void OnDisable()
-    {
-        //Debug.Log("test disable!!!!!!!!!!!");
-        //Timer.Instance.EndTickActionLoop("TickSoulStatus");
-    }
-
-    private void Update()
-    {
-
-    }
+    
 
     private int debugCnt = 0;
     protected void TickSoulStatus()
@@ -173,7 +146,7 @@ public abstract class SoulSkill : MonoBehaviour
                 _playerAnimator.SetBool("isSoul", true);
             }
             PlayerAnimatorParamsMapping.SetControl(true);
-            _playerController.GetComponent<InvulnerableDamable>().invulnerable = false;
+            _playerController.GetComponent<InvulnerableDamable>().invulnerable = false;// 解除无敌状态
             InvokeRepeating(nameof(TickSoulStatus), 0.0f, 1.0f);// 定时扣除能量
         });
     }
