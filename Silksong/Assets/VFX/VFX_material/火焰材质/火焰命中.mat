@@ -2,15 +2,20 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: "\u706B\u7130\u547D\u4E2D"
   m_Shader: {fileID: 4800000, guid: 3b8d180d5977ba14081c9fc889028922, type: 3}
-  m_ShaderKeywords: _DEBLACKBG_ON _DESATURATE_ON _DISSOLVEMODE_MATERIAL _FRESNEL2_ADD
-    _TURBULENCEDIRECTION_UV _USE8NEIGHBOURHOOD_ON
+  m_ValidKeywords:
+  - _DEBLACKBG_ON
+  - _DESATURATE_ON
+  - _DISSOLVEMODE_MATERIAL
+  - _FRESNEL2_ADD
+  - _TURBULENCEDIRECTION_UV
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -72,6 +77,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _BumpScale: 1
     - _CullMode: 0
@@ -103,25 +109,16 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OneMinus_DissolveTex: 0
-    - _OutlineMipLevel: 0
-    - _OutlineReferenceTexWidth: 1024
-    - _OutlineSmoothness: 1
-    - _OutlineWidth: 3
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Src: 5
     - _SrcBlend: 1
-    - _StencilComp: 8
-    - _StencilRef: 1
-    - _StraightAlphaInput: 0
-    - _ThresholdEnd: 0.25
     - _TurbulenceDirection: 0
     - _TurbulenceStrength: 0
     - _TurbulenceTexPannerX: 0
     - _TurbulenceTexPannerY: 0
     - _UVSec: 0
-    - _Use8Neighbourhood: 1
     - _VerTexPannerX: 0
     - _VerTexPannerY: 0
     - _VerTexScale: 0
@@ -134,5 +131,4 @@ Material:
     - _FaceInColor: {r: 1, g: 1, b: 1, a: 1}
     - _FaceOutColor: {r: 1, g: 1, b: 1, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 1, g: 1, b: 0, a: 1}
   m_BuildTextureStacks: []

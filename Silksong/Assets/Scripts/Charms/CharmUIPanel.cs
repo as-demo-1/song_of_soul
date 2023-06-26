@@ -99,6 +99,7 @@ public class CharmUIPanel : SerializedMonoBehaviour
 
     public void Init()
     {
+        Debug.Log("护符初始化开始");
         if (CharmListSO.Charms.Count <= 0)
             return;
         foreach (Charm charm in CharmListSO.Charms)
@@ -129,12 +130,12 @@ public class CharmUIPanel : SerializedMonoBehaviour
                 }
             }
         }
-        if(orangeCharmImages != null)
-        {
-			orangeCharmImage = Instantiate(charmPrefab, slotDic[orangeCharmImages[0].CharmQuality][0].transform).GetComponent<CharmImage>();
-			orangeCharmImage.GetComponent<RectTransform>().sizeDelta = slotDic[orangeCharmImages[0].CharmQuality][0].GetComponent<RectTransform>().sizeDelta;
-			orangeCharmImage.Init(orangeCharmImages[0], this);
-		}
+  //       if(orangeCharmImages != null)
+  //       {
+		// 	orangeCharmImage = Instantiate(charmPrefab, slotDic[orangeCharmImages[0].CharmQuality][0].transform).GetComponent<CharmImage>();
+		// 	orangeCharmImage.GetComponent<RectTransform>().sizeDelta = slotDic[orangeCharmImages[0].CharmQuality][0].GetComponent<RectTransform>().sizeDelta;
+		// 	orangeCharmImage.Init(orangeCharmImages[0], this);
+		// }
         Debug.Log("护符初始化完成");
         
     }

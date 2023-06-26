@@ -69,7 +69,10 @@ public class BossController : MonoBehaviour
 
     public void ToSecond()
     {
+        // TODO£∫÷ÿ–¥
+        /*
         PianoAttackEnd();
         ClarinetAttackEnd();
+        */
     }
 }
