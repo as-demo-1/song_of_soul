@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -122,8 +123,8 @@ public class LightningChain : SoulSkill
         {
             if (enemy != null)
             {
-                enemy.takeDamage(damager);
                 GameObject explode = Instantiate(explodeEffect, enemy.transform);
+                DOVirtual.DelayedCall(0.2f, () => enemy.takeDamage(damager));
                 Destroy(explode, 2.0f);
             }
         }

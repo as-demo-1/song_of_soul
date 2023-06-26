@@ -2,26 +2,14 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 8
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: "\u96EA\u82B1\u6750\u8D28"
   m_Shader: {fileID: 4800000, guid: 3b8d180d5977ba14081c9fc889028922, type: 3}
-  m_ValidKeywords:
-  - _DEBLACKBG_ON
-  - _DISSOLVEMODE_MATERIAL
-  - _FRESNEL2_ADD
-  - _TURBULENCEDIRECTION_UV
-  m_InvalidKeywords:
-  - _FRESNEL3_ADD
-  - _FRESNEL3_ADD
-  - _FRESNEL_ADD
-  - _FRESNEL_ADD
-  - _TURBULENCEDIRECTION1_UV
-  - _TURBULENCEDIRECTION2_UV
-  - _TURBULENCEDIRECTION3_UV
+  m_ShaderKeywords: _DEBLACKBG_ON _DISSOLVEMODE_MATERIAL _FRESNEL2_ADD _TURBULENCEDIRECTION_UV
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -107,7 +95,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
     m_Floats:
     - _BumpScale: 1
     - _CullMode: 0
@@ -189,7 +176,7 @@ Material:
     - _VerTexScale1: 0
     - _ZTest: 4
     - _ZTest1: 4
-    - _ZWrite: 0
+    - _ZWrite: 1
     - _ZWrite1: 0
     m_Colors:
     - _Color: {r: 2.6082377, g: 2.6082377, b: 2.6082377, a: 1}

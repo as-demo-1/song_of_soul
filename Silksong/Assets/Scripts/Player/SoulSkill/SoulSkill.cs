@@ -41,7 +41,7 @@ public abstract class SoulSkill : MonoBehaviour
     protected ParticleSystem henshin;
     [SerializeField]
     protected Material soulMode = default;
-    [FormerlySerializedAs("atkDamager")] [SerializeField]
+    [SerializeField]
     public GameObject atkObject;// 挥击效果或伤害
     public string animName;// 攻击动画变量名称
     public GameObject stateParticle; // 状态特效
