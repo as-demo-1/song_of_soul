@@ -10,7 +10,7 @@ public class BigBirdController : MonoBehaviour
     private Vector3 bossloc;
     private Vector3 playerloc;
     private int cur_loc;
-    private int Health = 300;
+    public int Health = 300;
     void Start()
     {
         rbd = GetComponent<Rigidbody2D>();

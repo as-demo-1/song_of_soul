@@ -8,7 +8,7 @@ namespace BehaviorDesigner.Runtime.Tasks
     {
         private Boss_BigBird BirdController;
         private GameObject Player;
-       public float Health = 71;
+        public float Health = 71;
         public List<int> Stage;
         public int stageindex;
         public override void OnStart()
@@ -16,7 +16,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             
             Player = GameObject.FindGameObjectWithTag("Player");
            // BirdController = Player.GetComponentInChildren<Boss_BigBird>();
-           Health = GameObject.FindGameObjectWithTag("Boss").GetComponentInChildren<BigBirdController>().GetHealth();
+           Health = GetComponent<HpDamable>().CurrentHp;
         }
         
         
@@ -24,6 +24,8 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         public override TaskStatus OnUpdate()
         {
+            Health = GetComponent<HpDamable>().CurrentHp;
+            Debug.Log(Health);
            // Health = GameObject.FindGameObjectWithTag("Boss").GetComponent<BigBirdController>().GetHealth();
             //Debug.Log(Health);
             if (Health > Stage[stageindex])
