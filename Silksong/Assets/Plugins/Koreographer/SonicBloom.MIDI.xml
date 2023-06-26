@@ -1,0 +1,499 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SonicBloom.MIDI</name>
+    </assembly>
+    <members>
+        <member name="T:SonicBloom.MIDI.MIDIConstants">
+            <summary>
+            Values defined by the MIDI standard.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDIConstants.MIDIFileFormats">
+            <summary>
+            MIDI File Format Constants.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDIConstants.MIDIStatus">
+            <summary>
+            MIDI Status Constants.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDIConstants.MIDIMetaEvents">
+            <summary>
+            MIDI Meta Event Constants
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDIConstants.MIDIControllers">
+            <summary>
+            MIDI Controller Constants.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDIConstants.HEADER_ID">
+            <summary>
+            The standard MIDI Header identifier string.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDIConstants.TRACK_ID">
+            <summary>
+            The standard MIDI Track identifier string.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDITime">
+            <summary>
+            Basic MIDI Time representation.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.SMPTETime">
+            <summary>
+            SMPTE time representation.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDITimeDivision">
+            <summary>
+            Representation of MIDI Time Division, or resolution
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeDivision.bSMPTE">
+            <summary>
+            Whether time uses SMPTE representation.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeDivision.fps">
+            <summary>
+            The fps (for SMPTE).
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeDivision.subFrames">
+            <summary>
+            The sub frames, or updates per 'frame' (for SMPTE).
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeDivision.ticks">
+            <summary>
+            The ticks or PPQN (Pulses Per Quarter Note)
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDITempo">
+            <summary>
+            Representation of MIDI Tempo.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITempo.DefaultTempo">
+            <summary>
+            A default MIDI Tempo definition.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITempo.microPerQuarter">
+            <summary>
+            Thenumber of Microseconds Per Quarter Note that define the tempo.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.MIDI.MIDITempo.GetBPM">
+            <summary>
+            Gets the BPM.
+            </summary>
+            <returns>The BPM.</returns>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDITimeSignature">
+            <summary>
+            Representation of MIDI time signature.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeSignature.DefaultTimeSignature">
+            <summary>
+            A default MIDI Time Signature definition.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeSignature.beatsPerBar">
+            <summary>
+            The beats per bar (or measure).
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeSignature.noteValue">
+            <summary>
+            The note value.  This is the denominator of the time signature. A
+            value of 4 means quarter notes.  Also known as the Beat Unit.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeSignature.midiClocks">
+            <summary>
+            How many MIDI clocks per metronome click.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDITimeSignature.num32NotesPerBeat">
+            <summary>
+            Defines a "beat".
+            <example>A quarter note 'beat' would be 8 (as there are 8 32-notes in a quarter note).</example></summary>
+        </member>
+        <member name="M:SonicBloom.MIDI.MIDITimeSignature.GetTimeSig">
+            <summary>
+            Returns a human-readable time signature.
+            </summary>
+            <returns>The time signature as a <c>string</c>.</returns>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDIKeySignature">
+            <summary>
+            Representation of MIDI key signature.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDIKeySignature.DefaultKeySignature">
+            <summary>
+            A default key signature definition.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDIKeySignature.key">
+            <summary>
+            The key.  This is a value of <c>[-7,7]</c>. Negative is flat;
+            positive is sharp.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.MIDI.MIDIKeySignature.GetMusicKey">
+            <summary>
+            Gets the human-readable key signature.  Flat keys are followed by a
+            lowercase 'b', Sharp keys are followed by a '#'.
+            </summary>
+            <returns>The key as a <c>string</c>.</returns>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDIEvent">
+            <summary>
+            Representation of a raw MIDI event.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDITrack">
+            <summary>
+            Representation of a raw MIDI track.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDIHeader">
+            <summary>
+            Representation of a raw MIDI header.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.MIDIHeader.format">
+            <summary>
+            Format of the MIDI file.
+            [NOTE] The first track of a Format 1 file is special, and is also known as the 'Tempo Map'. It should contain all
+            meta-events of the types Time Signature, and Set Tempo. The meta-events Sequence/Track Name, Sequence Number,
+            Marker, and SMTPE Offset. should also be on the first track of a Format 1 file.
+            - http://cs.fit.edu/~ryan/cse4051/projects/midi/midi.html
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.MIDIUtils">
+            <summary>
+            Utility methods for MIDI operations and types.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.MIDI.MIDIUtils.EndianSwap16(System.Int16)">
+            <summary>
+            Endian swap for a 16-bit value.
+            </summary>
+            <returns>An endian-swapped version of <paramref name="input" /></returns>
+            <param name="input">The value to swap endianness of.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.MIDIUtils.EndianSwap32(System.Int32)">
+            <summary>
+            Endian swap for a 32-bit value.
+            </summary>
+            <returns>An endian-swapped version of <paramref name="input" />.</returns>
+            <param name="input">The value to swap endianness of.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.MIDIUtils.LowNibble(System.Byte)">
+            <summary>
+            Gets the lower 4-bits of <paramref name="input" />.
+            </summary>
+            <returns>The lower 4-bits of <paramref name="input" />.</returns>
+            <param name="input">The value to retrieve the lower nibble from.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.MIDIUtils.HighNibble(System.Byte)">
+            <summary>
+            Gets the upper 4-bits of <paramref name="input" />.
+            </summary>
+            <returns>The upper 4-bits of <paramref name="input" />.</returns>
+            <param name="input">The value to retrieve the upper nibble from.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.MIDIUtils.ReadVariableLengthQuantity(System.IO.BinaryReader)">
+            <summary>
+            Reads a variable length quantity value out of <paramref name="reader" />.
+            (see: https://en.wikipedia.org/wiki/Variable-length_quantity)
+            </summary>
+            <returns>The variable length quantity, packed into an <c>int</c>.</returns>
+            <param name="reader">The <c>BinaryReader</c> to read the variable length
+            quantity from.</param>
+        </member>
+        <member name="T:SonicBloom.MIDI.Objects.SongBuilder">
+            <summary>
+                <para>Used to create Song objects from passed in MIDI File references.
+            As this class uses managed objects (Files) we need to be careful
+            about disposing them properly.  To this end, it extends the BinaryReader
+            class, which works with the using() statement to allow for runtime-supported
+            cleanup in case of unhandled exception.</para>
+                <para>WARNING: Always be sure to call Dispose() as necessary or use the
+            using() statement.</para>
+                <para>At present this shouldn't be a problem as the only accessor is
+            a static builder function that handles this internally.</para>
+            </summary>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.SongBuilder.GetSong(System.String)">
+            <summary>
+            Builds the <see cref="T:SonicBloom.MIDI.Objects.Song" /> object representation
+            of the MIDI file at location <paramref name="midiFileLoc" />.
+            </summary>
+            <returns>A <see cref="T:SonicBloom.MIDI.Objects.Song" /> representation of the
+            MIDIfile at location <paramref name="midiFileLoc" />.</returns>
+            <param name="midiFileLoc">The location of the MIDI file.</param>
+        </member>
+        <member name="T:SonicBloom.MIDI.Objects.Note">
+            <summary>
+            A representation of a Note.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.Objects.Note.startTime">
+            <summary>
+            The time in ticks.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Note.GetMusicNote(System.Int32)">
+            <summary>
+            Retrieves a human-readable <c>string</c> representation
+            of <paramref name="key" />.
+            </summary>
+            <returns>A human-readable <c>string</c> representation of
+            <paramref name="key" />.</returns>
+            <param name="key">The <c>int</c> value of the key to convert
+            to <c>string</c>.</param>
+        </member>
+        <member name="T:SonicBloom.MIDI.Objects.Channel">
+            <summary>
+            Representation of a Channel of notes.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.Objects.Channel.instrumentName">
+            <summary>
+            The name of the instrument.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.MIDI.Objects.Channel.Notes">
+            <summary>
+            Gets the notes.
+            </summary>
+            <value>The notes.</value>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Channel.BeginNote(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Begins a note in the channel at <paramref name="time" /> with
+            <paramref name="key" /> and <paramref name="velocity" />.
+            </summary>
+            <param name="time">The time in ticks the note begins at.</param>
+            <param name="key">The key of the note.</param>
+            <param name="velocity">The velocity of the note.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Channel.EndNote(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Ends a note in the channel at <paramref name="time" /> with
+            <paramref name="key" /> and <paramref name="velocity" />.
+            </summary>
+            <param name="time">The time in ticks the note ends at.</param>
+            <param name="key">The key of the note.</param>
+            <param name="velocity">The velocity of the note.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Channel.HasUnendedNoteWithKey(System.Int32)">
+            <summary>
+            Determines whether the <c>Channel</c> contains an unended note with
+            key <paramref name="key" />.
+            </summary>
+            <returns>
+                <c>true</c> if this <c>Channel</c> has an unended note with
+            the specified key; otherwise, <c>false</c>.</returns>
+            <param name="key">Key.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Channel.NumNotes">
+            <summary>
+            Gets the number of notes in the <c>Channel</c>.
+            </summary>
+            <returns>The number of notes in the <c>Channel</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Channel.NumUnendedNotes">
+            <summary>
+            Gets the number of unnended notes in the <c>Channel</c>.
+            </summary>
+            <returns>The number of unnended notes in the <c>Channel</c>.</returns>
+        </member>
+        <member name="T:SonicBloom.MIDI.Objects.Track">
+            <summary>
+            Representation of a Track object.
+            </summary>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Track.HasLyrics">
+            <summary>
+            Determines whether this <c>Track</c> contains any Lyrics.
+            </summary>
+            <returns>
+                <c>true</c> if this instance has lyrics; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Track.AddLyric(System.Int32,System.String)">
+            <summary>
+            Adds <paramref name="lyric" /> to the list of Lyrics at <paramref name="time" />.
+            </summary>
+            <param name="time">The time at which to add the <paramref name="lyric" />.</param>
+            <param name="lyric">The <c>string</c> lyric to add to the Lyrics.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Track.GetLyrics">
+            <summary>
+            Gets the <c>List</c> of available lyrics from this Track as <c>MIDITimedMessage&lt;string&gt;</c> objects.
+            </summary>
+            <returns>The <c>List</c> of lyrics found in this Track.</returns>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Track.HasChannel(System.Int32)">
+            <summary>
+            Determines whether this <c>Track</c> has a <c>Channel</c> at
+            <paramref name="channelNum" />.
+            </summary>
+            <returns>
+                <c>true</c> if this <c>Track</c> has a <c>Channel</c> at
+            <paramref name="channelNum" />; otherwise, <c>false</c>.</returns>
+            <param name="channelNum">Channel number.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Track.GetChannel(System.Int32,System.Boolean)">
+            <summary>
+            Gets the <c>Channel</c> at <paramref name="channelNum" />.  If
+            <paramref name="bCreateIfNull" /> is <c>true</c>, a <c>Channel</c>
+            will be created if it doesn't already exist.
+            </summary>
+            <returns>A <c>Channel</c> at <paramref name="channelNum" />.</returns>
+            <param name="channelNum">The <c>Channel</c> to retrieve.</param>
+            <param name="bCreateIfNull">If set to <c>true</c> creates the <c>Channel</c>
+            if it doesn't already exist.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Track.PrintInfo">
+            <summary>
+            Prints information about the Track.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.Objects.MIDITimedMessage`1">
+            <summary>
+            Adds MIDI timing information to a MIDI Message.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.Objects.MIDITimedMessage`1.time">
+            <summary>
+            The time in ticks.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.Objects.MIDITimedMessage`1.timeInSec">
+            <summary>
+            The time in seconds.
+            </summary>
+        </member>
+        <member name="F:SonicBloom.MIDI.Objects.MIDITimedMessage`1.msg">
+            <summary>
+            The wrapped message.
+            </summary>
+        </member>
+        <member name="T:SonicBloom.MIDI.Objects.Song">
+            <summary>
+            Representation of a MIDI File as a song.
+            </summary>
+        </member>
+        <member name="P:SonicBloom.MIDI.Objects.Song.TempoMap">
+            <summary>
+            Gets the tempo map.
+            </summary>
+            <value>The tempo map.</value>
+        </member>
+        <member name="P:SonicBloom.MIDI.Objects.Song.TimeSignatureMap">
+            <summary>
+            Gets the time signature map.
+            </summary>
+            <value>The time signature map.</value>
+        </member>
+        <member name="P:SonicBloom.MIDI.Objects.Song.KeySignatureMap">
+            <summary>
+            Gets the key signature map.
+            </summary>
+            <value>The key signature map.</value>
+        </member>
+        <member name="P:SonicBloom.MIDI.Objects.Song.Tracks">
+            <summary>
+            Gets the tracks.
+            </summary>
+            <value>The tracks.</value>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.SetTimeDiv(SonicBloom.MIDI.MIDITimeDivision)">
+            <summary>
+            Sets the MIDI Time Division for the song.
+            </summary>
+            <param name="div">The MIDI Time Division to which to set the song.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.GetTimeInSeconds(System.Int32)">
+            <summary>
+            Converts <paramref name="messageTime" /> from MIDI Time to seconds.
+            </summary>
+            <returns>
+                <paramref name="messageTime" /> converted to seconds.</returns>
+            <param name="messageTime">The MIDI Time of the message to convert.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.AddTempo(System.Int32,SonicBloom.MIDI.MIDITempo)">
+            <summary>
+            Adds <paramref name="tempo" /> to the Tempo Map at <paramref name="time" />.
+            </summary>
+            <param name="time">The time at which to add <paramref name="tempo" />.</param>
+            <param name="tempo">The <c>MIDITempo</c> to add to the Tempo Map.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.AddTimeSignature(System.Int32,SonicBloom.MIDI.MIDITimeSignature)">
+            <summary>
+            Adds <paramref name="sig" /> to the Time Signature Map at
+            <paramref name="tickTime" />.
+            </summary>
+            <param name="tickTime">The time at which to add <paramref name="sig" />.</param>
+            <param name="sig">The <c>MIDITimeSignature</c> to add to
+            the Time Signature Map.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.AddKeySignature(System.Int32,SonicBloom.MIDI.MIDIKeySignature)">
+            <summary>
+            Adds <paramref name="sig" /> to the Key Signature Map at
+            <paramref name="tickTime" />.
+            </summary>
+            <param name="tickTime">The time at which to add <paramref name="sig" />.</param>
+            <param name="sig">The <c>MIDIKeySignature</c> to add to
+            the Key Signature Map.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.HasTempoMap">
+            <summary>
+            Determines whether this <c>Song</c> has a Tempo Map.
+            </summary>
+            <returns>
+                <c>true</c> if this <c>Song</c> has a Tempo Map;
+            otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.HasTimeSignatureMap">
+            <summary>
+            Determines whether this <c>Song</c> has a Time Signature Map.
+            </summary>
+            <returns>
+                <c>true</c> if this <c>Song</c> has a Time Signature
+            Map; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.GetTempoAtTime(System.Int32)">
+            <summary>
+            Gets the Tempo Map entry at <paramref name="tickTime" />.
+            </summary>
+            <returns>The Tempo Map entry at <paramref name="tickTime" />.</returns>
+            <param name="tickTime">The time to get the Tempo Map entry of.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.GetTimeSignatureAtTime(System.Int32)">
+            <summary>
+            Gets the Time Signature Map entry at <paramref name="tickTime" />.
+            </summary>
+            <returns>The Time Signature Map entry at <paramref name="tickTime" />.</returns>
+            <param name="tickTime">The time to get the Time Signature Map entry of.</param>
+        </member>
+        <member name="M:SonicBloom.MIDI.Objects.Song.GetKeySignatureAtTime(System.Int32)">
+            <summary>
+            Gets the Key Signature Map entry at <paramref name="tickTime" />.
+            </summary>
+            <returns>The Key Signature Map entry at <paramref name="tickTime" />.</returns>
+            <param name="tickTime">The time to get the Key Signature Map entry of.</param>
+        </member>
+    </members>
+</doc>

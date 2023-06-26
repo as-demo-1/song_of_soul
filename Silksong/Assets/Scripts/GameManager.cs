@@ -78,10 +78,12 @@ public class GameManager : MonoBehaviour
         CreateCamera();
 
         // 临时初始化UI
-        UIManager.Instance.ShowGameUI();
+        UIManager.Instance.Show<UIPlayerStatus>();
 
         //before create the player, you need to load save data so the player can run init correctly  but at now we do not load save yet
         creatPlayer();
+
+
 
         eventSystem = Instantiate(eventSystem);
         DontDestroyOnLoad(eventSystem);

@@ -17,8 +17,10 @@ public class Save
     public List<string> _finishedObjectGuid = new List<string>();
     public Dictionary<string, int> _sceneInterative = new Dictionary<string, int>();
     public List<string> _bossGUID = new List<string>();
-    public List<SerializedItemStack> _itemStacks = new List<SerializedItemStack>();
-    public List<SerializedItemStack> _storeStacks = new List<SerializedItemStack>();
+
+    //public List<SerializedItemStack> _itemStacks = new List<SerializedItemStack>();
+    //public List<SerializedItemStack> _storeStacks = new List<SerializedItemStack>();
+
     public List<string> _destroyedGameObjs = new List<string>();
 
     //about player-----------------------------------------------------------------------------

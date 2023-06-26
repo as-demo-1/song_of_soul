@@ -1,0 +1,453 @@
+#contentTitle
+{
+	font-size: 20px;
+}
+
+.manager-content-container
+{
+	margin-top: 1px;
+	top: -20px;
+	padding-top: 20px;
+}
+
+/* || Menu || */
+#menu
+{
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: 0;
+    width: 145px;
+    max-width: 145px;
+    border-right-width: 1px;
+}
+
+#menu-button
+{
+	font-size: 14px;
+	-unity-text-align: middle-right;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	padding-right: 2px;
+}
+
+.light-menu-background
+{
+	border-color: rgb(55, 55, 55);
+	background-color: rgb(211, 211, 211);
+}
+
+.dark-menu-background
+{
+	border-color: rgb(40, 40, 40);
+	background-color: rgb(65, 65, 65);
+}
+
+.selected-light-menu-button-background
+{
+	background-color: rgb(63, 126, 221);
+}
+
+.selected-dark-menu-button-background
+{
+	background-color: rgb(63, 94, 151);
+}
+
+/* || Utility Manager Classes || */
+.link-cursor
+{
+    cursor: link;
+}
+
+/* || Common Manager Styles || */
+.sub-menu
+{
+	margin: 2px;
+	padding: 2px;
+	border-color: #010101;
+	border-width: 1px;
+	border-radius: 2px;
+}
+
+/* || Setup Sub Menu || */
+.sub-menu-title
+{
+	-unity-font-style: bold;
+	font-size: 15px;
+	padding-bottom: 5px;
+}
+
+.sub-menu-button
+{
+	flex-grow: 0;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	
+	min-width: 125px;
+	min-height: 25px;
+}
+
+/* || UI Designer Manager || */
+.sub-menu-top
+{
+	flex-direction: row;
+	flex-grow: 1;
+	flex-shrink: 0;
+}
+
+.sub-menu-icon-options
+{
+	flex-direction: row;
+	flex-grow: 1;
+	flex-shrink: 0;
+	justify-content: flex-end;
+}
+
+.sub-menu-icon-option
+{
+	height: 17px;
+	width: 17px;
+}
+
+.sub-menu-description
+{
+	white-space: normal;
+	font-size: 13px;
+	padding: 10px 15px 10px 15px;
+}
+
+.create-delete-select-container{
+	flex-direction: row;
+}
+
+/* || Integrations Manager || */
+#integrations-container
+{
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+#integrations-box
+{
+	margin: 3px;
+	padding: 2px;
+	width: 270px;
+	height: 100px;
+}
+
+#integrations-title
+{
+	-unity-font-style: bold;
+	font-size: 13px;
+	margin-left: 4px;
+	padding-bottom: 4px;
+}
+
+/* || Box || */
+.light-box-background, .dark-box-background
+{
+	border-width: 1px;
+	padding: 1px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	border-radius: 1px;
+}
+
+.light-box-background
+{
+	border-color: rgb(55, 55, 55);
+	background-color: rgb(208, 208, 208);
+}
+
+.dark-box-background
+{
+	border-color: rgb(40, 40, 40);
+	background-color: rgb(60, 60, 60);
+}
+
+/* || Panels || */
+#leftPanel
+{
+	flex-direction: column;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: 0;
+    width: 290px;
+    max-width: 290px;
+    padding: 3px;
+}
+
+#contentPanel
+{
+    padding: 3px;
+}
+
+/* || TabToolbar || */
+#tabToolbar
+{
+	flex-direction: row;
+	justify-content: center;
+	margin-bottom: 4px;
+}
+
+.selected-dark-tab-button
+{
+	-unity-background-image-tint-color: rgb(180, 180, 180);
+}
+
+.selected-light-tab-button
+{
+	-unity-background-image-tint-color: rgb(210, 210, 210);
+}
+
+/* || Colored Box || */
+.colored-box
+{
+	flex-shrink: 0;
+	width: 16px;
+	height: 16px;
+	align-self: center;
+	margin-left: 2px;
+	border-color: #010101;
+	border-width: 1px;
+	border-radius: 2px;
+	margin: 0px 3px;
+}
+
+.colored-box Label
+{
+	-unity-font-style: bold;
+	-unity-text-align: middle-center;
+	margin: 0px;
+	padding: 0;
+}
+
+.colored-box__error
+{
+	border-radius: 17px;
+	font-size: 14px;
+	-unity-font-style: bold-and-italic;
+}
+
+.colored-box__preview
+{
+	border-radius: 0;
+	border-width: 0;
+	width: 16px;
+	height: 16px;
+}
+
+.colored-box__preview #previewContainer
+{
+	position: absolute;
+	width: 16px;
+	height: 16px;
+}
+
+/* || Attribute View || */
+.attribute-view__margin
+{
+	margin-top: 20px;
+}
+
+/* || Attribute View Name || */
+.attribute-view-name
+{
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+}
+
+.attribute-view-name__label
+{
+	width: 250px;
+	overflow: hidden;
+}
+
+.attribute-view-name__label-small
+{
+	width: 150px;
+	overflow: hidden;
+}
+
+.attribute-view-name-and-value__value
+{
+	align-self: center;
+	flex-grow: 1;
+	flex-direction: row;
+}
+
+.attribute-view-name > .colored-box
+{
+	margin: 1px;
+}
+
+/* || Attribute Value Field || */
+.attribute-value-field LabelControl > Label
+{
+	opacity: 1;
+	-unity-font-style: bold;
+	font-size: 14px;
+}
+
+.attribute-value-field
+{
+	opacity: 0.7;
+}
+
+.attribute-value-field LabelControl
+{
+	flex-direction: column;
+	margin-left: 3px;
+}
+
+.attribute-override-value-field
+{
+	opacity: 1;
+}
+
+/* || Attribute Binding || */
+.attribute-binding
+{
+	flex-direction: row;
+}
+
+.attribute-binding > AttributeViewName
+{
+	flex-shrink: 1;
+}
+
+.attribute-binding__object
+{
+	flex-shrink: 1;
+	flex-grow: 1;
+	min-width: 75px;
+}
+
+.attribute-binding__popup
+{
+	min-width: 75px;
+	flex-grow: 1;
+}
+
+/* || Inventory Object Field || */
+.inventory-object-field
+{
+	flex-direction: row;
+	flex-grow: 1;
+	max-height: 25px;
+	margin-left: 3px;
+}
+
+.inventory-object-field > Label
+{
+	width: 150px;
+}
+
+.inventory-object-field > Button
+{
+	margin-left: 5px;
+	margin-bottom: 1px;
+	margin-top: 1px;
+	min-height: 15px;
+}
+
+/* Currency Family Item View */
+.currency-family-item-view
+{
+	flex-direction: row;
+	flex-grow: 1;
+}
+
+.currency-family-item-view__left-side
+{
+	flex-direction: row;
+	flex-grow: 1;
+	max-width: 175px;
+}
+
+.currency-family-item-view__right-side
+{
+	flex-direction: row;
+}
+
+.currency-family-item-view__right-side > VisualElement
+{
+	flex-direction: row;
+	width: 200px;
+}
+
+/* || Crafting Recipe View || */
+.crafting-recipe-view
+{
+	flex-direction: row;
+	flex-grow: 1;
+	/*justify-content: center;
+	align-content: center;
+	align-items: center;*/
+}
+
+.crafting-recipe-view > ReorderableList
+{
+	flex-grow: 1;
+}
+
+/* || Warning Popup Window || */
+.warning-popup-window
+{
+	border-width: 2px;
+	border-color: #000000;
+}
+
+.warning-popup-window__message
+{
+	margin: 10px;
+	white-space: normal;
+}
+
+.warning-popup-window__button-container
+{
+	flex-direction: row;
+	flex-grow: 1;
+	justify-content: space-between;
+	margin: 10px 75px;
+	min-height: 20px;
+	height: 20px;
+}
+
+.warning-popup-window__button-container > Button
+{
+	width: 75px;
+	min-height: 20px;
+}
+
+/* || Extra final touches || */
+#contentPanel ReorderableList
+{
+	max-height: 300px;
+}
+
+TabToolbar
+{
+	min-height: 20px;
+}
+
+#contentPanel TabToolbar
+{
+	flex-wrap: wrap;
+}
+
+ItemAmountsView .box-view-name
+{
+	flex-grow: 0;
+}
+
+#ManagerMoreOptionButton{
+	top: 0px;
+	right: 5px;
+	position: absolute;
+	align-self: flex-end;
+}

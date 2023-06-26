@@ -55,4 +55,9 @@ public class BulletSender : MonoBehaviour
         bh.gameObject.transform.position = transform.position;
         bh.gameObject.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
+
+    public void ChangeRotation(float angle)
+    {
+        currentAngle = angle;
+    }
 }

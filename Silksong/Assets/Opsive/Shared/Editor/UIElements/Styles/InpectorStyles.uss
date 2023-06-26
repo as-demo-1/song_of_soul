@@ -1,0 +1,81 @@
+
+.inspectable-object-field{
+    flex-direction: row;
+    -unity-text-align: middle-left;
+}
+
+
+/*
+State List
+*/
+.states-reorderable-list__header
+{
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.states-reorderable-list-element
+{
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.states-reorderable-list-element > .unity-base-field
+{
+    flex-grow: 1;
+    width: 0;
+}
+
+/* 
+ Item Set Manager
+ */
+
+ItemSetGroupListVisualElement FoldoutHeader Label{
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+ItemSetGroupListVisualElement ReorderableList > #header > Foldout{
+    flex-grow: 1;
+}
+
+
+ItemSetVisualElement #ItemSet_OtherContainer{
+    margin-left: 15px;
+}
+
+ItemSetVisualElement #ItemSet_SlotList #body{
+    margin-left: 15px;
+}
+
+ItemSetVisualElement #itemSetHeader{
+    flex-grow: 1;
+    flex-direction: row;
+    -unity-text-align: middle-center;
+}
+
+ItemSetVisualElement #itemSetHeader.selected{
+    background-color: rgb(62, 95, 150);
+}
+
+ItemSetVisualElement #itemSetHeader_StateIcon{
+    width: 20px;
+    height: 20px;
+}
+
+ItemSetVisualElement #itemSetHeader_Default{
+    -unity-font-style: bold-and-italic;
+}
+
+ItemSetVisualElement #itemSetHeader_Index{
+    
+}
+
+ItemSetVisualElement #itemSetHeader_StateName{
+    font-size: 15px;
+    -unity-font-style: bold;
+}
+
+ItemSetVisualElement #itemSetHeader_Rule{
+}

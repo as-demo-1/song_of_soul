@@ -1,115 +1,91 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FairyGUI;
-
 public class UIManager : MonoSingleton<UIManager>
 {
-    // todo 后续优化为字典或栈
-    private GameObject UIMenu_PlayerStatus;
-    private GameObject UIMenu_System;
-    public GameObject Prefabs_UIMenu_PlayerStatus;
-    public GameObject Prefabs_UIMenu_System;
+	class UIElement
+	{
+		public string Resources;//UI存的资源路径
+		public bool Cache;//UI关闭后是否销毁
+		public GameObject Instance;//如果Cache，把instance存下来
+	}
+	public int inventorySaveIndex;//临时测试
 
-    // todo 后续将多个bool优化为枚举状态
-    public bool isShowGameUI = false;
-    public bool isShowSystemUI = false;
+	private Dictionary<Type, UIElement> UIResoureces = new Dictionary<Type, UIElement>();//保存定义的UI信息
 
-    public override void Init()
-    {
-        DontDestroyOnLoad(gameObject);
-        Application.targetFrameRate = 60;
-        UIPackage.AddPackage("FairyGUI/Common");
-        UIPackage.AddPackage("FairyGUI/MainMenu");
-        UIPackage.AddPackage("FairyGUI/OnSureMenu");
-        UIPackage.AddPackage("FairyGUI/PlayerStatusMenu");
-        UIPackage.AddPackage("FairyGUI/SystemMenu");
-    }
+	public override void Init()
+	{
+		DontDestroyOnLoad(gameObject);
+		this.UIResoureces.Add(typeof(UIMenu_System), new UIElement() { Resources = "UI/UIMenu_System", Cache = false });
+		this.UIResoureces.Add(typeof(UIPlayerStatus), new UIElement() { Resources = "UI/UIPlayerStatus", Cache = true });
+		this.UIResoureces.Add(typeof(UIShop), new UIElement() { Resources = "UI/UIShop", Cache = false });
+		Application.targetFrameRate = 60;
+	}
+	public T Show<T>()
+	{
+		Type type = typeof(T);
+		if (this.UIResoureces.ContainsKey(type))
+		{
+			UIElement info = this.UIResoureces[type];
+			if (info.Instance != null)
+			{
+				info.Instance.SetActive(true);
+			}
+			else
+			{
+				UnityEngine.Object prefab = Resources.Load(info.Resources);
+				if (prefab == null)
+				{
+					return default(T);
+				}
+				info.Instance = (GameObject)GameObject.Instantiate(prefab);
+			}
+			return info.Instance.GetComponent<T>();
+		}
+		return default(T);
+	}
 
-    public void ShowGameUI()
-    {
-        if (!isShowGameUI)
-        {
-            isShowGameUI = true;
-            if (UIMenu_PlayerStatus != null)
-            {
-                UIMenu_PlayerStatus.SetActive(true);
-            }
-            else
-            {
-                if (Prefabs_UIMenu_PlayerStatus == null)
-                {
-                    Prefabs_UIMenu_PlayerStatus = Resources.Load<GameObject>("Prefabs/UIMenu_PlayerStatus");
-                }
-                UIMenu_PlayerStatus = Instantiate(Prefabs_UIMenu_PlayerStatus);
-                DontDestroyOnLoad(UIMenu_PlayerStatus);
-            }
-        }
-    }
-    
-    public void HideGameUI()
-    {
-        if (isShowGameUI)
-        {
-            isShowGameUI = false;
-            if (UIMenu_PlayerStatus != null)
-            {
-                UIMenu_PlayerStatus.SetActive(false);
-            }
-        }
-    }
+	public void Close(Type type)
+	{
+		if (this.UIResoureces.ContainsKey(type))
+		{
+			UIElement info = this.UIResoureces[type];
+			if (info.Cache)
+			{
+				info.Instance.SetActive(false);
+			}
+			else
+			{
+				GameObject.Destroy(info.Instance);
+				info.Instance = null;
+			}
+		}
+	}
+	public void Close<T>()
+	{
+		this.Close(typeof(T));
+	}
 
-    public void ShowSystemUI()
-    {
-        if (!isShowSystemUI)
-        {
-            isShowSystemUI = true;
-            if (UIMenu_System != null)
-            {
-                UIMenu_System.SetActive(true);
-            }
-            else
-            {
-                if (Prefabs_UIMenu_System == null)
-                {
-                    Prefabs_UIMenu_System = Resources.Load<GameObject>("Prefabs/UIMenu_System");
-                }
-                UIMenu_System = Instantiate(Prefabs_UIMenu_System);
-                DontDestroyOnLoad(UIMenu_System);
-            }
-        }
-    }
+	public void Update()
+	{
+		//打开界面测试
+		if (PlayerInput.Instance.showMap.Down)
+		{
+			UIManager.Instance.Show<UIMenu_System>();
+		}
+		if (PlayerInput.Instance.quickMap.Down)
+		{
+			UIManager.Instance.Close<UIMenu_System>();
+		}
+		if (Input.GetKeyDown(KeyCode.H))
+		{
+			UIManager.Instance.Close<UIShop>();
+		}
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			UIManager.Instance.Show<UIShop>();
+		}
 
-    public void HideSystemUI()
-    {
-        if (isShowSystemUI)
-        {
-            isShowSystemUI = false;
-            if (UIMenu_System != null)
-            {
-                UIMenu_System.SetActive(false);
-            }
-        }
-    }
-
-    public void Update()
-    {
-        if (PlayerInput.Instance)
-        {
-            // 显示/隐藏地图 todo 直接把MapController里代码挪过来了，后续可考虑优化成事件
-            // show quick map
-            if (PlayerInput.Instance.quickMap.Down) {
-                ShowSystemUI();
-                HideGameUI();
-                PlayerAnimatorParamsMapping.SetControl(false);
-            }
-
-            // hide quick map
-            if (PlayerInput.Instance.quickMap.Up) {
-                HideSystemUI();
-                ShowGameUI();
-                PlayerAnimatorParamsMapping.SetControl(true);
-            }
-        }
-    }
+	}
 }

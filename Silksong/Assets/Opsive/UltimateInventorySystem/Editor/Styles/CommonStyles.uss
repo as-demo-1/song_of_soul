@@ -1,0 +1,224 @@
+
+/* || Unity overrides || */
+
+.unity-text-element.unity-label.unity-base-field__label
+{
+	flex-shrink: 1;
+	overflow: hidden;
+	max-width: 150px;
+}
+
+.unity-base-field__input
+{
+	flex-basis: auto;
+}
+
+.unity-foldout .unity-text-element.unity-label.unity-base-field__label
+{
+	max-width: 135px;
+}
+
+.unity-object-field-display__label{
+	width: 1px;
+}
+
+/* || Layouts || */
+.vertical-layout
+{
+	flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.horizontal-align-center
+{
+	flex-direction: row;
+	flex-grow: 0;
+	align-items: center;
+	align-self: center;
+}
+
+.align-children-center
+{
+	align-items: center;
+	align-content: center;
+}
+
+/* || Flex || */
+.flex-grow
+{
+	flex-grow: 1;
+}
+
+.flex-wrap
+{
+	flex-wrap: wrap;
+}
+
+/* || Toggle || */
+.reverse-toggle
+{
+	flex-direction: row-reverse;
+}
+
+.reverse-toggle Label
+{
+	min-width: 0;
+}
+
+/* || Add list item container|| */
+.add-list-item-container
+{
+	flex-direction: row;
+	flex-grow: 1;
+	height: 20px;
+	min-height: 20px;
+	max-height: 20px;
+}
+
+.add-list-item-container Button
+{
+	min-width: 76px;
+	height: 20px;
+	margin: 0px;
+}
+
+/* || SearchList || */
+.search-list .unity-popup-field
+{
+	width: 60px;
+	height: 16px;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.search-list__filter-preset-container
+{
+	flex-direction: row;
+	flex-grow: 1;
+	flex-shrink: 0;
+	height: 16px;
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
+.search-list__filter-preset-container > ObjectField
+{
+	width: 58px;
+	flex-grow: 1;
+	margin: 0px;
+	padding: 0px;
+}
+
+.search-list__filter-preset-container .unity-object-field-display__icon
+{
+	padding: 0px;
+	width: 0px;
+	height: 0px;
+	min-width: 0px;
+	min-height: 0px;
+}
+.search-list__filter-preset-container .unity-object-field-display__label
+{
+	margin: 0px;
+}
+
+.search-list__filter-preset-container > Button
+{
+	width: 18px;
+	margin: 0px;
+	padding: 0px;
+	-unity-font-style: bold;
+	font-size: 15px;
+}
+
+.search-list__search-sort-container
+{
+	flex-direction: row;
+	flex-grow: 1;
+	height: 18px;
+	min-height: 18px;
+}
+
+#PopupSearchableList
+{
+	border-color: #000000;
+	border-width: 1px;
+	border-radius: 3px;
+}
+
+#PopupSearchableList #body
+{
+	border-width: 0;
+}
+
+.unity-toolbar-search-field__search-button
+{
+	flex-shrink: 1;
+}
+
+/* || object-preview || */
+.object-preview, .object-preview-small
+{
+	opacity: 1;
+}
+
+.object-preview-small
+{
+	-unity-background-scale-mode: stretch-to-fill;
+	width: 16px;
+	height: 16px;
+}
+
+/* || NestedInspector || */
+.nested-scriptable-object-inspector
+{
+	border-width: 1px;
+	padding: 2px;
+	border-color: #545454;
+	background-color: #464646;
+}
+
+.nested-scriptable-object-inspector-dark
+{
+	border-color: #545454;
+	background-color: #464646;
+}
+
+.nested-scriptable-object-inspector-light
+{
+	border-color: #cccccc;
+	background-color: #b0b0b0;
+}
+
+/* || help-box || */
+.help-box
+{
+	padding: 3px;
+	margin: 2px;
+}
+
+.help-box Label
+{
+	white-space: normal;
+}
+
+/* || cog-button || */
+.cog-button
+{
+	height: 17px;
+	width: 17px;
+}
+
+
+/* || Others || */
+.shrink-zero
+{
+	width: 0px;
+	height: 0px;
+	padding: 0px;
+	margin: 0px;
+	border-width: 0px;
+}

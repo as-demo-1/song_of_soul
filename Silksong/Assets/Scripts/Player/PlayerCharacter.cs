@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -31,7 +32,7 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
-    private PlayerStatusMenu statuMenu;
+    private UIPlayerStatus statuMenu;
     
     public UnityEvent<PlayerCharacter> onManaChangeEvent;
     private PlayerController playerController;
@@ -64,10 +65,10 @@ public class PlayerCharacter : MonoBehaviour
     }
     void Start()
     {
-        GameObject gamingUI = GameObject.FindGameObjectWithTag("UIMenu_PlayerStatus");
+        GameObject gamingUI = GameObject.FindGameObjectWithTag("UIPlayerStatus");
         if (gamingUI == null) return;
 
-        statuMenu = gamingUI.GetComponentInChildren<PlayerStatusMenu>();
+        statuMenu = gamingUI.GetComponentInChildren<UIPlayerStatus>();
         onManaChangeEvent.AddListener(changeManaBall);
 
         playerInit();

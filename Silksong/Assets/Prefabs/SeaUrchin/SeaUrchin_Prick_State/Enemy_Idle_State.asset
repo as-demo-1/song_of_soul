@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef5f188f8931fc428a950c26467fb59, type: 3}
+  m_Name: Enemy_Idle_State
+  m_EditorClassIdentifier: 
+  lastStateID: 48
+  lastTriggerID: 0
+  StateName: Enemy_Idle_State
+  StateType: 48
+  stateConfig:
+    id: 0
+  TriggerType: 0
+  triggerConfig:
+    id: 1
+  triggerList:
+  - id: 2
+  references:
+    version: 1
+    00000000:
+      type: {class: Enemy_PrickIdle_State, ns: , asm: Assembly-CSharp}
+      data:
+        stateType: 48
+        defaultAnimationName: 
+        dir: {x: 0, y: 1}
+        range: {x: 0, y: 0}
+        maxMoveRange: 1
+        maxMoveSpeed: 0.5
+        RotateSpeed: 10
+    00000001:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Enemy_TailAfter_State
+        maxTime: 5
+        timer: 0
+    00000002:
+      type: {class: WaitTimeTrigger, ns: , asm: Assembly-CSharp}
+      data:
+        triggerType: 0
+        targetState: Enemy_LaserMove_State
+        maxTime: 5
+        timer: 0
