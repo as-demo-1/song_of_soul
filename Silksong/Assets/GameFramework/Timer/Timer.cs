@@ -53,7 +53,7 @@ public class Timer : Singleton<Timer>
     {
         if (_tikers.ContainsKey(actionName))
         {
-            Debug.LogError(actionName + " is ticking!");
+            Debug.Log(actionName + " is ticking!");
         }
         else
         {

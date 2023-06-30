@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 
 [Serializable]
@@ -13,51 +14,51 @@ public class LightningChain : SoulSkill
     public float range = 1.0f;
     [Range(0,1)]
     public float extraSpeedPercent = 0;
-    public float baseDamage = 5;
+    //public float baseDamage = 5;
     [Range(0,1)]
     public float extraDamagePercent = 1;
 
     HpDamable preTarget;
 
     public float moveSpeedUp;
+    
+    public Material lightningChainMat;
+    public GameObject lightningChainPref;
+    private float width = 0.1f;
+    private Dictionary<int, GameObject> chains = new Dictionary<int, GameObject>();
+    private GameObject chainsRoot;
+    
     private void Awake()
     {
         //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        _playerCharacter = GetComponentInParent<PlayerCharacter>();
-    }
-
-    void Start()
-    {
-        base.Start();
-        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        //RefreshAtk(_playerInfomation.atk);
-    }
-
-    private void OnEnable()
-    {
-        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        base.OnEnable();
-        //SpeedUp(true);
-    }
-
-    private void OnDisable()
-    {
-        base.OnDisable();
-        //SpeedUp(false);
-    }
-
-    private LightningChain eventVariant;
-    public void TriggerAddElectricMarkEvent()
-    {
-        if (eventVariant is null)
-        {
-            eventVariant = Clone();
-            eventVariant.gameObject.SetActive(false);
-        }
-        EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
+        //_playerCharacter = GetComponentInParent<PlayerCharacter>();
+        //m_eventType = BattleEventType.LightningChainAtk;
     }
     
-    public override bool AtkPerTarget(HpDamable target)
+
+
+
+
+    private void Update()
+    {
+        //TriggerAddElectricMarkEvent();
+        UpdateTargetsLink();
+    }
+
+    // private LightningChain eventVariant;
+    // public void TriggerAddElectricMarkEvent()
+    // {
+    //     if (eventVariant is null)
+    //     {
+    //         eventVariant = Clone();
+    //         //eventVariant.m_eventType = BattleEventType.LightningAddElectricMarkEvent;
+    //
+    //         eventVariant.gameObject.SetActive(false);
+    //     }
+    //     EventCenter<BattleEventType>.Instance.TiggerEvent(BattleEventType.LightningAddElectricMarkEvent, eventVariant);
+    // }
+    
+    public bool AtkPerTarget(HpDamable target)
     {
         if (!IsAtkSuccess(target)||!target.HaveBuff(BuffType.ElectricMark)) return false;
         //target.GetDamage(Damage());
@@ -70,8 +71,19 @@ public class LightningChain : SoulSkill
         return true;
     }
 
+    /// <summary>
+    /// 攻击目标，对目标添加闪电标记
+    /// </summary>
+    /// <param name="damager"></param>
+    /// <param name="damageable"></param>
+    public void AtkTarget(DamagerBase damager, DamageableBase damageable)
+    {
+        AddElectricMark((HpDamable)damageable);
+    }
+
     public bool AddElectricMark(HpDamable target)
     {
+        Debug.Log("添加闪电标志");
         if (!IsAddElectricMarkSuccess(target)||!target.CanGetBuff(BuffType.ElectricMark)) return false;
         target.GetBuff(BuffType.ElectricMark);
         return true;
@@ -99,8 +111,18 @@ public class LightningChain : SoulSkill
         }
     }
 
+
+    public void SpeedUp(bool needApply)
+    {
+        if(needApply) _playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
+        else
+        {
+            _playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
+        }
+    }
     
-    protected override bool IsAtkSuccess(HpDamable target)
+
+    protected bool IsAtkSuccess(HpDamable target)
     {
         return true;
     }
@@ -112,7 +134,7 @@ public class LightningChain : SoulSkill
         {
             return false;
         }
-        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= _atkDistance;
+        return (GetComponentInParent<Transform>().position - target.transform.position).magnitude <= range;
     }
 
     private int Damage()
@@ -122,11 +144,7 @@ public class LightningChain : SoulSkill
         return (int)damage;
     }
 
-    public Material lightningChainMat;
-    public GameObject lightningChainPref;
-    private float width = 0.1f;
-    private Dictionary<int, GameObject> chains = new Dictionary<int, GameObject>();
-    private GameObject chainsRoot;
+
 
     private void LightningChainUpdate(Vector3 start, Vector3 end, int chainIndex)
     {
@@ -207,5 +225,10 @@ public class LightningChain : SoulSkill
     {
         return (LightningChain)MemberwiseClone();
         return GameObject.Instantiate(this);
+    }
+    
+    public void ChangeState(bool _option)
+    {
+        stateParticle.gameObject.SetActive(_option);
     }
 }

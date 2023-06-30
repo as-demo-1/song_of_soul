@@ -27,7 +27,8 @@ public class Boss_ViolinEnd_State : EnemyFSMBaseState
     {
         base.ExitState(enemyFSM);
         enemyFSM.rigidbody2d.DORotate(-Mathf.Asin(dir.y), 1f);
-        enemyFSM.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        GameObject violin = GameObject.Find("Violin");
+        violin.transform.GetChild(0).gameObject.SetActive(false);
     }
     public override void invokeAnimationEvent()
     {
