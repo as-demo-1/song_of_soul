@@ -37,3 +37,4 @@ namespace BehaviorDesigner.Runtime.Tasks
         }
     }
 }
+/*检查是否击杀boss的确定脚本，在update中不断确认是否血量达到某个阈值，并对应的激活行为树*/
