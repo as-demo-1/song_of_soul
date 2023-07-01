@@ -19,3 +19,4 @@ public class DialogueSectionSO : ScriptableObject
     public string NPCName => _dialoguename;
     public int NPCID => _npcID;
 }
+//这个是ui控制，读取npc和玩家id

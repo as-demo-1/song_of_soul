@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Created by Unity from:
+/// <summary>
+/// 这里居然预留了xbox键位和手柄键鼠的选择参数？
+/// </summary>
 //https://assetstore.unity.com/packages/templates/tutorials/2d-game-kit-107098#description
 public abstract class InputComponent : MonoBehaviour
 {
@@ -16,7 +19,7 @@ public abstract class InputComponent : MonoBehaviour
         Controller,
     }
 
-
+    //这里包含了xbox的按键
     public enum XboxControllerButtons
     {
         None,
@@ -76,7 +79,10 @@ public abstract class InputComponent : MonoBehaviour
         bool m_AfterFixedUpdateDown;
         bool m_AfterFixedUpdateHeld;
         bool m_AfterFixedUpdateUp;
-
+        /// <summary>
+        /// 这里是对fixedupdate做的冗余，防止信号丢失
+        /// 后续则是对应的判断键鼠或手柄，并且对应的读取信号
+        /// </summary>
         protected static readonly Dictionary<int, string> k_ButtonsToName = new Dictionary<int, string>
             {
                 {(int)XboxControllerButtons.A, "A"},
@@ -143,6 +149,7 @@ public abstract class InputComponent : MonoBehaviour
                     m_AfterFixedUpdateUp = Up;
                 }
                 else//update键入后，在下一个fixedupdate发生前认为一直有键入 目的是为了在update顺序随机情况下不丢失输入
+                //按键不释放就是在这里发生的，这里为了防止update中丢失输入而锁定了输入后摁键未释放
                 {
                     Down = Input.GetKeyDown(key) || m_AfterFixedUpdateDown;
                     Held = Input.GetKey(key) || m_AfterFixedUpdateHeld;
@@ -156,6 +163,10 @@ public abstract class InputComponent : MonoBehaviour
             IsValidUpdate(Down);
 
         }
+        /// <summary>
+        /// 这里判断了输入有效性，需要看一下unity实现中的按键信号，我看这里是针对了缓冲区和同帧数下的复数信号做的处理
+        /// </summary>
+        /// <param name="conditions"></param>
         public void IsValidUpdate(bool conditions)
         {
             if (!m_BufferEnabled)
@@ -230,6 +241,9 @@ public abstract class InputComponent : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 这里处理手柄的方向杆，并且执行了同样的帧间复数信号处理以及防信号丢失处理，这里需要改
+    /// </summary>
     [Serializable]
     public class InputAxis : Button
     {
@@ -356,6 +370,7 @@ public abstract class InputComponent : MonoBehaviour
         }
     }
 
+    //这里的释放没写，难怪
     public class Button : IButton
     {
         //public PlayerInputButton buttonName;

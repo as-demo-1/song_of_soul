@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 这个有进场生成，不过感觉也是半成品
+/// </summary>
 public class TengWanController : MonoBehaviour
 {
     private BoxCollider2D boxcollider;

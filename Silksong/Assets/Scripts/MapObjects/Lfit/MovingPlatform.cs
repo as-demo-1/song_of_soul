@@ -27,7 +27,7 @@ public class MovingPlatform : MonoBehaviour
         
     }
 
-
+    //电梯的移动以及碰撞进入退出
     void Move() 
     {
         Vector3 position = transform.position;

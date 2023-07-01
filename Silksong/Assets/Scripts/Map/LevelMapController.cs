@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 这里有地图系统的读取玩家位置并且映射在地图上的脚本
+/// 但是在计算地图bound和位置后的显示好像没做
+/// 就差临门一脚，应该可以稍作修改
+/// </summary>
 public class LevelMapController : MonoBehaviour
 {
     private bool interactable;

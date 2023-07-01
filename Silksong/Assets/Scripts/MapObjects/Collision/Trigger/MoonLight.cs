@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 这个文件夹下统一了对应组件的触发器，包括碰撞进入和退出
+/// </summary>
 public class MoonLight :MonoBehaviour
 {
     public float g;

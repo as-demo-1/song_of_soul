@@ -35,6 +35,7 @@ public class TimeScaleManager : MonoBehaviour
     }
 
     public void changeTimeScaleForFrames(int framesCount,float scale)
+        //还真是修改对应的帧数和时间的，这两个修改被分开了，默认60frame
     {
         float time = framesCount / 60f;//默认60fps 需要修改
         changeTimeScaleForSeconds(time,scale);

@@ -9,6 +9,7 @@ public class PointDetectArea : MonoBehaviour
     public bool StartPoint;
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //鼠标触发器？这个服务什么功能的我没啥头绪
         if (other.tag == "Player" && StartPoint)
         {
             APC.Pub_Trigger(true);

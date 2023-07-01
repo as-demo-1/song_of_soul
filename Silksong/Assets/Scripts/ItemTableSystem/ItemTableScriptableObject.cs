@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 这里包含了对应的物品系统的对象定义
+/// </summary>
 public class ItemTableScriptableObject : ScriptableObject
 {
     [Tooltip("物品id   id")]

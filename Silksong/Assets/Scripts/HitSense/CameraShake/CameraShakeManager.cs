@@ -23,7 +23,7 @@ public class CameraShakeManager : MonoBehaviour
 
             return instance;
         }
-    }//单例
+    }//单例,多条件下获取对应的相机震动的单例
 
     void Awake()
     {
@@ -33,7 +33,7 @@ public class CameraShakeManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
-        gameObject.AddComponent<CinemachineImpulseSource>();
+        gameObject.AddComponent<CinemachineImpulseSource>();//建议修改前查一下这个单例的文档
         impulseSource = GetComponent<CinemachineImpulseSource>();
 #if UNITY_EDITOR
         impulseSource.m_ImpulseDefinition.m_RawSignal = (SignalSourceAsset)AssetDatabase.LoadAssetAtPath("Assets/Scripts/HitSense/CameraShake/shake.asset", typeof( SignalSourceAsset));

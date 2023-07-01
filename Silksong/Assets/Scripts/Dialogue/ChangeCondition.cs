@@ -17,7 +17,7 @@ public class ChangeCondition
             return _instance;
         }
     }
-
+    //状态改变，这里还有以前的条件状态判断方法
     // todo: 判断当前前状态进行改变
    /* public void JudgeCondition(int ConditionID)
     {

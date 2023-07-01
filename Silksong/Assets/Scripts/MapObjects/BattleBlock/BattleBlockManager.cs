@@ -67,6 +67,7 @@ public class BattleBlockManager : MonoBehaviour
             }
         }
     }
+    //战斗中判断是否退出战斗中状态
     private void LateUpdate()
     {
         if (onBattle)
@@ -82,6 +83,8 @@ public class BattleBlockManager : MonoBehaviour
         }
     }
 
+    //触发战斗模式并锁门，应该是对应部分场景需求
+    //锁门具体方法在底下
     public void TriggerBattle()
     {
         if (!onBattle && !accessible)

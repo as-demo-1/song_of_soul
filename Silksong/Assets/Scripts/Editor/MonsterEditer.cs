@@ -6,6 +6,9 @@ using System.Data;
 using System.IO;
 using Excel;
 
+/// <summary>
+/// 怪物批量处理系统在这里，包含了读取excel，在特定文件夹生成存储，非常完整建议程序老师看一下
+/// </summary>
 public class MonsterEditer : EditorWindow
 {
     private DefaultAsset _sourceExcelText;

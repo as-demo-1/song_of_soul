@@ -13,3 +13,4 @@ public class SeasonsDoor : MonoBehaviour
         SceneManager.LoadScene(NextMapName);
     }
 }
+//季节门直接就没完工啊，这个code代表的是我们现有的场景切换。。。

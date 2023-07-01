@@ -17,6 +17,11 @@ public abstract class damageEventSetter : MonoBehaviour
    [SerializeField] 
    [Tooltip("choose layer which trigger the event.If set nothing,it is same as everything")]
     protected LayerMask targetLayer;
+    /// <summary>
+    /// 在这里设置了判断攻击并且对目标对象执行，是trigger的实现
+    /// </summary>
+    /// <param name="damager"></param>
+    /// <param name="damageable"></param>
     public virtual void triggerDamageEvent(DamagerBase damager, DamageableBase damageable)
     {
         GameObject targetObj;
@@ -41,6 +46,7 @@ public abstract class damageEventSetter : MonoBehaviour
     {
         switch (damageTiming)
         {
+            //这里设置了受击的多个可能，分别为发出攻击时触发，被攻击者收到时触发，死亡时触发
             case DamageTiming.onMakeDamage:
                 {
                     DamagerBase damager = GetComponent<DamagerBase>();
@@ -73,7 +79,9 @@ public abstract class damageEventSetter : MonoBehaviour
     }
 }
 
-
+/// <summary>
+/// 这里判断了触发的伤害与目标是否为同一层
+/// </summary>
 public abstract class makeDamageEventSetter : MonoBehaviour
 {
     [SerializeField]

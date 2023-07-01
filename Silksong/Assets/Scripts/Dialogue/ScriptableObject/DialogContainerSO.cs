@@ -9,3 +9,4 @@ public class DialogContainerSO : ScriptableObject
     [SerializeField] private List<DialogueSectionSO> _dialogueSection = default;
     public List<DialogueSectionSO> DialogueSectionList => _dialogueSection;
 }
+//这是老对话系统的东西

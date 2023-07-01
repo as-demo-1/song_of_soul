@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 篝火，碰撞判断是否停留，并且在停留下恢复寒冷值，在退出后结束回复寒冷值
+/// </summary>
 public class MP_BoneFire : MonoBehaviour
 {
 

@@ -24,3 +24,4 @@ public class EnterZone : MonoBehaviour
         
     }
 }
+//这里是进入战斗场景下调取触发战斗，具体方法在manager里面

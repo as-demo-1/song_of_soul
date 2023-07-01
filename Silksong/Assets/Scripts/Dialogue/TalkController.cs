@@ -17,7 +17,9 @@ public class TalkController : MonoBehaviour
 
     //public DialogueSectionSO DialogueSection;
 
-    
+    /// <summary>
+    /// 对话已经完成了ui，并且存在对话选择分支的参数，在测试按键和部分的条件选择
+    /// </summary>
 
 
     private static TalkController _instance;

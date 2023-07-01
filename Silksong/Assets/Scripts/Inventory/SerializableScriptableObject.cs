@@ -3,7 +3,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
+//没啥东西
 public class SerializableScriptableObject : ScriptableObject
 {
     [SerializeField, HideInInspector] private string _guid;

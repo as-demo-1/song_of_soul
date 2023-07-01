@@ -6,6 +6,7 @@ using UnityEngine.Events;
 [System.Serializable]
 /// 在hpdamable的基础上 增加受击后无敌机制
 /// </summary>作者：青瓜
+
 public class InvulnerableDamable : HpDamable
 {
     public bool invulnerableAfterDamage = true;//受伤后无敌

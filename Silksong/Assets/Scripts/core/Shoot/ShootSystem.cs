@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,12 +15,14 @@ public class ShootSystem : MonoBehaviour
         ShootOneByOne = 2,
         ShootRandomly = 3,
         SpecialShoot = 4
+        //预留了设计方法参数，0-4分别为单次射击，全部射击，一个一个射击，随机射击，特殊射击。
     }
     public enum Pattern
     {
         Cycle = 0,
         Square = 1,
         Triangle = 2
+        //可能为子弹轨迹？⚪ 方 三角
     }
     public enum ShootDir
     {
@@ -28,6 +30,7 @@ public class ShootSystem : MonoBehaviour
         toTarget = 1,
         Random = 2,
         horizon = 3
+        //射击方向控制
     }
     [Serializable]
     public struct shootParam
@@ -55,7 +58,7 @@ public class ShootSystem : MonoBehaviour
 
     public void Shoot(string shootMode)
     {
-        foreach(var value in shootModes)
+        foreach(var value in shootModes)//遍历判断射击模式
         {
             if(value.shootModeName.Equals(shootMode))
             {
@@ -69,9 +72,9 @@ public class ShootSystem : MonoBehaviour
     private void Fire(shootParam Param)
     {
         if (Param.bullet == null)
-            return;
+            return;//子弹打完结束
         if (Param.target == null)
-            Param.target = GameObject.FindGameObjectWithTag("Player");
+            Param.target = GameObject.FindGameObjectWithTag("Player");//没目标时打玩家
 
         if (Param.createPos == null)
             Param.createPos = this.transform;

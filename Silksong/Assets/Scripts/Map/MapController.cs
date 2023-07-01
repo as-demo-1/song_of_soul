@@ -23,6 +23,7 @@ public class MapController : MonoBehaviour
     private string region;
 
     // Start is called before the first frame update
+    //同时包含了大区域地图和小关卡地图，看下来下面的区域地图和关卡地图显示，两个地图互相切换都已经完成了
     public void Init()
     {
     	quick = true;

@@ -17,7 +17,7 @@ public abstract class DamageableBase : MonoBehaviour
 
     public bool playerAttackCanGainSoul;
 
-    public float beatBackRate;
+    public float beatBackRate;//击退率原来在这里，这个脚本应该是manager思路的变量储存
 
     public abstract void takeDamage(DamagerBase damager);
 

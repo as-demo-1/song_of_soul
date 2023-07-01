@@ -13,3 +13,4 @@ public class damageTimeScaleEvent : damageEventSetter
     }
 
 }
+//这个猜测是设置攻击事件的反馈时间的帧数和对应的时间？

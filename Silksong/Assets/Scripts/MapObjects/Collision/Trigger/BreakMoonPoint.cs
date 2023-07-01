@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 这个文件夹下统一了对应组件的触发器，包括碰撞进入和退出
+/// 这个是碎月点，包含了对特定技能的部分交互，看着是完成了的
+/// </summary>
 public class BreakMoonPoint:MonoBehaviour
 {
     private PlayerBreakMoon playerBreakMoon;

@@ -29,7 +29,7 @@ public class HpDamable :Damable
     {
         get { return tempHp; }
     }
-
+    //同步当前血量以及临时血量
 
     public bool notDestroyWhenDie;
 
@@ -59,6 +59,7 @@ public class HpDamable :Damable
         if ( currentHp <= 0)
         {
            // return;
+           //这里应该是如果低于0执行的是寄了的方法而不是受击方法
         }
         if (hurt)
         {
@@ -78,7 +79,7 @@ public class HpDamable :Damable
 
         addTempHp(-damageForTempHp,damager);
         addCurrentHp(-damageForCurrentHp, damager);
-
+        //在这里进行血量统计和更新
     }
 
    /* public void takeDamage(int number)
@@ -104,12 +105,14 @@ public class HpDamable :Damable
 
         if (isDead())
         {
-            die(damager);
+            die(damager);//果然死亡被单独拿出来了
         }
     }
 
     /// <summary>
     /// use this to change currentHp,number can be negative to reduce currentHp
+    /// 加血方法，number是加血量，负数时扣血
+    /// 不确定为啥加血会在damable，可能是把血量相关的都放在这里了
     /// </summary>
     /// <param name="number"></param>
     /// <param name="damager"></param>
@@ -117,6 +120,7 @@ public class HpDamable :Damable
     {
         if (number == 0) return;
         setCurrentHp(currentHp + number, damager);
+
     }
 
     public void setTempHp(int val, DamagerBase damager=null)
@@ -134,6 +138,7 @@ public class HpDamable :Damable
 
     /// <summary>
     /// use this to change tempHp,number can be negative to reduce tempHp
+    /// 所以temphp这个临时血量的功能是啥来着，需要确认
     /// </summary>
     /// <param name="number"></param>
     /// <param name="damager"></param>
@@ -143,11 +148,19 @@ public class HpDamable :Damable
         setTempHp(tempHp + number,damager);
     }
 
+    /// <summary>
+    /// 查询似了没，没啥好说的
+    /// </summary>
+    /// <returns></returns>
     public bool isDead()
     {
         return CurrentHp <= 0 && TempHp <= 0;
     }
 
+    /// <summary>
+    /// 似了的话确认是否摧毁玩家对象，并且存档
+    /// </summary>
+    /// <param name="damager"></param>
     protected virtual void die(DamagerBase damager)
     {
         onDieEvent.Invoke(damager, this);
@@ -166,7 +179,10 @@ public class HpDamable :Damable
 
     }
 
-
+    /// <summary>
+    /// 这个getbuff应该是老方法，里面switch明显是为后续开发留口子了，但是只有electricmask留在这里
+    /// </summary>
+    /// <param name="buffType"></param>
     public void GetBuff(BuffType buffType)
     {
         switch (buffType)
@@ -182,7 +198,11 @@ public class HpDamable :Damable
                 break;
         }
     }
-
+    
+    /// <summary>
+    /// 同上，取消buff也只有electricmask
+    /// </summary>
+    /// <param name="buffType"></param>
     public void RemoveBuff(BuffType buffType)
     {
         switch (buffType)
@@ -198,6 +218,11 @@ public class HpDamable :Damable
         }
     }
 
+    /// <summary>
+    /// 这个判断buff赋予条件
+    /// </summary>
+    /// <param name="buffType"></param>
+    /// <returns></returns>
     public bool CanGetBuff(BuffType buffType)
     {
         switch (buffType)
@@ -218,6 +243,11 @@ public class HpDamable :Damable
         }
     }
 
+    /// <summary>
+    /// 判断现有buff状态
+    /// </summary>
+    /// <param name="buffType"></param>
+    /// <returns></returns>
     public bool HaveBuff(BuffType buffType)
     {
         switch (buffType)

@@ -8,6 +8,7 @@ public class MapUIController : MonoBehaviour
 
     void Awake()
     {
+        //UIµ÷È¡
         levelMapIns = transform.Find("LevelMapInstruction").gameObject;
         regionMapIns = transform.Find("RegionMapInstruction").gameObject;
     }

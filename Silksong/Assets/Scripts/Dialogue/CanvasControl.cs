@@ -14,3 +14,4 @@ public class CanvasControl : MonoBehaviour
 
     }
 }
+//这里是ui框设置

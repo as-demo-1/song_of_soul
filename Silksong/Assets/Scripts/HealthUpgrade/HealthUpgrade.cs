@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealthUpgrade : MonoBehaviour
 {
-
+    //这里有个血量更新，这个方法只管升级时回满血量，可以考虑整理进入hpdamable或者青瓜老师的后续方法中，都在core里面。
     private int item_amount;
 
     public List<int> Upgrade_Level;

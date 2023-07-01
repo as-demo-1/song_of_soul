@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-
+/// <summary>
+/// 物品系统非常简单，只有excel的读取实现，以及对应的物品展示
+/// </summary>
 public class EntanceTestItemTable : MonoBehaviour
 {
     // Start is called before the first frame update

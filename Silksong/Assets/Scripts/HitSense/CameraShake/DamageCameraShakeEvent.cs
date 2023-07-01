@@ -12,3 +12,4 @@ public class DamageCameraShakeEvent : damageEventSetter
         CameraShakeManager.Instance.cameraShake(shakeForce);
     }
 }
+//shakeforce即为抖动大小，这里仅作方法调取和传参。

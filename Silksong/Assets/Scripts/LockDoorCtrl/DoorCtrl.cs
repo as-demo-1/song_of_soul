@@ -19,6 +19,7 @@ public class DoorCtrl : MonoBehaviour
 
     void Update()
     {
+        //这咋还限制门要用f键开启呢
         if (isPlayer && Input.GetKeyDown(KeyCode.F))
         {   
             OpenDoor();
@@ -28,6 +29,7 @@ public class DoorCtrl : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //这里好像是碰撞后的图像更换展示
         if (collision.gameObject.CompareTag("Player") && !isLock)
         {   
             talkImg.enabled = true;

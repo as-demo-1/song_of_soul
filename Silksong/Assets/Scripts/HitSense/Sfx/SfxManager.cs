@@ -22,7 +22,7 @@ public class SfxManager : MonoBehaviour
             return instance;
         }
     }//单例
-
+    //多情况获取单例
     void Awake()
     {
         if (Instance != this)
@@ -53,6 +53,7 @@ public class SfxManager : MonoBehaviour
     }
 
     protected void changeAllChlidSfxLocalscale(GameObject sfx)
+        //这里还有个受击特效的大小调整？可能服务于其他体积的对象
     {
         foreach(var t in  sfx.GetComponentsInChildren<Transform>())
         {

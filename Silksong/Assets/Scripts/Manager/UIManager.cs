@@ -66,7 +66,9 @@ public class UIManager : MonoSingleton<UIManager>
 	{
 		this.Close(typeof(T));
 	}
-
+	/// <summary>
+    /// 这是地图的ui调取，包含了一个shop界面可以看看
+    /// </summary>
 	public void Update()
 	{
 		//打开界面测试

@@ -7,7 +7,9 @@ using UnityEditor;
 #if UNITY_EDITOR
 [CustomEditor(typeof(DamagerBase), true)]
 #endif
-
+/// <summary>
+/// 这个文件夹下统一了对应组件的触发器，包括碰撞进入和退出
+/// </summary>
 public class FrozenArea : DamagerBase
 {
     [Tooltip("每隔多久受到一次伤害")]

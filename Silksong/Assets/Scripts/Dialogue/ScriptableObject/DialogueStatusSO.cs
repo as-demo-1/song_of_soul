@@ -20,3 +20,4 @@ public class DialogueStatusSO : ScriptableObject
     //public bool IsInit => _isInit;
 
 }
+//条件对话选择

@@ -21,3 +21,4 @@ public class DialogueSO : ScriptableObject
     public List<string> Content => _content;
     public List<string> StatusList => _StatusList;
 }
+//对话触发和内容及状态读取

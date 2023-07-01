@@ -9,19 +9,19 @@ public class Damable : DamageableBase
     }
     public override void takeDamage(DamagerBase damager)
     {
-        takeDamageEvent.Invoke(damager, this);
+        takeDamageEvent.Invoke(damager, this); // 在这里激活了伤害计算判断
         if(damager!=null)
         {
-            damageDirection = damager.transform.position - transform.position;
+            damageDirection = damager.transform.position - transform.position;//这个对象还有方向参数啊，可能指向受击击退
             Vector2 beatBack = damager.beatBackVector;
             if (beatBack != Vector2.zero && beatBackRate != 0)
             {
-                beatBack *= beatBackRate;
+                beatBack *= beatBackRate;//这个参数来源不明，怀疑代表了击退率，可能存在默认值，在比例变大下击退距离变大
                 if (damageDirection.x > 0)
                 {
                     beatBack.x = beatBack.x * -1;
                 }
-                StartCoroutine(beatenBack(beatBack));
+                StartCoroutine(beatenBack(beatBack));//还真是，这里计算了受击击退，beatback代表方向，在这里乘上了
             }
 
             if (takeDamageSfxSO)
@@ -37,7 +37,7 @@ public class Damable : DamageableBase
 
         if (takeDamageAudio)
         {
-            takeDamageAudio.PlayAudioCue();
+            takeDamageAudio.PlayAudioCue(); // 受击audio在这里
         }
 
 

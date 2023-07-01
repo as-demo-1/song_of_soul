@@ -15,6 +15,7 @@ public class RegionMapController : MonoBehaviour
 
         mapIMGs.Add("Level1", transform.Find("Region1").gameObject);
         mapIMGs.Add("Level3", transform.Find("Region2").gameObject);
+        //这里的区域地图调取貌似是写死的，对应的就是地区录入不完整
 
         // selectedRegion = mapIMGs["Level1"];
     }
