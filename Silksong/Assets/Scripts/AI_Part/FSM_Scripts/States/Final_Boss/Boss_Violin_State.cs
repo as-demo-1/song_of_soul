@@ -17,7 +17,8 @@ public class Boss_Violin_State : EnemyFSMBaseState
     public override void EnterState(EnemyFSMManager enemyFSM)
     {
         base.EnterState(enemyFSM);
-        enemyFSM.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        GameObject violin = GameObject.Find("Violin");
+        violin.transform.GetChild(0).gameObject.SetActive(true);
         enemyFSM.rigidbody2d.velocity = Vector2.zero;
         dir = enemyFSM.getTargetDir(true).normalized;
         enemyFSM.rigidbody2d.DORotate(Mathf.Asin(dir.y), 0.5f);

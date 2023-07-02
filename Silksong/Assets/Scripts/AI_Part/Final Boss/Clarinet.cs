@@ -7,12 +7,8 @@ public class Clarinet : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] private string[] chartList;
     [SerializeField] private int currentChart;
-    public GameObject spike;
-    private Animator animator;
-    private Camera mainCamera;
     void Start()
     {
-        animator = GetComponent<Animator>();
     }
 
     public void Generate()
@@ -36,9 +32,18 @@ public class Clarinet : MonoBehaviour
                 cellObject.SetActive(false);
             }
         }
-        animator.Play("up");
     }
 
+    public void End()
+    {
+        for (int col = 0; col < transform.childCount; ++col)
+        {
+            GameObject cellObject = transform.GetChild(col).gameObject;
+            cellObject.SetActive(false);
+        }
+    }
+
+    /*
     IEnumerator PlayDownAfter()
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
@@ -59,4 +64,5 @@ public class Clarinet : MonoBehaviour
             animator.Play("down");
         }
     }
+    */
 }
