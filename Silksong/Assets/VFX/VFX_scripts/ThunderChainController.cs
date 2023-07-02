@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class ThunderChainController : MonoBehaviour
 {
-    //lineRendererµÄÁ½¸ö¶Ëµã£¬ÆğÊ¼µãºÍÖÕµãµÄË³ĞòÃ»ÓĞ¹ØÏµ
+    //lineRendererçš„ä¸¤ä¸ªç«¯ç‚¹ï¼Œèµ·å§‹ç‚¹å’Œç»ˆç‚¹çš„é¡ºåºæ²¡æœ‰å…³ç³»
     public Vector3 startPos;
     public Vector3 endPos;
-    //ThunderChainLevel¿ØÖÆÉÁµçÁ´µÄÇ¿¶ÈµÈ¼¶£¬·ÖÎª0£¬1£¬2£¬3¼¶¡£0¾ÍÊÇ¿ÕµÄ¡£
+    //ThunderChainLevelæ§åˆ¶é—ªç”µé“¾çš„å¼ºåº¦ç­‰çº§ï¼Œåˆ†ä¸º0ï¼Œ1ï¼Œ2ï¼Œ3çº§ã€‚0å°±æ˜¯ç©ºçš„ã€‚
+   
     private int m_thunderChainLevel;
+    [ShowInInspector]
     public int ThunderChainLevel
     {
         get
@@ -28,13 +31,13 @@ public class ThunderChainController : MonoBehaviour
 
 
 
-    //Ã»ÓĞBÓÃµÄĞŞÕıÊı
+    //æ²¡æœ‰Bç”¨çš„ä¿®æ­£æ•°
     float[] sinXModify = new float[5] { 1, 2, 3, 4, 5 };
     float resetTime = 0.3f;
     int vertexCount = 25;
     float sinModify = 40;
     int lineNumber;
-    LineRenderer[] lineRendererList= new LineRenderer[5];
+    [SerializeField] LineRenderer[] lineRendererList= new LineRenderer[5];
     Vector3[] posList = new Vector3[30];
     float xModify;
     float[] yModify = new float[30];
@@ -44,11 +47,11 @@ public class ThunderChainController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        for(int i = 0;i<transform.childCount;i++)
-        {
-            lineRendererList[i] = transform.GetChild(i).GetComponent<LineRenderer>();
-            lineRendererList[i].positionCount = vertexCount + 2;
-        }
+        // for(int i = 0;i<transform.childCount;i++)
+        // {
+        //     lineRendererList[i] = transform.GetChild(i).GetComponent<LineRenderer>();
+        //     lineRendererList[i].positionCount = vertexCount + 2;
+        // }
 
         resetPro = 0;
 
@@ -56,15 +59,16 @@ public class ThunderChainController : MonoBehaviour
 
     }
 
+    
     // Update is called once per frame
     void Update()
     {
 
-        //ÕûÒ»¸ö´óµÄÑ­»·£¬Ã¿ÌõÏßÑ­»·Ò»´Î
+        //æ•´ä¸€ä¸ªå¤§çš„å¾ªç¯ï¼Œæ¯æ¡çº¿å¾ªç¯ä¸€æ¬¡
         for(int j = 0; j < lineNumber; j++)
         {
 
-            //Ä¿Ç°µÄË¼Â·ÊÇ£¬ÏÈ´Ó¿ªÊ¼Î»ÖÃµ½½áÊøÎ»ÖÃÀ­Ò»ÌõÖ±Ïß£¬È»ºóÔÚÖ±ÏßÉÏ¾ùÔÈµØÈ¡¼¸¸öµã¡£ÁíÍâ¸ãÒ»¸öËùĞèÒªµÄÇúÏß£¬¼ÆËã³öÕâ¸öÇúÏßÉÏµãµÄyÖµ£¬È»ºó¶ÔÔ­ÏÈÖ±ÏßÉÏµÄµã½øĞĞ·¨Ïò·½ÏòµÄ¼Ó¼õ
+            //ç›®å‰çš„æ€è·¯æ˜¯ï¼Œå…ˆä»å¼€å§‹ä½ç½®åˆ°ç»“æŸä½ç½®æ‹‰ä¸€æ¡ç›´çº¿ï¼Œç„¶ååœ¨ç›´çº¿ä¸Šå‡åŒ€åœ°å–å‡ ä¸ªç‚¹ã€‚å¦å¤–æä¸€ä¸ªæ‰€éœ€è¦çš„æ›²çº¿ï¼Œè®¡ç®—å‡ºè¿™ä¸ªæ›²çº¿ä¸Šç‚¹çš„yå€¼ï¼Œç„¶åå¯¹åŸå…ˆç›´çº¿ä¸Šçš„ç‚¹è¿›è¡Œæ³•å‘æ–¹å‘çš„åŠ å‡
 
 
             for (int i = 0; i < vertexCount; i++)
@@ -75,13 +79,13 @@ public class ThunderChainController : MonoBehaviour
 
             float lineLength = Vector3.Distance(startPos, endPos);
 
-            //ÁíÈ¡Ò»ÌõÇúÏßy=-£¨x-startPos)(x-endPos)
+            //å¦å–ä¸€æ¡æ›²çº¿y=-ï¼ˆx-startPos)(x-endPos)
             for (int i = 0; i < vertexCount; i++)
             {
                 xModify = (i + 1f) / (vertexCount + 1f) * lineLength;
                 //xModify * (xModify - lineLength) +
                 yModify[i] = Mathf.Sin(Time.timeSinceLevelLoad+xModify+sinXModify[j]*resetPro)*sinModify;
-                //ÏÈ°ÑÕâ¸öyµÄĞŞÕıÖµ¹éÒ»»¯µ½´¹Ö±ÓÚÏßµÄ·½Ïò£¬È»ºó¶ÔÏßÉÏµÄµã½øĞĞ¼ÓºÍ¡£
+                //å…ˆæŠŠè¿™ä¸ªyçš„ä¿®æ­£å€¼å½’ä¸€åŒ–åˆ°å‚ç›´äºçº¿çš„æ–¹å‘ï¼Œç„¶åå¯¹çº¿ä¸Šçš„ç‚¹è¿›è¡ŒåŠ å’Œã€‚
                 yModify[i] = Mathf.Sin(Time.timeSinceLevelLoad*5+xModify+sinXModify[j])*sinModify;
                 posList[i] += new Vector3(endPos.y - startPos.y, startPos.x - endPos.x, 0).normalized * yModify[i]*high[j]*resetPro+new Vector3(Random.Range(0f,0.5f), Random.Range(0f, 0.5f),0);
 
@@ -98,7 +102,7 @@ public class ThunderChainController : MonoBehaviour
         }
 
 
-        //Ã¿´ÎÑ­»·µÄÊ±¼äÒ»µ½¾Í¹é0
+        //æ¯æ¬¡å¾ªç¯çš„æ—¶é—´ä¸€åˆ°å°±å½’0
         resetPro += Time.deltaTime;
         if(resetPro > resetTime)
         {
@@ -113,7 +117,7 @@ public class ThunderChainController : MonoBehaviour
 
     void updateHigh()
     {
-        //¸ù¾İÑ¡ÔñµÄµµÎ»µ÷ÕûËùÓÃµÄlinerenderer¸ùÊıºÍ¸ß¶È
+        //æ ¹æ®é€‰æ‹©çš„æ¡£ä½è°ƒæ•´æ‰€ç”¨çš„linerendereræ ¹æ•°å’Œé«˜åº¦
         switch (ThunderChainLevel)
         {
             case 0:

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -12,39 +13,174 @@ using UnityEngine.PlayerLoop;
 public class LightningChain : SoulSkill
 {
     public float range = 1.0f;
-    [Range(0,1)]
-    public float extraSpeedPercent = 0;
-    //public float baseDamage = 5;
-    [Range(0,1)]
-    public float extraDamagePercent = 1;
+    //[Range(0,1)]
+    //public float extraSpeedPercent = 0;
 
-    HpDamable preTarget;
 
-    public float moveSpeedUp;
-    
-    public Material lightningChainMat;
-    public GameObject lightningChainPref;
-    private float width = 0.1f;
-    private Dictionary<int, GameObject> chains = new Dictionary<int, GameObject>();
-    private GameObject chainsRoot;
-    
-    private void Awake()
+    public int extraDamage = 1;
+
+    //HpDamable preTarget;
+
+    [Range(0, 20)] public float moveSpeedUp;
+
+    //public Material lightningChainMat;
+
+    //private float width = 0.1f;
+    //private Dictionary<int, GameObject> chains = new Dictionary<int, GameObject>();
+    [SerializeField]
+    private List<ThunderChainController> chainList = new List<ThunderChainController>();
+
+    [SerializeField] private ThunderChainController chainPrefab;
+    [SerializeField] private Transform chainsRoot;
+
+    [SerializeField]
+    /// <summary>
+    /// 标记的敌人列表
+    /// </summary>
+    private List<HpDamable> enemyList = new List<HpDamable>();
+
+    [SerializeField]
+    private List<GameObject> effectList = new List<GameObject>(); // lightning particle effect
+
+    [SerializeField] private GameObject sparkEffectPrefab;
+
+    [SerializeField] private GameObject explodeEffect;
+
+    [SerializeField] private LightningTrigger lightningTrigger;
+
+    [SerializeField] [Header("三档闪电链需要的数量")]
+    private int[] lightningLevelNum = { 2, 4, 6 };
+
+    private int lightningLevel;
+
+    public override void Init(PlayerController playerController, PlayerCharacter playerCharacter)
     {
-        //_playerInfomation = GetComponentInParent<PlayerInfomation>();
-        //_playerCharacter = GetComponentInParent<PlayerCharacter>();
-        //m_eventType = BattleEventType.LightningChainAtk;
+        base.Init(playerController, playerCharacter);
+        lightningTrigger.GetComponent<CircleCollider2D>().radius = range;
+        lightningTrigger.makeLightningEvent.AddListener(AddEnemy);
+        this.SkillStart.AddListener(() => lightningTrigger.gameObject.SetActive(true));
+        this.SkillEnd.AddListener(ExplodeLightning);
     }
-    
+
+    public void AddEnemy(HpDamable damageableBase)
+    {
+        if (enemyList.Contains(damageableBase))
+        {
+            return;
+        }
+
+        enemyList.Add(damageableBase);
+        GameObject spark = Instantiate(sparkEffectPrefab, damageableBase.transform);
+        spark.transform.localPosition = Vector3.zero;
+        effectList.Add(spark);
+        if (enemyList.Count > 1)
+        {
+            GameObject chain = Instantiate(chainPrefab.gameObject, chainsRoot);
+            chainList.Add(chain.GetComponent<ThunderChainController>());
+        }
+
+        lightningLevel = 3;
+        for (int i = 0; i < lightningLevelNum.Length - 1; i++)
+        {
+            if (enemyList.Count >= lightningLevelNum[i] &&
+                enemyList.Count < lightningLevelNum[i + 1])
+            {
+                lightningLevel = i + 1;
+                break;
+            }
+        }
 
 
+        foreach (var chain in chainList)
+        {
+            chain.ThunderChainLevel = lightningLevel;
+        }
+    }
+
+    public void ExplodeLightning()
+    {
+        lightningTrigger.gameObject.SetActive(false);
+        
+        damager.damage = baseDamage + enemyList.Count * extraDamage; // 伤害计算公式
+
+        // 销毁锁链
+        for (int i = 0; i < chainList.Count; i++)
+        {
+            Destroy(chainList[i].gameObject);
+        }
+
+        chainList.Clear();
+
+        // 销毁标记
+        for (int i = 0; i < effectList.Count; i++)
+        {
+            Destroy(effectList[i]);
+        }
+
+        effectList.Clear();
+
+        foreach (var enemy in enemyList)
+        {
+            if (enemy != null)
+            {
+                GameObject explode = Instantiate(explodeEffect, enemy.transform);
+                DOVirtual.DelayedCall(0.2f, () => enemy.takeDamage(damager));
+                Destroy(explode, 2.0f);
+            }
+        }
+
+        enemyList.Clear();
+    }
+
+    public void RemoveAllList()
+    {
+        // 切换关卡时调用
+        chainList.Clear();
+        effectList.Clear();
+        enemyList.Clear();
+    }
 
 
     private void Update()
     {
         //TriggerAddElectricMarkEvent();
-        UpdateTargetsLink();
+        //UpdateTargetsLink();
+        UpdateChain();
     }
 
+    /// <summary>
+    /// 更新闪电链的位置
+    /// </summary>
+    public void UpdateChain()
+    {
+        if (chainList.Count.Equals(0))
+        {
+            return;
+        }
+
+        if (!enemyList.Count.Equals(chainList.Count + 1))
+        {
+            Debug.LogError("锁链数量错误");
+            return;
+        }
+
+
+        for (int i = 0; i < chainList.Count; i++)
+        {
+            chainList[i].startPos = enemyList[i].transform.position;
+            chainList[i].endPos = enemyList[i + 1].transform.position;
+        }
+    }
+
+    public void SpeedUp(bool needApply)
+    {
+        if (needApply) _playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
+        else
+        {
+            _playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
+        }
+    }
+/*
     // private LightningChain eventVariant;
     // public void TriggerAddElectricMarkEvent()
     // {
@@ -112,14 +248,7 @@ public class LightningChain : SoulSkill
     }
 
 
-    public void SpeedUp(bool needApply)
-    {
-        if(needApply) _playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
-        else
-        {
-            _playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, moveSpeedUp);
-        }
-    }
+    
     
 
     protected bool IsAtkSuccess(HpDamable target)
@@ -231,4 +360,5 @@ public class LightningChain : SoulSkill
     {
         stateParticle.gameObject.SetActive(_option);
     }
+    */
 }
