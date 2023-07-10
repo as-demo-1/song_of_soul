@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// 护符的图片UI，显示在装配面板中
+/// </summary>
 public class CharmImage : MonoBehaviour, ISelectHandler
 {
     // [SerializeField]
@@ -26,27 +29,12 @@ public class CharmImage : MonoBehaviour, ISelectHandler
     public Charm charm;
 
     public CharmSlot slot;
-    // [SerializeField]
-    // private CharmUIState CharmUIState = CharmUIState.ICON;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     
+
     public void OnSelect(BaseEventData eventData)
     {
         Debug.Log("select");
         charmUIPanel.ChangeSelect(this);
-        //isSelected = true;
     }
     public void Init(Charm _charm, CharmUIPanel _charmUIPanel)
     {

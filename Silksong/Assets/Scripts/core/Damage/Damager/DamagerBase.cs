@@ -24,9 +24,11 @@ public abstract class DamagerBase : MonoBehaviour
     public int damage;//伤害数值
     public Vector2 beatBackVector = Vector2.zero;
 
+    protected Vector3 hitpos;
 
     public DamageEvent makeDamageEvent;
     public DamageEvent killDamableEvent;
+    public UnityEvent<GameObject> hitAnythingEvent;
 
 
     public virtual int getDamage(DamageableBase target)//获得造成的具体伤害数值
@@ -42,6 +44,7 @@ public abstract class DamagerBase : MonoBehaviour
         {
             return;
         }
+        hitAnythingEvent.Invoke(collision.gameObject);
         DamageableBase damageable = collision.GetComponent<DamageableBase>();//只有拥有Damageable组件的collider受攻击
         if (damageable )
         {
@@ -50,6 +53,7 @@ public abstract class DamagerBase : MonoBehaviour
             {
                 return;
             }
+            hitpos =  damageable.GetComponent<Collider2D>().ClosestPoint(this.transform.position);
             damageable.takeDamage(this);
             makeDamage(damageable);
 

@@ -142,7 +142,7 @@ public abstract class InputComponent : MonoBehaviour
                     m_AfterFixedUpdateHeld = Held;
                     m_AfterFixedUpdateUp = Up;
                 }
-                else//update¼üÈëºó£¬ÔÚÏÂÒ»¸öfixedupdate·¢ÉúÇ°ÈÏÎªÒ»Ö±ÓĞ¼üÈë Ä¿µÄÊÇÎªÁËÔÚupdateË³ĞòËæ»úÇé¿öÏÂ²»¶ªÊ§ÊäÈë
+                else//updateé”®å…¥åï¼Œåœ¨ä¸‹ä¸€ä¸ªfixedupdateå‘ç”Ÿå‰è®¤ä¸ºä¸€ç›´æœ‰é”®å…¥ ç›®çš„æ˜¯ä¸ºäº†åœ¨updateé¡ºåºéšæœºæƒ…å†µä¸‹ä¸ä¸¢å¤±è¾“å…¥
                 {
                     Down = Input.GetKeyDown(key) || m_AfterFixedUpdateDown;
                     Held = Input.GetKey(key) || m_AfterFixedUpdateHeld;
@@ -165,7 +165,7 @@ public abstract class InputComponent : MonoBehaviour
                 m_FrameCount = Constants.BufferFrameTime;
             }
 
-            // Ò»´Î°´ÏÂÖ»´¥·¢Ò»´ÎIsValid
+            // ä¸€æ¬¡æŒ‰ä¸‹åªè§¦å‘ä¸€æ¬¡IsValid
             if (m_FrameCount >= Constants.BufferFrameTime)
             {
                 IsValid = true;
@@ -176,7 +176,7 @@ public abstract class InputComponent : MonoBehaviour
                 IsValid = false;
             }
         }
-        public void SetValidToFalse()//ÎŞÓÃ£¬downÈÔÈ»ÓĞĞ§£¬valid½«²»¶Ï¼¤»î
+        public void SetValidToFalse()//æ— ç”¨ï¼Œdownä»ç„¶æœ‰æ•ˆï¼Œvalidå°†ä¸æ–­æ¿€æ´»
         {
             m_FrameCount = 0;
             IsValid = false;
@@ -187,7 +187,7 @@ public abstract class InputComponent : MonoBehaviour
             m_Enabled = true;       
         }
 
-        public override void Disable()//¶³½á¿ØÖÆÊ¹ÓÃ´Ëº¯Êı
+        public override void Disable()//å†»ç»“æ§åˆ¶ä½¿ç”¨æ­¤å‡½æ•°
         {
             if (NotNeedGainAndReleaseControl) return;
 
@@ -356,7 +356,7 @@ public abstract class InputComponent : MonoBehaviour
         }
     }
 
-    public class Button : IButton
+    public class Button : InputComponent.IButton
     {
         //public PlayerInputButton buttonName;
         public bool NotNeedGainAndReleaseControl;

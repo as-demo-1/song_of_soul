@@ -53,25 +53,13 @@ public class CharmListSO : ScriptableObject
             if (!charm.HasEquiped && name.Equals(charm.CharmName))
             {
                 charm.HasEquiped = true;
-                //charm.OnEquip();
+                charm.ChangeEquip();
                 return true;
             }
         }
         return false; //没有找到匹配的护符名称
     }
-    public bool EquipCharm(CharmSO _charmSO)
-    {
-        foreach (var charm in Charms)
-        {
-            if (!charm.HasEquiped && _charmSO.Equals(charm))
-            {
-                charm.HasEquiped = true;
-                //charm.OnEquip();
-                return true;
-            }
-        }
-        return false; //没有找到匹配的护符名称
-    }
+    
 
     /// <summary>
     /// 卸载护符
@@ -85,25 +73,13 @@ public class CharmListSO : ScriptableObject
             if (charm.HasEquiped && name.Equals(charm.CharmName))
             {
                 charm.HasEquiped = false;
-                //charm.OnDisEquip();
+                charm.ChangeEquip();
                 return true;
             }
         }
         return false;
     }
-    public bool DisEquipCharm(CharmSO _charmSO)
-    {
-        foreach (var charm in Charms)
-        {
-            if (charm.HasEquiped && _charmSO.Equals(charm))
-            {
-                charm.HasEquiped = false;
-                //charm.OnDisEquip();
-                return true;
-            }
-        }
-        return false;
-    }
+    
 
 
     /// <summary>
@@ -115,7 +91,7 @@ public class CharmListSO : ScriptableObject
         {
             if (charm.HasEquiped)
             {
-                //charm.OnEquip();
+                charm.ChangeEquip();
             }
         }
     }

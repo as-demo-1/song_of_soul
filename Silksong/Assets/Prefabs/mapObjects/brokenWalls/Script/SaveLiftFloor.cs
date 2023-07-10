@@ -8,6 +8,6 @@ public class SaveLiftFloor : Damable
     public override void takeDamage(DamagerBase damager)
     {
         base.takeDamage(damager);
-        lift.MoveToFloor(this);
+        //lift.MoveToFloor(this);
     }
 }

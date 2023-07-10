@@ -45,8 +45,6 @@ public class HpDamable :Damable
 
     public ParticleSystem hurt = default;
 
-    private Dictionary<BuffType, Buff> _buffs = new Dictionary<BuffType, Buff>();
-
     public GameObject electricMarkPref = default; // …¡µÁ±Íº«
 
     private uint buffindex;
@@ -167,71 +165,9 @@ public class HpDamable :Damable
     }
 
 
-    public void GetBuff(BuffType buffType)
-    {
-        switch (buffType)
-        {
-            case BuffType.ElectricMark:
-                ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
-                eBuff.AddOneLayer();
-                buffindex = ElectricMark.GetCurrentIndex();
-                ElectricMark.AddTarget(buffindex, this);
-                ElectricMark.counter++;
-                break;
-            default:
-                break;
-        }
-    }
 
-    public void RemoveBuff(BuffType buffType)
-    {
-        switch (buffType)
-        {
-            case BuffType.ElectricMark:
-                ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
-                eBuff.ResetLayer();
-                eBuff.HidePerformance();
-                ElectricMark.RemoveTarget(buffindex);
-                break;
-            default:
-                break;
-        }
-    }
 
-    public bool CanGetBuff(BuffType buffType)
-    {
-        switch (buffType)
-        {
-            case BuffType.ElectricMark:
-                if (_buffs.ContainsKey(BuffType.ElectricMark))
-                {
-                    ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
-                    return eBuff.GetLayerNum() < 1;
-                }
-                else
-                {
-                    _buffs.Add(BuffType.ElectricMark, new ElectricMark());
-                    return false;
-                }
-            default:
-                return false;
-        }
-    }
 
-    public bool HaveBuff(BuffType buffType)
-    {
-        switch (buffType)
-        {
-            case BuffType.ElectricMark:
-                if (_buffs.ContainsKey(BuffType.ElectricMark))
-                {
-                    ElectricMark eBuff = (ElectricMark)_buffs[BuffType.ElectricMark];
-                    return eBuff.GetLayerNum() > 0;
-                }
-                return false;
-            default:
-                return false;
-        }
-    }
+
 
 }

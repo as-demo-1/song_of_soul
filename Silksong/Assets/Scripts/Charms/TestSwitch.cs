@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// 按键激活面板
+/// 测试护符面板用
+/// </summary>
 public class TestSwitch : MonoBehaviour
 {
     public KeyCode keyCode;

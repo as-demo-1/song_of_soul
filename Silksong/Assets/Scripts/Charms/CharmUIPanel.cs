@@ -146,8 +146,9 @@ public class CharmUIPanel : SerializedMonoBehaviour
         if (blueCharmImages.Count <= 0) return;
 
         //OnTabChange();
-        //GameObject.Find("EventSystem(Clone)").GetComponent<EventSystem>()?.SetSelectedGameObject(charmImages[0].gameObject);
-        PlayerInput.Instance.ReleaseControls();
+        // 进入护符界面时获取光标
+        GameObject.Find("EventSystem(Clone)").GetComponent<EventSystem>()?.SetSelectedGameObject(blueCharmImages[0].gameObject);
+        //PlayerInput.Instance.ReleaseControls();// 禁用玩家输入
     }
 
     private void OnDisable()

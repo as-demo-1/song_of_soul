@@ -68,6 +68,8 @@ public abstract class SoulSkill : MonoBehaviour
 
     public PlayerSkillDamager damager;
 
+    private Vector3 closestPoint;
+
     
     public virtual void Init(PlayerController playerController, PlayerCharacter playerCharacter)
     {
@@ -175,7 +177,16 @@ public abstract class SoulSkill : MonoBehaviour
         {
             return;
         }
-        Vector3 closestPoint = damageable.GetComponent<Collider2D>().ClosestPoint(damager.transform.position);
+
+        if (damageable==null)
+        {
+            closestPoint  = damager.transform.position;
+        }
+        else
+        {
+            closestPoint = damageable.GetComponent<Collider2D>().ClosestPoint(damager.transform.position);
+        }
+
         Destroy( Instantiate(hurtEffectPrefab, closestPoint, Quaternion.identity),1.5f);
     }
 

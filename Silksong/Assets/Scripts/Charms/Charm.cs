@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+
+public enum CharmQuality
+{
+    BLUE,
+    PURPLE,
+    ORANGE
+}
 [System.Serializable]
 public class Charm
 {

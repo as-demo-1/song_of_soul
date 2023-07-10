@@ -4,20 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+/// <summary>
+/// 伤害跳字，用于测试buff效果
+/// </summary>
 public class HitInfo : MonoBehaviour
 {
     public GameObject damageText;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void GenerateText(DamagerBase damagerBase, DamageableBase damageableBase)
     {

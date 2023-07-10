@@ -16,6 +16,9 @@ public class UISaveView : MonoBehaviour
     public UIMainMenu uiMenu_Main;
 	public UISaveSlot[] uiSaveSlots;
 
+	[SerializeField]
+	private string newGameLeve = "Level1-1";
+
     void Start()
     {
 		foreach (var o in SaveSystemManager.Saves)
@@ -34,7 +37,7 @@ public class UISaveView : MonoBehaviour
 		}
 		SaveSystemManager.Load(index);//╪сть
 
-		SceneManager.LoadScene("Level1-1");
+		SceneManager.LoadScene(newGameLeve);
 	}
 
 	public void Return()

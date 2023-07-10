@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// Ìí¼ÓStatesÊ±Îñ±Ø¼ÓÉÏĞòºÅ¡£
+/// æ·»åŠ Statesæ—¶åŠ¡å¿…åŠ ä¸Šåºå·ã€‚
 /// </summary>
 public enum EnemyStates
 {
@@ -62,7 +62,7 @@ public enum EnemyStates
     Boss_Hitted_State = 49,
 }
 /// <summary>
-/// Ìí¼ÓTriggerÊ±Îñ±Ø¼ÓÉÏĞòºÅ¡£
+/// æ·»åŠ Triggeræ—¶åŠ¡å¿…åŠ ä¸Šåºå·ã€‚
 /// </summary>
 public enum EnemyTriggers
 {
