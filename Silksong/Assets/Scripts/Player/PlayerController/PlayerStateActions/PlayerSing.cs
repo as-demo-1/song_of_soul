@@ -9,8 +9,12 @@ public class PlayerSing : PlayerAction
     private float singimer;
     public override void StateStart(EPlayerState oldState)
     {
+        if (!GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanSing))
+            return;
+        
         singTotalTime = Constants.PlayerBaseHealTime;
         singimer = 0;
+        PlayerController.Instance.sing.SetActive(true);
     }
     public override void StateUpdate()
     {
@@ -23,8 +27,13 @@ public class PlayerSing : PlayerAction
         float rate = singimer / singTotalTime;
         if (rate >= 1)
         {
-
+            //TODO:
         }
     }
 
+    public override void StateEnd(EPlayerState newState)
+    {
+        base.StateEnd(newState);
+        PlayerController.Instance.sing.SetActive(false);
+    }
 }

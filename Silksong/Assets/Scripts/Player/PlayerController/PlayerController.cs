@@ -41,9 +41,8 @@ public struct PlayerInfo
         playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDive,learnDive);
         playerController.playerStatusDic.learnSkill(EPlayerStatus.CanWaterSprint, learnWaterSprint);
         playerController.playerStatusDic.learnSkill(EPlayerStatus.CanHeartSword,learnHeartSword);
-
-        GameManager.Instance.saveSystem.setDoubleJump(haveDoubleJump);
-        GameManager.Instance.saveSystem.setSoulJump(haveSoulJump);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanDoubleJump, haveDoubleJump);
+        playerController.playerStatusDic.learnSkill(EPlayerStatus.CanSoulJump,haveSoulJump);
 #endif 
     }
 
@@ -151,6 +150,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem plunge;
     public ParticleSystem hurt;
     public ParticleSystem lighting;
+    public GameObject sing;
     #endregion
 
     InvulnerableDamable damable;
@@ -292,10 +292,8 @@ public class PlayerController : MonoBehaviour
 
         CalDistanceToGround(); 
         CheckHasHeightToPlunge();
-
-        //TickLightningChain();// 按下R进入闪电链灵魂状态
-        //TODO：改为按下R之后根据装配的护符开启对应状态
-        SoulSkillController.TickSoulSkill();
+        
+        SoulSkillController.TickSoulSkill();// 更新魂灵技能
 
         playerAnimatorStatesControl.ParamsUpdate();
         playerToCat.catUpdate();
@@ -368,7 +366,7 @@ public class PlayerController : MonoBehaviour
     }
     public int getJumpCount()
     {
-        if (GameManager.Instance.saveSystem.haveDoubleJump()) return Constants.PlayerMaxDoubleJumpCount;
+        if (GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanDoubleJump)) return Constants.PlayerMaxDoubleJumpCount;
         else return Constants.PlayerMaxJumpCount;
     }
     public void CheckFlipPlayer(float setAccelerationNormalizedTime=1f)
@@ -519,6 +517,9 @@ public class PlayerController : MonoBehaviour
 
     private void CheckHasWallToClimb()
     {
+        if (!GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanClimbIdle))
+            return;
+        
         bool checkRightSide;
        
         float horizontalInput = PlayerInput.Instance.horizontal.Value;

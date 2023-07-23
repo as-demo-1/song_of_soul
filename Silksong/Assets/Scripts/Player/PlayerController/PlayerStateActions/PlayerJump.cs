@@ -25,7 +25,7 @@ public class PlayerJump : PlayerAction
 
     public void justResetDoubleJump()
     {
-        if (GameManager.Instance.saveSystem.haveDoubleJump() == false) return;
+        if (GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanDoubleJump) == false) return;
         CurrentJumpCountLeft = Constants.PlayerMaxDoubleJumpCount - Constants.PlayerMaxJumpCount;
     }
 
@@ -46,8 +46,8 @@ public class PlayerJump : PlayerAction
 
         jumpingCoro= playerController.StartCoroutine(JumpUpCheck());
 
-        //Debug.Log("ÌøÔ¾²ÎÊı£º" + CurrentJumpCountLeft);
-        if (CurrentJumpCountLeft == 0 && GameManager.Instance.saveSystem.haveDoubleJump())
+        //Debug.Log("è·³è·ƒå‚æ•°ï¼š" + CurrentJumpCountLeft);
+        if (CurrentJumpCountLeft == 0 && GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanDoubleJump))
         {
             playerController.jump.Play();
         }
@@ -79,8 +79,8 @@ public class PlayerJump : PlayerAction
         while (true)
         {
             //Debug.Log("jumping");
-            yield return null;//Ã¿´ÎupdateºóÑ­»·Ò»´Î
-            if (playerController.getRigidVelocity().y < 0.01f)//ÌøÔ¾ÉÏÉı¹ı³Ì½áÊø  maybe not right..
+            yield return null;//æ¯æ¬¡updateåå¾ªç¯ä¸€æ¬¡
+            if (playerController.getRigidVelocity().y < 0.01f)//è·³è·ƒä¸Šå‡è¿‡ç¨‹ç»“æŸ  maybe not right..
             {
                // Debug.Log("JumpEnd");
                 playerController.setRigidGravityScaleToNormal();
@@ -89,10 +89,10 @@ public class PlayerJump : PlayerAction
 
             float jumpHeight = playerController.transform.position.y - jumpStartHeight;
 
-            if (jumpHeight > Constants.PlayerJumpMinHeight - 0.5f)//´ïµ½×îĞ¡¸ß¶Èºó²ÅÄÜÍ£ÏÂ
+            if (jumpHeight > Constants.PlayerJumpMinHeight - 0.5f)//è¾¾åˆ°æœ€å°é«˜åº¦åæ‰èƒ½åœä¸‹
             {
 
-                if (hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false)//¼±É²
+                if (hasQuickSlowDown == false && PlayerInput.Instance.jump.Held == false)//æ€¥åˆ¹
                 {
                     hasQuickSlowDown = true;
                     stopJumpInTime(Constants.JumpUpStopTime);

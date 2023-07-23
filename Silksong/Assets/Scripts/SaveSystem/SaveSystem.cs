@@ -15,26 +15,6 @@ public class SaveSystem : ScriptableObject//you can get SaveSystem instance from
 	private Save saveData = new Save();
 
 	//player-------------------------------------------------------
-	public bool haveSoulJump()
-    {
-		return saveData.haveSoulJump;
-    }
-
-	public void setSoulJump(bool v)
-    {
-		saveData.haveSoulJump =v;
-    }
-
-	public bool haveDoubleJump()
-	{
-		return saveData.haveDoubleJump;
-	}
-
-	public void setDoubleJump(bool v)
-	{
-		saveData.haveDoubleJump = v;
-	}
-
 	public int GetHealthMax()
 	{
 		return saveData._healthMax;

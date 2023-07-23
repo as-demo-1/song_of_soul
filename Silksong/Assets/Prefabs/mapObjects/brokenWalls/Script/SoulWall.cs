@@ -10,14 +10,14 @@ public class SoulWall : Trigger2DBase
     private void Start()
     {
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
-        //ÅÐ¶ÏÊÇºáÏòµÄÇ½»¹ÊÇ×ÝÏòµÄÇ½
+        //åˆ¤æ–­æ˜¯æ¨ªå‘çš„å¢™è¿˜æ˜¯çºµå‘çš„å¢™
         breakBySprint = collider.size.x > collider.size.y ? false : true;
     }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
-        Debug.Log(GameManager.Instance.saveSystem.haveSoulJump());
-        if (GameManager.Instance.saveSystem.haveSoulJump())
+        Debug.Log(GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanSoulJump));
+        if (GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanSoulJump))
         {
             if ((breakBySprint && PlayerController.Instance.playerAnimatorStatesControl.CurrentPlayerState==EPlayerState.Sprint
              ) || (!breakBySprint && PlayerController.Instance.playerAnimatorStatesControl.CurrentPlayerState == EPlayerState.Jump))

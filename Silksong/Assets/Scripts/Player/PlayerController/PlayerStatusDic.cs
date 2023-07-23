@@ -21,6 +21,8 @@ public enum EPlayerStatus : int
     CanWaterSprint=540,
     CanSwim=550,
     CanHeartSword=560,
+    CanDoubleJump = 570,
+    CanSoulJump = 580,
 
 }
 

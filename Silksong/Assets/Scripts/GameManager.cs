@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject mCamera;
 
-    public AudioManager audioManager;
+    //public AudioManager audioManager;
 
     public GameObject gamingUI;
 
@@ -113,6 +113,6 @@ public class GameManager : MonoBehaviour
     public void GameInitialize()
     {
         Application.targetFrameRate = 120;
-        audioManager = Instantiate(audioManager);
+        //audioManager = Instantiate(audioManager);
     }
 }

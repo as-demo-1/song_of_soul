@@ -9,7 +9,7 @@ public abstract class Trigger2DBase : MonoBehaviour
     public LayerMask targetLayer;//触发该trigger的layer
     [HideInInspector]
     public bool canWork = true;
-    [HideInInspector]
+    //[HideInInspector]
     public bool isOneTime;
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)

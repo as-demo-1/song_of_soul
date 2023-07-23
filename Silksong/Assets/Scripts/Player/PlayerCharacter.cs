@@ -227,7 +227,8 @@ public class PlayerCharacter : MonoBehaviour
         {
             ret = Constants.AttackCd_Up;
         }
-
+        ret +=
+            buffManager.GetBuffProperty(BuffProperty.ATTACK_SPEED);
         return ret;
     }
     // sprint-----------------------------------------------------------------------------

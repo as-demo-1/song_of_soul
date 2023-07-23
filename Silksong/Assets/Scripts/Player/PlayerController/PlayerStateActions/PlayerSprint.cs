@@ -35,6 +35,9 @@ public class PlayerSprint : PlayerAction
 
     public override void StateStart(EPlayerState oldState)
     {
+        if (!GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanSprint))
+            return;
+        
         SprintReady = false;
         playerController.setRigidGravityScale(0);
         if (oldState == EPlayerState.ClimbIdle)
