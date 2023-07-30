@@ -45,8 +45,6 @@ public class HpDamable :Damable
 
     public ParticleSystem hurt = default;
 
-    public GameObject electricMarkPref = default; // …¡µÁ±Íº«
-
     private uint buffindex;
 
 

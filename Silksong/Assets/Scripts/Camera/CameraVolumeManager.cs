@@ -122,11 +122,11 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
 
         inVolumeList = new List<Trigger2DHidePath>();
         
-        checkComponents = PlayerController.Instance.transform.Find("CameraCheckComponents");
-        lookAtPoint = checkComponents.Find("CameraLookAtPoint");
+        //checkComponents = PlayerController.Instance.transform.Find("CameraCheckComponents");
+        lookAtPoint = PlayerController.Instance.lookPos;
     }
 
-    private Transform checkComponents;
+    //private Transform checkComponents;
     private Transform lookAtPoint;
     public void TriggerEnterVolume(Transform triggerTransform)
     {
@@ -462,15 +462,15 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
                         }
 
 
-                        if (lookUpDownTween != null)
-                        {
-                            if (lookUpDownTween.IsPlaying()) lookUpDownTween.Kill();
-                        }
-
+                        // if (lookUpDownTween != null)
+                        // {
+                        //     if (lookUpDownTween.IsPlaying()) lookUpDownTween.Kill();
+                        // }
                         lookUpDownTween = DOTween.To(
                             () => lookAtPoint.position.y,
                             x => lookAtPoint.position = new Vector3(prePos.x, x, prePos.z),
-                            prePos.y + offset, lookUpDownDuration);
+                            prePos.y+offset, lookUpDownDuration);
+                        
 
                     }
                 }
@@ -479,19 +479,20 @@ public class CameraVolumeManager : MonoSingleton<CameraVolumeManager>
                     if (isLookingUpDown)
                     {
                         isLookingUpDown = false;
-                        if (lookUpDownTween != null)
-                        {
-                            if (lookUpDownTween.IsPlaying()) lookUpDownTween.Kill();
-                        }
+                        // if (lookUpDownTween != null)
+                        // {
+                        //     if (lookUpDownTween.IsPlaying()) lookUpDownTween.Kill();
+                        // }
 
                         lookUpDownTween = DOTween.To(
-                                () => lookAtPoint.position.y,
-                                x => lookAtPoint.position = new Vector3(prePos.x, x, prePos.z),
-                                prePos.y, lookUpDownDuration);
+                            () => lookAtPoint.position.y,
+                            x => lookAtPoint.position = new Vector3(prePos.x, x, prePos.z),
+                            prePos.y, lookUpDownDuration);
                         
                     }
                     
                 }
+                
             }
         }
     }

@@ -2,17 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SaveSystemSO", order = 1)]
 
-public class SaveSystem : ScriptableObject//you can get SaveSystem instance from GameManager 
+public class SaveSystem : SerializedScriptableObject//you can get SaveSystem instance from GameManager 
 {
 	//[SerializeField] private InventorySO _playerInventory;
 	//[SerializeField] private InventorySO _StoreInventory;
 	public string saveFilename = "save.asoul";
 	public string backupSaveFilename = "save.asoul.bak";
-	private Save saveData = new Save();
+	[SerializeField]private Save saveData = new Save();
 
 	//player-------------------------------------------------------
 	public int GetHealthMax()

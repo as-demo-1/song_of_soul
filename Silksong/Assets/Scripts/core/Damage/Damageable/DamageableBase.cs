@@ -23,11 +23,7 @@ public abstract class DamageableBase : MonoBehaviour
 
 
     public DamageEvent takeDamageEvent = new DamageEvent();
-
-    public AudioCue takeDamageAudio;
-
-    public SfxSO takeDamageSfxSO;
-
+    
 
     protected virtual void Awake()
     {

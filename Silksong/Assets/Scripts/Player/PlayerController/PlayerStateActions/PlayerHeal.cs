@@ -15,8 +15,6 @@ public class PlayerHeal : PlayerAction
     }
     public override void StateUpdate()
     {
-        
-        
         playerController.CheckHorizontalMove(0.4f);
         healProcess();
     }

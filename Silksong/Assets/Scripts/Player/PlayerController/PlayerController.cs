@@ -141,6 +141,9 @@ public class PlayerController : MonoBehaviour
 
     private float distanceToGround = -1.0f;  // 距离下方Groud距离
 
+    // camera
+    public Transform lookPos;
+    
     #region 特效
     [Header("特效")]
     public ParticleSystem climp;

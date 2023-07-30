@@ -43,7 +43,7 @@ public class AudioManager : MonoBehaviour
 
 		_pool.Prewarm(_initialSize);
 		_pool.SetParent(this.transform);
-		setMonstersDefaultHittedAudio();
+		//setMonstersDefaultHittedAudio();
 
 	}
 
@@ -130,18 +130,18 @@ public class AudioManager : MonoBehaviour
 
 
 	//[ContextMenu("setMonstersDefaultHittedAudio")]
-	public void setMonstersDefaultHittedAudio()
-	{
-		foreach(var monster in FindObjectsOfType<HpDamable>())
-		{
-			//Debug.Log(monster.gameObject.layer);
-			if (monster.gameObject.layer==LayerMask.NameToLayer("Enemy") && monster.takeDamageAudio==null)
-			{
-				monster.takeDamageAudio = monstersDefaultHittedAudio;
-		
-			}
-		}
-	}
+	// public void setMonstersDefaultHittedAudio()
+	// {
+	// 	foreach(var monster in FindObjectsOfType<HpDamable>())
+	// 	{
+	// 		//Debug.Log(monster.gameObject.layer);
+	// 		if (monster.gameObject.layer==LayerMask.NameToLayer("Enemy") && monster.takeDamageAudio==null)
+	// 		{
+	// 			monster.takeDamageAudio = monstersDefaultHittedAudio;
+	// 	
+	// 		}
+	// 	}
+	// }
 
 
 }

@@ -24,20 +24,10 @@ public class Damable : DamageableBase
                 StartCoroutine(beatenBack(beatBack));
             }
 
-            if (takeDamageSfxSO)
-            {
-                //Debug.Log("creat hitted sfx");
-                Vector2 hittedPosition = Vector2.zero;
 
-                hittedPosition = GetComponent<Collider2D>().bounds.ClosestPoint(damager.transform.position);
 
-                SfxManager.Instance.creatHittedSfx(hittedPosition, hittedPosition - (Vector2)transform.position, takeDamageSfxSO);
-            }
-        }
+            Vector2 hittedPosition = GetComponent<Collider2D>().bounds.ClosestPoint(damager.transform.position);
 
-        if (takeDamageAudio)
-        {
-            takeDamageAudio.PlayAudioCue();
         }
 
 

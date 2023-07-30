@@ -22,11 +22,11 @@ public abstract class damageEventSetter : MonoBehaviour
         GameObject targetObj;
         if(damageTiming==DamageTiming.onMakeDamage)
         {
-            targetObj = damageable.gameObject;
+            targetObj = damageable?.gameObject;
         }
         else
         {
-            targetObj = damager.gameObject;
+            targetObj = damager?.gameObject;
         }
 
         if (targetLayer.Contains(targetObj) || targetLayer==0)

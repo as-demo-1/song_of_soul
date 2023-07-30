@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
+using Sirenix.OdinInspector;
+
 /// <summary>
 /// This class contains all the variables that will be serialized and saved to a file.<br/>
 /// Can be considered as a save file structure or format.
@@ -14,9 +16,9 @@ public class Save
     public uint _goldAmount;
     public uint _weaponLevel;
     // The variables need to be public, else we would have to write trivial getter/setter functions.
-    public List<string> _finishedObjectGuid = new List<string>();
-    public Dictionary<string, int> _sceneInterative = new Dictionary<string, int>();
-    public List<string> _bossGUID = new List<string>();
+    [ShowInInspector] public List<string> _finishedObjectGuid = new List<string>();
+    [ShowInInspector] public Dictionary<string, int> _sceneInterative = new Dictionary<string, int>();
+    [ShowInInspector] public List<string> _bossGUID = new List<string>();
 
     //public List<SerializedItemStack> _itemStacks = new List<SerializedItemStack>();
     //public List<SerializedItemStack> _storeStacks = new List<SerializedItemStack>();
@@ -24,9 +26,7 @@ public class Save
     public List<string> _destroyedGameObjs = new List<string>();
 
     //about player-----------------------------------------------------------------------------
-    public bool haveSoulJump;
-    public bool haveDoubleJump;
-
+    [ShowInInspector]
     public Dictionary<EPlayerStatus, bool> learnedSkills = new Dictionary<EPlayerStatus, bool>
     {   { EPlayerStatus.CanBreakMoon,false},
         { EPlayerStatus.CanCastSkill,false},

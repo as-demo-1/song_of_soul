@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/GamingSave", order = 2)]
-public class GamingSaveSO : ScriptableObject
+public class GamingSaveSO : SerializedScriptableObject
 {
     //public HashSet<string> destroyedGameObjs=new HashSet<string>();   hashSet and dictionary can not be saved when reStart game in editor.
-    List<string> destroyedGameObjs = new List<string>();//if public,it will be saved to disk with SO
-    Dictionary<string, int> intGamingDic = new Dictionary<string, int>();
-    Dictionary<string, bool> boolGamingDic = new Dictionary<string, bool>();
+    [SerializeField] List<string> destroyedGameObjs = new List<string>();//if public,it will be saved to disk with SO
+    [SerializeField] Dictionary<string, int> intGamingDic = new Dictionary<string, int>();
+    [SerializeField] Dictionary<string, bool> boolGamingDic = new Dictionary<string, bool>();
 
+    [Button("clear all data")]
     public void clearAllData()
     {
         destroyedGameObjs.Clear();
@@ -66,20 +68,20 @@ public class GamingSaveSO : ScriptableObject
 }
 
 
-#if UNITY_EDITOR
-
-[CustomEditor(typeof(GamingSaveSO))]
-public class GamingSaveEdior : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        GamingSaveSO config = target as GamingSaveSO;
-       
-        if (GUILayout.Button("clear all data"))
-        {
-            config.clearAllData();
-        }
-    }
-}
-#endif
+// #if UNITY_EDITOR
+//
+// [CustomEditor(typeof(GamingSaveSO))]
+// public class GamingSaveEdior : Editor
+// {
+//     public override void OnInspectorGUI()
+//     {
+//         base.OnInspectorGUI();
+//         GamingSaveSO config = target as GamingSaveSO;
+//        
+//         if (GUILayout.Button("clear all data"))
+//         {
+//             config.clearAllData();
+//         }
+//     }
+// }
+// #endif
