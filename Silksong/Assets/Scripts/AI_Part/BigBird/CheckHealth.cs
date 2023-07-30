@@ -16,7 +16,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             
             Player = GameObject.FindGameObjectWithTag("Player");
            // BirdController = Player.GetComponentInChildren<Boss_BigBird>();
-           Health = GameObject.FindGameObjectWithTag("Boss").GetComponentInChildren<BigBirdController>().GetHealth();
+           //Health = GameObject.FindGameObjectWithTag("Boss").GetComponentInChildren<BigBirdController>().GetHealth();
         }
         
         
@@ -24,14 +24,17 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         public override TaskStatus OnUpdate()
         {
-           // Health = GameObject.FindGameObjectWithTag("Boss").GetComponent<BigBirdController>().GetHealth();
+            // Health = GameObject.FindGameObjectWithTag("Boss").GetComponent<BigBirdController>().GetHealth();
             //Debug.Log(Health);
+            /*
             if (Health > Stage[stageindex])
                 return TaskStatus.Success;
             else
             {
                 return TaskStatus.Failure;
             }
+            */
+            return TaskStatus.Failure;
         }
     }
 }

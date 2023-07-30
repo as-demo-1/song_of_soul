@@ -9,6 +9,13 @@ public class BulletSender : MonoBehaviour
     float currentAngularVelocity = 0;
     float currentTime = 0;
 
+    private bool isRunning = false;
+
+    public void startSend()
+    {
+        isRunning = true;
+    }
+
     private void Awake()
     {
         pool = new BulletPool(bullet);
@@ -27,7 +34,7 @@ public class BulletSender : MonoBehaviour
             currentAngle -= Mathf.Sign(currentAngle) * 360f;
         }
         currentTime += Time.fixedDeltaTime;
-        if (currentTime > bullet.interval)
+        if (currentTime > bullet.interval && isRunning)
         {
             currentTime -= bullet.interval;
             SendByCount(bullet.count, currentAngle);
@@ -48,7 +55,7 @@ public class BulletSender : MonoBehaviour
 
     public BulletPool pool;
 
-    private void Send(float angle)
+    public void Send(float angle)
     {
         var bh = pool.GetObjectFromPool();
         pool.OnGetItem(bh);
