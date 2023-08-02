@@ -12,14 +12,22 @@ public class UIMenu_System : MonoBehaviour
 	public TabView btn;
 	// Start is called before the first frame update
 
+	public MapController MapController;
+
 	private void OnEnable()
 	{
-		//PlayerInput.Instance.ReleaseControls();
+		PlayerInput.Instance.ReleaseControls();
 	}
 	void Start()
     {
         btn.SelectTab(0);
-		PlayerInput.Instance.ReleaseControls();
+        MapController.Init();
+		//PlayerInput.Instance.ReleaseControls();
+	}
+
+	public void ChangeTab(int index)
+	{
+		btn.SelectTab(index);
 	}
 
     // Update is called once per frame
@@ -27,7 +35,7 @@ public class UIMenu_System : MonoBehaviour
     {
     }
 
-	private void OnDestroy()
+	private void OnDisable()
 	{
 		PlayerInput.Instance.GainControls();
 	}

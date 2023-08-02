@@ -15,8 +15,13 @@ public class UIMainMenu : MonoBehaviour
 	public Material material;
 	//OnSureWindow onSureWindow;
 	public Text tex;
-	public GameObject uiSaveView;
+	public Text extraText;
+	public UISaveView uiSaveView;
 	public GameObject uiButtons;
+
+	public GameObject uiSettingPanel;
+	[SerializeField]
+	private string newGameLeve = "Level1-1";
 	// Start is called before the first frame update
 	void Start()
     {
@@ -46,12 +51,12 @@ public class UIMainMenu : MonoBehaviour
 	}
 	public void OnSwitch()
 	{
-		Debug.Log("²¥·ÅÇĞ»»°´Å¥ÒôĞ§");
+		Debug.Log("æ’­æ”¾åˆ‡æ¢æŒ‰é’®éŸ³æ•ˆ");
 	}
 
 	public void OnSelect()
 	{
-		Debug.Log("²¥·ÅÑ¡Ôñ°´Å¥ÒôĞ§");
+		Debug.Log("æ’­æ”¾é€‰æ‹©æŒ‰é’®éŸ³æ•ˆ");
 	}
 
 
@@ -63,20 +68,22 @@ public class UIMainMenu : MonoBehaviour
 		material.DOFade(0, 2);
 		uiSaveView.SetActive(true);
 		uiButtons.SetActive(false);
-		//this.gameObject.SetActive(false);
-		//SceneManager.LoadScene("Level1-1");*/
+		//this.gameObject.SetActive(false);*/
+		SceneManager.LoadScene(newGameLeve);
 	}
 	IEnumerator NewGameIE()
 	{
 		Debug.Log("on click New Game");
 		material.DOFade(0, 2);
-		uiSaveView.SetActive(true);
+		
 		yield return new WaitForSeconds(2.0f);
 		uiButtons.SetActive(false);
 	}
 
 	void ContinueGame()
 	{
+		
+		uiSaveView.gameObject.SetActive(true);
 		/*
 		Debug.Log("on click continue game");
 		UIManager.Instance.Show<UIPlayerStatus>();
@@ -87,15 +94,22 @@ public class UIMainMenu : MonoBehaviour
 	void ShowSettings()
 	{
 		Debug.Log("on click show settings");
+		uiSettingPanel.SetActive(true);
 	}
 
 	void ShowExtra()
 	{
 		Debug.Log("on click show extra");
+		extraText?.gameObject.SetActive(true);
 	}
 
 	void ClickExit()
 	{
 		Debug.Log("on click exit");
+#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;//ç”¨äºé€€å‡ºè¿è¡Œ
+#else
+		Application.Quit();
+#endif
 	}
 }

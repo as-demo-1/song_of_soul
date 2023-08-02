@@ -21,8 +21,7 @@ public class SaveFuncInteractiveSO : FuncSingleInteractiveBaseSO
 
     protected override void DoInteract()
     {
-        InteractManager.Instance.GetInteractiveItemComponent<SaveController>()
-            .SaveSystem.SaveDataToDisk();
+        //InteractManager.Instance.GetInteractiveItemComponent<SaveController>().SaveSystem.SaveDataToDisk();
         base.DoInteract();
     }
 }

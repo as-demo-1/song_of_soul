@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 可在场景切换后保存电梯状态的电梯
-/// 保存还是有问题的
-/// 作者：小明
+/// 鍙湪鍦烘櫙鍒囨崲鍚庝繚瀛樼數姊姸鎬佺殑鐢垫
+/// 淇濆瓨杩樻槸鏈夐棶棰樼殑
+/// 浣滆�咃細灏忔槑
 /// </summary>
 public class SaveLift : MonoBehaviour
 {

@@ -47,8 +47,8 @@ public class Words : MonoBehaviour
         word.AddComponent<Rigidbody2D>();
         GameObject d = Instantiate(damager, word.transform);
         Destroy(d.GetComponent<BoxCollider2D>());
-        UnityEditorInternal.ComponentUtility.CopyComponent(word.GetComponent<PolygonCollider2D>());
-        UnityEditorInternal.ComponentUtility.PasteComponentAsNew(d);
+        //UnityEditorInternal.ComponentUtility.CopyComponent(word.GetComponent<PolygonCollider2D>());
+        //UnityEditorInternal.ComponentUtility.PasteComponentAsNew(d);
         d.GetComponent<PolygonCollider2D>().isTrigger = true;
     }
 
@@ -59,8 +59,8 @@ public class Words : MonoBehaviour
         word.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         GameObject d = Instantiate(damager, word.transform);
         Destroy(d.GetComponent<BoxCollider2D>());
-        UnityEditorInternal.ComponentUtility.CopyComponent(word.GetComponent<PolygonCollider2D>());
-        UnityEditorInternal.ComponentUtility.PasteComponentAsNew(d);
+        //UnityEditorInternal.ComponentUtility.CopyComponent(word.GetComponent<PolygonCollider2D>());
+        //UnityEditorInternal.ComponentUtility.PasteComponentAsNew(d);
         d.GetComponent<PolygonCollider2D>().isTrigger = true;
     }
 

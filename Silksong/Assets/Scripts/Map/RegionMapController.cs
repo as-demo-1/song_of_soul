@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RegionMapController : MonoBehaviour
+public class RegionMapController : SerializedMonoBehaviour
 {
-	private Dictionary<string, GameObject> mapIMGs = new Dictionary<string, GameObject>();
-	private GameObject playerMarker, selectedRegion, currentRegion;
+	[SerializeField] private Dictionary<string, GameObject> mapIMGs = new Dictionary<string, GameObject>();
+	[SerializeField] private GameObject playerMarker, selectedRegion, currentRegion;
 
     void Awake()
     {
-        playerMarker = transform.Find("PlayerMarker").gameObject;
-
-        mapIMGs.Add("Level1", transform.Find("Region1").gameObject);
-        mapIMGs.Add("Level3", transform.Find("Region2").gameObject);
+        // playerMarker = transform.Find("PlayerMarker").gameObject;
+        //
+        // mapIMGs.Add("Level1", transform.Find("Region1").gameObject);
+        // mapIMGs.Add("Level3", transform.Find("Region2").gameObject);
 
         // selectedRegion = mapIMGs["Level1"];
     }
@@ -46,7 +47,8 @@ public class RegionMapController : MonoBehaviour
     {
         Debug.Log("zzzzzzzzzzzz "  + region);
     	if (!mapIMGs.ContainsKey(region)) return;
-    	currentRegion = mapIMGs[region];
-    	selectedRegion = currentRegion;
+    	//currentRegion = mapIMGs[region];
+        playerMarker.transform.position = mapIMGs[region].transform.position;
+        //selectedRegion = currentRegion;
     }
 }

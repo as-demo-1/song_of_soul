@@ -36,8 +36,8 @@ public class WordPart : MonoBehaviour
         damager = GameObject.Find("Boss").transform.GetChild(0).gameObject;
         GameObject d = Instantiate(damager, this.gameObject.transform);
         Destroy(d.GetComponent<BoxCollider2D>());
-        UnityEditorInternal.ComponentUtility.CopyComponent(this.gameObject.GetComponent<PolygonCollider2D>());
-        UnityEditorInternal.ComponentUtility.PasteComponentAsNew(d);
+        //UnityEditorInternal.ComponentUtility.CopyComponent(this.gameObject.GetComponent<PolygonCollider2D>());
+        //UnityEditorInternal.ComponentUtility.PasteComponentAsNew(d);
         d.GetComponent<PolygonCollider2D>().isTrigger = true;
     }
 

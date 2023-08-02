@@ -89,7 +89,8 @@ public class PlayerCharacter : MonoBehaviour
     }
     public int getMaxHp()
     {
-        int ret = Constants.playerInitialMaxHp;
+        int ret = GameManager.Instance.saveSystem.GetHealthMax();
+            //Constants.playerInitialMaxHp;
         //toadd:charm,hpUp
         ret += (int)buffManager.GetBuffProperty(BuffProperty.MAX_HEALTH);
         return ret;

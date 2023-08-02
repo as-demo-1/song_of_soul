@@ -23,8 +23,10 @@ public class Save
     //public List<SerializedItemStack> _itemStacks = new List<SerializedItemStack>();
     //public List<SerializedItemStack> _storeStacks = new List<SerializedItemStack>();
 
-    public List<string> _destroyedGameObjs = new List<string>();
+    public List<string> _destroyedGameObjs = new List<string>();// 只保存永久销毁
 
+    public string levelName;// 玩家所在的场景名
+    public long timestamp;// 存档时间
     //about player-----------------------------------------------------------------------------
     [ShowInInspector]
     public Dictionary<EPlayerStatus, bool> learnedSkills = new Dictionary<EPlayerStatus, bool>

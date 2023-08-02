@@ -1,56 +1,71 @@
 using DG.Tweening;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using Opsive.UltimateInventorySystem.SaveSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using static InputComponent;
-using static Opsive.UltimateInventorySystem.DatabaseNames.DemoInventoryDatabaseNames;
+using Button = UnityEngine.UI.Button;
 
 public class UISaveView : MonoBehaviour
 {
     public UIMainMenu uiMenu_Main;
 	public UISaveSlot[] uiSaveSlots;
 
-	[SerializeField]
-	private string newGameLeve = "Level1-1";
+	
+
+	public Button backBtn;
+	public SaveSystem SaveSystem;
 
     void Start()
     {
-		foreach (var o in SaveSystemManager.Saves)
+	    SaveSystem.Init();
+	    foreach (var o in SaveSystem.Saves)
 		{
-			uiSaveSlots[o.Key].Init();
+			Debug.Log("设置存档槽");
+			uiSaveSlots[o.Key].Init(o.Value);
+			if (PlayerController.Instance==null)
+			{
+				uiSaveSlots[o.Key].saveBtn.enabled = false;
+			}
 		}
 	}
 
-	public void NewGame(int index)
+    /// <summary>
+    /// 保存游戏
+    /// 如果存档为空则新建一个存档
+    /// </summary>
+    /// <param name="index"></param>
+	public void SaveGame(int index)
     {
 		//UIManager.Instance.inventorySaveIndex= index;
+		
+		SaveSystem.SaveToSlot(index);
+	    uiSaveSlots[index].Init(SaveSystem.Saves[index]);
+		
+    }
 
-		if (!SaveSystemManager.Saves.ContainsKey(index))
-		{
-			SaveSystemManager.Save(index);
-		}
-		SaveSystemManager.Load(index);//����
+    /// 加载游戏
+    public void LoadGame(int index)
+    {
+	    SaveSystem.LoadGame(index); 
+    }
 
-		SceneManager.LoadScene(newGameLeve);
-	}
+    public void ContinueGame(int index)
+    {
+	    SceneManager.LoadSceneAsync(SaveSystem.Saves[index].levelName);
+    }
 
 	public void Return()
 	{
-		uiMenu_Main.gameObject.SetActive(true);
-		uiMenu_Main.material.DOFade(1, 2);
-		uiMenu_Main.uiButtons.SetActive(true);
+		if (uiMenu_Main!=null)
+		{
+			uiMenu_Main.gameObject.SetActive(true);
+			uiMenu_Main.material.DOFade(1, 2);
+			uiMenu_Main.uiButtons.SetActive(true);
+		}
 		this.gameObject.SetActive(false);
 
 
 	}
     public void DeleteSave(int index)
     {
-        SaveSystemManager.DeleteSave(index);
+        //SaveSystemManager.DeleteSave(index);
     }
 }

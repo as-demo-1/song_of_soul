@@ -17,6 +17,7 @@ public class PlayerInput : InputComponent
     private bool m_isFrozen;
 
     private List<Button> buttons = new List<Button>();
+    private List<Button> playerBtns = new List<Button>();
 
     public InputButton sprint = new InputButton(KeyCode.LeftShift, XboxControllerButtons.LeftBumper);
     public InputButton Pick = new InputButton(KeyCode.F, XboxControllerButtons.Y);
@@ -39,8 +40,9 @@ public class PlayerInput : InputComponent
     public InputButton showMap = new InputButton(KeyCode.M, XboxControllerButtons.None);
     ////TODO:xbox button mapping
     public InputButton quickMap = new InputButton(KeyCode.Tab, XboxControllerButtons.None);
+    public InputButton menu = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu);
+    
     [HideInInspector]
-
     protected bool m_HaveControl = true;
 
     protected bool m_DebugMenuIsOpen = false;
@@ -52,6 +54,25 @@ public class PlayerInput : InputComponent
         else
             throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
 
+        playerBtns.AddRange(new List<Button>
+        {
+            horizontal,
+            vertical,
+            jump,
+            interact,
+            normalAttack,
+            soulSkill,
+            sprint,
+            teleport,
+            Pick,
+            breakMoon,
+            heal,
+            toCat,
+            castSkill,
+            plunge,
+            sing,
+            heartSword,
+        });
         buttons.AddRange(new List<Button>
         {
             horizontal,
@@ -72,6 +93,7 @@ public class PlayerInput : InputComponent
             plunge,
             sing,
             heartSword,
+            menu,
         });
     }
 
@@ -119,7 +141,7 @@ public class PlayerInput : InputComponent
         Debug.Log("releaseCtrl");
         m_HaveControl = false;
 
-        foreach (var button in buttons)
+        foreach (var button in playerBtns)
         {
             button.Disable();
         }

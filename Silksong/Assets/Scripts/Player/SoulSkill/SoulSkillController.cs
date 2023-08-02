@@ -95,7 +95,7 @@ public class SoulSkillController : MonoBehaviour
             equpedSoulSkill.enabled = false;
         }
         
-        if (PlayerInput.Instance.soulSkill.IsValid)
+        if (PlayerInput.Instance.soulSkill.Up && GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanCastSkill))
         {
             // 按下R键切换灵魂状态
             

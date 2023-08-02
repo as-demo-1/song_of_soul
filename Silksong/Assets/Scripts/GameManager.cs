@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
 
     public void startGaming()
     {
+        saveSystem.Init();
         CreateCamera();
 
         // 临时初始化UI

@@ -74,7 +74,7 @@ public class UIEquipView : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ÓÃµÄÄ¬ÈÏÊı¾İ¿â£¬»áÓĞÒ»Ğ©ÎÊÌâ
+	/// ç”¨çš„é»˜è®¤æ•°æ®åº“ï¼Œä¼šæœ‰ä¸€äº›é—®é¢˜
 	/// </summary>
 	public void Init()
 	{
@@ -127,7 +127,7 @@ public class UIEquipView : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ¸üĞÂÉúÃüËéÆ¬uiÏÔÊ¾
+	/// æ›´æ–°ç”Ÿå‘½ç¢ç‰‡uiæ˜¾ç¤º
 	/// </summary>
 	/// <param name="value"></param>
 	public void HpUpdate(int value)
@@ -150,7 +150,7 @@ public class UIEquipView : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ¸üĞÂÄ§Á¦ËéÆ¬uiÏÔÊ¾
+	/// æ›´æ–°é­”åŠ›ç¢ç‰‡uiæ˜¾ç¤º
 	/// </summary>
 	/// <param name="value"></param>
 	public void MpUpdate(int value)
@@ -161,7 +161,7 @@ public class UIEquipView : MonoBehaviour
 			MpSlots[i].UpdateMpSlot(value);
 			value = value - 4;
 			i++;
-			Debug.Log("MPËéÆ¬ÊıÁ¿:" + value);
+			Debug.Log("MPç¢ç‰‡æ•°é‡:" + value);
 		}
 		if (value > -4)
 		{
@@ -187,7 +187,7 @@ public class UIEquipView : MonoBehaviour
 	}
 
 	/// <summary>
-	/// °´ÏÂQEË¢ĞÂUI ²ÎÊıÒ»ÊÇÎïÆ·ÀàĞÍµÄintÖµ ²ÎÊı¶şÊÇÇĞ»»Ò³Êı
+	/// æŒ‰ä¸‹QEåˆ·æ–°UI å‚æ•°ä¸€æ˜¯ç‰©å“ç±»å‹çš„intå€¼ å‚æ•°äºŒæ˜¯åˆ‡æ¢é¡µæ•°
 	/// </summary>
 	/// <param name="index"></param>
 	/// <param name="index2"></param>

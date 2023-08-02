@@ -5,16 +5,26 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/SaveSystemSO", order = 1)]
 
 public class SaveSystem : SerializedScriptableObject//you can get SaveSystem instance from GameManager 
 {
 	//[SerializeField] private InventorySO _playerInventory;
 	//[SerializeField] private InventorySO _StoreInventory;
-	public string saveFilename = "save.asoul";
-	public string backupSaveFilename = "save.asoul.bak";
+	[SerializeField]private string fileSuffix = ".asoul";
+	[SerializeField]private string saveFilename = "save";
+	[SerializeField]private string backupSaveFilename = "save.asoul.bak";
 	[SerializeField]private Save saveData = new Save();
 
+	public Save SaveData => saveData;
+	private Dictionary<int, Save> saves = new Dictionary<int, Save>();
+
+	public Dictionary<int, Save> Saves => saves;
+
+	[SerializeField]
+	private int maxSlot = 4;
 	//player-------------------------------------------------------
 	public int GetHealthMax()
 	{
@@ -166,6 +176,60 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 			{
 						Debug.Log("Save successful " + saveFilename);
 			}
+		}
+	}
+
+
+	public void Init()
+	{
+		for (int i = 0; i < maxSlot; i++)
+		{
+			string filename = saveFilename + "_" + i.ToString() + fileSuffix; 
+			Debug.Log("Load"+filename);
+			if (FileManager.LoadFromFile(filename, out var json))
+			{
+				if (saves.ContainsKey(i))
+				{
+					saves[i] = saves[i].LoadFromJson(json);
+				}
+				else
+				{
+					Save _save = new Save();
+					_save = _save.LoadFromJson(json);
+					saves.Add(i, _save); 
+				}
+			}
+		}
+	}
+	public void SaveToSlot(int index)
+	{
+		if (saves.ContainsKey(index))
+		{
+			saves[index] = saveData;
+			
+		}
+		else
+		{
+			saves.Add(index, saveData);
+		}
+
+		saveData.levelName = SceneManager.GetActiveScene().name;
+		saveData.timestamp = DateTime.Now.ToFileTime();
+		string filename = saveFilename + "_" + index.ToString() + fileSuffix;
+		if (FileManager.WriteToFile(filename, saveData.ToJson()))
+		{
+			Debug.Log("Save successful " + filename);
+		}
+	}
+
+	public void LoadGame(int index)
+	{
+		if (saves.ContainsKey(index))
+		{
+			saveData = saves[index];
+			//
+			SceneController.TransitionToScene(SaveData.levelName);
+			PlayerInput.Instance.GainControls();
 		}
 	}
 	

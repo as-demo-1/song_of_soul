@@ -247,7 +247,7 @@ public class PlayerController : MonoBehaviour
         {
             if (_savePoint)
             {
-                GameManager.Instance.saveSystem.SaveDataToDisk();
+                //GameManager.Instance.saveSystem.SaveDataToDisk();
             }
         }
     }

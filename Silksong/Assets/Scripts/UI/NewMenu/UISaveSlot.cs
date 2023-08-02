@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class UISaveSlot : MonoBehaviour, ISelectHandler
     public Text time;
     public Text allTime;
 
+    public Button saveBtn;
+    public Button loadBtn;
+
     // Start is called before the first frame update
 
     void Start()
@@ -29,14 +33,14 @@ public class UISaveSlot : MonoBehaviour, ISelectHandler
 
 	}  
     
-    public void Init()
+    public void Init(Save save)
     {
         image.gameObject.SetActive(true);
 
-		Name.text = "白驼教堂";
-        time.text = "保存时间";
+		Name.text = save.levelName;
+        time.text = "淇濆瓨鏃堕棿" + DateTime.FromFileTime(save.timestamp);
         time.gameObject.SetActive(true);
-        allTime.text = " 游玩时间";
+        allTime.text = " 娓哥帺鏃堕棿";
         allTime.gameObject.SetActive(true);
     }
 
