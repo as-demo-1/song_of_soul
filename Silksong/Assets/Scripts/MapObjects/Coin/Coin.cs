@@ -136,7 +136,7 @@ public class Coin : MonoBehaviour
         m_BounceCount = bounceCount;
         rigidbody2D.gravityScale = 3;
         launch = false;
-        CoinGenerator.Instance.RecycleCoinsPrefabs(this.gameObject);
+		CoinManager.Instance.RecycleCoinsPrefabs(this.gameObject);
     }
 
     /// <summary>

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinGenerator:MonoSingleton<CoinGenerator>
+public class CoinManager:MonoSingleton<CoinManager>
 {
     //金币预制的路径
     private readonly static string coinPrefabPath = "coin";

@@ -15,7 +15,11 @@ public class CoinTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M)) 
         {
-            CoinGenerator.Instance.GenerateCoins(this.gameObject,0,1,0);
+			CoinManager.Instance.GenerateCoins(this.gameObject,0,1,0);
         }
     }
+	public void TestCoin()
+	{
+		CoinManager.Instance.GenerateCoins(this.gameObject, 0, 1, 0);
+	}
 }
