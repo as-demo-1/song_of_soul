@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static Opsive.UltimateInventorySystem.DatabaseNames.DemoInventoryDatabaseNames;
+using Opsive.UltimateInventorySystem.Core.AttributeSystem;
 
 public class ItemPick : MonoBehaviour
 {
@@ -26,7 +27,9 @@ public class ItemPick : MonoBehaviour
 	void Start()
     {
 		circleCollider2D = GetComponent<CircleCollider2D>();
-		inventory = InventorySystemManager.GetInventoryIdentifier(1).Inventory;
+		inventory = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex).Inventory;
+		
+		
 	}
 
 	//吸引用球状碰撞体
@@ -39,10 +42,11 @@ public class ItemPick : MonoBehaviour
 	{
 		if(Input.GetKeyDown(KeyCode.E))
 		{
-			if (isPicking)
+			if (!isPicking)
 			{
 				Debug.Log("发生");
 				inventory.GetItemCollection("Main").AddItem(item.Item, 1);
+				Debug.Log("拥有："+inventory.GetItemCollection("Main").GetItemAmount(item.Item));
 				isPicking = true;
 				Destroy(this.gameObject);
 			}
