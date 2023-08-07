@@ -1,5 +1,9 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
+using Opsive.UltimateInventorySystem.Core;
+using Opsive.UltimateInventorySystem.Core.InventoryCollections;
+using Opsive.UltimateInventorySystem.Exchange;
+using Opsive.UltimateInventorySystem.SaveSystem;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -46,6 +50,9 @@ public class GameManager : MonoBehaviour
     public GamingSaveSO gamingSave;
 
     public GameObject Loading_BlackScreen;
+    
+    public CurrencyOwner currencyOwner;
+    public Inventory inventory;
 
 
     void Awake()
@@ -75,6 +82,7 @@ public class GameManager : MonoBehaviour
 
     public void startGaming()
     {
+        // 加载存档
         saveSystem.Init();
         CreateCamera();
 
@@ -83,9 +91,13 @@ public class GameManager : MonoBehaviour
 
         //before create the player, you need to load save data so the player can run init correctly  but at now we do not load save yet
         creatPlayer();
-
-
-
+        
+        // 物品系统部分
+        if(SaveSystemManager.Saves.ContainsKey((int)saveSystem.SaveData.inventoryIndex))
+            SaveSystemManager.Load((int)saveSystem.SaveData.inventoryIndex);
+        currencyOwner = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.inventoryIndex).CurrencyOwner;
+        inventory = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.inventoryIndex).Inventory;
+        
         eventSystem = Instantiate(eventSystem);
         DontDestroyOnLoad(eventSystem);
         uint bankid;

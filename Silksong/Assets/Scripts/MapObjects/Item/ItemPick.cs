@@ -20,17 +20,16 @@ public class ItemPick : MonoBehaviour
 
 	public GameObject text;
 	public ItemObject item;
-	private Inventory inventory;
 
 	private bool isPicking = false;
 
 	void Start()
     {
 		circleCollider2D = GetComponent<CircleCollider2D>();
-		inventory = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex).Inventory;
-		
-		
-	}
+		item.Item.TryGetAttributeValue<Sprite>("Icon", out var icon);
+		GetComponent<SpriteRenderer>().sprite = icon;
+
+    }
 
 	//吸引用球状碰撞体
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -45,8 +44,8 @@ public class ItemPick : MonoBehaviour
 			if (!isPicking)
 			{
 				Debug.Log("发生");
-				inventory.GetItemCollection("Main").AddItem(item.Item, 1);
-				Debug.Log("拥有："+inventory.GetItemCollection("Main").GetItemAmount(item.Item));
+				GameManager.Instance.inventory.GetItemCollection("Main").AddItem(item.Item, 1);
+				Debug.Log("拥有："+GameManager.Instance.inventory.GetItemCollection("Main").GetItemAmount(item.Item));
 				isPicking = true;
 				Destroy(this.gameObject);
 			}

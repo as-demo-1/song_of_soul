@@ -116,9 +116,10 @@ public class PlayerCharacter : MonoBehaviour
     
     public int getMaxMana()
     {
-        int ret = Constants.playerInitialMaxMana;
+        int ret = GameManager.Instance.saveSystem.GetManaMax();
+            //Constants.playerInitialMaxMana;
         //toadd:charm,manaUp
-        ret += (int)buffManager.GetBuffProperty(BuffProperty.MAX_HEALTH);
+        ret += (int)buffManager.GetBuffProperty(BuffProperty.MAX_MANA);
         return ret;
     }
 

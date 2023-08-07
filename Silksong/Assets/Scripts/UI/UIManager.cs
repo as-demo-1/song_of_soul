@@ -39,6 +39,7 @@ public class UIManager : MonoSingleton<UIManager>
 			if (info.Instance != null)
 			{
 				info.Instance.SetActive(true);
+				Debug.Log("激活"+typeof(T));
 			}
 			else
 			{

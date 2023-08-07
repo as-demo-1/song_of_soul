@@ -15,6 +15,8 @@ public class Save
     public int _healthMax;
     public uint _goldAmount;
     public uint _weaponLevel;
+
+    public int _manaMax;
     // The variables need to be public, else we would have to write trivial getter/setter functions.
     [ShowInInspector] public List<string> _finishedObjectGuid = new List<string>();
     [ShowInInspector] public Dictionary<string, int> _sceneInterative = new Dictionary<string, int>();

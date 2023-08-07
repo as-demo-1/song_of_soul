@@ -30,7 +30,7 @@ public class EventsManager
 
 
 
-    private Dictionary<GameObject, Dictionary<EventType, Dictionary<ArgsDelegate,EventDate>>> argsEventDictionary;
+    private Dictionary<GameObject, Dictionary<EventType, Dictionary<EventsManager.ArgsDelegate,EventDate>>> argsEventDictionary;
     
     private Dictionary<GameObject, Dictionary<EventType, voidDelegate>> voidEventDictionary;
     private void DefaultFunction() { }

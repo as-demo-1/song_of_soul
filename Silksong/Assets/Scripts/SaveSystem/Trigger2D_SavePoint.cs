@@ -38,9 +38,16 @@ public class Trigger2D_SavePoint : Trigger2DBase
 
         if (Input.GetKeyUp(ActionKey))
         {
-            //panel.SetActive(true);
-            UIManager.Instance.Show<UISaveView>().backBtn.onClick
-                .AddListener(() => PlayerInput.Instance.GainControls());
+            //
+            if (panel==null)
+            {
+                panel = UIManager.Instance.Show<UISaveView>().gameObject;
+                panel.GetComponent<UISaveView>().backBtn.onClick.AddListener(() => PlayerInput.Instance.GainControls());
+            }
+            else
+            {
+                panel.SetActive(true);
+            }
             tip.SetActive(false);
             PlayerInput.Instance.ReleaseControls();
         }
@@ -52,7 +59,6 @@ public class Trigger2D_SavePoint : Trigger2DBase
             tip.SetActive(true);
             PlayerInput.Instance.GainControls();
         }
-        
     }
 
     protected override void exitEvent()

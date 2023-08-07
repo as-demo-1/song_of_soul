@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Opsive.UltimateInventorySystem.Core;
+using Opsive.UltimateInventorySystem.SaveSystem;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -34,6 +36,16 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 	public void SetHealthMax(int healthMax)
 	{
 		saveData._healthMax = healthMax;
+	}
+
+	public int GetManaMax()
+	{
+		return saveData._manaMax;
+	}
+
+	public void SetManaMax(int manaMax)
+	{
+		saveData._manaMax = manaMax;
 	}
 
 	public uint GetGoldAmount()
@@ -180,6 +192,10 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 	}
 
 
+	/// <summary>
+	/// 初始化
+	/// 加载所有存档数据
+	/// </summary>
 	public void Init()
 	{
 		for (int i = 0; i < maxSlot; i++)
@@ -201,6 +217,11 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 			}
 		}
 	}
+	
+	/// <summary>
+	/// 保存指定存档，并写入本地
+	/// </summary>
+	/// <param name="index"></param>
 	public void SaveToSlot(int index)
 	{
 		if (saves.ContainsKey(index))
@@ -215,6 +236,8 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 
 		saveData.levelName = SceneManager.GetActiveScene().name;
 		saveData.timestamp = DateTime.Now.ToFileTime();
+		SaveSystemManager.Save(index);
+		
 		string filename = saveFilename + "_" + index.ToString() + fileSuffix;
 		if (FileManager.WriteToFile(filename, saveData.ToJson()))
 		{
@@ -222,15 +245,29 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 		}
 	}
 
-	public void LoadGame(int index)
+	/// <summary>
+	/// 载入指定存档
+	/// </summary>
+	/// <param name="index"></param>
+	public IEnumerator LoadGame(int index, GameObject panel = null)
 	{
 		if (saves.ContainsKey(index))
 		{
 			saveData = saves[index];
-			//
-			SceneController.TransitionToScene(SaveData.levelName);
+			//SceneController.TransitionToScene(saves[index].levelName);
+			AsyncOperation ao = SceneManager.LoadSceneAsync(saves[index].levelName);
+			yield return ao;
+			GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//玩家到场景入口 
 			PlayerInput.Instance.GainControls();
+			Debug.Log("加载完成");
 		}
+
+		if (panel)
+		{
+			panel.SetActive(false);
+		}
+
+		yield return null;
 	}
 	
 }

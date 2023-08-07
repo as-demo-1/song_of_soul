@@ -15,6 +15,7 @@ public class UISaveView : MonoBehaviour
 
     void Start()
     {
+	    DontDestroyOnLoad(this);
 	    SaveSystem.Init();
 	    foreach (var o in SaveSystem.Saves)
 		{
@@ -42,14 +43,9 @@ public class UISaveView : MonoBehaviour
     }
 
     /// 加载游戏
-    public void LoadGame(int index)
-    {
-	    SaveSystem.LoadGame(index); 
-    }
-
     public void ContinueGame(int index)
     {
-	    SceneManager.LoadSceneAsync(SaveSystem.Saves[index].levelName);
+	    StartCoroutine(SaveSystem.LoadGame(index, gameObject));
     }
 
 	public void Return()
