@@ -294,6 +294,10 @@ namespace Opsive.UltimateInventorySystem.Core.Registers
         /// <param name="obj">The object.</param>
         protected virtual void AddInternal(T obj)
         {
+            if (m_DictionaryByID.ContainsKey(obj.ID))
+            {
+                return;
+            }
             m_DictionaryByID.Add(obj.ID, obj);
         }
 

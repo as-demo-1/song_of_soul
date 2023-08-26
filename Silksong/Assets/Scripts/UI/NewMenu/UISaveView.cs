@@ -46,6 +46,8 @@ public class UISaveView : MonoBehaviour
     public void ContinueGame(int index)
     {
 	    StartCoroutine(SaveSystem.LoadGame(index, gameObject));
+	    //SaveSystem.LoadGame(index);
+	    //this.gameObject.SetActive(false);
     }
 
 	public void Return()

@@ -46,8 +46,8 @@ public class UIPlayerStatus : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 		EventManager.Instance.Register<int>(EventType.onMoneyChange, ChangeMoneyNum);
 
-		inventory = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex).Inventory; 
-		var currencyOwner = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex).CurrencyOwner;
+		inventory = GameManager.Instance.inventory; 
+		var currencyOwner = GameManager.Instance.currencyOwner;
 		ownerCurrencyCollection = currencyOwner.CurrencyAmount;
 		gold = InventorySystemManager.GetCurrency("ªÍ Ø");
 		moneyNum = ownerCurrencyCollection.GetAmountOf(gold);

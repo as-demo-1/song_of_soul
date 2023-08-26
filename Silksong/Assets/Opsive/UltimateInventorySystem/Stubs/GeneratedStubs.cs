@@ -52,6 +52,7 @@ namespace Opsive.UltimateInventorySystem.Stubs
 			new Opsive.UltimateInventorySystem.Core.AttributeSystem.Attribute<Opsive.UltimateInventorySystem.Core.DataStructures.ItemDefinitionAmount>();
 			new Opsive.UltimateInventorySystem.Core.AttributeSystem.Attribute<Opsive.UltimateInventorySystem.Core.DataStructures.ItemDefinitionAmounts>();
 			new Opsive.UltimateInventorySystem.Core.AttributeSystem.Attribute<Opsive.UltimateInventorySystem.Core.DataStructures.ItemDefinitionAmountsWithCategory>();
+			new Opsive.UltimateInventorySystem.Core.AttributeSystem.Attribute<BuffProperty>();
 #pragma warning restore 0618
 		}
 	}

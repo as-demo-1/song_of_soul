@@ -23,6 +23,9 @@ public class ItemPick : MonoBehaviour
 
 	private bool isPicking = false;
 
+	[SerializeField]
+	private KeyCode pickKey = KeyCode.E;
+
 	void Start()
     {
 		circleCollider2D = GetComponent<CircleCollider2D>();
@@ -39,7 +42,7 @@ public class ItemPick : MonoBehaviour
 
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		if(Input.GetKeyDown(KeyCode.E))
+		if(Input.GetKeyDown(pickKey))
 		{
 			if (!isPicking)
 			{

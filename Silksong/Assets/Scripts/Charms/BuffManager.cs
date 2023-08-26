@@ -10,8 +10,8 @@ using Sirenix.OdinInspector;
 
 public class BuffManager : SerializedMonoBehaviour
 {
-    [InlineEditor]
-    public CharmListSO charmListSO = default;
+    //[InlineEditor]
+    //public CharmListSO charmListSO = default;
 
     //public PlayerCharacter playerCharacter;
     public PlayerController playerController;
@@ -46,7 +46,6 @@ public class BuffManager : SerializedMonoBehaviour
         buffActionDic[BuffProperty.ATTACK_RANG] = SetAtkRange;
         buffActionDic[BuffProperty.ATTACK_RANG_PC] = SetAtkRange;
         
-        charmListSO.Init(this);
     }
 
 
@@ -73,6 +72,33 @@ public class BuffManager : SerializedMonoBehaviour
             buffActionDic[_property].Invoke();
         }
     }
+    
+    /// <summary>
+    /// 添加一个buff效果，两个输入参数的buff
+    /// </summary>
+    public void AddBuff(BuffProperty _property, float valX, float valY)
+    {
+        if (_property.Equals(BuffProperty.BLOOD_ANGER))
+        {
+            AddBuff(BuffProperty.ANGER_HEALTH, valX);
+            AddBuff(BuffProperty.ANGER_ATK_PC,valY);
+        }
+        else if(_property.Equals(BuffProperty.SUPER_HEAL))
+        {
+            AddBuff(BuffProperty.HEAL_SPEED, valX);
+            AddBuff(BuffProperty.HEAL_AMOUNT,valY);
+        }
+        else if(_property.Equals(BuffProperty.MAX_DOWN_EXTRA_HEALTH))
+        {
+            AddBuff(BuffProperty.EXTRA_HEALTH, valX);
+            AddBuff(BuffProperty.MAX_HEALTH, valY);
+        }
+        else
+        {
+            AddBuff(_property, valX);
+        }
+        
+    }
 
     /// <summary>
     /// 关闭一个buff效果
@@ -93,6 +119,37 @@ public class BuffManager : SerializedMonoBehaviour
         {
             // 触发特殊buff的回调
             buffActionDic[_property].Invoke();
+        }
+  
+    }
+    /// <summary>
+    /// 关闭一个buff效果，有两个参数
+    /// </summary>
+    public void DecreaseBuff(BuffProperty _property, float valX, float valY)
+    {
+        if (!BuffPropDic.ContainsKey(_property))
+        {
+            Debug.LogWarning("buff"+_property.ToString() +" not active");
+        }
+
+        if (_property.Equals(BuffProperty.BLOOD_ANGER))
+        {
+            DecreaseBuff(BuffProperty.ANGER_HEALTH, valX);
+            DecreaseBuff(BuffProperty.ANGER_ATK_PC,valY);
+        }
+        else if(_property.Equals(BuffProperty.SUPER_HEAL))
+        {
+            DecreaseBuff(BuffProperty.HEAL_SPEED, valX);
+            DecreaseBuff(BuffProperty.HEAL_AMOUNT,valY);
+        }
+        else if(_property.Equals(BuffProperty.MAX_DOWN_EXTRA_HEALTH))
+        {
+            DecreaseBuff(BuffProperty.EXTRA_HEALTH, valX);
+            DecreaseBuff(BuffProperty.MAX_HEALTH, valY);
+        }
+        else
+        {
+            DecreaseBuff(_property, valX);
         }
   
     }
@@ -129,6 +186,9 @@ public class BuffManager : SerializedMonoBehaviour
         }
     }
     
+    /// <summary>
+    /// 生成一个大范围的金币收集器
+    /// </summary>
     public void GenCoinCollect()
     {}
 }

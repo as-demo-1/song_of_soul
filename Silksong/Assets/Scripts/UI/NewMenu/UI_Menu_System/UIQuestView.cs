@@ -43,7 +43,7 @@ public class UIQuestView : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		inventory = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex)?.Inventory;
+		inventory = GameManager.Instance.inventory;
 		Init();
 	}
 	public void Init()

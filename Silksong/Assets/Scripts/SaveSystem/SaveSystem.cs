@@ -25,8 +25,11 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 
 	public Dictionary<int, Save> Saves => saves;
 
+	
 	[SerializeField]
 	private int maxSlot = 4;
+
+
 	//player-------------------------------------------------------
 	public int GetHealthMax()
 	{
@@ -207,6 +210,7 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 				if (saves.ContainsKey(i))
 				{
 					saves[i] = saves[i].LoadFromJson(json);
+					saves[i].slotIndex = (uint)i;
 				}
 				else
 				{
@@ -227,7 +231,7 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 		if (saves.ContainsKey(index))
 		{
 			saves[index] = saveData;
-			
+			saves[index].slotIndex = (uint)index;
 		}
 		else
 		{
@@ -236,7 +240,7 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 
 		saveData.levelName = SceneManager.GetActiveScene().name;
 		saveData.timestamp = DateTime.Now.ToFileTime();
-		SaveSystemManager.Save(index);
+		SaveSystemManager.Save(index);// 物品系统存档
 		
 		string filename = saveFilename + "_" + index.ToString() + fileSuffix;
 		if (FileManager.WriteToFile(filename, saveData.ToJson()))
@@ -254,20 +258,38 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 		if (saves.ContainsKey(index))
 		{
 			saveData = saves[index];
+			// 物品系统部分
+			
 			//SceneController.TransitionToScene(saves[index].levelName);
 			AsyncOperation ao = SceneManager.LoadSceneAsync(saves[index].levelName);
 			yield return ao;
 			GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//玩家到场景入口 
 			PlayerInput.Instance.GainControls();
 			Debug.Log("加载完成");
+			if (SaveSystemManager.Saves.ContainsKey(index))
+			{
+				SaveSystemManager.Load(index);
+			}
+			
 		}
 
 		if (panel)
 		{
 			panel.SetActive(false);
+			
 		}
+		
 
 		yield return null;
+	}
+
+	public void LoadGame(int index)
+	{
+		saveData = saves[index];
+		// 物品系统部分
+		if(SaveSystemManager.Saves.ContainsKey(index))
+			SaveSystemManager.Load(index);
+		SceneManager.LoadScene(saves[index].levelName);
 	}
 	
 }

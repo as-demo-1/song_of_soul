@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
             if (instance != null)
                 return instance;
 
-            GameObject sceneControllerGameObject = new GameObject("GameManager");
-            instance = sceneControllerGameObject.AddComponent<GameManager>();
+            //GameObject sceneControllerGameObject = new GameObject("GameManager");
+            //instance = sceneControllerGameObject.AddComponent<GameManager>();
 
             return instance;
         }
@@ -54,10 +54,9 @@ public class GameManager : MonoBehaviour
     public CurrencyOwner currencyOwner;
     public Inventory inventory;
 
-
+    public Save saveData;
     void Awake()
     {
-
         if (Instance != this)
         {
             Destroy(gameObject);
@@ -85,19 +84,17 @@ public class GameManager : MonoBehaviour
         // 加载存档
         saveSystem.Init();
         CreateCamera();
+        
+        ReloadInventory();
 
         // 临时初始化UI
         UIManager.Instance.Show<UIPlayerStatus>();
 
         //before create the player, you need to load save data so the player can run init correctly  but at now we do not load save yet
         creatPlayer();
+
         
-        // 物品系统部分
-        if(SaveSystemManager.Saves.ContainsKey((int)saveSystem.SaveData.inventoryIndex))
-            SaveSystemManager.Load((int)saveSystem.SaveData.inventoryIndex);
-        currencyOwner = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.inventoryIndex).CurrencyOwner;
-        inventory = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.inventoryIndex).Inventory;
-        
+
         eventSystem = Instantiate(eventSystem);
         DontDestroyOnLoad(eventSystem);
         uint bankid;
@@ -127,5 +124,23 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 120;
         //audioManager = Instantiate(audioManager);
+    }
+
+    public void ReloadInventory()
+    {
+        //物品系统部分
+        if (!SaveSystemManager.Saves.ContainsKey((int)saveSystem.SaveData.slotIndex))
+        {
+            SaveSystemManager.Save((int)saveSystem.SaveData.slotIndex, true);
+        }
+        SaveSystemManager.Load((int)saveSystem.SaveData.slotIndex);
+        
+        //currencyOwner = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.slotIndex).CurrencyOwner;
+        //inventory = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.slotIndex).Inventory;
+        //SaveSystemManager.Save((int)saveSystem.SaveData.slotIndex, true);
+        //SaveSystemManager.Load((int)saveSystem.SaveData.slotIndex);
+        //SaveSystemManager.Instance.PrintSaveFolderPath();
+        //currencyOwner = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.slotIndex).CurrencyOwner;
+        //inventory = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.slotIndex).Inventory;
     }
 }

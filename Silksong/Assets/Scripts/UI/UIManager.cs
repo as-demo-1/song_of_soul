@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 public class UIManager : MonoSingleton<UIManager>
 {
@@ -16,6 +17,7 @@ public class UIManager : MonoSingleton<UIManager>
 	[SerializeField]
 	private Dictionary<Type, UIElement> UIResoureces = new Dictionary<Type, UIElement>();//保存定义的UI信息
 
+	private bool isShifting;
 	public override void Init()
 	{
 		DontDestroyOnLoad(gameObject);
@@ -83,6 +85,12 @@ public class UIManager : MonoSingleton<UIManager>
 	/// <typeparam name="T"></typeparam>
 	public void Shift<T>()
 	{
+		if (isShifting)
+		{
+			return;
+		}
+
+		isShifting = true;
 		Type type = typeof(T);
 		if (this.UIResoureces.ContainsKey(type))
 		{
@@ -96,15 +104,18 @@ public class UIManager : MonoSingleton<UIManager>
 				Show<T>();
 			}
 		}
+
+		DOVirtual.DelayedCall(0.5f, () => isShifting = false);
 	}
 
 	
 
-	public void Update()
+	public void LateUpdate()
 	{
 		//打开界面测试
 		if (PlayerInput.Instance.menu.Up)
 		{
+			Debug.Log("按下menu键");
 			UIManager.Instance.Shift<UIMenu_System>();
 		}
 		if (PlayerInput.Instance.quickMap.Down)

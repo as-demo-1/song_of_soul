@@ -11,4 +11,6 @@ public class CharmEffect
 {
     public BuffProperty Property;// 目标属性
     public float val;// 参数
+    public float val2;// 参数2
 }
+

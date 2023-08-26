@@ -37,14 +37,14 @@ public class UIEquipView : MonoBehaviour
 
 	void Start()
     {
-		var currencyOwner = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex).CurrencyOwner;
+		var currencyOwner = GameManager.Instance.currencyOwner;
 		CurrencyCollection ownerCurrencyCollection = currencyOwner.CurrencyAmount;
 		var Hp = InventorySystemManager.GetCurrency("Hp");
 		var Mp = InventorySystemManager.GetCurrency("Mp");
 		HpUpdate(ownerCurrencyCollection.GetAmountOf(Hp));
 		MpUpdate(ownerCurrencyCollection.GetAmountOf(Mp));
 
-		inventory = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex).Inventory;
+		inventory = GameManager.Instance.inventory;
 
 		dic = new Dictionary<int, Opsive.UltimateInventorySystem.Core.DataStructures.ItemInfo[]>();
 		/*foreach (ItemStack o in inventory.GetItemCollection("Main").GetAllItemStacks())

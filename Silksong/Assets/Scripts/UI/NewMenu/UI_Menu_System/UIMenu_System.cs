@@ -20,6 +20,7 @@ public class UIMenu_System : MonoBehaviour
 	}
 	void Start()
     {
+	    DontDestroyOnLoad(this);
         btn.SelectTab(0);
         MapController.Init();
 		//PlayerInput.Instance.ReleaseControls();
@@ -37,6 +38,6 @@ public class UIMenu_System : MonoBehaviour
 
 	private void OnDisable()
 	{
-		PlayerInput.Instance.GainControls();
+		PlayerInput.Instance?.GainControls();
 	}
 }

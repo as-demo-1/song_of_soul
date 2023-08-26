@@ -84,7 +84,7 @@ public class PlayerCharacter : MonoBehaviour
         playerDamable.MaxHp = maxHp;
         if (recoverAllHp) playerDamable.setCurrentHp(maxHp);
         //ui
-        Debug.Log(maxHp);
+        //Debug.Log(maxHp);
         statuMenu.setRepresentedDamable(playerDamable);
         statuMenu.ChangeHitPointUI(playerDamable);
     }

@@ -36,9 +36,9 @@ public class UIShop : MonoBehaviour
     void Start()
     {		
 		PlayerInput.Instance.ReleaseControls();
-		inventory = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex).Inventory;
+		inventory = GameManager.Instance.inventory;
 
-		currencyOwner = InventorySystemManager.GetInventoryIdentifier(GameManager.Instance.saveSystem.SaveData.inventoryIndex).CurrencyOwner;
+		currencyOwner = GameManager.Instance.currencyOwner;
 		var gold = InventorySystemManager.GetCurrency("Gold");
 		Init();
 	}

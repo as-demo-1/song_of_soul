@@ -29,8 +29,9 @@ public class Save
 
     public string levelName;// 玩家所在的场景名
     public long timestamp;// 存档时间
+    public uint slotIndex;
 
-    public uint inventoryIndex;
+    //public uint inventoryIndex;
     //about player-----------------------------------------------------------------------------
     [ShowInInspector]
     public Dictionary<EPlayerStatus, bool> learnedSkills = new Dictionary<EPlayerStatus, bool>
