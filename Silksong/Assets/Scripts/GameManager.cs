@@ -53,8 +53,6 @@ public class GameManager : MonoBehaviour
     
     public CurrencyOwner currencyOwner;
     public Inventory inventory;
-
-    public Save saveData;
     void Awake()
     {
         if (Instance != this)

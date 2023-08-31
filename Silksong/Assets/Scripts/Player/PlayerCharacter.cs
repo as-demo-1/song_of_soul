@@ -53,7 +53,7 @@ public class PlayerCharacter : MonoBehaviour
     public void playerInit()//load players data,such as maxHp,money..
     {
         refreshMaxHp();
-        refreshMaxMana();
+        refreshMaxMana(true);
 
         /* GameManager.Instance.saveSystem.learnSkill(EPlayerStatus.CanBreakMoon);
          GameManager.Instance.saveSystem.SaveDataToDisk();*/

@@ -12,7 +12,7 @@ namespace Opsive.UltimateInventorySystem.ItemActions
 
     /// <summary>
     /// Item action used to Move an item from one collection to another. It can be used to equip/unequip items too.
-    /// 护符的安装action
+    /// 鎶ょ鐨勫畨瑁卆ction
     /// </summary>
     [System.Serializable]
     public class CharmEquipAction : ItemAction
@@ -81,12 +81,12 @@ namespace Opsive.UltimateInventorySystem.ItemActions
             var originalCollection = m_MoveFromFirstToSecond ? firstCollection : secondCollection;
             var destinationCollection = m_MoveFromFirstToSecond ? secondCollection : firstCollection;
             
-            // 作者：次元
-            // 装备、卸载护符时，添加、减少护符携带的buff效果
+            // 浣滆�咃細娆″厓
+            // 瑁呭銆佸嵏杞芥姢绗︽椂锛屾坊鍔犮�佸噺灏戞姢绗︽惡甯︾殑buff鏁堟灉
             itemInfo.Item.TryGetAttributeValue<BuffProperty>("BuffEffect", out var buff);
             itemInfo.Item.TryGetAttributeValue<float>("ValueX", out var valueX);
             itemInfo.Item.TryGetAttributeValue<float>("ValueY", out var valueY);
-            Debug.Log((m_MoveFromFirstToSecond? "装备":"卸载")+itemInfo.Item.name);
+            Debug.Log((m_MoveFromFirstToSecond? "瑁呭":"鍗歌浇")+itemInfo.Item.name);
             if (m_MoveFromFirstToSecond)
             {
                 PlayerController.Instance.playerCharacter.buffManager.AddBuff(buff, valueX, valueY);

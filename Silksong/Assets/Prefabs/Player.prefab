@@ -829,6 +829,11 @@ MonoBehaviour:
     key: 9
     controllerButton: 0
     m_Enabled: 1
+  menu:
+    NotNeedGainAndReleaseControl: 0
+    key: 27
+    controllerButton: 8
+    m_Enabled: 1
 --- !u!114 &484977951751258056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,7 +897,7 @@ MonoBehaviour:
     learnAttack: 1
     learnSprint: 0
     learnBreakMoon: 0
-    learnCastSkill: 0
+    learnCastSkill: 1
     learnToCat: 0
     learnPlunge: 0
     learnClimb: 0
@@ -977,8 +982,6 @@ MonoBehaviour:
   takeDamageEvent:
     m_PersistentCalls:
       m_Calls: []
-  takeDamageAudio: {fileID: 0}
-  takeDamageSfxSO: {fileID: 0}
   maxHp: 5
   currentHp: 5
   notDestroyWhenDie: 1
@@ -987,7 +990,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hurt: {fileID: 0}
-  electricMarkPref: {fileID: 0}
   invulnerableAfterDamage: 1
   invulnerabilityDuration: 2
 --- !u!114 &1048344337554074644
@@ -1122,7 +1124,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  charmListSO: {fileID: 11400000, guid: f7259b60333668b48a2e35c041ea9a2b, type: 2}
   playerController: {fileID: 484977951162521058}
   coinCollecterPrefab: {fileID: 0}
   atkDamagers:
@@ -1147,21 +1148,26 @@ MonoBehaviour:
   isHenshining: 0
   flameGeyserBullet: {fileID: 124006113471580717, guid: e703a4948b6f5a741a74e50432405da5, type: 3}
   soulSkillList:
-  - SkillName: 0
+  - SkillName: 1
     skillPrefab: {fileID: 6990876809462232442, guid: 54dfa8044c9d11a4abd342fe3920840a, type: 3}
     soulSkill: {fileID: 0}
-  - SkillName: 1
+    hasLearned: 0
+  - SkillName: 2
     skillPrefab: {fileID: 7565263580526926791, guid: 2c161483df1a0c147a497905d1af9983, type: 3}
     soulSkill: {fileID: 0}
-  - SkillName: 2
+    hasLearned: 0
+  - SkillName: 3
     skillPrefab: {fileID: 6990876809462232442, guid: 67cbf93986770704a877e67a86e8154b, type: 3}
     soulSkill: {fileID: 0}
-  - SkillName: 3
+    hasLearned: 0
+  - SkillName: 4
     skillPrefab: {fileID: 7565263580526926791, guid: 5947231ee7c788a48b0c92f5a3fcbd0a, type: 3}
     soulSkill: {fileID: 0}
-  - SkillName: 4
+    hasLearned: 0
+  - SkillName: 5
     skillPrefab: {fileID: 7565263580526926791, guid: ea7a31feba23fda41be8125f6f38ed66, type: 3}
     soulSkill: {fileID: 0}
+    hasLearned: 0
 --- !u!1 &484977951192663523
 GameObject:
   m_ObjectHideFlags: 0

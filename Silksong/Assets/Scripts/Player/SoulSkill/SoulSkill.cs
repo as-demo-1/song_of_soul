@@ -8,16 +8,16 @@ using UnityEngine.Serialization;
 
 public enum SkillName
 {
-    FlameGeyser,
+    FlameGeyser=1,
 
-    ShadowBlade,
+    ShadowBlade=2,
 
     
-    LightningChain,
+    LightningChain=3,
 
-    ArcaneBlast,
+    ArcaneBlast=4,
 
-    IceStorm
+    IceStorm=5,
 }
 
 [Serializable]

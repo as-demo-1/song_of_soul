@@ -9,6 +9,7 @@ public class SoulSkillItem
     public SkillName SkillName;
     public GameObject skillPrefab;
     [FormerlySerializedAs("skill")] public SoulSkill soulSkill;
+    public bool hasLearned;
 }
 public class SoulSkillController : MonoBehaviour
 {
@@ -32,58 +33,28 @@ public class SoulSkillController : MonoBehaviour
         _playerAnimator = playerController.PlayerAnimator;
         
         
+        
         //初始化所有灵魂技能
         foreach (var skill in soulSkillList)
         {
             skill.soulSkill = GameObject.Instantiate(skill.skillPrefab,transform).GetComponent<SoulSkill>();
             skill.soulSkill.Init(playerController, playerController.playerCharacter);
             skill.soulSkill.gameObject.SetActive(false);
-            skill.soulSkill.transform.localPosition = new Vector3(0, 0, 0);
+            skill.soulSkill.transform.localPosition = Vector3.zero;
+            foreach (var skillName in GameManager.Instance.saveSystem.SaveData.learnedSoulSkills)
+            {
+                if (skill.SkillName.Equals(skillName))
+                {
+                    skill.hasLearned = true;
+                    equpedSoulSkill = skill.soulSkill;
+                }
+            }
         }
 
-        ChangeEquip(SkillName.FlameGeyser);
+        //ChangeEquip(SkillName.FlameGeyser);
     }
     
-    // public void TickLightningChain()
-    // {
-    //     if (_playerCharacter.Mana <= 0)
-    //     {
-    //         _lightningChain.gameObject.SetActive(false);
-    //         _playerCharacter.buffManager.DecreaseBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-    //     }
-    //     if (PlayerInput.Instance.soulSkill.IsValid) 
-    //     {
-    //         _playerAnimator.SetTrigger("castSkill");
-    //         Debug.LogError("R is down");
-    //         if (_lightningChain.isActiveAndEnabled)
-    //         {
-    //             Debug.LogError("light chain is active");
-    //             //_lightningChain.TiggerAtkEvent();
-    //             _lightningChain.gameObject.SetActive(false);
-    //             _lightningChain.enabled = false;
-    //         }
-    //         else
-    //         {
-    //             if (_playerCharacter.Mana < _lightningChain.constPerSec)
-    //             {
-    //                 Debug.LogError("not enough mana");
-    //             }
-    //             else
-    //             {
-    //                 Debug.LogError("cast skill");
-    //                 _lightningChain.gameObject.SetActive(true);
-    //                 _playerCharacter.buffManager.AddBuff(BuffProperty.MOVE_SPEED, _lightningChain.moveSpeedUp);
-    //                 _lightningChain.enabled = true;
-    //             }
-    //         }
-    //     }
-    //
-    //     if (_lightningChain.isActiveAndEnabled)
-    //     {
-    //         _lightningChain.TriggerAddElectricMarkEvent();
-    //         _lightningChain.UpdateTargetsLink();
-    //     }
-    // }
+    
     public void TickSoulSkill()
     {
         if(isHenshining) return;
@@ -111,6 +82,7 @@ public class SoulSkillController : MonoBehaviour
             }
             else
             {
+                if (equpedSoulSkill==null) return;
                 if (_playerCharacter.Mana < equpedSoulSkill.constPerSec)
                 {
                     Debug.Log("not enough mana");
@@ -167,6 +139,11 @@ public class SoulSkillController : MonoBehaviour
 
     public void ChangeEquip(SkillName skillName)
     {
+        if (!GameManager.Instance.saveSystem.SaveData.learnedSoulSkills.Contains(skillName))
+        {
+            Debug.Log("未习得该技能");
+            return;
+        }
         equpedSoulSkill = GetSoulSkill(skillName);
     }
 
@@ -179,8 +156,22 @@ public class SoulSkillController : MonoBehaviour
                 return skill.soulSkill;
             }
         }
-
         return null;
+    }
+
+    public void LearnSkill(SkillName skillName)
+    {
+        if (!GameManager.Instance.saveSystem.SaveData.learnedSoulSkills.Contains(skillName))
+        {
+            GameManager.Instance.saveSystem.SaveData.learnedSoulSkills.Add(skillName);
+        }
+        foreach (var skill in soulSkillList)
+        {
+            if (skill.SkillName.Equals(skillName))
+            {
+                skill.hasLearned = true;
+            }
+        }
     }
 
 

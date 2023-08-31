@@ -31,6 +31,9 @@ public class Save
     public long timestamp;// 存档时间
     public uint slotIndex;
 
+    [ShowInInspector]
+    public List<SkillName> learnedSoulSkills = new List<SkillName>();
+
     //public uint inventoryIndex;
     //about player-----------------------------------------------------------------------------
     [ShowInInspector]
