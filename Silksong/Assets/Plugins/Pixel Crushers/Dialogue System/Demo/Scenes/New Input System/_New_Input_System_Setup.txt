@@ -1,0 +1,19 @@
+To make the demo work with Unity's optional new Input System package:
+
+1. Use the Package Manager window to install the new Input System.
+
+2. Select menu item Tools > Pixel Crushers > Dialogue System > Welcome Window.
+   Tick the USE_NEW_INPUT checkbox.
+   
+3. Open DemoScene1. 
+   - Inspect EventSystem. Click the button to update it for the Input System.
+   - Locate the Text Field UI in the Computer Standard Dialogue UI, located
+     in the Terminal GameObject's hierarchy. Change the Accept Key to None.
+   - Inspect the child InputField. Configure the OnEndEdit() UnityEvent to
+     call the Text Field UI's StandardUIInputField.AcceptTextInput.
+
+4. Open DemoScene2. Update the EventSystem.
+
+The demo's Dialogue Manager prefab has a script that registers inputs with
+the Dialogue System's Input Device Manager as described in the PDF
+Plugins / Pixel Crushers / Common / Documentation / Input_Device_Manager_Manual.pdf.
