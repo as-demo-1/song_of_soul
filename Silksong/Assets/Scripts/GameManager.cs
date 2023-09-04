@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject mapPack;
 
-    public GameObject eventSystem;
+    //public GameObject eventSystem;
 
     public SaveSystem saveSystem;
 
@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
         CreateCamera();
         
         ReloadInventory();
+        //ReloadDialogue();
 
         // 临时初始化UI
         UIManager.Instance.Show<UIPlayerStatus>();
@@ -93,8 +94,8 @@ public class GameManager : MonoBehaviour
 
         
 
-        eventSystem = Instantiate(eventSystem);
-        DontDestroyOnLoad(eventSystem);
+        //eventSystem = Instantiate(eventSystem);
+        //DontDestroyOnLoad(eventSystem);
         uint bankid;
         AkSoundEngine.LoadBank("General", out bankid);
     }
@@ -140,5 +141,10 @@ public class GameManager : MonoBehaviour
         //SaveSystemManager.Instance.PrintSaveFolderPath();
         //currencyOwner = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.slotIndex).CurrencyOwner;
         //inventory = InventorySystemManager.GetInventoryIdentifier(saveSystem.SaveData.slotIndex).Inventory;
+    }
+
+    public void ReloadDialogue()
+    {
+        PixelCrushers.SaveSystem.LoadFromSlot((int)saveSystem.SaveData.slotIndex);
     }
 }

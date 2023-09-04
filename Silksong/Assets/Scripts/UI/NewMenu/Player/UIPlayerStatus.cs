@@ -14,21 +14,21 @@ public class UIPlayerStatus : MonoBehaviour
 
 	public HpDamable representedDamable;
 
-	private int moneyNum = 0;       //²âÊÔÓÃ£¬Ó¦¸Ã´ÓÊı¾İÀàÄÃµ½½ğ±ÒÊıÁ¿
+	private int moneyNum = 0;       //æµ‹è¯•ç”¨ï¼Œåº”è¯¥ä»æ•°æ®ç±»æ‹¿åˆ°é‡‘å¸æ•°é‡
 
-	private int addAll = 0;     //Ôö¼ÓµÄ×ÜÁ¿
+	private int addAll = 0;     //å¢åŠ çš„æ€»é‡
 
-	public float changeTime = 3.0f;     //Êı×Ö¼ÇÂ¼µÄÊ±¼ä
+	public float changeTime = 3.0f;     //æ•°å­—è®°å½•çš„æ—¶é—´
 	private float changeTimeRecord = 3.0f;
 	private bool changeTimeStart = false;
 	private bool changeTimeOver = false;
 
-	public float zeroTime = 1.5f;       //Êı×Ö¹éÁãµÄÊ±¼ä
+	public float zeroTime = 1.5f;       //æ•°å­—å½’é›¶çš„æ—¶é—´
 	private float zeroTimeRecord = 1.5f;
 	private float perReduce = 0;
 
 	public GameObject hpItem; 
-	public GameObject hpBg;//ÑªÌõµ×Í·
+	public GameObject hpBg;//è¡€æ¡åº•å¤´
 	public Transform content;
 	public List<GameObject> hpItems;
 	public Slider slider;
@@ -49,7 +49,7 @@ public class UIPlayerStatus : MonoBehaviour
 		inventory = GameManager.Instance.inventory; 
 		var currencyOwner = GameManager.Instance.currencyOwner;
 		ownerCurrencyCollection = currencyOwner.CurrencyAmount;
-		gold = InventorySystemManager.GetCurrency("»êÊ¯");
+		gold = InventorySystemManager.GetCurrency("é­‚çŸ³");
 		moneyNum = ownerCurrencyCollection.GetAmountOf(gold);
 		TextCoin.text = moneyNum.ToString();
 
@@ -61,7 +61,7 @@ public class UIPlayerStatus : MonoBehaviour
 		UpdateMoney();
 	}
 	#region Hp
-	public void setRepresentedDamable(HpDamable hpDamable)//ÉèÖÃÑªÁ¿ÉÏÏŞ
+	public void setRepresentedDamable(HpDamable hpDamable)//è®¾ç½®è¡€é‡ä¸Šé™
 	{
 		if (representedDamable == null)
 		{
@@ -82,7 +82,7 @@ public class UIPlayerStatus : MonoBehaviour
 		}
 	}
 
-	public void ChangeHitPointUI(HpDamable damageable)//ÑªÁ¿±ä¶¯Ê±µ÷ÓÃ
+	public void ChangeHitPointUI(HpDamable damageable)//è¡€é‡å˜åŠ¨æ—¶è°ƒç”¨
 	{
 		for (int i = 0; i < hpItems.Count; i++)
 		{
@@ -117,10 +117,10 @@ public class UIPlayerStatus : MonoBehaviour
 	#region Money
 	void UpdateMoney()
 	{
-		if (changeTimeStart)    //Ôö¼Ó½ğ±ÒµÄĞĞÎª¿ªÊ¼
+		if (changeTimeStart)    //å¢åŠ é‡‘å¸çš„è¡Œä¸ºå¼€å§‹
 		{
 			changeTimeRecord -= Time.deltaTime;
-			if (changeTimeRecord <= 0)  //¼ÇÂ¼Ê±¼ä½áÊø
+			if (changeTimeRecord <= 0)  //è®°å½•æ—¶é—´ç»“æŸ
 			{
 				changeTimeOver = true;
 				changeTimeStart = false;
@@ -128,7 +128,7 @@ public class UIPlayerStatus : MonoBehaviour
 			}
 		}
 
-		if (changeTimeOver)     //Ôö¼Ó½ğ±ÒµÄĞĞÎª½áÊøÁË£¬¼´ÒÑ¾­ÓĞÒ»¶ÎÊ±¼äÃ»ÓĞ»ñÈ¡µ½½ğ±ÒÁË£¬¿ªÊ¼µ¹ÊıÔö¼Ó½ğ±Ò
+		if (changeTimeOver)     //å¢åŠ é‡‘å¸çš„è¡Œä¸ºç»“æŸäº†ï¼Œå³å·²ç»æœ‰ä¸€æ®µæ—¶é—´æ²¡æœ‰è·å–åˆ°é‡‘å¸äº†ï¼Œå¼€å§‹å€’æ•°å¢åŠ é‡‘å¸
 		{
 			zeroTimeRecord -= Time.deltaTime;
 			if (zeroTimeRecord >= 0)
@@ -146,7 +146,7 @@ public class UIPlayerStatus : MonoBehaviour
 	
 	void ChangeMoneyNum(int changeNum)
 	{
-		changeTimeRecord = changeTime;  //ÓÖ»ñµÃÁËĞÂµÄ½ğ±Ò£¬ÖØÖÃÊ±¼ä
+		changeTimeRecord = changeTime;  //åˆè·å¾—äº†æ–°çš„é‡‘å¸ï¼Œé‡ç½®æ—¶é—´
 		if (changeNum >= 0)
 		{
 			ownerCurrencyCollection.AddCurrency(gold, changeNum);
@@ -180,7 +180,7 @@ public class UIPlayerStatus : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ×îºóÒ»Ö¡Ç¿ÖÆ¹éÁã
+	/// æœ€åä¸€å¸§å¼ºåˆ¶å½’é›¶
 	/// </summary>
 	void ForceZero()
 	{
@@ -195,7 +195,7 @@ public class UIPlayerStatus : MonoBehaviour
 		changeTimeRecord = changeTime;
 		changeTimeStart = false;
 		changeTimeOver = false;
-		zeroTimeRecord = zeroTime;       //Êı×Ö¹éÁãµÄÊ±¼ä
+		zeroTimeRecord = zeroTime;       //æ•°å­—å½’é›¶çš„æ—¶é—´
 		TextAddCoin.DOFade(0, 1);
 	}
 	#endregion

@@ -241,6 +241,7 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 		saveData.levelName = SceneManager.GetActiveScene().name;
 		saveData.timestamp = DateTime.Now.ToFileTime();
 		SaveSystemManager.Save(index);// 物品系统存档
+		PixelCrushers.SaveSystem.SaveToSlot(index);// 对话系统存档
 		
 		string filename = saveFilename + "_" + index.ToString() + fileSuffix;
 		if (FileManager.WriteToFile(filename, saveData.ToJson()))
@@ -266,10 +267,13 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 			GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//玩家到场景入口 
 			PlayerInput.Instance.GainControls();
 			Debug.Log("加载完成");
+			// 物品系统部分
 			if (SaveSystemManager.Saves.ContainsKey(index))
 			{
 				SaveSystemManager.Load(index);
 			}
+			// 对话系统部分
+			PixelCrushers.SaveSystem.LoadFromSlot(index);
 			
 		}
 
@@ -289,7 +293,18 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 		// 物品系统部分
 		if(SaveSystemManager.Saves.ContainsKey(index))
 			SaveSystemManager.Load(index);
+		// 对话系统部分
+		PixelCrushers.SaveSystem.LoadFromSlot(index);
 		SceneManager.LoadScene(saves[index].levelName);
+	}
+
+	/// <summary>
+	/// 删除某个存档
+	/// </summary>
+	/// <param name="index"></param>
+	public void DeleteSave(int index)
+	{
+		
 	}
 	
 }

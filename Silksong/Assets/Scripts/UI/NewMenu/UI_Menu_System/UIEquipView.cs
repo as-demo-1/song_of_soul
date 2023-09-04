@@ -132,7 +132,7 @@ public class UIEquipView : MonoBehaviour
 	/// <param name="value"></param>
 	public void HpUpdate(int value)
 	{
-		Debug.Log("HP碎片数量:" + value);
+		//Debug.Log("HP碎片数量:" + value);
 		int i = 0;
 		while (value >= 0)
 		{
@@ -156,14 +156,14 @@ public class UIEquipView : MonoBehaviour
 	/// <param name="value"></param>
 	public void MpUpdate(int value)
 	{
-		Debug.Log("MP碎片数量:" + value);
+		//Debug.Log("MP碎片数量:" + value);
 		int i = 0;
 		while (value >= 0)
 		{
 			MpSlots[i].UpdateMpSlot(value);
 			value = value - 4;
 			i++;
-			Debug.Log("MP碎片数量:" + value);
+			//Debug.Log("MP碎片数量:" + value);
 		}
 		if (value > -4)
 		{

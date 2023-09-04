@@ -38,7 +38,7 @@ public class UISaveView : MonoBehaviour
 		//UIManager.Instance.inventorySaveIndex= index;
 		
 		SaveSystem.SaveToSlot(index);
-	    uiSaveSlots[index].Init(SaveSystem.Saves[index]);
+	    uiSaveSlots[index].Init(SaveSystem.Saves[index]);// 保存后修复一遍存档的编号
 		
     }
 
@@ -46,8 +46,6 @@ public class UISaveView : MonoBehaviour
     public void ContinueGame(int index)
     {
 	    StartCoroutine(SaveSystem.LoadGame(index, gameObject));
-	    //SaveSystem.LoadGame(index);
-	    //this.gameObject.SetActive(false);
     }
 
 	public void Return()
@@ -64,6 +62,6 @@ public class UISaveView : MonoBehaviour
 	}
     public void DeleteSave(int index)
     {
-        //SaveSystemManager.DeleteSave(index);
+        //SaveSystem.DeleteSave(index);
     }
 }
