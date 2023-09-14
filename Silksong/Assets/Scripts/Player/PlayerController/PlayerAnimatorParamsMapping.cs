@@ -92,6 +92,7 @@ public class PlayerAnimatorParamsMapping
 
     public int HeartSwordIsValidParamHash { get; } = Animator.StringToHash("HeartSwordIsValid");
 
+    public int IsSoulParamHash { get; } = Animator.StringToHash("isSoul");
     public void ParamsUpdate()
     {
         if(HaveControl())
@@ -110,7 +111,8 @@ public class PlayerAnimatorParamsMapping
             m_Animator.SetBool(IsHealHeldParamHas, PlayerInput.Instance.heal.Held);
 
             m_Animator.SetBool(ToCatIsValidParamHas, PlayerInput.Instance.toCat.IsValid);
-            m_Animator.SetBool(CastSkillIsValidParamHash, PlayerInput.Instance.castSkill.IsValid);
+            m_Animator.SetBool(CastSkillIsValidParamHash, PlayerInput.Instance.soulSkill.IsValid);
+            //m_Animator.SetBool(CastSkillIsValidParamHash, PlayerInput.Instance.castSkill.IsValid);
 
             m_Animator.SetBool(PlungeIsValidParamHash, PlayerInput.Instance.plunge.IsValid);
 
@@ -155,8 +157,8 @@ public class PlayerAnimatorParamsMapping
         m_Animator.SetFloat(AbsSpeedParamHash, m_PlayerAnimatorStatesControl.PlayerController.getRigidVelocity().magnitude);
 
         m_Animator.SetInteger(CurrentStatesParamHash, (int)m_PlayerAnimatorStatesControl.CurrentPlayerState);
-
-
+        m_Animator.SetBool(IsSoulParamHash
+            , m_PlayerAnimatorStatesControl.PlayerController.SoulSkillController.inSoulModel);
     }
 
     

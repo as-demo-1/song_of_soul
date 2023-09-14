@@ -29,7 +29,7 @@ public class PlayerInput : InputComponent
     public InputButton breakMoon = new InputButton(KeyCode.Q, XboxControllerButtons.None);
     public InputButton heal = new InputButton(KeyCode.C, XboxControllerButtons.None);
     public InputButton toCat = new InputButton(KeyCode.N, XboxControllerButtons.None);
-    public InputButton castSkill = new InputButton(KeyCode.L, XboxControllerButtons.None);
+    //public InputButton castSkill = new InputButton(KeyCode.L, XboxControllerButtons.None);
     public InputComponent.InputAxis horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
     public InputAxis vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
     public InputButton normalAttack = new InputButton(KeyCode.J, XboxControllerButtons.X);
@@ -68,7 +68,7 @@ public class PlayerInput : InputComponent
             breakMoon,
             heal,
             toCat,
-            castSkill,
+            //castSkill,
             plunge,
             sing,
             heartSword,
@@ -87,7 +87,7 @@ public class PlayerInput : InputComponent
             breakMoon,
             heal,
             toCat,
-            castSkill,
+            //castSkill,
             showMap,
             quickMap,
             plunge,

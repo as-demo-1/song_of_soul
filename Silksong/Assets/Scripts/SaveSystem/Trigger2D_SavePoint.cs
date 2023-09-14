@@ -10,14 +10,41 @@ using UnityEngine;
 public class Trigger2D_SavePoint : Trigger2DBase
  {
      public GameObject tip;
-    public GameObject panel;
+    private GameObject panel;
     public KeyCode ActionKey;
     public KeyCode CloseKey;
+
+    private bool isEnter;
     //string guid;
 
     private void Update()
     {
-
+        if (isEnter)
+        {
+            if (Input.GetKeyUp(ActionKey))
+            {
+                if (panel==null)
+                {
+                    panel = UIManager.Instance.Show<UISaveView>().gameObject;
+                    panel.GetComponent<UISaveView>().backBtn.onClick.AddListener(() => PlayerInput.Instance.GainControls());
+                }
+                else
+                {
+                    panel.SetActive(true);
+                }
+                tip.SetActive(false);
+                PlayerInput.Instance.ReleaseControls();
+            }
+            
+            
+            if (Input.GetKeyUp(CloseKey))
+            {
+                //panel.SetActive(true);
+                UIManager.Instance.Close<UISaveView>();
+                tip.SetActive(true);
+                PlayerInput.Instance.GainControls();
+            }
+        }
     }
 
     private void Awake()
@@ -26,43 +53,19 @@ public class Trigger2D_SavePoint : Trigger2DBase
         //guid = GetComponent<GuidComponent>().GetGuid().ToString();
         //panel.SetActive(false);
         tip.SetActive(false);
+        isEnter = false;
     }
 
     protected override void enterEvent()
     {
         tip.SetActive(true);
+        isEnter = true;
     }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-
-        if (Input.GetKeyUp(ActionKey))
-        {
-            //
-            if (panel==null)
-            {
-                panel = UIManager.Instance.Show<UISaveView>().gameObject;
-                panel.GetComponent<UISaveView>().backBtn.onClick.AddListener(() => PlayerInput.Instance.GainControls());
-            }
-            else
-            {
-                panel.SetActive(true);
-            }
-            tip.SetActive(false);
-            PlayerInput.Instance.ReleaseControls();
-        }
-        
-        if (Input.GetKeyUp(CloseKey))
-        {
-            //panel.SetActive(true);
-            UIManager.Instance.Close<UISaveView>();
-            tip.SetActive(true);
-            PlayerInput.Instance.GainControls();
-        }
-    }
+    
 
     protected override void exitEvent()
     {
         tip.SetActive(false);
+        isEnter = false;
     }
 }

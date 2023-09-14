@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 /// <summary>
-/// ¸ºÔğÓÎÏ·ÎïÌåÔÚ³¡¾°ÄÚµÄ´«ËÍ µ¥Àı
+/// è´Ÿè´£æ¸¸æˆç‰©ä½“åœ¨åœºæ™¯å†…çš„ä¼ é€ å•ä¾‹
 /// </summary>
 public class GameObjectTeleporter : MonoBehaviour
 {
@@ -30,7 +30,7 @@ public class GameObjectTeleporter : MonoBehaviour
 
     protected static GameObjectTeleporter instance;
 
-    public Vector3 playerRebornPoint;//Íæ¼Ò×îĞÂµÄÖØÉúµã
+    public Vector3 playerRebornPoint;//ç©å®¶æœ€æ–°çš„é‡ç”Ÿç‚¹
     public bool Transitioning;
 
     public CinemachineVirtualCamera virtualCamera;
@@ -55,14 +55,14 @@ public class GameObjectTeleporter : MonoBehaviour
     public void playerEnterSceneEntance(SceneEntrance.EntranceTag entranceTag,Vector3 relativePos,bool fade=false,bool releaseControl = false)
     {
         SceneEntrance entrance = SceneEntrance.GetDestination(entranceTag);
-        if (entrance == null)//¸Ã³¡¾°Ã»ÓĞÈë¿Ú ²»ÊÇÓĞÍæ¼ÒµÄÓÎÏ·³¡¾° 
+        if (entrance == null)//è¯¥åœºæ™¯æ²¡æœ‰å…¥å£ ä¸æ˜¯æœ‰ç©å®¶çš„æ¸¸æˆåœºæ™¯ 
         {
             return;
         }
         Vector3 enterPos = entrance.transform.position;
         enterPos += relativePos; 
 
-        //playerInput.transform.localScale = new Vector3();½ÇÉ«³¯Ïò ÔİÎ´¿¼ÂÇ
+        //playerInput.transform.localScale = new Vector3();è§’è‰²æœå‘ æš‚æœªè€ƒè™‘
         playerRebornPoint = enterPos;
 
         CameraController.Instance.AfterChangeScene();
@@ -79,7 +79,7 @@ public class GameObjectTeleporter : MonoBehaviour
 
         Teleport(PlayerInput.Instance.gameObject, enterPos,fade,releaseControl);
     }
-    public void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//ÔÚÍæ¼Ò½øÈëĞÂ³¡¾°Ê±µ÷ÓÃ¸Ã·½·¨
+    public void playerEnterSceneFromTransitionPoint(SceneTransitionPoint transitionPoint)//åœ¨ç©å®¶è¿›å…¥æ–°åœºæ™¯æ—¶è°ƒç”¨è¯¥æ–¹æ³•
     {
         Vector3 enterPos = Vector3.zero;
         if(transitionPoint is  SceneTransitionPointKeepPos keepPos)

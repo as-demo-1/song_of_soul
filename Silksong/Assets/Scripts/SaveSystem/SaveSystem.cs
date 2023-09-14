@@ -259,13 +259,14 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 		if (saves.ContainsKey(index))
 		{
 			saveData = saves[index];
-			// 物品系统部分
 			
-			//SceneController.TransitionToScene(saves[index].levelName);
-			AsyncOperation ao = SceneManager.LoadSceneAsync(saves[index].levelName);
-			yield return ao;
-			GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//玩家到场景入口 
-			PlayerInput.Instance.GainControls();
+			
+			SceneController.TransitionToScene(saves[index].levelName);
+			//CameraController.Instance.BeforeChangeScene();
+			// AsyncOperation ao = SceneManager.LoadSceneAsync(saves[index].levelName);
+			// yield return ao;
+			// GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//玩家到场景入口 
+			// PlayerInput.Instance.GainControls();
 			Debug.Log("加载完成");
 			// 物品系统部分
 			if (SaveSystemManager.Saves.ContainsKey(index))
@@ -274,6 +275,7 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 			}
 			// 对话系统部分
 			PixelCrushers.SaveSystem.LoadFromSlot(index);
+			
 			
 		}
 

@@ -52,7 +52,7 @@ public class UIPlayerStatus : MonoBehaviour
 		gold = InventorySystemManager.GetCurrency("魂石");
 		moneyNum = ownerCurrencyCollection.GetAmountOf(gold);
 		TextCoin.text = moneyNum.ToString();
-
+		TextAddCoin.text ="";
 	}
 
 	// Update is called once per frame

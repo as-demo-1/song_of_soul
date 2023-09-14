@@ -11,7 +11,7 @@ public class ItemPick : MonoBehaviour
 {
 	// Start is called before the first frame update
 
-	//È·¶¨Åö×²»ñÈ¡
+	//ç¡®å®šç¢°æ’è·å–
 	private CircleCollider2D circleCollider2D;
 
 
@@ -26,6 +26,8 @@ public class ItemPick : MonoBehaviour
 	[SerializeField]
 	private KeyCode pickKey = KeyCode.E;
 
+	private bool isEnter;
+
 	void Start()
     {
 		circleCollider2D = GetComponent<CircleCollider2D>();
@@ -34,31 +36,22 @@ public class ItemPick : MonoBehaviour
 
     }
 
-	//ÎüÒıÓÃÇò×´Åö×²Ìå
+	//å¸å¼•ç”¨çƒçŠ¶ç¢°æ’ä½“
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		text.SetActive(true);
+		isEnter = true;
 	}
 
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		if(Input.GetKeyDown(pickKey))
-		{
-			if (!isPicking)
-			{
-				Debug.Log("·¢Éú");
-				GameManager.Instance.inventory.GetItemCollection("Main").AddItem(item.Item, 1);
-				Debug.Log("ÓµÓĞ£º"+GameManager.Instance.inventory.GetItemCollection("Main").GetItemAmount(item.Item));
-				isPicking = true;
-				Destroy(this.gameObject);
-			}
-			
-		}
+		
 	}
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
 		text.SetActive(false);
+		isEnter = true;
 	}
 
 
@@ -66,6 +59,20 @@ public class ItemPick : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
-        
+	    if (isEnter)
+	    {
+		    if(Input.GetKeyDown(pickKey))
+		    {
+			    if (!isPicking)
+			    {
+				    Debug.Log("å‘ç”Ÿ");
+				    GameManager.Instance.inventory.GetItemCollection("Main").AddItem(item.Item, 1);
+				    Debug.Log("æ‹¥æœ‰ï¼š"+GameManager.Instance.inventory.GetItemCollection("Main").GetItemAmount(item.Item));
+				    isPicking = true;
+				    Destroy(this.gameObject);
+			    }
+			
+		    }
+	    }
     }
 }

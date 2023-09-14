@@ -15,17 +15,19 @@ public class ScreenFader:MonoSingleton<ScreenFader>
     public IEnumerator FadeSceneOut(float time)
     {
         //print("out");
-        blackScreen.gameObject.SetActive(true);
-        blackScreen.CrossFadeAlphaFixed(1,time,false);
+        blackScreen = GameManager.Instance.Loading_BlackScreen.GetComponentInChildren<Image>();
+        blackScreen?.gameObject.SetActive(true);
+        blackScreen?.CrossFadeAlphaFixed(1,time,false);
         yield return new WaitForSeconds(time);
     }
 
     public IEnumerator FadeSceneIn(float time)
     {
        // print("in");
-        blackScreen.CrossFadeAlpha(0, time, false);
+        blackScreen = GameManager.Instance.Loading_BlackScreen.GetComponentInChildren<Image>();
+        blackScreen?.CrossFadeAlpha(0, time, false);
         yield return new WaitForSeconds(time);
-        blackScreen.gameObject.SetActive(false);
+        blackScreen?.gameObject.SetActive(false);
     }
 
     public override void Init()

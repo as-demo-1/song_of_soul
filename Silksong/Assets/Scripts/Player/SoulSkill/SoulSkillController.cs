@@ -8,7 +8,7 @@ public class SoulSkillItem
 {
     public SkillName SkillName;
     public GameObject skillPrefab;
-    [FormerlySerializedAs("skill")] public SoulSkill soulSkill;
+    public SoulSkill soulSkill;
     public bool hasLearned;
 }
 public class SoulSkillController : MonoBehaviour
@@ -64,6 +64,7 @@ public class SoulSkillController : MonoBehaviour
             equpedSoulSkill.ExitSoulMode();
             equpedSoulSkill.gameObject.SetActive(false);
             equpedSoulSkill.enabled = false;
+            
         }
         
         if (PlayerInput.Instance.soulSkill.Up && GameManager.Instance.saveSystem.getLearnedSkill(EPlayerStatus.CanCastSkill))

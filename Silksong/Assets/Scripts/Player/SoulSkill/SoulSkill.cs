@@ -112,7 +112,7 @@ public abstract class SoulSkill : MonoBehaviour
             charge.gameObject.SetActive(true);
             _playerController.SoulSkillController.isHenshining = true;
             _playerAnimator.SetBool("CastSkillIsValid", true);
-            _playerController.GetComponent<InvulnerableDamable>().invulnerable = true;// 变身时无敌
+            _playerController.GetComponent<InvulnerableDamable>().enableInvulnerability();// 变身时无敌
             PlayerAnimatorParamsMapping.SetControl(false);
         });
         sequence.AppendInterval(henshinTime);
@@ -148,7 +148,7 @@ public abstract class SoulSkill : MonoBehaviour
                 _playerAnimator.SetBool("isSoul", true);
             }
             PlayerAnimatorParamsMapping.SetControl(true);
-            _playerController.GetComponent<InvulnerableDamable>().invulnerable = false;// 解除无敌状态
+            _playerController.GetComponent<InvulnerableDamable>().disableInvulnerability();// 解除无敌状态
             InvokeRepeating(nameof(TickSoulStatus), 0.0f, 1.0f);// 定时扣除能量
         });
     }

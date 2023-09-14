@@ -19,42 +19,43 @@ public class Trigger2D_GetSkill : Trigger2DBase
     [SerializeField]
     private bool hasGotSkill;
 
+    private bool isEnter;
+
     private void Update()
     {
-
+        if (isEnter)
+        {
+            if (Input.GetKeyUp(EnterKey) && !hasGotSkill)
+            {
+                Debug.Log("learn skill:"+skill.ToString());
+                PlayerController.Instance.playerStatusDic.learnSkill(skill, true);// 技能学习
+                hasGotSkill = true;
+            }
+            else if (Input.GetKeyUp(unEquipKey) && hasGotSkill)
+            {
+                Debug.Log("lose skill:"+skill.ToString());
+                PlayerController.Instance.playerStatusDic.learnSkill(skill, false);
+                //SetPlayerStatusFlag(skillName, GameManager.Instance.saveSystem.getLearnedSkill(skillName),PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
+                hasGotSkill = false;
+            }
+        }
     }
 
     private void Awake()
     {
-        //SaveSystem _saveSystem = GameManager.Instance.saveSystem;
-        //guid = GetComponent<GuidComponent>().GetGuid().ToString();
+        
     }
 
     protected override void enterEvent()
     {
         //tip.SetActive(true);
+        isEnter = true;
     }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-
-        if (Input.GetKeyUp(EnterKey) && !hasGotSkill)
-        {
-            Debug.Log("learn skill:"+skill.ToString());
-            PlayerController.Instance.playerStatusDic.learnSkill(skill, true);// 技能学习
-            hasGotSkill = true;
-        }
-        else if (Input.GetKeyUp(unEquipKey) && hasGotSkill)
-        {
-            Debug.Log("lose skill:"+skill.ToString());
-            PlayerController.Instance.playerStatusDic.learnSkill(skill, false);
-            //SetPlayerStatusFlag(skillName, GameManager.Instance.saveSystem.getLearnedSkill(skillName),PlayerStatusFlag.WayOfChangingFlag.OverrideLearnFlag);
-            hasGotSkill = false;
-        }
-    }
+    
 
     protected override void exitEvent()
     {
         //tip.SetActive(false);
+        isEnter = false;
     }
 }

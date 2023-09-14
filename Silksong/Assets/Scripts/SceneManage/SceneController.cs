@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 /// <summary>
-/// ¹ÜÀí³¡¾°ÇĞ»» µ¥Àı
+/// ç®¡ç†åœºæ™¯åˆ‡æ¢ å•ä¾‹
 /// </summary>
 public class SceneController : MonoBehaviour
 {
@@ -24,7 +24,7 @@ public class SceneController : MonoBehaviour
 
             return instance;
         }
-    }//µ¥Àı
+    }//å•ä¾‹
 
     protected static SceneController instance;
 
@@ -46,7 +46,7 @@ public class SceneController : MonoBehaviour
 
 
     /// <summary>
-    /// ´ÓÓÎÏ·³¡¾°³ö¿Úµ½ÁíÒ»¸ö³¡¾°
+    /// ä»æ¸¸æˆåœºæ™¯å‡ºå£åˆ°å¦ä¸€ä¸ªåœºæ™¯
     /// </summary>
     /// <param name="transitionPoint"></param>
     public static void TransitionToScene(SceneTransitionPoint transitionPoint,bool withPreLoad=false)
@@ -58,9 +58,10 @@ public class SceneController : MonoBehaviour
         else Instance.StartCoroutine(Instance.TransitionWithPreLoad(transitionPoint.newSceneName, transitionPoint, transitionPoint.resetInputValuesOnTransition));
     }
 
-     public static void TransitionToScene(string SceneName)//´Ó²Ëµ¥µ½ÓÎÏ·³¡¾°ÓÃ Ôİ²»ÓÃ
+     public static void TransitionToScene(string SceneName)//ä»èœå•åˆ°æ¸¸æˆåœºæ™¯ç”¨ æš‚ä¸ç”¨
      {
-         Instance.StartCoroutine(Instance.Transition(SceneName));
+         CameraController.Instance.BeforeChangeScene();
+         Instance.StartCoroutine(Instance.Transition(SceneName, null, false));
      }
     private void Update()
     {
@@ -99,42 +100,20 @@ public class SceneController : MonoBehaviour
 
         yield return ao;
 
-        GameObjectTeleporter.Instance.playerEnterSceneFromTransitionPoint(destination);//Íæ¼Òµ½³¡¾°Èë¿Ú 
+        if (destination!=null)
+        {
+            GameObjectTeleporter.Instance.playerEnterSceneFromTransitionPoint(destination);//ç©å®¶åˆ°åœºæ™¯å…¥å£ 
+        }
+        else
+        {
+            GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//ç©å®¶åˆ°é»˜è®¤å…¥å£ 
+        }
         setPlayerAction();
         yield return StartCoroutine(ScreenFader.Instance.FadeSceneIn(ScreenFader.SceneFadeInTime));
 
         PlayerAnimatorParamsMapping.SetControl(true);
         m_Transitioning = false;
         //print("to false");
-    }
-
-    protected IEnumerator Transition(string newSceneName)
-    {
-        if (m_Transitioning && newSceneName==transitioningScene)
-        {
-            print("transitioning to the same scene");
-            yield break;
-        }
-        m_Transitioning = true;
-        transitioningScene = newSceneName;
-        //  print("to true");
-        PlayerAnimatorParamsMapping.SetControl(false);
-        stopPlayer();
-
-        yield return StartCoroutine(ScreenFader.Instance.FadeSceneOut(ScreenFader.SceneFadeOutTime));
-
-        AsyncOperation ao= SceneManager.LoadSceneAsync(newSceneName);
-        ao.allowSceneActivation = false;
-
-        yield return ao;
-
-        GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//Íæ¼Òµ½³¡¾°Èë¿Ú 
-        setPlayerAction();
-        yield return StartCoroutine(ScreenFader.Instance.FadeSceneIn(ScreenFader.SceneFadeInTime));
-
-        PlayerAnimatorParamsMapping.SetControl(true);
-        m_Transitioning = false;
-        
     }
 
     private void stopPlayer()
@@ -214,7 +193,7 @@ public class SceneController : MonoBehaviour
         }
         Debug.Log("load over");
 
-        GameObjectTeleporter.Instance.playerEnterSceneFromTransitionPoint(destination);//Íæ¼Òµ½³¡¾°Èë¿Ú 
+        GameObjectTeleporter.Instance.playerEnterSceneFromTransitionPoint(destination);//ç©å®¶åˆ°åœºæ™¯å…¥å£ 
         setPlayerAction();
         yield return StartCoroutine(ScreenFader.Instance.FadeSceneIn(ScreenFader.SceneFadeInTime));
 

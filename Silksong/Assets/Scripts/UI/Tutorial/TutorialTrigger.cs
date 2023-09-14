@@ -9,6 +9,7 @@ public class TutorialTrigger : Trigger2DBase
 	[SerializeField] private GameObject panel;
 
     private bool hasTriggered;
+    public KeyCode closeKey;
 
     //[SerializeField] private TutorialPanelSO TutorialPanelSO;
 
@@ -27,15 +28,17 @@ public class TutorialTrigger : Trigger2DBase
 		//TutorialPanelSO.RasieEvent(title);
 		PlayerInput.Instance.ReleaseControls();// 禁用玩家输入
 		Debug.Log("Player Trigger Tutorial");
+		Time.timeScale = 0;
 		
 	}
 	
 	private void Update()
 	{
-		if (Input.GetKeyUp(KeyCode.J) && hasTriggered)
+		if (Input.GetKeyUp(closeKey) && hasTriggered)
 		{
 			panel.SetActive(false);
 			PlayerInput.Instance.GainControls();
+			Time.timeScale = 1;
 			//this.enabled = false;
 		}
 	}
