@@ -29,6 +29,7 @@ public class UIPlayerStatus : MonoBehaviour
 
 	public GameObject hpItem; 
 	public GameObject hpBg;//血条底头
+	private Vector3 hpBgPos;
 	public Transform content;
 	public List<GameObject> hpItems;
 	public Slider slider;
@@ -53,7 +54,8 @@ public class UIPlayerStatus : MonoBehaviour
 		moneyNum = ownerCurrencyCollection.GetAmountOf(gold);
 		TextCoin.text = moneyNum.ToString();
 		TextAddCoin.text ="";
-	}
+		hpBgPos = hpBg.transform.localPosition;
+    }
 
 	// Update is called once per frame
 	void Update()
@@ -74,8 +76,9 @@ public class UIPlayerStatus : MonoBehaviour
 			deleteAllHpIcon();
 		}
 		int maxHp = representedDamable.MaxHp;
-		hpBg.transform.Translate(maxHp * 45,0,0);//DOMoveX(maxHp*45,1);
-		for(int i = 0;i< maxHp;i++)
+		hpBg.transform.localPosition = hpBgPos + new Vector3(maxHp * 45, 0, 0);
+		//hpBg.transform.Translate(maxHp * 45,0,0);//DOMoveX(maxHp*45,1);
+		for(int i = hpItems.Count;i< maxHp;i++)
 		{
 			GameObject go = Instantiate(hpItem, content);
 			hpItems.Add(go);

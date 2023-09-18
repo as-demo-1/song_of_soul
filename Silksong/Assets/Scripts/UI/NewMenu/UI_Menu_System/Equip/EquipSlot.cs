@@ -84,7 +84,7 @@ public class EquipSlot : MonoBehaviour, ISelectHandler
     }
 
     /// <summary>
-    /// ¿Õ¸ñ×Ó
+    /// ç©ºæ ¼å­
     /// </summary>
     public void Clear()
     {
@@ -103,7 +103,7 @@ public class EquipSlot : MonoBehaviour, ISelectHandler
     }
 
     /// <summary>
-    /// ÍË³öÊ±Çå¿ÕÃæ°åĞÅÏ¢
+    /// é€€å‡ºæ—¶æ¸…ç©ºé¢æ¿ä¿¡æ¯
     /// </summary>
     public void Exict()
     {

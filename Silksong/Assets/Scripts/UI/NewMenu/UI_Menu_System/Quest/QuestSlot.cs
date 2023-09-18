@@ -55,7 +55,7 @@ public class QuestSlot : MonoBehaviour, ISelectHandler
 	{
 	}
 	/// <summary>
-	/// Î´Íê³É
+	/// æœªå®Œæˆ
 	/// </summary>
 	/// <param name="Item"></param>
 	/// <param name="QuestView"></param>

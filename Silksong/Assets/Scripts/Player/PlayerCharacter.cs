@@ -84,15 +84,16 @@ public class PlayerCharacter : MonoBehaviour
         playerDamable.MaxHp = maxHp;
         if (recoverAllHp) playerDamable.setCurrentHp(maxHp);
         //ui
-        //Debug.Log(maxHp);
+        Debug.Log("最大生命值"+maxHp);
         statuMenu.setRepresentedDamable(playerDamable);
         statuMenu.ChangeHitPointUI(playerDamable);
     }
     public int getMaxHp()
     {
         int ret = GameManager.Instance.saveSystem.GetHealthMax();
+        ret += (GameManager.Instance.currencyOwner.CurrencyAmount.GetCurrencyAmountAt(0).Amount /2);
             //Constants.playerInitialMaxHp;
-        //toadd:charm,hpUp
+        // TODO: charm,hpUp
         ret += (int)buffManager.GetBuffProperty(BuffProperty.MAX_HEALTH);
         return ret;
     }
@@ -117,6 +118,7 @@ public class PlayerCharacter : MonoBehaviour
     public int getMaxMana()
     {
         int ret = GameManager.Instance.saveSystem.GetManaMax();
+        ret += (GameManager.Instance.currencyOwner.CurrencyAmount.GetCurrencyAmountAt(1).Amount /4);
             //Constants.playerInitialMaxMana;
         //toadd:charm,manaUp
         ret += (int)buffManager.GetBuffProperty(BuffProperty.MAX_MANA);

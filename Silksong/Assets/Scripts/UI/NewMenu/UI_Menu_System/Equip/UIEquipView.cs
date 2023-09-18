@@ -36,29 +36,21 @@ public class UIEquipView : MonoBehaviour
 
 	void Start()
     {
-		var currencyOwner = InventorySystemManager.GetInventoryIdentifier(1).CurrencyOwner;
-		CurrencyCollection ownerCurrencyCollection = currencyOwner.CurrencyAmount;
-		
-		var a = ownerCurrencyCollection.GetCurrencyAmountAt(0);
-		Debug.Log(a.Amount);
-		var b = ownerCurrencyCollection.GetCurrencyAmountAt(1);
-		var c = currencyOwner.CurrencyAmount.GetCurrencyAmountCount();
-		var Hp = InventorySystemManager.GetCurrency("Hp");
-		var Mp = InventorySystemManager.GetCurrency("Mp");
+		// var currencyOwner = InventorySystemManager.GetInventoryIdentifier(1).CurrencyOwner;
+		// CurrencyCollection ownerCurrencyCollection = currencyOwner.CurrencyAmount;
+		//
+		// var a = ownerCurrencyCollection.GetCurrencyAmountAt(0);
+		// Debug.Log(a.Amount);
+		// var b = ownerCurrencyCollection.GetCurrencyAmountAt(1);
+		// var c = currencyOwner.CurrencyAmount.GetCurrencyAmountCount();
+		// var Hp = InventorySystemManager.GetCurrency("Hp");
+		// var Mp = InventorySystemManager.GetCurrency("Mp");
 		//HpUpdate(ownerCurrencyCollection.GetAmountOf(Hp));
 		//MpUpdate(ownerCurrencyCollection.GetAmountOf(Mp));
-		HpUpdate(a.Amount);
-		MpUpdate(b.Amount);
+		//HpUpdate(GameManager.Instance.currencyOwner.CurrencyAmount.GetCurrencyAmountAt(0).Amount);
+		//MpUpdate(GameManager.Instance.currencyOwner.CurrencyAmount.GetCurrencyAmountAt(1).Amount);
 
-		inventory = InventorySystemManager.GetInventoryIdentifier(1).Inventory;
-
-		dic = new Dictionary<int, List<ItemInfo>>()
-		{
-			{ 0, new List<ItemInfo>()},
-			{ 1, new List<ItemInfo>()},
-			{ 2, new List<ItemInfo>()},
-			{ 3, new List<ItemInfo>()},
-		};
+		
 
 		Init();	
 	}
@@ -67,11 +59,30 @@ public class UIEquipView : MonoBehaviour
 	{
 	}
 
+	private void OnEnable()
+	{
+		HpUpdate(GameManager.Instance.currencyOwner.CurrencyAmount.GetCurrencyAmountAt(0).Amount);
+		MpUpdate(GameManager.Instance.currencyOwner.CurrencyAmount.GetCurrencyAmountAt(1).Amount);
+		
+		// TODO: 更新玩家最大血量和能量，应当绑定碎片拾取事件
+		PlayerController.Instance.playerCharacter.refreshMaxHp();
+		PlayerController.Instance.playerCharacter.refreshMaxMana();
+	}
+
 	/// <summary>
 	/// 用的默认数据库，会有一些问题
 	/// </summary>
 	public void Init()
 	{
+		inventory = GameManager.Instance.inventory;
+
+		dic = new Dictionary<int, List<ItemInfo>>()
+		{
+			{ 0, new List<ItemInfo>()},
+			{ 1, new List<ItemInfo>()},
+			{ 2, new List<ItemInfo>()},
+			{ 3, new List<ItemInfo>()},
+		};
 		for(int i = 0;i<4;i++)
 		{		
 			ItemInfo[] ccc = new ItemInfo[] { };
