@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ShopItem : MonoBehaviour, ISelectHandler
+public class ShopItem : MonoBehaviour//, ISelectHandler
 {
 
     public Image icon;
@@ -37,9 +37,14 @@ public class ShopItem : MonoBehaviour, ISelectHandler
 		index = Index;
     }
 
-	public void OnSelect(BaseEventData eventData)
+	/*public void OnSelect(BaseEventData eventData)
 	{
         uiShop.itembuy = this;
         uiShop.RefreshUI(this);
+	}*/
+    public void IsSelected()
+    {
+		uiShop.itembuy = this;
+		uiShop.RefreshUI(this);
 	}
 }

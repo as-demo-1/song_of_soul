@@ -16,8 +16,8 @@ public class UIShopSuccess : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Z))//退出商店列表
         {
-            
-            Destroy(shop.gameObject);
+			UIManager.Instance.Close<UIShop>();
+			//Destroy(shop.gameObject);
             Destroy(this.gameObject);
         }
     }

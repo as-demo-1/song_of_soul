@@ -1,16 +1,14 @@
 ﻿using DG.Tweening;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using Opsive.UltimateInventorySystem.Core;
 using Opsive.UltimateInventorySystem.Core.DataStructures;
 using Opsive.UltimateInventorySystem.Core.InventoryCollections;
 using Opsive.UltimateInventorySystem.Exchange;
-using Opsive.UltimateInventorySystem.Exchange.Shops;
 using Opsive.UltimateInventorySystem.SaveSystem;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static Opsive.UltimateInventorySystem.DatabaseNames.DemoInventoryDatabaseNames;
+
 
 public class UIShop : MonoBehaviour
 {
@@ -32,6 +30,7 @@ public class UIShop : MonoBehaviour
     public Text itemDescribe;
 
 	List<ShopItem> itemList = new List<ShopItem>();
+	public int index = 0;
 
     void Start()
     {		
@@ -43,8 +42,6 @@ public class UIShop : MonoBehaviour
 		Init();
 	}
 
-
-
 	void Update()
     {
         if(Input.GetKeyDown(KeyCode.Z))//购买按钮
@@ -53,10 +50,19 @@ public class UIShop : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.A))//关闭商店
         {
-			Destroy(this.gameObject);
+			UIManager.Instance.Close<UIShop>();
 		}
-        
-    }
+        if(Input.GetKeyDown(KeyCode.W))
+		{
+			index = index > 0 ? --index : index;
+			itemList[index].IsSelected();
+		}
+		if (Input.GetKeyDown(KeyCode.S))
+		{
+			index = index < itemList.Count-1 ? ++index : index;
+			itemList[index].IsSelected();
+		}
+	}
 
 
     public void  Init()
@@ -69,7 +75,8 @@ public class UIShop : MonoBehaviour
             item.Init(items[i].Item, this, i);
 			itemList.Add(item);
 		}
-        itemList[0].GetComponent<Selectable>().Select();
+		itemList[0].IsSelected();
+		//itemList[0].GetComponent<Selectable>().Select();
     }
 
 
@@ -91,7 +98,8 @@ public class UIShop : MonoBehaviour
         {
             itemList[i].index = i;
         }
-        itemList[0].GetComponent<Selectable>().Select();
+		itemList[0].IsSelected();
+		//itemList[0].GetComponent<Selectable>().Select();
 		//EventSystem.current.SetSelectedGameObject(itemRoot.GetChild(0).gameObject);
 
 		Debug.Log(itemRoot.GetChild(0).gameObject);
@@ -116,7 +124,7 @@ public class UIShop : MonoBehaviour
 
 		if (ownerCurrencyCollection.GetAmountOf(gold) > itembuy.price)
 		{
-			EventSystem.current.SetSelectedGameObject(null);
+			//EventSystem.current.SetSelectedGameObject(null);
 			GameObject go = Instantiate(uiShopBuy, transform.position, transform.rotation);
 			UIShopBuy buy = go.GetComponent<UIShopBuy>();
 			buy.SetBuyInfo(itembuy, this);
@@ -148,10 +156,6 @@ public class UIShop : MonoBehaviour
 		GameObject go = Instantiate(uiShopSuccess);
 		UIShopSuccess suc = go.GetComponent<UIShopSuccess>();
 		suc.SetSuccess(this);
-	}
-	private void OnDestroy()
-	{
-		PlayerInput.Instance.GainControls();
 	}
 }
 

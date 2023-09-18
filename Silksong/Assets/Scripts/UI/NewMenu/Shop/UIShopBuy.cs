@@ -58,7 +58,8 @@ public class UIShopBuy : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.A))
         {
 			uishop.gameObject.SetActive(true);
-            Destroy(this.gameObject);
+            uishop.itembuy.IsSelected();//.GetComponent<Selectable>().Select();
+			Destroy(this.gameObject);
         }
     }
     public void SetBuyInfo(ShopItem shopitem, UIShop UIShop)

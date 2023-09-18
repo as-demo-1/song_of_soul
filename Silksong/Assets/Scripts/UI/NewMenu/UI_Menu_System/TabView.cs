@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
 public class TabView : MonoBehaviour 
 {
 	public TabView tabview;
@@ -31,9 +30,9 @@ public class TabView : MonoBehaviour
 	public KeyCode ExitKey;
 
 	[Header("绑定按键上一个")]
-	public KeyCode Key1;
+	public KeyCode PreviousKey;
 	[Header("绑定按键下一个")]
-	public KeyCode Key2;
+	public KeyCode NextKey;
 
 
 	int itemIndex = 0;
@@ -44,34 +43,24 @@ public class TabView : MonoBehaviour
 	{
 		if (panelIndex == 1)
 		{
-			if (isFirst)
+			if (Input.GetKeyDown(PreviousKey))
 			{
-				if (Input.GetKeyDown(EnterKey))
-				{
-					isFirst = false;
-				}
-				if (Input.GetKeyDown(Key1))
-				{
-					tabIndex = tabIndex > 0 ? tabIndex - 1 : 0;
-					SelectTab(tabIndex);
-				}
-				if (Input.GetKeyDown(Key2))
-				{
-					tabIndex = tabIndex < btnConut ? tabIndex + 1 : btnConut;
-					SelectTab(tabIndex);
-				}
+				tabIndex = tabIndex > 0 ? tabIndex - 1 : 0;
+				SelectTab(tabIndex);
+			}
+			if (Input.GetKeyDown(NextKey))
+			{
+				tabIndex = tabIndex < btnConut ? tabIndex + 1 : btnConut;
+				SelectTab(tabIndex);
 			}
 		}
 		else if (panelIndex == 2)
 		{
 			if (isFirst)
 			{
-				if (Input.GetKeyDown(EnterKey))
-				{
-					isFirst = false;
-					isSecond = true;
-					SelectTab(tabIndex);
-				}
+				isFirst = false;
+				isSecond = true;
+				SelectTab(tabIndex);
 			}
 			else if (isSecond)
 			{
@@ -83,26 +72,14 @@ public class TabView : MonoBehaviour
 						isSecond = false;
 						isThird = true;
 						transforms[tabIndex].GetComponentInChildren<Selectable>().Select();
-						if (secondBtnImg != null)
-						{
-							secondBtnImg.SetActive(true);
-						}
 					}
 				}
-
-				if (Input.GetKeyDown(ExitKey))
-				{
-					isFirst = true;
-					isSecond = false;
-					tabButtons[tabIndex].ChangeBg(false);
-					tabview.isFirst = true;
-				}
-				if (Input.GetKeyDown(Key1))
+				if (Input.GetKeyDown(PreviousKey))
 				{
 					tabIndex = tabIndex > 0 ? tabIndex - 1 : 0;
 					SelectTab(tabIndex);
 				}
-				if (Input.GetKeyDown(Key2))
+				if (Input.GetKeyDown(NextKey))
 				{
 					tabIndex = tabIndex < btnConut ? tabIndex + 1 : btnConut;
 					SelectTab(tabIndex);
@@ -114,35 +91,13 @@ public class TabView : MonoBehaviour
 				{
 					isSecond = true;
 					isThird = false;
-					if (secondBtnImg != null)
-					{
-						secondBtnImg.SetActive(false);
-					}
 					if (uiEquipView != null)
 					{
-						uiEquipView.selectedEquip.description.text = "";
-						uiEquipView.selectedEquip.itemName.text = "";
+						uiEquipView.selectedEquip.Exict();
 						uiEquipView.selectedEquip = null;
 						EventSystem.current.SetSelectedGameObject(null);
 					}
 				}
-
-				if(uiEquipView != null)
-				{
-					if (Input.GetKeyDown(KeyCode.Q))
-					{
-						itemIndex--;
-						itemIndex = itemIndex < 0 ? 0 : itemIndex;
-						uiEquipView.RefreshUI(tabIndex, itemIndex);
-					}
-					if(Input.GetKeyDown(KeyCode.E))
-					{
-						itemIndex++;
-						itemIndex = itemIndex > 4 ? 4: itemIndex;
-						uiEquipView.RefreshUI(tabIndex, itemIndex);
-					}
-				}
-
 			}
 		}
 	}

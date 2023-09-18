@@ -2,17 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using UnityEngine;
+
+
 public class UIManager : MonoSingleton<UIManager>
 {
 	[System.Serializable]
 	class UIElement
 	{
+		public int level;
 		public string Resources;//UI存的资源路径
 		public bool Cache;//UI关闭后是否销毁
 		public GameObject Instance;//如果Cache，把instance存下来
+		public bool need;//需要禁止人物输入
 	}
 	public int inventorySaveIndex;//临时测试
+	public Transform[] transforms;
+	private bool isOpen = false;
 
 	[SerializeField]
 	private Dictionary<Type, UIElement> UIResoureces = new Dictionary<Type, UIElement>();//保存定义的UI信息
@@ -21,10 +28,10 @@ public class UIManager : MonoSingleton<UIManager>
 	public override void Init()
 	{
 		DontDestroyOnLoad(gameObject);
-		this.UIResoureces.Add(typeof(UIMenu_System), new UIElement() { Resources = "UI/UIMenu_System", Cache = false });
-		this.UIResoureces.Add(typeof(UIPlayerStatus), new UIElement() { Resources = "UI/UIPlayerStatus", Cache = true });
-		this.UIResoureces.Add(typeof(UIShop), new UIElement() { Resources = "UI/UIShop", Cache = false });
-		this.UIResoureces.Add(typeof(UISaveView), new UIElement() { Resources = "UI/UISave", Cache = false });
+		this.UIResoureces.Add(typeof(UIMenu_System), new UIElement() { level = 2, Resources = "UI/UIMenu_System", Cache = false , need = true});
+		this.UIResoureces.Add(typeof(UIPlayerStatus), new UIElement() {level = 3, Resources = "UI/UIPlayerStatus", Cache = true, need =false});
+		this.UIResoureces.Add(typeof(UIShop), new UIElement() {level = 2, Resources = "UI/UIShop", Cache = false, need= true });
+		this.UIResoureces.Add(typeof(UISaveView), new UIElement() {level = 1, Resources = "UI/UISave", Cache = false , need = true });
 		//Application.targetFrameRate = 60;
 	}
 	/// <summary>
@@ -34,10 +41,17 @@ public class UIManager : MonoSingleton<UIManager>
 	/// <returns></returns>
 	public T Show<T>()
 	{
+		if (isOpen) return default(T);
 		Type type = typeof(T);
 		if (this.UIResoureces.ContainsKey(type))
 		{
+			
 			UIElement info = this.UIResoureces[type];
+			if (info.need)
+			{
+				isOpen = true;
+				PlayerInput.Instance.ReleaseControls();
+			}
 			if (info.Instance != null)
 			{
 				info.Instance.SetActive(true);
@@ -50,7 +64,8 @@ public class UIManager : MonoSingleton<UIManager>
 				{
 					return default(T);
 				}
-				info.Instance = (GameObject)GameObject.Instantiate(prefab);
+
+				info.Instance = (GameObject)GameObject.Instantiate(prefab, transforms[info.level]);
 			}
 			return info.Instance.GetComponent<T>();
 		}
@@ -59,9 +74,16 @@ public class UIManager : MonoSingleton<UIManager>
 
 	public void Close(Type type)
 	{
+
 		if (this.UIResoureces.ContainsKey(type))
 		{
+			
 			UIElement info = this.UIResoureces[type];
+			if(info.need)
+			{
+				isOpen = false;
+				PlayerInput.Instance?.GainControls();
+			}
 			if (!info.Cache)
 			{
 				info.Instance?.SetActive(false);

@@ -14,16 +14,12 @@ public class UIMenu_System : MonoBehaviour
 
 	public MapController MapController;
 
-	private void OnEnable()
-	{
-		PlayerInput.Instance.ReleaseControls();
-	}
+
 	void Start()
     {
 	    DontDestroyOnLoad(this);
         btn.SelectTab(0);
         MapController.Init();
-		//PlayerInput.Instance.ReleaseControls();
 	}
 
 	public void ChangeTab(int index)
@@ -35,9 +31,4 @@ public class UIMenu_System : MonoBehaviour
     void Update()
     {
     }
-
-	private void OnDisable()
-	{
-		PlayerInput.Instance?.GainControls();
-	}
 }
