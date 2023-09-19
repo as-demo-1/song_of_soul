@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using Opsive.UltimateInventorySystem.Core;
@@ -41,6 +42,17 @@ public class UIQuestView : MonoBehaviour
 	private bool isFirst = false;
 	private bool isSecond = false;
 	// Start is called before the first frame update
+
+	private void OnEnable()
+	{
+		string[] quests = PixelCrushers.DialogueSystem.QuestLog.GetAllQuests();// 获取所有已激活的任务名称
+		Debug.Log("任务数量"+quests.Length);
+		foreach (var quest in quests)
+		{
+			Debug.Log(quest+PixelCrushers.DialogueSystem.QuestLog.CurrentQuestState(quest));// 根据任务名获取任务状态
+		}
+	}
+
 	void Start()
 	{
 		inventory = GameManager.Instance.inventory;

@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         CreateCamera();
         
         ReloadInventory();
-        //ReloadDialogue();
+        ReloadDialogue();
 
         // 临时初始化UI
         UIManager.Instance.Show<UIPlayerStatus>();
@@ -146,5 +146,6 @@ public class GameManager : MonoBehaviour
     public void ReloadDialogue()
     {
         PixelCrushers.SaveSystem.LoadFromSlot((int)saveSystem.SaveData.slotIndex);
+        
     }
 }
