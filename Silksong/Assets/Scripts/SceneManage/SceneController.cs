@@ -103,10 +103,12 @@ public class SceneController : MonoBehaviour
         if (destination!=null)
         {
             GameObjectTeleporter.Instance.playerEnterSceneFromTransitionPoint(destination);//玩家到场景入口 
+            Debug.Log(destination);
         }
         else
         {
             GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//玩家到默认入口 
+            Debug.Log(destination);
         }
         setPlayerAction();
         yield return StartCoroutine(ScreenFader.Instance.FadeSceneIn(ScreenFader.SceneFadeInTime));
