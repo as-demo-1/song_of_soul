@@ -46,6 +46,7 @@ public class UISaveView : MonoBehaviour
     public void ContinueGame(int index)
     {
 	    StartCoroutine(SaveSystem.LoadGame(index, gameObject));
+	    UIManager.Instance.Close<UISaveView>();
     }
 
 	public void Return()
@@ -63,5 +64,10 @@ public class UISaveView : MonoBehaviour
     public void DeleteSave(int index)
     {
         //SaveSystem.DeleteSave(index);
+    }
+
+    public void OnClickClose()
+    {
+	    UIManager.Instance.Close<UISaveView>();
     }
 }

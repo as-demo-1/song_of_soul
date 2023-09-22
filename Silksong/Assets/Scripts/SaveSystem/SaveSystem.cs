@@ -279,12 +279,6 @@ public class SaveSystem : SerializedScriptableObject//you can get SaveSystem ins
 			
 		}
 
-		if (panel)
-		{
-			panel.SetActive(false);
-			
-		}
-		
 
 		yield return null;
 	}

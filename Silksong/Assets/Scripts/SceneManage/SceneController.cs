@@ -61,7 +61,7 @@ public class SceneController : MonoBehaviour
      public static void TransitionToScene(string SceneName)//从菜单到游戏场景用 暂不用
      {
          CameraController.Instance.BeforeChangeScene();
-         Instance.StartCoroutine(Instance.Transition(SceneName, null, false));
+         Instance.StartCoroutine(Instance.Transition(SceneName, null, false, true));
      }
     private void Update()
     {
@@ -80,7 +80,7 @@ public class SceneController : MonoBehaviour
     }
 
 
-    protected IEnumerator Transition(string newSceneName, SceneTransitionPoint destination, bool resetInputValues)
+    protected IEnumerator Transition(string newSceneName, SceneTransitionPoint destination, bool resetInputValues, bool emptyTrans=false)
     {
         if (m_Transitioning && newSceneName==transitioningScene)
         {
@@ -99,21 +99,20 @@ public class SceneController : MonoBehaviour
         //ao.allowSceneActivation = false;
 
         yield return ao;
-
-        if (destination!=null)
+        //GameObjectTeleporter.Instance.playerEnterSceneFromTransitionPoint(destination);//玩家到场景入口 
+        if (emptyTrans)
         {
-            GameObjectTeleporter.Instance.playerEnterSceneFromTransitionPoint(destination);//玩家到场景入口 
-            Debug.Log(destination);
+            GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//玩家到默认入口 
         }
         else
         {
-            GameObjectTeleporter.Instance.playerEnterSceneEntance(SceneEntrance.EntranceTag.A, Vector3.zero);//玩家到默认入口 
-            Debug.Log(destination);
+            GameObjectTeleporter.Instance.playerEnterSceneFromTransitionPoint(destination);//玩家到场景入口 
         }
         setPlayerAction();
         yield return StartCoroutine(ScreenFader.Instance.FadeSceneIn(ScreenFader.SceneFadeInTime));
 
         PlayerAnimatorParamsMapping.SetControl(true);
+        PlayerInput.Instance.GainControls();
         m_Transitioning = false;
         //print("to false");
     }
