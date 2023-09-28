@@ -12,12 +12,12 @@ using UnityEngine.Events;
 public class InvulnerableDamable : HpDamable
 {
     public bool invulnerableAfterDamage = true; //受伤后无敌
-    public float invulnerabilityDuration = 3f; //无敌时间
+    public float invulnerabilityDuration; //无敌时间
     protected float inulnerabilityTimer;
 
-    private bool ignoreTimer;
+    private bool ignoreTimer;// 是否永久无敌
 
-    private Tweener playerFlash;
+    private Tweener playerFlash;// 玩家贴图闪烁
 
     private void Start()
     {

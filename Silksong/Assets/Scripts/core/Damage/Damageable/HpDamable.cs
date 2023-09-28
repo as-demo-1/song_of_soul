@@ -43,7 +43,7 @@ public class HpDamable :Damable
 
     public setHpEvent onHpChange=new setHpEvent();
 
-    public ParticleSystem hurt = default;
+    public GameObject hurt = default;
 
     private uint buffindex;
 
@@ -54,11 +54,14 @@ public class HpDamable :Damable
 
         if ( currentHp <= 0)
         {
-           // return;
+            return;
         }
-        if (hurt)
+        if (hurt!=null)
         {
-            Destroy(Instantiate(hurt, transform).gameObject, 1.0f);
+            Destroy(
+                Instantiate(hurt
+                    , damager.GetComponent<Collider2D>().ClosestPoint(transform.position)
+                    , Quaternion.identity).gameObject, 5.0f);
         }
 
         base.takeDamage(damager);

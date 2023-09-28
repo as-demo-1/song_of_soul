@@ -23,7 +23,7 @@ public class PlayerSkillDamager : DamagerBase
         //
         if (hit != null && hit.layer.Equals(LayerMask.NameToLayer("Ground")))
         {
-            //Debug.Log("»÷ÖĞÇ½±Ú");
+            //Debug.Log("å‡»ä¸­å¢™å£");
             Destroy(this.gameObject,0.2f);
             makeDamageEvent.Invoke(this, null);
         }

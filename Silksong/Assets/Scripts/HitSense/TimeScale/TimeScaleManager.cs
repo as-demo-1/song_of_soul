@@ -21,7 +21,7 @@ public class TimeScaleManager : MonoBehaviour
 
             return instance;
         }
-    }//µ¥Àı
+    }//å•ä¾‹
 
     protected static TimeScaleManager instance;
     void Awake()
@@ -36,7 +36,7 @@ public class TimeScaleManager : MonoBehaviour
 
     public void changeTimeScaleForFrames(int framesCount,float scale)
     {
-        float time = framesCount / 60f;//Ä¬ÈÏ60fps ĞèÒªĞŞ¸Ä
+        float time = framesCount / 60f;//é»˜è®¤60fps éœ€è¦ä¿®æ”¹
         changeTimeScaleForSeconds(time,scale);
     }
 
