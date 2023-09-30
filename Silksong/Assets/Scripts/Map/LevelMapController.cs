@@ -11,7 +11,7 @@ public class LevelMapController : SerializedMonoBehaviour
     [SerializeField]
     private Dictionary<string, GameObject> mapIMGs = new Dictionary<string, GameObject>();
 
-    [SerializeField] private GameObject playerMarker;
+    [SerializeField] public GameObject playerMarker;
     private GameObject sceneBound, mapBound;
     private string currentLevel;
 
@@ -92,6 +92,8 @@ public class LevelMapController : SerializedMonoBehaviour
     public void SetCurrentLevel(string region)
     {
         if (!mapIMGs.ContainsKey(region)) return;
-        playerMarker.transform.position = mapIMGs[region].transform.position;
+        playerMarker.transform.SetParent(mapIMGs[region].transform);
+        playerMarker.transform.localPosition = Vector3.zero;
+        
     }
 }

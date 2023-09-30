@@ -138,15 +138,15 @@ public class UIManager : MonoSingleton<UIManager>
 		if (PlayerInput.Instance.menu.Up)
 		{
 			Debug.Log("按下menu键");
-			UIManager.Instance.Shift<UIMenu_System>();
+			Shift<UIMenu_System>();
 		}
 		if (PlayerInput.Instance.quickMap.Down)
 		{
-			UIManager.Instance.Show<UIMenu_System>().ChangeTab(0);
+			Show<UIMenu_System>()?.ChangeTab(0);
 		}
 		if (PlayerInput.Instance.quickMap.Up)
 		{
-			UIManager.Instance.Close<UIMenu_System>();
+			Close<UIMenu_System>();
 		}
 		// if (Input.GetKeyDown(KeyCode.H))
 		// {

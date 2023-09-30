@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,9 @@ public class MapController : MonoBehaviour
     public bool quick, showLevel;
     [SerializeField] private string region;
 
+    public RectTransform levelRoot;
+    private Vector3 movement;
+
     // Start is called before the first frame update
     public void Init()
     {
@@ -44,18 +48,41 @@ public class MapController : MonoBehaviour
         {
             ShowLevel();
         }
+
+        if (showLevel)
+        {
+            movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0.0f);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (showLevel)
+        {
+            levelRoot.position +=  movement * Time.fixedDeltaTime*200.0f;
+        }
+    }
+
+    private void OnEnable()
+    {
+        ShowLevel();
     }
 
     public void ShowLevel()
     {
+        // 根据主角所在位置设定地图位置
+        levelRoot.position += 
+            (Vector3)(new Vector2(Screen.width / 2.0f, Screen.height / 2.0f) -
+                      (Vector2)levelMapController.playerMarker.transform.position);
+        
         //quick = true;
         showLevel = true;
-        string[] sceneName = SceneManager.GetActiveScene().name.Split('-');
-        if (sceneName.Length>1)
-        {
-            levelMapController.gameObject.SetActive(true);
-            levelMapController.SetCurrentLevel(sceneName[1]);
-        }
+        string sceneName = SceneManager.GetActiveScene().name;//.name.Split('-');
+        
+        
+        levelMapController.gameObject.SetActive(true);
+        levelMapController.SetCurrentLevel(sceneName);
+        
         regionMapController.gameObject.SetActive(false);
         //levelMapController.SetInteractable(false);
         //levelMapController.centering(region);
