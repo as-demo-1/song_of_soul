@@ -1,226 +1,232 @@
-using System;
-using DG.Tweening;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
-using Opsive.UltimateInventorySystem.Core;
-using Opsive.UltimateInventorySystem.Core.DataStructures;
-using Opsive.UltimateInventorySystem.Core.InventoryCollections;
-using System.Collections;
-using System.Collections.Generic;
+using Language.Lua;
+using Opsive.UltimateInventorySystem.UI.CompoundElements;
+using PixelCrushers.DialogueSystem;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIQuestView : MonoBehaviour
 {
-	public Text Title;
-	public TextMeshProUGUI Description;
-	public Image Icon;
-	public GameObject selected;
+	public Text Title;                          //任务名称
 
-	public QuestSlot selectedQuest;
+	public TextMeshProUGUI Description;         //解锁后的信息
 
-	private Inventory inventory;
+	public Image Icon;                          //右边栏任务图片
+	public GameObject selected;                 //选中的背景图
 
-	public GameObject questPrefab;
+	public QuestSlot selectedQuest;             //选中的任务
 
-	public Transform monsterContent;	
-	public Transform npcContent;	
-	public Transform bossContent;
-	public ItemCategory ShowItemCategoryMoster;
-	public ItemCategory ShowItemCategoryNpc;
-	public ItemCategory ShowItemCategoryBoss;
-	public List<ItemCategory> itemCategory;
-	private int indexQuest = 0;
-	private int indexMax;
+	public QuestSlot[] mainQuestSlots;          //主线任务
+	public QuestSlot[] branchQuestSlots;        //支线任务
+	public QuestSlot[] legendQuestSlots;        //传说任务
 
-	public Text[] titles;
-	public Image[] images;
-	public Image[] selectedImages;
+	public Text requireText;                    //完成任务的目标UI
+												//public Image images;
 
-	public Transform content;
+	int switchIndex = 0;                        //任务类型切换index
+	public GameObject[] switchImage;            //任务类型切换时需要改变的Image
+	public GameObject[] switchPanel;            //任务类型切换时需要改变的Panel
 
-	private bool isFirst = false;
-	private bool isSecond = false;
+	int indexQuest = 0;                         //任务资料切换index
+	public GameObject LockPanel;
+	public GameObject[] rightSwitchImage;       //任务资料切换时需要改变的Image
+												
+	
 	// Start is called before the first frame update
-
-	private void OnEnable()
-	{
-		string[] quests = PixelCrushers.DialogueSystem.QuestLog.GetAllQuests();// 获取所有已激活的任务名称
-		Debug.Log("任务数量"+quests.Length);
-		foreach (var quest in quests)
-		{
-			Debug.Log(quest+PixelCrushers.DialogueSystem.QuestLog.CurrentQuestState(quest));// 根据任务名获取任务状态
-		}
-	}
-
 	void Start()
 	{
-		inventory = GameManager.Instance.inventory;
 		Init();
+		mainQuestSlots[0].GetComponent<ActionButton>().Select();
 	}
+
+	/// <summary>
+	/// 任务初始化
+	/// </summary>
 	public void Init()
 	{
-		/*
-		int a = 0;
-		int b = 0;
-		int c = 0;
-		foreach (ItemStack o in inventory.GetItemCollection("Quests").GetAllItemStacks())
+		//未激活任务
+		string[] unassignedQuests = PixelCrushers.DialogueSystem.QuestLog.GetAllQuests(QuestState.Unassigned);
+		foreach (var quest in unassignedQuests)
 		{
-			if(o.Item.Category == ShowItemCategoryMoster)
+			Debug.Log(quest);
+			switch (DialogueLua.GetQuestField(quest, "questType").AsInt)
 			{
-				QuestSlot questSlot = Instantiate(questPrefab, monsterContent).GetComponent<QuestSlot>();
-				questSlot.Init(o.Item, this,a, monsterContent);
-				a++;
+				case 0:
+					mainQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					mainQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].GetComponent<ActionButton>().OnMoveE += (eventData, moved) => OnMove(eventData, moved);
+					break;
+				case 1:
+					branchQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					branchQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].GetComponent<ActionButton>().OnMoveE += (eventData, moved) => OnMove(eventData, moved);
+					break;
+				case 2:
+					legendQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					legendQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].GetComponent<ActionButton>().OnMoveE += (eventData, moved) => OnMove(eventData, moved);
+					break;
 			}
-			else if (o.Item.Category == ShowItemCategoryNpc)
+		}
+		//已激活任务
+		string[] activeQuests = PixelCrushers.DialogueSystem.QuestLog.GetAllQuests(QuestState.Active);
+		foreach (var quest in activeQuests)
+		{
+			Debug.Log(quest);
+			switch (DialogueLua.GetQuestField(quest, "questType").AsInt)
 			{
-				QuestSlot questSlot = Instantiate(questPrefab, npcContent).GetComponent<QuestSlot>();
-				questSlot.Init(o.Item, this,b, npcContent);
-				b++;
+				case 0:
+					mainQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					break;
+				case 1:
+					branchQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					break;
+				case 2:
+					legendQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					break;
+			}
+		}
+	}
+	// Update is called once per frame
+
+	void Update()
+	{
+
+		if (Input.GetKeyDown(KeyCode.J))
+		{
+			if (indexQuest == 0) return;
+
+			rightSwitchImage[indexQuest].SetActive(false);
+			indexQuest--;
+			rightSwitchImage[indexQuest].SetActive(true);
+			if (selectedQuest.questStage > indexQuest)
+			{
+				LockPanel.SetActive(false);
+				Description.gameObject.SetActive(true);
+				Description.text = selectedQuest.descriptions[indexQuest];
 			}
 			else
 			{
-				QuestSlot questSlot = Instantiate(questPrefab, bossContent).GetComponent<QuestSlot>();
-				questSlot.Init(o.Item, this,c, bossContent);
-				c++;
+				LockPanel.SetActive(true);
+				Description.gameObject.SetActive(false);
+				requireText.text = selectedQuest.requires[indexQuest];
 			}
-		}*/
+		}
+		if (Input.GetKeyDown(KeyCode.K))
+		{
+			if (indexQuest == 2) return;
+
+			rightSwitchImage[indexQuest].SetActive(false);
+			indexQuest++;
+			rightSwitchImage[indexQuest].SetActive(true);
+			if (selectedQuest.questStage > indexQuest)
+			{
+				LockPanel.SetActive(false);
+				Description.gameObject.SetActive(true);
+				Description.text = selectedQuest.descriptions[indexQuest];
+			}
+			else
+			{
+				LockPanel.SetActive(true);
+				Description.gameObject.SetActive(false);
+				requireText.text = selectedQuest.requires[indexQuest];
+			}
+		}
 	}
-    // Update is called once per frame
-    void Update()
-    {
-		/*
-		if (Input.GetKeyDown(KeyCode.KeypadEnter))
-		{
-			if (!isSecond)
-			{
-				if (isFirst)
-				{
-					isSecond = true;
-					selected.SetActive(true);
-				}
-				else
-				{
-					isFirst = true;
-				}
-			}
-		}
 
-
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			if (isFirst)
-			{
-				if (!isSecond)
-				{
-					isFirst = false;
-				}
-				else
-				{
-					isSecond = false;
-					UIClear();
-					selected.SetActive(false);
-				}
-			}
-		}
-
-		if (isSecond)
-		{
-			if (Input.GetKeyDown(KeyCode.Q))
-			{
-				indexQuest = indexQuest > 0 ? --indexQuest : 0;
-				UpdateUIRight(indexQuest);
-				Debug.LogFormat(indexQuest.ToString());
-			}
-			if (Input.GetKeyDown(KeyCode.E))
-			{
-				indexQuest = indexQuest < indexMax ? ++indexQuest : indexMax;
-				UpdateUIRight(indexQuest);
-				Debug.LogFormat(indexQuest.ToString());
-			}
-		}*/
+	private void UpdateUIRight()
+	{
 		
 	}
 
-	public void Refresh(int index)
+	private void OnMove(AxisEventData eventData, bool moved)
 	{
-		indexQuest = 0;
-		content.DOLocalMoveY(index * 128, 2f);
+		switch (eventData.moveDir)
+		{
+			case MoveDirection.Left:
+				if (!moved) { PreviousSlice(); }
+				break;
+			case MoveDirection.Right:
+				if (!moved) { NextSlice(); }
+				break;
+		}
+	}
+	public void PreviousSlice()
+	{
+		if (switchIndex == 0) return;
+		
+		int index = selectedQuest.Id / 4 * 4 + 3;
+		RefreshUIRight(switchImage, switchPanel, false);
 
-		if (selectedQuest.unlockStatusFirst)
+		if (switchIndex == 0)
+		{
+			mainQuestSlots[index].GetComponent<ActionButton>().Select();
+		}
+		else if (switchIndex == 1)
+		{
+			branchQuestSlots[index].GetComponent<ActionButton>().Select();
+		}
+	}
+	public void NextSlice()
+	{
+		if (switchIndex == 2) return;			
+		RefreshUIRight(switchImage, switchPanel, true);
+		int index = selectedQuest.Id / 4 * 4;
+		if (switchIndex == 1)
+		{
+			branchQuestSlots[index].GetComponent<ActionButton>().Select();
+		}
+		else if (switchIndex == 2)
+		{
+			legendQuestSlots[index].GetComponent<ActionButton>().Select();
+		}
+	}
+
+
+	public void RefreshUIRight(GameObject[] images, GameObject[] panel,bool Add)
+	{
+		images[switchIndex].SetActive(false);
+		panel[switchIndex].SetActive(false);
+		if (Add)
+		{
+			switchIndex++;
+		}
+		else
+		{
+			switchIndex--;
+		}
+		images[switchIndex].SetActive(true);
+		panel[switchIndex].SetActive(true);
+	}
+
+	/// <summary>
+	/// 切换任务后刷新
+	/// </summary>
+	public void Refresh()
+	{
+		if (selectedQuest.questStage == 0)
+		{
+			Title.text = "？？？";
+			Icon.gameObject.SetActive(false);
+			requireText.text = selectedQuest.requires[0];
+			LockPanel.SetActive(true);
+			Description.gameObject.SetActive(false);
+			rightSwitchImage[indexQuest].SetActive(false);
+			Debug.Log("测试" + indexQuest);
+			indexQuest = 0;
+			rightSwitchImage[indexQuest].SetActive(true);
+		}
+		else
 		{
 			Title.text = selectedQuest.nameSid;
 			Icon.sprite = selectedQuest.icon;
 			Icon.gameObject.SetActive(true);
 			Description.text = selectedQuest.descriptions[0];
-			titles[0].text = selectedQuest.titles[0];
-			images[0].gameObject.SetActive(false);
-			indexMax = 0;
+			LockPanel.SetActive(false);
+			Description.gameObject.SetActive(true);
+			rightSwitchImage[indexQuest].SetActive(false);
+			Debug.Log("测试"+ indexQuest);
+			indexQuest = 0;
+			rightSwitchImage[indexQuest].SetActive(true);
 
-			if (selectedQuest.unlockStatusSecond)
-			{
-				titles[1].text = selectedQuest.titles[1];
-				images[1].gameObject.SetActive(false);
-				indexMax = 1;
-
-				if (selectedQuest.unlockStatusThird)
-				{
-					titles[2].text = selectedQuest.titles[2];
-					images[2].gameObject.SetActive(false);
-					indexMax = 2;
-				}
-				else
-				{
-					titles[2].text = "";
-					images[2].gameObject.SetActive(true);
-				}
-			}
-			else
-			{
-				titles[1].text = "";
-				images[1].gameObject.SetActive(true);
-
-				titles[2].text = "";
-				images[2].gameObject.SetActive(true);
-			}
-			UpdateUIRight(indexQuest);
 		}
-		else
-		{
-			UIClear();
-		}
-	}
-	public void UIClear()
-	{
-		Title.text = "";
-		Icon.gameObject.SetActive(false);
-		Description.text = "";
-
-		for (int i = 0; i <= 2; i++)
-		{
-			selectedImages[i].gameObject.SetActive(false);
-			titles[i].text = "";
-			images[i].gameObject.SetActive(true);
-		}
-	}
-	
-
-	public void UpdateUIRight(int index)
-	{
-		for(int i = 0; i <= indexMax;i++)
-		{
-			if(i == index)
-			{
-				selectedImages[i].gameObject.SetActive(true);
-				titles[i].DOColor(Color.black, 1f);
-			}
-			else
-			{
-				selectedImages[i].gameObject.SetActive(false);
-				titles[i].DOColor(Color.white, 1f);
-			}
-		}
-		Icon.sprite = selectedQuest.images[index];
-		Description.text = selectedQuest.descriptions[index];
 	}
 }

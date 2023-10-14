@@ -51,7 +51,7 @@ public class ItemPick : MonoBehaviour
 	private void OnTriggerExit2D(Collider2D collision)
 	{
 		text.SetActive(false);
-		isEnter = true;
+		isEnter = false;
 	}
 
 

@@ -132,7 +132,10 @@ public class UIShop : MonoBehaviour
 		}
 		else
 		{
-			
+			GameObject go = Instantiate(uiShopBuy, transform.position, transform.rotation);
+			UIShopBuy buy = go.GetComponent<UIShopBuy>();
+			buy.SetNoInfo(this);
+			this.gameObject.SetActive(false);
 			Debug.LogFormat("购买失败");
 		}
 	}

@@ -16,40 +16,47 @@ public class UIShopBuy : MonoBehaviour
     public GameObject Yes;
     public GameObject No;
 
-    ShopItem buyItem;
-    UIShop uishop;
+    public GameObject Panel;
+    public GameObject Text;
+    public bool enough = true;
 
-    private int a = 0;
+	UIShop uishop;
+
+    public int index = 0;
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if(enough)
         {
-            if(a==0)
+            if (Input.GetKeyDown(KeyCode.S))
             {
-                a = 1;
-                Yes.SetActive(false);
-                No.SetActive(true);
+                if (index == 0)
+                {
+                    index = 1;
+                    Yes.SetActive(false);
+                    No.SetActive(true);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                if (index == 1)
+                {
+                    index = 0;
+                    Yes.SetActive(true);
+                    No.SetActive(false);
+                }
             }
         }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if(a==1)
-            {
-                a = 0;
-                Yes.SetActive(true);
-                No.SetActive(false);
-            }
-        }
+
         if (Input.GetKeyDown(KeyCode.Z))//购买按钮
         {
-            if(a==0)
+            if(index==0)
             {
 				uishop.OnClickBuySuccess();
                 Destroy(this.gameObject);
             }
-            if(a==1)
+            else
             {
 				uishop.gameObject.SetActive(true);
                 Destroy(this.gameObject);
@@ -65,10 +72,17 @@ public class UIShopBuy : MonoBehaviour
     public void SetBuyInfo(ShopItem shopitem, UIShop UIShop)
     {
         this.uishop = UIShop;
-        this.buyItem = shopitem;
         this.Name.text = shopitem.name;
         this.Preview.sprite = shopitem.icon.sprite;
         //this.Icon.sprite = Item.IconImage;
         this.Price.text = shopitem.price.ToString();
     }
+    public void SetNoInfo(UIShop UIShop)
+    {
+		this.uishop = UIShop;
+		Panel.SetActive(false);
+		Text.SetActive(true);
+		enough = false;
+		index = 1;
+	}
 }

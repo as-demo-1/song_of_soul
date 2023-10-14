@@ -2,6 +2,7 @@ using BehaviorDesigner.Runtime.Tasks;
 using DG.Tweening;
 using Opsive.UltimateInventorySystem.Core;
 using Opsive.UltimateInventorySystem.Core.DataStructures;
+using PixelCrushers.DialogueSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,50 +11,30 @@ using UnityEngine.UI;
 
 public class QuestSlot : MonoBehaviour, ISelectHandler
 {
-	public int index;
 
 	public Image iconImage;
+	public Sprite questBgIcon;
+	public GameObject selected;
+
+	[HideInInspector]
 	public int Id;
-	public Text IdText;
-	public Text nameText;
-
-
-	private Item item;
-
+	[HideInInspector]
 	public UIQuestView questView;
-	public Transform content;
+	[HideInInspector]
+	public string nameSid;                                          //任务名称
+	[HideInInspector]
+	public Sprite icon;                                             //任务图片
+	[HideInInspector]
+	public int questStage;                                          //任务进度
+	[HideInInspector]
+	public List<string> requires = new List<string>();             //完成任务的条件
+	[HideInInspector]
+	public List<Sprite> images = new List<Sprite>();               //任务完成后的图片
+	[HideInInspector]
+	public List<string> descriptions = new List<string>();          //任务完成后的资料
 
+	string state;                                                   //任务状态
 
-
-	public string nameSid;
-	public Sprite icon;
-
-	public bool unlockStatusFirst;
-	public bool unlockStatusSecond;
-	public bool unlockStatusThird;
-
-	public List<string> titles = new List<string> ();
-	public List<Sprite> images = new List<Sprite> ();
-	public List<string> descriptions = new List<string> ();
-
-
-
-	public string secondTitle;
-	public Sprite secondImage;
-	public string secondDescription;
-
-	public string thirdTitle;
-	public Sprite thirdImage;
-	public string thirdDescription;
-	// Start is called before the first frame update
-	void Start()
-	{
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-	}
 	/// <summary>
 	/// 未完成
 	/// </summary>
@@ -61,64 +42,41 @@ public class QuestSlot : MonoBehaviour, ISelectHandler
 	/// <param name="QuestView"></param>
 	/// <param name="Index"></param>
 	/// <param name="transform"></param>
-	public void Init(Item Item, UIQuestView QuestView, int Index, Transform transform)
+	public void Init(string questName, UIQuestView QuestView)
 	{
-		item = Item;
 		questView = QuestView;
-		unlockStatusFirst = (bool)item.GetAttribute("UnlockStatusFirst").GetOverrideValueAsObject();
-		unlockStatusSecond = (bool)item.GetAttribute("UnlockStatusSecond").GetOverrideValueAsObject();
-		unlockStatusThird = (bool)item.GetAttribute("UnlockStatusThird").GetOverrideValueAsObject();
 
-		item.TryGetAttributeValue<string>("NameSid", out var NameSid);
-		nameSid = NameSid;
-		item.TryGetAttributeValue<Sprite>("Icon", out var Icon);
-		icon = Icon;
-		item.TryGetAttributeValue<int>("NextId", out var NextId);
-		item.TryGetAttributeValue<int>("ID", out var ID);
-		Id = ID;
+		state = DialogueLua.GetQuestField(questName, "State").AsString;
 
-		item.TryGetAttributeValue<string>("FirstTitle", out var FirstTitle);
-		titles.Add(FirstTitle);
-		//titles[0] = FirstTitle;
-		item.TryGetAttributeValue<Sprite>("FirstImage", out var FirstImage);
-		images.Add(FirstImage);
-		//images[0] = FirstImage;
-		item.TryGetAttributeValue<string>("FirstDescription", out var FirstDescription);
-		descriptions.Add(FirstDescription);
-		//descriptions[0] = FirstDescription;
+		nameSid = DialogueLua.GetQuestField(questName, "Name").AsString;
 
-		item.TryGetAttributeValue<string>("SecondTitle", out var SecondTitle);
-		titles.Add(SecondTitle);
-		//titles[1] = SecondTitle;
-		item.TryGetAttributeValue<Sprite>("SecondImage", out var SecondImage);
-		images.Add(SecondImage);
-		//images[1] = SecondImage;
-		item.TryGetAttributeValue<string>("SecondDescription", out var SecondDescription);
-		descriptions.Add(SecondDescription);
-		//descriptions[1] = SecondDescription;
-		item.TryGetAttributeValue<string>("ThirdTitle", out var ThirdTitle);
-		titles.Add(ThirdTitle);
-		//titles[2] = ThirdTitle;
-		item.TryGetAttributeValue<Sprite>("ThirdImage", out var ThirdImage);
-		images.Add(ThirdImage);
-		//images[2] = ThirdImage;
-		item.TryGetAttributeValue<string>("ThirdDescription", out var ThirdDescription);
-		descriptions.Add(ThirdDescription);
-		//descriptions[2] = ThirdDescription;
-		
-		content = transform;
-		index = Index;
-		if (unlockStatusFirst)
-		{
-			nameText.text = nameSid;
-			iconImage.sprite = icon;
-			IdText.text = "NO." + Id;
-		}
+		icon = ResourceManager.Instance.Load<Sprite>(DialogueLua.GetQuestField(questName, "Pictures").AsString);
+		//Id = ID;
+
+		questStage = DialogueLua.GetQuestField(questName, "QuestStage").AsInt;
+
+		requires.Add(DialogueLua.GetQuestField(questName, "FirstRequire").AsString);
+		//images.Add(ResourceManager.Instance.Load<Sprite>(DialogueLua.GetQuestField(questName, "FirstImage").AsString));
+		descriptions.Add(DialogueLua.GetQuestField(questName, "FirstDescription").AsString);
+
+		ResourceManager.Instance.Load<Sprite>("aaa");
+		requires.Add(DialogueLua.GetQuestField(questName, "SecondRequire").AsString);
+		//images.Add(ResourceManager.Instance.Load<Sprite>(DialogueLua.GetQuestField(questName, "SecondImage").AsString));
+		descriptions.Add(DialogueLua.GetQuestField(questName, "SecondDescription").AsString);
+
+		requires.Add(DialogueLua.GetQuestField(questName, "ThirdRequire").AsString);
+		//images.Add(ResourceManager.Instance.Load<Sprite>(DialogueLua.GetQuestField(questName, "ThirdImage").AsString));
+		descriptions.Add(DialogueLua.GetQuestField(questName, "ThirdDescription").AsString);
+
+
+		iconImage.sprite = icon;
 	}
 	public void OnSelect(BaseEventData eventData)
 	{
+
 		questView.selectedQuest = this;
-		questView.content = content;
-		questView.Refresh(index);
+		questView.Refresh();
+		questView.selected.SetActive(true);
+		questView.selected.transform.DOLocalMove(this.transform.localPosition, 0.5f);
 	}
 }
