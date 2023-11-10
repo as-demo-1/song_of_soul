@@ -32,14 +32,12 @@ public class UIEquipView : MonoBehaviour
 
 	void Start()
     {
-		inventory = GameManager.Instance.inventory;
+		
 	}
 
 
 	private void OnEnable()
 	{
-		inventory = GameManager.Instance.inventory;
-		Init();
 		HpUpdate(GameManager.Instance.currencyOwner.CurrencyAmount.GetCurrencyAmountAt(0).Amount);
 		MpUpdate(GameManager.Instance.currencyOwner.CurrencyAmount.GetCurrencyAmountAt(1).Amount);
 		
@@ -53,6 +51,7 @@ public class UIEquipView : MonoBehaviour
 	/// </summary>
 	public void Init()
 	{
+		inventory = GameManager.Instance.inventory;
 		dic = new Dictionary<int, List<ItemInfo>>()
 		{
 			{ 0, new List<ItemInfo>()},

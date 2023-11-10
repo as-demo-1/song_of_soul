@@ -8,11 +8,7 @@ using UnityEngine.UI;
 
 public class UIQuestView : MonoBehaviour
 {
-	public Text Title;                          //任务名称
 
-	public TextMeshProUGUI Description;         //解锁后的信息
-
-	public Image Icon;                          //右边栏任务图片
 	public GameObject selected;                 //选中的背景图
 
 	public QuestSlot selectedQuest;             //选中的任务
@@ -21,8 +17,11 @@ public class UIQuestView : MonoBehaviour
 	public QuestSlot[] branchQuestSlots;        //支线任务
 	public QuestSlot[] legendQuestSlots;        //传说任务
 
-	public Text requireText;                    //完成任务的目标UI
-												//public Image images;
+	public Text Title;                          //任务名称
+	public Image Icon;                          //右边栏任务图片
+	public TextMeshProUGUI Description;         //解锁后的信息
+	public Text requireText;                    //任务的目标UI文本
+	public GameObject successedIcon;			//完成任务后图标
 
 	int switchIndex = 0;                        //任务类型切换index
 	public GameObject[] switchImage;            //任务类型切换时需要改变的Image
@@ -31,15 +30,21 @@ public class UIQuestView : MonoBehaviour
 	int indexQuest = 0;                         //任务资料切换index
 	public GameObject LockPanel;
 	public GameObject[] rightSwitchImage;       //任务资料切换时需要改变的Image
-												
-	
-	// Start is called before the first frame update
-	void Start()
+
+	private void Awake()
 	{
-		Init();
+		selectedQuest = mainQuestSlots[0];
+	}
+	// Start is called before the first frame update
+	private void Start()
+	{
 		mainQuestSlots[0].GetComponent<ActionButton>().Select();
 	}
-
+	void OnEnable()
+	{
+		//mainQuestSlots[0].GetComponent<ActionButton>().Select();
+		Refresh(0);
+	}
 	/// <summary>
 	/// 任务初始化
 	/// </summary>
@@ -53,21 +58,25 @@ public class UIQuestView : MonoBehaviour
 			switch (DialogueLua.GetQuestField(quest, "questType").AsInt)
 			{
 				case 0:
+					mainQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Clear();
 					mainQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
 					mainQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].GetComponent<ActionButton>().OnMoveE += (eventData, moved) => OnMove(eventData, moved);
 					break;
 				case 1:
+					branchQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Clear();
 					branchQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
 					branchQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].GetComponent<ActionButton>().OnMoveE += (eventData, moved) => OnMove(eventData, moved);
 					break;
 				case 2:
+					legendQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Clear();
 					legendQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
 					legendQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].GetComponent<ActionButton>().OnMoveE += (eventData, moved) => OnMove(eventData, moved);
 					break;
 			}
 		}
 		//已激活任务
-		string[] activeQuests = PixelCrushers.DialogueSystem.QuestLog.GetAllQuests(QuestState.Active);
+		/*string[] activeQuests = PixelCrushers.DialogueSystem.QuestLog.GetAllQuests(QuestState.Active);
+		
 		foreach (var quest in activeQuests)
 		{
 			Debug.Log(quest);
@@ -84,6 +93,25 @@ public class UIQuestView : MonoBehaviour
 					break;
 			}
 		}
+
+		string[] successQuests = PixelCrushers.DialogueSystem.QuestLog.GetAllQuests(QuestState.Success);
+
+		foreach (var quest in activeQuests)
+		{
+			Debug.Log(quest);
+			switch (DialogueLua.GetQuestField(quest, "questType").AsInt)
+			{
+				case 0:
+					mainQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					break;
+				case 1:
+					branchQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					break;
+				case 2:
+					legendQuestSlots[DialogueLua.GetQuestField(quest, "Id").AsInt].Init(quest, this);
+					break;
+			}
+		}*/
 	}
 	// Update is called once per frame
 
@@ -94,47 +122,29 @@ public class UIQuestView : MonoBehaviour
 		{
 			if (indexQuest == 0) return;
 
-			rightSwitchImage[indexQuest].SetActive(false);
-			indexQuest--;
-			rightSwitchImage[indexQuest].SetActive(true);
-			if (selectedQuest.questStage > indexQuest)
+			if (indexQuest == 1)
 			{
-				LockPanel.SetActive(false);
-				Description.gameObject.SetActive(true);
-				Description.text = selectedQuest.descriptions[indexQuest];
+				Refresh(0);
 			}
 			else
 			{
-				LockPanel.SetActive(true);
-				Description.gameObject.SetActive(false);
-				requireText.text = selectedQuest.requires[indexQuest];
+				Refresh(1);
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.K))
 		{
 			if (indexQuest == 2) return;
 
-			rightSwitchImage[indexQuest].SetActive(false);
-			indexQuest++;
-			rightSwitchImage[indexQuest].SetActive(true);
-			if (selectedQuest.questStage > indexQuest)
+			if (indexQuest == 1)
 			{
-				LockPanel.SetActive(false);
-				Description.gameObject.SetActive(true);
-				Description.text = selectedQuest.descriptions[indexQuest];
+				Refresh(2);
+
 			}
 			else
 			{
-				LockPanel.SetActive(true);
-				Description.gameObject.SetActive(false);
-				requireText.text = selectedQuest.requires[indexQuest];
+				Refresh(1);
 			}
 		}
-	}
-
-	private void UpdateUIRight()
-	{
-		
 	}
 
 	private void OnMove(AxisEventData eventData, bool moved)
@@ -200,33 +210,40 @@ public class UIQuestView : MonoBehaviour
 	/// <summary>
 	/// 切换任务后刷新
 	/// </summary>
-	public void Refresh()
-	{
-		if (selectedQuest.questStage == 0)
+	public void Refresh(int questState)
+	{			
+		Debug.Log("questStates"+selectedQuest.questStates[questState]);
+		if(selectedQuest.questStates[questState] == QuestState.Unassigned)
 		{
-			Title.text = "？？？";
+			Title.text = "";
 			Icon.gameObject.SetActive(false);
-			requireText.text = selectedQuest.requires[0];
-			LockPanel.SetActive(true);
-			Description.gameObject.SetActive(false);
-			rightSwitchImage[indexQuest].SetActive(false);
-			Debug.Log("测试" + indexQuest);
-			indexQuest = 0;
-			rightSwitchImage[indexQuest].SetActive(true);
+			//requireText.text = "";
+			LockPanel.SetActive(false);
+			successedIcon.SetActive(false);
 		}
-		else
+		else if(selectedQuest.questStates[questState] == QuestState.Active)
+		{
+
+			Title.text = selectedQuest.nameSid;
+			Icon.sprite = selectedQuest.icon;
+			Icon.gameObject.SetActive(true);
+			requireText.text = selectedQuest.requires[questState];
+			LockPanel.SetActive(true);
+			successedIcon.SetActive(false);
+		}
+		else if(selectedQuest.questStates[questState] == QuestState.Success)
 		{
 			Title.text = selectedQuest.nameSid;
 			Icon.sprite = selectedQuest.icon;
 			Icon.gameObject.SetActive(true);
-			Description.text = selectedQuest.descriptions[0];
-			LockPanel.SetActive(false);
-			Description.gameObject.SetActive(true);
-			rightSwitchImage[indexQuest].SetActive(false);
-			Debug.Log("测试"+ indexQuest);
-			indexQuest = 0;
-			rightSwitchImage[indexQuest].SetActive(true);
-
+			requireText.text = selectedQuest.requires[questState];
+			LockPanel.SetActive(true);
+			successedIcon.SetActive(true);
+			//Description.text = selectedQuest.descriptions[0];
+			//Description.gameObject.SetActive(true);
 		}
+		rightSwitchImage[indexQuest].SetActive(false);
+		indexQuest = questState;
+		rightSwitchImage[indexQuest].SetActive(true);
 	}
 }

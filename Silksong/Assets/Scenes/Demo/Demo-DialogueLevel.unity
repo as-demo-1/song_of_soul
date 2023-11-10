@@ -258,12 +258,17 @@ MonoBehaviour:
   variable: kills
   increment: 1
   min: 0
-  max: 2
+  max: 5
   alertMessage: 
   alertDuration: 0
   condition:
     luaConditions: []
-    questConditions: []
+    questConditions:
+    - questName: Main0
+      questState: 1
+      checkQuestEntry: 1
+      entryNumber: 3
+      questEntryState: 2
     acceptedTags: []
     acceptedGameObjects: []
     luaWizardIndex: -1
@@ -287,17 +292,17 @@ MonoBehaviour:
   condition:
     luaConditions: []
     questConditions:
-    - questName: killings
-      questState: 2
-      checkQuestEntry: 0
-      entryNumber: 0
-      questEntryState: 0
+    - questName: Main0
+      questState: 1
+      checkQuestEntry: 1
+      entryNumber: 3
+      questEntryState: 2
     acceptedTags: []
     acceptedGameObjects: []
     luaWizardIndex: -1
     lastEvaluationValue: 0
-  setQuestState: 1
-  questName: killings
+  setQuestState: 0
+  questName: 
   questState: 4
   setQuestEntryState: 0
   questEntryNumber: 1
@@ -423,7 +428,7 @@ GameObject:
   - component: {fileID: 120255674}
   - component: {fileID: 120255675}
   m_Layer: 0
-  m_Name: "\u4EFB\u52A11"
+  m_Name: "\u6D4B\u8BD5\u7269\u54C1\u83B7\u53D6NPC"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,7 +483,7 @@ MonoBehaviour:
   allowBarksDuringConversations: 1
   skipBarkIfNoValidEntries: 0
   cacheBarkLines: 0
-  conversation: kill quest
+  conversation: item quest
   conversationConversant: {fileID: 120255678}
   conversationActor: {fileID: 0}
   startConversationEntryID: -1
@@ -586,11 +591,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120255673}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 169.88, y: 5.48, z: 0}
+  m_LocalPosition: {x: 170.71, y: -1.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &157665242
 GameObject:
@@ -1036,6 +1041,49 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5685663862181948533, guid: c2dd4a0f6b0c05840b609159dd6a458a, type: 3}
   m_PrefabInstance: {fileID: 280675302}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &345346331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 345346333}
+  - component: {fileID: 345346332}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &345346332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345346331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91639d41261d7b4b967908c34304dda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &345346333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345346331}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 172.44, y: 5.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &452399411
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1117,7 +1165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6992661258279219813, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 6992661258279219813, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1165,6 +1213,95 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
+--- !u!1001 &677685192
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5989222544119834888, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ff92e42391ab13648b5f5b6e0a4e75c3, type: 3}
+    - target: {fileID: 5989222544119834892, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_ItemInfo.m_ItemAmount.m_Item.m_ID
+      value: 570602101
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544119834892, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_ItemInfo.m_ItemAmount.m_Item.m_Name
+      value: 30300014
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544119834892, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_ItemInfo.m_ItemAmount.m_Item.m_ItemDefinition
+      value: 
+      objectReference: {fileID: 11400000, guid: e006259d91c0bd94aa93989ee0f3d8f9, type: 2}
+    - target: {fileID: 5989222544119834892, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_ItemInfo.m_ItemAmount.m_Item.m_ItemDefinitionID
+      value: 76171997
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544119834903, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Name
+      value: item (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544119834903, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544160567134, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544246109727, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 176.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
 --- !u!1001 &714843066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1301,7 +1438,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &776723950
 PrefabInstance:
@@ -1383,7 +1520,7 @@ GameObject:
   - component: {fileID: 778037462}
   - component: {fileID: 778037461}
   m_Layer: 0
-  m_Name: "\u4EFB\u52A12"
+  m_Name: "\u51FB\u6740\u602A\u7269\u4EFB\u52A1NPC"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1550,7 +1687,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &781563228
 PrefabInstance:
@@ -1562,6 +1699,14 @@ PrefabInstance:
     - target: {fileID: 135794, guid: d5a18ab9ec93e0d4284d6fbae4f557e0, type: 3}
       propertyPath: m_Name
       value: Bubble Template Standard Bark UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 11431372, guid: d5a18ab9ec93e0d4284d6fbae4f557e0, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11475372, guid: d5a18ab9ec93e0d4284d6fbae4f557e0, type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 1140579319
       objectReference: {fileID: 0}
     - target: {fileID: 22400914, guid: d5a18ab9ec93e0d4284d6fbae4f557e0, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1965,12 +2110,17 @@ MonoBehaviour:
   variable: kills
   increment: 1
   min: 0
-  max: 2
+  max: 5
   alertMessage: 
   alertDuration: 0
   condition:
     luaConditions: []
-    questConditions: []
+    questConditions:
+    - questName: Main0
+      questState: 1
+      checkQuestEntry: 1
+      entryNumber: 3
+      questEntryState: 2
     acceptedTags: []
     acceptedGameObjects: []
     luaWizardIndex: -1
@@ -1994,16 +2144,16 @@ MonoBehaviour:
   condition:
     luaConditions: []
     questConditions:
-    - questName: killings
-      questState: 2
-      checkQuestEntry: 0
-      entryNumber: 0
-      questEntryState: 0
+    - questName: Main0
+      questState: 1
+      checkQuestEntry: 1
+      entryNumber: 3
+      questEntryState: 2
     acceptedTags: []
     acceptedGameObjects: []
     luaWizardIndex: -1
     lastEvaluationValue: 0
-  setQuestState: 1
+  setQuestState: 0
   questName: killings
   questState: 4
   setQuestEntryState: 0
@@ -2148,6 +2298,10 @@ PrefabInstance:
     - target: {fileID: 7424722388674203264, guid: 47589aeaf7e9d0743a2ef93edcbbfbaa, type: 3}
       propertyPath: m_Name
       value: TempCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7424722388674203264, guid: 47589aeaf7e9d0743a2ef93edcbbfbaa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7424722388674203268, guid: 47589aeaf7e9d0743a2ef93edcbbfbaa, type: 3}
       propertyPath: m_RootOrder
@@ -2313,7 +2467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6992661258279219813, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6992661258279219813, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2518,12 +2672,17 @@ MonoBehaviour:
   variable: kills
   increment: 1
   min: 0
-  max: 2
+  max: 5
   alertMessage: 
   alertDuration: 0
   condition:
     luaConditions: []
-    questConditions: []
+    questConditions:
+    - questName: Main0
+      questState: 1
+      checkQuestEntry: 1
+      entryNumber: 3
+      questEntryState: 2
     acceptedTags: []
     acceptedGameObjects: []
     luaWizardIndex: -1
@@ -2547,16 +2706,16 @@ MonoBehaviour:
   condition:
     luaConditions: []
     questConditions:
-    - questName: killings
-      questState: 2
-      checkQuestEntry: 0
-      entryNumber: 0
-      questEntryState: 0
+    - questName: Main0
+      questState: 1
+      checkQuestEntry: 1
+      entryNumber: 3
+      questEntryState: 2
     acceptedTags: []
     acceptedGameObjects: []
     luaWizardIndex: -1
     lastEvaluationValue: 0
-  setQuestState: 1
+  setQuestState: 0
   questName: killings
   questState: 4
   setQuestEntryState: 0
@@ -2996,7 +3155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6992661258279219813, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6992661258279219813, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3125,7 +3284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6992661258279219813, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6992661258279219813, guid: 10d8c509e73a22241a32cd0fa3141f5c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3193,18 +3352,13 @@ MonoBehaviour:
   trigger: 512
   condition:
     luaConditions: []
-    questConditions:
-    - questName: killings
-      questState: 2
-      checkQuestEntry: 0
-      entryNumber: 0
-      questEntryState: 0
+    questConditions: []
     acceptedTags: []
     acceptedGameObjects: []
     luaWizardIndex: -1
     lastEvaluationValue: 0
-  setQuestState: 1
-  questName: killings
+  setQuestState: 0
+  questName: Main0
   questState: 4
   setQuestEntryState: 0
   questEntryNumber: 1
@@ -3272,12 +3426,17 @@ MonoBehaviour:
   variable: kills
   increment: 1
   min: 0
-  max: 2
+  max: 5
   alertMessage: 
   alertDuration: 0
   condition:
     luaConditions: []
-    questConditions: []
+    questConditions:
+    - questName: Main0
+      questState: 1
+      checkQuestEntry: 1
+      entryNumber: 3
+      questEntryState: 2
     acceptedTags: []
     acceptedGameObjects: []
     luaWizardIndex: -1
@@ -3523,12 +3682,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1817555140}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 176.25, y: 2.48, z: 0}
+  m_LocalPosition: {x: 170.37, y: 5.67, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1250523509}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1817555146
 MonoBehaviour:
@@ -3905,7 +4064,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3645305860394183724
 PrefabInstance:
@@ -3920,7 +4079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5772858319378833334, guid: 55adea1662dc5174aadfd51c66f9383e, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 5772858319378833334, guid: 55adea1662dc5174aadfd51c66f9383e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7515,3 +7674,72 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &8424045808187810495
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5989222544119834903, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Name
+      value: item
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544119834903, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Layer
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544160567134, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989222544246109727, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 173.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6680916648329261303, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 153f8ec91672b314ca1504dc7351913a, type: 3}

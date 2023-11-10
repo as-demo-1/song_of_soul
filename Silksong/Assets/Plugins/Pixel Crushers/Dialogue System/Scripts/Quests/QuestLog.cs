@@ -3,6 +3,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Language.Lua;
+using Opsive.UltimateInventorySystem.Core;
+using Opsive.UltimateInventorySystem.Core.InventoryCollections;
 
 namespace PixelCrushers.DialogueSystem
 {
@@ -68,6 +70,7 @@ namespace PixelCrushers.DialogueSystem
     /// or use it as a template for implementing your own quest log window in another GUI system 
     /// such as NGUI.
     /// </summary>
+    
     public static class QuestLog
     {
 
@@ -160,6 +163,26 @@ namespace PixelCrushers.DialogueSystem
             Lua.RegisterFunction("SetQuestState", null, typeof(QuestLog).GetMethod("SetQuestState", new[] { typeof(string), typeof(string) }));
             Lua.RegisterFunction("SetQuestEntryState", null, typeof(QuestLog).GetMethod("SetQuestEntryState", new[] { typeof(string), typeof(double), typeof(string) }));
             Lua.RegisterFunction("UpdateQuestIndicators", null, typeof(QuestLog).GetMethod("UpdateQuestIndicators", new[] { typeof(string) }));
+			Lua.RegisterFunction("HasInventoryItem", null, typeof(QuestLog).GetMethod("HasInventoryItem"));
+		}
+
+        public static bool HasInventoryItem(string name, double inventoryId)
+        {
+            Debug.Log("inventoryId" + inventoryId);
+			Debug.Log("(uint)inventoryId" + (uint)inventoryId);
+			Inventory inventory = InventorySystemManager.GetInventoryIdentifier((uint)inventoryId).Inventory;
+            //获得物品定义
+            ItemDefinition itemDefinition = InventorySystemManager.GetItemDefinition(name);
+            //判空
+            if (itemDefinition == null)
+            {
+                Debug.LogError("该系统木有这玩野:" + name);
+            }
+
+            //获得传入库存中与之匹配的第一个物品
+            var itemInfo = inventory.GetItemInfo(itemDefinition);
+            //判空
+            return itemInfo.HasValue;
         }
 
         /// <summary>

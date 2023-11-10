@@ -13,8 +13,14 @@ public class UIMenu_System : MonoBehaviour
 	// Start is called before the first frame update
 
 	public MapController MapController;
+	public UIEquipView equipView;
+	public UIQuestView questView;
 
-
+	private void OnEnable()
+	{
+		equipView.Init();
+		questView.Init();
+	}
 	void Start()
     {
 	    DontDestroyOnLoad(this);

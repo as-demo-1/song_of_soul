@@ -25,13 +25,18 @@ public class QuestSlot : MonoBehaviour, ISelectHandler
 	[HideInInspector]
 	public Sprite icon;                                             //任务图片
 	[HideInInspector]
-	public int questStage;                                          //任务进度
+	public int questState;                                          //任务进度
+
 	[HideInInspector]
-	public List<string> requires = new List<string>();             //完成任务的条件
+	public List<QuestState> questStates = new List<QuestState>();   //任务进度
+	//[HideInInspector]
+	//public List<string> unassigneds = new List<string>();              //解锁任务的条件
 	[HideInInspector]
-	public List<Sprite> images = new List<Sprite>();               //任务完成后的图片
+	public List<string> requires = new List<string>();				//完成任务的条件
 	[HideInInspector]
-	public List<string> descriptions = new List<string>();          //任务完成后的资料
+	public List<Sprite> images = new List<Sprite>();				//任务完成后的图片
+	//[HideInInspector]
+	//public List<string> descriptions = new List<string>();          //任务完成后的资料
 
 	string state;                                                   //任务状态
 
@@ -47,26 +52,29 @@ public class QuestSlot : MonoBehaviour, ISelectHandler
 		questView = QuestView;
 
 		state = DialogueLua.GetQuestField(questName, "State").AsString;
-
+		QuestLog.GetQuestEntryState(questName, 0);
 		nameSid = DialogueLua.GetQuestField(questName, "Name").AsString;
-
 		icon = ResourceManager.Instance.Load<Sprite>(DialogueLua.GetQuestField(questName, "Pictures").AsString);
 		//Id = ID;
 
-		questStage = DialogueLua.GetQuestField(questName, "QuestStage").AsInt;
-
-		requires.Add(DialogueLua.GetQuestField(questName, "FirstRequire").AsString);
+		//questState = DialogueLua.GetQuestField(questName, "questState").AsInt;
+		questStates.Add(QuestLog.GetQuestEntryState(questName, 1));
+		//unassigneds.Add(DialogueLua.GetQuestField(questName, "Entry 1").AsString);
+		requires.Add(DialogueLua.GetQuestField(questName, "Entry 1 Active").AsString);
 		//images.Add(ResourceManager.Instance.Load<Sprite>(DialogueLua.GetQuestField(questName, "FirstImage").AsString));
-		descriptions.Add(DialogueLua.GetQuestField(questName, "FirstDescription").AsString);
+		//descriptions.Add(DialogueLua.GetQuestField(questName, "Entry 1 Success").AsString);
 
-		ResourceManager.Instance.Load<Sprite>("aaa");
-		requires.Add(DialogueLua.GetQuestField(questName, "SecondRequire").AsString);
+		questStates.Add(QuestLog.GetQuestEntryState(questName, 2));
+		//unassigneds.Add(DialogueLua.GetQuestField(questName, "Entry 2").AsString);
+		requires.Add(DialogueLua.GetQuestField(questName, "Entry 2 Active").AsString);
 		//images.Add(ResourceManager.Instance.Load<Sprite>(DialogueLua.GetQuestField(questName, "SecondImage").AsString));
-		descriptions.Add(DialogueLua.GetQuestField(questName, "SecondDescription").AsString);
+		//descriptions.Add(DialogueLua.GetQuestField(questName, "Entry 2 Success").AsString);
 
-		requires.Add(DialogueLua.GetQuestField(questName, "ThirdRequire").AsString);
+		questStates.Add(QuestLog.GetQuestEntryState(questName, 3));
+		//unassigneds.Add(DialogueLua.GetQuestField(questName, "Entry 3").AsString);
+		requires.Add(DialogueLua.GetQuestField(questName, "Entry 3 Active").AsString);
 		//images.Add(ResourceManager.Instance.Load<Sprite>(DialogueLua.GetQuestField(questName, "ThirdImage").AsString));
-		descriptions.Add(DialogueLua.GetQuestField(questName, "ThirdDescription").AsString);
+		//descriptions.Add(DialogueLua.GetQuestField(questName, "Entry 3 Success").AsString);
 
 
 		iconImage.sprite = icon;
@@ -75,8 +83,13 @@ public class QuestSlot : MonoBehaviour, ISelectHandler
 	{
 
 		questView.selectedQuest = this;
-		questView.Refresh();
+		questView.Refresh(0);
 		questView.selected.SetActive(true);
 		questView.selected.transform.DOLocalMove(this.transform.localPosition, 0.5f);
+	}
+	public void Clear()
+	{
+		questStates.Clear();
+		requires.Clear();
 	}
 }

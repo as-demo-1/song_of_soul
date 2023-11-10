@@ -63,14 +63,14 @@ public class ItemPick : MonoBehaviour
 	    {
 		    if(Input.GetKeyDown(pickKey))
 		    {
-			    if (!isPicking)
-			    {
+			    //if (!isPicking)
+			    //{
 				    Debug.Log("发生");
 				    GameManager.Instance.inventory.GetItemCollection("Main").AddItem(item.Item, 1);
 				    Debug.Log("拥有："+GameManager.Instance.inventory.GetItemCollection("Main").GetItemAmount(item.Item));
-				    isPicking = true;
+				    //isPicking = true;
 				    Destroy(this.gameObject);
-			    }
+			    //}
 			
 		    }
 	    }
